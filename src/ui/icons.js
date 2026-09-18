@@ -59,9 +59,15 @@ export const ICONS = {
     { tag: 'path', attrs: { d: 'M5 19 V13 A7 6 0 0 1 19 13 V19 Z', fill: F } },
   ],
   fleisch: [
-    { tag: 'ellipse', attrs: { cx: 9, cy: 9, rx: 7.5, ry: 6.3, fill: F, transform: 'rotate(-30 9 9)' } },
-    { tag: 'rect', attrs: { x: 13, y: 12.3, width: 9, height: 2.6, rx: 1.3, fill: F, transform: 'rotate(45 13 12.3)' } },
-    { tag: 'circle', attrs: { cx: 20, cy: 19.3, r: 2.6, fill: F } },
+    // Steak: rundliche Fläche mit drei ausgesparten Grillstreifen (fill-rule evenodd,
+    // funktioniert unabhängig vom Hintergrund, da es echte Löcher im Pfad sind)
+    { tag: 'path', attrs: {
+      d: 'M12 5 C17 5 20 8.5 20 12.5 C20 16.5 16.5 20 11 20 C6 20 3.5 16.5 3.5 12 C3.5 8 6.5 5 12 5 Z'
+        + ' M6.5 8 L8.5 8 L17 18 L15 18 Z'
+        + ' M10 6 L12 6 L19.5 15.5 L17.5 15.5 Z'
+        + ' M4 11 L6 11 L13 19.5 L11 19.5 Z',
+      fill: F, 'fill-rule': 'evenodd',
+    } },
   ],
   ei: [
     { tag: 'ellipse', attrs: { cx: 12, cy: 13.5, rx: 6, ry: 7.8, fill: F } },
@@ -77,8 +83,18 @@ export const ICONS = {
     { tag: 'path', attrs: { d: 'M4.5 9 H19.5 L17 19 A2 2 0 0 1 15 21 H9 A2 2 0 0 1 7 19 Z', fill: F } },
   ],
   mischen: [
-    { tag: 'path', attrs: { d: 'M6.5 7 A7 7 0 1 0 12.5 19', fill: 'none', stroke: F, 'stroke-width': 2.3, 'stroke-linecap': 'round' } },
-    { tag: 'polygon', attrs: { points: '12.5,19 16,17.6 13.4,22.3', fill: F } },
+    // Zwei gegenläufige Bögen — ein "S"/Twist als Symbol fürs Verrühren/Unterheben
+    { tag: 'path', attrs: {
+      d: 'M16 6 C11 6 9 8 9 10.5 C9 13 17 12.5 17 15.5 C17 18 15 19 8 19',
+      fill: 'none', stroke: F, 'stroke-width': 2.4, 'stroke-linecap': 'round',
+    } },
+  ],
+  schlagen: [
+    // Schneebesen: Griff + Drahtkorb — eigenes Symbol fürs Schlagen/Quirlen
+    { tag: 'rect', attrs: { x: 10.3, y: 2, width: 3.4, height: 5, rx: 1.2, fill: F } },
+    { tag: 'path', attrs: { d: 'M9.5 6.5 C4.5 9.5 4.5 16.5 12 21', fill: 'none', stroke: F, 'stroke-width': 1.7, 'stroke-linecap': 'round' } },
+    { tag: 'path', attrs: { d: 'M14.5 6.5 C19.5 9.5 19.5 16.5 12 21', fill: 'none', stroke: F, 'stroke-width': 1.7, 'stroke-linecap': 'round' } },
+    { tag: 'path', attrs: { d: 'M12 6.5 V21', fill: 'none', stroke: F, 'stroke-width': 1.7, 'stroke-linecap': 'round' } },
   ],
   formen: [
     { tag: 'polygon', attrs: { points: '5,6 19,6 16,21 8,21', fill: F } },

@@ -64,3 +64,8 @@ Felder: `type` [tech, biz, client, …] · `title` · `descr` · `pro` · `cons`
 - **pro:** Icons sind bei sehr kleiner Größe klarer unterscheidbar als Emoji (die je nach Betriebssystem/Schriftart unterschiedlich aussehen); ein Schritt liest sich jetzt direkt als „diese Zutat(en) + diese Handlung“, näher an der Nutzer-Vision der Kombinatorik.
 - **cons:** Handgezeichnete Pfade sind pflegeaufwändiger als Emoji (jede neue Kategorie/jedes neue Verb braucht eigene Geometrie); bei sehr generischen Formen (z. B. „Süße“ als vier Quadrate, „Pulver“ als Haufen) ist die Erkennbarkeit ohne Textlabel begrenzt — Icons ergänzen das Label, ersetzen es nicht.
 - **risk:** Fleisch-Icon (Keule) ist bei 15 px noch nicht ideal erkennbar; da die Kategorie im Rührteig-Archetyp ungenutzt ist, unkritisch — bei Einführung eines fleischbasierten Archetyps (T06) erneut prüfen.
+
+**Nachtrag (2026-09-18, nach Nutzer-Feedback „S-Twist fürs Mischen, Steak-Icon fürs Fleisch, eigenes Whisking-Icon“):**
+- `mischen` ist jetzt ein doppelter Bogen („S“-Twist) statt Kreisbogen mit Pfeilspitze.
+- `fleisch` ist jetzt ein Steak (runde Fläche mit drei ausgesparten Grillstreifen, per `fill-rule: evenodd` — funktioniert unabhängig vom Button-Hintergrund) statt Keule.
+- Neues, sechstes Verb `schlagen` (Schneebesen-Icon: Griff + Drahtkorb) für die kräftige Schlagbewegung — bekommen `aufschlagen`, `verquirlen`, `eier_zucker_schaumig`. Das bisherige `mischen` bleibt für sanftes Unterheben/Verrühren (`eier_einzeln`, `trocken_mischen`, `unterheben_*`, `alles_verruehren`, `einlage_unterheben`). Diese Trennung spiegelt einen echten Technik-Unterschied (Schneebesen/Rührer vs. Falten) und war im ursprünglichen Nutzer-Beispiel „mix(…), whisking“ bereits angelegt.

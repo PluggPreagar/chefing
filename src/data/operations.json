@@ -33,7 +33,7 @@
   "aufschlagen": {
     "label": "Fett + Zucker aufschlagen",
     "typ": "mischen",
-    "verb": "mischen",
+    "verb": "schlagen",
     "variante": "kräftig aufschlagen (cremig)",
     "auf": ["fett", "suesse"],
     "voraussetzung": [
@@ -58,7 +58,7 @@
   "verquirlen": {
     "label": "Flüssiges verquirlen",
     "typ": "mischen",
-    "verb": "mischen",
+    "verb": "schlagen",
     "variante": "verquirlen (Emulsion)",
     "auf": ["fett", "bindung", "fluessigkeit"],
     "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fluessig", "strenge": "hart" }],
@@ -69,7 +69,7 @@
   "eier_zucker_schaumig": {
     "label": "Eier + Zucker schaumig schlagen",
     "typ": "mischen",
-    "verb": "mischen",
+    "verb": "schlagen",
     "variante": "schaumig schlagen",
     "auf": ["bindung", "suesse"],
     "voraussetzung": [],
