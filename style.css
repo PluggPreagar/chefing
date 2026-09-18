@@ -64,7 +64,7 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .opt-badge { position: absolute; top: -8px; right: 6px; font-size: .6rem; padding: 0 .35rem; background: var(--best); color: #fff; border-radius: 999px; letter-spacing: .03em; }
 .opt:disabled { opacity: .5; cursor: not-allowed; }
 .opt-anteil-label { font-size: .68rem; color: var(--muted); margin-top: .2rem; }
-.opt-anteil { width: 3.2em; font: inherit; font-size: .78rem; border: 1px solid var(--line); border-radius: 4px; padding: .05rem .25rem; background: var(--panel); color: var(--ink); margin-left: .3rem; }
+.opt-anteil { width: 4.8em; font: inherit; font-size: .8rem; border: 1px solid var(--line); border-radius: 4px; padding: .15rem .4rem; background: var(--panel); color: var(--ink); margin-left: .3rem; }
 
 .flow-scroll { overflow-x: auto; padding-bottom: .5rem; }
 #flow { display: block; height: 124px; }

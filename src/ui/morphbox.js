@@ -87,7 +87,14 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
 function toggleEntries(entries, key) {
   const exists = entries.some((e) => e.zutat === key);
   if (exists) return entries.filter((e) => e.zutat !== key);
-  return [...entries, { zutat: key, anteil: 1 }];
+  // Eine neu hinzugefügte Zutat startet als Minderanteil (~25 % der Rolle),
+  // nicht gleichauf mit dem Bestehenden — das entspricht der üblichen
+  // Substitutions-Praxis (z. B. Speisestärke als Teilersatz fürs Mehl) und
+  // lässt sich über "Teile" danach frei anpassen.
+  if (!entries.length) return [{ zutat: key, anteil: 1 }];
+  const sumBestehend = entries.reduce((a, e) => a + (e.anteil || 1), 0);
+  const neuerAnteil = Math.round((sumBestehend / 3) * 10) / 10;
+  return [...entries, { zutat: key, anteil: neuerAnteil }];
 }
 
 function setAnteil(entries, key, anteil) {
