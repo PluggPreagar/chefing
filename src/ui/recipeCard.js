@@ -48,9 +48,9 @@ export function renderRecipe(root, computed) {
   root.append(bake);
 
   const lb = computed.lehrbuch;
-  const fett = computed.zutatenListe.find((z) => z.rolle === 'fett')?.bp;
-  const suesse = computed.zutatenListe.find((z) => z.rolle === 'suesse')?.bp;
-  const ei = computed.zutatenListe.find((z) => z.rolle === 'bindung')?.bp;
+  const fett = computed.rollenBp?.fett?.bp;
+  const suesse = computed.rollenBp?.suesse?.bp;
+  const ei = computed.rollenBp?.bindung?.bp;
   if (lb && fett != null) {
     const klasse = fett < 70 ? 'leicht' : ei != null && ei < 90 ? 'mittel' : 'schwer';
     root.append(el('p', 'fine', `Einordnung nach Lehrbuch (Mehl = 100): Fett ${fmt(fett)} · Zucker ${fmt(suesse)} · Ei ${fmt(ei)} → „${klasse}er“ Rührteig. ${lb.kommentar}`));

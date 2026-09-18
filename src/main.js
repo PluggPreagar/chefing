@@ -22,11 +22,20 @@ const korpusStats = Object.fromEntries(
   Object.entries(raw).map(([k, list]) => [k, stats(list.map((r) => normalizeRecipe(r, ingredients)))]),
 );
 
+// Jede Rolle trägt eine Liste von {zutat, anteil} statt einer einzelnen Zutat —
+// so lassen sich Zutaten mischen (z. B. Fett aus Butter + Öl). Ein einfacher
+// Wert (String) wird zu einem Ein-Eintrag-Array, null/undefined zu [].
+function alsEintraege(wert) {
+  if (wert == null) return [];
+  if (Array.isArray(wert)) return wert;
+  return [{ zutat: wert, anteil: 1 }];
+}
+
 const state = {
   archetyp: 'ruehrteig',
   gefaess: arch.varianten.kastenkuchen.gefaess,
   methode: null,
-  zutaten: Object.fromEntries(arch.rollen.map((r) => [r.rolle, r.default])),
+  zutaten: Object.fromEntries(arch.rollen.map((r) => [r.rolle, alsEintraege(r.default)])),
 };
 applyPreset('kastenkuchen');
 
@@ -37,7 +46,8 @@ function applyPreset(variante) {
   state.gefaess = v.gefaess;
   state.methode = null;
   for (const r of arch.rollen) {
-    state.zutaten[r.rolle] = v.bestof[r.rolle] !== undefined ? v.bestof[r.rolle] : r.default;
+    const wert = v.bestof[r.rolle] !== undefined ? v.bestof[r.rolle] : r.default;
+    state.zutaten[r.rolle] = alsEintraege(wert);
   }
 }
 

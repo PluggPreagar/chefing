@@ -1,7 +1,44 @@
+// Eine Rolle kann mehrere Zutaten mit relativen Anteilen tragen (z. B. Fett
+// aus Butter + Öl gemischt). propsOf liefert pro Rolle ein geblendetes
+// Eigenschafts-Objekt: Aggregatzustand/Schmelzpunkt/Label folgen der
+// anteilsstärksten Zutat (Dominante), boolesche Eigenschaften, die "reicht
+// wenn irgendeine Zutat sie hat" bedeuten (saeure, bildet_gluten,
+// quellfaehig), werden ODER-verknüpft über alle gewählten Zutaten.
+export function blendProps(entries, ingredients) {
+  const valid = (entries || []).filter((e) => e?.zutat && ingredients[e.zutat]);
+  if (!valid.length) return null;
+  const sumAnteile = valid.reduce((a, e) => a + (e.anteil || 1), 0) || 1;
+  const dominant = valid.reduce((a, b) => ((b.anteil || 1) > (a.anteil || 1) ? b : a));
+  const domIng = ingredients[dominant.zutat];
+  const anteile = valid.map((e) => ({
+    zutat: e.zutat,
+    anteil: e.anteil || 1,
+    anteilProzent: ((e.anteil || 1) / sumAnteile) * 100,
+    ...ingredients[e.zutat],
+  }));
+  const gemischt = valid.length > 1;
+  return {
+    key: dominant.zutat,
+    ...domIng,
+    label: gemischt ? anteile.map((a) => `${a.label} (${Math.round(a.anteilProzent)} %)`).join(' + ') : domIng.label,
+    kurzlabel: gemischt ? anteile.map((a) => a.label).join(' + ') : domIng.label,
+    gemischt,
+    anteile,
+    saeure: valid.some((e) => ingredients[e.zutat].saeure),
+    bildet_gluten: valid.some((e) => ingredients[e.zutat].bildet_gluten === true),
+    quellfaehig: valid.some((e) => ingredients[e.zutat].quellfaehig === true),
+    trieb_typ: valid.some((e) => ingredients[e.zutat].trieb_typ === 'chemisch_basisch')
+      ? 'chemisch_basisch'
+      : valid.some((e) => ingredients[e.zutat].trieb_typ === 'chemisch_doppelt')
+        ? 'chemisch_doppelt'
+        : domIng.trieb_typ,
+  };
+}
+
 export function propsOf(zutaten, ingredients) {
   const out = {};
-  for (const [rolle, key] of Object.entries(zutaten)) {
-    out[rolle] = key ? { key, ...ingredients[key] } : null;
+  for (const [rolle, entries] of Object.entries(zutaten)) {
+    out[rolle] = blendProps(entries, ingredients);
   }
   return out;
 }
@@ -71,6 +108,10 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data) {
 
   if (props.struktur && props.struktur.bildet_gluten === false) {
     warnungen.push(`${props.struktur.label} bindet/verdickt (Stärke), liefert aber kein Eiweißgerüst — allein trägt es den Kuchen nicht („Bindung“ ohne „Körper“). In der Praxis bleibt Stärke/Nussmehl ein Teilersatz neben echtem Mehl (z. B. 350 g Mehl + 50 g Speisestärke im Korpus), nicht der alleinige Struktur-Geber.`);
+  }
+
+  if (props.fett?.gemischt && new Set(props.fett.anteile.map((a) => a.aggregat)).size > 1) {
+    warnungen.push(`Gemischtes Fett (${props.fett.kurzlabel}): der flüssige Anteil schlägt beim Aufschlagen weniger Luft ein als reines festes Fett — Ergebnis liegt zwischen Creme- und Rühr-Öl-Methode.`);
   }
 
   for (const key of method.sequenz) {

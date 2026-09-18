@@ -44,10 +44,15 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
   );
 
   for (const rolle of arch.rollen) {
+    const entries = state.zutaten[rolle.rolle] || [];
+    const mehrfach = entries.length > 1;
     const opts = [...rolle.optionen];
     const items = opts.map((key) => {
       const ing = data.ingredients[key];
-      const hyp = { ...state.zutaten, [rolle.rolle]: key };
+      const eintrag = entries.find((e) => e.zutat === key);
+      const naechste = toggleEntries(entries, key);
+      const blockiert = !!eintrag && rolle.pflicht && naechste.length === 0;
+      const hyp = { ...state.zutaten, [rolle.rolle]: naechste };
       const ev = evaluateAll(hyp, state.gefaess, data);
       const irgendwasGeht = Object.values(ev).some((e) => e.status !== 'invalid');
       const grund = irgendwasGeht ? null : Object.values(ev)[0]?.gruende[0];
@@ -56,24 +61,38 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
         iconKey: ing.kategorie,
         iconTitle: data.kategorien?.[ing.kategorie]?.label,
         sub: (ing.eigenschaften || [])[0] ?? '',
-        selected: state.zutaten[rolle.rolle] === key,
+        selected: !!eintrag,
         bestof: bestof[rolle.rolle] === key || (bestof[rolle.rolle] === undefined && rolle.default === key),
-        status: irgendwasGeht ? null : 'invalid',
-        title: grund ?? (ing.eigenschaften || []).join(' · '),
-        onClick: () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: key } }),
+        status: !eintrag && !irgendwasGeht ? 'invalid' : null,
+        title: !eintrag && grund ? grund : (ing.eigenschaften || []).join(' · '),
+        anteil: mehrfach && eintrag ? eintrag.anteil : null,
+        onAnteilChange: (val) => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: setAnteil(entries, key, val) } }),
+        onClick: blockiert ? null : () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: naechste } }),
       });
     });
     if (!rolle.pflicht) {
       items.unshift(option({
         label: '— keine —',
         sub: '',
-        selected: !state.zutaten[rolle.rolle],
+        selected: entries.length === 0,
         bestof: bestof[rolle.rolle] === null,
-        onClick: () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: null } }),
+        onClick: () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: [] } }),
       }));
     }
-    root.append(dimension(rolle.label, rolle.hinweis ?? '', items));
+    const hinweis = rolle.hinweis ? `${rolle.hinweis} Mehrere Zutaten gleichzeitig anklicken, um sie zu mischen — Anteile danach einstellbar.` : 'Mehrere Zutaten gleichzeitig anklicken, um sie zu mischen — Anteile danach einstellbar.';
+    root.append(dimension(rolle.label, hinweis, items));
   }
+}
+
+function toggleEntries(entries, key) {
+  const exists = entries.some((e) => e.zutat === key);
+  if (exists) return entries.filter((e) => e.zutat !== key);
+  return [...entries, { zutat: key, anteil: 1 }];
+}
+
+function setAnteil(entries, key, anteil) {
+  const wert = Math.max(0.1, Number(anteil) || 1);
+  return entries.map((e) => (e.zutat === key ? { ...e, anteil: wert } : e));
 }
 
 function dimension(title, hint, items) {
@@ -88,7 +107,7 @@ function dimension(title, hint, items) {
   return row;
 }
 
-function option({ label, iconKey, iconTitle, sub, selected, bestof, status, title, onClick }) {
+function option({ label, iconKey, iconTitle, sub, selected, bestof, status, title, anteil, onAnteilChange, onClick }) {
   const b = document.createElement('button');
   b.type = 'button';
   b.className = 'opt';
@@ -96,6 +115,7 @@ function option({ label, iconKey, iconTitle, sub, selected, bestof, status, titl
   if (bestof) b.classList.add('is-bestof');
   if (status === 'invalid') b.classList.add('is-invalid');
   if (status === 'prep') b.classList.add('is-prep');
+  if (!onClick) b.disabled = true;
   if (title) b.title = title;
   const labelEl = el('span', 'opt-label');
   if (iconKey) labelEl.insertAdjacentHTML('beforeend', iconHtml(iconKey, 15, iconTitle));
@@ -103,7 +123,19 @@ function option({ label, iconKey, iconTitle, sub, selected, bestof, status, titl
   b.append(labelEl);
   if (sub) b.append(el('span', 'opt-sub', sub));
   if (bestof) b.append(el('span', 'opt-badge', 'Best of'));
-  b.addEventListener('click', onClick);
+  if (anteil != null) {
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.className = 'opt-anteil';
+    input.min = '0.1';
+    input.step = '0.5';
+    input.value = String(anteil);
+    input.title = 'Anteil relativ zu den anderen gewählten Zutaten dieser Rolle';
+    input.addEventListener('click', (e) => e.stopPropagation());
+    input.addEventListener('change', (e) => { e.stopPropagation(); onAnteilChange(e.target.value); });
+    b.append(el('span', 'opt-anteil-label', 'Teile'), input);
+  }
+  if (onClick) b.addEventListener('click', onClick);
   return b;
 }
 

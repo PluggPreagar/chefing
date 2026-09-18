@@ -24,7 +24,7 @@ export function compute(state, data, korpusStats) {
   const bpZiel = {};
   const anpassungen = [];
   for (const r of ROLLEN) {
-    if (!state.zutaten[r]) continue;
+    if (!state.zutaten[r]?.length) continue;
     let bp = st.bp?.[r]?.median;
     let quelle = 'korpus';
     if (bp == null || bp === 0) { bp = FALLBACK_BP[r]; quelle = 'schätzung'; }
@@ -48,23 +48,31 @@ export function compute(state, data, korpusStats) {
 
   const summeBp = Object.values(bpZiel).reduce((a, b) => a + b.bp, 0);
   const teigmasse = vessel.teigmasse_g;
-  const zutatenListe = ROLLEN.filter((r) => bpZiel[r]).map((r) => {
-    const key = state.zutaten[r];
-    const ing = data.ingredients[key];
+  // Eine Rolle kann mehrere Zutaten tragen (z. B. Fett aus Butter + Öl) — die
+  // Rollen-Bäckerprozent wird proportional zu den Anteilen auf mehrere Zeilen verteilt.
+  const zutatenListe = ROLLEN.filter((r) => bpZiel[r]).flatMap((r) => {
+    const entries = (state.zutaten[r] || []).filter((e) => e?.zutat && data.ingredients[e.zutat]);
+    const sumAnteile = entries.reduce((a, e) => a + (e.anteil || 1), 0) || 1;
     const grams = (bpZiel[r].bp / summeBp) * teigmasse;
-    const anzeige = fromGrams(key, ing, grams);
     const rolle = arch.rollen.find((x) => x.rolle === r);
-    return {
-      rolle: r,
-      rolleLabel: rolle?.label ?? r,
-      zutat: key,
-      label: ing?.label ?? key,
-      gramm: grams,
-      bp: bpZiel[r].bp,
-      bpQuelle: bpZiel[r].quelle,
-      korpus: st.bp?.[r] ?? null,
-      ...anzeige,
-    };
+    return entries.map((e) => {
+      const ing = data.ingredients[e.zutat];
+      const anteilAnteil = (e.anteil || 1) / sumAnteile;
+      const gramsIng = grams * anteilAnteil;
+      const anzeige = fromGrams(e.zutat, ing, gramsIng);
+      return {
+        rolle: r,
+        rolleLabel: rolle?.label ?? r,
+        zutat: e.zutat,
+        label: ing?.label ?? e.zutat,
+        gramm: gramsIng,
+        bp: bpZiel[r].bp * anteilAnteil,
+        bpQuelle: bpZiel[r].quelle,
+        anteilProzent: entries.length > 1 ? Math.round(anteilAnteil * 100) : null,
+        korpus: st.bp?.[r] ?? null,
+        ...anzeige,
+      };
+    });
   });
 
   const round5 = (x) => Math.round(x / 5) * 5;
@@ -109,6 +117,7 @@ export function compute(state, data, korpusStats) {
     anpassungen,
     evals,
     zutatenListe,
+    rollenBp: bpZiel,
     teigmasse,
     backen: { tempOU, tempUmluft, minuten, hinweise: backHinweise },
     ablauf,
@@ -118,7 +127,7 @@ export function compute(state, data, korpusStats) {
 }
 
 function konkretisiere(label, props) {
-  const n = (r) => props[r]?.label?.replace(/\s*\(.*?\)/, '') ?? null;
+  const n = (r) => props[r]?.kurzlabel?.replace(/\s*\(.*?\)/, '') ?? null;
   return label
     .replace('Fett + Zucker', `${n('fett') ?? 'Fett'} + ${n('suesse') ?? 'Zucker'}`)
     .replace('Eier + Zucker', `Eier + ${n('suesse') ?? 'Zucker'}`)
