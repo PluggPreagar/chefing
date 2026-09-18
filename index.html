@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chefing — Rührteig-Kombinator</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Chefing</h1>
+      <p class="tagline">Rührteig als Kombinatorik: Zutaten nach Eigenschaften wählen, Methode folgt aus der Physik, Mengen aus dem Rezept-Korpus.</p>
+    </div>
+    <nav class="presets" aria-label="Best-of-Presets">
+      <button type="button" data-preset="kastenkuchen">Rührkuchen</button>
+      <button type="button" data-preset="muffin">Muffins</button>
+      <button type="button" data-preset="gugelhupf">Gugelhupf</button>
+      <button type="button" id="toggle-stats" class="ghost">Korpus-Statistik</button>
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <h2>Morphologischer Kasten</h2>
+      <p class="legend"><span class="sw sw-sel"></span> gewählt <span class="sw sw-best"></span> Best of (Korpus) <span class="sw sw-inv"></span> physikalisch nicht möglich</p>
+      <div id="morphbox"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Ablauf</h2>
+      <div class="flow-scroll"><svg id="flow" role="img" aria-label="Ablaufdiagramm"></svg></div>
+      <ol id="flow-details" class="steps"></ol>
+    </section>
+
+    <section class="panel">
+      <h2>Rezept</h2>
+      <div id="recipe"></div>
+    </section>
+
+    <section id="stats" class="panel panel-wide" hidden></section>
+  </main>
+
+  <footer class="foot">Verhältnisse = Median über den Rezept-Korpus je Gefäß (Bäckerprozent, Mehl = 100). Regeln liegen in <code>src/data/operations.json</code>, nicht im Code.</footer>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

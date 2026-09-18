@@ -1,0 +1,37 @@
+{
+  "_schema": {
+    "rollen": "funktionale Bausteine des Gerichts; referenz = Rolle, auf die Bäckerprozent bezogen werden (100 %)",
+    "optionen": "Zutat-Schlüssel aus ingredients.json, die diese Rolle übernehmen können",
+    "lehrbuch": "Referenzverhältnisse aus der Backliteratur in Bäckerprozent (Mehl = 100) — zum Vergleich mit dem Korpus-Median",
+    "varianten": "benannte Presets: Gefäß + Best-of-Auswahl; Mengen kommen aus dem Korpus"
+  },
+  "ruehrteig": {
+    "label": "Rührteig",
+    "beschreibung": "Fett, Zucker, Ei und Mehl in ähnlichen Gewichtsanteilen (Eischwer-Prinzip), gelockert durch eingeschlagene Luft und Backpulver. Rührkuchen, Muffin und Gugelhupf sind derselbe Teig in anderer Methode und Form.",
+    "rollen": [
+      { "rolle": "struktur",     "label": "Struktur",     "pflicht": true,  "referenz": true, "optionen": ["weizenmehl", "speisestaerke", "haselnuss_gemahlen", "mandeln_gemahlen"], "default": "weizenmehl", "hinweis": "Mehl gibt Gerüst (Gluten + Stärke). Nüsse/Stärke können bis ~25 % ersetzen." },
+      { "rolle": "fett",         "label": "Fett",         "pflicht": true,  "optionen": ["butter", "margarine", "pflanzenoel"], "default": "butter", "hinweis": "Entscheidet über die Methode: fest → Creme, flüssig → Rühr-Öl/Muffin." },
+      { "rolle": "suesse",       "label": "Süße",         "pflicht": true,  "optionen": ["zucker", "brauner_zucker", "puderzucker"], "default": "zucker" },
+      { "rolle": "bindung",      "label": "Bindung",      "pflicht": true,  "optionen": ["ei"], "default": "ei", "hinweis": "Emulgator + Struktur + Trieb." },
+      { "rolle": "fluessigkeit", "label": "Flüssigkeit",  "pflicht": false, "optionen": ["milch", "buttermilch", "saure_sahne", "schmand", "joghurt", "wasser"], "default": "milch", "hinweis": "Reguliert Konsistenz. Saure Varianten reagieren mit dem Trieb und machen die Krume zarter." },
+      { "rolle": "trieb",        "label": "Trieb",        "pflicht": true,  "optionen": ["backpulver", "natron"], "default": "backpulver", "hinweis": "Natron nur mit saurer Zutat." },
+      { "rolle": "aroma",        "label": "Aroma",        "pflicht": false, "optionen": ["vanillezucker", "vanilleextrakt", "zitronenabrieb", "kakao", "zimt", "rum"], "default": "vanillezucker" },
+      { "rolle": "einlage",      "label": "Einlage",      "pflicht": false, "optionen": ["schokolade", "rosinen", "blaubeeren"], "default": null }
+    ],
+    "lehrbuch": {
+      "quelle": "Eischwer-Prinzip / Rührteig-Klassifikation (leicht – mittel – schwer)",
+      "leicht":  { "fett": 50,  "suesse": 100, "bindung": 100, "struktur": 100 },
+      "mittel":  { "fett": 100, "suesse": 100, "bindung": 75,  "struktur": 100 },
+      "schwer":  { "fett": 100, "suesse": 100, "bindung": 100, "struktur": 100 },
+      "trieb_richtwert": 3,
+      "kommentar": "Je höher Fett- und Zuckeranteil, desto dichter und saftiger. Muffins liegen bewusst unter 'leicht' beim Fett und weit darüber bei der Flüssigkeit."
+    },
+    "methoden": ["creme", "ruehroel", "muffin", "allinone"],
+    "gefaesse": ["kastenform_25", "kastenform_30", "gugelhupfform_22", "gugelhupfform_26", "muffinform_12"],
+    "varianten": {
+      "kastenkuchen": { "label": "Rührkuchen (Kastenform)", "gefaess": "kastenform_25",    "korpus": "kastenkuchen", "bestof": { "fett": "butter",      "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": null } },
+      "muffin":       { "label": "Muffins",                  "gefaess": "muffinform_12",    "korpus": "muffin",       "bestof": { "fett": "pflanzenoel", "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": "schokolade" } },
+      "gugelhupf":    { "label": "Gugelhupf",                "gefaess": "gugelhupfform_22", "korpus": "gugelhupf",    "bestof": { "fett": "butter",      "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": "rosinen" } }
+    }
+  }
+}

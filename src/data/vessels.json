@@ -1,0 +1,67 @@
+{
+  "_schema": {
+    "familie": "Gruppe, auf die sich methods.geeignet_fuer bezieht",
+    "volumen_ml": "Innenvolumen",
+    "fuellgrad": "Anteil, bis zu dem gefüllt wird",
+    "teigmasse_g": "Zielmenge Rohteig ≈ volumen × fuellgrad × Teigdichte (~1,0 g/ml)",
+    "geometrie": "beeinflusst Wärmeeintrag → Temp/Zeit",
+    "basis": "Referenz-Backparameter bei teigmasse_g; Engine skaliert mit Masse",
+    "korpus_ids": "Schlüssel, unter denen der Korpus dieses Gefäß führt"
+  },
+  "kastenform_25": {
+    "label": "Kastenform 25 cm",
+    "familie": "kastenform",
+    "volumen_ml": 1500,
+    "fuellgrad": 0.67,
+    "teigmasse_g": 1000,
+    "geometrie": "kompakter Block, Hitze nur von außen → langsame Durchwärmung",
+    "basis": { "tempOU": 175, "tempUmluft": 160, "minuten": 55 },
+    "hinweise": ["Nach ~20 Min. längs einschneiden → kontrollierter Riss", "Stäbchenprobe in der Mitte"],
+    "korpus_ids": ["kastenform_25", "kastenform_unbekannt"]
+  },
+  "kastenform_30": {
+    "label": "Kastenform 30 cm",
+    "familie": "kastenform",
+    "volumen_ml": 2000,
+    "fuellgrad": 0.67,
+    "teigmasse_g": 1350,
+    "geometrie": "wie 25 cm, länger → gleiche Höhe, ähnliche Zeit",
+    "basis": { "tempOU": 175, "tempUmluft": 160, "minuten": 60 },
+    "hinweise": ["Stäbchenprobe in der Mitte"],
+    "korpus_ids": ["kastenform_30"]
+  },
+  "muffinform_12": {
+    "label": "Muffinform, 12 Mulden",
+    "familie": "muffinform",
+    "volumen_ml": 1080,
+    "fuellgrad": 0.75,
+    "teigmasse_g": 800,
+    "stueck": 12,
+    "geometrie": "12 kleine Einzelkörper, große Oberfläche → schnelle Durchwärmung, hohe Temperatur für Kuppel",
+    "basis": { "tempOU": 200, "tempUmluft": 180, "minuten": 22 },
+    "hinweise": ["Mulden nur zu 3/4 füllen", "Hohe Anfangshitze treibt die Kuppel"],
+    "korpus_ids": ["muffinform_12"]
+  },
+  "gugelhupfform_22": {
+    "label": "Gugelhupfform 22 cm",
+    "familie": "gugelhupfform",
+    "volumen_ml": 2000,
+    "fuellgrad": 0.67,
+    "teigmasse_g": 1350,
+    "geometrie": "Ring mit Kamin → Hitze auch von innen, gleichmäßiger als Kasten trotz größerer Masse",
+    "basis": { "tempOU": 175, "tempUmluft": 160, "minuten": 55 },
+    "hinweise": ["Form gründlich fetten UND mehlen (Rillen!)", "Ofen die ersten 40 Min. nicht öffnen", "10 Min. in der Form ruhen, dann stürzen"],
+    "korpus_ids": ["gugelhupfform_22", "gugelhupfform_unbekannt"]
+  },
+  "gugelhupfform_26": {
+    "label": "Gugelhupfform 26 cm",
+    "familie": "gugelhupfform",
+    "volumen_ml": 2800,
+    "fuellgrad": 0.67,
+    "teigmasse_g": 1900,
+    "geometrie": "wie 22 cm, größer → länger backen",
+    "basis": { "tempOU": 170, "tempUmluft": 155, "minuten": 65 },
+    "hinweise": ["Form gründlich fetten UND mehlen", "Ofen die ersten 40 Min. nicht öffnen"],
+    "korpus_ids": ["gugelhupfform_26"]
+  }
+}

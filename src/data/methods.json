@@ -1,0 +1,48 @@
+{
+  "_schema": {
+    "sequenz": "geordnete Liste von Operations-Schlüsseln aus operations.json; die Engine prüft deren Voraussetzungen gegen die gewählten Zutaten",
+    "optional": "Operationen, die nur ausgeführt werden, wenn die zugehörige Rolle belegt ist (z. B. einlage)",
+    "textur": "typisches Ergebnis",
+    "triebquelle": "woher die Lockerung überwiegend kommt"
+  },
+  "creme": {
+    "label": "Crememethode",
+    "kurz": "Fett + Zucker aufschlagen → Eier einzeln → Mehl abwechselnd mit Flüssigkeit",
+    "sequenz": ["einlegen", "aufschlagen", "eier_einzeln", "trocken_mischen", "unterheben_abwechselnd", "einlage_unterheben", "fuellen", "backen"],
+    "optional": ["einlegen", "einlage_unterheben"],
+    "textur": "feinporig, gleichmäßig, schnittfest",
+    "triebquelle": "eingeschlagene Luft im Fett + Backpulver",
+    "geeignet_fuer": ["kastenform", "gugelhupfform", "springform"],
+    "warum": "Die klassische Rührteig-Methode. Setzt plastisches Fett voraus — deshalb funktioniert sie nicht mit Öl."
+  },
+  "muffin": {
+    "label": "Muffin-Methode",
+    "kurz": "Trockenes mischen, Nasses verquirlen, beides kurz zusammenführen",
+    "sequenz": ["einlegen", "trocken_mischen", "verquirlen", "unterheben_kurz", "einlage_unterheben", "fuellen", "backen"],
+    "optional": ["einlegen", "einlage_unterheben"],
+    "textur": "grobporig, locker, weniger schnittfest",
+    "triebquelle": "Backpulver (chemisch), kaum eingeschlagene Luft",
+    "geeignet_fuer": ["muffinform"],
+    "warum": "Minimaler Rühraufwand → minimale Glutenentwicklung. Braucht flüssiges Fett; feste Butter wird vorher geschmolzen. Für große Formen zu instabil."
+  },
+  "ruehroel": {
+    "label": "Rühr-Öl-Methode",
+    "kurz": "Eier + Zucker schaumig → Öl einlaufen lassen → Mehl + Flüssigkeit",
+    "sequenz": ["einlegen", "eier_zucker_schaumig", "verquirlen", "trocken_mischen", "unterheben_abwechselnd", "einlage_unterheben", "fuellen", "backen"],
+    "optional": ["einlegen", "einlage_unterheben"],
+    "textur": "sehr saftig, etwas dichter, bleibt lange frisch",
+    "triebquelle": "Eischaum + Backpulver",
+    "geeignet_fuer": ["kastenform", "gugelhupfform", "springform", "muffinform"],
+    "warum": "Die Öl-Antwort auf die Crememethode: Da Öl keine Luft hält, wird die Luft über Eier + Zucker eingeschlagen."
+  },
+  "allinone": {
+    "label": "All-in-one",
+    "kurz": "Alle Zutaten zusammen verrühren",
+    "sequenz": ["einlegen", "alles_verruehren", "einlage_unterheben", "fuellen", "backen"],
+    "optional": ["einlegen", "einlage_unterheben"],
+    "textur": "dichter, gleichmäßig, robust",
+    "triebquelle": "fast nur Backpulver",
+    "geeignet_fuer": ["kastenform", "gugelhupfform", "muffinform"],
+    "warum": "Schnellrezept-Methode. Funktioniert, weil moderne Backpulvermengen den fehlenden Lufteintrag kompensieren — auf Kosten der Feinporigkeit."
+  }
+}

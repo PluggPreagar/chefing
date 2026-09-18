@@ -1,0 +1,361 @@
+{
+  "_schema": {
+    "aggregat": "fest | fluessig | pulver | stueckig",
+    "fettanteil": "0..1 Massenanteil Fett",
+    "wasseranteil": "0..1 Massenanteil Wasser",
+    "saeure": "true wenn nennenswert sauer (reagiert mit Backpulver/Natron)",
+    "cremig_schlagbar": "true wenn sich bei Raumtemperatur Luft einschlagen lässt",
+    "schmelzpunkt_c": "°C, nur bei festen Fetten",
+    "trieb_typ": "chemisch_doppelt | chemisch_basisch | keiner",
+    "umrechnung": "Gramm pro Einheit: stk, tl, el, pkt, prise, ml"
+  },
+  "weizenmehl": {
+    "label": "Weizenmehl (Type 405/550)",
+    "kategorie": "getreide",
+    "aggregat": "pulver",
+    "fettanteil": 0.01,
+    "wasseranteil": 0.14,
+    "saeure": false,
+    "eigenschaften": ["bildet Gluten bei Feuchtigkeit + Bewegung", "Stärke verkleistert ab ~60 °C"],
+    "umrechnung": { "el": 10, "tl": 3 }
+  },
+  "speisestaerke": {
+    "label": "Speisestärke",
+    "kategorie": "getreide",
+    "aggregat": "pulver",
+    "fettanteil": 0,
+    "wasseranteil": 0.12,
+    "saeure": false,
+    "eigenschaften": ["glutenfrei", "macht Krume feiner und mürber"],
+    "umrechnung": { "el": 10, "tl": 3 }
+  },
+  "haselnuss_gemahlen": {
+    "label": "Haselnüsse, gemahlen",
+    "kategorie": "nuss",
+    "aggregat": "pulver",
+    "fettanteil": 0.62,
+    "wasseranteil": 0.05,
+    "saeure": false,
+    "eigenschaften": ["fettreich, macht Krume feucht", "kein Gluten, kann Teil des Mehls ersetzen"],
+    "umrechnung": { "el": 8 }
+  },
+  "mandeln_gemahlen": {
+    "label": "Mandeln, gemahlen",
+    "kategorie": "nuss",
+    "aggregat": "pulver",
+    "fettanteil": 0.53,
+    "wasseranteil": 0.05,
+    "saeure": false,
+    "eigenschaften": ["fettreich, macht Krume feucht", "kein Gluten, kann Teil des Mehls ersetzen"],
+    "umrechnung": { "el": 8 }
+  },
+  "butter": {
+    "label": "Butter (zimmerwarm)",
+    "kategorie": "fett",
+    "aggregat": "fest",
+    "fettanteil": 0.82,
+    "wasseranteil": 0.16,
+    "saeure": false,
+    "cremig_schlagbar": true,
+    "schmelzpunkt_c": 34,
+    "eigenschaften": ["bei 18–22 °C plastisch → Luft einschlagbar", "Aroma (Buttersäureester)", "schmilzt ab ~32 °C"],
+    "umrechnung": { "el": 12, "tl": 4 }
+  },
+  "margarine": {
+    "label": "Margarine",
+    "kategorie": "fett",
+    "aggregat": "fest",
+    "fettanteil": 0.80,
+    "wasseranteil": 0.18,
+    "saeure": false,
+    "cremig_schlagbar": true,
+    "schmelzpunkt_c": 36,
+    "eigenschaften": ["plastisch über größeren Temperaturbereich als Butter", "geschmacksneutraler"],
+    "umrechnung": { "el": 12, "tl": 4 }
+  },
+  "pflanzenoel": {
+    "label": "Pflanzenöl (neutral)",
+    "kategorie": "fett",
+    "aggregat": "fluessig",
+    "fettanteil": 1.0,
+    "wasseranteil": 0,
+    "saeure": false,
+    "cremig_schlagbar": false,
+    "eigenschaften": ["kein Wasser → hält Gebäck länger saftig", "kann keine Luft halten → Trieb kommt nur aus Backpulver/Ei", "geschmacksneutral"],
+    "umrechnung": { "ml": 0.92, "el": 9, "tl": 4 }
+  },
+  "zucker": {
+    "label": "Zucker (weiß)",
+    "kategorie": "suesse",
+    "aggregat": "pulver",
+    "fettanteil": 0,
+    "wasseranteil": 0,
+    "saeure": false,
+    "eigenschaften": ["hygroskopisch → Saftigkeit", "Kristalle reißen beim Aufschlagen Luft in das Fett", "Bräunung durch Karamellisierung"],
+    "umrechnung": { "el": 15, "tl": 5 }
+  },
+  "brauner_zucker": {
+    "label": "Brauner Zucker",
+    "kategorie": "suesse",
+    "aggregat": "pulver",
+    "fettanteil": 0,
+    "wasseranteil": 0.02,
+    "saeure": true,
+    "eigenschaften": ["leicht sauer durch Melasse", "karamelliges Aroma", "etwas feuchter"],
+    "umrechnung": { "el": 13, "tl": 4 }
+  },
+  "puderzucker": {
+    "label": "Puderzucker",
+    "kategorie": "suesse",
+    "aggregat": "pulver",
+    "fettanteil": 0,
+    "wasseranteil": 0,
+    "saeure": false,
+    "eigenschaften": ["löst sich sofort", "reißt beim Aufschlagen weniger Luft ein als Kristallzucker"],
+    "umrechnung": { "el": 10, "tl": 3 }
+  },
+  "ei": {
+    "label": "Ei (Gr. M)",
+    "kategorie": "ei",
+    "aggregat": "fluessig",
+    "fettanteil": 0.10,
+    "wasseranteil": 0.75,
+    "saeure": false,
+    "eigenschaften": ["Emulgator (Lecithin) bindet Fett und Wasser", "Protein stockt ab ~65 °C → Struktur", "eingeschlagene Luft = Trieb"],
+    "umrechnung": { "stk": 55 }
+  },
+  "milch": {
+    "label": "Milch",
+    "kategorie": "milchprodukt",
+    "aggregat": "fluessig",
+    "fettanteil": 0.035,
+    "wasseranteil": 0.88,
+    "saeure": false,
+    "eigenschaften": ["neutral", "reguliert Teigkonsistenz", "Milchzucker fördert Bräunung"],
+    "umrechnung": { "ml": 1.03, "el": 15, "tl": 5 }
+  },
+  "wasser": {
+    "label": "Wasser",
+    "kategorie": "fluessigkeit",
+    "aggregat": "fluessig",
+    "fettanteil": 0,
+    "wasseranteil": 1,
+    "saeure": false,
+    "eigenschaften": ["neutral", "kein Eigengeschmack"],
+    "umrechnung": { "ml": 1, "el": 15, "tl": 5 }
+  },
+  "buttermilch": {
+    "label": "Buttermilch",
+    "kategorie": "milchprodukt",
+    "aggregat": "fluessig",
+    "fettanteil": 0.01,
+    "wasseranteil": 0.90,
+    "saeure": true,
+    "eigenschaften": ["Milchsäure reagiert mit Backpulver/Natron → zusätzliches CO₂", "Säure begrenzt Glutenentwicklung → zartere Krume"],
+    "umrechnung": { "ml": 1.03, "el": 15 }
+  },
+  "saure_sahne": {
+    "label": "Saure Sahne",
+    "kategorie": "milchprodukt",
+    "aggregat": "fluessig",
+    "fettanteil": 0.10,
+    "wasseranteil": 0.80,
+    "saeure": true,
+    "eigenschaften": ["sauer + fetthaltig → saftig und zart", "dickflüssig, bringt weniger freies Wasser"],
+    "umrechnung": { "ml": 1.0, "el": 15 }
+  },
+  "schmand": {
+    "label": "Schmand",
+    "kategorie": "milchprodukt",
+    "aggregat": "fluessig",
+    "fettanteil": 0.24,
+    "wasseranteil": 0.68,
+    "saeure": true,
+    "eigenschaften": ["sehr fettreich unter den sauren Milchprodukten → sehr saftig", "leicht säuerlich"],
+    "umrechnung": { "ml": 1.0, "el": 20 }
+  },
+  "joghurt": {
+    "label": "Joghurt (3,5 %)",
+    "kategorie": "milchprodukt",
+    "aggregat": "fluessig",
+    "fettanteil": 0.035,
+    "wasseranteil": 0.86,
+    "saeure": true,
+    "eigenschaften": ["sauer, reagiert mit Trieb", "leichter als Schmand"],
+    "umrechnung": { "ml": 1.03, "el": 18 }
+  },
+  "quark": {
+    "label": "Quark (Magerstufe)",
+    "kategorie": "milchprodukt",
+    "aggregat": "fest",
+    "fettanteil": 0.003,
+    "wasseranteil": 0.82,
+    "saeure": true,
+    "cremig_schlagbar": false,
+    "eigenschaften": ["proteinreich", "sauer", "bringt Feuchtigkeit ohne Fett"],
+    "umrechnung": { "el": 25 }
+  },
+  "backpulver": {
+    "label": "Backpulver",
+    "kategorie": "trieb",
+    "aggregat": "pulver",
+    "fettanteil": 0,
+    "wasseranteil": 0,
+    "saeure": false,
+    "trieb_typ": "chemisch_doppelt",
+    "eigenschaften": ["enthält Base + Säure → braucht keine saure Zutat", "wirkt beim Anfeuchten und beim Erhitzen (doppelt)", "Richtwert ~3 % vom Mehl"],
+    "umrechnung": { "pkt": 15, "tl": 3.5, "el": 10 }
+  },
+  "natron": {
+    "label": "Natron",
+    "kategorie": "trieb",
+    "aggregat": "pulver",
+    "fettanteil": 0,
+    "wasseranteil": 0,
+    "saeure": false,
+    "trieb_typ": "chemisch_basisch",
+    "eigenschaften": ["nur Base → BRAUCHT saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker)", "etwa 3× so stark wie Backpulver", "Überschuss schmeckt seifig"],
+    "umrechnung": { "tl": 5, "pkt": 5 }
+  },
+  "vanillezucker": {
+    "label": "Vanillezucker",
+    "kategorie": "aroma",
+    "aggregat": "pulver",
+    "fettanteil": 0,
+    "wasseranteil": 0,
+    "saeure": false,
+    "eigenschaften": ["Aroma + ein wenig Zucker"],
+    "umrechnung": { "pkt": 8, "tl": 4, "el": 12 }
+  },
+  "vanilleextrakt": {
+    "label": "Vanilleextrakt",
+    "kategorie": "aroma",
+    "aggregat": "fluessig",
+    "fettanteil": 0,
+    "wasseranteil": 0.6,
+    "saeure": false,
+    "eigenschaften": ["konzentriertes Aroma, mengenmäßig vernachlässigbar"],
+    "umrechnung": { "tl": 4, "el": 12, "ml": 1 }
+  },
+  "salz": {
+    "label": "Salz",
+    "kategorie": "aroma",
+    "aggregat": "pulver",
+    "fettanteil": 0,
+    "wasseranteil": 0,
+    "saeure": false,
+    "eigenschaften": ["Geschmacksverstärker, betont Süße", "strafft Gluten leicht"],
+    "umrechnung": { "prise": 1, "tl": 6 }
+  },
+  "zitronenabrieb": {
+    "label": "Zitronenabrieb",
+    "kategorie": "aroma",
+    "aggregat": "stueckig",
+    "fettanteil": 0,
+    "wasseranteil": 0.7,
+    "saeure": false,
+    "eigenschaften": ["Aromaöle sitzen in der Schale, nicht im Saft", "mengenmäßig vernachlässigbar"],
+    "umrechnung": { "stk": 6, "tl": 2, "el": 6, "pkt": 6 }
+  },
+  "orangenabrieb": {
+    "label": "Orangenabrieb",
+    "kategorie": "aroma",
+    "aggregat": "stueckig",
+    "fettanteil": 0,
+    "wasseranteil": 0.7,
+    "saeure": false,
+    "eigenschaften": ["Aromaöle aus der Schale", "mengenmäßig vernachlässigbar"],
+    "umrechnung": { "stk": 8, "tl": 2, "el": 6, "pkt": 6 }
+  },
+  "orangensaft": {
+    "label": "Orangensaft",
+    "kategorie": "fluessigkeit",
+    "aggregat": "fluessig",
+    "fettanteil": 0,
+    "wasseranteil": 0.88,
+    "saeure": true,
+    "eigenschaften": ["mild sauer", "bringt Fruchtzucker und Aroma"],
+    "umrechnung": { "ml": 1, "el": 15, "tl": 5, "stk": 80 }
+  },
+  "vanillearoma": {
+    "label": "Vanillearoma (Fläschchen)",
+    "kategorie": "aroma",
+    "aggregat": "fluessig",
+    "fettanteil": 0,
+    "wasseranteil": 0.6,
+    "saeure": false,
+    "eigenschaften": ["konzentriertes Aroma, tropfenweise", "mengenmäßig vernachlässigbar"],
+    "umrechnung": { "stk": 0.05, "tl": 4, "el": 12, "ml": 1, "pkt": 2 }
+  },
+  "zitronensaft": {
+    "label": "Zitronensaft",
+    "kategorie": "fluessigkeit",
+    "aggregat": "fluessig",
+    "fettanteil": 0,
+    "wasseranteil": 0.9,
+    "saeure": true,
+    "eigenschaften": ["stark sauer → aktiviert Natron, hemmt Gluten", "Aroma vor allem aus Abrieb, nicht aus Saft"],
+    "umrechnung": { "ml": 1, "el": 15, "tl": 5, "stk": 40 }
+  },
+  "kakao": {
+    "label": "Kakaopulver",
+    "kategorie": "aroma",
+    "aggregat": "pulver",
+    "fettanteil": 0.11,
+    "wasseranteil": 0.03,
+    "saeure": true,
+    "eigenschaften": ["saugt Flüssigkeit wie Mehl → trocknet Teig aus", "leicht sauer (Naturkakao)", "ersetzt anteilig Mehl im dunklen Teig"],
+    "umrechnung": { "el": 8, "tl": 3 }
+  },
+  "zimt": {
+    "label": "Zimt",
+    "kategorie": "aroma",
+    "aggregat": "pulver",
+    "fettanteil": 0,
+    "wasseranteil": 0.1,
+    "saeure": false,
+    "eigenschaften": ["reines Aroma"],
+    "umrechnung": { "tl": 3, "prise": 0.5 }
+  },
+  "rum": {
+    "label": "Rum",
+    "kategorie": "aroma",
+    "aggregat": "fluessig",
+    "fettanteil": 0,
+    "wasseranteil": 0.6,
+    "saeure": false,
+    "eigenschaften": ["Aromaträger, Alkohol verdampft beim Backen", "quillt Rosinen auf"],
+    "umrechnung": { "el": 14, "tl": 5, "ml": 0.95 }
+  },
+  "schokolade": {
+    "label": "Schokolade (Stückchen/Tropfen)",
+    "kategorie": "einlage",
+    "aggregat": "stueckig",
+    "fettanteil": 0.35,
+    "wasseranteil": 0.01,
+    "saeure": false,
+    "eigenschaften": ["schmilzt teilweise, bleibt als Einschluss", "beeinflusst Teigverhältnis kaum"],
+    "umrechnung": { "el": 15 }
+  },
+  "rosinen": {
+    "label": "Rosinen",
+    "kategorie": "einlage",
+    "aggregat": "stueckig",
+    "fettanteil": 0.005,
+    "wasseranteil": 0.15,
+    "saeure": false,
+    "quellfaehig": true,
+    "eigenschaften": ["ziehen Feuchtigkeit aus dem Teig, wenn nicht vorgequollen", "sinken in dünnem Teig ab"],
+    "umrechnung": { "el": 15 }
+  },
+  "blaubeeren": {
+    "label": "Blaubeeren",
+    "kategorie": "einlage",
+    "aggregat": "stueckig",
+    "fettanteil": 0,
+    "wasseranteil": 0.85,
+    "saeure": true,
+    "eigenschaften": ["geben beim Backen Wasser ab", "in Mehl gewendet sinken sie weniger"],
+    "umrechnung": { "el": 12 }
+  }
+}

@@ -1,0 +1,220 @@
+[
+  {
+    "id": "gutekueche-gugelhupf-grundrezept",
+    "titel": "Gugelhupf Grundrezept",
+    "quelle": { "url": "https://www.gutekueche.at/gugelhupf-grundrezept-rezept-21835", "site": "gutekueche.at", "bewertung": 4.5, "anzahlBewertungen": 15120 },
+    "archetyp": "ruehrteig",
+    "variante": "gugelhupf",
+    "gefaess": "gugelhupfform_22",
+    "zutaten": [
+      { "rolle": "fett", "zutat": "butter", "menge": 250, "einheit": "g", "original": "250 g Butter (weich)" },
+      { "rolle": "suesse", "zutat": "zucker", "menge": 320, "einheit": "g", "original": "320 g Zucker" },
+      { "rolle": "aroma", "zutat": "vanillezucker", "menge": 1, "einheit": "pkt", "original": "1 Pk Vanillezucker" },
+      { "rolle": "aroma", "zutat": "salz", "menge": 1, "einheit": "prise", "original": "1 Prise Salz" },
+      { "rolle": "bindung", "zutat": "ei", "menge": 5, "einheit": "stk", "original": "5 Stk Eier" },
+      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 500, "einheit": "g", "original": "500 g Weizenmehl (glatt, W480)" },
+      { "rolle": "trieb", "zutat": "backpulver", "menge": 1, "einheit": "pkt", "original": "1 Pk Backpulver" },
+      { "rolle": "fluessigkeit", "zutat": "milch", "menge": 100, "einheit": "ml", "original": "100 ml Milch (oder Sauerrahm)" }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Gugelhupfform mit weicher Butter ausstreichen und mit Mehl ausstreuen, Backrohr auf 180 °C vorheizen",
+      "Butter, Zucker, Salz und Vanillezucker schaumig schlagen",
+      "Eier schrittweise einrühren",
+      "Mehl mit Backpulver vermischen und abwechselnd mit Milch unterrühren",
+      "Teig in die Form füllen",
+      "Ca. 60 Minuten backen, Stäbchenprobe",
+      "Kurz abkühlen lassen, stürzen, auf Gitter auskühlen, mit Staubzucker bestreuen"
+    ],
+    "backen": { "tempOU": 180, "tempUmluft": null, "minuten": 60, "original": "180 °C Ober-/Unterhitze, ca. 60 Minuten" },
+    "notizen": "Formangabe: Gugelhupfform Ø 22 cm. Milch kann laut Rezept durch Sauerrahm ersetzt werden. Für 12 Portionen."
+  },
+  {
+    "id": "kuechengoetter-gugelhupf-grundrezept",
+    "titel": "Gugelhupf – das einfache Grundrezept",
+    "quelle": { "url": "https://www.kuechengoetter.de/rezepte/gugelhupf-10625", "site": "kuechengoetter.de", "bewertung": null, "anzahlBewertungen": 256 },
+    "archetyp": "ruehrteig",
+    "variante": "gugelhupf",
+    "gefaess": "gugelhupfform_unbekannt",
+    "zutaten": [
+      { "rolle": "fett", "zutat": "butter", "menge": 250, "einheit": "g", "original": "250 g weiche Butter" },
+      { "rolle": "suesse", "zutat": "zucker", "menge": 350, "einheit": "g", "original": "350 g Zucker" },
+      { "rolle": "aroma", "zutat": "vanillezucker", "menge": 1, "einheit": "pkt", "original": "1 Päckchen Vanillezucker" },
+      { "rolle": "bindung", "zutat": "ei", "menge": 5, "einheit": "stk", "original": "5 Eier" },
+      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 500, "einheit": "g", "original": "500 g Mehl" },
+      { "rolle": "trieb", "zutat": "backpulver", "menge": 1, "einheit": "pkt", "original": "1 Päckchen Backpulver" },
+      { "rolle": "fluessigkeit", "zutat": "milch", "menge": 100, "einheit": "ml", "original": "100 ml Milch" }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Backofen auf 175 °C vorheizen, Gugelhupfform mit Butter einfetten",
+      "Butter, Zucker und Vanillezucker schaumig schlagen",
+      "Eier einzeln einrühren",
+      "Mehl mit Backpulver mischen und abwechselnd mit Milch unterrühren",
+      "Teig in die Form füllen",
+      "Bei 175 °C (Mitte, Umluft 160 °C) etwa 1 Stunde backen",
+      "In der Form auskühlen lassen, dann vorsichtig auf Kuchengitter stürzen"
+    ],
+    "backen": { "tempOU": 175, "tempUmluft": 160, "minuten": 60, "original": "175° (Mitte, Umluft 160°), etwa 1 Stunde" },
+    "notizen": "Formangabe: 1 Gugelhupfform von 1,5 l Inhalt (kein Durchmesser). Hinweis: 'Den Backofen in den ersten 40 Min. nicht öffnen, damit der Kuchen nicht zusammenfällt und speckig wird.' Sternewert auf der Seite nicht auslesbar, nur Anzahl Bewertungen."
+  },
+  {
+    "id": "oetker-de-gugelhupf",
+    "titel": "Gugelhupf",
+    "quelle": { "url": "https://www.oetker.de/rezepte/r/gugelhupf", "site": "oetker.de", "bewertung": 4.4, "anzahlBewertungen": 284 },
+    "archetyp": "ruehrteig",
+    "variante": "gugelhupf",
+    "gefaess": "gugelhupfform_22",
+    "zutaten": [
+      { "rolle": "fett", "zutat": "butter", "menge": 250, "einheit": "g", "original": "250 g weiche Butter oder Margarine" },
+      { "rolle": "suesse", "zutat": "zucker", "menge": 200, "einheit": "g", "original": "200 g Zucker" },
+      { "rolle": "aroma", "zutat": "vanillezucker", "menge": 1, "einheit": "pkt", "original": "1 Pck. Dr. Oetker Vanillin-Zucker" },
+      { "rolle": "bindung", "zutat": "ei", "menge": 5, "einheit": "stk", "original": "5 Eier (Größe M)" },
+      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 350, "einheit": "g", "original": "350 g Weizenmehl" },
+      { "rolle": "struktur", "zutat": "speisestaerke", "menge": 50, "einheit": "g", "original": "50 g Dr. Oetker Gustin Feine Speisestärke" },
+      { "rolle": "trieb", "zutat": "backpulver", "menge": 1, "einheit": "pkt", "original": "1 Pck. Dr. Oetker Original Backin" },
+      { "rolle": "fluessigkeit", "zutat": "milch", "menge": 4, "einheit": "el", "original": "4 EL Milch" }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Gugelhupfform fetten und mehlen, Backofen vorheizen",
+      "Butter geschmeidig rühren, Zucker und Vanillin-Zucker hinzufügen",
+      "Eier einzeln unterrühren",
+      "Mehl mit Speisestärke und Backpulver mischen, abwechselnd mit Milch unterrühren",
+      "Teig gleichmäßig in der Form verteilen",
+      "Form auf dem Rost unten in den Ofen schieben und backen",
+      "10 Minuten abkühlen lassen, dann auf Kuchenrost stürzen, mit Puderzucker bestreuen"
+    ],
+    "backen": { "tempOU": 180, "tempUmluft": 160, "minuten": 55, "original": "Ober-/Unterhitze etwa 180 °C, Heißluft etwa 160 °C, etwa 55 Min., Einschub unten" },
+    "notizen": "Formangabe: Gugelhupfform Ø 22 cm. Teil des Mehls durch Speisestärke ersetzt. Wenig Flüssigkeit (nur 4 EL Milch). Kuchen lässt sich laut Rezept gut einfrieren."
+  },
+  {
+    "id": "oetker-at-klassischer-gugelhupf",
+    "titel": "Klassischer Gugelhupf",
+    "quelle": { "url": "https://www.oetker.at/rezepte/r/klassischer-gugelhupf", "site": "oetker.at", "bewertung": 4.6, "anzahlBewertungen": 362 },
+    "archetyp": "ruehrteig",
+    "variante": "gugelhupf",
+    "gefaess": "gugelhupfform_22",
+    "zutaten": [
+      { "rolle": "fett", "zutat": "butter", "menge": 150, "einheit": "g", "original": "150 g weiche Butter" },
+      { "rolle": "suesse", "zutat": "puderzucker", "menge": 50, "einheit": "g", "original": "50 g gesiebter Staubzucker" },
+      { "rolle": "aroma", "zutat": "vanillezucker", "menge": 1, "einheit": "pkt", "original": "1 Pck. Dr. Oetker Vanillin Zucker" },
+      { "rolle": "aroma", "zutat": "zitronenabrieb", "menge": 1, "einheit": "pkt", "original": "1 Pck. Dr. Oetker Finesse Geriebene Zitronenschale" },
+      { "rolle": "aroma", "zutat": "salz", "menge": 1, "einheit": "prise", "original": "1 Prise Salz" },
+      { "rolle": "bindung", "zutat": "ei", "menge": 3, "einheit": "stk", "original": "3 Dotter (Größe M) + 3 Eiklar (Größe M)" },
+      { "rolle": "suesse", "zutat": "zucker", "menge": 100, "einheit": "g", "original": "100 g Zucker (für den Eischnee)" },
+      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 300, "einheit": "g", "original": "300 g glattes Mehl" },
+      { "rolle": "trieb", "zutat": "backpulver", "menge": 1, "einheit": "pkt", "original": "1 Pck. Dr. Oetker Backpulver" },
+      { "rolle": "fluessigkeit", "zutat": "milch", "menge": 125, "einheit": "ml", "original": "1/8 l Milch" }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Butter mit Staubzucker, Vanillin Zucker, Zitronenschale und Salz cremig rühren",
+      "Dotter einzeln einrühren",
+      "Eiklar aufschlagen, Zucker nach und nach zugeben, cremig steif schlagen",
+      "Eischnee zur Buttermasse geben",
+      "Mehl mit Backpulver mischen, darübersieben und mit Milch unterheben",
+      "Masse in befettete, bemehlte Gugelhupfform füllen und glatt streichen",
+      "Form auf dem Rost in die untere Hälfte des vorgeheizten Rohres schieben und backen",
+      "Erkalteten Gugelhupf mit Staubzucker bestreuen"
+    ],
+    "backen": { "tempOU": 180, "tempUmluft": 160, "minuten": 45, "original": "Ober-/Unterhitze 180 °C, Heißluft 160 °C, etwa 45 Minuten" },
+    "notizen": "Formangabe: Gugelhupfform 22 cm Ø. Eier werden getrennt: Dotter in die Buttermasse, Eiklar mit 100 g Zucker zu Schnee geschlagen (Sandmasse-Technik). Zucker aufgeteilt in 50 g Staubzucker + 100 g Kristallzucker. Deutlich weniger Fett und Eier als die anderen Rezepte."
+  },
+  {
+    "id": "gutekueche-marmorgugelhupf-oel",
+    "titel": "Marmorgugelhupf",
+    "quelle": { "url": "https://www.gutekueche.at/marmorgugelhupf-rezept-4660", "site": "gutekueche.at", "bewertung": 4.3, "anzahlBewertungen": 5074 },
+    "archetyp": "ruehrteig",
+    "variante": "gugelhupf",
+    "gefaess": "gugelhupfform_26",
+    "zutaten": [
+      { "rolle": "bindung", "zutat": "ei", "menge": 4, "einheit": "stk", "original": "4 Stk Eier (Größe M)" },
+      { "rolle": "suesse", "zutat": "puderzucker", "menge": 250, "einheit": "g", "original": "250 g Staubzucker" },
+      { "rolle": "aroma", "zutat": "zitronenabrieb", "menge": 0.5, "einheit": "stk", "original": "0,5 Stk Zitrone (Bio, Saft und Schale)" },
+      { "rolle": "fluessigkeit", "zutat": "wasser", "menge": 125, "einheit": "ml", "original": "125 ml Wasser" },
+      { "rolle": "fett", "zutat": "pflanzenoel", "menge": 125, "einheit": "ml", "original": "125 ml Pflanzenöl (z.B. Sonnenblumenöl oder Rapsöl)" },
+      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 250, "einheit": "g", "original": "250 g Weizenmehl (glatt, W480)" },
+      { "rolle": "trieb", "zutat": "backpulver", "menge": 0.5, "einheit": "pkt", "original": "0,5 Pk Backpulver" },
+      { "rolle": "aroma", "zutat": "kakao", "menge": 2, "einheit": "el", "original": "2 EL Kakaopulver" }
+    ],
+    "methode": "ruehroel",
+    "ablauf": [
+      "Eier in einer Schüssel schaumig rühren (ca. 3 Minuten)",
+      "Staubzucker einrühren, dann Zitronensaft und abgeriebene Schale, Wasser und Öl beimengen",
+      "Mehl mit Backpulver vermengen und langsam hinzufügen",
+      "Teig auf zwei gleiche Teile aufteilen, einen Teil mit Kakaopulver verrühren",
+      "Gugelhupfform Ø 26 cm mit Butter ausstreichen und mit Mehl stauben",
+      "Erst helle, dann dunkle Masse einfüllen, mit Gabel spiralförmig durchziehen",
+      "Bei 180 °C Ober-/Unterhitze ca. 45–50 Minuten backen, Stäbchenprobe",
+      "Aus der Form stürzen, auskühlen lassen, mit Staubzucker bestreuen"
+    ],
+    "backen": { "tempOU": 180, "tempUmluft": null, "minuten": 48, "original": "180 °C (Ober-Unterhitze), ca. 45–50 Minuten" },
+    "notizen": "Formangabe: Gugelhupfform Ø 26 cm. Öl statt Butter, Wasser als Flüssigkeit. Kakao kommt nur in eine Hälfte des Teigs (Marmor-Variante). Halbe Zitrone liefert sowohl Saft als auch Schale (als ein Eintrag erfasst). Portionsangabe der Seite '4 Portionen' ist unplausibel für 26-cm-Form."
+  },
+  {
+    "id": "backenmitchristina-marmorgugelhupf",
+    "titel": "Marmorgugelhupf",
+    "quelle": { "url": "https://www.backenmitchristina.at/rezepte/marmorgugelhupf/", "site": "backenmitchristina.at", "bewertung": 4.8, "anzahlBewertungen": 199 },
+    "archetyp": "ruehrteig",
+    "variante": "gugelhupf",
+    "gefaess": "gugelhupfform_22",
+    "zutaten": [
+      { "rolle": "fett", "zutat": "butter", "menge": 200, "einheit": "g", "original": "200 g zimmerwarme Butter" },
+      { "rolle": "suesse", "zutat": "zucker", "menge": 250, "einheit": "g", "original": "250 g Zucker" },
+      { "rolle": "bindung", "zutat": "ei", "menge": 4, "einheit": "stk", "original": "4 Eier" },
+      { "rolle": "fluessigkeit", "zutat": "milch", "menge": 250, "einheit": "g", "original": "250 g Milch" },
+      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 400, "einheit": "g", "original": "400 g Weizenmehl 700" },
+      { "rolle": "trieb", "zutat": "backpulver", "menge": 16, "einheit": "g", "original": "16 g Backpulver" },
+      { "rolle": "aroma", "zutat": "kakao", "menge": 15, "einheit": "g", "original": "15 g Kakaopulver" }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Gugelhupfform mit geschmolzener Butter auspinseln und mit Semmelbröseln ausstreuen",
+      "Butter und Zucker schaumig rühren",
+      "Eier nach und nach zugeben",
+      "Mehl-Backpulver-Mischung und Milch abwechselnd unterrühren",
+      "Ungefähr die Hälfte des Teiges in die Form füllen",
+      "Restlichen Teig mit Kakaopulver vermischen, einfüllen, beide Teige spiralförmig durchziehen",
+      "Im vorgeheizten Ofen ca. 50 Minuten backen",
+      "Auskühlen lassen, stürzen, mit Staubzucker bestreuen"
+    ],
+    "backen": { "tempOU": null, "tempUmluft": 180, "minuten": 50, "original": "180 Grad Heißluft, ca. 50 min" },
+    "notizen": "Formangabe: Gugelhupfform Ø 23 cm. Kakao kommt nur in die zweite Hälfte des Teigs (Marmor-Variante). Milch und Backpulver in Gramm angegeben. Form wird mit Butter und Semmelbröseln statt Mehl vorbereitet. Nur Heißluft-Temperatur angegeben."
+  },
+  {
+    "id": "oma-kocht-rum-rosinen-gugelhupf",
+    "titel": "Feiner Rum-Rosinen-Gugelhupf",
+    "quelle": { "url": "https://www.oma-kocht.de/omas-rum-rosinen-gugelhupf-rezept/", "site": "oma-kocht.de", "bewertung": 5.0, "anzahlBewertungen": 1 },
+    "archetyp": "ruehrteig",
+    "variante": "gugelhupf",
+    "gefaess": "gugelhupfform_22",
+    "zutaten": [
+      { "rolle": "einlage", "zutat": "rosinen", "menge": 200, "einheit": "g", "original": "200 g Rosinen" },
+      { "rolle": "aroma", "zutat": "rum", "menge": 100, "einheit": "ml", "original": "100 ml Brauner Rum (oder Rumaroma)" },
+      { "rolle": "fett", "zutat": "butter", "menge": 250, "einheit": "g", "original": "250 g Butter (weich)" },
+      { "rolle": "suesse", "zutat": "zucker", "menge": 200, "einheit": "g", "original": "200 g Zucker" },
+      { "rolle": "aroma", "zutat": "vanillezucker", "menge": 1, "einheit": "pkt", "original": "1 Päckchen Vanillezucker" },
+      { "rolle": "bindung", "zutat": "ei", "menge": 4, "einheit": "stk", "original": "4 Eier (mittelgroß)" },
+      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 350, "einheit": "g", "original": "350 g Mehl" },
+      { "rolle": "trieb", "zutat": "backpulver", "menge": 1, "einheit": "pkt", "original": "1 Päckchen Backpulver" },
+      { "rolle": "aroma", "zutat": "salz", "menge": 1, "einheit": "prise", "original": "1 Prise Salz" },
+      { "rolle": "aroma", "zutat": "zimt", "menge": 1, "einheit": "tl", "original": "1 TL Zimt (optional)" },
+      { "rolle": "fluessigkeit", "zutat": "milch", "menge": 150, "einheit": "ml", "original": "150 ml Milch" }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Rosinen mit Rum übergießen und mindestens 2 Stunden, am besten über Nacht, einweichen",
+      "Butter und Eier eine Stunde vorher aus dem Kühlschrank nehmen, Ofen auf 180 °C vorheizen, Form fetten und mehlen",
+      "Weiche Butter mit Zucker und Vanillezucker cremig rühren",
+      "Eier einzeln nacheinander unterrühren",
+      "Mehl, Backpulver, Zimt und Salz vermischen",
+      "Mehlmischung und Milch nur kurz unter den Teig rühren",
+      "Rumrosinen locker unterheben",
+      "Etwa 60–70 Minuten auf mittlerer Schiene backen, Stäbchenprobe",
+      "15 Minuten in der Form abkühlen, dann stürzen"
+    ],
+    "backen": { "tempOU": 180, "tempUmluft": 160, "minuten": 65, "original": "180 °C Ober-/Unterhitze (160 °C Umluft), 60–70 Minuten" },
+    "notizen": "Formangabe: Gugelhupfform 24 cm Durchmesser. Rosinen werden in 100 ml Rum eingelegt (Rum wird mit den Rosinen vollständig in den Teig gegeben). Rum-Zuckerguss (Puderzucker, Rum, Wasser) nicht als Teigzutat erfasst. Nur 1 Bewertung auf der Seite."
+  }
+]

@@ -1,0 +1,124 @@
+{
+  "_schema": {
+    "typ": "vorbereitung | mischen | garen",
+    "auf": "Rollen, auf die die Operation wirkt",
+    "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert} — alle müssen erfüllt sein; leer = immer möglich",
+    "vorbereitung_falls_nicht": "Operation, die eine fehlende Voraussetzung herstellen kann (sonst ungültig)",
+    "wirkung": "physikalisch/chemisch, was passiert",
+    "risiko": "typischer Fehler"
+  },
+  "einlegen": {
+    "label": "Einlegen",
+    "typ": "vorbereitung",
+    "auf": ["einlage"],
+    "voraussetzung": [],
+    "wirkung": "Trockene Einlage (z. B. Rosinen) quillt in Flüssigkeit vor und entzieht dem Teig später kein Wasser.",
+    "dauer_min": 30
+  },
+  "schmelzen": {
+    "label": "Schmelzen",
+    "typ": "vorbereitung",
+    "auf": ["fett"],
+    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest" }],
+    "wirkung": "Festes Fett wird flüssig und verhält sich wie Öl. Eingeschlagene Luft ist damit nicht mehr möglich.",
+    "risiko": "Zu heiß eingerührt → Ei stockt vorzeitig.",
+    "dauer_min": 3
+  },
+  "aufschlagen": {
+    "label": "Fett + Zucker aufschlagen",
+    "typ": "mischen",
+    "auf": ["fett", "suesse"],
+    "voraussetzung": [
+      { "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest" },
+      { "rolle": "fett", "eigenschaft": "cremig_schlagbar", "wert": true }
+    ],
+    "wirkung": "Zuckerkristalle reißen Luftbläschen in das plastische Fett. Diese Luft ist der erste Trieb und macht die Krume fein und gleichmäßig. Masse wird hell und voluminös.",
+    "risiko": "Fett zu kalt (bröselig) oder zu warm (ölig) → keine Luft. Ideal 18–22 °C, 3–5 Minuten.",
+    "dauer_min": 4
+  },
+  "eier_einzeln": {
+    "label": "Eier einzeln einrühren",
+    "typ": "mischen",
+    "auf": ["bindung"],
+    "voraussetzung": [],
+    "wirkung": "Ei-Lecithin emulgiert Wasser (Ei) in Fett. Einzeln zugeben hält die Emulsion stabil.",
+    "risiko": "Alle Eier auf einmal → Emulsion bricht, Masse gerinnt/wird flockig.",
+    "dauer_min": 2
+  },
+  "verquirlen": {
+    "label": "Flüssiges verquirlen",
+    "typ": "mischen",
+    "auf": ["fett", "bindung", "fluessigkeit"],
+    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fluessig" }],
+    "vorbereitung_falls_nicht": "schmelzen",
+    "wirkung": "Alle nassen Zutaten werden zu einer homogenen Emulsion — ohne nennenswerten Lufteintrag. Trieb muss komplett aus Backpulver/Ei kommen.",
+    "dauer_min": 1
+  },
+  "eier_zucker_schaumig": {
+    "label": "Eier + Zucker schaumig schlagen",
+    "typ": "mischen",
+    "auf": ["bindung", "suesse"],
+    "voraussetzung": [],
+    "wirkung": "Eiprotein hält Luft, Zucker stabilisiert den Schaum. Ersetzt teilweise die Luft, die bei Öl-Teigen nicht ins Fett geschlagen werden kann.",
+    "dauer_min": 3
+  },
+  "trocken_mischen": {
+    "label": "Trockenes mischen",
+    "typ": "mischen",
+    "auf": ["struktur", "trieb"],
+    "voraussetzung": [],
+    "wirkung": "Backpulver, Salz, Kakao werden gleichmäßig im Mehl verteilt → kein Triebmittel-Nest, keine Klümpchen.",
+    "dauer_min": 1
+  },
+  "unterheben_abwechselnd": {
+    "label": "Trockenes abwechselnd mit Flüssigkeit unterrühren",
+    "typ": "mischen",
+    "auf": ["struktur", "fluessigkeit"],
+    "voraussetzung": [],
+    "wirkung": "Mehl nimmt Flüssigkeit kontrolliert auf; die Emulsion aus dem Aufschlagen bleibt erhalten. Nur so lange rühren, bis kein Mehl mehr sichtbar ist.",
+    "risiko": "Zu lange rühren → Gluten entwickelt sich → zäher, fester Kuchen.",
+    "dauer_min": 1
+  },
+  "unterheben_kurz": {
+    "label": "Nass zu Trocken, kurz unterheben",
+    "typ": "mischen",
+    "auf": ["struktur"],
+    "voraussetzung": [],
+    "wirkung": "Minimale Glutenentwicklung → grobporige, lockere Krume. Klümpchen sind erwünscht.",
+    "risiko": "Häufigster Muffin-Fehler: zu lange gerührt → kompakt und zäh, spitze Kuppel.",
+    "dauer_min": 0.5
+  },
+  "alles_verruehren": {
+    "label": "Alles zusammen verrühren",
+    "typ": "mischen",
+    "auf": ["fett", "suesse", "bindung", "struktur", "fluessigkeit", "trieb"],
+    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest" }],
+    "wirkung": "Schnellste Methode. Kaum Lufteintrag → Trieb fast nur aus Backpulver. Krume dichter als bei der Crememethode.",
+    "risiko": "Braucht weiches Fett und eher etwas mehr Backpulver.",
+    "dauer_min": 2
+  },
+  "einlage_unterheben": {
+    "label": "Einlage unterheben",
+    "typ": "mischen",
+    "auf": ["einlage"],
+    "voraussetzung": [],
+    "wirkung": "Stückige Zutaten werden zuletzt und mit wenigen Bewegungen verteilt, damit der Teig nicht überarbeitet wird.",
+    "dauer_min": 0.5
+  },
+  "fuellen": {
+    "label": "In Form füllen",
+    "typ": "vorbereitung",
+    "auf": [],
+    "voraussetzung": [],
+    "wirkung": "Form fetten und mehlen (bzw. Papierförmchen). Füllgrad ~2/3, damit der Teig aufgehen kann.",
+    "dauer_min": 2
+  },
+  "backen": {
+    "label": "Backen",
+    "typ": "garen",
+    "auf": [],
+    "voraussetzung": [],
+    "wirkung": "Ab ~60 °C verkleistert Stärke, ab ~65 °C stockt Eiprotein, Backpulver setzt CO₂ frei, ab ~140 °C Maillard-Bräunung. Kleine Gefäße: heißer und kürzer; große: milder und länger, sonst außen dunkel, innen roh.",
+    "risiko": "Ofen in der ersten Hälfte öffnen → Temperatursturz → Kuchen fällt zusammen."
+  }
+}
