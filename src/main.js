@@ -11,10 +11,10 @@ async function loadJson(path) {
   return r.json();
 }
 
-const [ingredients, operations, methods, archetypes, vessels] = await Promise.all(
-  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels'].map((n) => loadJson(`./src/data/${n}.json`)),
+const [ingredients, operations, methods, archetypes, vessels, kategorien, verben] = await Promise.all(
+  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben'].map((n) => loadJson(`./src/data/${n}.json`)),
 );
-const data = { ingredients, operations, methods, archetypes, vessels };
+const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben };
 const arch = archetypes.ruehrteig;
 
 const raw = await loadCorpus(arch.varianten);
@@ -49,7 +49,7 @@ function update(patch) {
 function render() {
   const computed = compute(state, data, korpusStats);
   renderMorphbox($('morphbox'), state, data, computed, korpusStats, update);
-  renderFlow($('flow'), $('flow-details'), computed);
+  renderFlow($('flow'), $('flow-details'), computed, data.verben);
   renderRecipe($('recipe'), computed);
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }

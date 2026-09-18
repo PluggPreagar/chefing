@@ -1,5 +1,7 @@
 {
   "_schema": {
+    "kategorie": "Generische Icon-Kategorie aus kategorien.json (salz|suesse|gemuese|mehl|fett|fluessigkeit|pulver|kohlenhydrate|fleisch|ei)",
+    "unterkategorie": "Feinere, backspezifische Einordnung (z. B. für Struktur-Sonderfälle wie Nuss statt Getreide)",
     "aggregat": "fest | fluessig | pulver | stueckig",
     "fettanteil": "0..1 Massenanteil Fett",
     "wasseranteil": "0..1 Massenanteil Wasser",
@@ -11,7 +13,8 @@
   },
   "weizenmehl": {
     "label": "Weizenmehl (Type 405/550)",
-    "kategorie": "getreide",
+    "kategorie": "mehl",
+    "unterkategorie": "getreide",
     "aggregat": "pulver",
     "fettanteil": 0.01,
     "wasseranteil": 0.14,
@@ -21,7 +24,8 @@
   },
   "speisestaerke": {
     "label": "Speisestärke",
-    "kategorie": "getreide",
+    "kategorie": "mehl",
+    "unterkategorie": "getreide",
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0.12,
@@ -31,7 +35,8 @@
   },
   "haselnuss_gemahlen": {
     "label": "Haselnüsse, gemahlen",
-    "kategorie": "nuss",
+    "kategorie": "mehl",
+    "unterkategorie": "nuss",
     "aggregat": "pulver",
     "fettanteil": 0.62,
     "wasseranteil": 0.05,
@@ -41,7 +46,8 @@
   },
   "mandeln_gemahlen": {
     "label": "Mandeln, gemahlen",
-    "kategorie": "nuss",
+    "kategorie": "mehl",
+    "unterkategorie": "nuss",
     "aggregat": "pulver",
     "fettanteil": 0.53,
     "wasseranteil": 0.05,
@@ -52,6 +58,7 @@
   "butter": {
     "label": "Butter (zimmerwarm)",
     "kategorie": "fett",
+    "unterkategorie": "fett",
     "aggregat": "fest",
     "fettanteil": 0.82,
     "wasseranteil": 0.16,
@@ -64,6 +71,7 @@
   "margarine": {
     "label": "Margarine",
     "kategorie": "fett",
+    "unterkategorie": "fett",
     "aggregat": "fest",
     "fettanteil": 0.80,
     "wasseranteil": 0.18,
@@ -76,6 +84,7 @@
   "pflanzenoel": {
     "label": "Pflanzenöl (neutral)",
     "kategorie": "fett",
+    "unterkategorie": "fett",
     "aggregat": "fluessig",
     "fettanteil": 1.0,
     "wasseranteil": 0,
@@ -87,6 +96,7 @@
   "zucker": {
     "label": "Zucker (weiß)",
     "kategorie": "suesse",
+    "unterkategorie": "suesse",
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
@@ -97,6 +107,7 @@
   "brauner_zucker": {
     "label": "Brauner Zucker",
     "kategorie": "suesse",
+    "unterkategorie": "suesse",
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0.02,
@@ -107,6 +118,7 @@
   "puderzucker": {
     "label": "Puderzucker",
     "kategorie": "suesse",
+    "unterkategorie": "suesse",
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
@@ -117,6 +129,7 @@
   "ei": {
     "label": "Ei (Gr. M)",
     "kategorie": "ei",
+    "unterkategorie": "ei",
     "aggregat": "fluessig",
     "fettanteil": 0.10,
     "wasseranteil": 0.75,
@@ -126,7 +139,8 @@
   },
   "milch": {
     "label": "Milch",
-    "kategorie": "milchprodukt",
+    "kategorie": "fluessigkeit",
+    "unterkategorie": "milchprodukt",
     "aggregat": "fluessig",
     "fettanteil": 0.035,
     "wasseranteil": 0.88,
@@ -137,6 +151,7 @@
   "wasser": {
     "label": "Wasser",
     "kategorie": "fluessigkeit",
+    "unterkategorie": "fluessigkeit",
     "aggregat": "fluessig",
     "fettanteil": 0,
     "wasseranteil": 1,
@@ -146,7 +161,8 @@
   },
   "buttermilch": {
     "label": "Buttermilch",
-    "kategorie": "milchprodukt",
+    "kategorie": "fluessigkeit",
+    "unterkategorie": "milchprodukt",
     "aggregat": "fluessig",
     "fettanteil": 0.01,
     "wasseranteil": 0.90,
@@ -156,7 +172,8 @@
   },
   "saure_sahne": {
     "label": "Saure Sahne",
-    "kategorie": "milchprodukt",
+    "kategorie": "fluessigkeit",
+    "unterkategorie": "milchprodukt",
     "aggregat": "fluessig",
     "fettanteil": 0.10,
     "wasseranteil": 0.80,
@@ -166,7 +183,8 @@
   },
   "schmand": {
     "label": "Schmand",
-    "kategorie": "milchprodukt",
+    "kategorie": "fluessigkeit",
+    "unterkategorie": "milchprodukt",
     "aggregat": "fluessig",
     "fettanteil": 0.24,
     "wasseranteil": 0.68,
@@ -176,7 +194,8 @@
   },
   "joghurt": {
     "label": "Joghurt (3,5 %)",
-    "kategorie": "milchprodukt",
+    "kategorie": "fluessigkeit",
+    "unterkategorie": "milchprodukt",
     "aggregat": "fluessig",
     "fettanteil": 0.035,
     "wasseranteil": 0.86,
@@ -186,7 +205,8 @@
   },
   "quark": {
     "label": "Quark (Magerstufe)",
-    "kategorie": "milchprodukt",
+    "kategorie": "fluessigkeit",
+    "unterkategorie": "milchprodukt",
     "aggregat": "fest",
     "fettanteil": 0.003,
     "wasseranteil": 0.82,
@@ -197,7 +217,8 @@
   },
   "backpulver": {
     "label": "Backpulver",
-    "kategorie": "trieb",
+    "kategorie": "pulver",
+    "unterkategorie": "trieb",
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
@@ -208,7 +229,8 @@
   },
   "natron": {
     "label": "Natron",
-    "kategorie": "trieb",
+    "kategorie": "pulver",
+    "unterkategorie": "trieb",
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
@@ -219,7 +241,8 @@
   },
   "vanillezucker": {
     "label": "Vanillezucker",
-    "kategorie": "aroma",
+    "kategorie": "pulver",
+    "unterkategorie": "aroma",
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
@@ -229,7 +252,8 @@
   },
   "vanilleextrakt": {
     "label": "Vanilleextrakt",
-    "kategorie": "aroma",
+    "kategorie": "pulver",
+    "unterkategorie": "aroma",
     "aggregat": "fluessig",
     "fettanteil": 0,
     "wasseranteil": 0.6,
@@ -239,7 +263,8 @@
   },
   "salz": {
     "label": "Salz",
-    "kategorie": "aroma",
+    "kategorie": "salz",
+    "unterkategorie": "aroma",
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
@@ -249,7 +274,8 @@
   },
   "zitronenabrieb": {
     "label": "Zitronenabrieb",
-    "kategorie": "aroma",
+    "kategorie": "pulver",
+    "unterkategorie": "aroma",
     "aggregat": "stueckig",
     "fettanteil": 0,
     "wasseranteil": 0.7,
@@ -259,7 +285,8 @@
   },
   "orangenabrieb": {
     "label": "Orangenabrieb",
-    "kategorie": "aroma",
+    "kategorie": "pulver",
+    "unterkategorie": "aroma",
     "aggregat": "stueckig",
     "fettanteil": 0,
     "wasseranteil": 0.7,
@@ -270,6 +297,7 @@
   "orangensaft": {
     "label": "Orangensaft",
     "kategorie": "fluessigkeit",
+    "unterkategorie": "fluessigkeit",
     "aggregat": "fluessig",
     "fettanteil": 0,
     "wasseranteil": 0.88,
@@ -279,7 +307,8 @@
   },
   "vanillearoma": {
     "label": "Vanillearoma (Fläschchen)",
-    "kategorie": "aroma",
+    "kategorie": "pulver",
+    "unterkategorie": "aroma",
     "aggregat": "fluessig",
     "fettanteil": 0,
     "wasseranteil": 0.6,
@@ -290,6 +319,7 @@
   "zitronensaft": {
     "label": "Zitronensaft",
     "kategorie": "fluessigkeit",
+    "unterkategorie": "fluessigkeit",
     "aggregat": "fluessig",
     "fettanteil": 0,
     "wasseranteil": 0.9,
@@ -299,7 +329,8 @@
   },
   "kakao": {
     "label": "Kakaopulver",
-    "kategorie": "aroma",
+    "kategorie": "pulver",
+    "unterkategorie": "aroma",
     "aggregat": "pulver",
     "fettanteil": 0.11,
     "wasseranteil": 0.03,
@@ -309,7 +340,8 @@
   },
   "zimt": {
     "label": "Zimt",
-    "kategorie": "aroma",
+    "kategorie": "pulver",
+    "unterkategorie": "aroma",
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0.1,
@@ -319,7 +351,8 @@
   },
   "rum": {
     "label": "Rum",
-    "kategorie": "aroma",
+    "kategorie": "pulver",
+    "unterkategorie": "aroma",
     "aggregat": "fluessig",
     "fettanteil": 0,
     "wasseranteil": 0.6,
@@ -329,7 +362,8 @@
   },
   "schokolade": {
     "label": "Schokolade (Stückchen/Tropfen)",
-    "kategorie": "einlage",
+    "kategorie": "gemuese",
+    "unterkategorie": "einlage",
     "aggregat": "stueckig",
     "fettanteil": 0.35,
     "wasseranteil": 0.01,
@@ -339,7 +373,8 @@
   },
   "rosinen": {
     "label": "Rosinen",
-    "kategorie": "einlage",
+    "kategorie": "gemuese",
+    "unterkategorie": "einlage",
     "aggregat": "stueckig",
     "fettanteil": 0.005,
     "wasseranteil": 0.15,
@@ -350,7 +385,8 @@
   },
   "blaubeeren": {
     "label": "Blaubeeren",
-    "kategorie": "einlage",
+    "kategorie": "gemuese",
+    "unterkategorie": "einlage",
     "aggregat": "stueckig",
     "fettanteil": 0,
     "wasseranteil": 0.85,

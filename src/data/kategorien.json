@@ -1,0 +1,17 @@
+{
+  "_schema": {
+    "icon": "Ein Emoji — kleines, wiederverwendbares Icon-Set für Morph-Kasten und Rezeptkarte",
+    "label": "Deutsche Kurzbezeichnung",
+    "hinweis": "Was pragmatisch in diese Kategorie fällt"
+  },
+  "salz": { "label": "Salz", "icon": "🧂", "hinweis": "Kochsalz; eigene Kategorie, weil geschmacklich nie austauschbar." },
+  "suesse": { "label": "Süße", "icon": "🍯", "hinweis": "Zucker in allen Formen, Sirup, Honig." },
+  "gemuese": { "label": "Gemüse/Frucht", "icon": "🥕", "hinweis": "Frisches oder getrocknetes Gemüse/Obst — inkl. Einlagen wie Rosinen, Beeren; Schokoladenstückchen werden pragmatisch hier eingeordnet (kein eigener Bucket für „Einlage“)." },
+  "mehl": { "label": "Mehl/Getreide", "icon": "🌾", "hinweis": "Getreidemehl, Stärke, gemahlene Nüsse als Mehlersatz." },
+  "fett": { "label": "Fett", "icon": "🧈", "hinweis": "Butter, Margarine, Öl — alle Aggregatzustände." },
+  "fluessigkeit": { "label": "Flüssigkeit", "icon": "💧", "hinweis": "Milch, Wasser, Buttermilch, Säfte, saure Milchprodukte." },
+  "pulver": { "label": "Pulver", "icon": "🧪", "hinweis": "Backtriebmittel, Gewürze, Kakao, Aromen — reaktive oder geschmacksgebende Kleinmengen, unabhängig vom tatsächlichen Aggregatzustand (auch Extrakt-Tropfen zählen hierher)." },
+  "kohlenhydrate": { "label": "Kohlenhydrate", "icon": "🍞", "hinweis": "Stärkehaltige Hauptzutaten außerhalb von Mehl (Kartoffel, Reis, Brot) — für künftige Archetypen." },
+  "fleisch": { "label": "Fleisch/Fisch", "icon": "🥩", "hinweis": "Für künftige Archetypen (z. B. Braten) — im Rührteig ungenutzt." },
+  "ei": { "label": "Ei", "icon": "🥚", "hinweis": "Emulgator, Bindung, Trieb." }
+}

@@ -15,18 +15,24 @@ function pruefeBedingung(b, props) {
 
 export function checkOperation(op, props, operations) {
   const fehlend = [];
+  const empfehlungen = [];
   for (const b of op.voraussetzung || []) {
     const r = pruefeBedingung(b, props);
-    if (!r.ok) fehlend.push({ ...b, ist: r.ist });
+    if (r.ok) continue;
+    const strenge = b.strenge || 'hart';
+    if (strenge === 'frei') continue; // legitime Variante — kein Hinweis
+    const eintrag = { ...b, ist: r.ist, strenge };
+    if (strenge === 'empfohlen') empfehlungen.push(eintrag);
+    else fehlend.push(eintrag);
   }
-  if (!fehlend.length) return { ok: true, fehlend: [], vorbereitung: null };
+  if (!fehlend.length) return { ok: true, fehlend: [], empfehlungen, vorbereitung: null };
 
   const prepKey = op.vorbereitung_falls_nicht;
   if (prepKey && operations[prepKey]) {
     const prep = checkOperation(operations[prepKey], props, operations);
-    if (prep.ok) return { ok: true, fehlend, vorbereitung: prepKey };
+    if (prep.ok) return { ok: true, fehlend, empfehlungen, vorbereitung: prepKey };
   }
-  return { ok: false, fehlend, vorbereitung: null };
+  return { ok: false, fehlend, empfehlungen, vorbereitung: null };
 }
 
 function nachVorbereitung(prepKey, props) {
@@ -84,6 +90,8 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data) {
     } else if (!check.ok) {
       status = 'invalid';
       gruende.push(`„${op.label}“ ist nicht möglich: braucht ${beschreibeBedingungen(check.fehlend, data)}. ${op.wirkung}`);
+    } else if (check.empfehlungen?.length) {
+      warnungen.push(`${op.label}: ${beschreibeBedingungen(check.empfehlungen, data)} empfohlen, aber nicht zwingend — Ergebnis kann etwas abweichen.`);
     }
     schritte.push({ key, op, eingefuegt: false });
   }

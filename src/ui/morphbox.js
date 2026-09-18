@@ -50,8 +50,10 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
       const ev = evaluateAll(hyp, state.gefaess, data);
       const irgendwasGeht = Object.values(ev).some((e) => e.status !== 'invalid');
       const grund = irgendwasGeht ? null : Object.values(ev)[0]?.gruende[0];
+      const icon = data.kategorien?.[ing.kategorie]?.icon;
       return option({
         label: ing.label,
+        icon,
         sub: (ing.eigenschaften || [])[0] ?? '',
         selected: state.zutaten[rolle.rolle] === key,
         bestof: bestof[rolle.rolle] === key || (bestof[rolle.rolle] === undefined && rolle.default === key),
@@ -85,7 +87,7 @@ function dimension(title, hint, items) {
   return row;
 }
 
-function option({ label, sub, selected, bestof, status, title, onClick }) {
+function option({ label, icon, sub, selected, bestof, status, title, onClick }) {
   const b = document.createElement('button');
   b.type = 'button';
   b.className = 'opt';
@@ -94,7 +96,7 @@ function option({ label, sub, selected, bestof, status, title, onClick }) {
   if (status === 'invalid') b.classList.add('is-invalid');
   if (status === 'prep') b.classList.add('is-prep');
   if (title) b.title = title;
-  b.append(el('span', 'opt-label', label));
+  b.append(el('span', 'opt-label', icon ? `${icon} ${label}` : label));
   if (sub) b.append(el('span', 'opt-sub', sub));
   if (bestof) b.append(el('span', 'opt-badge', 'Best of'));
   b.addEventListener('click', onClick);

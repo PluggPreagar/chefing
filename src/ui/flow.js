@@ -1,7 +1,7 @@
 const NS = 'http://www.w3.org/2000/svg';
 const W = 168, H = 64, GAP = 44, PAD = 16;
 
-export function renderFlow(svg, details, computed) {
+export function renderFlow(svg, details, computed, verben = {}) {
   const steps = computed.ablauf;
   const total = PAD * 2 + steps.length * W + (steps.length - 1) * GAP;
   svg.setAttribute('viewBox', `0 0 ${total} ${H + PAD * 2 + 24}`);
@@ -19,7 +19,13 @@ export function renderFlow(svg, details, computed) {
     const y = PAD;
     const g = node('g', { class: `flow-node typ-${s.typ}${s.eingefuegt ? ' is-inserted' : ''}`, 'data-step': i });
     g.append(node('rect', { x, y, width: W, height: H, rx: 10 }));
-    const label = node('text', { x: x + W / 2, y: y + H / 2, class: 'flow-label', 'text-anchor': 'middle', 'dominant-baseline': 'middle' });
+    const icon = verben[s.verb]?.icon;
+    if (icon) {
+      const iconEl = node('text', { x: x + W / 2, y: y + 16, class: 'flow-icon', 'text-anchor': 'middle' });
+      iconEl.textContent = icon;
+      g.append(iconEl);
+    }
+    const label = node('text', { x: x + W / 2, y: y + H / 2 + (icon ? 8 : 0), class: 'flow-label', 'text-anchor': 'middle', 'dominant-baseline': 'middle' });
     wrap(label, `${s.nr}. ${s.label}`, 24, x + W / 2);
     g.append(label);
     const typ = node('text', { x: x + W / 2, y: y + H + 16, class: 'flow-typ', 'text-anchor': 'middle' });
@@ -40,7 +46,8 @@ export function renderFlow(svg, details, computed) {
     li.className = `step typ-${s.typ}${s.eingefuegt ? ' is-inserted' : ''}`;
     const h = document.createElement('div');
     h.className = 'step-title';
-    h.textContent = `${s.nr}. ${s.label}${s.dauer ? ` · ~${s.dauer} Min.` : ''}${s.eingefuegt ? ' · automatisch eingefügt' : ''}`;
+    const icon = verben[s.verb]?.icon;
+    h.textContent = `${icon ? icon + ' ' : ''}${s.nr}. ${s.label}${s.dauer ? ` · ~${s.dauer} Min.` : ''}${s.eingefuegt ? ' · automatisch eingefügt' : ''}`;
     const w = document.createElement('div');
     w.className = 'step-why';
     w.textContent = s.wirkung;

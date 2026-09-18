@@ -67,6 +67,7 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .flow-node.typ-vorbereitung rect { stroke: var(--muted); }
 .flow-node.typ-garen rect { fill: var(--warn-bg); stroke: var(--warn); }
 .flow-node.is-inserted rect { stroke: var(--prep); stroke-dasharray: 5 4; }
+.flow-icon { font-size: 16px; }
 .flow-label { font-size: 11px; fill: var(--ink); }
 .flow-typ { font-size: 10px; fill: var(--muted); }
 .flow-edge { stroke: var(--muted); stroke-width: 1.5; }

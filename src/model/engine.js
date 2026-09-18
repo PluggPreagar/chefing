@@ -38,7 +38,7 @@ export function compute(state, data, korpusStats) {
     bpZiel.trieb.bp *= 0.85;
     anpassungen.push(`${props.fluessigkeit.label} ist sauer und liefert zusätzliches CO₂ → Backpulver um 15 % reduziert.`);
   }
-  if (bpZiel.struktur && props.struktur && props.struktur.kategorie === 'nuss') {
+  if (bpZiel.struktur && props.struktur && props.struktur.unterkategorie === 'nuss') {
     anpassungen.push('Nüsse als alleinige Struktur: Kuchen wird sehr feucht und bindet schwach.');
   }
   if (props.fett?.aggregat === 'fluessig' && bpZiel.fett?.quelle === 'korpus' && st.n > 0 && !st.fettTyp?.fluessig) {
@@ -87,6 +87,8 @@ export function compute(state, data, korpusStats) {
     key: s.key,
     label: konkretisiere(s.op.label, props),
     typ: s.op.typ,
+    verb: s.op.verb,
+    variante: s.op.variante,
     eingefuegt: s.eingefuegt,
     wirkung: s.op.wirkung,
     risiko: s.op.risiko ?? null,

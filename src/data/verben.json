@@ -1,0 +1,11 @@
+{
+  "_schema": {
+    "icon": "Emoji-Icon für Ablaufdiagramm",
+    "label": "Essentielle Handlung, der die konkrete Operation zugeordnet ist"
+  },
+  "schneiden": { "label": "Schneiden/Schälen", "icon": "🔪", "hinweis": "Zerkleinern, Schälen — im Rührteig noch ungenutzt, für künftige Archetypen." },
+  "vorbereiten": { "label": "Vorbereiten", "icon": "🥣", "hinweis": "Zustand einer Zutat ändern, bevor sie verarbeitet wird (schmelzen, einlegen/quellen)." },
+  "mischen": { "label": "Mischen", "icon": "🌀", "hinweis": "Zusammenführen — von sanftem Unterheben bis kräftigem Aufschlagen; die genaue Technik steht in `variante`." },
+  "formen": { "label": "Formen/Füllen", "icon": "🧁", "hinweis": "In Form oder Gefäß bringen." },
+  "garen": { "label": "Garen", "icon": "🔥", "hinweis": "Hitze wirkt final auf die Masse (backen, künftig auch kochen/braten)." }
+}

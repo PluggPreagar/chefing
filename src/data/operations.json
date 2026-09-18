@@ -1,15 +1,19 @@
 {
   "_schema": {
     "typ": "vorbereitung | mischen | garen",
+    "verb": "Essentielles Verb aus verben.json — Icon-Klassifikation fürs Ablaufdiagramm",
+    "variante": "Konkrete Technik innerhalb des Verbs (Klartext)",
     "auf": "Rollen, auf die die Operation wirkt",
-    "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert} — alle müssen erfüllt sein; leer = immer möglich",
-    "vorbereitung_falls_nicht": "Operation, die eine fehlende Voraussetzung herstellen kann (sonst ungültig)",
+    "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert, strenge}. strenge: hart (blockiert, Default) | empfohlen (Warnung, bleibt gültig) | frei (legitime Variante, kein Hinweis)",
+    "vorbereitung_falls_nicht": "Operation, die eine fehlende harte Voraussetzung herstellen kann (sonst ungültig)",
     "wirkung": "physikalisch/chemisch, was passiert",
     "risiko": "typischer Fehler"
   },
   "einlegen": {
     "label": "Einlegen",
     "typ": "vorbereitung",
+    "verb": "vorbereiten",
+    "variante": "Einlegen/Quellen",
     "auf": ["einlage"],
     "voraussetzung": [],
     "wirkung": "Trockene Einlage (z. B. Rosinen) quillt in Flüssigkeit vor und entzieht dem Teig später kein Wasser.",
@@ -18,8 +22,10 @@
   "schmelzen": {
     "label": "Schmelzen",
     "typ": "vorbereitung",
+    "verb": "vorbereiten",
+    "variante": "Schmelzen",
     "auf": ["fett"],
-    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest" }],
+    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart" }],
     "wirkung": "Festes Fett wird flüssig und verhält sich wie Öl. Eingeschlagene Luft ist damit nicht mehr möglich.",
     "risiko": "Zu heiß eingerührt → Ei stockt vorzeitig.",
     "dauer_min": 3
@@ -27,10 +33,12 @@
   "aufschlagen": {
     "label": "Fett + Zucker aufschlagen",
     "typ": "mischen",
+    "verb": "mischen",
+    "variante": "kräftig aufschlagen (cremig)",
     "auf": ["fett", "suesse"],
     "voraussetzung": [
-      { "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest" },
-      { "rolle": "fett", "eigenschaft": "cremig_schlagbar", "wert": true }
+      { "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart" },
+      { "rolle": "fett", "eigenschaft": "cremig_schlagbar", "wert": true, "strenge": "hart" }
     ],
     "wirkung": "Zuckerkristalle reißen Luftbläschen in das plastische Fett. Diese Luft ist der erste Trieb und macht die Krume fein und gleichmäßig. Masse wird hell und voluminös.",
     "risiko": "Fett zu kalt (bröselig) oder zu warm (ölig) → keine Luft. Ideal 18–22 °C, 3–5 Minuten.",
@@ -39,6 +47,8 @@
   "eier_einzeln": {
     "label": "Eier einzeln einrühren",
     "typ": "mischen",
+    "verb": "mischen",
+    "variante": "einzeln einrühren",
     "auf": ["bindung"],
     "voraussetzung": [],
     "wirkung": "Ei-Lecithin emulgiert Wasser (Ei) in Fett. Einzeln zugeben hält die Emulsion stabil.",
@@ -48,8 +58,10 @@
   "verquirlen": {
     "label": "Flüssiges verquirlen",
     "typ": "mischen",
+    "verb": "mischen",
+    "variante": "verquirlen (Emulsion)",
     "auf": ["fett", "bindung", "fluessigkeit"],
-    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fluessig" }],
+    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fluessig", "strenge": "hart" }],
     "vorbereitung_falls_nicht": "schmelzen",
     "wirkung": "Alle nassen Zutaten werden zu einer homogenen Emulsion — ohne nennenswerten Lufteintrag. Trieb muss komplett aus Backpulver/Ei kommen.",
     "dauer_min": 1
@@ -57,6 +69,8 @@
   "eier_zucker_schaumig": {
     "label": "Eier + Zucker schaumig schlagen",
     "typ": "mischen",
+    "verb": "mischen",
+    "variante": "schaumig schlagen",
     "auf": ["bindung", "suesse"],
     "voraussetzung": [],
     "wirkung": "Eiprotein hält Luft, Zucker stabilisiert den Schaum. Ersetzt teilweise die Luft, die bei Öl-Teigen nicht ins Fett geschlagen werden kann.",
@@ -65,6 +79,8 @@
   "trocken_mischen": {
     "label": "Trockenes mischen",
     "typ": "mischen",
+    "verb": "mischen",
+    "variante": "trocken vermengen",
     "auf": ["struktur", "trieb"],
     "voraussetzung": [],
     "wirkung": "Backpulver, Salz, Kakao werden gleichmäßig im Mehl verteilt → kein Triebmittel-Nest, keine Klümpchen.",
@@ -73,6 +89,8 @@
   "unterheben_abwechselnd": {
     "label": "Trockenes abwechselnd mit Flüssigkeit unterrühren",
     "typ": "mischen",
+    "verb": "mischen",
+    "variante": "abwechselnd unterheben",
     "auf": ["struktur", "fluessigkeit"],
     "voraussetzung": [],
     "wirkung": "Mehl nimmt Flüssigkeit kontrolliert auf; die Emulsion aus dem Aufschlagen bleibt erhalten. Nur so lange rühren, bis kein Mehl mehr sichtbar ist.",
@@ -82,6 +100,8 @@
   "unterheben_kurz": {
     "label": "Nass zu Trocken, kurz unterheben",
     "typ": "mischen",
+    "verb": "mischen",
+    "variante": "kurz unterheben",
     "auf": ["struktur"],
     "voraussetzung": [],
     "wirkung": "Minimale Glutenentwicklung → grobporige, lockere Krume. Klümpchen sind erwünscht.",
@@ -91,8 +111,10 @@
   "alles_verruehren": {
     "label": "Alles zusammen verrühren",
     "typ": "mischen",
+    "verb": "mischen",
+    "variante": "alles verrühren",
     "auf": ["fett", "suesse", "bindung", "struktur", "fluessigkeit", "trieb"],
-    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest" }],
+    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "empfohlen" }],
     "wirkung": "Schnellste Methode. Kaum Lufteintrag → Trieb fast nur aus Backpulver. Krume dichter als bei der Crememethode.",
     "risiko": "Braucht weiches Fett und eher etwas mehr Backpulver.",
     "dauer_min": 2
@@ -100,6 +122,8 @@
   "einlage_unterheben": {
     "label": "Einlage unterheben",
     "typ": "mischen",
+    "verb": "mischen",
+    "variante": "Einlage unterheben",
     "auf": ["einlage"],
     "voraussetzung": [],
     "wirkung": "Stückige Zutaten werden zuletzt und mit wenigen Bewegungen verteilt, damit der Teig nicht überarbeitet wird.",
@@ -108,6 +132,8 @@
   "fuellen": {
     "label": "In Form füllen",
     "typ": "vorbereitung",
+    "verb": "formen",
+    "variante": "in Form füllen",
     "auf": [],
     "voraussetzung": [],
     "wirkung": "Form fetten und mehlen (bzw. Papierförmchen). Füllgrad ~2/3, damit der Teig aufgehen kann.",
@@ -116,6 +142,8 @@
   "backen": {
     "label": "Backen",
     "typ": "garen",
+    "verb": "garen",
+    "variante": "Backen",
     "auf": [],
     "voraussetzung": [],
     "wirkung": "Ab ~60 °C verkleistert Stärke, ab ~65 °C stockt Eiprotein, Backpulver setzt CO₂ frei, ab ~140 °C Maillard-Bräunung. Kleine Gefäße: heißer und kürzer; große: milder und länger, sonst außen dunkel, innen roh.",
