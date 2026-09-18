@@ -1,0 +1,47 @@
+# Chefing — Decision Records
+
+Felder: `type` [tech, biz, client, …] · `title` · `descr` · `pro` · `cons` · `risk`
+
+---
+
+## DR-001 · tech · Generisches, domänenneutrales Schema statt kuchenspezifischem Modell
+- **descr:** Zutat→Eigenschaften, Operation→Voraussetzungen, Methode→Sequenz, Archetyp→Rollen, Gefäß. Rollen und Regeln sind Daten, kein Code. (2026-09-18)
+- **pro:** Neue Domänen („Gemüse braten“) sind nur JSON; Vision „Kochen als Kombinatorik“ wird direkt abgebildet.
+- **cons:** Abstrakter, mehr Indirektion; erste Domäne dauert länger als ein Spezialmodell.
+- **risk:** Schema passt nur für Rührteig und muss beim zweiten Archetyp umgebaut werden. Mitigation: T06 früh angehen.
+
+## DR-002 · tech · Regeln in `operations.json`, nicht im JavaScript
+- **descr:** Jede Operation trägt `voraussetzung` (Rolle, Eigenschaft, Wert) und optional `vorbereitung_falls_nicht`. Die Engine prüft nur generisch.
+- **pro:** Regeln lesbar und erweiterbar ohne Programmierung; Begründungen („warum nicht“) kommen aus derselben Quelle.
+- **cons:** Komplexe Regeln (Mengenabhängigkeiten, Kombinationen mehrerer Rollen) sind im flachen Format schwer auszudrücken.
+- **risk:** Sonderfälle wandern doch in den Code (aktuell: Natron-Säure-Check und `nachVorbereitung` in `rules.js`). Beobachten, ggf. Regelformat erweitern.
+
+## DR-003 · tech · Best-of wird aus einem Rezept-Korpus berechnet, nicht kuratiert
+- **descr:** Normalisierte Quellrezepte in `src/data/corpus/`; Bäckerprozent (Mehl = 100) je Rolle, Median/Q1/Q3 zur Laufzeit; Backtemperatur/-zeit aus Korpus-Median ab n ≥ 3.
+- **pro:** Nachprüfbar, mit Quellenlinks; Lehrbuch vs. Praxis wird sichtbar (z. B. Fett bei Muffins ~55 % statt 100 %).
+- **cons:** Mit 7 Rezepten je Variante statistisch dünn; Normalisierung (Stück, TL, Pck.) ist fehleranfällig.
+- **risk:** Ausreißer verzerren den Median wenig, aber IQR stark. Mitigation: T04.
+
+## DR-004 · tech · UI als morphologischer Kasten + Ablaufdiagramm
+- **descr:** Dimensionen (Rollen, Gefäß, Methode) × Optionen mit Zuständen gewählt/best-of/ungültig; die gewählte Kombination wird als SVG-Ablauf gerendert.
+- **pro:** Zeigt Kombinatorik direkt; ungültige Pfade sind sichtbar und begründet.
+- **cons:** Skaliert schlecht bei vielen Optionen pro Dimension; Diagramm ist nur linear.
+- **risk:** Bei zweitem Archetyp mit Verzweigungen reicht lineares SVG nicht. Dann Graph-Layout nötig.
+
+## DR-005 · tech · Statisch, kein Framework, kein Build-Tool
+- **descr:** HTML/CSS/ES-Module, JSON per `fetch`, `npx serve` zum Testen.
+- **pro:** Null Setup, sofort lauffähig, gut für schnelle Iteration.
+- **cons:** Kein Typing, keine Komponenten-Abstraktion, manuelles DOM-Rendering.
+- **risk:** Bei wachsender UI wird Rendering unübersichtlich. Umstieg später möglich, da Modell-Schicht (`src/model`) framework-frei ist.
+
+## DR-006 · biz · Projektname „Chefing“, Repo github.com/PluggPreagar/chefing
+- **descr:** Name vom Nutzer gesetzt (statt der vorgeschlagenen Alternativen); Remote `origin` eingerichtet.
+- **pro:** Kurz, merkbar, Repo existiert bereits.
+- **cons:** –
+- **risk:** –
+
+## DR-007 · client · Arbeitsweise: Todo-Liste, Decision Records, KISS-Optionen
+- **descr:** Todos in `docs/TODO.md` (id, title, state, descr, dependencies); Entscheidungen hier; Vorschläge immer als Optionen mit Titel, Keywords, Descr, Pro, Cons, Risk+Effort.
+- **pro:** Überblick ohne Textwände; Entscheidungen bleiben nachvollziehbar.
+- **cons:** Etwas Pflegeaufwand pro Schritt.
+- **risk:** Dateien veralten, wenn nicht bei jedem Schritt nachgezogen. Mitigation: Konvention auch als Memory hinterlegt.
