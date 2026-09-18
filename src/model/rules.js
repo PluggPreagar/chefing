@@ -69,8 +69,8 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data) {
     }
   }
 
-  if (props.struktur && props.struktur.kategorie !== 'getreide') {
-    warnungen.push(`${props.struktur.label} hat kein Gluten und trägt allein nicht. In der Praxis ersetzen Nüsse/Stärke höchstens ~25 % des Mehls.`);
+  if (props.struktur && props.struktur.bildet_gluten === false) {
+    warnungen.push(`${props.struktur.label} bindet/verdickt (Stärke), liefert aber kein Eiweißgerüst — allein trägt es den Kuchen nicht („Bindung“ ohne „Körper“). In der Praxis bleibt Stärke/Nussmehl ein Teilersatz neben echtem Mehl (z. B. 350 g Mehl + 50 g Speisestärke im Korpus), nicht der alleinige Struktur-Geber.`);
   }
 
   for (const key of method.sequenz) {

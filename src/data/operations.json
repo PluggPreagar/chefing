@@ -79,7 +79,7 @@
   "trocken_mischen": {
     "label": "Trockenes mischen",
     "typ": "mischen",
-    "verb": "mischen",
+    "verb": "sieben",
     "variante": "trocken vermengen",
     "auf": ["struktur", "trieb"],
     "voraussetzung": [],

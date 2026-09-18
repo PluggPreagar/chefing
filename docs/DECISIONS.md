@@ -69,3 +69,17 @@ Felder: `type` [tech, biz, client, …] · `title` · `descr` · `pro` · `cons`
 - `mischen` ist jetzt ein doppelter Bogen („S“-Twist) statt Kreisbogen mit Pfeilspitze.
 - `fleisch` ist jetzt ein Steak (runde Fläche mit drei ausgesparten Grillstreifen, per `fill-rule: evenodd` — funktioniert unabhängig vom Button-Hintergrund) statt Keule.
 - Neues, sechstes Verb `schlagen` (Schneebesen-Icon: Griff + Drahtkorb) für die kräftige Schlagbewegung — bekommen `aufschlagen`, `verquirlen`, `eier_zucker_schaumig`. Das bisherige `mischen` bleibt für sanftes Unterheben/Verrühren (`eier_einzeln`, `trocken_mischen`, `unterheben_*`, `alles_verruehren`, `einlage_unterheben`). Diese Trennung spiegelt einen echten Technik-Unterschied (Schneebesen/Rührer vs. Falten) und war im ursprünglichen Nutzer-Beispiel „mix(…), whisking“ bereits angelegt.
+
+**Nachtrag 2 (2026-09-18, „check for better trockenes mischen icon“):** Siebtes Verb `sieben` (Sieb-Ring mit Gitter + durchfallendem Pulver) speziell für `trocken_mischen` — klarer als das generische `mischen`-S für „Pulver gleichmäßig vermengen“.
+
+## DR-010 · tech · Regression aus DR-008 behoben: Gluten-Warnung geprüfte falsches Feld
+- **descr:** (2026-09-18) `rules.js` prüfte weiterhin `props.struktur.kategorie !== 'getreide'` — nach DR-008 tragen aber alle Struktur-Optionen (Weizenmehl, Speisestärke, Nussmehle) `kategorie: "mehl"`, wodurch die Bedingung immer wahr war und die Warnung selbst bei reinem Weizenmehl feuerte. Fix: neues explizites Feld `bildet_gluten` (bool) je Zutat statt der Kategorie-Zeichenkette; `rules.js` prüft jetzt `bildet_gluten === false`.
+- **pro:** Korrektes Verhalten wiederhergestellt; `bildet_gluten` ist zusätzlich robuster als die zuvor zweckentfremdete Kategorie-Zeichenkette — sagt genau das, was geprüft wird.
+- **cons:** Ein weiteres Zutat-Feld zu pflegen, wenn neue Struktur-Zutaten hinzukommen.
+- **risk:** Gering. Verifiziert im Browser: Weizenmehl → keine Warnung, Speisestärke → Warnung mit korrektem Text.
+
+## DR-011 · tech · Bindung vs. Körper bei Struktur-Zutaten (Nutzer-Frage) — Teilkorrektur, tiefere Modellierung offen
+- **descr:** (2026-09-18) Nutzer-Beobachtung: „Struktur“ bündelt zwei Eigenschaften — Bindung/Verdickung (liefert auch reine Stärke) und Körper/Eiweißgerüst (nur Gluten-Mehl). Sofortmaßnahme: `bildet_gluten`-Feld (DR-010) plus präzisere Warnung, die diese Unterscheidung benennt und mit einem echten Korpus-Beispiel belegt (Gugelhupf: 350 g Mehl + 50 g Speisestärke — Stärke als Teilersatz, nie als alleinige Struktur).
+- **pro:** Behebt die akute Ungenauigkeit ohne das Rollen-Schema anzufassen; die Meldung ist jetzt fachlich korrekt statt pauschal „kein Gluten“.
+- **cons:** Der Rolle „Struktur“ bleibt technisch weiterhin EIN Feld für zwei Eigenschaften — eine reine Stärke-Auswahl wird nicht verhindert, nur (korrekt) kommentiert. Der Name „Bindung“ ist für eine zweite Rolle nicht wiederverwendbar, da er bereits für Ei vergeben ist.
+- **risk:** Die eigentliche Modellfrage bleibt offen: sollte „Struktur“ in zwei Rollen (Körper/Gluten-Gerüst vs. Bindung/Stärke) aufgeteilt werden, und sollte eine Rolle mehrere Zutaten (Mischungen wie Mehl+Stärke) statt nur einer erlauben? Das berührt `archetypes.json`, `engine.js` (Bäckerprozent-Aufteilung) und die Korpus-Normalisierung — als T15 zurückgestellt statt hier überstürzt umgesetzt.

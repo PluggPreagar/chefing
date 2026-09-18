@@ -6,6 +6,7 @@
   "vorbereiten": { "label": "Vorbereiten", "hinweis": "Zustand einer Zutat ändern, bevor sie verarbeitet wird (schmelzen, einlegen/quellen)." },
   "mischen": { "label": "Mischen/Unterheben", "hinweis": "Sanftes Zusammenführen und Falten — von Unterheben bis Verrühren; die genaue Technik steht in `variante`." },
   "schlagen": { "label": "Schlagen/Quirlen", "hinweis": "Kräftige Schneebesen- oder Rührer-Bewegung, die Luft einschlägt oder eine Emulsion aufbaut (aufschlagen, verquirlen, schaumig schlagen)." },
+  "sieben": { "label": "Sieben/trocken mischen", "hinweis": "Pulverförmige Zutaten (Mehl, Trieb, Gewürze) werden gleichmäßig vermengt, damit keine Nester entstehen." },
   "formen": { "label": "Formen/Füllen", "hinweis": "In Form oder Gefäß bringen." },
   "garen": { "label": "Garen", "hinweis": "Hitze wirkt final auf die Masse (backen, künftig auch kochen/braten)." }
 }

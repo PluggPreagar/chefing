@@ -99,6 +99,16 @@ export const ICONS = {
   formen: [
     { tag: 'polygon', attrs: { points: '5,6 19,6 16,21 8,21', fill: F } },
   ],
+  sieben: [
+    // Sieb-Ring mit Gitter + durchfallendes Pulver — eigenes Symbol fürs trockene Mischen/Sieben
+    { tag: 'circle', attrs: { cx: 12, cy: 9, r: 7, fill: 'none', stroke: F, 'stroke-width': 2 } },
+    { tag: 'line', attrs: { x1: 5.2, y1: 9, x2: 18.8, y2: 9, stroke: F, 'stroke-width': 1 } },
+    { tag: 'line', attrs: { x1: 9, y1: 3, x2: 9, y2: 15, stroke: F, 'stroke-width': 1 } },
+    { tag: 'line', attrs: { x1: 15, y1: 3, x2: 15, y2: 15, stroke: F, 'stroke-width': 1 } },
+    { tag: 'circle', attrs: { cx: 9, cy: 19.5, r: 1, fill: F } },
+    { tag: 'circle', attrs: { cx: 12.5, cy: 21.5, r: 1, fill: F } },
+    { tag: 'circle', attrs: { cx: 15.5, cy: 19, r: 1, fill: F } },
+  ],
   garen: [
     { tag: 'path', attrs: {
       d: 'M12 2 C10 5 12 7 11 9 C10 6 7 8 7 12 A5 6 0 0 0 17 12 C17 8 14 6 13 9 C12 7 14 5 12 2 Z',
