@@ -89,6 +89,8 @@ export function compute(state, data, korpusStats) {
     typ: s.op.typ,
     verb: s.op.verb,
     variante: s.op.variante,
+    // Ein Schritt ist Zutat + Behandlung: welche belegten Rollen wirkt diese Operation auf?
+    zutatKategorien: [...new Set((s.op.auf || []).map((r) => props[r]?.kategorie).filter(Boolean))],
     eingefuegt: s.eingefuegt,
     wirkung: s.op.wirkung,
     risiko: s.op.risiko ?? null,

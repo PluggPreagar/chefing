@@ -1,7 +1,10 @@
-const NS = 'http://www.w3.org/2000/svg';
-const W = 168, H = 64, GAP = 44, PAD = 16;
+import { iconGroup, iconHtml } from './icons.js';
 
-export function renderFlow(svg, details, computed, verben = {}) {
+const NS = 'http://www.w3.org/2000/svg';
+const W = 168, H = 76, GAP = 44, PAD = 16, ICON = 15, ICON_GAP = 3;
+
+export function renderFlow(svg, details, computed, data = {}) {
+  const namen = { ...(data.kategorien || {}), ...(data.verben || {}) };
   const steps = computed.ablauf;
   const total = PAD * 2 + steps.length * W + (steps.length - 1) * GAP;
   svg.setAttribute('viewBox', `0 0 ${total} ${H + PAD * 2 + 24}`);
@@ -19,13 +22,15 @@ export function renderFlow(svg, details, computed, verben = {}) {
     const y = PAD;
     const g = node('g', { class: `flow-node typ-${s.typ}${s.eingefuegt ? ' is-inserted' : ''}`, 'data-step': i });
     g.append(node('rect', { x, y, width: W, height: H, rx: 10 }));
-    const icon = verben[s.verb]?.icon;
-    if (icon) {
-      const iconEl = node('text', { x: x + W / 2, y: y + 16, class: 'flow-icon', 'text-anchor': 'middle' });
-      iconEl.textContent = icon;
-      g.append(iconEl);
+    // Ein Schritt = Kombination aus Zutat-Icon(s) + Verb-Icon, als Reihe zentriert
+    const iconKeys = [...s.zutatKategorien, s.verb].filter(Boolean);
+    const rowW = iconKeys.length * ICON + Math.max(0, iconKeys.length - 1) * ICON_GAP;
+    let ix = x + W / 2 - rowW / 2;
+    for (const key of iconKeys) {
+      g.append(iconGroup(key, { x: ix, y: y + 8, size: ICON, title: namen[key]?.label }));
+      ix += ICON + ICON_GAP;
     }
-    const label = node('text', { x: x + W / 2, y: y + H / 2 + (icon ? 8 : 0), class: 'flow-label', 'text-anchor': 'middle', 'dominant-baseline': 'middle' });
+    const label = node('text', { x: x + W / 2, y: y + H / 2 + 10, class: 'flow-label', 'text-anchor': 'middle', 'dominant-baseline': 'middle' });
     wrap(label, `${s.nr}. ${s.label}`, 24, x + W / 2);
     g.append(label);
     const typ = node('text', { x: x + W / 2, y: y + H + 16, class: 'flow-typ', 'text-anchor': 'middle' });
@@ -46,8 +51,11 @@ export function renderFlow(svg, details, computed, verben = {}) {
     li.className = `step typ-${s.typ}${s.eingefuegt ? ' is-inserted' : ''}`;
     const h = document.createElement('div');
     h.className = 'step-title';
-    const icon = verben[s.verb]?.icon;
-    h.textContent = `${icon ? icon + ' ' : ''}${s.nr}. ${s.label}${s.dauer ? ` · ~${s.dauer} Min.` : ''}${s.eingefuegt ? ' · automatisch eingefügt' : ''}`;
+    const iconKeys = [...s.zutatKategorien, s.verb].filter(Boolean);
+    h.insertAdjacentHTML('beforeend', iconKeys.map((k) => iconHtml(k, 14, namen[k]?.label)).join(''));
+    h.append(document.createTextNode(
+      ` ${s.nr}. ${s.label}${s.dauer ? ` · ~${s.dauer} Min.` : ''}${s.eingefuegt ? ' · automatisch eingefügt' : ''}`,
+    ));
     const w = document.createElement('div');
     w.className = 'step-why';
     w.textContent = s.wirkung;

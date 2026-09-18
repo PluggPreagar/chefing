@@ -49,7 +49,7 @@ function update(patch) {
 function render() {
   const computed = compute(state, data, korpusStats);
   renderMorphbox($('morphbox'), state, data, computed, korpusStats, update);
-  renderFlow($('flow'), $('flow-details'), computed, data.verben);
+  renderFlow($('flow'), $('flow-details'), computed, data);
   renderRecipe($('recipe'), computed);
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }

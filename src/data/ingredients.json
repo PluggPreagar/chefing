@@ -362,7 +362,7 @@
   },
   "schokolade": {
     "label": "Schokolade (Stückchen/Tropfen)",
-    "kategorie": "gemuese",
+    "kategorie": "suesse",
     "unterkategorie": "einlage",
     "aggregat": "stueckig",
     "fettanteil": 0.35,
@@ -373,7 +373,7 @@
   },
   "rosinen": {
     "label": "Rosinen",
-    "kategorie": "gemuese",
+    "kategorie": "obst",
     "unterkategorie": "einlage",
     "aggregat": "stueckig",
     "fettanteil": 0.005,
@@ -385,7 +385,7 @@
   },
   "blaubeeren": {
     "label": "Blaubeeren",
-    "kategorie": "gemuese",
+    "kategorie": "obst",
     "unterkategorie": "einlage",
     "aggregat": "stueckig",
     "fettanteil": 0,

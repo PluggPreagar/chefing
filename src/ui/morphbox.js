@@ -1,5 +1,6 @@
 import { evaluateAll } from '../model/rules.js';
 import { haeufigste } from '../model/corpus.js';
+import { iconHtml } from './icons.js';
 
 const STATUS_ICON = { ok: '✓', prep: '~', invalid: '✗' };
 
@@ -50,10 +51,10 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
       const ev = evaluateAll(hyp, state.gefaess, data);
       const irgendwasGeht = Object.values(ev).some((e) => e.status !== 'invalid');
       const grund = irgendwasGeht ? null : Object.values(ev)[0]?.gruende[0];
-      const icon = data.kategorien?.[ing.kategorie]?.icon;
       return option({
         label: ing.label,
-        icon,
+        iconKey: ing.kategorie,
+        iconTitle: data.kategorien?.[ing.kategorie]?.label,
         sub: (ing.eigenschaften || [])[0] ?? '',
         selected: state.zutaten[rolle.rolle] === key,
         bestof: bestof[rolle.rolle] === key || (bestof[rolle.rolle] === undefined && rolle.default === key),
@@ -87,7 +88,7 @@ function dimension(title, hint, items) {
   return row;
 }
 
-function option({ label, icon, sub, selected, bestof, status, title, onClick }) {
+function option({ label, iconKey, iconTitle, sub, selected, bestof, status, title, onClick }) {
   const b = document.createElement('button');
   b.type = 'button';
   b.className = 'opt';
@@ -96,7 +97,10 @@ function option({ label, icon, sub, selected, bestof, status, title, onClick }) 
   if (status === 'invalid') b.classList.add('is-invalid');
   if (status === 'prep') b.classList.add('is-prep');
   if (title) b.title = title;
-  b.append(el('span', 'opt-label', icon ? `${icon} ${label}` : label));
+  const labelEl = el('span', 'opt-label');
+  if (iconKey) labelEl.insertAdjacentHTML('beforeend', iconHtml(iconKey, 15, iconTitle));
+  labelEl.append(document.createTextNode(label));
+  b.append(labelEl);
   if (sub) b.append(el('span', 'opt-sub', sub));
   if (bestof) b.append(el('span', 'opt-badge', 'Best of'));
   b.addEventListener('click', onClick);

@@ -52,7 +52,9 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .dim-options { display: flex; flex-wrap: wrap; gap: .4rem; }
 .opt { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: .1rem; border: 2px solid var(--line); background: transparent; color: var(--ink); border-radius: 8px; padding: .4rem .6rem; min-width: 110px; cursor: pointer; font: inherit; text-align: left; }
 .opt:hover { border-color: var(--muted); }
-.opt-label { font-weight: 600; font-size: .9rem; }
+.opt-label { display: inline-flex; align-items: center; gap: .3rem; font-weight: 600; font-size: .9rem; }
+.icon { flex: none; vertical-align: middle; }
+.icon-wrap { display: inline-flex; }
 .opt-sub { font-size: .72rem; color: var(--muted); }
 .opt.is-bestof { border-style: dashed; border-color: var(--best); }
 .opt.is-selected { border-style: solid; border-color: var(--sel); background: var(--sel-bg); }
@@ -67,7 +69,6 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .flow-node.typ-vorbereitung rect { stroke: var(--muted); }
 .flow-node.typ-garen rect { fill: var(--warn-bg); stroke: var(--warn); }
 .flow-node.is-inserted rect { stroke: var(--prep); stroke-dasharray: 5 4; }
-.flow-icon { font-size: 16px; }
 .flow-label { font-size: 11px; fill: var(--ink); }
 .flow-typ { font-size: 10px; fill: var(--muted); }
 .flow-edge { stroke: var(--muted); stroke-width: 1.5; }
