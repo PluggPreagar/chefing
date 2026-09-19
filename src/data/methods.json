@@ -1,14 +1,50 @@
 {
   "_schema": {
-    "sequenz": "geordnete Liste von Operations-Schlüsseln aus operations.json; die Engine prüft deren Voraussetzungen gegen die gewählten Zutaten",
-    "optional": "Operationen, die nur ausgeführt werden, wenn die zugehörige Rolle belegt ist (z. B. einlage)",
+    "sequenz": "geordnete Liste; Einträge sind entweder ein String (Operations-Schlüssel aus operations.json, für mehrfach genutzte Operationen) oder ein Objekt (Operation inline definiert, für methodenspezifische Einzelfälle — gleiche Feldstruktur wie ein operations.json-Eintrag, plus `key` als Bezeichner). Die Engine prüft Voraussetzungen in beiden Fällen gleich.",
+    "optional": "Operationen (per Schlüssel), die nur ausgeführt werden, wenn die zugehörige Rolle belegt ist (z. B. einlage)",
     "textur": "typisches Ergebnis",
     "triebquelle": "woher die Lockerung überwiegend kommt"
   },
   "creme": {
     "label": "Crememethode",
     "kurz": "Fett + Zucker aufschlagen → Eier einzeln → Mehl abwechselnd mit Flüssigkeit",
-    "sequenz": ["einlegen", "aufschlagen", "eier_einzeln", "unterheben_abwechselnd", "einlage_unterheben", "fuellen", "backen"],
+    "sequenz": [
+      "einlegen",
+      {
+        "key": "aufschlagen",
+        "label": "Fett + Zucker aufschlagen",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "kraeftig",
+        "variante": "kräftig aufschlagen (cremig)",
+        "auf": ["fett", "suesse"],
+        "voraussetzung": [
+          { "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart" },
+          { "rolle": "fett", "eigenschaft": "cremig_schlagbar", "wert": true, "strenge": "hart" }
+        ],
+        "wirkung": "Zuckerkristalle reißen Luftbläschen in das plastische Fett. Diese Luft ist der erste Trieb und macht die Krume fein und gleichmäßig. Masse wird hell und voluminös.",
+        "risiko": "Fett zu kalt (bröselig) oder zu warm (ölig) → keine Luft. Ideal 18–22 °C, 3–5 Minuten.",
+        "dauer_min": 4
+      },
+      {
+        "key": "eier_einzeln",
+        "label": "Eier einzeln einrühren",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "sanft",
+        "verteilung": "einzeln",
+        "variante": "einzeln einrühren",
+        "auf": ["bindung"],
+        "voraussetzung": [],
+        "wirkung": "Ei-Lecithin emulgiert Wasser (Ei) in Fett. Einzeln zugeben hält die Emulsion stabil.",
+        "risiko": "Alle Eier auf einmal → Emulsion bricht, Masse gerinnt/wird flockig.",
+        "dauer_min": 2
+      },
+      "unterheben_abwechselnd",
+      "einlage_unterheben",
+      "fuellen",
+      "backen"
+    ],
     "optional": ["einlegen", "einlage_unterheben"],
     "textur": "feinporig, gleichmäßig, schnittfest",
     "triebquelle": "eingeschlagene Luft im Fett + Backpulver",
@@ -18,7 +54,37 @@
   "muffin": {
     "label": "Muffin-Methode",
     "kurz": "Trockenes mischen, Nasses verquirlen, beides kurz zusammenführen",
-    "sequenz": ["einlegen", "trocken_mischen", "verquirlen", "unterheben_kurz", "einlage_unterheben", "fuellen", "backen"],
+    "sequenz": [
+      "einlegen",
+      {
+        "key": "trocken_mischen",
+        "label": "Trockenes mischen",
+        "typ": "mischen",
+        "verb": "sieben",
+        "variante": "trocken vermengen",
+        "auf": ["struktur", "trieb"],
+        "voraussetzung": [],
+        "wirkung": "Backpulver, Salz, Kakao werden gleichmäßig im Mehl verteilt → kein Triebmittel-Nest, keine Klümpchen.",
+        "dauer_min": 1
+      },
+      "verquirlen",
+      {
+        "key": "unterheben_kurz",
+        "label": "Nass zu Trocken, kurz unterheben",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "sanft",
+        "variante": "kurz unterheben",
+        "auf": ["struktur"],
+        "voraussetzung": [],
+        "wirkung": "Minimale Glutenentwicklung → grobporige, lockere Krume. Klümpchen sind erwünscht.",
+        "risiko": "Häufigster Muffin-Fehler: zu lange gerührt → kompakt und zäh, spitze Kuppel.",
+        "dauer_min": 0.5
+      },
+      "einlage_unterheben",
+      "fuellen",
+      "backen"
+    ],
     "optional": ["einlegen", "einlage_unterheben"],
     "textur": "grobporig, locker, weniger schnittfest",
     "triebquelle": "Backpulver (chemisch), kaum eingeschlagene Luft",
@@ -28,7 +94,26 @@
   "ruehroel": {
     "label": "Rühr-Öl-Methode",
     "kurz": "Eier + Zucker schaumig → Öl einlaufen lassen → Mehl + Flüssigkeit",
-    "sequenz": ["einlegen", "eier_zucker_schaumig", "verquirlen", "unterheben_abwechselnd", "einlage_unterheben", "fuellen", "backen"],
+    "sequenz": [
+      "einlegen",
+      {
+        "key": "eier_zucker_schaumig",
+        "label": "Eier + Zucker schaumig schlagen",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "kraeftig",
+        "variante": "schaumig schlagen",
+        "auf": ["bindung", "suesse"],
+        "voraussetzung": [],
+        "wirkung": "Eiprotein hält Luft, Zucker stabilisiert den Schaum. Ersetzt teilweise die Luft, die bei Öl-Teigen nicht ins Fett geschlagen werden kann.",
+        "dauer_min": 3
+      },
+      "verquirlen",
+      "unterheben_abwechselnd",
+      "einlage_unterheben",
+      "fuellen",
+      "backen"
+    ],
     "optional": ["einlegen", "einlage_unterheben"],
     "textur": "sehr saftig, etwas dichter, bleibt lange frisch",
     "triebquelle": "Eischaum + Backpulver",
@@ -38,7 +123,25 @@
   "allinone": {
     "label": "All-in-one",
     "kurz": "Alle Zutaten zusammen verrühren",
-    "sequenz": ["einlegen", "alles_verruehren", "einlage_unterheben", "fuellen", "backen"],
+    "sequenz": [
+      "einlegen",
+      {
+        "key": "alles_verruehren",
+        "label": "Alles zusammen verrühren",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "sanft",
+        "variante": "alles verrühren",
+        "auf": ["fett", "suesse", "bindung", "struktur", "fluessigkeit", "trieb"],
+        "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "empfohlen" }],
+        "wirkung": "Schnellste Methode. Kaum Lufteintrag → Trieb fast nur aus Backpulver. Krume dichter als bei der Crememethode.",
+        "risiko": "Braucht weiches Fett und eher etwas mehr Backpulver.",
+        "dauer_min": 2
+      },
+      "einlage_unterheben",
+      "fuellen",
+      "backen"
+    ],
     "optional": ["einlegen", "einlage_unterheben"],
     "textur": "dichter, gleichmäßig, robust",
     "triebquelle": "fast nur Backpulver",

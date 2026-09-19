@@ -114,8 +114,10 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data) {
     warnungen.push(`Gemischtes Fett (${props.fett.kurzlabel}): der flüssige Anteil schlägt beim Aufschlagen weniger Luft ein als reines festes Fett — Ergebnis liegt zwischen Creme- und Rühr-Öl-Methode.`);
   }
 
-  for (const key of method.sequenz) {
-    const op = data.operations[key];
+  for (const entry of method.sequenz) {
+    const inline = typeof entry === 'object';
+    const key = inline ? entry.key : entry;
+    const op = inline ? entry : data.operations[key];
     if (!op) continue;
     const optional = (method.optional || []).includes(key);
     if (optional) {

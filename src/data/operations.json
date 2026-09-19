@@ -1,19 +1,22 @@
 {
   "_schema": {
     "typ": "vorbereitung | mischen | garen",
-    "verb": "Essentielles Verb aus verben.json — Icon-Klassifikation fürs Ablaufdiagramm",
+    "verb": "Essentielles Verb aus verben.json — Icon-Basis fürs Ablaufdiagramm. Für verb=mischen bestimmt `intensitaet` das konkrete Icon (vorbereiten/mischen/schlagen).",
+    "intensitaet": "nur bei verb=mischen: passiv (Einlegen/Quellen-Icon) | sanft (Mischen-Icon) | kraeftig (Schlagen-Icon)",
+    "verteilung": "optional: einzeln | abwechselnd — zeigt zusätzlich automatisch das Wiederholen-Icon (portionsweise/mehrfach statt auf einmal)",
     "variante": "Konkrete Technik innerhalb des Verbs (Klartext)",
     "auf": "Rollen, auf die die Operation wirkt",
     "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert, strenge}. strenge: hart (blockiert, Default) | empfohlen (Warnung, bleibt gültig) | frei (legitime Variante, kein Hinweis)",
     "vorbereitung_falls_nicht": "Operation, die eine fehlende harte Voraussetzung herstellen kann (sonst ungültig)",
     "wirkung": "physikalisch/chemisch, was passiert",
     "risiko": "typischer Fehler",
-    "zusatzverben": "optional, Liste weiterer Verb-Schlüssel — werden im Ablaufdiagramm als zusätzliche Icons neben `verb` gezeigt, ohne eigene Voraussetzungsprüfung (reine Anzeige)."
+    "zusatzverben": "optional, Liste weiterer Verb-Schlüssel — werden im Ablaufdiagramm als zusätzliche Icons neben dem Haupt-Icon gezeigt, ohne eigene Voraussetzungsprüfung (reine Anzeige)."
   },
   "einlegen": {
     "label": "Einlegen",
     "typ": "vorbereitung",
-    "verb": "vorbereiten",
+    "verb": "mischen",
+    "intensitaet": "passiv",
     "variante": "Einlegen/Quellen",
     "auf": ["einlage"],
     "voraussetzung": [],
@@ -23,7 +26,7 @@
   "schmelzen": {
     "label": "Schmelzen",
     "typ": "vorbereitung",
-    "verb": "vorbereiten",
+    "verb": "garen",
     "variante": "Schmelzen",
     "auf": ["fett"],
     "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart" }],
@@ -31,35 +34,11 @@
     "risiko": "Zu heiß eingerührt → Ei stockt vorzeitig.",
     "dauer_min": 3
   },
-  "aufschlagen": {
-    "label": "Fett + Zucker aufschlagen",
-    "typ": "mischen",
-    "verb": "schlagen",
-    "variante": "kräftig aufschlagen (cremig)",
-    "auf": ["fett", "suesse"],
-    "voraussetzung": [
-      { "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart" },
-      { "rolle": "fett", "eigenschaft": "cremig_schlagbar", "wert": true, "strenge": "hart" }
-    ],
-    "wirkung": "Zuckerkristalle reißen Luftbläschen in das plastische Fett. Diese Luft ist der erste Trieb und macht die Krume fein und gleichmäßig. Masse wird hell und voluminös.",
-    "risiko": "Fett zu kalt (bröselig) oder zu warm (ölig) → keine Luft. Ideal 18–22 °C, 3–5 Minuten.",
-    "dauer_min": 4
-  },
-  "eier_einzeln": {
-    "label": "Eier einzeln einrühren",
-    "typ": "mischen",
-    "verb": "mischen",
-    "variante": "einzeln einrühren",
-    "auf": ["bindung"],
-    "voraussetzung": [],
-    "wirkung": "Ei-Lecithin emulgiert Wasser (Ei) in Fett. Einzeln zugeben hält die Emulsion stabil.",
-    "risiko": "Alle Eier auf einmal → Emulsion bricht, Masse gerinnt/wird flockig.",
-    "dauer_min": 2
-  },
   "verquirlen": {
     "label": "Flüssiges verquirlen",
     "typ": "mischen",
-    "verb": "schlagen",
+    "verb": "mischen",
+    "intensitaet": "kraeftig",
     "variante": "verquirlen (Emulsion)",
     "auf": ["fett", "bindung", "fluessigkeit"],
     "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fluessig", "strenge": "hart" }],
@@ -67,31 +46,13 @@
     "wirkung": "Alle nassen Zutaten werden zu einer homogenen Emulsion — ohne nennenswerten Lufteintrag. Trieb muss komplett aus Backpulver/Ei kommen.",
     "dauer_min": 1
   },
-  "eier_zucker_schaumig": {
-    "label": "Eier + Zucker schaumig schlagen",
-    "typ": "mischen",
-    "verb": "schlagen",
-    "variante": "schaumig schlagen",
-    "auf": ["bindung", "suesse"],
-    "voraussetzung": [],
-    "wirkung": "Eiprotein hält Luft, Zucker stabilisiert den Schaum. Ersetzt teilweise die Luft, die bei Öl-Teigen nicht ins Fett geschlagen werden kann.",
-    "dauer_min": 3
-  },
-  "trocken_mischen": {
-    "label": "Trockenes mischen",
-    "typ": "mischen",
-    "verb": "sieben",
-    "variante": "trocken vermengen",
-    "auf": ["struktur", "trieb"],
-    "voraussetzung": [],
-    "wirkung": "Backpulver, Salz, Kakao werden gleichmäßig im Mehl verteilt → kein Triebmittel-Nest, keine Klümpchen.",
-    "dauer_min": 1
-  },
   "unterheben_abwechselnd": {
     "label": "Trockenes abwechselnd mit Flüssigkeit unterrühren",
     "typ": "mischen",
     "verb": "mischen",
-    "zusatzverben": ["sieben", "wiederholen"],
+    "intensitaet": "sanft",
+    "verteilung": "abwechselnd",
+    "zusatzverben": ["sieben"],
     "variante": "abwechselnd unterheben",
     "auf": ["struktur", "fluessigkeit"],
     "voraussetzung": [],
@@ -99,32 +60,11 @@
     "risiko": "Zu lange rühren → Gluten entwickelt sich → zäher, fester Kuchen.",
     "dauer_min": 1
   },
-  "unterheben_kurz": {
-    "label": "Nass zu Trocken, kurz unterheben",
-    "typ": "mischen",
-    "verb": "mischen",
-    "variante": "kurz unterheben",
-    "auf": ["struktur"],
-    "voraussetzung": [],
-    "wirkung": "Minimale Glutenentwicklung → grobporige, lockere Krume. Klümpchen sind erwünscht.",
-    "risiko": "Häufigster Muffin-Fehler: zu lange gerührt → kompakt und zäh, spitze Kuppel.",
-    "dauer_min": 0.5
-  },
-  "alles_verruehren": {
-    "label": "Alles zusammen verrühren",
-    "typ": "mischen",
-    "verb": "mischen",
-    "variante": "alles verrühren",
-    "auf": ["fett", "suesse", "bindung", "struktur", "fluessigkeit", "trieb"],
-    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "empfohlen" }],
-    "wirkung": "Schnellste Methode. Kaum Lufteintrag → Trieb fast nur aus Backpulver. Krume dichter als bei der Crememethode.",
-    "risiko": "Braucht weiches Fett und eher etwas mehr Backpulver.",
-    "dauer_min": 2
-  },
   "einlage_unterheben": {
     "label": "Einlage unterheben",
     "typ": "mischen",
     "verb": "mischen",
+    "intensitaet": "sanft",
     "variante": "Einlage unterheben",
     "auf": ["einlage"],
     "voraussetzung": [],
