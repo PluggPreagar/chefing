@@ -8,7 +8,7 @@
   "creme": {
     "label": "Crememethode",
     "kurz": "Fett + Zucker aufschlagen → Eier einzeln → Mehl abwechselnd mit Flüssigkeit",
-    "sequenz": ["einlegen", "aufschlagen", "eier_einzeln", "unterheben_abwechselnd", "wiederholen_abwechselnd", "einlage_unterheben", "fuellen", "backen"],
+    "sequenz": ["einlegen", "aufschlagen", "eier_einzeln", "unterheben_abwechselnd", "einlage_unterheben", "fuellen", "backen"],
     "optional": ["einlegen", "einlage_unterheben"],
     "textur": "feinporig, gleichmäßig, schnittfest",
     "triebquelle": "eingeschlagene Luft im Fett + Backpulver",
@@ -28,7 +28,7 @@
   "ruehroel": {
     "label": "Rühr-Öl-Methode",
     "kurz": "Eier + Zucker schaumig → Öl einlaufen lassen → Mehl + Flüssigkeit",
-    "sequenz": ["einlegen", "eier_zucker_schaumig", "verquirlen", "unterheben_abwechselnd", "wiederholen_abwechselnd", "einlage_unterheben", "fuellen", "backen"],
+    "sequenz": ["einlegen", "eier_zucker_schaumig", "verquirlen", "unterheben_abwechselnd", "einlage_unterheben", "fuellen", "backen"],
     "optional": ["einlegen", "einlage_unterheben"],
     "textur": "sehr saftig, etwas dichter, bleibt lange frisch",
     "triebquelle": "Eischaum + Backpulver",
