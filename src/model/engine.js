@@ -96,6 +96,7 @@ export function compute(state, data, korpusStats) {
     label: konkretisiere(s.op.label, props),
     typ: s.op.typ,
     verb: s.op.verb,
+    zusatzVerben: s.op.zusatzverben || [],
     variante: s.op.variante,
     // Ein Schritt ist Zutat + Behandlung: welche belegten Rollen wirkt diese Operation auf?
     zutatKategorien: [...new Set((s.op.auf || []).map((r) => props[r]?.kategorie).filter(Boolean))],

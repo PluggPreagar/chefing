@@ -7,7 +7,9 @@
     "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert, strenge}. strenge: hart (blockiert, Default) | empfohlen (Warnung, bleibt gültig) | frei (legitime Variante, kein Hinweis)",
     "vorbereitung_falls_nicht": "Operation, die eine fehlende harte Voraussetzung herstellen kann (sonst ungültig)",
     "wirkung": "physikalisch/chemisch, was passiert",
-    "risiko": "typischer Fehler"
+    "risiko": "typischer Fehler",
+    "zusatzverben": "optional, Liste weiterer Verb-Schlüssel — werden im Ablaufdiagramm als zusätzliche Icons neben `verb` gezeigt, ohne eigene Voraussetzungsprüfung (reine Anzeige).",
+    "bezieht_sich_auf": "nur bei Pseudo-Operationen wie `wiederholen`: Operations-Schlüssel, auf den sich der Schritt bezieht (fürs Ablaufdiagramm, keine Engine-Logik)."
   },
   "einlegen": {
     "label": "Einlegen",
@@ -90,11 +92,23 @@
     "label": "Trockenes abwechselnd mit Flüssigkeit unterrühren",
     "typ": "mischen",
     "verb": "mischen",
+    "zusatzverben": ["sieben"],
     "variante": "abwechselnd unterheben",
     "auf": ["struktur", "fluessigkeit"],
     "voraussetzung": [],
     "wirkung": "Mehl nimmt Flüssigkeit kontrolliert auf; die Emulsion aus dem Aufschlagen bleibt erhalten. Nur so lange rühren, bis kein Mehl mehr sichtbar ist.",
     "risiko": "Zu lange rühren → Gluten entwickelt sich → zäher, fester Kuchen.",
+    "dauer_min": 1
+  },
+  "wiederholen_abwechselnd": {
+    "label": "Wiederholen: portionsweise abwechselnd",
+    "typ": "mischen",
+    "verb": "wiederholen",
+    "bezieht_sich_auf": "unterheben_abwechselnd",
+    "variante": "wiederholen bis aufgebraucht",
+    "auf": [],
+    "voraussetzung": [],
+    "wirkung": "In 3–4 Portionen abwechselnd Mehl und Flüssigkeit zugeben und jeweils kurz einarbeiten, bis beides aufgebraucht ist — nicht alles auf einmal.",
     "dauer_min": 1
   },
   "unterheben_kurz": {

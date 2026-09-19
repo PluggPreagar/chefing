@@ -23,7 +23,7 @@ export function renderFlow(svg, details, computed, data = {}) {
     const g = node('g', { class: `flow-node typ-${s.typ}${s.eingefuegt ? ' is-inserted' : ''}`, 'data-step': i });
     g.append(node('rect', { x, y, width: W, height: H, rx: 10 }));
     // Ein Schritt = Kombination aus Zutat-Icon(s) + Verb-Icon, als Reihe zentriert
-    const iconKeys = [...s.zutatKategorien, s.verb].filter(Boolean);
+    const iconKeys = [...s.zutatKategorien, s.verb, ...(s.zusatzVerben || [])].filter(Boolean);
     const rowW = iconKeys.length * ICON + Math.max(0, iconKeys.length - 1) * ICON_GAP;
     let ix = x + W / 2 - rowW / 2;
     for (const key of iconKeys) {
@@ -51,7 +51,7 @@ export function renderFlow(svg, details, computed, data = {}) {
     li.className = `step typ-${s.typ}${s.eingefuegt ? ' is-inserted' : ''}`;
     const h = document.createElement('div');
     h.className = 'step-title';
-    const iconKeys = [...s.zutatKategorien, s.verb].filter(Boolean);
+    const iconKeys = [...s.zutatKategorien, s.verb, ...(s.zusatzVerben || [])].filter(Boolean);
     h.insertAdjacentHTML('beforeend', iconKeys.map((k) => iconHtml(k, 14, namen[k]?.label)).join(''));
     h.append(document.createTextNode(
       ` ${s.nr}. ${s.label}${s.dauer ? ` · ~${s.dauer} Min.` : ''}${s.eingefuegt ? ' · automatisch eingefügt' : ''}`,

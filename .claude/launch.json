@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["--yes", "serve", "-l", "8765", "."],
       "port": 8765
+    },
+    {
+      "name": "scratch",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--yes", "serve", "-l", "8766", "C:/Users/Peter/AppData/Local/Temp/claude/D---project-202609-Chefing/cd666a10-084e-4d8c-b09b-678d3f8f184b/scratchpad"],
+      "port": 8766
     }
   ]
 }

@@ -115,6 +115,14 @@ export const ICONS = {
       fill: F,
     } },
   ],
+  wiederholen: [
+    // Kreisförmiger Pfeil (Loop) — Pseudo-Schritt "wiederholen ab ..."
+    { tag: 'path', attrs: {
+      d: 'M17 8 A7 7 0 1 1 7.5 15.8',
+      fill: 'none', stroke: F, 'stroke-width': 2, 'stroke-linecap': 'round',
+    } },
+    { tag: 'polygon', attrs: { points: '4,14 9,15 6,19', fill: F } },
+  ],
 };
 
 function attrsToStyleSafeEntries(attrs) {
