@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ablaufdiagramm — Optionen A/B/C</title>
+<style>
+  :root {
+    --ink: #2b2620;
+    --muted: #8a7f6e;
+    --panel: #fffdf8;
+    --paper: #f6f1e6;
+    --accent: #b5502f;
+    --warn-bg: #f3e3cf;
+    --warn: #a56a2b;
+    --line: #d9cfba;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 1.25rem 1rem 4rem;
+    background: var(--paper); color: var(--ink);
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+  h1 { font-size: 1.3rem; margin: 0 0 .25rem; }
+  .intro { color: var(--muted); max-width: 60ch; margin-bottom: 2rem; font-size: .92rem; }
+  section.option {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.1rem 1.1rem 1.4rem;
+    margin-bottom: 1.75rem;
+    max-width: 900px;
+  }
+  section.option h2 { margin: 0 0 .15rem; font-size: 1.05rem; }
+  section.option .meta { color: var(--muted); font-size: .85rem; margin-bottom: 1rem; }
+  .icon { width: 1em; height: 1em; display: block; }
+  .step-num { font-size: .7rem; color: var(--muted); }
+
+  /* ---------- Option A: Flexbox-Kette, kein SVG, umbrechend ---------- */
+  .flowA { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem 0; font-family: "Segoe Print", "Comic Sans MS", cursive; }
+  .flowA .node { display: flex; flex-direction: column; align-items: center; gap: .15rem; padding: .2rem .3rem; cursor: pointer; }
+  .flowA .node .icons { display: flex; gap: .25rem; }
+  .flowA .icon { width: 34px; height: 34px; color: var(--ink); }
+  .flowA .node.typ-garen .icon { color: var(--warn); }
+  .flowA .node .step-num { font-size: .85rem; }
+  .flowA .node:hover { background: var(--warn-bg); border-radius: 10px; }
+  .flowA .arrow { color: var(--muted); font-size: 1.4rem; padding: 0 .15rem; align-self: center; }
+
+  /* ---------- Option B: SVG, mehrzeilig, ohne rect ---------- */
+  .flowB-wrap { overflow: visible; }
+  .flowB .node-label { font-size: 11px; fill: var(--muted); }
+  .flowB .flow-edge { stroke: var(--muted); stroke-width: 1.5; }
+  .flowB .flow-arrow { fill: var(--muted); }
+
+  /* ---------- Option C: reine Icon-Kette + Link zu Detailliste ---------- */
+  .flowC { display: flex; flex-wrap: wrap; gap: .5rem .15rem; align-items: center; }
+  .flowC .node { display: flex; flex-direction: column; align-items: center; padding: .3rem; border-radius: 10px; cursor: pointer; }
+  .flowC .icon { width: 42px; height: 42px; }
+  .flowC .node:hover, .flowC .node.active { background: var(--warn-bg); }
+  .flowC .step-num { font-size: .75rem; color: var(--muted); margin-top: .1rem; }
+  .flowC .arrow { color: var(--line); font-size: 1.2rem; }
+  .detailList { list-style: none; margin: .9rem 0 0; padding: 0; border-top: 1px dashed var(--line); }
+  .detailList li { padding: .5rem .2rem; border-bottom: 1px dashed var(--line); font-size: .9rem; transition: background .15s; }
+  .detailList li.active { background: var(--warn-bg); border-radius: 8px; }
+  .detailList .t { font-weight: 600; }
+  .detailList .w { color: var(--muted); font-size: .85rem; }
+
+  .note { font-size: .8rem; color: var(--muted); margin-top: .6rem; }
+
+  /* ---------- Option D: Kessel, Zutaten von oben, Operation statt Pfeil ---------- */
+  .flowD .band-line { stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 3; opacity: .6; }
+  .flowD .in-icon { color: var(--muted); }
+  .flowD .op-icon { color: var(--accent); }
+  .flowD .step-num-d { font-size: 11px; fill: var(--muted); }
+  .flowD .label-d { font-size: 12.5px; fill: var(--ink); font-weight: 600; }
+  .flowD .detail-d { font-size: 11px; fill: var(--muted); }
+  .flowD .group-bracket { stroke: var(--accent); stroke-width: 1.4; fill: none; opacity: .6; }
+</style>
+</head>
+<body>
+
+<h1>Ablaufdiagramm — drei Layout-Optionen</h1>
+<p class="intro">Dummy-Vergleich mit denselben acht Beispielschritten (Gugelhupf). Fenster schmaler ziehen, um den Umbruch zu testen. Bei Option C: Icon anklicken → Detailzeile unten wird markiert.</p>
+
+<section class="option">
+  <h2>Option A — Flexbox-Icon-Kette, Skizzenbuch-Schrift</h2>
+  <div class="meta">Kein SVG, kein Rahmen, umbricht automatisch, Text in Skizzenbuch-Font.</div>
+  <div class="flowA" id="flowA"></div>
+</section>
+
+<section class="option">
+  <h2>Option B — SVG, mehrzeilig, ohne Box</h2>
+  <div class="meta">SVG-Rendering bleibt, aber ohne rect, mit Zeilenumbruch bei Bedarf.</div>
+  <div class="flowB-wrap"><svg id="flowB" class="flowB"></svg></div>
+</section>
+
+<section class="option">
+  <h2>Option C — Reine Icon-Kette + Klick auf Detailzeile</h2>
+  <div class="meta">Nur Icons + Nummer, kein Text im Diagramm. Klick scrollt/markiert die Detailliste.</div>
+  <div class="flowC" id="flowC"></div>
+  <ol class="detailList" id="detailC"></ol>
+</section>
+
+<section class="option">
+  <h2>Option D1 — ein Schritt, zwei Operation-Icons</h2>
+  <div class="meta">„Mehl sieben“ + „Mehl unterheben“ bleiben ein Schritt, aber beide Operation-Icons (Sieb-Ring + S-Twist) werden nebeneinander gezeigt statt nur eins zu verlieren.</div>
+  <svg id="flowD1" class="flowD"></svg>
+</section>
+
+<section class="option">
+  <h2>Option D2 — zwei Schritte, mit Klammer als Wiederholungs-Hinweis</h2>
+  <div class="meta">Sieben und Unterheben bleiben zwei eigene Zeilen/Schritte (eigene Nummer, eigenes Icon), aber eine Klammer links markiert, dass sie zusammengehören/in einem Zug passieren.</div>
+  <svg id="flowD2" class="flowD"></svg>
+</section>
+
+<script>
+// ---- minimaler Icon-Satz (Auszug aus src/ui/icons.js) ----
+const F = 'currentColor';
+const ICONS = {
+  suesse: [
+    { tag:'rect', attrs:{ x:4.5,y:6,width:4,height:4,rx:.6,fill:F } },
+    { tag:'rect', attrs:{ x:13,y:4.5,width:4,height:4,rx:.6,fill:F } },
+    { tag:'rect', attrs:{ x:15,y:13,width:4,height:4,rx:.6,fill:F } },
+    { tag:'rect', attrs:{ x:7,y:15,width:4,height:4,rx:.6,fill:F } },
+  ],
+  mehl: [
+    { tag:'rect', attrs:{ x:11.3,y:4,width:1.4,height:17,rx:.7,fill:F } },
+    { tag:'ellipse', attrs:{ cx:9.3,cy:8,rx:2,ry:1.1,fill:F,transform:'rotate(-35 9.3 8)' } },
+    { tag:'ellipse', attrs:{ cx:14.7,cy:8,rx:2,ry:1.1,fill:F,transform:'rotate(35 14.7 8)' } },
+    { tag:'ellipse', attrs:{ cx:9.3,cy:11.5,rx:2,ry:1.1,fill:F,transform:'rotate(-35 9.3 11.5)' } },
+    { tag:'ellipse', attrs:{ cx:14.7,cy:11.5,rx:2,ry:1.1,fill:F,transform:'rotate(35 14.7 11.5)' } },
+  ],
+  fett: [ { tag:'rect', attrs:{ x:5,y:8,width:14,height:9,rx:1.5,fill:F } } ],
+  ei: [ { tag:'ellipse', attrs:{ cx:12,cy:13.5,rx:6,ry:7.8,fill:F } } ],
+  fluessigkeit: [ { tag:'path', attrs:{ d:'M12 3 C8.5 9 5.5 13 5.5 16.5 A6.5 6.5 0 0 0 18.5 16.5 C18.5 13 15.5 9 12 3 Z', fill:F } } ],
+  schlagen: [
+    { tag:'rect', attrs:{ x:10.3,y:2,width:3.4,height:5,rx:1.2,fill:F } },
+    { tag:'path', attrs:{ d:'M9.5 6.5 C4.5 9.5 4.5 16.5 12 21', fill:'none',stroke:F,'stroke-width':1.7,'stroke-linecap':'round' } },
+    { tag:'path', attrs:{ d:'M14.5 6.5 C19.5 9.5 19.5 16.5 12 21', fill:'none',stroke:F,'stroke-width':1.7,'stroke-linecap':'round' } },
+    { tag:'path', attrs:{ d:'M12 6.5 V21', fill:'none',stroke:F,'stroke-width':1.7,'stroke-linecap':'round' } },
+  ],
+  mischen: [ { tag:'path', attrs:{ d:'M16 6 C11 6 9 8 9 10.5 C9 13 17 12.5 17 15.5 C17 18 15 19 8 19', fill:'none',stroke:F,'stroke-width':2.4,'stroke-linecap':'round' } } ],
+  sieben: [
+    { tag:'circle', attrs:{ cx:12,cy:9,r:7,fill:'none',stroke:F,'stroke-width':2 } },
+    { tag:'line', attrs:{ x1:5.2,y1:9,x2:18.8,y2:9,stroke:F,'stroke-width':1 } },
+    { tag:'line', attrs:{ x1:9,y1:3,x2:9,y2:15,stroke:F,'stroke-width':1 } },
+    { tag:'line', attrs:{ x1:15,y1:3,x2:15,y2:15,stroke:F,'stroke-width':1 } },
+  ],
+  formen: [ { tag:'polygon', attrs:{ points:'5,6 19,6 16,21 8,21', fill:F } } ],
+  garen: [ { tag:'path', attrs:{ d:'M12 2 C10 5 12 7 11 9 C10 6 7 8 7 12 A5 6 0 0 0 17 12 C17 8 14 6 13 9 C12 7 14 5 12 2 Z', fill:F } } ],
+};
+
+function iconSvg(key, size) {
+  const shapes = ICONS[key];
+  if (!shapes) return '';
+  const inner = shapes.map(({tag, attrs}) =>
+    `<${tag} ${Object.entries(attrs).map(([k,v]) => `${k}="${v}"`).join(' ')}></${tag}>`
+  ).join('');
+  return `<svg class="icon" viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true">${inner}</svg>`;
+}
+
+// ---- Dummy-Ablauf: Gugelhupf ----
+const steps = [
+  { nr:1, icons:['fett'],              verb:null,       label:'Form einfetten',      dauer:2,  wirkung:'Verhindert Ankleben beim Stürzen.', typ:'vorbereitung' },
+  { nr:2, icons:['fett','suesse'],     verb:'schlagen', label:'Fett & Zucker schaumig schlagen', dauer:5, wirkung:'Bindet Luft, Basis für lockere Krume.', typ:'hauptschritt', note:'250 g Butter · 200 g Zucker' },
+  { nr:3, icons:['ei'],                verb:'mischen',  label:'Eier einrühren',       dauer:2,  wirkung:'Emulgiert die Fett-Masse.', typ:'hauptschritt' },
+  { nr:4, icons:['mehl'],              verbs:['sieben','mischen'], label:'Mehl gesiebt unterheben', dauer:2, wirkung:'Sieben + Unterheben in einem Schritt: lockert und vermeidet Klümpchen, ohne separaten Zwischenschritt.', typ:'hauptschritt' },
+  { nr:5, icons:['fluessigkeit'],      verb:'mischen',  label:'Milch einrühren',      dauer:1,  wirkung:'Stellt die Teigkonsistenz ein.', typ:'hauptschritt', note:'Milch, nicht Wasser' },
+  { nr:6, icons:['mehl'],              verb:'formen',   label:'In Form füllen',       dauer:1,  wirkung:'Gleichmäßig verteilen für gleichmäßiges Garen.', typ:'hauptschritt' },
+  { nr:7, icons:[],                    verb:'garen',    label:'Backen',               dauer:50, wirkung:'Stärke geliert, Krume stabilisiert sich.', typ:'garen', note:'175°C Ober-/Unterhitze · 50 Min.' },
+];
+
+// Variante D2: sieben + unterheben wieder als zwei eigene Schritte, aber als Gruppe markiert
+const stepsD2 = [
+  { ...steps[0], nr:1 }, { ...steps[1], nr:2 }, { ...steps[2], nr:3 },
+  { nr:4, icons:['mehl'], verb:'sieben',  label:'Mehl sieben',      dauer:1, wirkung:'Entfernt Klumpen, lockert das Mehl.', typ:'hauptschritt', group:'mehl' },
+  { nr:5, icons:['mehl'], verb:'mischen', label:'Mehl unterheben',  dauer:2, wirkung:'Zu langes Rühren entwickelt Gluten → zäh.', typ:'hauptschritt', group:'mehl' },
+  { ...steps[4], nr:6 }, { ...steps[5], nr:7 }, { ...steps[6], nr:8 },
+];
+
+// ---------------- Option A ----------------
+const flowA = document.getElementById('flowA');
+steps.forEach((s, i) => {
+  const node = document.createElement('div');
+  node.className = `node typ-${s.typ}`;
+  const iconsRow = document.createElement('div');
+  iconsRow.className = 'icons';
+  [...s.icons, s.verb].filter(Boolean).forEach(k => iconsRow.insertAdjacentHTML('beforeend', iconSvg(k, 34)));
+  node.append(iconsRow);
+  const num = document.createElement('div');
+  num.className = 'step-num';
+  num.textContent = s.nr;
+  node.append(num);
+  flowA.append(node);
+  if (i < steps.length - 1) {
+    const arrow = document.createElement('span');
+    arrow.className = 'arrow';
+    arrow.textContent = '→';
+    flowA.append(arrow);
+  }
+});
+
+// ---------------- Option B ----------------
+const NSsvg = 'http://www.w3.org/2000/svg';
+function el(tag, attrs = {}) {
+  const n = document.createElementNS(NSsvg, tag);
+  for (const [k,v] of Object.entries(attrs)) n.setAttribute(k, v);
+  return n;
+}
+(function renderB() {
+  const svg = document.getElementById('flowB');
+  const perRow = 4, cell = 130, iconSize = 30, rowH = 78, pad = 10;
+  const rows = Math.ceil(steps.length / perRow);
+  svg.setAttribute('width', '100%');
+  svg.setAttribute('viewBox', `0 0 ${perRow * cell} ${rows * rowH + pad}`);
+  const defs = el('defs');
+  const marker = el('marker', { id:'arrowB', viewBox:'0 0 10 10', refX:9, refY:5, markerWidth:6, markerHeight:6, orient:'auto-start-reverse' });
+  marker.append(el('path', { d:'M0 0 L10 5 L0 10 z', class:'flow-arrow' }));
+  defs.append(marker);
+  svg.append(defs);
+  steps.forEach((s, i) => {
+    const row = Math.floor(i / perRow), col = i % perRow;
+    const cx = pad + col * cell + cell / 2;
+    const cy = pad + row * rowH + 30;
+    const keys = [...s.icons, s.verb].filter(Boolean);
+    const rowW = keys.length * iconSize;
+    let ix = cx - rowW / 2;
+    const g = el('g');
+    keys.forEach(k => {
+      const shapes = ICONS[k] || [];
+      const gi = el('g', { transform:`translate(${ix} ${cy - iconSize/2}) scale(${iconSize/24})` });
+      shapes.forEach(({tag, attrs}) => gi.append(el(tag, attrs)));
+      g.append(gi);
+      ix += iconSize;
+    });
+    const label = el('text', { x:cx, y:cy + iconSize/2 + 14, class:'node-label', 'text-anchor':'middle' });
+    label.textContent = s.nr;
+    g.append(label);
+    svg.append(g);
+    const isRowEnd = col === perRow - 1 || i === steps.length - 1;
+    if (!isRowEnd) {
+      svg.append(el('line', { x1:cx + rowW/2 + 6, y1:cy, x2:pad + (col+1)*cell + cell/2 - rowW/2 - 10, y2:cy, class:'flow-edge', 'marker-end':'url(#arrowB)' }));
+    } else if (i < steps.length - 1) {
+      const nx = pad + cell/2;
+      const ny = pad + (row+1) * rowH + 30;
+      svg.append(el('path', { d:`M ${cx} ${cy+16} C ${cx} ${cy+36}, ${nx} ${ny-36}, ${nx} ${ny-16}`, class:'flow-edge', fill:'none', 'marker-end':'url(#arrowB)' }));
+    }
+  });
+})();
+
+// ---------------- Option C ----------------
+const flowC = document.getElementById('flowC');
+const detailC = document.getElementById('detailC');
+steps.forEach((s, i) => {
+  const node = document.createElement('div');
+  node.className = 'node';
+  node.dataset.step = i;
+  [...s.icons, s.verb].filter(Boolean).forEach(k => node.insertAdjacentHTML('beforeend', iconSvg(k, 42)));
+  const num = document.createElement('div');
+  num.className = 'step-num';
+  num.textContent = s.nr;
+  node.append(num);
+  node.addEventListener('click', () => selectStep(i));
+  flowC.append(node);
+  if (i < steps.length - 1) {
+    const arrow = document.createElement('span');
+    arrow.className = 'arrow';
+    arrow.textContent = '→';
+    flowC.append(arrow);
+  }
+
+  const li = document.createElement('li');
+  li.dataset.step = i;
+  li.innerHTML = `<div class="t">${s.nr}. ${s.label}${s.dauer ? ` · ~${s.dauer} Min.` : ''}</div><div class="w">${s.wirkung}</div>`;
+  detailC.append(li);
+});
+function selectStep(i) {
+  flowC.querySelectorAll('.node').forEach(n => n.classList.toggle('active', +n.dataset.step === i));
+  detailC.querySelectorAll('li').forEach(l => l.classList.toggle('active', +l.dataset.step === i));
+  detailC.querySelector(`li[data-step="${i}"]`).scrollIntoView({ block:'nearest', behavior:'smooth' });
+}
+
+// ---------------- Option D1 / D2 (gemeinsame Render-Funktion) ----------------
+function renderD(svgId, stepsArr) {
+  const svg = document.getElementById(svgId);
+  const bandH = 72, padTop = 10, padBottom = 10;
+  const inX = 40, opX = 116, textX = 190;
+  const width = 480;
+  const yTop = padTop, yBottom = padTop + stepsArr.length * bandH;
+  const height = yBottom + padBottom;
+  svg.setAttribute('width', '100%');
+  svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+
+  stepsArr.forEach((s, i) => {
+    const yc = yTop + (i + 0.5) * bandH;
+
+    const keys = s.icons || [];
+    if (keys.length) {
+      let iy = yc - (keys.length > 1 ? 12 : 0);
+      keys.forEach((k) => {
+        const gi = el('g', { class:'in-icon', transform:`translate(${inX - 11} ${iy - 11}) scale(${22/24})` });
+        (ICONS[k] || []).forEach(({tag, attrs}) => gi.append(el(tag, attrs)));
+        svg.append(gi);
+        iy += 24;
+      });
+    }
+
+    // Operation(en) als eigenständige Symbole, kein Behälter drumherum
+    const verbs = s.verbs || (s.verb ? [s.verb] : []);
+    if (verbs.length) {
+      const opSize = 26, opGap = 4;
+      const rowW = verbs.length * opSize + (verbs.length - 1) * opGap;
+      let ox = opX - rowW / 2;
+      verbs.forEach((v) => {
+        const gop = el('g', { class:'op-icon', transform:`translate(${ox} ${yc - opSize/2}) scale(${opSize/24})` });
+        (ICONS[v] || []).forEach(({tag, attrs}) => gop.append(el(tag, attrs)));
+        svg.append(gop);
+        ox += opSize + opGap;
+      });
+    }
+
+    // Gruppen-Klammer: verbindet zwei aufeinanderfolgende Schritte mit gleichem `group`
+    if (s.group && stepsArr[i - 1] && stepsArr[i - 1].group === s.group) {
+      const bx = opX - 34;
+      const y1 = yTop + (i - 1) * bandH + bandH * 0.2;
+      const y2 = yTop + i * bandH + bandH * 0.8;
+      svg.append(el('path', { d:`M ${bx+5} ${y1} H ${bx} V ${y2} H ${bx+5}`, class:'group-bracket' }));
+    }
+
+    // Zeilentrenner (dezent) + Text: Nummer, Label, optionale Details
+    if (i > 0) svg.append(el('line', { x1: 0, y1: yTop + i * bandH, x2: width, y2: yTop + i * bandH, class:'band-line' }));
+    const numT = el('text', { x:textX, y:yc - 8, class:'step-num-d' });
+    numT.textContent = `${s.nr}`;
+    svg.append(numT);
+    const labelT = el('text', { x:textX + 16, y:yc - 8, class:'label-d' });
+    labelT.textContent = s.label;
+    svg.append(labelT);
+    if (s.note) {
+      const noteT = el('text', { x:textX + 16, y:yc + 10, class:'detail-d' });
+      noteT.textContent = s.note;
+      svg.append(noteT);
+    }
+  });
+}
+renderD('flowD1', steps);
+renderD('flowD2', stepsD2);
+</script>
+</body>
+</html>
