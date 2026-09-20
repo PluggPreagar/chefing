@@ -6,7 +6,7 @@
     "verteilung": "optional: einzeln | abwechselnd — zeigt zusätzlich automatisch das Wiederholen-Icon (portionsweise/mehrfach statt auf einmal)",
     "variante": "Konkrete Technik innerhalb des Verbs (Klartext)",
     "auf": "Rollen, auf die die Operation wirkt",
-    "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert, strenge, wenn?, hinweis?}. strenge: hart (blockiert, Default) | empfohlen (Warnung, bleibt gültig) | frei (legitime Variante, kein Hinweis). rolle kann mit '!' beginnen (z. B. '!trieb') — bedeutet 'irgendeine Rolle außer dieser' (existenziell, für Bedingungen zwischen zwei Rollen statt an einer festen Rolle, DR-019/T22). wenn: optionale Guard-Bedingung {rolle, eigenschaft, wert} — die Voraussetzung gilt nur, wenn diese zuerst erfüllt ist (sonst nicht anwendbar, kein Hinweis). hinweis: optionaler fester Erklärtext, ersetzt die generisch aus rolle/eigenschaft/wert gebaute Meldung, wenn die generische Formel zu unspezifisch wäre.",
+    "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert, strenge, wenn?, hinweis?, kaskade_ziel?}. strenge: hart (blockiert, Default) | empfohlen (Warnung, bleibt gültig) | frei (legitime Variante, kein Hinweis). rolle kann mit '!' beginnen (z. B. '!trieb') — bedeutet 'irgendeine Rolle außer dieser' (existenziell, für Bedingungen zwischen zwei Rollen statt an einer festen Rolle, DR-019/T22). wenn: optionale Guard-Bedingung {rolle, eigenschaft, wert} — die Voraussetzung gilt nur, wenn diese zuerst erfüllt ist (sonst nicht anwendbar, kein Hinweis). hinweis: optionaler fester Erklärtext, ersetzt die generisch aus rolle/eigenschaft/wert gebaute Meldung, wenn die generische Formel zu unspezifisch wäre. kaskade_ziel: optional, Rolle, die bei einer harten Kollision automatisch angepasst werden könnte (z. B. bei der Natron-Säure-Regel → fluessigkeit) — die Engine schlägt bei Bedarf den ersten passenden Ersatzkandidaten aus dieser Rolle vor (DR-019/T26), ändert aber nichts automatisch und lässt eine `gesetzt-fix`-Zielrolle unangetastet.",
     "vorbereitung_falls_nicht": "Operation, die eine fehlende harte Voraussetzung herstellen kann (sonst ungültig)",
     "wirkt_auf_eigenschaften": "optional: {rolle: {eigenschaft: wert, ...}, ...} — wird angewendet, wenn diese Operation automatisch als vorbereitung_falls_nicht eingefügt wurde; beschreibt, wie sich die Eigenschaften der Rolle dadurch ändern (z. B. Schmelzen macht festes Fett flüssig).",
     "wirkung": "physikalisch/chemisch, was passiert",
@@ -97,7 +97,8 @@
         "eigenschaft": "saeure",
         "wert": true,
         "strenge": "hart",
-        "hinweis": "eine saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker) — Natron ist nur Base, ohne Säure entsteht kein CO₂ und der Teig schmeckt seifig"
+        "hinweis": "eine saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker) — Natron ist nur Base, ohne Säure entsteht kein CO₂ und der Teig schmeckt seifig",
+        "kaskade_ziel": "fluessigkeit"
       }
     ],
     "wirkung": "Ab ~60 °C verkleistert Stärke, ab ~65 °C stockt Eiprotein, Backpulver setzt CO₂ frei, ab ~140 °C Maillard-Bräunung. Kleine Gefäße: heißer und kürzer; große: milder und länger, sonst außen dunkel, innen roh.",

@@ -117,6 +117,10 @@ export function compute(state, data, korpusStats) {
     status: res.status,
     gruende: res.gruende,
     warnungen: res.warnungen,
+    // Kaskaden-Vorschläge (DR-019/T26): Ersatzkandidaten für Rollen, die eine harte
+    // Kollision auflösen könnten, wenn sie nicht `gesetzt-fix` sind. Reine Daten, noch
+    // keine Übernahme — die UI dazu (Vorschlagen-dann-bestätigen) kommt in T27.
+    kaskaden: res.kaskaden,
     anpassungen,
     evals,
     zutatenListe,

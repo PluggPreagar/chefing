@@ -110,6 +110,17 @@ function brauchtEinlegen(props) {
   return props.einlage?.quellfaehig === true;
 }
 
+// Ersatzkandidat für eine Kaskade (DR-019/T26): erste Option der Zielrolle (in der
+// deklarierten Reihenfolge aus archetypes.json), die die geforderte Eigenschaft erfüllt.
+// Reine Berechnung — keine State-Mutation, das Ergebnis ist nur ein Vorschlag (siehe T27).
+function findKaskadeKandidat(zielRolleKey, eigenschaft, wert, data) {
+  const rolle = data.archetypes.ruehrteig.rollen.find((r) => r.rolle === zielRolleKey);
+  if (!rolle) return null;
+  const key = rolle.optionen.find((k) => data.ingredients[k]?.[eigenschaft] === wert);
+  if (!key) return null;
+  return { rolle: zielRolleKey, rolleLabel: rolle.label, zutat: key, zutatLabel: data.ingredients[key].label };
+}
+
 export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}) {
   const method = data.methods[methodKey];
   const vessel = data.vessels[gefaessKey];
@@ -117,6 +128,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
   const schritte = [];
   const gruende = [];
   const warnungen = [];
+  const kaskaden = [];
   let status = 'ok';
 
   // Natron-Säure-Check ist keine Sonderfall-Prüfung mehr hier, sondern eine reguläre
@@ -150,6 +162,16 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
     } else if (!check.ok) {
       status = 'invalid';
       gruende.push(`„${op.label}“ ist nicht möglich: braucht ${beschreibeBedingungen(check.fehlend, data)}. ${op.wirkung}`);
+      // Kaskaden-Vorschlag (DR-019/T26): nur für hart-Bedingungen mit `kaskade_ziel`, und nur
+      // wenn die Zielrolle nicht selbst `gesetzt-fix` ist (T24-Konfliktregel). Reine Berechnung,
+      // wird in `computed.kaskaden` bereitgestellt — die Übernahme passiert erst in T27.
+      for (const f of check.fehlend) {
+        if (!f.kaskade_ziel || fixiert[f.kaskade_ziel]) continue;
+        const kandidat = findKaskadeKandidat(f.kaskade_ziel, f.eigenschaft, f.wert, data);
+        if (!kandidat) continue;
+        if (kaskaden.some((k) => k.rolle === kandidat.rolle && k.zutat === kandidat.zutat)) continue;
+        kaskaden.push({ ausloeser: op.label, ...kandidat });
+      }
     } else if (check.empfehlungen?.length) {
       warnungen.push(`${op.label}: ${beschreibeBedingungen(check.empfehlungen, data)} empfohlen, aber nicht zwingend — Ergebnis kann etwas abweichen.`);
     }
@@ -160,7 +182,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
     warnungen.push(`${method.label} ist für ${vessel.label} untypisch — ${method.warum}`);
   }
 
-  return { methodKey, status, schritte, gruende, warnungen };
+  return { methodKey, status, schritte, gruende, warnungen, kaskaden };
 }
 
 const AGGREGAT = { fest: 'festes', fluessig: 'flüssiges', pulver: 'pulvriges', stueckig: 'stückiges' };
