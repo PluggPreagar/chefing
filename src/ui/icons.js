@@ -205,7 +205,9 @@ export const ICONS = {
     // Schneebesen mit betontem Kapsel-Griff (vormals Option "schlagen_b", jetzt aktiv) —
     // Griff-Länge 12,6 statt 8 Einheiten, kein Aufhängeloch mehr (Nutzer-Vorgabe „remove
     // holes"). Alte, kleinere Version bleibt als Backup unter `schlagen_a` erhalten.
-    { tag: 'path', attrs: { d: 'M9.7 3.3 A2.3 2.3 0 0 1 12 1 A2.3 2.3 0 0 1 14.3 3.3 V11.3 A2.3 2.3 0 0 1 12 13.6 A2.3 2.3 0 0 1 9.7 11.3 Z', fill: F } },
+    // Griff-Breite auf 3,6 verschmälert (Kapsel-Radius 2,3→1,8), Höhe/Ansatzpunkt (y=1
+    // bis y=13,6, Übergang zum Drahtkorb) unverändert.
+    { tag: 'path', attrs: { d: 'M10.2 2.8 A1.8 1.8 0 0 1 12 1 A1.8 1.8 0 0 1 13.8 2.8 V11.8 A1.8 1.8 0 0 1 12 13.6 A1.8 1.8 0 0 1 10.2 11.8 Z', fill: F } },
     { tag: 'path', attrs: { d: 'M9.5 13.6 C6 15.5 6 19 12 22', fill: 'none', stroke: F, 'stroke-width': 1.7, 'stroke-linecap': 'round' } },
     { tag: 'path', attrs: { d: 'M14.5 13.6 C18 15.5 18 19 12 22', fill: 'none', stroke: F, 'stroke-width': 1.7, 'stroke-linecap': 'round' } },
     { tag: 'path', attrs: { d: 'M12 13.6 V22', fill: 'none', stroke: F, 'stroke-width': 1.7, 'stroke-linecap': 'round' } },
