@@ -57,7 +57,7 @@ function pruefeBedingung(b, props) {
   return { ok: ist === b.wert, ist: ist === undefined ? 'unbekannt' : String(ist) };
 }
 
-export function checkOperation(op, props, operations) {
+export function checkOperation(op, props, operations, fixiert = {}) {
   const fehlend = [];
   const empfehlungen = [];
   for (const b of op.voraussetzung || []) {
@@ -67,7 +67,13 @@ export function checkOperation(op, props, operations) {
     if (r.ok) continue;
     const strenge = b.strenge || 'hart';
     if (strenge === 'frei') continue; // legitime Variante — kein Hinweis
-    const eintrag = { ...b, ist: r.ist, strenge };
+    // Konflikt-Kennzeichnung (DR-019 Punkt 3, T24): eine `gesetzt-fix`-Rolle wird nie
+    // automatisch angepasst (die eigentliche Ersatzsuche kommt erst in T26) — hier wird nur
+    // sichtbar gemacht, WELCHE fixierte Wahl die Kollision verursacht: entweder die Rolle der
+    // Bedingung selbst, oder — bei "wenn"-Bedingungen — die Rolle, deren fixierte Wahl die
+    // Voraussetzung überhaupt erst ausgelöst hat (z. B. Trieb=Natron fix).
+    const fixRolle = !b.rolle?.startsWith('!') && fixiert[b.rolle] ? b.rolle : b.wenn && fixiert[b.wenn.rolle] ? b.wenn.rolle : null;
+    const eintrag = { ...b, ist: r.ist, strenge, fixiert: fixRolle };
     if (strenge === 'empfohlen') empfehlungen.push(eintrag);
     else fehlend.push(eintrag);
   }
@@ -75,7 +81,7 @@ export function checkOperation(op, props, operations) {
 
   const prepKey = op.vorbereitung_falls_nicht;
   if (prepKey && operations[prepKey]) {
-    const prep = checkOperation(operations[prepKey], props, operations);
+    const prep = checkOperation(operations[prepKey], props, operations, fixiert);
     if (prep.ok) return { ok: true, fehlend, empfehlungen, vorbereitung: prepKey };
   }
   return { ok: false, fehlend, empfehlungen, vorbereitung: null };
@@ -104,7 +110,7 @@ function brauchtEinlegen(props) {
   return props.einlage?.quellfaehig === true;
 }
 
-export function resolveMethod(methodKey, zutaten, gefaessKey, data) {
+export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}) {
   const method = data.methods[methodKey];
   const vessel = data.vessels[gefaessKey];
   let props = propsOf(zutaten, data.ingredients);
@@ -135,7 +141,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data) {
       if (!rollenBelegt(op, props)) continue;
       if (key === 'einlegen' && !brauchtEinlegen(props)) continue;
     }
-    const check = checkOperation(op, props, data.operations);
+    const check = checkOperation(op, props, data.operations, fixiert);
     if (check.ok && check.vorbereitung) {
       schritte.push({ key: check.vorbereitung, op: data.operations[check.vorbereitung], eingefuegt: true });
       props = nachVorbereitung(check.vorbereitung, props, data.operations);
@@ -166,23 +172,30 @@ function beschreibeBedingungen(fehlend, data) {
     .map((f) => {
       // "hinweis": optionaler, in der Regel selbst hinterlegter Erklärtext — für Fälle,
       // in denen die generische Formel (Eigenschaft + Rolle) zu unspezifisch wäre.
-      if (f.hinweis) return f.hinweis;
-      const soll =
-        f.eigenschaft === 'cremig_schlagbar' ? 'cremig schlagbares'
-        : f.eigenschaft === 'aggregat' ? AGGREGAT[f.wert] ?? f.wert
-        : f.eigenschaft === 'saeure' ? 'saures'
-        : `${f.eigenschaft} = ${f.wert}`;
-      if (f.rolle?.startsWith('!')) {
-        return `${soll} irgendwo außer bei ${rollenLabel(f.rolle.slice(1))} (ist: ${IST[f.ist] ?? f.ist})`;
+      let text;
+      if (f.hinweis) {
+        text = f.hinweis;
+      } else {
+        const soll =
+          f.eigenschaft === 'cremig_schlagbar' ? 'cremig schlagbares'
+          : f.eigenschaft === 'aggregat' ? AGGREGAT[f.wert] ?? f.wert
+          : f.eigenschaft === 'saeure' ? 'saures'
+          : `${f.eigenschaft} = ${f.wert}`;
+        text = f.rolle?.startsWith('!')
+          ? `${soll} irgendwo außer bei ${rollenLabel(f.rolle.slice(1))} (ist: ${IST[f.ist] ?? f.ist})`
+          : `${soll} ${rollenLabel(f.rolle)} (ist: ${IST[f.ist] ?? f.ist})`;
       }
-      return `${soll} ${rollenLabel(f.rolle)} (ist: ${IST[f.ist] ?? f.ist})`;
+      // Konflikt-Kennzeichnung (DR-019 Punkt 3, T24): macht sichtbar, dass hier keine
+      // automatische Anpassung versucht wurde, weil die verantwortliche Rolle fixiert ist.
+      if (f.fixiert) text += ` — „${rollenLabel(f.fixiert)}“ ist bewusst fixiert 📌 und wird deshalb nicht automatisch geändert`;
+      return text;
     })
     .join(', ');
 }
 
-export function evaluateAll(zutaten, gefaessKey, data) {
+export function evaluateAll(zutaten, gefaessKey, data, fixiert = {}) {
   const arch = data.archetypes.ruehrteig;
-  return Object.fromEntries(arch.methoden.map((m) => [m, resolveMethod(m, zutaten, gefaessKey, data)]));
+  return Object.fromEntries(arch.methoden.map((m) => [m, resolveMethod(m, zutaten, gefaessKey, data, fixiert)]));
 }
 
 export function bestMethod(evals, methodenHaeufigkeit = {}, gefaessKey, data) {

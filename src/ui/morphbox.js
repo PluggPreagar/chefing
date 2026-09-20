@@ -46,6 +46,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
   for (const rolle of arch.rollen) {
     const entries = state.zutaten[rolle.rolle] || [];
     const mehrfach = entries.length > 1;
+    const istFixiert = !!state.fixiert?.[rolle.rolle];
     const opts = [...rolle.optionen];
     const items = opts.map((key) => {
       const ing = data.ingredients[key];
@@ -53,7 +54,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
       const naechste = toggleEntries(entries, key);
       const blockiert = !!eintrag && rolle.pflicht && naechste.length === 0;
       const hyp = { ...state.zutaten, [rolle.rolle]: naechste };
-      const ev = evaluateAll(hyp, state.gefaess, data);
+      const ev = evaluateAll(hyp, state.gefaess, data, state.fixiert);
       const irgendwasGeht = Object.values(ev).some((e) => e.status !== 'invalid');
       const grund = irgendwasGeht ? null : Object.values(ev)[0]?.gruende[0];
       return option({
@@ -80,7 +81,11 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
       }));
     }
     const hinweis = rolle.hinweis ? `${rolle.hinweis} Mehrere Zutaten gleichzeitig anklicken, um sie zu mischen — Anteile danach einstellbar.` : 'Mehrere Zutaten gleichzeitig anklicken, um sie zu mischen — Anteile danach einstellbar.';
-    root.append(dimension(rolle.label, hinweis, items));
+    const pin = {
+      aktiv: istFixiert,
+      onToggle: () => onChange({ fixiert: { ...state.fixiert, [rolle.rolle]: !istFixiert } }),
+    };
+    root.append(dimension(rolle.label, hinweis, items, pin));
   }
 }
 
@@ -102,10 +107,13 @@ function setAnteil(entries, key, anteil) {
   return entries.map((e) => (e.zutat === key ? { ...e, anteil: wert } : e));
 }
 
-function dimension(title, hint, items) {
+function dimension(title, hint, items, pin) {
   const row = el('div', 'dim');
   const head = el('div', 'dim-head');
-  head.append(el('div', 'dim-title', title));
+  const titleRow = el('div', 'dim-title-row');
+  titleRow.append(el('div', 'dim-title', title));
+  if (pin) titleRow.append(pinButton(pin));
+  head.append(titleRow);
   if (hint) head.append(el('div', 'dim-hint', hint));
   row.append(head);
   const opts = el('div', 'dim-options');
@@ -143,6 +151,20 @@ function option({ label, iconKey, iconTitle, sub, selected, bestof, status, titl
     b.append(el('span', 'opt-anteil-label', 'Teile'), input);
   }
   if (onClick) b.addEventListener('click', onClick);
+  return b;
+}
+
+// Pin-Toggle für "gesetzt-fix" (DR-019 Wert-Zustand, T24): eine fixierte Rolle wird von
+// einer künftigen automatischen Kaskade (T26/T27) nie angetastet — reine Nutzer-Markierung,
+// noch ohne automatische Wirkung außer der Konflikt-Kennzeichnung in rules.js.
+function pinButton({ aktiv, onToggle }) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'pin-btn';
+  if (aktiv) b.classList.add('is-active');
+  b.title = aktiv ? 'Fixiert — wird nicht automatisch angepasst. Klicken zum Lösen.' : 'Fixieren — verhindert künftig automatische Anpassung dieser Rolle.';
+  b.textContent = '📌';
+  b.addEventListener('click', onToggle);
   return b;
 }
 

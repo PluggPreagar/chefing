@@ -15,7 +15,7 @@ export function compute(state, data, korpusStats) {
   const variante = varianteFuerGefaess(state.gefaess, arch, data.vessels);
   const st = korpusStats[variante] || { n: 0, bp: {}, methoden: {}, backen: {} };
 
-  const evals = evaluateAll(state.zutaten, state.gefaess, data);
+  const evals = evaluateAll(state.zutaten, state.gefaess, data, state.fixiert);
   const methodKey = state.methode && evals[state.methode] ? state.methode : bestMethod(evals, st.methoden, state.gefaess, data);
   const res = evals[methodKey];
   const method = data.methods[methodKey];
