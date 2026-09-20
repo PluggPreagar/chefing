@@ -377,7 +377,7 @@
   },
   "rosinen": {
     "label": "Rosinen",
-    "kategorie": "obst",
+    "kategorie": "frucht",
     "unterkategorie": "einlage",
     "aggregat": "stueckig",
     "fettanteil": 0.005,
@@ -389,7 +389,7 @@
   },
   "blaubeeren": {
     "label": "Blaubeeren",
-    "kategorie": "obst",
+    "kategorie": "frucht",
     "unterkategorie": "einlage",
     "aggregat": "stueckig",
     "fettanteil": 0,

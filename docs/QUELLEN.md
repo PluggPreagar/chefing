@@ -29,4 +29,17 @@ Format je Zeile: `Datum | Domain | Seiten | Zweck/Artefakt | Notiz`
 chefkoch.de wurde bewusst nicht gecrawlt — blockiert automatisierte Abrufe (siehe
 [[chefing-vision-and-decisions]] in den Projekt-Notizen).
 
+## 2026-09-20 — Rechtliche Recherche T20 (Copyright Korpus-Quellen)
+
+Keine Korpus-Recherche, sondern rechtliche Grundlagenrecherche für DR-015. Gelistet: Seiten,
+die tatsächlich gelesen (WebFetch) wurden, nicht nur als Suchtreffer erschienen sind.
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-09-20 | urheberrecht.de | 1 | Urheberrechtsschutz von Rezepten allgemein | Zutatenlisten nicht geschützt, Anleitungen nur bei Schöpfungshöhe, Fotos immer geschützt |
+| 2026-09-20 | e-recht24.de | 1 | Abmahnrisiko bei Rezept-/Kochbuch-Übernahme | LG Hamburg: nur 2 von 127 kopierten Rezepten schutzfähig; Tipps zur eigenen Formulierung |
+| 2026-09-20 | irights.info | 1 | Urheberrecht bei Kochrezepten, Datenbank-/Sammlungsschutz | Bestätigt Fakten-Freiheit; warnt vor systematischer Entnahme „wesentlicher Teile“ einer Quelle |
+
+**Ergebnis siehe DR-015 in `docs/DECISIONS.md`.**
+
 <!-- Neue Recherchen unten anhängen, nicht bestehende Zeilen überschreiben. -->

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Icon-Vorschau — Kategorien &amp; Verben (solid / holo)</title>
+<style>
+  :root {
+    --ink: #2b2620;
+    --muted: #8a7f6e;
+    --panel: #fffdf8;
+    --paper: #f6f1e6;
+    --line: #d9cfba;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 1.25rem 1rem 4rem;
+    background: var(--paper); color: var(--ink);
+    font-family: -apple-system, Segoe UI, Roboto, sans-serif;
+  }
+  h1 { font-size: 1.3rem; margin: 0 0 .25rem; }
+  h2 { font-size: 1rem; margin: 2rem 0 .75rem; color: var(--muted); }
+  .intro { color: var(--muted); max-width: 60ch; margin-bottom: 1.5rem; font-size: .92rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: .75rem; }
+  #detail.grid, #optionenSchlagen.grid { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    padding: .75rem .5rem; text-align: center;
+  }
+  .card .row { display: flex; justify-content: center; gap: .9rem; margin-bottom: .4rem; }
+  .card .icon { display: block; }
+  .card .icon.holo { color: #b5502f; }
+  .card .label { font-size: .78rem; color: var(--ink); }
+  .card .key { font-size: .68rem; color: var(--muted); font-family: monospace; }
+  .card.changed { border-color: #b5502f; box-shadow: 0 0 0 1px #b5502f inset; }
+  .note { font-size: .78rem; color: var(--muted); margin-top: .35rem; }
+  .server-hint {
+    display: none; background: #f3e3cf; border: 1px solid #a56a2b; color: #a56a2b;
+    padding: .9rem 1rem; border-radius: 10px; margin-bottom: 1.5rem; font-size: .88rem;
+    max-width: 60ch;
+  }
+  .server-hint code { background: #00000012; padding: .1rem .3rem; border-radius: 4px; }
+</style>
+</head>
+<body>
+<h1>Icon-Vorschau — Kategorien &amp; Verben</h1>
+<div class="server-hint" id="serverHint">
+  <strong>Diese Seite lädt über <code>&lt;script type="module"&gt;</code> aus <code>../src/ui/icons.js</code>.</strong>
+  Direktes Öffnen der Datei (<code>file://…</code>) blockiert das per Browser-Sicherheitsregel — kein
+  Fehler in dieser Seite. Bitte stattdessen im Projektordner <code>npx serve</code> starten und
+  <code>http://localhost:&lt;port&gt;/dev/icons-preview.html</code> öffnen.
+</div>
+<p class="intro">
+  T19: links „solid" (aktuelles Vollflächen-Set), rechts „holo" (neue Umriss-Variante,
+  automatisch aus denselben Formen abgeleitet). Rot umrandet: für T19 überarbeitete Icons
+  (salz, suesse, erhitzen, mischen, schneiden, schlagen).
+</p>
+
+<h2>schlagen: aktiv vs. Backup</h2>
+<p class="intro">
+  schlagen = aktive Version (großer Kapsel-Griff, kein Loch). schlagen_a = alte, kleinere
+  Version — bleibt als Rückfalloption im Code, nicht produktiv verdrahtet.
+</p>
+<div class="grid" id="optionenSchlagen"></div>
+
+<h2>Detail: überarbeitete Icons (groß)</h2>
+<div class="grid" id="detail"></div>
+
+<h2>Kategorien</h2>
+<div class="grid" id="kategorien"></div>
+
+<h2>Verben</h2>
+<div class="grid" id="verben"></div>
+
+<script>
+  // Bewusst kein <script type="module"> mit statischem import: das würde unter
+  // file:// (Datei per Doppelklick geöffnet) ohne sichtbaren Fehler leer bleiben.
+  // Dynamisches import() liefert dagegen ein Promise, dessen Ablehnung wir abfangen
+  // und dem Nutzer als Hinweis anzeigen können.
+  import('../src/ui/icons.js')
+    .then(({ ICONS, iconHtml }) => renderPage(ICONS, iconHtml))
+    .catch(() => { document.getElementById('serverHint').style.display = 'block'; });
+
+  function renderPage(ICONS, iconHtml) {
+    const KATEGORIEN = ['salz', 'suesse', 'gemuese', 'frucht', 'mehl', 'fett', 'fluessigkeit', 'pulver', 'kohlenhydrate', 'fleisch', 'ei'];
+    const VERBEN = ['schneiden', 'vorbereiten', 'mischen', 'schlagen', 'formen', 'sieben', 'erhitzen', 'wiederholen'];
+    const CHANGED = new Set(['salz', 'suesse', 'erhitzen', 'mischen', 'schneiden', 'schlagen']);
+
+    function card(key, size = 32) {
+      const el = document.createElement('div');
+      el.className = 'card' + (CHANGED.has(key) ? ' changed' : '');
+      el.innerHTML = `
+        <div class="row">
+          ${iconHtml(key, size, key)}
+          <span class="icon holo">${iconHtml(key, size, key, 'holo')}</span>
+        </div>
+        <div class="label">${key}</div>
+        <div class="key">${CHANGED.has(key) ? 'überarbeitet' : ''}</div>
+      `;
+      return el;
+    }
+
+    const osRoot = document.getElementById('optionenSchlagen');
+    for (const k of ['schlagen', 'schlagen_a']) if (ICONS[k]) osRoot.append(card(k, 96));
+
+    const dRoot = document.getElementById('detail');
+    for (const k of CHANGED) if (ICONS[k]) dRoot.append(card(k, 96));
+
+    const kRoot = document.getElementById('kategorien');
+    for (const k of KATEGORIEN) if (ICONS[k]) kRoot.append(card(k));
+
+    const vRoot = document.getElementById('verben');
+    for (const k of VERBEN) if (ICONS[k]) vRoot.append(card(k));
+  }
+</script>
+</body>
+</html>

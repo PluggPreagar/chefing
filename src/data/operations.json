@@ -1,8 +1,8 @@
 {
   "_schema": {
-    "typ": "vorbereitung | mischen | garen",
-    "verb": "Essentielles Verb aus verben.json — Icon-Basis fürs Ablaufdiagramm. Für verb=mischen bestimmt `intensitaet` das konkrete Icon (vorbereiten/mischen/schlagen).",
-    "intensitaet": "nur bei verb=mischen: passiv (Einlegen/Quellen-Icon) | sanft (Mischen-Icon) | kraeftig (Schlagen-Icon)",
+    "typ": "vorbereitung | mischen | erhitzen",
+    "verb": "Essentielles Verb aus verben.json — Icon-Basis fürs Ablaufdiagramm. Für verb=mischen bestimmt `intensitaet` das konkrete Icon (vorbereiten/mischen/schlagen); für verb=erhitzen ist `intensitaet` bisher nur Dokumentation (ein Icon für alle Stufen, siehe verben.json).",
+    "intensitaet": "bei verb=mischen: passiv (Einlegen/Quellen-Icon) | sanft (Mischen-Icon) | kraeftig (Schlagen-Icon). Bei verb=erhitzen: mittel (Garen/Backen) — sanft/stark vorgesehen, noch ungenutzt.",
     "verteilung": "optional: einzeln | abwechselnd — zeigt zusätzlich automatisch das Wiederholen-Icon (portionsweise/mehrfach statt auf einmal)",
     "variante": "Konkrete Technik innerhalb des Verbs (Klartext)",
     "auf": "Rollen, auf die die Operation wirkt",
@@ -26,7 +26,7 @@
   "schmelzen": {
     "label": "Schmelzen",
     "typ": "vorbereitung",
-    "verb": "garen",
+    "verb": "erhitzen",
     "variante": "Schmelzen",
     "auf": ["fett"],
     "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart" }],
@@ -83,8 +83,9 @@
   },
   "backen": {
     "label": "Backen",
-    "typ": "garen",
-    "verb": "garen",
+    "typ": "erhitzen",
+    "verb": "erhitzen",
+    "intensitaet": "mittel",
     "variante": "Backen",
     "auf": [],
     "voraussetzung": [],

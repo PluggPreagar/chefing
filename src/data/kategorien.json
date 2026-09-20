@@ -6,7 +6,7 @@
   "salz": { "label": "Salz", "hinweis": "Kochsalz; eigene Kategorie, weil geschmacklich nie austauschbar." },
   "suesse": { "label": "Süße", "hinweis": "Zucker in allen Formen, Sirup, Honig, Schokolade." },
   "gemuese": { "label": "Gemüse", "hinweis": "Frisches oder verarbeitetes Gemüse." },
-  "obst": { "label": "Obst", "hinweis": "Frisches oder getrocknetes Obst — inkl. Einlagen wie Rosinen, Beeren." },
+  "frucht": { "label": "Frucht", "hinweis": "Frisches oder getrocknetes Obst/Beeren — inkl. Einlagen wie Rosinen, Blaubeeren." },
   "mehl": { "label": "Mehl/Getreide", "hinweis": "Getreidemehl, Stärke, gemahlene Nüsse als Mehlersatz." },
   "fett": { "label": "Fett", "hinweis": "Butter, Margarine, Öl — alle Aggregatzustände." },
   "fluessigkeit": { "label": "Flüssigkeit", "hinweis": "Milch, Wasser, Buttermilch, Säfte, saure Milchprodukte." },

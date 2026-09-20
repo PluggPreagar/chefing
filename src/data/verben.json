@@ -8,6 +8,6 @@
   "schlagen": { "label": "Schlagen/Quirlen", "hinweis": "Kräftige Schneebesen- oder Rührer-Bewegung, die Luft einschlägt oder eine Emulsion aufbaut (aufschlagen, verquirlen, schaumig schlagen)." },
   "sieben": { "label": "Sieben/trocken mischen", "hinweis": "Pulverförmige Zutaten (Mehl, Trieb, Gewürze) werden gleichmäßig vermengt, damit keine Nester entstehen." },
   "formen": { "label": "Formen/Füllen", "hinweis": "In Form oder Gefäß bringen." },
-  "garen": { "label": "Garen", "hinweis": "Hitze wirkt final auf die Masse (backen, künftig auch kochen/braten)." },
+  "erhitzen": { "label": "Erhitzen", "hinweis": "Allgemeines Hitze-Verb. `intensitaet` unterscheidet die Stärke — aktuell nur `mittel` (Garen/Backen) genutzt; `sanft`/`stark` (z. B. Köcheln/Braten) sind als Werte vorgesehen, sobald es dafür eigene Icons/Operationen gibt." },
   "wiederholen": { "label": "Wiederholen", "hinweis": "Pseudo-Schritt ohne eigene Zutat: markiert, dass eine vorherige Operation portionsweise wiederholt wird, bis eine Zutat aufgebraucht ist." }
 }
