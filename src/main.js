@@ -37,10 +37,12 @@ const state = {
   archetyp: 'ruehrteig',
   gefaess: arch.varianten.kastenkuchen.gefaess,
   methode: null,
-  // fixiert[rolle] = true: Nutzer hat diese Rolle bewusst fixiert (DR-019 Wert-Zustand
-  // "gesetzt-fix", T24) — eine künftige automatische Kaskade (T26/T27) darf sie nicht
-  // anfassen. Fehlt der Eintrag, gilt die Rolle als flexibel (heutiges Verhalten).
-  fixiert: {},
+  // fixiert.rollen[rolle] = true: ganze Rolle bewusst fixiert (DR-019 Wert-Zustand "gesetzt-fix",
+  // T24). fixiert.zutaten[rolle][zutat] = true: nur eine einzelne Zutat innerhalb einer
+  // gemischten Rolle fixiert (T31, z. B. nur die Butter in einem Butter+Öl-Mix). Eine künftige
+  // automatische Kaskade (T26/T27) darf beides nicht anfassen. Fehlt ein Eintrag, gilt die
+  // Rolle/Zutat als flexibel (heutiges Verhalten).
+  fixiert: { rollen: {}, zutaten: {} },
   zutaten: Object.fromEntries(arch.rollen.map((r) => [r.rolle, alsEintraege(r.default)])),
 };
 applyPreset('kastenkuchen');
@@ -56,7 +58,7 @@ function applyPreset(variante) {
   const v = arch.varianten[variante];
   state.gefaess = v.gefaess;
   state.methode = null;
-  state.fixiert = {}; // neue Zutaten-Grundlage — alte Fixierungen würden sonst sofort kollidieren
+  state.fixiert = { rollen: {}, zutaten: {} }; // neue Zutaten-Grundlage — alte Fixierungen würden sonst sofort kollidieren
   for (const r of arch.rollen) {
     const wert = v.bestof[r.rolle] !== undefined ? v.bestof[r.rolle] : r.default;
     state.zutaten[r.rolle] = alsEintraege(wert);

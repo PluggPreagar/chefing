@@ -57,7 +57,43 @@ function pruefeBedingung(b, props) {
   return { ok: ist === b.wert, ist: ist === undefined ? 'unbekannt' : String(ist) };
 }
 
-export function checkOperation(op, props, operations, fixiert = {}) {
+// Ist eine Rolle für automatische Anpassung gesperrt? Entweder ganz fixiert (T24), oder
+// mindestens eine einzelne Zutat darin fixiert (T31) — letzteres reicht schon, weil eine
+// Kaskade (T26) die Rolle immer komplett ersetzt und dabei die fixierte Zutat verlieren würde.
+function rolleIstGesperrt(fixiert, rolle) {
+  if (fixiert?.rollen?.[rolle]) return true;
+  const zutaten = fixiert?.zutaten?.[rolle];
+  return !!zutaten && Object.values(zutaten).some(Boolean);
+}
+
+// Beschreibt, WAS für eine Rolle fixiert ist (für die Konflikt-Kennzeichnung unten): die ganze
+// Rolle (T24) oder einzelne Zutaten darin (T31, z. B. nur die Butter in einem Butter+Öl-Mix).
+// Bei einer Zutat-Fixierung zählt nur eine Zutat, die für DIESE Bedingung tatsächlich
+// verantwortlich ist — sonst würde z. B. das Fixieren von Backpulver fälschlich als Grund für
+// die Natron-Säure-Kollision erscheinen, obwohl Backpulver damit gar nichts zu tun hat.
+function ermittleFixierung(fixiert, b, props, data) {
+  const istGuard = b.rolle?.startsWith('!');
+  const rolle = istGuard ? b.wenn?.rolle : b.rolle;
+  if (!rolle) return null;
+  const rolleLabel = data.archetypes.ruehrteig.rollen.find((r) => r.rolle === rolle)?.label ?? rolle;
+  if (fixiert?.rollen?.[rolle]) return { rolleLabel, zutatLabel: null };
+
+  const gepinnt = fixiert?.zutaten?.[rolle] || {};
+  if (!Object.values(gepinnt).some(Boolean)) return null;
+
+  // Verantwortlich: bei "wenn" die Zutat(en), die die Guard-Bedingung selbst auslösen (z. B.
+  // Natron für trieb_typ=chemisch_basisch); sonst die dominante Zutat, die den geblendeten Wert
+  // bestimmt (blendProps übernimmt aggregat/cremig_schlagbar/… 1:1 von ihr, nicht ODER-verknüpft).
+  const anteile = props[rolle]?.anteile ?? (props[rolle] ? [{ zutat: props[rolle].key }] : []);
+  const verantwortlich = istGuard
+    ? anteile.filter((e) => data.ingredients[e.zutat]?.[b.wenn.eigenschaft] === b.wenn.wert).map((e) => e.zutat)
+    : props[rolle]?.key ? [props[rolle].key] : [];
+  const relevantGepinnt = verantwortlich.filter((z) => gepinnt[z]);
+  if (!relevantGepinnt.length) return null;
+  return { rolleLabel, zutatLabel: relevantGepinnt.map((z) => data.ingredients[z]?.label ?? z).join(' + ') };
+}
+
+export function checkOperation(op, props, operations, fixiert = {}, data = null) {
   const fehlend = [];
   const empfehlungen = [];
   for (const b of op.voraussetzung || []) {
@@ -67,13 +103,13 @@ export function checkOperation(op, props, operations, fixiert = {}) {
     if (r.ok) continue;
     const strenge = b.strenge || 'hart';
     if (strenge === 'frei') continue; // legitime Variante — kein Hinweis
-    // Konflikt-Kennzeichnung (DR-019 Punkt 3, T24): eine `gesetzt-fix`-Rolle wird nie
-    // automatisch angepasst (die eigentliche Ersatzsuche kommt erst in T26) — hier wird nur
-    // sichtbar gemacht, WELCHE fixierte Wahl die Kollision verursacht: entweder die Rolle der
-    // Bedingung selbst, oder — bei "wenn"-Bedingungen — die Rolle, deren fixierte Wahl die
-    // Voraussetzung überhaupt erst ausgelöst hat (z. B. Trieb=Natron fix).
-    const fixRolle = !b.rolle?.startsWith('!') && fixiert[b.rolle] ? b.rolle : b.wenn && fixiert[b.wenn.rolle] ? b.wenn.rolle : null;
-    const eintrag = { ...b, ist: r.ist, strenge, fixiert: fixRolle };
+    // Konflikt-Kennzeichnung (DR-019 Punkt 3/T24, Zutat-Ebene T31): eine gesperrte Rolle (oder
+    // eine verantwortliche Zutat darin) wird nie automatisch angepasst (die eigentliche
+    // Ersatzsuche kommt erst in T26) — hier wird nur sichtbar gemacht, WAS die Kollision
+    // verursacht: die Rolle der Bedingung selbst, oder — bei "wenn"-Bedingungen — die Rolle,
+    // deren fixierte Wahl die Voraussetzung überhaupt erst ausgelöst hat (z. B. Trieb=Natron fix).
+    const fixInfo = data ? ermittleFixierung(fixiert, b, props, data) : null;
+    const eintrag = { ...b, ist: r.ist, strenge, fixiert: fixInfo };
     if (strenge === 'empfohlen') empfehlungen.push(eintrag);
     else fehlend.push(eintrag);
   }
@@ -81,7 +117,7 @@ export function checkOperation(op, props, operations, fixiert = {}) {
 
   const prepKey = op.vorbereitung_falls_nicht;
   if (prepKey && operations[prepKey]) {
-    const prep = checkOperation(operations[prepKey], props, operations, fixiert);
+    const prep = checkOperation(operations[prepKey], props, operations, fixiert, data);
     if (prep.ok) return { ok: true, fehlend, empfehlungen, vorbereitung: prepKey };
   }
   return { ok: false, fehlend, empfehlungen, vorbereitung: null };
@@ -154,7 +190,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
       if (!rollenBelegt(op, props)) continue;
       if (key === 'einlegen' && !brauchtEinlegen(props)) continue;
     }
-    const check = checkOperation(op, props, data.operations, fixiert);
+    const check = checkOperation(op, props, data.operations, fixiert, data);
     if (check.ok && check.vorbereitung) {
       schritte.push({ key: check.vorbereitung, op: data.operations[check.vorbereitung], eingefuegt: true });
       props = nachVorbereitung(check.vorbereitung, props, data.operations);
@@ -167,7 +203,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
       // wenn die Zielrolle nicht selbst `gesetzt-fix` ist (T24-Konfliktregel). Reine Berechnung,
       // wird in `computed.kaskaden` bereitgestellt — die Übernahme passiert erst in T27.
       for (const f of check.fehlend) {
-        if (!f.kaskade_ziel || fixiert[f.kaskade_ziel]) continue;
+        if (!f.kaskade_ziel || rolleIstGesperrt(fixiert, f.kaskade_ziel)) continue;
         const kandidat = findKaskadeKandidat(f.kaskade_ziel, f.eigenschaft, f.wert, data);
         if (!kandidat) continue;
         if (kaskaden.some((k) => k.rolle === kandidat.rolle && k.zutat === kandidat.zutat)) continue;
@@ -215,9 +251,11 @@ function beschreibeBedingungen(fehlend, data) {
           ? `${soll} irgendwo außer bei ${rollenLabel(f.rolle.slice(1))} (ist: ${IST[f.ist] ?? f.ist})`
           : `${soll} ${rollenLabel(f.rolle)} (ist: ${IST[f.ist] ?? f.ist})`;
       }
-      // Konflikt-Kennzeichnung (DR-019 Punkt 3, T24): macht sichtbar, dass hier keine
-      // automatische Anpassung versucht wurde, weil die verantwortliche Rolle fixiert ist.
-      if (f.fixiert) text += ` — „${rollenLabel(f.fixiert)}“ ist bewusst fixiert 📌 und wird deshalb nicht automatisch geändert`;
+      // Konflikt-Kennzeichnung (DR-019 Punkt 3/T24, Zutat-Ebene T31): macht sichtbar, dass hier
+      // keine automatische Anpassung versucht wurde, weil die Rolle (oder eine Zutat darin)
+      // bewusst fixiert ist.
+      if (f.fixiert?.zutatLabel) text += ` — „${f.fixiert.zutatLabel}“ (in „${f.fixiert.rolleLabel}“) ist bewusst fixiert 📌 und wird deshalb nicht automatisch geändert`;
+      else if (f.fixiert) text += ` — „${f.fixiert.rolleLabel}“ ist bewusst fixiert 📌 und wird deshalb nicht automatisch geändert`;
       return text;
     })
     .join(', ');

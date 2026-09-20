@@ -46,7 +46,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
   for (const rolle of arch.rollen) {
     const entries = state.zutaten[rolle.rolle] || [];
     const mehrfach = entries.length > 1;
-    const istFixiert = !!state.fixiert?.[rolle.rolle];
+    const istFixiert = !!state.fixiert?.rollen?.[rolle.rolle];
     const opts = [...rolle.optionen];
     const items = opts.map((key) => {
       const ing = data.ingredients[key];
@@ -62,6 +62,21 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
       const ev = evaluateAll(hyp, state.gefaess, data, state.fixiert);
       const irgendwasGeht = Object.values(ev).some((e) => e.status !== 'invalid');
       const grund = irgendwasGeht ? null : Object.values(ev)[0]?.gruende[0];
+      // Pin je Zutat (T31), Alternative zum Rollen-Pin (T24): nur sinnvoll bei einer bereits
+      // gemischten Rolle (sonst deckt sich das exakt mit dem Rollen-Pin) und nur für eine
+      // tatsächlich gewählte Zutat. Erscheint nur bei Hover, um die Optionsliste nicht zu
+      // überladen (siehe .opt-pin in style.css).
+      const zutatFixiert = !!state.fixiert?.zutaten?.[rolle.rolle]?.[key];
+      const zutatPin = mehrfach && eintrag ? {
+        aktiv: zutatFixiert,
+        titel: zutatFixiert ? 'Zutat fixiert — wird nicht automatisch angepasst. Klicken zum Lösen.' : 'Nur diese Zutat fixieren — verhindert künftig automatische Anpassung nur für sie.',
+        onToggle: () => onChange({
+          fixiert: {
+            ...state.fixiert,
+            zutaten: { ...state.fixiert.zutaten, [rolle.rolle]: { ...state.fixiert.zutaten?.[rolle.rolle], [key]: !zutatFixiert } },
+          },
+        }),
+      } : null;
       return option({
         label: ing.label,
         iconKey: ing.kategorie,
@@ -75,6 +90,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
         onAnteilChange: (val) => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: setAnteil(entries, key, val) } }),
         onClick: () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: naechsteSelect } }),
         onAdd: addWuerdeLeeren ? null : () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: naechsteAdd } }),
+        pin: zutatPin,
       });
     });
     if (!rolle.pflicht) {
@@ -88,7 +104,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
     }
     const pin = {
       aktiv: istFixiert,
-      onToggle: () => onChange({ fixiert: { ...state.fixiert, [rolle.rolle]: !istFixiert } }),
+      onToggle: () => onChange({ fixiert: { ...state.fixiert, rollen: { ...state.fixiert.rollen, [rolle.rolle]: !istFixiert } } }),
     };
     root.append(dimension(rolle.label, rolle.hinweis, items, pin));
   }
@@ -127,7 +143,7 @@ function dimension(title, hint, items, pin) {
   return row;
 }
 
-function option({ label, iconKey, iconTitle, sub, selected, bestof, status, title, anteil, onAnteilChange, onClick, onAdd }) {
+function option({ label, iconKey, iconTitle, sub, selected, bestof, status, title, anteil, onAnteilChange, onClick, onAdd, pin }) {
   const b = document.createElement('button');
   b.type = 'button';
   b.className = 'opt';
@@ -143,6 +159,7 @@ function option({ label, iconKey, iconTitle, sub, selected, bestof, status, titl
   b.append(labelEl);
   if (sub) b.append(el('span', 'opt-sub', sub));
   if (bestof) b.append(el('span', 'opt-badge', 'Best of'));
+  if (pin) b.append(optionPin(pin));
   if (anteil != null) {
     const input = document.createElement('input');
     input.type = 'number';
@@ -224,6 +241,28 @@ function pinButton({ aktiv, onToggle }) {
   b.textContent = '📌';
   b.addEventListener('click', onToggle);
   return b;
+}
+
+// Pin je Zutat (T31) — sitzt innerhalb einer Options-Schaltfläche (`.opt`), die selbst schon ein
+// <button> ist; ein zweites, echtes <button>-Element darin wäre in mehreren Browsern nicht
+// zuverlässig klickbar. Deshalb ein <span> mit role="button" + eigenem Klick-/Tastatur-Handler,
+// der per stopPropagation verhindert, dass der Klick zusätzlich die Options-Auswahl auslöst
+// (gleiches Muster wie schon beim Anteil-Eingabefeld). CSS blendet es außer bei :hover/:focus
+// oder wenn aktiv aus (siehe .opt-pin in style.css), um die Liste nicht zu überladen.
+function optionPin({ aktiv, titel, onToggle }) {
+  const s = document.createElement('span');
+  s.className = 'opt-pin';
+  if (aktiv) s.classList.add('is-active');
+  s.setAttribute('role', 'button');
+  s.setAttribute('tabindex', '0');
+  s.title = titel;
+  s.textContent = '📌';
+  const auslösen = (e) => { e.stopPropagation(); onToggle(); };
+  s.addEventListener('click', auslösen);
+  s.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); auslösen(e); }
+  });
+  return s;
 }
 
 function el(tag, cls, text) {

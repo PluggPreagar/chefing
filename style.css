@@ -78,6 +78,9 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .opt.is-invalid { border-color: var(--bad); background: var(--bad-bg); opacity: .8; }
 .opt.is-prep { border-color: var(--prep); }
 .opt-badge { position: absolute; top: -8px; right: 6px; font-size: .6rem; padding: 0 .35rem; background: var(--best); color: #fff; border-radius: 999px; letter-spacing: .03em; }
+.opt-pin { position: absolute; top: -8px; left: 6px; font-size: .7rem; line-height: 1; padding: 1px 4px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); cursor: pointer; opacity: 0; filter: grayscale(1); transition: opacity .12s; }
+.opt:hover .opt-pin, .opt-pin:focus-visible, .opt-pin.is-active { opacity: 1; }
+.opt-pin.is-active { border-color: var(--fix); background: var(--fix-bg); filter: none; }
 .opt:disabled { opacity: .5; cursor: not-allowed; }
 .opt-anteil-label { font-size: .68rem; color: var(--muted); margin-top: .2rem; }
 .opt-anteil { width: 4.8em; font: inherit; font-size: .8rem; border: 1px solid var(--line); border-radius: 4px; padding: .15rem .4rem; background: var(--panel); color: var(--ink); margin-left: .3rem; }
