@@ -56,6 +56,35 @@
   (salz, suesse, erhitzen, mischen, schneiden, schlagen).
 </p>
 
+<h2>Neu: Dauer (Uhr mit Zeiger)</h2>
+<p class="intro">
+  Ein Icon je fester Dauer-Stufe. Zeiger-Winkel = Minuten/60 · 360°, daher landen
+  15/30/45/60 exakt auf 3/6/9/12 Uhr.
+</p>
+<div class="grid" id="dauer"></div>
+
+<h2>Neu: Balken-Indikator (0 von 5 bis 5 von 5)</h2>
+<p class="intro">
+  Generisches Level-Symbol, noch nicht an ein Datenfeld gebunden. Jeder Balken hat jetzt
+  immer eine Umrandung (gefüllt oder leer).
+</p>
+<div class="grid" id="balken"></div>
+
+<h2>Balken-Indikator, Variante „merged"</h2>
+<p class="intro">
+  Ein durchgehender Außenumriss über alle 5 Balken statt fünf einzeln umrandeter Boxen —
+  keine Innenlinien zwischen den Balken, nur die Kante zwischen gefülltem und leerem Bereich.
+</p>
+<div class="grid" id="balkenMerged"></div>
+
+<h2>Neu: Balken-Indikator, 4er-Variante (0 von 4 bis 4 von 4)</h2>
+<p class="intro">
+  Die 5er-Variante hat eine gerade Anzahl Zustände (0–5) und damit keine exakte visuelle
+  Mitte. Die 4er-Variante (0–4) hat mit Stufe 2 eine echte Mitte.
+</p>
+<div class="grid" id="balken4"></div>
+<div class="grid" id="balken4Merged"></div>
+
 <h2>schlagen: aktiv vs. Backup</h2>
 <p class="intro">
   schlagen = aktive Version (großer Kapsel-Griff, kein Loch). schlagen_a = alte, kleinere
@@ -99,6 +128,21 @@
       `;
       return el;
     }
+
+    const dauerRoot = document.getElementById('dauer');
+    for (const k of [5, 10, 15, 30, 45, 60].map((m) => `dauer_${m}`)) if (ICONS[k]) dauerRoot.append(card(k, 64));
+
+    const balkenRoot = document.getElementById('balken');
+    for (const k of [0, 1, 2, 3, 4, 5].map((n) => `balken_${n}`)) if (ICONS[k]) balkenRoot.append(card(k, 64));
+
+    const balkenMergedRoot = document.getElementById('balkenMerged');
+    for (const k of [0, 1, 2, 3, 4, 5].map((n) => `balken_merged_${n}`)) if (ICONS[k]) balkenMergedRoot.append(card(k, 64));
+
+    const balken4Root = document.getElementById('balken4');
+    for (const k of [0, 1, 2, 3, 4].map((n) => `balken4_${n}`)) if (ICONS[k]) balken4Root.append(card(k, 64));
+
+    const balken4MergedRoot = document.getElementById('balken4Merged');
+    for (const k of [0, 1, 2, 3, 4].map((n) => `balken4_merged_${n}`)) if (ICONS[k]) balken4MergedRoot.append(card(k, 64));
 
     const osRoot = document.getElementById('optionenSchlagen');
     for (const k of ['schlagen', 'schlagen_a']) if (ICONS[k]) osRoot.append(card(k, 96));

@@ -8,7 +8,100 @@ export const VIEWBOX = '0 0 24 24';
 
 const F = 'currentColor';
 
+// --- Dauer-Icons (Uhr mit Zeiger) ----------------------------------------
+// Ein Icon je fester Dauer-Stufe (5/10/15/30/45/60 Min.), Zeiger-Winkel =
+// Minuten/60 · 360° im Uhrzeigersinn ab 12 Uhr — 15/30/45/60 landen dadurch
+// exakt auf 3/6/9/12 Uhr (sofort wiedererkennbar), 5/10 liegen dazwischen.
+const DAUER_MINUTEN = [5, 10, 15, 30, 45, 60];
+function r2(n) { return Math.round(n * 100) / 100; }
+function dauerIcon(minuten) {
+  const winkel = (minuten / 60) * 2 * Math.PI;
+  const x = r2(12 + 7 * Math.sin(winkel));
+  const y = r2(12 - 7 * Math.cos(winkel));
+  return [
+    { tag: 'circle', attrs: { cx: 12, cy: 12, r: 8, fill: 'none', stroke: F, 'stroke-width': 1.6 } },
+    { tag: 'line', attrs: { x1: 12, y1: 12, x2: x, y2: y, stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round' } },
+    // keepFill: Zeiger-Achse bleibt auch in "holo" ein voller Punkt.
+    { tag: 'circle', attrs: { cx: 12, cy: 12, r: 1, fill: F }, keepFill: true },
+  ];
+}
+const ICONS_DAUER = Object.fromEntries(DAUER_MINUTEN.map((m) => [`dauer_${m}`, dauerIcon(m)]));
+
+// --- Balken-Indikator ------------------------------------------------------
+// Ansteigende, lückenlos aneinandergrenzende Balken, von links gefüllt bis zur
+// jeweiligen Stufe — generisches Level-Symbol (z. B. Intensität/Stärke), nicht
+// an ein bestimmtes Datenfeld gebunden. Keine Lücke zwischen den Balken: die
+// gemeinsame Kante zweier benachbarter Balken fällt auf eine Linie statt zwei
+// knapp nebeneinanderliegende Ränder mit einer bedeutungslosen Lücke dazwischen
+// zu zeigen (gilt für beide Varianten unten, „einzeln" wie „merged").
+// Zwei Stufungen: 5 Balken (0–5, gerade Anzahl Zustände → keine exakte
+// visuelle Mitte) und 4 Balken (0–4, Stufe 2 ist die echte Mitte).
+const BALKEN_BOTTOM = 21;
+const BALKEN5_DEFS = [
+  { x: 2, height: 5 },
+  { x: 6, height: 8 },
+  { x: 10, height: 11 },
+  { x: 14, height: 14 },
+  { x: 18, height: 17 },
+];
+const BALKEN5_WIDTH = 4;
+const BALKEN4_DEFS = [
+  { x: 2, height: 5 },
+  { x: 7, height: 9 },
+  { x: 12, height: 13 },
+  { x: 17, height: 17 },
+];
+const BALKEN4_WIDTH = 5;
+
+function balkenIcon(defs, width, stufe) {
+  return defs.map((b, i) => {
+    const y = BALKEN_BOTTOM - b.height;
+    const filled = i < stufe;
+    // Jeder Balken bekommt immer eine Umrandung (Höhe/Breite unverändert) — gefüllte und
+    // leere Balken sahen vorher unterschiedlich "schwer" aus (Vollfläche ohne Rand vs.
+    // dünner Umriss). keepFill bei gefüllten Balken: bleiben auch in "holo" vollflächig
+    // statt nur Umriss, sonst wäre die Stufe dort kaum noch ablesbar.
+    return filled
+      ? { tag: 'rect', attrs: { x: b.x, y, width, height: b.height, fill: F, stroke: F, 'stroke-width': 1 }, keepFill: true }
+      : { tag: 'rect', attrs: { x: b.x, y, width, height: b.height, fill: 'none', stroke: F, 'stroke-width': 1 } };
+  });
+}
+const ICONS_BALKEN = Object.fromEntries([0, 1, 2, 3, 4, 5].map((n) => [`balken_${n}`, balkenIcon(BALKEN5_DEFS, BALKEN5_WIDTH, n)]));
+const ICONS_BALKEN4 = Object.fromEntries([0, 1, 2, 3, 4].map((n) => [`balken4_${n}`, balkenIcon(BALKEN4_DEFS, BALKEN4_WIDTH, n)]));
+
+// Variante "merged": ein durchgehender Außenumriss über alle Balken statt
+// einzeln umrandeter Boxen — keine Innenlinien zwischen den Balken, nur die
+// Kante zwischen gefülltem und leerem Bereich.
+function balkenStaircasePath(defs, width, bis) {
+  let d = `M${defs[0].x} ${BALKEN_BOTTOM}`;
+  for (let i = 0; i < bis; i++) {
+    const b = defs[i];
+    const top = BALKEN_BOTTOM - b.height;
+    d += ` L${b.x} ${top} L${b.x + width} ${top}`;
+  }
+  const lastX = defs[bis - 1].x + width;
+  d += ` L${lastX} ${BALKEN_BOTTOM} Z`;
+  return d;
+}
+function balkenMergedIcon(defs, width, stufe) {
+  const shapes = [];
+  if (stufe > 0) shapes.push({ tag: 'path', attrs: { d: balkenStaircasePath(defs, width, stufe), fill: F }, keepFill: true });
+  shapes.push({ tag: 'path', attrs: { d: balkenStaircasePath(defs, width, defs.length), fill: 'none', stroke: F, 'stroke-width': 1.4, 'stroke-linejoin': 'round' } });
+  return shapes;
+}
+const ICONS_BALKEN_MERGED = Object.fromEntries([0, 1, 2, 3, 4, 5].map((n) => [`balken_merged_${n}`, balkenMergedIcon(BALKEN5_DEFS, BALKEN5_WIDTH, n)]));
+const ICONS_BALKEN4_MERGED = Object.fromEntries([0, 1, 2, 3, 4].map((n) => [`balken4_merged_${n}`, balkenMergedIcon(BALKEN4_DEFS, BALKEN4_WIDTH, n)]));
+
 export const ICONS = {
+  // --- Dauer (5/10/15/30/45/60 Min.) --------------------------------------
+  ...ICONS_DAUER,
+
+  // --- Balken-Indikator (0–5, 0–4) -------------------------------------------
+  ...ICONS_BALKEN,
+  ...ICONS_BALKEN_MERGED,
+  ...ICONS_BALKEN4,
+  ...ICONS_BALKEN4_MERGED,
+
   // --- Kategorien -----------------------------------------------------
   salz: [
     // Drei lose Kristalle (Quadrate, je anders gedreht) statt runder Körner — wirkt
