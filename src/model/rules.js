@@ -223,6 +223,40 @@ function beschreibeBedingungen(fehlend, data) {
     .join(', ');
 }
 
+// Statische Beschreibung einer Voraussetzung, unabhängig von einer konkreten Auswertung — es
+// gibt kein "ist" (keine aktuelle Zutatenauswahl), nur die Anforderung selbst. Für den Regel-
+// Katalog (DR-019/T29), der unabhängig vom aktuell zusammengeklickten Rezept sein muss.
+function beschreibeAnforderung(b, data) {
+  if (b.hinweis) return b.hinweis;
+  const rollenLabel = data.archetypes.ruehrteig.rollen.find((r) => r.rolle === b.rolle)?.label ?? b.rolle;
+  const soll =
+    b.eigenschaft === 'cremig_schlagbar' ? 'cremig schlagbares'
+    : b.eigenschaft === 'aggregat' ? AGGREGAT[b.wert] ?? b.wert
+    : b.eigenschaft === 'saeure' ? 'saures'
+    : `${b.eigenschaft} = ${b.wert}`;
+  return `${soll} ${rollenLabel}`;
+}
+
+// Katalog aller überschreibbaren `hart`-Regeln im Datensatz (DR-019/T29): durchsucht
+// `operations.json` und die methodenspezifisch inline definierten Operationen aus
+// `methods.json`, unabhängig von einer konkreten Zutatenauswahl. Grundlage für die
+// Kandidatenliste und die Error-Request-Auswahl — reine Lesefunktion, ändert nichts.
+export function alleUeberschreibbarenRegeln(data) {
+  const ops = [
+    ...Object.values(data.operations).filter((o) => Array.isArray(o?.voraussetzung)),
+    ...Object.values(data.methods).flatMap((m) => (Array.isArray(m.sequenz) ? m.sequenz : []).filter((e) => typeof e === 'object')),
+  ];
+  const katalog = [];
+  for (const op of ops) {
+    for (const b of op.voraussetzung || []) {
+      if (!b.id || (b.strenge && b.strenge !== 'hart')) continue;
+      if (katalog.some((k) => k.id === b.id)) continue;
+      katalog.push({ id: b.id, ausloeser: op.label, text: beschreibeAnforderung(b, data) });
+    }
+  }
+  return katalog;
+}
+
 export function evaluateAll(zutaten, gefaessKey, data, fixiert = {}) {
   const arch = data.archetypes.ruehrteig;
   return Object.fromEntries(arch.methoden.map((m) => [m, resolveMethod(m, zutaten, gefaessKey, data, fixiert)]));

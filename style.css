@@ -48,6 +48,9 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .rueckfrage-buttons { display: flex; gap: .5rem; flex-wrap: wrap; }
 .rueckfrage-btn { border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 6px; padding: .35rem .8rem; cursor: pointer; font: inherit; font-weight: 600; }
 .rueckfrage-btn:hover { border-color: var(--warn); }
+.request-form { display: flex; flex-direction: column; gap: .5rem; max-width: 48ch; }
+.request-select, .request-textarea { font: inherit; border: 1px solid var(--line); border-radius: 6px; padding: .4rem .5rem; background: var(--panel); color: var(--ink); }
+.request-textarea { min-height: 4.5em; resize: vertical; }
 .legend { margin: 0 0 .75rem; color: var(--muted); font-size: .85rem; display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
 .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; border: 2px solid var(--line); vertical-align: middle; }
 .sw-sel { border-color: var(--sel); background: var(--sel-bg); }

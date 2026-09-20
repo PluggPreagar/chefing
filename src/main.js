@@ -5,6 +5,7 @@ import { renderFlow } from './ui/flow.js';
 import { renderRecipe } from './ui/recipeCard.js';
 import { renderStats } from './ui/stats.js';
 import { renderRueckfragen } from './ui/rueckfragen.js';
+import { renderKandidaten } from './ui/kandidaten.js';
 
 async function loadJson(path) {
   const r = await fetch(path);
@@ -82,5 +83,14 @@ $('toggle-stats').addEventListener('click', () => {
   s.hidden = !s.hidden;
   if (!s.hidden) renderStats(s, korpusStats, data);
 });
+$('toggle-kandidaten').addEventListener('click', () => {
+  const k = $('kandidaten');
+  k.hidden = !k.hidden;
+  if (!k.hidden) refreshKandidaten();
+});
+
+function refreshKandidaten() {
+  renderKandidaten($('kandidaten'), data, refreshKandidaten);
+}
 
 render();
