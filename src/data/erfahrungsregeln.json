@@ -1,0 +1,39 @@
+{
+  "_schema": {
+    "rolle": "Ziel-Rolle in bpZiel (engine.js), deren Bäckerprozent diese Regel anpasst.",
+    "wenn": "Bedingung {rolle, eigenschaft, wert} gegen die geblendeten Zutat-Eigenschaften (props) — gleiches Format/gleiche Prüf-Funktion (pruefeBedingung) wie voraussetzung in operations.json.",
+    "voraussetzung_quelle": "optional: 'korpus' — Regel gilt nur, wenn der Bäckerprozent-Wert dieser Rolle tatsächlich aus dem Korpus stammt (bpZiel[rolle].quelle), nicht aus dem Schätzwert-Fallback.",
+    "wenn_korpus_fehlt": "optional {feld, wert} — Regel gilt nur, wenn der Referenz-Korpus für diese Variante KEIN Beispiel mit korpusStats[feld][wert] enthält (Deckungslücke, z. B. kein Öl-Rezept im Korpus).",
+    "faktor": "Multiplikator auf den Bäckerprozent-Wert der Rolle.",
+    "begruendung": "Nutzer-sichtbarer Text (erscheint in computed.anpassungen). Kann {rolle}-Platzhalter enthalten, die durch das Label der dominanten Zutat dieser Rolle ersetzt werden.",
+    "quelle": "Herkunft der Regel — hier durchweg Fachwissen/Berechnung, nicht aus einer Korpus-Korrelation abgeleitet (DR-019 Punkt 5 beschreibt die künftige automatische Korrelationssuche als eigenen, größeren Schritt, der einen größeren Korpus braucht, T04)."
+  },
+  "regeln": [
+    {
+      "id": "natron_drittel",
+      "rolle": "trieb",
+      "wenn": { "rolle": "trieb", "eigenschaft": "trieb_typ", "wert": "chemisch_basisch" },
+      "faktor": 0.3333333333333333,
+      "begruendung": "Natron ist ~3× so stark wie Backpulver → Menge gedrittelt.",
+      "quelle": "Fachwissen (Chemie): Natron ist reines Natriumhydrogencarbonat, Backpulver enthält zusätzlich Säure + Trennmittel und ist dadurch pro Gramm schwächer. Kein Korpus-Rezept mit Natron vorhanden, daher keine Korrelation möglich."
+    },
+    {
+      "id": "saeure_reduziert_backpulver",
+      "rolle": "trieb",
+      "wenn": { "rolle": "fluessigkeit", "eigenschaft": "saeure", "wert": true },
+      "faktor": 0.85,
+      "begruendung": "{fluessigkeit} ist sauer und liefert zusätzliches CO₂ → Backpulver um 15 % reduziert.",
+      "quelle": "Fachwissen (Chemie): eine saure Flüssigkeit reagiert zusätzlich mit dem im Backpulver enthaltenen Natron. Nur relevant, wenn Natron NICHT bereits die vorige Regel ausgelöst hat (siehe Reihenfolge unten)."
+    },
+    {
+      "id": "oel_korpus_fallback",
+      "rolle": "fett",
+      "wenn": { "rolle": "fett", "eigenschaft": "aggregat", "wert": "fluessig" },
+      "voraussetzung_quelle": "korpus",
+      "wenn_korpus_fehlt": { "feld": "fettTyp", "wert": "fluessig" },
+      "faktor": 0.9,
+      "begruendung": "Im Referenz-Korpus gibt es kein Öl-Rezept — der Fettanteil stammt von Butter-Rezepten. Öl ist 100 % Fett (Butter 82 %) → 10 % weniger nehmen.",
+      "quelle": "Rechnerische Ableitung aus dem Fettgehalt-Unterschied Butter (82 %) vs. Öl (100 %) — keine Korpus-Korrelation, weil kein passendes Rezept vorhanden."
+    }
+  ]
+}

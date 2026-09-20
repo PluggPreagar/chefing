@@ -45,7 +45,8 @@ export function propsOf(zutaten, ingredients) {
 
 // rolle "!x": existenziell über alle Rollen außer x ("irgendwo sonst gilt eigenschaft=wert") —
 // generischer Ausdruck für Kombinations-Regeln zwischen Rollen (DR-002-Risiko, DR-019/T22).
-function pruefeBedingung(b, props) {
+// Exportiert, weil engine.js dieselbe Bedingungsprüfung für die Erfahrungs-Regeln braucht (T23).
+export function pruefeBedingung(b, props) {
   if (b.rolle?.startsWith('!')) {
     const ausser = b.rolle.slice(1);
     const treffer = Object.entries(props).some(([r, p]) => r !== ausser && p?.[b.eigenschaft] === b.wert);

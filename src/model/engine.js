@@ -1,12 +1,36 @@
 import { fromGrams } from './units.js';
 import { ROLLEN } from './corpus.js';
-import { evaluateAll, bestMethod, propsOf } from './rules.js';
+import { evaluateAll, bestMethod, propsOf, pruefeBedingung } from './rules.js';
 
 const FALLBACK_BP = { struktur: 100, fett: 90, suesse: 90, bindung: 80, fluessigkeit: 20, trieb: 3, aroma: 3, einlage: 40 };
 
 export function varianteFuerGefaess(gefaessKey, arch, vessels) {
   const fam = vessels[gefaessKey]?.familie;
   return Object.entries(arch.varianten).find(([, v]) => vessels[v.gefaess]?.familie === fam)?.[0] ?? Object.keys(arch.varianten)[0];
+}
+
+// Erfahrungs-Regeln aus Daten (DR-019/T23) statt hartcodierter if/else-Kette: passt den
+// Bäckerprozent-Wert einer Rolle an, wenn eine Bedingung gegen die Zutat-Eigenschaften (props)
+// zutrifft. Pro Rolle gewinnt nur die ERSTE passende Regel in Deklarationsreihenfolge — das
+// bildet die bisherige if/else-if-Priorität nach (z. B. Natron-Drittelung statt zusätzlicher
+// Säure-Reduktion, nicht beides multiplikativ übereinander). `begruendung` darf `{rolle}`-
+// Platzhalter enthalten, die durch das Label der dominanten Zutat dieser Rolle ersetzt werden.
+function wendeErfahrungsregelnAn(bpZiel, props, st, erfahrungsregeln) {
+  const angewandtProRolle = new Set();
+  const anpassungen = [];
+  for (const regel of erfahrungsregeln?.regeln || []) {
+    if (!bpZiel[regel.rolle] || angewandtProRolle.has(regel.rolle)) continue;
+    if (regel.wenn && !pruefeBedingung(regel.wenn, props).ok) continue;
+    if (regel.voraussetzung_quelle && bpZiel[regel.rolle].quelle !== regel.voraussetzung_quelle) continue;
+    if (regel.wenn_korpus_fehlt) {
+      const { feld, wert } = regel.wenn_korpus_fehlt;
+      if (!(st.n > 0) || st[feld]?.[wert]) continue; // Korpus deckt den Fall doch ab -> Regel passt nicht
+    }
+    bpZiel[regel.rolle].bp *= regel.faktor;
+    angewandtProRolle.add(regel.rolle);
+    anpassungen.push(regel.begruendung.replace(/\{(\w+)\}/g, (_, r) => props[r]?.label ?? `{${r}}`));
+  }
+  return anpassungen;
 }
 
 export function compute(state, data, korpusStats) {
@@ -31,19 +55,12 @@ export function compute(state, data, korpusStats) {
     bpZiel[r] = { bp, quelle };
   }
 
-  if (bpZiel.trieb && props.trieb?.trieb_typ === 'chemisch_basisch') {
-    bpZiel.trieb.bp = bpZiel.trieb.bp / 3;
-    anpassungen.push('Natron ist ~3× so stark wie Backpulver → Menge gedrittelt.');
-  } else if (bpZiel.trieb && props.fluessigkeit?.saeure) {
-    bpZiel.trieb.bp *= 0.85;
-    anpassungen.push(`${props.fluessigkeit.label} ist sauer und liefert zusätzliches CO₂ → Backpulver um 15 % reduziert.`);
-  }
+  // Natron-Drittelung, Säure-Reduktion und Öl-Korpus-Fallback sind keine hartcodierten
+  // if/else-Zweige mehr, sondern Daten-Regeln in erfahrungsregeln.json (DR-019/T23).
+  anpassungen.push(...wendeErfahrungsregelnAn(bpZiel, props, st, data.erfahrungsregeln));
+
   if (bpZiel.struktur && props.struktur && props.struktur.unterkategorie === 'nuss') {
     anpassungen.push('Nüsse als alleinige Struktur: Kuchen wird sehr feucht und bindet schwach.');
-  }
-  if (props.fett?.aggregat === 'fluessig' && bpZiel.fett?.quelle === 'korpus' && st.n > 0 && !st.fettTyp?.fluessig) {
-    anpassungen.push('Im Referenz-Korpus gibt es kein Öl-Rezept — der Fettanteil stammt von Butter-Rezepten. Öl ist 100 % Fett (Butter 82 %) → 10 % weniger nehmen.');
-    bpZiel.fett.bp *= 0.9;
   }
 
   const summeBp = Object.values(bpZiel).reduce((a, b) => a + b.bp, 0);
