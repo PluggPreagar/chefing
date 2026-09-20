@@ -6,7 +6,7 @@
     "verteilung": "optional: einzeln | abwechselnd — zeigt zusätzlich automatisch das Wiederholen-Icon (portionsweise/mehrfach statt auf einmal)",
     "variante": "Konkrete Technik innerhalb des Verbs (Klartext)",
     "auf": "Rollen, auf die die Operation wirkt",
-    "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert, strenge, wenn?, hinweis?, kaskade_ziel?}. strenge: hart (blockiert, Default) | empfohlen (Warnung, bleibt gültig) | frei (legitime Variante, kein Hinweis). rolle kann mit '!' beginnen (z. B. '!trieb') — bedeutet 'irgendeine Rolle außer dieser' (existenziell, für Bedingungen zwischen zwei Rollen statt an einer festen Rolle, DR-019/T22). wenn: optionale Guard-Bedingung {rolle, eigenschaft, wert} — die Voraussetzung gilt nur, wenn diese zuerst erfüllt ist (sonst nicht anwendbar, kein Hinweis). hinweis: optionaler fester Erklärtext, ersetzt die generisch aus rolle/eigenschaft/wert gebaute Meldung, wenn die generische Formel zu unspezifisch wäre. kaskade_ziel: optional, Rolle, die bei einer harten Kollision automatisch angepasst werden könnte (z. B. bei der Natron-Säure-Regel → fluessigkeit) — die Engine schlägt bei Bedarf den ersten passenden Ersatzkandidaten aus dieser Rolle vor (DR-019/T26), ändert aber nichts automatisch und lässt eine `gesetzt-fix`-Zielrolle unangetastet.",
+    "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert, strenge, wenn?, hinweis?, kaskade_ziel?, id?}. strenge: hart (blockiert, Default) | empfohlen (Warnung, bleibt gültig) | frei (legitime Variante, kein Hinweis). rolle kann mit '!' beginnen (z. B. '!trieb') — bedeutet 'irgendeine Rolle außer dieser' (existenziell, für Bedingungen zwischen zwei Rollen statt an einer festen Rolle, DR-019/T22). wenn: optionale Guard-Bedingung {rolle, eigenschaft, wert} — die Voraussetzung gilt nur, wenn diese zuerst erfüllt ist (sonst nicht anwendbar, kein Hinweis). hinweis: optionaler fester Erklärtext, ersetzt die generisch aus rolle/eigenschaft/wert gebaute Meldung, wenn die generische Formel zu unspezifisch wäre. kaskade_ziel: optional, Rolle, die bei einer harten Kollision automatisch angepasst werden könnte (z. B. bei der Natron-Säure-Regel → fluessigkeit) — die Engine schlägt bei Bedarf den ersten passenden Ersatzkandidaten aus dieser Rolle vor (DR-019/T26), ändert aber nichts automatisch und lässt eine `gesetzt-fix`-Zielrolle unangetastet. id: stabiler Schlüssel für `hart`-Bedingungen, die ein Nutzer bewusst überschreiben können soll (DR-019/T25) — Grundlage für die Override-Erfassung in `localStorage`; Bedingungen ohne `id` können nicht überschrieben werden.",
     "vorbereitung_falls_nicht": "Operation, die eine fehlende harte Voraussetzung herstellen kann (sonst ungültig)",
     "wirkt_auf_eigenschaften": "optional: {rolle: {eigenschaft: wert, ...}, ...} — wird angewendet, wenn diese Operation automatisch als vorbereitung_falls_nicht eingefügt wurde; beschreibt, wie sich die Eigenschaften der Rolle dadurch ändern (z. B. Schmelzen macht festes Fett flüssig).",
     "wirkung": "physikalisch/chemisch, was passiert",
@@ -30,7 +30,7 @@
     "verb": "erhitzen",
     "variante": "Schmelzen",
     "auf": ["fett"],
-    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart" }],
+    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart", "id": "fett_muss_fest_fuer_schmelzen" }],
     "wirkt_auf_eigenschaften": { "fett": { "aggregat": "fluessig", "cremig_schlagbar": false, "geschmolzen": true } },
     "wirkung": "Festes Fett wird flüssig und verhält sich wie Öl. Eingeschlagene Luft ist damit nicht mehr möglich.",
     "risiko": "Zu heiß eingerührt → Ei stockt vorzeitig.",
@@ -43,7 +43,7 @@
     "intensitaet": "kraeftig",
     "variante": "verquirlen (Emulsion)",
     "auf": ["fett", "bindung", "fluessigkeit"],
-    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fluessig", "strenge": "hart" }],
+    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fluessig", "strenge": "hart", "id": "fett_muss_fluessig_fuer_verquirlen" }],
     "vorbereitung_falls_nicht": "schmelzen",
     "wirkung": "Alle nassen Zutaten werden zu einer homogenen Emulsion — ohne nennenswerten Lufteintrag. Trieb muss komplett aus Backpulver/Ei kommen.",
     "dauer_min": 1
@@ -98,7 +98,8 @@
         "wert": true,
         "strenge": "hart",
         "hinweis": "eine saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker) — Natron ist nur Base, ohne Säure entsteht kein CO₂ und der Teig schmeckt seifig",
-        "kaskade_ziel": "fluessigkeit"
+        "kaskade_ziel": "fluessigkeit",
+        "id": "natron_braucht_saeure"
       }
     ],
     "wirkung": "Ab ~60 °C verkleistert Stärke, ab ~65 °C stockt Eiprotein, Backpulver setzt CO₂ frei, ab ~140 °C Maillard-Bräunung. Kleine Gefäße: heißer und kürzer; große: milder und länger, sonst außen dunkel, innen roh.",

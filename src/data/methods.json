@@ -19,8 +19,8 @@
         "variante": "kräftig aufschlagen (cremig)",
         "auf": ["fett", "suesse"],
         "voraussetzung": [
-          { "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart" },
-          { "rolle": "fett", "eigenschaft": "cremig_schlagbar", "wert": true, "strenge": "hart" }
+          { "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart", "id": "fett_muss_fest_fuer_aufschlagen" },
+          { "rolle": "fett", "eigenschaft": "cremig_schlagbar", "wert": true, "strenge": "hart", "id": "fett_muss_cremig_fuer_aufschlagen" }
         ],
         "wirkung": "Zuckerkristalle reißen Luftbläschen in das plastische Fett. Diese Luft ist der erste Trieb und macht die Krume fein und gleichmäßig. Masse wird hell und voluminös.",
         "risiko": "Fett zu kalt (bröselig) oder zu warm (ölig) → keine Luft. Ideal 18–22 °C, 3–5 Minuten.",

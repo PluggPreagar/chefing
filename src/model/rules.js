@@ -129,6 +129,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
   const gruende = [];
   const warnungen = [];
   const kaskaden = [];
+  const blockaden = [];
   let status = 'ok';
 
   // Natron-Säure-Check ist keine Sonderfall-Prüfung mehr hier, sondern eine reguläre
@@ -172,6 +173,13 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
         if (kaskaden.some((k) => k.rolle === kandidat.rolle && k.zutat === kandidat.zutat)) continue;
         kaskaden.push({ ausloeser: op.label, ...kandidat });
       }
+      // Override-fähige Blockaden (DR-019 Punkt 4, T25): nur Bedingungen mit `id` können bewusst
+      // überschrieben werden — reine Datenstruktur, die Erfassung passiert erst beim Klick in
+      // der UI (`recipeCard.js`), hier wird nichts in `localStorage` geschrieben.
+      for (const f of check.fehlend) {
+        if (!f.id || blockaden.some((b) => b.id === f.id)) continue;
+        blockaden.push({ id: f.id, ausloeser: op.label, text: beschreibeBedingungen([f], data) });
+      }
     } else if (check.empfehlungen?.length) {
       warnungen.push(`${op.label}: ${beschreibeBedingungen(check.empfehlungen, data)} empfohlen, aber nicht zwingend — Ergebnis kann etwas abweichen.`);
     }
@@ -182,7 +190,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
     warnungen.push(`${method.label} ist für ${vessel.label} untypisch — ${method.warum}`);
   }
 
-  return { methodKey, status, schritte, gruende, warnungen, kaskaden };
+  return { methodKey, status, schritte, gruende, warnungen, kaskaden, blockaden };
 }
 
 const AGGREGAT = { fest: 'festes', fluessig: 'flüssiges', pulver: 'pulvriges', stueckig: 'stückiges' };

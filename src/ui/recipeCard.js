@@ -1,3 +1,5 @@
+import { overrideErfassen, overridesFuer } from '../model/overrides.js';
+
 export function renderRecipe(root, computed, state, data, onChange) {
   root.replaceChildren();
 
@@ -20,6 +22,10 @@ export function renderRecipe(root, computed, state, data, onChange) {
   // Kaskaden-Vorschlag (DR-019/T27): zeigt den in T26 berechneten Ersatzkandidaten mit
   // Bestätigen-Button. Nichts ändert sich, bis der Nutzer klickt — kein stilles Umschalten.
   for (const k of computed.kaskaden || []) root.append(kaskadenVorschlag(k, state, data, onChange));
+  // Override erfassen (DR-019 Punkt 4/T25): reine Beweis-Erfassung, kein Freischalten — die
+  // Rezeptur ist auch ohne Override schon vollständig sichtbar (s. u.). Speichert nur, dass der
+  // Nutzer diese `hart`-Regel bewusst für falsch/zu streng hält, für die Rückfrage in T28.
+  for (const b of computed.blockaden || []) root.append(blockadeOverride(b, state, data, onChange));
   for (const w of computed.warnungen) root.append(el('p', 'note note-warn', w));
   for (const a of computed.anpassungen) root.append(el('p', 'note note-info', a));
 
@@ -73,6 +79,39 @@ function kaskadenVorschlag(k, state, data, onChange) {
   btn.className = 'kaskade-btn';
   btn.textContent = 'Übernehmen';
   btn.addEventListener('click', () => onChange({ zutaten: { ...state.zutaten, [k.rolle]: [{ zutat: k.zutat, anteil: 1 }] } }));
+  box.append(btn);
+  return box;
+}
+
+// Kurzer Text der aktuell gewählten Zutaten — dient als "kontext" beim Override, damit der
+// Nutzer bei der Rückfrage (T28) noch weiß, welche Kombination er probiert hat.
+function zutatenKontext(state, data) {
+  return Object.values(state.zutaten)
+    .map((entries) => (entries || []).map((e) => data.ingredients[e.zutat]?.label).filter(Boolean))
+    .filter((labels) => labels.length)
+    .map((labels) => labels.join('+'))
+    .join(', ');
+}
+
+// Override-Button für eine überschreibbare `hart`-Blockade (DR-019 Punkt 4/T25). Ist bereits
+// ein offener Override für diese Regel erfasst, zeigt die Notiz das statt eines neuen Buttons —
+// sonst ließe sich derselbe Versuch beliebig oft "merken".
+function blockadeOverride(b, state, data, onChange) {
+  const box = el('div', 'note note-override');
+  const offen = overridesFuer(b.id).some((o) => o.ergebnis === 'offen');
+  if (offen) {
+    box.append(el('span', null, `📝 „${b.text}“ überschrieben — beim nächsten Besuch fragen wir nach, ob es funktioniert hat.`));
+    return box;
+  }
+  box.append(el('span', null, `„${b.text}“ ist nur eine Modellannahme — du kannst sie bewusst überschreiben.`));
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'override-btn';
+  btn.textContent = 'Trotzdem verwenden (merken)';
+  btn.addEventListener('click', () => {
+    overrideErfassen(b.id, zutatenKontext(state, data));
+    onChange({}); // kein State ändert sich — erzwingt nur ein Re-Render, damit die Notiz umschaltet
+  });
   box.append(btn);
   return box;
 }

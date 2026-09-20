@@ -102,6 +102,9 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .note-kaskade { background: var(--fix-bg); color: var(--fix); display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap; }
 .kaskade-btn { border: 1px solid var(--fix); background: var(--panel); color: var(--fix); border-radius: 6px; padding: .3rem .7rem; cursor: pointer; font: inherit; font-weight: 600; white-space: nowrap; }
 .kaskade-btn:hover { background: var(--fix-bg); }
+.note-override { background: var(--warn-bg); color: var(--warn); display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap; }
+.override-btn { border: 1px solid var(--warn); background: var(--panel); color: var(--warn); border-radius: 6px; padding: .3rem .7rem; cursor: pointer; font: inherit; font-weight: 600; white-space: nowrap; }
+.override-btn:hover { background: var(--warn-bg); }
 table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 0; }
 th, td { text-align: left; padding: .35rem .4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
 th { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }

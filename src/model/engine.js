@@ -121,6 +121,9 @@ export function compute(state, data, korpusStats) {
     // Kollision auflösen könnten, wenn sie nicht `gesetzt-fix` sind. Reine Daten, noch
     // keine Übernahme — die UI dazu (Vorschlagen-dann-bestätigen) kommt in T27.
     kaskaden: res.kaskaden,
+    // Override-fähige Blockaden (DR-019 Punkt 4, T25): welche hart-Bedingungen der Nutzer
+    // bewusst überschreiben kann. Die Erfassung selbst passiert in der UI (`recipeCard.js`).
+    blockaden: res.blockaden,
     anpassungen,
     evals,
     zutatenListe,
