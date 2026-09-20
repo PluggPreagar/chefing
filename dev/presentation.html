@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chefing — Kochen TL;DR</title>
+<style>
+  :root {
+    --ink: #2b2620;
+    --muted: #8a7f6e;
+    --panel: #fffdf8;
+    --paper: #f6f1e6;
+    --accent: #b5502f;
+    --accent-light: #e0a458;
+    --line: #d9cfba;
+    --warn: #a56a2b;
+    --good: #4a7856;
+    --dark-muted: #a89a86;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; height: 100%; overflow: hidden;
+    background: #1a1611;
+    font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  #viewport {
+    width: 100%; height: 100%;
+    position: relative;
+  }
+  .deck {
+    width: 1600px; height: 900px;
+    position: absolute; left: 50%; top: 50%;
+    transform-origin: center center;
+  }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    flex-direction: column;
+    padding: 96px;
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .slide.active { display: flex; }
+  .slide.dark { background: var(--ink); color: var(--paper); }
+  .slide.center { justify-content: center; }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; margin: 0; }
+  .eyebrow { font-size: 22px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent-light); margin: 0 0 24px; }
+  .slide.dark .eyebrow { color: var(--accent-light); }
+  .slide:not(.dark) .eyebrow { color: var(--accent); }
+  h1.title { font-size: 128px; font-weight: 600; line-height: 1; margin-bottom: 24px; }
+  .subtitle { font-size: 36px; color: var(--line); font-weight: 400; }
+  h2.headline { font-size: 52px; font-weight: 600; line-height: 1.2; margin-bottom: 40px; color: var(--ink); }
+  .slide.dark h2.headline { color: var(--paper); }
+  p.lede { font-size: 26px; line-height: 1.55; max-width: 1150px; margin: 0 0 32px; }
+  .row { display: flex; gap: 24px; }
+  .row.grow { flex: 1; }
+  .card {
+    flex: 1; background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 32px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .card h3 { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; font-size: 26px; font-weight: 600; color: var(--accent); }
+  .card p { font-size: 21px; line-height: 1.4; margin: 0; color: var(--ink); }
+  .card .big { font-family: Georgia, serif; font-size: 46px; font-weight: 600; color: var(--accent); margin: 0; }
+  .arrow { display: flex; align-items: center; font-size: 32px; color: var(--muted); }
+  .quote-box {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 32px;
+  }
+  .quote-label { font-size: 19px; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); font-weight: 600; margin: 0 0 8px; }
+  .quote-text { font-family: Georgia, serif; font-size: 29px; font-weight: 500; line-height: 1.4; margin: 0; }
+  .code-pill {
+    font-family: "Consolas", "SF Mono", monospace; font-size: 22px; color: var(--paper);
+    background: var(--ink); padding: 24px 32px; border-radius: 14px; margin: 0 0 28px;
+  }
+  .code-pill .k { color: var(--accent-light); }
+  ul.plain { font-size: 22px; line-height: 1.7; margin: 0; padding-left: 26px; color: var(--ink); }
+  .icon-row { display: flex; gap: 24px; justify-content: space-between; margin-bottom: 40px; }
+  .icon-cell { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .icon-cell svg { width: 72px; height: 72px; }
+  .icon-cell span { font-size: 20px; color: var(--line); }
+  .footer-note { position: absolute; left: 96px; bottom: 48px; font-size: 19px; color: var(--dark-muted); }
+  #bar {
+    position: fixed; left: 0; right: 0; bottom: 0; height: 44px;
+    display: flex; align-items: center; justify-content: center; gap: 18px;
+    background: rgba(0,0,0,.35); color: #d9cfba; font-size: 14px; font-family: -apple-system, sans-serif;
+    z-index: 10;
+  }
+  #bar button {
+    background: none; border: 1px solid #665c4e; color: #f6f1e6; border-radius: 6px;
+    padding: 4px 12px; font-size: 14px; cursor: pointer;
+  }
+  #bar button:hover { background: #3a332a; }
+</style>
+</head>
+<body>
+
+<div id="viewport">
+  <div class="deck" id="deck">
+
+    <section class="slide dark center active" id="cover">
+      <p class="eyebrow">Projekt-Überblick</p>
+      <h1 class="title">Chefing</h1>
+      <p class="subtitle">Kochen als Kombinatorik — TL;DR</p>
+      <p class="footer-note">github.com/PluggPreagar/chefing · September 2026</p>
+    </section>
+
+    <section class="slide" id="idee">
+      <h2 class="headline">Rezepte sind Text. Kochen ist Kombinatorik.</h2>
+      <p class="lede">Ein klassisches Rezept ist eine feste Liste: eine Zutat, eine Menge, ein Weg. Aber Backen folgt Physik — Fett bindet Luft, Säure reagiert mit Natron, Mehl bildet Gerüst. Wer diese Zusammenhänge modelliert, macht Zutaten und Techniken kombinierbar statt fix vorgegeben.</p>
+      <div class="quote-box">
+        <p class="quote-label">Chefing, in einem Satz</p>
+        <p class="quote-text">Zutaten nach Eigenschaften wählen, Methode folgt aus der Physik, Mengen aus dem Rezept-Korpus.</p>
+      </div>
+    </section>
+
+    <section class="slide" id="modell">
+      <h2 class="headline">Ein generisches Schema, keine Kuchen-Spezialfälle</h2>
+      <div class="row" style="align-items:center; margin-bottom:40px">
+        <div class="card"><h3>Zutat</h3><p>→ Eigenschaften</p></div>
+        <div class="arrow">→</div>
+        <div class="card"><h3>Operation</h3><p>→ Voraussetzung</p></div>
+        <div class="arrow">→</div>
+        <div class="card"><h3>Methode</h3><p>→ Sequenz</p></div>
+        <div class="arrow">→</div>
+        <div class="card"><h3>Archetyp</h3><p>→ Rollen + Gefäß</p></div>
+      </div>
+      <p style="font-size:22px; color:var(--muted)">Neue Domäne (z. B. „Gemüse braten“) = nur neue JSON-Daten, kein neuer Code.</p>
+    </section>
+
+    <section class="slide" id="regeln">
+      <h2 class="headline">Regeln leben in JSON, nicht im Code</h2>
+      <p class="lede">operations.json beschreibt, was eine Zutat braucht — und wie streng das gilt.</p>
+      <p class="code-pill">"strenge": <span class="k">"empfohlen"</span> → Warnung, Status bleibt gültig</p>
+      <div class="row">
+        <div class="card"><h3 style="color:var(--ink)">hart</h3><p>blockiert die Kombination</p></div>
+        <div class="card"><h3 style="color:var(--warn)">empfohlen</h3><p>Hinweis, bleibt gültig</p></div>
+        <div class="card"><h3 style="color:var(--good)">frei</h3><p>legitime Variante, kein Hinweis</p></div>
+      </div>
+    </section>
+
+    <section class="slide" id="ui">
+      <h2 class="headline">Morphologischer Kasten + Ablaufdiagramm</h2>
+      <div class="row" style="margin-bottom:32px">
+        <div class="card">
+          <h3 style="font-size:29px">Morphologischer Kasten</h3>
+          <p style="font-size:23px">Dimensionen (Gefäß, Methode, Zutat-Rollen) × Optionen. Jede Option zeigt ihren Status: gewählt, Best-of aus dem Korpus, oder physikalisch nicht möglich.</p>
+        </div>
+        <div class="card">
+          <h3 style="font-size:29px">Ablaufdiagramm</h3>
+          <p style="font-size:23px">Jeder Schritt = Zutat-Icon(s) + Verb-Icon, live aus der gewählten Kombination generiert. Der Hitze-Schritt hebt sich farblich ab.</p>
+        </div>
+      </div>
+      <p style="font-size:22px; color:var(--muted)">Kein Framework, kein Build-Tool — statisches HTML/JS, sofort lauffähig.</p>
+    </section>
+
+    <section class="slide" id="korpus">
+      <h2 class="headline">Best-of kommt aus echten Rezepten</h2>
+      <div class="row" style="margin-bottom:32px">
+        <div class="card"><p class="big">21</p><p>Quellrezepte, 11 Domains</p></div>
+        <div class="card"><p class="big">Median</p><p>+ Q1–Q3 je Rolle in Bäckerprozent</p></div>
+        <div class="card"><p class="big">1:1</p><p>jedes Ergebnis verlinkt zur Originalquelle</p></div>
+      </div>
+      <p class="lede">Kein Lehrbuch-Dogma: Muffins liegen beim Fett bewusst unter „leicht“ und bei der Flüssigkeit weit darüber — weil die echten Rezepte das so zeigen.</p>
+    </section>
+
+    <section class="slide dark" id="icons">
+      <h2 class="headline">Piktogramme statt Emoji</h2>
+      <div class="icon-row">
+        <div class="icon-cell">
+          <svg viewBox="0 0 24 24" aria-label="Salz"><rect x="6.82" y="8.82" width="3.37" height="3.37" rx="0.4" fill="#e0a458" transform="rotate(20 8.5 10.5)"></rect><rect x="14.17" y="6.67" width="2.66" height="2.66" rx="0.4" fill="#e0a458" transform="rotate(50 15.5 8)"></rect><rect x="10.55" y="14.05" width="3.9" height="3.9" rx="0.4" fill="#e0a458" transform="rotate(-15 12.5 16)"></rect></svg>
+          <span>Salz</span>
+        </div>
+        <div class="icon-cell">
+          <svg viewBox="0 0 24 24" aria-label="Mischen"><path d="M12 17.5 A8 5.5 0 0 1 9.26 6.83" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round"></path><polygon points="13.63,6.62 7.64,10.21 6.24,4.62" fill="#e0a458"></polygon><path d="M12 6.5 A8 5.5 0 0 1 14.74 17.17" fill="none" stroke="#e0a458" stroke-width="2" stroke-linecap="round"></path><polygon points="10.37,17.38 16.37,13.79 17.76,19.38" fill="#e0a458"></polygon></svg>
+          <span>Mischen</span>
+        </div>
+        <div class="icon-cell">
+          <svg viewBox="0 0 24 24" aria-label="Sieben"><circle cx="12" cy="9" r="7" fill="none" stroke="#e0a458" stroke-width="2"></circle><line x1="5.2" y1="9" x2="18.8" y2="9" stroke="#e0a458" stroke-width="1"></line><line x1="9" y1="3" x2="9" y2="15" stroke="#e0a458" stroke-width="1"></line><line x1="15" y1="3" x2="15" y2="15" stroke="#e0a458" stroke-width="1"></line><circle cx="9" cy="19.5" r="1" fill="#e0a458"></circle><circle cx="12.5" cy="21.5" r="1" fill="#e0a458"></circle><circle cx="15.5" cy="19" r="1" fill="#e0a458"></circle></svg>
+          <span>Sieben</span>
+        </div>
+        <div class="icon-cell">
+          <svg viewBox="0 0 24 24" aria-label="Erhitzen"><path d="M12 2 C9 6 7 8.5 7 12.5 C7 17 9.2 20.5 12 20.5 C14.8 20.5 17 17 17 12.5 C17 10.3 16.1 8.6 15 7.5 C15.3 9.8 13.9 10.6 13.1 9.3 C12.4 8.1 13.2 5.3 12 2 Z" fill="#e0a458"></path></svg>
+          <span>Erhitzen</span>
+        </div>
+        <div class="icon-cell">
+          <svg viewBox="0 0 24 24" aria-label="Schneiden"><path d="M12 12 L23.67 0.33 Q22.43 10.77 15.54 15.54 Z" fill="#e0a458"></path><path d="M12 12 L6.34 17.66 L9.17 20.49 L14.83 14.83 Z" fill="#e0a458"></path></svg>
+          <span>Schneiden</span>
+        </div>
+      </div>
+      <p style="font-size:22px; color:var(--dark-muted); max-width:1150px">Handgezeichnet, einfarbig, aus wenigen SVG-Grundformen — jedes Icon in „solid“ und einer neuen „holo“-Umriss-Variante für Dark-Mode oder sekundäre Kontexte.</p>
+    </section>
+
+    <section class="slide" id="stand">
+      <h2 class="headline">Fertig — und was als Nächstes ansteht</h2>
+      <div class="row">
+        <div class="card">
+          <h3 style="color:var(--good); font-size:29px">Fertig</h3>
+          <ul class="plain">
+            <li>MVP Rührteig-Kombinator</li>
+            <li>Kategorien, Verben, Strenge-Grade</li>
+            <li>Icon-Set überarbeitet + holo-Variante</li>
+            <li>Copyright-Check der Korpus-Quellen</li>
+            <li>Deploy per deploy.php</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="color:var(--accent); font-size:29px">Offen</h3>
+          <ul class="plain">
+            <li>README</li>
+            <li>Korpus erweitern (&ge; 15 Rezepte je Variante)</li>
+            <li>Zweiter Archetyp als reine Daten</li>
+            <li>Headless-Tests</li>
+            <li>Strenge auch auf Zutat-Ebene</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide dark center" id="schluss">
+      <h2 style="font-family:Georgia, serif; font-size:66px; font-weight:600; line-height:1.2; margin:0 0 28px; color:var(--paper)">Kochen als Daten.<br>Rezepte als Kombinationen.</h2>
+      <p style="font-size:26px; color:var(--line)">Danke!</p>
+      <p class="footer-note">github.com/PluggPreagar/chefing · hamsch.net/chefing</p>
+    </section>
+
+  </div>
+</div>
+
+<div id="bar">
+  <button id="prev" title="Vorherige (←)">‹ Zurück</button>
+  <span id="counter">1 / 9</span>
+  <button id="next" title="Nächste (→ / Leertaste)">Weiter ›</button>
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let i = 0;
+
+  function render() {
+    slides.forEach((s, n) => s.classList.toggle('active', n === i));
+    document.getElementById('counter').textContent = `${i + 1} / ${slides.length}`;
+  }
+  function go(delta) {
+    i = Math.max(0, Math.min(slides.length - 1, i + delta));
+    render();
+  }
+
+  document.getElementById('prev').addEventListener('click', () => go(-1));
+  document.getElementById('next').addEventListener('click', () => go(1));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { go(1); e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { go(-1); e.preventDefault(); }
+  });
+
+  // Skaliert das feste 1600x900-Deck auf die verfügbare Fensterfläche,
+  // ohne Seitenverhältnis zu verzerren (kein Framework, reines JS).
+  function fit() {
+    const deck = document.getElementById('deck');
+    const k = Math.min(window.innerWidth / 1600, (window.innerHeight - 44) / 900);
+    deck.style.transform = `translate(-50%, -50%) scale(${k})`;
+  }
+  window.addEventListener('resize', fit);
+  fit();
+  render();
+</script>
+</body>
+</html>
