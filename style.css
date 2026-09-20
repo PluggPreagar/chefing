@@ -110,7 +110,8 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .meta { display: flex; flex-wrap: wrap; gap: .25rem 1rem; color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
 .note { margin: .35rem 0; padding: .45rem .65rem; border-radius: 6px; font-size: .88rem; }
 .note-bad { background: var(--bad-bg); color: var(--bad); }
-.note-warn { background: var(--warn-bg); color: var(--warn); }
+.note-warn { background: var(--warn-bg); color: var(--warn); display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap; }
+.note-buttons { display: flex; gap: .4rem; flex: none; }
 .note-info { background: var(--info-bg); }
 .note-kaskade { background: var(--fix-bg); color: var(--fix); display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap; }
 .kaskade-btn { border: 1px solid var(--fix); background: var(--panel); color: var(--fix); border-radius: 6px; padding: .3rem .7rem; cursor: pointer; font: inherit; font-weight: 600; white-space: nowrap; }

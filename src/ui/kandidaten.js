@@ -1,6 +1,8 @@
 import { alleOverrides } from '../model/overrides.js';
 import { alleErrorRequests, errorRequestEinreichen, errorRequestEntfernen } from '../model/errorRequests.js';
 import { alleUeberschreibbarenRegeln } from '../model/rules.js';
+import { korrelationenSuchen } from '../model/korrelation.js';
+import { alleEntscheidungen, entscheidungSetzen, kandidatId } from '../model/korrelationEntscheidungen.js';
 
 // Kandidatenliste + Error-Request (DR-019 Punkt 4, T29 — Schritt 3/3 des Feedback-Loops).
 // Zwei Evidenzquellen für dieselbe Entscheidung (hart → empfohlen): (a) wiederholtes "hat
@@ -10,7 +12,7 @@ import { alleUeberschreibbarenRegeln } from '../model/rules.js';
 // wie schon die Korpus-Pflege (DR-003).
 const SCHWELLE_JA = 2;
 
-export function renderKandidaten(root, data, onChange) {
+export function renderKandidaten(root, data, korpusNormalisiert, onChange) {
   root.replaceChildren();
   const katalog = alleUeberschreibbarenRegeln(data);
   const overrides = alleOverrides();
@@ -48,6 +50,58 @@ export function renderKandidaten(root, data, onChange) {
 
   root.append(el('h3', null, 'Neuen Error-Request einreichen'));
   root.append(requestFormular(katalog, onChange));
+
+  // Korpus-Korrelationssuche (DR-019 Punkt 5, T32) — eine ANDERE Evidenzquelle als die beiden
+  // oberen Abschnitte: kein Downgrade einer bestehenden hart-Regel, sondern ein Vorschlag für
+  // eine ganz NEUE Erfahrungs-Regel (siehe erfahrungsregeln.json, T23), automatisch aus dem
+  // Korpus abgeleitet. Nutzer-Vorgabe: Mechanik jetzt schon zeigen, auch mit wenig Korpus-Daten
+  // ("try the mechanics with that few, we will stress it later") — deshalb bewusst tolerant:
+  // Kandidaten mit kleiner Stichprobe werden angezeigt, aber deutlich als "vorläufig" markiert.
+  root.append(el('h3', null, 'Aus Korpus-Korrelation (neue Erfahrungs-Regeln)'));
+  root.append(el('p', 'legend', 'Automatisch im Rezept-Korpus gefunden, bedingter Zusammenhang zwischen zwei Rollen. Vorschlag, keine aktive Regel — erst nach „Bestätigen“ formuliert ein Mensch daraus einen Eintrag in erfahrungsregeln.json (T23).'));
+  root.append(korrelationsKandidaten(data, korpusNormalisiert, onChange));
+}
+
+function korrelationsKandidaten(data, korpusNormalisiert, onChange) {
+  const box = el('div', null);
+  const entscheidungen = alleEntscheidungen();
+  const rollenLabel = (r) => data.archetypes.ruehrteig.rollen.find((x) => x.rolle === r)?.label ?? r;
+
+  const varianten = Object.keys(data.archetypes.ruehrteig.varianten);
+  const alleKandidaten = varianten.flatMap((variante) => {
+    const rezepte = korpusNormalisiert?.[variante] || [];
+    return korrelationenSuchen(rezepte, data.ingredients).map((k) => ({ ...k, variante, id: kandidatId(variante, k) }));
+  });
+  const offen = alleKandidaten.filter((k) => !entscheidungen[k.id]);
+
+  if (!offen.length) {
+    box.append(el('p', 'fine', 'Keine auffälligen Zusammenhänge gefunden (oder alle bereits bestätigt/verworfen).'));
+    return box;
+  }
+
+  for (const k of offen) {
+    const zeile = el('div', 'note ' + (k.belastbar ? 'note-kaskade' : 'note-warn'));
+    const richtung = k.medianMit > k.medianOhne ? 'höher' : 'niedriger';
+    const text = `${data.archetypes.ruehrteig.varianten[k.variante]?.label ?? k.variante}: wenn „${rollenLabel(k.bRolle)}“ ${k.eigenschaft}=${k.wert}, ist der Bäckerprozent-Median von „${rollenLabel(k.zRolle)}“ ${richtung} (${k.medianOhne.toFixed(0)} % → ${k.medianMit.toFixed(0)} %, Faktor ${k.faktor.toFixed(2)}, n=${k.nMit}/${k.nOhne})`;
+    zeile.append(el('span', null, text + (k.belastbar ? '' : ' — vorläufig, kleine Stichprobe')));
+    const knoepfe = el('span', 'note-buttons');
+    knoepfe.append(
+      knopf('Bestätigen', () => { entscheidungSetzen(k.id, 'bestaetigt'); onChange(); }),
+      knopf('Verwerfen', () => { entscheidungSetzen(k.id, 'verworfen'); onChange(); }),
+    );
+    zeile.append(knoepfe);
+    box.append(zeile);
+  }
+  return box;
+}
+
+function knopf(label, onClick) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'override-btn';
+  b.textContent = label;
+  b.addEventListener('click', onClick);
+  return b;
 }
 
 function requestZeile(r, onChange) {

@@ -20,9 +20,13 @@ const data = { ingredients, operations, methods, archetypes, vessels, kategorien
 const arch = archetypes.ruehrteig;
 
 const raw = await loadCorpus(arch.varianten);
-const korpusStats = Object.fromEntries(
-  Object.entries(raw).map(([k, list]) => [k, stats(list.map((r) => normalizeRecipe(r, ingredients)))]),
+// Normalisierte Rezeptlisten bleiben erhalten (nicht nur die aggregierten `stats()`) — die
+// Korrelationssuche (DR-019 Punkt 5, T32) braucht die Rezepte einzeln, um Bäckerprozent bedingt
+// auf eine Zutat-Eigenschaft zu vergleichen, nicht nur den Gesamt-Median je Rolle.
+const korpusNormalisiert = Object.fromEntries(
+  Object.entries(raw).map(([k, list]) => [k, list.map((r) => normalizeRecipe(r, ingredients))]),
 );
+const korpusStats = Object.fromEntries(Object.entries(korpusNormalisiert).map(([k, list]) => [k, stats(list)]));
 
 // Jede Rolle trägt eine Liste von {zutat, anteil} statt einer einzelnen Zutat —
 // so lassen sich Zutaten mischen (z. B. Fett aus Butter + Öl). Ein einfacher
@@ -92,7 +96,7 @@ $('toggle-kandidaten').addEventListener('click', () => {
 });
 
 function refreshKandidaten() {
-  renderKandidaten($('kandidaten'), data, refreshKandidaten);
+  renderKandidaten($('kandidaten'), data, korpusNormalisiert, refreshKandidaten);
 }
 
 render();
