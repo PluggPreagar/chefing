@@ -43,7 +43,14 @@ export function propsOf(zutaten, ingredients) {
   return out;
 }
 
+// rolle "!x": existenziell über alle Rollen außer x ("irgendwo sonst gilt eigenschaft=wert") —
+// generischer Ausdruck für Kombinations-Regeln zwischen Rollen (DR-002-Risiko, DR-019/T22).
 function pruefeBedingung(b, props) {
+  if (b.rolle?.startsWith('!')) {
+    const ausser = b.rolle.slice(1);
+    const treffer = Object.entries(props).some(([r, p]) => r !== ausser && p?.[b.eigenschaft] === b.wert);
+    return { ok: treffer, ist: treffer ? String(b.wert) : 'nirgends' };
+  }
   const ing = props[b.rolle];
   if (!ing) return { ok: false, ist: 'nicht belegt' };
   const ist = ing[b.eigenschaft];
@@ -54,6 +61,8 @@ export function checkOperation(op, props, operations) {
   const fehlend = [];
   const empfehlungen = [];
   for (const b of op.voraussetzung || []) {
+    // "wenn": Voraussetzung gilt nur, sofern diese Guard-Bedingung erfüllt ist (sonst nicht anwendbar).
+    if (b.wenn && !pruefeBedingung(b.wenn, props).ok) continue;
     const r = pruefeBedingung(b, props);
     if (r.ok) continue;
     const strenge = b.strenge || 'hart';
@@ -72,11 +81,17 @@ export function checkOperation(op, props, operations) {
   return { ok: false, fehlend, empfehlungen, vorbereitung: null };
 }
 
-function nachVorbereitung(prepKey, props) {
-  if (prepKey === 'schmelzen' && props.fett) {
-    return { ...props, fett: { ...props.fett, aggregat: 'fluessig', cremig_schlagbar: false, geschmolzen: true } };
+// Generisch: eine Vorbereitungs-Operation kann in operations.json deklarieren, welche
+// Eigenschaften sie an welchen Rollen ändert (`wirkt_auf_eigenschaften`), statt den
+// Effekt hier an ihrem Schlüssel festzumachen (DR-002-Risiko, DR-019/T22).
+function nachVorbereitung(prepKey, props, operations) {
+  const patch = operations[prepKey]?.wirkt_auf_eigenschaften;
+  if (!patch) return props;
+  const next = { ...props };
+  for (const [rolle, changes] of Object.entries(patch)) {
+    if (next[rolle]) next[rolle] = { ...next[rolle], ...changes };
   }
-  return props;
+  return next;
 }
 
 function rollenBelegt(op, props) {
@@ -98,13 +113,9 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data) {
   const warnungen = [];
   let status = 'ok';
 
-  if (props.trieb?.trieb_typ === 'chemisch_basisch') {
-    const sauer = Object.entries(props).some(([r, p]) => p?.saeure && r !== 'trieb');
-    if (!sauer) {
-      status = 'invalid';
-      gruende.push('Natron ist nur Base — ohne saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker) entsteht kein CO₂ und der Teig schmeckt seifig.');
-    }
-  }
+  // Natron-Säure-Check ist keine Sonderfall-Prüfung mehr hier, sondern eine reguläre
+  // `hart`-Voraussetzung an der Operation "backen" in operations.json (DR-019/T22) —
+  // wird unten in der Sequenzschleife wie jede andere Voraussetzung geprüft.
 
   if (props.struktur && props.struktur.bildet_gluten === false) {
     warnungen.push(`${props.struktur.label} bindet/verdickt (Stärke), liefert aber kein Eiweißgerüst — allein trägt es den Kuchen nicht („Bindung“ ohne „Körper“). In der Praxis bleibt Stärke/Nussmehl höchstens ~25 % der Struktur-Rolle, als Teilersatz neben echtem Mehl (z. B. 350 g Mehl + 50 g Speisestärke im Korpus), nicht als alleiniger Struktur-Geber.`);
@@ -127,7 +138,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data) {
     const check = checkOperation(op, props, data.operations);
     if (check.ok && check.vorbereitung) {
       schritte.push({ key: check.vorbereitung, op: data.operations[check.vorbereitung], eingefuegt: true });
-      props = nachVorbereitung(check.vorbereitung, props);
+      props = nachVorbereitung(check.vorbereitung, props, data.operations);
       if (status === 'ok') status = 'prep';
       warnungen.push(`${data.operations[check.vorbereitung].label} wurde eingefügt: ${op.label} braucht ${beschreibeBedingungen(check.fehlend, data)}.`);
     } else if (!check.ok) {
@@ -150,11 +161,21 @@ const AGGREGAT = { fest: 'festes', fluessig: 'flüssiges', pulver: 'pulvriges', 
 const IST = { fest: 'fest', fluessig: 'flüssig', pulver: 'pulvrig', stueckig: 'stückig', true: 'ja', false: 'nein' };
 
 function beschreibeBedingungen(fehlend, data) {
+  const rollenLabel = (key) => data.archetypes.ruehrteig.rollen.find((r) => r.rolle === key)?.label ?? key;
   return fehlend
     .map((f) => {
-      const rolle = data.archetypes.ruehrteig.rollen.find((r) => r.rolle === f.rolle)?.label ?? f.rolle;
-      const soll = f.eigenschaft === 'cremig_schlagbar' ? 'cremig schlagbares' : f.eigenschaft === 'aggregat' ? AGGREGAT[f.wert] ?? f.wert : `${f.eigenschaft} = ${f.wert}`;
-      return `${soll} ${rolle} (ist: ${IST[f.ist] ?? f.ist})`;
+      // "hinweis": optionaler, in der Regel selbst hinterlegter Erklärtext — für Fälle,
+      // in denen die generische Formel (Eigenschaft + Rolle) zu unspezifisch wäre.
+      if (f.hinweis) return f.hinweis;
+      const soll =
+        f.eigenschaft === 'cremig_schlagbar' ? 'cremig schlagbares'
+        : f.eigenschaft === 'aggregat' ? AGGREGAT[f.wert] ?? f.wert
+        : f.eigenschaft === 'saeure' ? 'saures'
+        : `${f.eigenschaft} = ${f.wert}`;
+      if (f.rolle?.startsWith('!')) {
+        return `${soll} irgendwo außer bei ${rollenLabel(f.rolle.slice(1))} (ist: ${IST[f.ist] ?? f.ist})`;
+      }
+      return `${soll} ${rollenLabel(f.rolle)} (ist: ${IST[f.ist] ?? f.ist})`;
     })
     .join(', ');
 }

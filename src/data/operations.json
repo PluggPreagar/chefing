@@ -6,8 +6,9 @@
     "verteilung": "optional: einzeln | abwechselnd — zeigt zusätzlich automatisch das Wiederholen-Icon (portionsweise/mehrfach statt auf einmal)",
     "variante": "Konkrete Technik innerhalb des Verbs (Klartext)",
     "auf": "Rollen, auf die die Operation wirkt",
-    "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert, strenge}. strenge: hart (blockiert, Default) | empfohlen (Warnung, bleibt gültig) | frei (legitime Variante, kein Hinweis)",
+    "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert, strenge, wenn?, hinweis?}. strenge: hart (blockiert, Default) | empfohlen (Warnung, bleibt gültig) | frei (legitime Variante, kein Hinweis). rolle kann mit '!' beginnen (z. B. '!trieb') — bedeutet 'irgendeine Rolle außer dieser' (existenziell, für Bedingungen zwischen zwei Rollen statt an einer festen Rolle, DR-019/T22). wenn: optionale Guard-Bedingung {rolle, eigenschaft, wert} — die Voraussetzung gilt nur, wenn diese zuerst erfüllt ist (sonst nicht anwendbar, kein Hinweis). hinweis: optionaler fester Erklärtext, ersetzt die generisch aus rolle/eigenschaft/wert gebaute Meldung, wenn die generische Formel zu unspezifisch wäre.",
     "vorbereitung_falls_nicht": "Operation, die eine fehlende harte Voraussetzung herstellen kann (sonst ungültig)",
+    "wirkt_auf_eigenschaften": "optional: {rolle: {eigenschaft: wert, ...}, ...} — wird angewendet, wenn diese Operation automatisch als vorbereitung_falls_nicht eingefügt wurde; beschreibt, wie sich die Eigenschaften der Rolle dadurch ändern (z. B. Schmelzen macht festes Fett flüssig).",
     "wirkung": "physikalisch/chemisch, was passiert",
     "risiko": "typischer Fehler",
     "zusatzverben": "optional, Liste weiterer Verb-Schlüssel — werden im Ablaufdiagramm als zusätzliche Icons neben dem Haupt-Icon gezeigt, ohne eigene Voraussetzungsprüfung (reine Anzeige)."
@@ -30,6 +31,7 @@
     "variante": "Schmelzen",
     "auf": ["fett"],
     "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart" }],
+    "wirkt_auf_eigenschaften": { "fett": { "aggregat": "fluessig", "cremig_schlagbar": false, "geschmolzen": true } },
     "wirkung": "Festes Fett wird flüssig und verhält sich wie Öl. Eingeschlagene Luft ist damit nicht mehr möglich.",
     "risiko": "Zu heiß eingerührt → Ei stockt vorzeitig.",
     "dauer_min": 3
@@ -88,7 +90,16 @@
     "intensitaet": "mittel",
     "variante": "Backen",
     "auf": [],
-    "voraussetzung": [],
+    "voraussetzung": [
+      {
+        "wenn": { "rolle": "trieb", "eigenschaft": "trieb_typ", "wert": "chemisch_basisch" },
+        "rolle": "!trieb",
+        "eigenschaft": "saeure",
+        "wert": true,
+        "strenge": "hart",
+        "hinweis": "eine saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker) — Natron ist nur Base, ohne Säure entsteht kein CO₂ und der Teig schmeckt seifig"
+      }
+    ],
     "wirkung": "Ab ~60 °C verkleistert Stärke, ab ~65 °C stockt Eiprotein, Backpulver setzt CO₂ frei, ab ~140 °C Maillard-Bräunung. Kleine Gefäße: heißer und kürzer; große: milder und länger, sonst außen dunkel, innen roh.",
     "risiko": "Ofen in der ersten Hälfte öffnen → Temperatursturz → Kuchen fällt zusammen."
   }
