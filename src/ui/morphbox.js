@@ -51,9 +51,14 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
     const items = opts.map((key) => {
       const ing = data.ingredients[key];
       const eintrag = entries.find((e) => e.zutat === key);
-      const naechste = toggleEntries(entries, key);
-      const blockiert = !!eintrag && rolle.pflicht && naechste.length === 0;
-      const hyp = { ...state.zutaten, [rolle.rolle]: naechste };
+      // Klick wechselt die Auswahl (ersetzt sie) — das ist die Standard-Interaktion (T30) und
+      // kann eine Pflicht-Rolle nie leeren, weil immer genau eine Zutat übrig bleibt. Nur der
+      // Zusatz-Weg (Shift-Klick/Long-Press) fügt zur bisherigen Auswahl hinzu und kann daher
+      // — wie schon vorher — blockiert sein, wenn er die letzte Zutat einer Pflicht-Rolle entfernen würde.
+      const naechsteSelect = [{ zutat: key, anteil: 1 }];
+      const naechsteAdd = toggleEntries(entries, key);
+      const addWuerdeLeeren = !!eintrag && rolle.pflicht && naechsteAdd.length === 0;
+      const hyp = { ...state.zutaten, [rolle.rolle]: naechsteSelect };
       const ev = evaluateAll(hyp, state.gefaess, data, state.fixiert);
       const irgendwasGeht = Object.values(ev).some((e) => e.status !== 'invalid');
       const grund = irgendwasGeht ? null : Object.values(ev)[0]?.gruende[0];
@@ -68,7 +73,8 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
         title: !eintrag && grund ? grund : (ing.eigenschaften || []).join(' · '),
         anteil: mehrfach && eintrag ? eintrag.anteil : null,
         onAnteilChange: (val) => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: setAnteil(entries, key, val) } }),
-        onClick: blockiert ? null : () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: naechste } }),
+        onClick: () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: naechsteSelect } }),
+        onAdd: addWuerdeLeeren ? null : () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: naechsteAdd } }),
       });
     });
     if (!rolle.pflicht) {
@@ -80,12 +86,11 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
         onClick: () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: [] } }),
       }));
     }
-    const hinweis = rolle.hinweis ? `${rolle.hinweis} Mehrere Zutaten gleichzeitig anklicken, um sie zu mischen — Anteile danach einstellbar.` : 'Mehrere Zutaten gleichzeitig anklicken, um sie zu mischen — Anteile danach einstellbar.';
     const pin = {
       aktiv: istFixiert,
       onToggle: () => onChange({ fixiert: { ...state.fixiert, [rolle.rolle]: !istFixiert } }),
     };
-    root.append(dimension(rolle.label, hinweis, items, pin));
+    root.append(dimension(rolle.label, rolle.hinweis, items, pin));
   }
 }
 
@@ -122,7 +127,7 @@ function dimension(title, hint, items, pin) {
   return row;
 }
 
-function option({ label, iconKey, iconTitle, sub, selected, bestof, status, title, anteil, onAnteilChange, onClick }) {
+function option({ label, iconKey, iconTitle, sub, selected, bestof, status, title, anteil, onAnteilChange, onClick, onAdd }) {
   const b = document.createElement('button');
   b.type = 'button';
   b.className = 'opt';
@@ -150,8 +155,61 @@ function option({ label, iconKey, iconTitle, sub, selected, bestof, status, titl
     input.addEventListener('change', (e) => { e.stopPropagation(); onAnteilChange(e.target.value); });
     b.append(el('span', 'opt-anteil-label', 'Teile'), input);
   }
-  if (onClick) b.addEventListener('click', onClick);
+  // Klick wechselt standardmäßig die Auswahl (onClick); Shift-Klick (Desktop) oder Long-Press
+  // (Touch) fügt stattdessen zur bisherigen Auswahl hinzu (onAdd), um mehrere Zutaten zu mischen
+  // (T30 — kehrt das frühere Standardverhalten um, das jetzt der Ausnahmefall ist).
+  if (onAdd) wireAddGeste(b, onAdd);
+  if (onClick) {
+    b.addEventListener('click', (e) => {
+      if (klickNachLongPressUnterdruecken()) return; // Long-Press hat diesen Tap schon behandelt
+      if (onAdd && e.shiftKey) onAdd();
+      else onClick();
+    });
+  }
   return b;
+}
+
+const LONGPRESS_MS = 500;
+const LONGPRESS_TOLERANZ_PX = 10;
+const LONGPRESS_SICHERHEITSNETZ_MS = 700; // etwas länger als LONGPRESS_MS, s. u.
+
+// Modul-weites Flag statt eines Attributs auf dem Button: `onAdd` löst bei Bedarf ein Re-Render
+// aus (z. B. wenn die Auswahl sich ändert), das `renderMorphbox` per `root.replaceChildren()`
+// erledigt — der ursprünglich gedrückte Button existiert dann nicht mehr, ein Flag darauf wäre
+// beim nachfolgenden synthetischen Klick (nach touchend) schon verloren. Das Sicherheitsnetz
+// räumt das Flag auch auf, falls der erwartete Klick ausbleibt (z. B. Finger woanders abgehoben).
+let unterdrueckeNaechstenKlick = false;
+function klickNachLongPressUnterdruecken() {
+  if (!unterdrueckeNaechstenKlick) return false;
+  unterdrueckeNaechstenKlick = false;
+  return true;
+}
+
+// Long-Press-Erkennung für Touch/Pen (T30) — löst `onAdd` aus, wenn der Finger lang genug ruhig
+// gehalten wird, statt auf den nachfolgenden Klick zu warten. Maus bleibt außen vor: dort ist
+// Shift-Klick der Zusatz-Weg (in `option()`), Long-Press mit der Maus wäre unüblich/verwirrend.
+function wireAddGeste(b, onAdd) {
+  let timer = null;
+  let startX = 0;
+  let startY = 0;
+  const abbrechen = () => { if (timer) { clearTimeout(timer); timer = null; } };
+  b.addEventListener('pointerdown', (e) => {
+    if (e.pointerType === 'mouse') return;
+    startX = e.clientX;
+    startY = e.clientY;
+    timer = setTimeout(() => {
+      timer = null;
+      unterdrueckeNaechstenKlick = true;
+      setTimeout(() => { unterdrueckeNaechstenKlick = false; }, LONGPRESS_SICHERHEITSNETZ_MS);
+      onAdd();
+    }, LONGPRESS_MS);
+  });
+  b.addEventListener('pointermove', (e) => {
+    if (timer && Math.hypot(e.clientX - startX, e.clientY - startY) > LONGPRESS_TOLERANZ_PX) abbrechen();
+  });
+  b.addEventListener('pointerup', abbrechen);
+  b.addEventListener('pointercancel', abbrechen);
+  b.addEventListener('contextmenu', (e) => e.preventDefault()); // sonst öffnet Long-Press auf Touch das Kontextmenü
 }
 
 // Pin-Toggle für "gesetzt-fix" (DR-019 Wert-Zustand, T24): eine fixierte Rolle wird von
