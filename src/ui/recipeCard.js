@@ -109,7 +109,7 @@ function blockadeOverride(b, state, data, onChange) {
   btn.className = 'override-btn';
   btn.textContent = 'Trotzdem verwenden (merken)';
   btn.addEventListener('click', () => {
-    overrideErfassen(b.id, zutatenKontext(state, data));
+    overrideErfassen(b.id, zutatenKontext(state, data), b.text);
     onChange({}); // kein State ändert sich — erzwingt nur ein Re-Render, damit die Notiz umschaltet
   });
   box.append(btn);

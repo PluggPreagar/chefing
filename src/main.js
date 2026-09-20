@@ -4,6 +4,7 @@ import { renderMorphbox } from './ui/morphbox.js';
 import { renderFlow } from './ui/flow.js';
 import { renderRecipe } from './ui/recipeCard.js';
 import { renderStats } from './ui/stats.js';
+import { renderRueckfragen } from './ui/rueckfragen.js';
 
 async function loadJson(path) {
   const r = await fetch(path);
@@ -45,6 +46,11 @@ applyPreset('kastenkuchen');
 
 const $ = (id) => document.getElementById(id);
 
+// Grenze für die Rückfrage-UI (DR-019/T28): nur Overrides fragen, die VOR diesem Seitenaufruf
+// erfasst wurden — sonst würde ein gerade eben gesetzter Override sofort wieder abgefragt,
+// bevor überhaupt gebacken wurde. "Später" heißt hier: beim nächsten Laden der Seite.
+const sessionStart = new Date().toISOString();
+
 function applyPreset(variante) {
   const v = arch.varianten[variante];
   state.gefaess = v.gefaess;
@@ -63,6 +69,7 @@ function update(patch) {
 
 function render() {
   const computed = compute(state, data, korpusStats);
+  renderRueckfragen($('rueckfragen'), sessionStart, render);
   renderMorphbox($('morphbox'), state, data, computed, korpusStats, update);
   renderFlow($('flow'), $('flow-details'), computed, data);
   renderRecipe($('recipe'), computed, state, data, update);

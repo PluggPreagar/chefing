@@ -34,17 +34,20 @@ function speichern(alle) {
   }
 }
 
-// Alle erfassten Overrides, gruppiert nach Regel-`id`. { [regelId]: [{zeitpunkt, kontext, ergebnis}] }
+// Alle erfassten Overrides, gruppiert nach Regel-`id`.
+// { [regelId]: [{zeitpunkt, kontext, text, ergebnis: 'offen'|'ja'|'nein'}] }
 export function alleOverrides() {
   return laden();
 }
 
 // Erfasst einen neuen Override-Versuch für eine Regel. `kontext` ist ein kurzer Text (z. B. die
-// aktuell gewählten Zutaten), damit der Nutzer bei der Rückfrage (T28) noch weiß, was er probiert hat.
-export function overrideErfassen(regelId, kontext) {
+// aktuell gewählten Zutaten), `text` die menschenlesbare Erklärung der Regel (aus `computed.
+// blockaden`) — beides zusammen erinnert den Nutzer bei der Rückfrage (T28) noch, was er warum
+// probiert hat, ohne dass die Rückfrage-UI die Regel im aktuellen Rezept neu nachschlagen muss.
+export function overrideErfassen(regelId, kontext, text) {
   const alle = laden();
   const liste = alle[regelId] || [];
-  liste.push({ zeitpunkt: new Date().toISOString(), kontext, ergebnis: 'offen' });
+  liste.push({ zeitpunkt: new Date().toISOString(), kontext, text, ergebnis: 'offen' });
   alle[regelId] = liste;
   speichern(alle);
 }
@@ -52,4 +55,16 @@ export function overrideErfassen(regelId, kontext) {
 // Gibt die Liste der Overrides für eine Regel zurück (leer, falls keine erfasst wurden).
 export function overridesFuer(regelId) {
   return laden()[regelId] || [];
+}
+
+// Trägt das Ergebnis der Rückfrage (T28) in einen bestehenden Override-Eintrag ein.
+// `zeitpunkt` identifiziert den Eintrag innerhalb der Liste einer Regel (ISO-Zeitstempel sind
+// hier eindeutig genug — es gibt ohnehin nie mehr als einen offenen Eintrag pro Regel gleichzeitig,
+// siehe `recipeCard.js`, das den Button erst nach Auflösung des vorherigen wieder zeigt).
+export function overrideAntwort(regelId, zeitpunkt, ergebnis) {
+  const alle = laden();
+  const eintrag = (alle[regelId] || []).find((o) => o.zeitpunkt === zeitpunkt);
+  if (!eintrag) return;
+  eintrag.ergebnis = ergebnis;
+  speichern(alle);
 }

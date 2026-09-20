@@ -41,6 +41,13 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .layout { display: grid; gap: 1rem; padding: 0 1.5rem 1.5rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 1rem; min-width: 0; }
 .panel-wide { grid-column: 1 / -1; }
+#rueckfragen { margin: 0 1.5rem 1rem; border-color: var(--warn); }
+.rueckfrage { padding: .5rem 0; border-top: 1px solid var(--line); }
+.rueckfrage:first-child { padding-top: 0; border-top: 0; }
+.rueckfrage-text { margin: 0 0 .5rem; }
+.rueckfrage-buttons { display: flex; gap: .5rem; flex-wrap: wrap; }
+.rueckfrage-btn { border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 6px; padding: .35rem .8rem; cursor: pointer; font: inherit; font-weight: 600; }
+.rueckfrage-btn:hover { border-color: var(--warn); }
 .legend { margin: 0 0 .75rem; color: var(--muted); font-size: .85rem; display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
 .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; border: 2px solid var(--line); vertical-align: middle; }
 .sw-sel { border-color: var(--sel); background: var(--sel-bg); }
