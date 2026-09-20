@@ -65,7 +65,7 @@ function render() {
   const computed = compute(state, data, korpusStats);
   renderMorphbox($('morphbox'), state, data, computed, korpusStats, update);
   renderFlow($('flow'), $('flow-details'), computed, data);
-  renderRecipe($('recipe'), computed);
+  renderRecipe($('recipe'), computed, state, data, update);
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }
 

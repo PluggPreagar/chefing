@@ -1,4 +1,4 @@
-export function renderRecipe(root, computed) {
+export function renderRecipe(root, computed, state, data, onChange) {
   root.replaceChildren();
 
   const status = el('div', `status status-${computed.status}`);
@@ -17,6 +17,9 @@ export function renderRecipe(root, computed) {
   root.append(meta);
 
   for (const g of computed.gruende) root.append(el('p', 'note note-bad', g));
+  // Kaskaden-Vorschlag (DR-019/T27): zeigt den in T26 berechneten Ersatzkandidaten mit
+  // Bestätigen-Button. Nichts ändert sich, bis der Nutzer klickt — kein stilles Umschalten.
+  for (const k of computed.kaskaden || []) root.append(kaskadenVorschlag(k, state, data, onChange));
   for (const w of computed.warnungen) root.append(el('p', 'note note-warn', w));
   for (const a of computed.anpassungen) root.append(el('p', 'note note-info', a));
 
@@ -55,6 +58,23 @@ export function renderRecipe(root, computed) {
     const klasse = fett < 70 ? 'leicht' : ei != null && ei < 90 ? 'mittel' : 'schwer';
     root.append(el('p', 'fine', `Einordnung nach Lehrbuch (Mehl = 100): Fett ${fmt(fett)} · Zucker ${fmt(suesse)} · Ei ${fmt(ei)} → „${klasse}er“ Rührteig. ${lb.kommentar}`));
   }
+}
+
+// Vorschlagen-dann-bestätigen (DR-019 Punkt 1/T27): mutiert `state.zutaten` erst nach Klick,
+// nie automatisch. Ersetzt die aktuelle Auswahl der Zielrolle vollständig durch den einen
+// Ersatzkandidaten aus T26 (kein Zusammenmischen mit der bisherigen, nicht passenden Wahl).
+function kaskadenVorschlag(k, state, data, onChange) {
+  const box = el('div', 'note note-kaskade');
+  const aktuelle = (state.zutaten[k.rolle] || []).map((e) => data.ingredients[e.zutat]?.label).filter(Boolean);
+  const aktuelleText = aktuelle.length ? aktuelle.join(' + ') : 'nichts';
+  box.append(el('span', null, `Vorschlag: ${k.zutatLabel} statt ${aktuelleText} bei „${k.rolleLabel}“ verwenden — löst „${k.ausloeser}“.`));
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'kaskade-btn';
+  btn.textContent = 'Übernehmen';
+  btn.addEventListener('click', () => onChange({ zutaten: { ...state.zutaten, [k.rolle]: [{ zutat: k.zutat, anteil: 1 }] } }));
+  box.append(btn);
+  return box;
 }
 
 function tr(cells, tag = 'td') {
