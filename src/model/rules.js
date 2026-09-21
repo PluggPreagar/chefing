@@ -196,7 +196,10 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
       schritte.push({ key: check.vorbereitung, op: data.operations[check.vorbereitung], eingefuegt: true });
       props = nachVorbereitung(check.vorbereitung, props, data.operations);
       if (status === 'ok') status = 'prep';
-      warnungen.push(`${data.operations[check.vorbereitung].label} wurde eingefügt: ${op.label} braucht ${beschreibeBedingungen(check.fehlend, data)}.`);
+      // Nutzer-Vorgabe (2026-09-21, „Purpose not clear"): Zweck zuerst nennen (ein zusätzlicher
+      // Schritt wurde eingefügt), Begründung auf eigener Zeile statt hinter einem Doppelpunkt
+      // im selben Satz — Titel-Tooltips (siehe morphbox.js) stellen \n als Zeilenumbruch dar.
+      warnungen.push(`Zusätzlich notwendiger Schritt „${data.operations[check.vorbereitung].label}“ wurde eingefügt.\n${op.label} braucht ${beschreibeBedingungen(check.fehlend, data)}.`);
     } else if (!check.ok) {
       status = 'invalid';
       gruende.push(`„${op.label}“ ist nicht möglich: braucht ${beschreibeBedingungen(check.fehlend, data)}. ${op.wirkung}`);
