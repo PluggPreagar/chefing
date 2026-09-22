@@ -99,4 +99,16 @@ function refreshKandidaten() {
   renderKandidaten($('kandidaten'), data, korpusNormalisiert, refreshKandidaten);
 }
 
+// Versionsanzeige im Footer (Nutzer-Vorgabe): `deploy.php` schreibt bei jedem Live-Deploy ein
+// version.json mit Commit-SHA + Zeit neben die App (siehe deploy.php, Zeile ~107). Lokal in der
+// Entwicklung existiert die Datei nicht — dann bleibt die Zeile unsichtbar (`hidden`), statt eine
+// Fehlermeldung/Platzhalter zu zeigen, das ist kein Fehlerfall.
+loadJson('./version.json').then((v) => {
+  const el = $('version-info');
+  if (!el || !v?.sha) return;
+  const kurzSha = String(v.sha).slice(0, 7);
+  el.textContent = `Version ${kurzSha}${v.time ? ` · deployed ${v.time}` : ''}`;
+  el.hidden = false;
+}).catch(() => {}); // kein version.json (lokale Entwicklung) — kein Fehler, Zeile bleibt versteckt
+
 render();

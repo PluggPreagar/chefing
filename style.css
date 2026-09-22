@@ -141,6 +141,7 @@ th { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color:
 .q-meta { color: var(--muted); }
 
 .foot { padding: .5rem 1.5rem 1.5rem; color: var(--muted); font-size: .8rem; }
+.version { font-size: .72rem; opacity: .7; }
 code { font-size: .85em; }
 
 @media (max-width: 600px) {
