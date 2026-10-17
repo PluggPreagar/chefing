@@ -1,3 +1,4 @@
+import { GROESSEN_LABEL } from '../model/bilanz.js';
 import { ROLLEN } from '../model/corpus.js';
 
 export function renderStats(root, korpusStats, data) {
@@ -23,6 +24,11 @@ export function renderStats(root, korpusStats, data) {
         `${f(s.min)}–${f(s.max)} %`,
         lb != null ? `${lb} %` : '—',
       ]));
+    }
+    // Gesamtbilanz (DR-020): Wasser/Fett/Zucker über alle Zutaten, Bäckerprozent
+    for (const [g, s] of Object.entries(st.bilanz || {})) {
+      if (!s) continue;
+      t.append(tr([`Σ ${GROESSEN_LABEL[g]}`, `${f(s.median)} %`, `${f(s.q1)}–${f(s.q3)} %`, `${f(s.min)}–${f(s.max)} %`, '—']));
     }
     box.append(t);
 

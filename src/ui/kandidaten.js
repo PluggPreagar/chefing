@@ -1,3 +1,4 @@
+import { GROESSEN_LABEL } from '../model/bilanz.js';
 import { alleOverrides } from '../model/overrides.js';
 import { alleErrorRequests, errorRequestEinreichen, errorRequestEntfernen } from '../model/errorRequests.js';
 import { alleUeberschreibbarenRegeln } from '../model/rules.js';
@@ -65,7 +66,9 @@ export function renderKandidaten(root, data, korpusNormalisiert, onChange) {
 function korrelationsKandidaten(data, korpusNormalisiert, onChange) {
   const box = el('div', null);
   const entscheidungen = alleEntscheidungen();
-  const rollenLabel = (r) => data.archetypes.ruehrteig.rollen.find((x) => x.rolle === r)?.label ?? r;
+  const rollenLabel = (r) => r.startsWith('bilanz:')
+    ? GROESSEN_LABEL[r.slice(7)] ?? r
+    : data.archetypes.ruehrteig.rollen.find((x) => x.rolle === r)?.label ?? r;
 
   const varianten = Object.keys(data.archetypes.ruehrteig.varianten);
   const alleKandidaten = varianten.flatMap((variante) => {

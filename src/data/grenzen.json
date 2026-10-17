@@ -6,37 +6,38 @@
     "min / max": "Grenzwerte im Maß von `bezug` (Prozent bei rolle, Faktor bei groesse). Eines von beiden darf fehlen.",
     "strenge": "hart (status invalid + Grund) | empfohlen (Warnung, bleibt gültig) — gleiche Semantik wie DR-008.",
     "hinweis": "Nutzer-sichtbarer Text bei Verletzung. Platzhalter {wert} und {grenze} werden ersetzt.",
+    "kaskade_ziel": "optional: Rolle, deren Zutat ersetzt werden könnte, um die Grenze einzuhalten (T39). Die Engine simuliert jede Option dieser Rolle bei gleicher Rollen-Grammzahl und schlägt die erste vor, die die Grenze erfüllt, ohne eine andere hart-Grenze zu verletzen. Nichts wird automatisch übernommen (DR-019/T27).",
     "quelle": "Herkunft. Alle Werte hier sind Physik-Faustwerte, gegen den Korpus (n = 21) plausibilisiert, nicht gemessen — Kalibrierung über Override-Feedback (DR-019 Punkt 4) vorgesehen."
   },
   "archetypen": {
     "ruehrteig": [
       {
         "id": "wasser_min_hart",
-        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "min": 40, "strenge": "hart",
+        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "min": 40, "strenge": "hart", "kaskade_ziel": "fluessigkeit",
         "hinweis": "Gesamtwasser nur {wert} % vom Mehl (Grenze {grenze} %) — Teig ist nicht mehr rührfähig, Stärke kann nicht verkleistern.",
         "quelle": "Physik-Faustwert: unterhalb ~40 % Wasser/Mehl liegt der Mürbeteig-/Krümelbereich. Korpus-Minimum 81 %."
       },
       {
         "id": "wasser_band",
-        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "min": 70, "max": 170, "strenge": "empfohlen",
+        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "min": 70, "max": 170, "strenge": "empfohlen", "kaskade_ziel": "fluessigkeit",
         "hinweis": "Gesamtwasser {wert} % vom Mehl liegt außerhalb {grenze} % — zu trocken/bröselig bzw. zu feucht/speckig.",
         "quelle": "Physik-Faustwert, Korpus-Spanne 81–153 % (ohne Einlage)."
       },
       {
         "id": "wasser_max_hart",
-        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "max": 250, "strenge": "hart",
+        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "max": 250, "strenge": "hart", "kaskade_ziel": "fluessigkeit",
         "hinweis": "Gesamtwasser {wert} % vom Mehl (Grenze {grenze} %) — das Gerüst trägt nicht, der Kuchen fällt zusammen.",
         "quelle": "Physik-Faustwert: oberhalb ~250 % ist es Pfannkuchen-/Crêpe-Teig, kein Rührkuchen."
       },
       {
         "id": "fett_max",
-        "groesse": "fett", "bezug": { "rolle": "struktur" }, "max": 110, "strenge": "empfohlen",
+        "groesse": "fett", "bezug": { "rolle": "struktur" }, "max": 110, "strenge": "empfohlen", "kaskade_ziel": "fett",
         "hinweis": "Reinfett {wert} % vom Mehl (Grenze {grenze} %) — Krume wird schwer und fettig, Gluten wird stark gehemmt.",
         "quelle": "Physik-Faustwert: Sandmasse liegt bei ~82 % Reinfett (100 % Butter). Korpus-Maximum 93 %."
       },
       {
         "id": "fett_max_hart",
-        "groesse": "fett", "bezug": { "rolle": "struktur" }, "max": 150, "strenge": "hart",
+        "groesse": "fett", "bezug": { "rolle": "struktur" }, "max": 150, "strenge": "hart", "kaskade_ziel": "fett",
         "hinweis": "Reinfett {wert} % vom Mehl (Grenze {grenze} %) — Emulsion bricht, Fett tritt beim Backen aus.",
         "quelle": "Physik-Faustwert."
       },
@@ -54,7 +55,7 @@
       },
       {
         "id": "zucker_wasser_max",
-        "groesse": "zucker", "bezug": { "groesse": "wasser" }, "max": 1.0, "strenge": "empfohlen",
+        "groesse": "zucker", "bezug": { "groesse": "wasser" }, "max": 1.0, "strenge": "empfohlen", "kaskade_ziel": "fluessigkeit",
         "hinweis": "Zucker/Wasser = {wert} (Grenze {grenze}) — Zucker löst sich nicht vollständig, Krume wird grob, Kruste zuckrig.",
         "quelle": "High-Ratio-Regel: Gesamtflüssigkeit ≥ Zucker. Korpus-Maximum 0,92."
       }

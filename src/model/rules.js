@@ -1,3 +1,4 @@
+import { beschreibeGrenze } from './bilanz.js';
 // Eine Rolle kann mehrere Zutaten mit relativen Anteilen tragen (z. B. Fett
 // aus Butter + Öl gemischt). propsOf liefert pro Rolle ein geblendetes
 // Eigenschafts-Objekt: Aggregatzustand/Schmelzpunkt/Label folgen der
@@ -61,7 +62,7 @@ export function pruefeBedingung(b, props) {
 // Ist eine Rolle für automatische Anpassung gesperrt? Entweder ganz fixiert (T24), oder
 // mindestens eine einzelne Zutat darin fixiert (T31) — letzteres reicht schon, weil eine
 // Kaskade (T26) die Rolle immer komplett ersetzt und dabei die fixierte Zutat verlieren würde.
-function rolleIstGesperrt(fixiert, rolle) {
+export function rolleIstGesperrt(fixiert, rolle) {
   if (fixiert?.rollen?.[rolle]) return true;
   const zutaten = fixiert?.zutaten?.[rolle];
   return !!zutaten && Object.values(zutaten).some(Boolean);
@@ -181,6 +182,21 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
     warnungen.push(`Gemischtes Fett (${props.fett.kurzlabel}): der flüssige Anteil schlägt beim Aufschlagen weniger Luft ein als reines festes Fett — Ergebnis liegt zwischen Creme- und Rühr-Öl-Methode.`);
   }
 
+  // Ablauf als Graph (T38): jeder Schritt bekommt `nach` (Vorgänger-keys). Explizit aus
+  // method.nach, sonst linear: letzter vorhandener Schritt, der nicht selbst Startschritt ist.
+  const startKeys = new Set();
+  const vorgaenger = (key) => {
+    const vorhanden = schritte.map((s) => s.key);
+    const explizit = method.nach?.[key];
+    if (explizit) {
+      if (!explizit.length) { startKeys.add(key); return []; }
+      const da = explizit.filter((k) => vorhanden.includes(k));
+      if (da.length) return da;
+    }
+    const letzter = [...vorhanden].reverse().find((k) => !startKeys.has(k));
+    return letzter ? [letzter] : [];
+  };
+
   for (const entry of method.sequenz) {
     const inline = typeof entry === 'object';
     const key = inline ? entry.key : entry;
@@ -192,8 +208,12 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
       if (key === 'einlegen' && !brauchtEinlegen(props)) continue;
     }
     const check = checkOperation(op, props, data.operations, fixiert, data);
+    let vorbereitungKey = null;
     if (check.ok && check.vorbereitung) {
-      schritte.push({ key: check.vorbereitung, op: data.operations[check.vorbereitung], eingefuegt: true });
+      // Eingefügte Vorbereitung ist ein Startschritt (z. B. Fett schmelzen geht jederzeit vorher).
+      startKeys.add(check.vorbereitung);
+      vorbereitungKey = check.vorbereitung;
+      schritte.push({ key: check.vorbereitung, op: data.operations[check.vorbereitung], eingefuegt: true, nach: [] });
       props = nachVorbereitung(check.vorbereitung, props, data.operations);
       if (status === 'ok') status = 'prep';
       // Nutzer-Vorgabe (2026-09-21, „Purpose not clear"): Zweck zuerst nennen (ein zusätzlicher
@@ -223,7 +243,8 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
     } else if (check.empfehlungen?.length) {
       warnungen.push(`${op.label}: ${beschreibeBedingungen(check.empfehlungen, data)} empfohlen, aber nicht zwingend — Ergebnis kann etwas abweichen.`);
     }
-    schritte.push({ key, op, eingefuegt: false });
+    const nach = vorgaenger(key).filter((k) => k !== vorbereitungKey);
+    schritte.push({ key, op, eingefuegt: false, nach: vorbereitungKey ? [...nach, vorbereitungKey] : nach });
   }
 
   if (vessel && !(method.geeignet_fuer || []).includes(vessel.familie)) {
@@ -294,6 +315,14 @@ export function alleUeberschreibbarenRegeln(data) {
       if (!b.id || (b.strenge && b.strenge !== 'hart')) continue;
       if (katalog.some((k) => k.id === b.id)) continue;
       katalog.push({ id: b.id, ausloeser: op.label, text: beschreibeAnforderung(b, data) });
+    }
+  }
+  // Quantitative Grenzen (grenzen.json, T34/T39): jede hart-Grenze mit `id` ist genauso
+  // überschreibbar wie eine hart-Voraussetzung einer Operation.
+  for (const liste of Object.values(data.grenzen?.archetypen || {})) {
+    for (const g of liste) {
+      if (!g.id || g.strenge !== 'hart' || katalog.some((k) => k.id === g.id)) continue;
+      katalog.push({ id: g.id, ausloeser: 'Gesamtbilanz', text: beschreibeGrenze(g) });
     }
   }
   return katalog;

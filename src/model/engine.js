@@ -1,7 +1,7 @@
 import { fromGrams } from './units.js';
 import { ROLLEN } from './corpus.js';
-import { evaluateAll, bestMethod, propsOf, pruefeBedingung } from './rules.js';
-import { bilanz, grenzenPruefen, toleranz, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } from './rules.js';
+import { bilanz, grenzenPruefen, grenzenKaskade, beschreibeGrenze, toleranz, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 const FALLBACK_BP = { struktur: 100, fett: 90, suesse: 90, bindung: 80, fluessigkeit: 20, trieb: 3, aroma: 3, einlage: 40 };
 
@@ -120,6 +120,27 @@ export function compute(state, data, korpusStats) {
   });
   const status = verletzt.hart.length ? 'invalid' : res.status;
 
+  // T39: hart-Grenzen werden überschreibbar (Override-Feedback, DR-019 Punkt 4) und jede
+  // verletzte Grenze mit `kaskade_ziel` bekommt einen simulierten Ersatz-Vorschlag — gleiche
+  // Datenform wie die Operations-Kaskaden/-Blockaden, damit recipeCard.js sie unverändert zeigt.
+  const blockaden = [...(res.blockaden || [])];
+  const kaskaden = [...(res.kaskaden || [])];
+  for (const v of [...verletzt.hart, ...verletzt.empfohlen]) {
+    const g = grenzen.find((x) => x.id === v.id);
+    if (!g) continue;
+    if (g.strenge === 'hart' && !blockaden.some((b) => b.id === g.id)) {
+      blockaden.push({ id: g.id, ausloeser: 'Gesamtbilanz', text: beschreibeGrenze(g) });
+    }
+    if (!g.kaskade_ziel || rolleIstGesperrt(state.fixiert, g.kaskade_ziel)) continue;
+    const rolle = arch.rollen.find((r) => r.rolle === g.kaskade_ziel);
+    const kandidat = grenzenKaskade(g, zutatenListe, rolle?.optionen || [], data.ingredients, grenzen, referenzRolle);
+    if (!kandidat || kaskaden.some((k) => k.rolle === g.kaskade_ziel && k.zutat === kandidat)) continue;
+    kaskaden.push({
+      ausloeser: beschreibeGrenze(g), rolle: g.kaskade_ziel, rolleLabel: rolle?.label ?? g.kaskade_ziel,
+      zutat: kandidat, zutatLabel: data.ingredients[kandidat]?.label ?? kandidat,
+    });
+  }
+
   const round5 = (x) => Math.round(x / 5) * 5;
   const kb = st.backen || {};
   const ausKorpus = st.n >= 3 && kb.minuten?.median != null;
@@ -135,8 +156,18 @@ export function compute(state, data, korpusStats) {
     backHinweise.unshift('Öl-/Schmelzfett-Teige sind oft 5 % schneller gar → Zeit um 5 % gekürzt.');
   }
 
+  // Ablauf-Graph (T38): Vorgänger als Schritt-Nummern, `ebene` = längster Pfad vom Start —
+  // Schritte gleicher Ebene haben keine Abhängigkeit untereinander (Reihenfolge frei).
+  const nrVon = Object.fromEntries(res.schritte.map((s, i) => [s.key, i + 1]));
+  const ebenen = [];
+  res.schritte.forEach((s, i) => {
+    const vor = (s.nach || []).map((k) => nrVon[k]).filter(Boolean);
+    ebenen[i] = vor.length ? Math.max(...vor.map((n) => ebenen[n - 1])) + 1 : 0;
+  });
   const ablauf = res.schritte.map((s, i) => ({
     nr: i + 1,
+    nach: (s.nach || []).map((k) => nrVon[k]).filter(Boolean),
+    ebene: ebenen[i],
     key: s.key,
     label: konkretisiere(s.op.label, props),
     typ: s.op.typ,
@@ -167,10 +198,10 @@ export function compute(state, data, korpusStats) {
     // Kaskaden-Vorschläge (DR-019/T26): Ersatzkandidaten für Rollen, die eine harte
     // Kollision auflösen könnten, wenn sie nicht `gesetzt-fix` sind. Reine Daten, noch
     // keine Übernahme — die UI dazu (Vorschlagen-dann-bestätigen) kommt in T27.
-    kaskaden: res.kaskaden,
+    kaskaden,
     // Override-fähige Blockaden (DR-019 Punkt 4, T25): welche hart-Bedingungen der Nutzer
     // bewusst überschreiben kann. Die Erfassung selbst passiert in der UI (`recipeCard.js`).
-    blockaden: res.blockaden,
+    blockaden,
     anpassungen,
     evals,
     zutatenListe,

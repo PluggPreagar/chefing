@@ -248,3 +248,12 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **cons:** Grenzwerte sind Faustwerte, nicht gemessen; Q1–Q3 bei n ≈ 7 schmal (daher 5 % Marge, Bewertung erst ab n ≥ 3). Bilanz korrigiert Mengen noch nicht selbst, sie bewertet nur.
 - **risk:** Falsch kalibrierte `hart`-Grenze blockiert gültige Rezepte. Mitigation: `hart` nur weit außerhalb der Korpus-Spanne gesetzt; Override-Anbindung als T39.
 
+## DR-021 · tech · Ablauf als Abhängigkeitsgraph (T38) + Grenzen-Kaskade per Simulation (T39)
+
+- **descr:** (2026-10-17)
+  1. **Graph statt Liste:** Abhängigkeiten als Methoden-Feld `nach: {key: [Vorgänger]}` statt Erweiterung der `sequenz`-Einträge — `sequenz` bleibt flache Liste (String oder Inline-Objekt, DR-014), geteilte Operationen aus `operations.json` (z. B. `verquirlen`) brauchen keine methodenspezifische Kopie. Ohne `nach` bleibt alles linear (abwärtskompatibel). Darstellung: Spalte = längster Pfad, parallele Schritte untereinander.
+  2. **Grenzen-Kaskade per Simulation:** Statt pro Grenze eine Ersatz-Eigenschaft zu deklarieren (wie `kaskade_ziel` + Eigenschaft bei Operationen, T26), rechnet die Engine jede Option der Zielrolle durch und nimmt die erste, die die Grenze einhält. Generisch für jede neue Grenze, keine zweite Regelquelle.
+- **pro:** Freiheitsgrade der Reihenfolge werden sichtbar statt verschwiegen (Konzept „Reihenfolge hat oft keinen Einfluss“); Kaskade funktioniert automatisch für jede quantitative Grenze.
+- **cons:** Graph-Layout ohne echten Layout-Algorithmus (keine Kreuzungsminimierung) — reicht für ≤ 2 parallele Stränge. Kaskade wählt die *erste* passende Option in Deklarationsreihenfolge, nicht die nächstliegende; tauscht nur Zutaten, ändert keine Mengen (T40).
+- **risk:** Bei mehr parallelen Strängen (z. B. Hefeteig mit Vorteig, T06) kann die Spaltendarstellung unübersichtlich werden → dann echtes Layout (z. B. dagre) neu bewerten.
+

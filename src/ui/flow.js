@@ -1,7 +1,7 @@
 import { iconGroup, iconHtml } from './icons.js';
 
 const NS = 'http://www.w3.org/2000/svg';
-const W = 168, H = 76, GAP = 44, PAD = 16, ICON = 15, ICON_GAP = 3;
+const W = 168, H = 76, GAP = 44, PAD = 16, ICON = 15, ICON_GAP = 3, ROW_GAP = 46;
 
 // verb=mischen wird je nach Intensität als anderes Icon dargestellt
 // (passiv=Einlegen/Ruhen, sanft=Mischen-S, kraeftig=Schlagen), statt drei
@@ -19,9 +19,21 @@ function iconKeysFor(s) {
 export function renderFlow(svg, details, computed, data = {}) {
   const namen = { ...(data.kategorien || {}), ...(data.verben || {}) };
   const steps = computed.ablauf;
-  const total = PAD * 2 + steps.length * W + (steps.length - 1) * GAP;
-  svg.setAttribute('viewBox', `0 0 ${total} ${H + PAD * 2 + 24}`);
+  // Ablauf als Graph (T38): Spalte = `ebene` (längster Pfad vom Start), Schritte gleicher Ebene
+  // untereinander — sie sind voneinander unabhängig (Reihenfolge frei). Ein rein linearer Ablauf
+  // ergibt eine Zeile, identisch zur bisherigen Darstellung.
+  const ebeneVon = (s, i) => s.ebene ?? i;
+  const zeile = [];
+  const proEbene = {};
+  steps.forEach((s, i) => { const e = ebeneVon(s, i); zeile[i] = proEbene[e] = (proEbene[e] ?? -1) + 1; });
+  const spalten = Math.max(...steps.map(ebeneVon)) + 1;
+  const zeilen = Math.max(...Object.values(proEbene)) + 1;
+  const pos = steps.map((s, i) => ({ x: PAD + ebeneVon(s, i) * (W + GAP), y: PAD + zeile[i] * (H + ROW_GAP) }));
+  const total = PAD * 2 + spalten * W + (spalten - 1) * GAP;
+  const hoehe = PAD * 2 + zeilen * H + (zeilen - 1) * ROW_GAP + 24;
+  svg.setAttribute('viewBox', `0 0 ${total} ${hoehe}`);
   svg.setAttribute('width', total);
+  svg.setAttribute('height', hoehe);
   svg.replaceChildren();
 
   const defs = node('defs');
@@ -31,8 +43,7 @@ export function renderFlow(svg, details, computed, data = {}) {
   svg.append(defs);
 
   steps.forEach((s, i) => {
-    const x = PAD + i * (W + GAP);
-    const y = PAD;
+    const { x, y } = pos[i];
     const g = node('g', { class: `flow-node typ-${s.typ}${s.eingefuegt ? ' is-inserted' : ''}`, 'data-step': i });
     g.append(node('rect', { x, y, width: W, height: H, rx: 10 }));
     // Ein Schritt = Kombination aus Zutat-Icon(s) + Verb-Icon, als Reihe zentriert
@@ -53,8 +64,16 @@ export function renderFlow(svg, details, computed, data = {}) {
     t.textContent = s.wirkung;
     g.append(t);
     svg.append(g);
-    if (i < steps.length - 1) {
-      svg.append(node('line', { x1: x + W, y1: y + H / 2, x2: x + W + GAP - 2, y2: y + H / 2, class: 'flow-edge', 'marker-end': 'url(#arrow)' }));
+    // Kanten von jedem Vorgänger (T38); ohne `nach`-Daten linear zum vorigen Schritt.
+    const vorgaenger = s.nach ?? (i > 0 ? [steps[i - 1].nr] : []);
+    for (const nr of vorgaenger) {
+      const v = pos[nr - 1];
+      if (!v) continue;
+      const x1 = v.x + W, y1 = v.y + H / 2, x2 = x - 2, y2 = y + H / 2;
+      const mx = (x1 + x2) / 2;
+      svg.append(y1 === y2
+        ? node('line', { x1, y1, x2, y2, class: 'flow-edge', 'marker-end': 'url(#arrow)' })
+        : node('path', { d: `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`, fill: 'none', class: 'flow-edge', 'marker-end': 'url(#arrow)' }));
     }
   });
 
@@ -67,7 +86,7 @@ export function renderFlow(svg, details, computed, data = {}) {
     const iconKeys = iconKeysFor(s);
     h.insertAdjacentHTML('beforeend', iconKeys.map((k) => iconHtml(k, 14, namen[k]?.label)).join(''));
     h.append(document.createTextNode(
-      ` ${s.nr}. ${s.label}${s.dauer ? ` · ~${s.dauer} Min.` : ''}${s.eingefuegt ? ' · automatisch eingefügt' : ''}`,
+      ` ${s.nr}. ${s.label}${s.dauer ? ` · ~${s.dauer} Min.` : ''}${s.eingefuegt ? ' · automatisch eingefügt' : ''}${parallelText(s, steps)}`,
     ));
     const w = document.createElement('div');
     w.className = 'step-why';
@@ -81,6 +100,13 @@ export function renderFlow(svg, details, computed, data = {}) {
     }
     details.append(li);
   }
+}
+
+// Schritte derselben Ebene hängen nicht voneinander ab (T38) — Reihenfolge frei.
+function parallelText(s, steps) {
+  if (s.ebene == null) return '';
+  const andere = steps.filter((x) => x !== s && x.ebene === s.ebene).map((x) => `${x.nr}.`);
+  return andere.length ? ` · Reihenfolge frei (parallel zu ${andere.join(', ')})` : '';
 }
 
 function wrap(textEl, str, maxChars, cx) {

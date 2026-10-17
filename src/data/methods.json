@@ -2,6 +2,7 @@
   "_schema": {
     "sequenz": "geordnete Liste; Einträge sind entweder ein String (Operations-Schlüssel aus operations.json, für mehrfach genutzte Operationen) oder ein Objekt (Operation inline definiert, für methodenspezifische Einzelfälle — gleiche Feldstruktur wie ein operations.json-Eintrag, plus `key` als Bezeichner). Die Engine prüft Voraussetzungen in beiden Fällen gleich.",
     "optional": "Operationen (per Schlüssel), die nur ausgeführt werden, wenn die zugehörige Rolle belegt ist (z. B. einlage)",
+    "nach": "optional: Abhängigkeiten je Schritt {key: [Vorgänger-keys]} (T38, Ablauf als Graph). Nur physikalisch erzwungene Reihenfolgen eintragen. [] = Startschritt ohne Vorgänger (frei parallel). Fehlt ein key, gilt der letzte vorhandene Schritt als Vorgänger, der nicht selbst Startschritt ist (lineares Standardverhalten). Nicht vorhandene Vorgänger (übersprungene optionale Schritte) werden ignoriert.",
     "textur": "typisches Ergebnis",
     "triebquelle": "woher die Lockerung überwiegend kommt"
   },
@@ -46,6 +47,7 @@
       "backen"
     ],
     "optional": ["einlegen", "einlage_unterheben"],
+    "nach": {"einlegen": [], "einlage_unterheben": ["unterheben_abwechselnd", "einlegen"]},
     "textur": "feinporig, gleichmäßig, schnittfest",
     "triebquelle": "eingeschlagene Luft im Fett + Backpulver",
     "geeignet_fuer": ["kastenform", "gugelhupfform", "springform"],
@@ -86,6 +88,7 @@
       "backen"
     ],
     "optional": ["einlegen", "einlage_unterheben"],
+    "nach": {"einlegen": [], "trocken_mischen": [], "verquirlen": [], "unterheben_kurz": ["trocken_mischen", "verquirlen"], "einlage_unterheben": ["unterheben_kurz", "einlegen"]},
     "textur": "grobporig, locker, weniger schnittfest",
     "triebquelle": "Backpulver (chemisch), kaum eingeschlagene Luft",
     "geeignet_fuer": ["muffinform"],
@@ -115,6 +118,7 @@
       "backen"
     ],
     "optional": ["einlegen", "einlage_unterheben"],
+    "nach": {"einlegen": [], "einlage_unterheben": ["unterheben_abwechselnd", "einlegen"]},
     "textur": "sehr saftig, etwas dichter, bleibt lange frisch",
     "triebquelle": "Eischaum + Backpulver",
     "geeignet_fuer": ["kastenform", "gugelhupfform", "springform", "muffinform"],
@@ -143,6 +147,7 @@
       "backen"
     ],
     "optional": ["einlegen", "einlage_unterheben"],
+    "nach": {"einlegen": [], "einlage_unterheben": ["alles_verruehren", "einlegen"]},
     "textur": "dichter, gleichmäßig, robust",
     "triebquelle": "fast nur Backpulver",
     "geeignet_fuer": ["kastenform", "gugelhupfform", "muffinform"],

@@ -1,5 +1,13 @@
 import { ROLLEN } from './corpus.js';
 import { summarize } from './units.js';
+import { GROESSEN } from './bilanz.js';
+
+// Ziel-Dimensionen: Rollen-Bäckerprozent UND Bilanz-Größen (T39, Präfix "bilanz:") — so werden
+// auch rollenübergreifende Effekte sichtbar (z. B. saure Flüssigkeit → Gesamtwasser höher).
+const ZIELE = [
+  ...ROLLEN.map((r) => ({ key: r, wert: (rez) => rez.bp[r] })),
+  ...Object.keys(GROESSEN).map((g) => ({ key: `bilanz:${g}`, wert: (rez) => rez.bilanz?.bp[g] })),
+];
 
 // Generische Korpus-Korrelationssuche (DR-019 Punkt 5, T32): durchsucht den Korpus nach
 // bedingten Abhängigkeiten — "wenn Rolle B die Eigenschaft E=W hat, unterscheidet sich der
@@ -55,10 +63,11 @@ export function korrelationenSuchen(normalizedRecipes, ingredients, opts = {}) {
         }
         if (passt.length < minN || rest.length < minN) continue;
 
-        for (const zRolle of ROLLEN) {
+        for (const ziel of ZIELE) {
+          const zRolle = ziel.key;
           if (zRolle === bRolle) continue;
-          const mit = summarize(passt.map((r) => r.bp[zRolle]));
-          const ohne = summarize(rest.map((r) => r.bp[zRolle]));
+          const mit = summarize(passt.map(ziel.wert));
+          const ohne = summarize(rest.map(ziel.wert));
           if (!mit || !ohne || mit.n < minN || ohne.n < minN || ohne.median === 0) continue;
           const unterschied = Math.abs(mit.median - ohne.median) / ohne.median;
           if (unterschied < minUnterschied) continue;

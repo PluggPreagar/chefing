@@ -72,3 +72,34 @@ export function toleranz(wert, verteilung, minN = 3, marge = 0.05) {
   if (unter(verteilung.q1) || ueber(verteilung.q3)) return 'ausserhalb_q';
   return 'typisch';
 }
+
+// Statische Beschreibung einer Grenze ohne konkreten Messwert — für den Regel-Katalog
+// (alleUeberschreibbarenRegeln, DR-019/T29), unabhängig vom aktuellen Rezept.
+export function beschreibeGrenze(g) {
+  const faktor = !!g.bezug?.groesse;
+  const masz = faktor ? ` / ${GROESSEN_LABEL[g.bezug.groesse]}` : ' % vom Mehl';
+  const teile = [];
+  if (g.min != null) teile.push(`≥ ${fmtWert(g.min, faktor)}`);
+  if (g.max != null) teile.push(`≤ ${fmtWert(g.max, faktor)}`);
+  return `${GROESSEN_LABEL[g.groesse]}${faktor ? masz : ''} ${teile.join(' und ')}${faktor ? '' : masz}`;
+}
+
+// Kaskaden-Vorschlag für eine verletzte Grenze (T39): ersetzt die Zutat(en) der Zielrolle
+// probeweise durch jede Option dieser Rolle (gleiche Rollen-Gramm), rechnet die Bilanz neu und
+// liefert die erste Option, die diese Grenze erfüllt und keine hart-Grenze neu verletzt.
+// Reine Simulation — gleiche Regel wie die Operations-Kaskade (T26): Vorschlag, keine Mutation.
+export function grenzenKaskade(grenze, posten, optionen, ingredients, grenzen, referenzRolle = 'struktur') {
+  const ziel = grenze.kaskade_ziel;
+  if (!ziel) return null;
+  const rollenGramm = posten.filter((p) => p.rolle === ziel).reduce((a, p) => a + p.gramm, 0);
+  if (!(rollenGramm > 0)) return null;
+  const aktuell = new Set(posten.filter((p) => p.rolle === ziel).map((p) => p.zutat));
+  for (const kandidat of optionen) {
+    if (aktuell.has(kandidat) || !ingredients[kandidat]) continue;
+    const probe = [...posten.filter((p) => p.rolle !== ziel), { rolle: ziel, zutat: kandidat, gramm: rollenGramm }];
+    const v = grenzenPruefen(bilanz(probe, ingredients, referenzRolle), grenzen);
+    if (v.hart.length || v.empfohlen.some((x) => x.id === grenze.id)) continue;
+    return kandidat;
+  }
+  return null;
+}
