@@ -1,6 +1,7 @@
 import { fromGrams } from './units.js';
 import { ROLLEN } from './corpus.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung } from './rules.js';
+import { bilanz, grenzenPruefen, toleranz, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 const FALLBACK_BP = { struktur: 100, fett: 90, suesse: 90, bindung: 80, fluessigkeit: 20, trieb: 3, aroma: 3, einlage: 40 };
 
@@ -92,6 +93,33 @@ export function compute(state, data, korpusStats) {
     });
   });
 
+  // Gesamtbilanz (DR-020/T33) über alle Zutaten-Zeilen, quantitative Grenzen (T34) und
+  // Korpus-Toleranz (T35). Die Rollen-Bäckerprozent sind per Konstruktion der Korpus-Median —
+  // Abweichungen entstehen erst über die Zutatenwahl (z. B. Schmand statt Milch, Öl statt
+  // Butter), und genau die sieht nur die Bilanz. Darum wird die Toleranz auf der Bilanz geprüft.
+  const referenzRolle = arch.rollen.find((r) => r.referenz)?.rolle ?? 'struktur';
+  const bil = bilanz(zutatenListe, data.ingredients, referenzRolle);
+  const grenzen = data.grenzen?.archetypen?.[state.archetyp] || [];
+  const verletzt = grenzenPruefen(bil, grenzen);
+  const groessenMitGrenze = new Set(
+    [...verletzt.hart, ...verletzt.empfohlen].map((v) => grenzen.find((g) => g.id === v.id)?.groesse),
+  );
+  const toleranzHinweise = [];
+  const toleranzWarnungen = [];
+  const bilanzZeilen = Object.keys(GROESSEN).map((g) => {
+    const korpus = st.bilanz?.[g] ?? null;
+    const t = toleranz(bil.bp[g], korpus);
+    if (!groessenMitGrenze.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
+      const wert = Math.round(bil.bp[g]);
+      const text = t === 'ausserhalb_spanne'
+        ? `${GROESSEN_LABEL[g]} ${wert} % vom Mehl liegt außerhalb aller ${korpus.n} Korpus-Rezepte (${Math.round(korpus.min)}–${Math.round(korpus.max)} %) — ungetestete Kombination.`
+        : `${GROESSEN_LABEL[g]} ${wert} % vom Mehl ist untypisch (Korpus Q1–Q3: ${Math.round(korpus.q1)}–${Math.round(korpus.q3)} %).`;
+      (t === 'ausserhalb_spanne' ? toleranzWarnungen : toleranzHinweise).push(text);
+    }
+    return { groesse: g, label: GROESSEN_LABEL[g], gramm: bil.gramm[g], bp: bil.bp[g], korpus, toleranz: t };
+  });
+  const status = verletzt.hart.length ? 'invalid' : res.status;
+
   const round5 = (x) => Math.round(x / 5) * 5;
   const kb = st.backen || {};
   const ausKorpus = st.n >= 3 && kb.minuten?.median != null;
@@ -131,9 +159,11 @@ export function compute(state, data, korpusStats) {
     korpusN: st.n,
     methodKey,
     method,
-    status: res.status,
-    gruende: res.gruende,
-    warnungen: res.warnungen,
+    status,
+    gruende: [...res.gruende, ...verletzt.hart.map((v) => v.text)],
+    warnungen: [...res.warnungen, ...verletzt.empfohlen.map((v) => v.text), ...toleranzWarnungen],
+    toleranzHinweise,
+    bilanz: bilanzZeilen,
     // Kaskaden-Vorschläge (DR-019/T26): Ersatzkandidaten für Rollen, die eine harte
     // Kollision auflösen könnten, wenn sie nicht `gesetzt-fix` sind. Reine Daten, noch
     // keine Übernahme — die UI dazu (Vorschlagen-dann-bestätigen) kommt in T27.

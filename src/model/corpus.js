@@ -1,4 +1,5 @@
 import { toGrams, bakersPercent, summarize } from './units.js';
+import { bilanz, GROESSEN } from './bilanz.js';
 
 export const ROLLEN = ['struktur', 'fett', 'suesse', 'bindung', 'fluessigkeit', 'trieb', 'aroma', 'einlage'];
 
@@ -23,6 +24,7 @@ export function normalizeRecipe(recipe, ingredients) {
   const unbekannt = [];
   let fettTyp = null;
   let sauer = false;
+  const posten = []; // je Zutat-Zeile in Gramm — Grundlage der Gesamtbilanz (DR-020/T33)
 
   for (const z of recipe.zutaten || []) {
     const ing = ingredients[z.zutat];
@@ -34,6 +36,7 @@ export function normalizeRecipe(recipe, ingredients) {
     if (!ing) unbekannt.push(z);
     if (rollenGramm[z.rolle] == null) rollenGramm[z.rolle] = 0;
     rollenGramm[z.rolle] += g;
+    posten.push({ rolle: z.rolle, zutat: z.zutat, gramm: g });
     if (z.rolle === 'fett' && ing) fettTyp = ing.aggregat === 'fluessig' ? 'fluessig' : 'fest';
     if (ing?.saeure && z.rolle !== 'aroma' && z.rolle !== 'einlage') sauer = true;
   }
@@ -47,6 +50,7 @@ export function normalizeRecipe(recipe, ingredients) {
     rollenGramm,
     bp,
     teigmasse,
+    bilanz: bilanz(posten, ingredients),
     fettTyp,
     sauer,
     hatEinlage: rollenGramm.einlage > 0,
@@ -74,6 +78,8 @@ export function stats(normalized) {
     sauer: normalized.filter((r) => r.sauer).length,
     einlage: normalized.filter((r) => r.hatEinlage).length,
     teigmasse: summarize(normalized.map((r) => r.teigmasse)),
+    // Verteilung der Gesamtbilanz (Bäckerprozent) — Erfahrungs-Toleranz für T35
+    bilanz: Object.fromEntries(Object.keys(GROESSEN).map((g) => [g, summarize(normalized.map((r) => r.bilanz?.bp[g]))])),
     backen: {
       tempOU: summarize(normalized.map((r) => r.backen?.tempOU)),
       tempUmluft: summarize(normalized.map((r) => r.backen?.tempUmluft)),

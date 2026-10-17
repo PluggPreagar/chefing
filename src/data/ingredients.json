@@ -5,6 +5,7 @@
     "aggregat": "fest | fluessig | pulver | stueckig",
     "fettanteil": "0..1 Massenanteil Fett",
     "wasseranteil": "0..1 Massenanteil Wasser",
+    "zuckeranteil": "0..1 Massenanteil Zucker (Saccharose + Laktose + Fruchtzucker), Default 0 — für die Gesamtbilanz (bilanz.js, DR-020)",
     "saeure": "true wenn nennenswert sauer (reagiert mit Backpulver/Natron)",
     "cremig_schlagbar": "true wenn sich bei Raumtemperatur Luft einschlagen lässt",
     "schmelzpunkt_c": "°C, nur bei festen Fetten",
@@ -104,6 +105,7 @@
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
+    "zuckeranteil": 1,
     "saeure": false,
     "eigenschaften": ["hygroskopisch → Saftigkeit", "Kristalle reißen beim Aufschlagen Luft in das Fett", "Bräunung durch Karamellisierung"],
     "umrechnung": { "el": 15, "tl": 5 }
@@ -115,6 +117,7 @@
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0.02,
+    "zuckeranteil": 0.97,
     "saeure": true,
     "eigenschaften": ["leicht sauer durch Melasse", "karamelliges Aroma", "etwas feuchter"],
     "umrechnung": { "el": 13, "tl": 4 }
@@ -126,6 +129,7 @@
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
+    "zuckeranteil": 0.97,
     "saeure": false,
     "eigenschaften": ["löst sich sofort", "reißt beim Aufschlagen weniger Luft ein als Kristallzucker"],
     "umrechnung": { "el": 10, "tl": 3 }
@@ -148,6 +152,7 @@
     "aggregat": "fluessig",
     "fettanteil": 0.035,
     "wasseranteil": 0.88,
+    "zuckeranteil": 0.05,
     "saeure": false,
     "eigenschaften": ["neutral", "reguliert Teigkonsistenz", "Milchzucker fördert Bräunung"],
     "umrechnung": { "ml": 1.03, "el": 15, "tl": 5 }
@@ -170,6 +175,7 @@
     "aggregat": "fluessig",
     "fettanteil": 0.01,
     "wasseranteil": 0.90,
+    "zuckeranteil": 0.04,
     "saeure": true,
     "eigenschaften": ["Milchsäure reagiert mit Backpulver/Natron → zusätzliches CO₂", "Säure begrenzt Glutenentwicklung → zartere Krume"],
     "umrechnung": { "ml": 1.03, "el": 15 }
@@ -203,6 +209,7 @@
     "aggregat": "fluessig",
     "fettanteil": 0.035,
     "wasseranteil": 0.86,
+    "zuckeranteil": 0.04,
     "saeure": true,
     "eigenschaften": ["sauer, reagiert mit Trieb", "leichter als Schmand"],
     "umrechnung": { "ml": 1.03, "el": 18 }
@@ -250,6 +257,7 @@
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
+    "zuckeranteil": 0.95,
     "saeure": false,
     "eigenschaften": ["Aroma + ein wenig Zucker"],
     "umrechnung": { "pkt": 8, "tl": 4, "el": 12 }
@@ -305,6 +313,7 @@
     "aggregat": "fluessig",
     "fettanteil": 0,
     "wasseranteil": 0.88,
+    "zuckeranteil": 0.09,
     "saeure": true,
     "eigenschaften": ["mild sauer", "bringt Fruchtzucker und Aroma"],
     "umrechnung": { "ml": 1, "el": 15, "tl": 5, "stk": 80 }
@@ -371,6 +380,7 @@
     "aggregat": "stueckig",
     "fettanteil": 0.35,
     "wasseranteil": 0.01,
+    "zuckeranteil": 0.5,
     "saeure": false,
     "eigenschaften": ["schmilzt teilweise, bleibt als Einschluss", "beeinflusst Teigverhältnis kaum"],
     "umrechnung": { "el": 15 }
@@ -382,6 +392,7 @@
     "aggregat": "stueckig",
     "fettanteil": 0.005,
     "wasseranteil": 0.15,
+    "zuckeranteil": 0.6,
     "saeure": false,
     "quellfaehig": true,
     "eigenschaften": ["ziehen Feuchtigkeit aus dem Teig, wenn nicht vorgequollen", "sinken in dünnem Teig ab"],
@@ -394,6 +405,7 @@
     "aggregat": "stueckig",
     "fettanteil": 0,
     "wasseranteil": 0.85,
+    "zuckeranteil": 0.1,
     "saeure": true,
     "eigenschaften": ["geben beim Backen Wasser ab", "in Mehl gewendet sinken sie weniger"],
     "umrechnung": { "el": 12 }

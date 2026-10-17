@@ -13,10 +13,10 @@ async function loadJson(path) {
   return r.json();
 }
 
-const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln] = await Promise.all(
-  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln'].map((n) => loadJson(`./src/data/${n}.json`)),
+const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen] = await Promise.all(
+  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen'].map((n) => loadJson(`./src/data/${n}.json`)),
 );
-const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln };
+const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen };
 const arch = archetypes.ruehrteig;
 
 const raw = await loadCorpus(arch.varianten);

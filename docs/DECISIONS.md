@@ -237,3 +237,14 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** schließt die aus DR-002 und DR-008 bekannten Risiken (Sonderfälle im Code statt in Daten) konzeptionell; macht explizit sichtbar, warum ein Wert feststeht (Physik/Statistik/Klick) statt es undifferenziert in `warnungen`/`gruende`/`anpassungen` zu vermengen; Physik-Regeln werden kalibrierbar statt für immer als unfehlbar behandelt.
 - **cons:** reines Konzept, noch nicht umgesetzt; vier zusätzliche Mechanismen (Wert-Zustand, Kaskaden-Propagation, Override-Tracking, Rückfrage-UI) kommen zu den drei bestehenden Datenmodellen (`operations.json`-Regeln, Korpus-Statistik, `state.zutaten`) hinzu.
 - **risk:** Umfang — würde alles auf einmal umgesetzt, wäre das der größte Einzeleingriff seit DR-012 (state-Form, `rules.js`, `engine.js`, `morphbox.js` alle betroffen). Mitigation: gestufte Reihenfolge über T22–T25 (Code-in-Daten-Migration zuerst, dann Wert-Zustand/Propagation, Override-Feedback zuletzt), nicht in einem Schritt.
+
+## DR-020 · tech · Gesamtbilanz als zweite Sicht neben Rollen-Bäckerprozent + quantitative Grenzen + Korpus-Toleranz
+
+- **descr:** (2026-10-17, Konzept-Review „Rezept = ein Punkt im Variantenraum; Physik begrenzt, Bausteine sind austauschbar“) Die Rollen-Sicht sieht nur, *welche* Zutat in welcher Rolle steht, nicht, *was* sie physikalisch in den Teig bringt (Wasser im Ei/in der Butter, Fett im Schmand). Umgesetzt (T33–T35):
+  1. **Bilanz** (`src/model/bilanz.js`): Summe Wasser/Fett/Zucker über alle Zutaten der Teigmatrix, in Bäckerprozent zur Referenzrolle. `einlage` ausgenommen (stückig, gibt Bestandteile nur teilweise ab). Neues Zutat-Feld `zuckeranteil`. Dieselbe Funktion rechnet Korpus-Rezepte → Bilanz-Verteilung als Erfahrungswert.
+  2. **Quantitative Grenzen** (`src/data/grenzen.json`): neuer Constraint-Typ auf Bilanz-Größen (Prozent zu einer Rolle oder Faktor zu einer anderen Größe), mit derselben `strenge`-Semantik wie DR-008. Bewusst eigene Datei statt Erweiterung von `voraussetzung` in `operations.json`: Grenzen gelten für das ganze Rezept, nicht für eine Operation.
+  3. **Toleranz**: Korpus-Q1–Q3 und min–max wirken jetzt (vorher nur angezeigt), aber auf der Bilanz — Rollen-Bäckerprozent sind per Konstruktion Median.
+- **pro:** Substitutionen werden physikalisch vergleichbar (Öl vs. Butter, Schmand vs. Milch); erste Rezept-weite Physik-Grenzen in Daten; Grundlage für Funktionsvektor (T36) und Zerlegung von Fertighelfern (T37). Rein additiv, Presets unverändert gültig.
+- **cons:** Grenzwerte sind Faustwerte, nicht gemessen; Q1–Q3 bei n ≈ 7 schmal (daher 5 % Marge, Bewertung erst ab n ≥ 3). Bilanz korrigiert Mengen noch nicht selbst, sie bewertet nur.
+- **risk:** Falsch kalibrierte `hart`-Grenze blockiert gültige Rezepte. Mitigation: `hart` nur weit außerhalb der Korpus-Spanne gesetzt; Override-Anbindung als T39.
+

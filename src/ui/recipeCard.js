@@ -28,6 +28,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   for (const b of computed.blockaden || []) root.append(blockadeOverride(b, state, data, onChange));
   for (const w of computed.warnungen) root.append(el('p', 'note note-warn', w));
   for (const a of computed.anpassungen) root.append(el('p', 'note note-info', a));
+  for (const h of computed.toleranzHinweise || []) root.append(el('p', 'note note-info', h));
 
   const table = el('table', 'zutaten');
   const thead = el('thead');
@@ -45,6 +46,23 @@ export function renderRecipe(root, computed, state, data, onChange) {
   root.append(table);
   if (computed.zutatenListe.some((z) => z.bpQuelle === 'schätzung')) {
     root.append(el('p', 'fine', '* keine Korpus-Daten für diese Rolle — Schätzwert'));
+  }
+
+  // Gesamtbilanz (DR-020/T33): Wasser/Fett/Zucker über alle Zutaten, mit Korpus-Spanne (T35).
+  if (computed.bilanz?.length) {
+    const bt = el('table', 'zutaten bilanz');
+    const bh = el('thead');
+    bh.append(tr(['Bilanz', 'Gramm', '% vom Mehl', 'Korpus (Q1–Q3)'], 'th'));
+    bt.append(bh);
+    const bb = el('tbody');
+    const markierung = { ausserhalb_q: ' ◦', ausserhalb_spanne: ' ⚠' };
+    for (const z of computed.bilanz) {
+      const k = z.korpus;
+      bb.append(tr([z.label, `${Math.round(z.gramm)} g`, `${fmt(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmt(k.q1)}–${fmt(k.q3)} %` : '—']));
+    }
+    bt.append(bb);
+    root.append(bt);
+    root.append(el('p', 'fine', 'Bilanz = Summe über alle Zutaten ohne Einlage (z. B. Wasser aus Ei, Butter, Milch). ◦ außerhalb Q1–Q3 · ⚠ außerhalb Korpus-Spanne'));
   }
 
   const bake = el('div', 'bake');
