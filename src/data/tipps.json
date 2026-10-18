@@ -130,7 +130,8 @@
       "symptom": "Der Teig geht gar nicht auf",
       "ursache": "Milch oder Wasser waren zu heiß: die Hefe stirbt ab (genannt: über 40–45 °C); ideal sind etwa 30 °C, lauwarm",
       "art": "temperatur",
-      "zahlen": { "ideal_c": 30, "hefe_stirbt_ab_c": "40–45", "teig_hoechstens_c": 40 },
+      "zahlen": { "ideal_c": 30, "hefe_stirbt_ab_c": "40–45", "teig_hoechstens_c": 40, "nutzer_grenze_c": 42, "nutzer_optimum_c": 25 },
+      "hinweis": "Nutzer-Fachwissen (2026-10-18, nicht recherchiert): Hefe vermehrt sich und bildet CO2 am besten um 25 °C; ab etwa 42 °C beginnen lebende Kulturen abzusterben (Eiweiße denaturieren), bei Joghurt-Kulturen genauso. Das Gärmodell bleibt bei Deckel 35 °C: die Fit-Daten kennen nur 5,5, 10, 21, 28 und 35 °C und sprechen gegen einen Deckel unter 28 °C (R² 0,80 bei 28–35 °C, 0,77 bei 25 °C)",
       "quellen": [
         { "url": "https://www.lecker.de/mein-hefeteig-geht-nicht-auf-die-5-haeufigsten-fehler-68931.html", "site": "lecker.de" },
         { "url": "https://www.wunderweib.de/hefeteig-geht-nicht-auf-fehler-und-hefeteig-rezept-3628.html", "site": "wunderweib.de" }
