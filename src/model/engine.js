@@ -3,7 +3,7 @@ import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } f
 import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
-import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 export function varianteFuerGefaess(gefaessKey, arch, vessels) {
   const fam = vessels[gefaessKey]?.familie;
@@ -91,6 +91,11 @@ export function compute(state, data, korpusStats) {
     anpassungen.push(`Keine Rezepte mit „${method.label}“ in dieser Variante: Hefe aus der Gärzeit gerechnet (${fmtDauer(gare.summe)}${gareTempText ? ` bei ${gareTempText}` : ''} → ${hefe.toFixed(1).replace('.', ',')} % Hefe). Richtwert aus dem Gärmodell, Spielraum etwa ×${String(modell.warn_faktor).replace('.', ',')}${modell.exponent_hinweis ? '; der Einfluss der Hefemenge ist nur grob belegt' : ''}.`);
   }
 
+  // Manuell gesetzte Mengen (T40, Bäckerprozent je Rolle, aus „Übernehmen“ bei einem Mengen-Vorschlag): gelten zuletzt
+  for (const [r, bp] of Object.entries(state.mengen || {})) {
+    if (bpZiel[r] && Number.isFinite(bp) && bp >= 0) bpZiel[r] = { bp, quelle: 'manuell' };
+  }
+
   if (bpZiel.struktur && props.struktur && props.struktur.unterkategorie === 'nuss') {
     anpassungen.push('Nüsse als alleinige Struktur: Kuchen wird sehr feucht und bindet schwach.');
   }
@@ -164,6 +169,8 @@ export function compute(state, data, korpusStats) {
   // Datenform wie die Operations-Kaskaden/-Blockaden, damit recipeCard.js sie unverändert zeigt.
   const blockaden = [...(res.blockaden || [])];
   const kaskaden = [...(res.kaskaden || [])];
+  const mengenVorschlaege = [];
+  const bpPosten = zutatenListe.map((z) => ({ rolle: z.rolle, zutat: z.zutat, gramm: z.bp }));
   for (const v of [...verletzt.hart, ...verletzt.empfohlen]) {
     const g = grenzen.find((x) => x.id === v.id);
     if (!g) continue;
@@ -173,7 +180,18 @@ export function compute(state, data, korpusStats) {
     if (!g.kaskade_ziel || rolleIstGesperrt(state.fixiert, g.kaskade_ziel)) continue;
     const rolle = arch.rollen.find((r) => r.rolle === g.kaskade_ziel);
     const kandidat = grenzenKaskade(g, zutatenListe, rolle?.optionen || [], data.ingredients, grenzen, referenzRolle);
-    if (!kandidat) continue;
+    if (!kandidat) {
+      // Kein Tausch reicht (T40): Menge der Zielrolle innerhalb der Korpus-Spanne verschieben
+      const sp = stRolle.bp?.[g.kaskade_ziel];
+      const m = grenzenMengenKaskade(g, bpPosten, sp ? { min: sp.min, max: sp.max } : null, data.ingredients, grenzen, referenzRolle);
+      if (m) {
+        const text = beschreibeGrenze(g);
+        const vorh = mengenVorschlaege.find((x) => x.rolle === m.rolle && x.nach === m.nach);
+        if (vorh) { if (!vorh.weitere.includes(text) && vorh.ausloeser !== text) vorh.weitere.push(text); vorh.grenzIds.push(g.id); }
+        else mengenVorschlaege.push({ ausloeser: text, weitere: [], grenzIds: [g.id], rolle: m.rolle, rolleLabel: rolle?.label ?? m.rolle, von: m.von, nach: m.nach, spanne: sp ? { min: sp.min, max: sp.max } : null });
+      }
+      continue;
+    }
     // Gleicher Ersatz löst mehrere Grenzen: ein Vorschlag, alle Auslöser genannt (T42).
     const vorhanden = kaskaden.find((k) => k.rolle === g.kaskade_ziel && k.zutat === kandidat);
     if (vorhanden) {
@@ -186,6 +204,24 @@ export function compute(state, data, korpusStats) {
       ausloeser: beschreibeGrenze(g), rolle: g.kaskade_ziel, rolleLabel: rolle?.label ?? g.kaskade_ziel,
       zutat: kandidat, zutatLabel: data.ingredients[kandidat]?.label ?? kandidat,
     });
+  }
+
+  // Mehrere Vorschläge für dieselbe Rolle in dieselbe Richtung (z. B. drei Wasser-Grenzen): zu EINEM zusammenfassen, wenn der
+  // weitestgehende Wert alle diese Grenzen zugleich hält und keine neue harte Grenze verletzt (T40)
+  const hartJetzt = new Set(verletzt.hart.map((v) => v.id));
+  for (const rolleKey of new Set(mengenVorschlaege.map((x) => x.rolle))) {
+    const liste = mengenVorschlaege.filter((x) => x.rolle === rolleKey);
+    if (liste.length < 2) continue;
+    const hoch = liste.every((x) => x.nach > x.von);
+    if (!hoch && !liste.every((x) => x.nach < x.von)) continue;
+    const ziel = (hoch ? Math.max : Math.min)(...liste.map((x) => x.nach));
+    const probe = bpPosten.map((z) => (z.rolle === rolleKey ? { ...z, gramm: z.gramm * (ziel / liste[0].von) } : z));
+    const v = grenzenPruefen(bilanz(probe, data.ingredients, referenzRolle), grenzen);
+    const ids = new Set(liste.flatMap((x) => x.grenzIds));
+    if ([...v.hart, ...v.empfohlen].some((x) => ids.has(x.id)) || v.hart.some((x) => !hartJetzt.has(x.id))) continue;
+    const erster = liste.find((x) => x.nach === ziel) ?? liste[0];
+    const texte = [...new Set(liste.flatMap((x) => [x.ausloeser, ...x.weitere]))].filter((t) => t !== erster.ausloeser);
+    mengenVorschlaege.splice(mengenVorschlaege.findIndex((x) => x.rolle === rolleKey), liste.length, { ...erster, nach: ziel, weitere: texte, grenzIds: [...ids] });
   }
 
   const round5 = (x) => Math.round(x / 5) * 5;
@@ -280,6 +316,8 @@ export function compute(state, data, korpusStats) {
     // Kollision auflösen könnten, wenn sie nicht `gesetzt-fix` sind. Reine Daten, noch
     // keine Übernahme — die UI dazu (Vorschlagen-dann-bestätigen) kommt in T27.
     kaskaden,
+    // Mengen-Vorschläge (T40): Menge der Zielrolle verschieben, wenn kein Zutaten-Tausch die Grenze löst; Übernehmen setzt `state.mengen`
+    mengenVorschlaege,
     // Override-fähige Blockaden (DR-019 Punkt 4, T25): welche hart-Bedingungen der Nutzer
     // bewusst überschreiben kann. Die Erfassung selbst passiert in der UI (`recipeCard.js`).
     blockaden,

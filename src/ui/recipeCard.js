@@ -29,6 +29,9 @@ export function renderRecipe(root, computed, state, data, onChange) {
   // Kaskaden-Vorschlag (DR-019/T27): zeigt den in T26 berechneten Ersatzkandidaten mit
   // Bestätigen-Button. Nichts ändert sich, bis der Nutzer klickt — kein stilles Umschalten.
   for (const k of computed.kaskaden || []) root.append(kaskadenVorschlag(k, state, data, onChange));
+  // Mengen-Vorschlag (T40): wenn kein Tausch reicht, die Menge der Rolle verschieben — ebenfalls erst nach Klick
+  for (const m of computed.mengenVorschlaege || []) root.append(mengenVorschlag(m, state, onChange));
+  if (Object.keys(state.mengen || {}).length) root.append(mengenManuell(computed, state, onChange));
   // Override erfassen (DR-019 Punkt 4/T25): reine Beweis-Erfassung, kein Freischalten — die
   // Rezeptur ist auch ohne Override schon vollständig sichtbar (s. u.). Speichert nur, dass der
   // Nutzer diese `hart`-Regel bewusst für falsch/zu streng hält, für die Rückfrage in T28.
@@ -46,7 +49,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
     const menge = `${z.menge} ${z.einheit}${z.hinweis ? ` (${z.hinweis})` : ''}`;
     const k = z.korpus;
     const spanne = k ? `${fmt(k.q1)}–${fmt(k.q3)} %` : '—';
-    const marker = z.bpQuelle === 'schätzung' ? ' *' : z.bpQuelle === 'berechnet' ? ' †' : '';
+    const marker = z.bpQuelle === 'schätzung' ? ' *' : z.bpQuelle === 'berechnet' ? ' †' : z.bpQuelle === 'manuell' ? ' ✎' : '';
     const row = tr([z.rolleLabel, z.label, menge, `${fmt(z.bp)} %${marker}`, z.bpQuelle === 'berechnet' ? '—' : spanne]);
     tbody.append(row);
   }
@@ -54,6 +57,9 @@ export function renderRecipe(root, computed, state, data, onChange) {
   root.append(table);
   if (computed.zutatenListe.some((z) => z.bpQuelle === 'schätzung')) {
     root.append(el('p', 'fine', '* keine Korpus-Daten für diese Rolle — Schätzwert'));
+  }
+  if (computed.zutatenListe.some((z) => z.bpQuelle === 'manuell')) {
+    root.append(el('p', 'fine', '✎ manuell gesetzt (Mengen-Vorschlag übernommen) — kein Korpus-Median'));
   }
   if (computed.zutatenListe.some((z) => z.bpQuelle === 'berechnet')) {
     root.append(el('p', 'fine', '† berechnet aus der Gärzeit (Gärmodell, Richtwert) — kein Rezept dieser Methode im Korpus'));
@@ -122,6 +128,37 @@ function kaskadenVorschlag(k, state, data, onChange) {
   btn.className = 'kaskade-btn';
   btn.textContent = 'Übernehmen';
   btn.addEventListener('click', () => onChange({ zutaten: { ...state.zutaten, [k.rolle]: [{ zutat: k.zutat, anteil: 1 }] } }));
+  box.append(btn);
+  return box;
+}
+
+// Mengen-Vorschlag (T40): kein Zutaten-Tausch löst die Grenze, also die Menge der Rolle ändern. Nichts passiert ohne Klick.
+function mengenVorschlag(m, state, onChange) {
+  const box = el('div', 'note note-kaskade');
+  const loest = [m.ausloeser, ...(m.weitere || [])].map((a) => `„${a}“`).join(' und ');
+  const richtung = m.nach < m.von ? 'verringern' : 'erhöhen';
+  const spanne = m.spanne ? ` (Korpus-Spanne ${fmt(m.spanne.min)}–${fmt(m.spanne.max)} %)` : '';
+  box.append(el('span', null, `Vorschlag: ${m.rolleLabel} von ${String(Math.round(m.von * 10) / 10).replace('.', ',')} % auf ${String(m.nach).replace('.', ',')} % vom Mehl ${richtung}${spanne} — löst ${loest}.`));
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'kaskade-btn';
+  btn.textContent = 'Übernehmen';
+  btn.addEventListener('click', () => onChange({ mengen: { ...state.mengen, [m.rolle]: m.nach } }));
+  box.append(btn);
+  return box;
+}
+
+// Hinweis auf manuell gesetzte Mengen (✎ in der Tabelle) mit Rückweg zu den Korpus-Mengen
+function mengenManuell(computed, state, onChange) {
+  const box = el('div', 'note note-info');
+  const teile = computed.zutatenListe.filter((z) => z.bpQuelle === 'manuell').map((z) => `${z.rolleLabel} ${fmt(z.bp)} %`);
+  const einzeln = [...new Set(teile)];
+  box.append(el('span', null, `✎ Manuell gesetzte Menge: ${einzeln.join(', ') || 'keine wirksam'} — statt der Korpus-Menge.`));
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'kaskade-btn';
+  btn.textContent = 'Zurücksetzen';
+  btn.addEventListener('click', () => onChange({ mengen: {} }));
   box.append(btn);
   return box;
 }

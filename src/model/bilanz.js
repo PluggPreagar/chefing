@@ -157,3 +157,29 @@ export function grenzenKaskade(grenze, posten, optionen, ingredients, grenzen, r
   }
   return null;
 }
+
+// Mengen-Kaskade (T40): reicht kein Tausch der Zutat, wird die MENGE der Zielrolle verschoben, bis die Grenze hält — in 1-%-Schritten
+// um die aktuelle Menge, innerhalb der Korpus-Spanne dieser Rolle (spanne = {min, max} in Bäckerprozent), der kleinste Eingriff
+// gewinnt. Rechnet in Bäckerprozent (Mehl = 100, posten[].gramm = Bäckerprozent der Zeile); die Teigmasse skaliert danach alles
+// gleich mit, die Verhältnisse bleiben. Die Referenzrolle (Mehl) wird nie verschoben; keine neue hart-Grenze darf entstehen.
+// Reine Simulation — Vorschlag, keine Mutation (wie grenzenKaskade).
+export function grenzenMengenKaskade(grenze, posten, spanne, ingredients, grenzen, referenzRolle = 'struktur') {
+  const ziel = grenze.kaskade_ziel;
+  if (!ziel || ziel === referenzRolle || !spanne || !(spanne.max >= spanne.min)) return null;
+  const aktuell = posten.filter((p) => p.rolle === ziel).reduce((a, p) => a + p.gramm, 0);
+  if (!(aktuell > 0)) return null;
+  const hartVorher = new Set(grenzenPruefen(bilanz(posten, ingredients, referenzRolle), grenzen).hart.map((v) => v.id));
+  const faktoren = [];
+  const kMin = Math.ceil((Math.max(0, spanne.min / aktuell) - 1) * 100 - 1e-9);
+  const kMax = Math.floor((spanne.max / aktuell - 1) * 100 + 1e-9);
+  for (let k = kMin; k <= kMax; k++) if (k !== 0) faktoren.push(1 + k / 100); // Schritte von 1 % der aktuellen Menge, ganzzahlig gezählt (keine Rundungsfehler)
+  faktoren.sort((a, b) => Math.abs(a - 1) - Math.abs(b - 1));
+  for (const f of faktoren) {
+    const probe = posten.map((p) => (p.rolle === ziel ? { ...p, gramm: p.gramm * f } : p));
+    const v = grenzenPruefen(bilanz(probe, ingredients, referenzRolle), grenzen);
+    if ([...v.hart, ...v.empfohlen].some((x) => x.id === grenze.id)) continue;
+    if (v.hart.some((x) => !hartVorher.has(x.id))) continue;
+    return { rolle: ziel, von: aktuell, nach: Math.round(aktuell * f * 10) / 10, faktor: f };
+  }
+  return null;
+}

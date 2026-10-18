@@ -56,6 +56,8 @@ const state = {
   // automatische Kaskade (T26/T27) darf beides nicht anfassen. Fehlt ein Eintrag, gilt die
   // Rolle/Zutat als flexibel (heutiges Verhalten).
   fixiert: { rollen: {}, zutaten: {} },
+  // mengen[rolle] = Bäckerprozent, vom Nutzer aus einem Mengen-Vorschlag übernommen (T40); gilt bis Preset-/Archetyp-Wechsel
+  mengen: {},
   zutaten: {},
 };
 
@@ -67,6 +69,7 @@ function waehleArchetyp(key) {
   arch = archetypes[key];
   data.arch = arch;
   state.archetyp = key;
+  state.mengen = {};
   state.zutaten = Object.fromEntries(arch.rollen.map((r) => [r.rolle, alsEintraege(r.default)]));
   document.querySelectorAll('[data-preset]').forEach((b) => b.remove());
   for (const [vKey, v] of Object.entries(arch.varianten)) {
@@ -105,6 +108,7 @@ function applyPreset(variante) {
   const v = arch.varianten[variante];
   state.gefaess = v.gefaess;
   state.methode = null;
+  state.mengen = {};
   state.fixiert = { rollen: {}, zutaten: {} }; // neue Zutaten-Grundlage — alte Fixierungen würden sonst sofort kollidieren
   for (const r of arch.rollen) {
     const wert = v.bestof[r.rolle] !== undefined ? v.bestof[r.rolle] : r.default;
