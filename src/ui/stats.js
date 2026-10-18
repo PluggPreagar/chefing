@@ -31,6 +31,7 @@ export function renderStats(root, korpusStats, data) {
     }
     box.append(t);
 
+    box.append(clusterTabelle(st.cluster, st.n));
     box.append(bar('Methoden', st.methoden, (k) => data.methods[k]?.label ?? k, st.n));
     box.append(bar('Fett', st.fettZutat, (k) => data.ingredients[k]?.label ?? k, st.n));
     box.append(bar('Flüssigkeit', st.fluessigkeitZutat, (k) => data.ingredients[k]?.label ?? k, st.n));
@@ -65,6 +66,22 @@ export function renderStats(root, korpusStats, data) {
     }
     root.append(box);
   }
+}
+
+// Varianten-Cluster (T05): Fett-Typ × Säure × Einlage mit Anzahl und Medianen der Gesamtbilanz
+const FETT_LABEL = { fest: 'festes Fett', fluessig: 'flüssiges Fett', kein: 'kein Fett' };
+export const clusterLabel = (c) => `${FETT_LABEL[c.fettTyp] ?? c.fettTyp} · ${c.sauer ? 'sauer' : 'neutral'} · ${c.einlage ? 'mit Einlage' : 'ohne Einlage'}`;
+function clusterTabelle(cluster, n) {
+  const wrap = el('div', 'bar-group');
+  wrap.append(el('div', 'bar-title', 'Varianten-Cluster (Fett-Typ × Säure × Einlage)'));
+  const t = el('table', 'stat-table');
+  t.append(tr(['Gruppe', 'Rezepte', 'Anteil', 'Fett (Median)', 'Wasser (Median)', 'Zucker (Median)'], 'th'));
+  for (const c of cluster ?? []) {
+    const m = (g) => (c.bilanz[g] ? `${fmtProzent(c.bilanz[g].median)} %` : '—');
+    t.append(tr([clusterLabel(c), String(c.n), `${Math.round(c.anteil * 100)} %`, m('fett'), m('wasser'), m('zucker')]));
+  }
+  wrap.append(t);
+  return wrap;
 }
 
 function bar(title, counts, labelFn, n) {

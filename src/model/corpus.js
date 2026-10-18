@@ -87,6 +87,7 @@ export function stats(normalized, rollen = ROLLEN, { proMethode = true } = {}) {
     fluessigkeitZutat: count((r) => (r.zutaten || []).find((z) => z.rolle === 'fluessigkeit')?.zutat ?? '—'),
     einlageZutat: count((r) => (r.zutaten || []).find((z) => z.rolle === 'einlage')?.zutat ?? '—'),
     sauer: normalized.filter((r) => r.sauer).length,
+    cluster: clusterBilden(normalized),
     // Gär-Temperaturen, die Rezepte ausdrücklich nennen (T52, rohe Angaben — die Engine löst sie mit temperaturen.json auf):
     // nennt über die Hälfte eine, gilt deren Median statt der Vorgabe der Operation.
     gareTemperaturen: normalized.map((r) => r.temperaturen?.gehen).filter((t) => t != null),
@@ -119,6 +120,26 @@ export function stats(normalized, rollen = ROLLEN, { proMethode = true } = {}) {
       Object.entries(nachMethode).filter(([, liste]) => liste.length >= MIN_N_METHODE).map(([m, liste]) => [m, stats(liste, rollen, { proMethode: false })]),
     ),
   };
+}
+
+// Varianten-Cluster (T05): Korpus nach Fett-Typ × Säure × Einlage gruppiert — zeigt, welche Gruppen es gibt und wie sie
+// sich in Fett, Wasser und Zucker unterscheiden. Nur Gruppen mit mindestens einem Rezept, größte zuerst.
+export function clusterBilden(normalized) {
+  const gruppen = new Map();
+  for (const r of normalized) {
+    const fettTyp = r.fettTyp ?? 'kein';
+    const key = `${fettTyp}|${r.sauer ? 'sauer' : 'neutral'}|${r.hatEinlage ? 'einlage' : 'ohne'}`;
+    if (!gruppen.has(key)) gruppen.set(key, { key, fettTyp, sauer: !!r.sauer, einlage: !!r.hatEinlage, rezepte: [] });
+    gruppen.get(key).rezepte.push(r);
+  }
+  const n = normalized.length;
+  return [...gruppen.values()].map(({ rezepte, ...g }) => ({
+    ...g,
+    n: rezepte.length,
+    anteil: rezepte.length / n,
+    ids: rezepte.map((r) => r.id),
+    bilanz: Object.fromEntries(['fett', 'wasser', 'zucker'].map((k) => [k, summarize(rezepte.map((r) => r.bilanz?.bp[k]))])),
+  })).sort((a, b) => b.n - a.n || a.key.localeCompare(b.key));
 }
 
 export function haeufigste(counts) {
