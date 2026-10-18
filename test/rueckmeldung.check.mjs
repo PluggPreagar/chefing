@@ -17,7 +17,7 @@ globalThis.localStorage={ getItem:(k)=>{ if(gesperrt) throw new Error('x'); retu
 const leeren=()=>{ for(const k of Object.keys(speicher)) delete speicher[k]; gesperrt=false; };
 
 // --- Daten und Hilfen ---------------------------------------------------------------------------------------------
-const names=['ingredients','operations','methods','archetypes','vessels','kategorien','verben','erfahrungsregeln','grenzen','modelle'];
+const names=['ingredients','operations','methods','archetypes','vessels','kategorien','verben','erfahrungsregeln','grenzen','modelle','temperaturen'];
 const data=Object.fromEntries(names.map(n=>[n,J(n)]));
 const ks={};
 for (const [ak,arch] of Object.entries(data.archetypes)) { if(ak.startsWith('_')) continue; const rollen=arch.rollen.map(r=>r.rolle); for (const [vk,v] of Object.entries(arch.varianten)) ks[vk]=stats(J('corpus/'+v.korpus).map(r=>normalizeRecipe(r,data.ingredients,{rollen})),rollen); }
@@ -33,7 +33,7 @@ const eingabe={bewertung:4,kommentar:'ging gut auf',mengenWieVorgeschlagen:true}
  ok(m.kontext.archetyp==='hefeteig' && m.kontext.variante==='weissbrot' && m.kontext.methode==='hefe_kalt' && m.kontext.gefaess==='brotform_25' && ['ok','prep','invalid'].includes(m.kontext.status),'Kontext: Archetyp, Variante, Methode, Gefäß, Status');
  ok(m.kontext.zutaten.struktur[0].zutat==='weizenmehl' && m.kontext.zutaten.trieb[0].zutat==='hefe_frisch' && Object.values(m.kontext.zutaten).every(l=>l.every(e=>e.zutat&&e.anteil>0)),'Kontext: Zutaten je Rolle mit Anteil (leere Rollen fehlen)');
  ok(typeof m.kontext.rollenBp.trieb==='number' && m.kontext.rollenBp.struktur===100 && Number.isFinite(m.kontext.rollenBp.trieb) && String(m.kontext.rollenBp.trieb).length<=6,'Kontext: Rollen-Bäckerprozent, gerundet');
- ok(m.kontext.gaerung && m.kontext.gaerung.kuehl===true && m.kontext.gaerung.gare>0 && typeof m.kontext.gaerung.berechnet==='boolean','Kontext: Gärmodell-Werte');
+ ok(m.kontext.gaerung && m.kontext.gaerung.kuehl===true && m.kontext.gaerung.temp===5.5 && m.kontext.gaerung.gare>0 && typeof m.kontext.gaerung.berechnet==='boolean','Kontext: Gärmodell-Werte mit Gär-Temperatur in °C (kalte Führung: 5,5 °C, kuehl = ja)');
  ok(Array.isArray(m.kontext.regelIds) && Array.isArray(m.kontext.warnungen),'Kontext: regelIds und Warnungen als Listen');
  ok(R.baueMeldung({state,computed,eingabe,appVersion:undefined}).app==='lokal' && R.baueMeldung({state,computed,eingabe:{...eingabe,mengenWieVorgeschlagen:'ja'}}).mengenWieVorgeschlagen===false,'App-Version fehlt → „lokal“; Mengen-Flag nur bei echtem true');
  const lang=R.baueMeldung({state,computed,eingabe:{...eingabe,kommentar:'  '+'ä'.repeat(1500)+'  '}});

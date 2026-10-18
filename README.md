@@ -24,7 +24,7 @@ Tests (Node ≥ 18, keine Abhängigkeiten):
 sh test/run.sh
 ```
 
-Jede Datei `test/*.check.mjs` ist eine eigene Suite (18 Suiten, rund 540 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
+Jede Datei `test/*.check.mjs` ist eine eigene Suite (19 Suiten, rund 590 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
 
 ```bash
 git config core.hooksPath .githooks
@@ -82,6 +82,7 @@ dev/                         Skizzen und Vorschauen, nicht Teil der App
 | `grenzen.json` | quantitative Grenzen je Archetyp, mit Herkunft im Feld `quelle` |
 | `erfahrungsregeln.json` | Praxis-Regeln, die Mengen oder Zeit-Fenster anpassen |
 | `modelle.json` | Rechenmodelle mit Parametern, Quelle und Validierung (Gärmodell: Hefe × Zeit × Temperatur) |
+| `temperaturen.json` | benannte Temperatur-Bereiche (Kühlschrank, kühl, Raum, warm, lauwarm); Temperaturen stehen überall als Zahl, Wert ± Spielraum, Spanne oder Name (`temperatur` an Operationen, `temperaturen` im Rezept) |
 | `kategorien.json`, `verben.json` | Icon-Kategorien und Verben |
 | `corpus/*.json` | Quellrezepte je Variante: Zutatenmengen als Fakten, Link zur Quelle |
 

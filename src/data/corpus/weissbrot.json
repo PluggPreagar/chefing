@@ -59,7 +59,6 @@
     "zeiten": {
       "gehen": 45
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Alle Zutaten zu einem glatten Teig kneten.",
       "Teig etwa 45 Minuten ruhen lassen.",
@@ -146,7 +145,6 @@
       "gehen": 30,
       "stueckgare": 60
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Milch mit Butter erwärmen, bis die Butter schmilzt.",
       "Mehl, Zucker, Salz mischen, Hefe darüber bröckeln, lauwarme Milchmischung und Wasser zugeben.",
@@ -226,7 +224,6 @@
       "gehen": 45,
       "stueckgare": 45
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Milch mit gewürfelter Butter lauwarm erwärmen.",
       "Mehl, Zucker, Salz mischen, Hefe darüber bröckeln, Milchmischung zugeben und glatt kneten.",
@@ -299,7 +296,6 @@
       "gehen": 120,
       "stueckgare": 60
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe und Zucker in 150 ml lauwarmem Wasser verrühren.",
       "Mehl und Salz mischen, Hefewasser und restliches Wasser zugießen.",
@@ -366,7 +362,6 @@
       "gehen": 60,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe mit Zucker im lauwarmen Wasser auflösen.",
       "Mehl, Salz und Hefewasser etwa 10 Minuten in der Maschine kneten.",
@@ -447,7 +442,6 @@
       "gehen": 60,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe und Zucker im lauwarmen Wasser lösen, etwa 5 Minuten stehen lassen (kein echter Vorteig).",
       "Mehl, Salz, Hefewasser und Öl etwa 10 Minuten zu elastischem Teig kneten.",
@@ -526,7 +520,6 @@
     "zeiten": {
       "gehen": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Mehl mit der Trockenhefe mischen.",
       "Öl, Salz, Zucker und warmes Wasser zugeben und zu einem Teig kneten.",
@@ -613,7 +606,6 @@
       "gehen": 60,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Milch aufkochen, mit dem kalten Wasser abkühlen, Hefe zugeben, 5 Minuten stehen lassen.",
       "Mehl, Zucker, Salz und Butter zugeben, grob mischen, kurz kräftig kneten.",
@@ -694,7 +686,6 @@
       "gehen": 45,
       "stueckgare": 60
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Milch auf 25 bis 32 °C erwärmen, Zucker und Hefe darin lösen.",
       "Mehl und Salz mischen, Butter und Hefemilch zugeben, 6 bis 8 Minuten kneten.",
@@ -782,7 +773,6 @@
       "gehen": 60,
       "stueckgare": 60
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Heißes Wasser in die Milch gießen, Hefe mit etwas davon anrühren.",
       "Hefeflüssigkeit mit Mehl und einem Teil des Zuckers verrühren, geschmolzene Butter, Salz, restlichen Zucker und Flüssigkeit zugeben.",
@@ -850,7 +840,6 @@
       "gehen": 120,
       "stueckgare": 50
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Vorteig aus Mehl, Wasser und einer erbsengroßen Menge Hefe anrühren und 12 Stunden bei Raumtemperatur reifen lassen.",
       "Hefe im Wasser lösen, Vorteig, Mehl und Salz zugeben, rühren und gut 5 Minuten von Hand durchwalken.",
@@ -925,7 +914,6 @@
       "gehen": 15,
       "stueckgare": 143
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe im kalten Wasser lösen, mit dem Mehl verrühren und 12-15 Stunden bei 21-22 Grad reifen lassen.",
       "Vorteig mit allen Hauptteig-Zutaten in der Maschine kneten (5 Min. langsam, 12 Min. schneller), bis sich der Teig vom Kessel löst.",
@@ -1014,7 +1002,6 @@
       "gehen": 90,
       "stueckgare": 90
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Poolish aus Mehl, Wasser und Hefe ansetzen, 1,5 Stunden bei Raumtemperatur, dann etwa 22 Stunden abgedeckt im Kühlschrank reifen lassen.",
       "Hauptteig-Mehl mit Salz mischen, Poolish und die Milch mit gelöster Hefe und Zucker zugeben, 3 Min. langsam kneten.",
@@ -1030,7 +1017,7 @@
       "original": "10 Min. bei 240 Grad mit Dampf, dann 180 Grad 20 Min. in der Form, danach 15-20 Min. ohne Form; gesamt 45-50 Min. (Mitte 48)"
     },
     "stueckzahl": 1,
-    "notizen": "Flüssigkeit gesamt 430 ml = 86 % vom Mehl (Wasser 100 ml im Poolish + 330 ml Milch), liegt über der 50-80 %-Spanne, steht aber so im Original. Poolish-Zeit 90 Min. RT + ca. 22 h kühl = 1410 Min.; nur der Vorteig ist kalt geführt, daher gehen_kuehl false. Hefe 1,4 %, Salz 2 %. Der Zusatz 'Prise Liebe' in der Zutatenliste nicht erfasst.",
+    "notizen": "Flüssigkeit gesamt 430 ml = 86 % vom Mehl (Wasser 100 ml im Poolish + 330 ml Milch), liegt über der 50-80 %-Spanne, steht aber so im Original. Poolish-Zeit 90 Min. RT + ca. 22 h kühl = 1410 Min.; nur der Vorteig ist kalt geführt, daher keine kalte Gare (keine Temperatur-Angabe). Hefe 1,4 %, Salz 2 %. Der Zusatz 'Prise Liebe' in der Zutatenliste nicht erfasst.",
     "qualitaet": 4,
     "qualitaet_grund": "keine Seitenwertung"
   },
@@ -1081,7 +1068,7 @@
       "gehen": 720,
       "stueckgare": 45
     },
-    "gehen_kuehl": false,
+    "temperaturen": { "gehen": "raum" },
     "ablauf": [
       "Alle Zutaten in einer Schüssel zu einer flüssigen, homogenen Masse verrühren, nicht kneten.",
       "Abgedeckt etwa 12 Stunden (10-16) bei Raumtemperatur gehen lassen, bis der Teig blubberig ist.",
@@ -1147,7 +1134,7 @@
       "gehen": 900,
       "stueckgare": 105
     },
-    "gehen_kuehl": false,
+    "temperaturen": { "gehen": "raum" },
     "ablauf": [
       "Mehl, Salz und Trockenhefe mischen, Wasser zugeben und mit dem Spatel zu einem groben Teig verrühren.",
       "Abgedeckt 12-18 Stunden bei Raumtemperatur gehen lassen.",
@@ -1227,7 +1214,7 @@
       "gehen": 420,
       "stueckgare": 60
     },
-    "gehen_kuehl": true,
+    "temperaturen": { "gehen": "kuehlschrank" },
     "ablauf": [
       "Alle Zutaten nur verruehren, kein Kneten.",
       "1 Stunde abgedeckt bei Raumtemperatur stehen lassen.",
@@ -1293,7 +1280,7 @@
       "gehen": 720,
       "stueckgare": 90
     },
-    "gehen_kuehl": false,
+    "temperaturen": { "gehen": "raum" },
     "ablauf": [
       "Mehle, Salz, Hefe und Wasser mit der Hand zu einem zotteligen Teig verruehren, nicht kneten.",
       "12 bis 18 Stunden abgedeckt bei Raumtemperatur gehen lassen (danach bis 2 Tage kuehl moeglich).",
@@ -1365,7 +1352,6 @@
     "zeiten": {
       "gehen": 480
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Mehl, Hefe, Salz, Wasser und Oel nur zu einem sehr weichen, fast fluessigen Teig verruehren.",
       "Abgedeckt ueber Nacht bzw. 8-10 Stunden stehen lassen (bei Hitze kuehl stellen).",
@@ -1437,7 +1423,6 @@
       "gehen": 720,
       "stueckgare": 60
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Mehl, Hefe und Salz mischen, Wasser zugeben und zu einem leicht klebrigen Teig verruehren.",
       "Abgedeckt 12 bis 18 Stunden ueber Nacht ruhen lassen.",
@@ -1503,7 +1488,7 @@
       "gehen": 480,
       "stueckgare": 120
     },
-    "gehen_kuehl": false,
+    "temperaturen": { "gehen": "raum" },
     "ablauf": [
       "Hefe im Wasser verquirlen, Mehl und Salz einruehren, zotteligen Teig bilden, kein Kneten.",
       "45-60 Minuten ruhen lassen, dann den Teig dehnen und falten; nach weiteren 45-60 Minuten ein zweites Mal.",
@@ -1584,7 +1569,7 @@
       "vorteig": 30,
       "stueckgare": 60
     },
-    "gehen_kuehl": true,
+    "temperaturen": { "vorteig": "kuehlschrank" },
     "ablauf": [
       "Vorteig aus Hefe, Mehl, Wasser, Salz und Zucker ansetzen, 30 Minuten warm gehen lassen, dann ueber Nacht in den Kuehlschrank stellen.",
       "Zweite Portion Hefe in lauwarmem Wasser loesen, mit Vorteig, restlichem Mehl und Butter ca. 15 Minuten in der Maschine kneten.",
@@ -1665,7 +1650,6 @@
       "gehen": 60,
       "stueckgare": 60
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Poolish aus Mehl, Wasser und einer Prise Hefe anruehren und 12-16 Stunden bei Raumtemperatur reifen lassen.",
       "Poolish mit Mehl, Wasser, Hefe, Salz, Zucker und Butter 8-10 Minuten kneten.",
@@ -1753,7 +1737,7 @@
       "gehen": 540,
       "stueckgare": 135
     },
-    "gehen_kuehl": true,
+    "temperaturen": { "gehen": "kuehlschrank" },
     "ablauf": [
       "Alle Zutaten mischen und in der Maschine ca. 15 Minuten kneten (10 langsam, 5 schnell).",
       "2 Stunden bei Raumtemperatur ruhen lassen, dabei nach 45 und 90 Minuten dehnen und falten.",
@@ -1842,7 +1826,7 @@
       "gehen": 720,
       "stueckgare": 210
     },
-    "gehen_kuehl": true,
+    "temperaturen": { "gehen": "kuehlschrank" },
     "ablauf": [
       "Trockenzutaten kurz mischen, Milch, Ei und Oel zugeben, ca. 2 Min. langsam mischen.",
       "Mit dem Knethaken ca. 5 Min. kneten, danach ca. 1 Min. von Hand zu einer Kugel formen.",

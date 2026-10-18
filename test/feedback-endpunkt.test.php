@@ -23,7 +23,7 @@ function gut(array $over = []): array {
             'zutaten' => ['struktur' => [['zutat' => 'weizenmehl', 'anteil' => 1]], 'trieb' => [['zutat' => 'hefe_frisch', 'anteil' => 1]]],
             'regelIds' => ['gaerung_modell', 'toleranz:fett'], 'warnungen' => ['Gare 12 Std. bei 4,0 % Hefe'],
             'korpusN' => 24, 'korpusNMethode' => 2, 'rollenBp' => ['struktur' => 100, 'trieb' => 2.2],
-            'gaerung' => ['gare' => 750, 'erwartet' => 900.5, 'hefeBp' => 2.2, 'kuehl' => true, 'berechnet' => false],
+            'gaerung' => ['gare' => 750, 'erwartet' => 900.5, 'hefeBp' => 2.2, 'temp' => 5.5, 'kuehl' => true, 'berechnet' => false],
         ],
     ], $over);
 }
@@ -87,6 +87,14 @@ $u = gut(); $u['kontext']['warnungen'] = array_fill(0, 13, 'w');
 ok(post($u, $d)[0] === 400, 'mehr als 12 Warnungen → 400');
 $u = gut(); $u['kontext']['gaerung'] = ['gare' => 'lang', 'erwartet' => 1, 'hefeBp' => 1, 'kuehl' => true, 'berechnet' => false];
 ok(post($u, $d)[0] === 400, 'Gärmodell-Werte müssen Zahlen sein');
+ok($e['kontext']['gaerung']['temp'] === 5.5, 'Gär-Temperatur in °C wird mit gespeichert');
+$u = gut(); unset($u['kontext']['gaerung']['temp']);
+ok(post($u, $d)[0] === 200, 'Gär-Temperatur ist optional (ältere Clients senden sie nicht)');
+foreach (['kalt', 121, -31, true, [5]] as $t) {
+    $u = gut(); $u['kontext']['gaerung']['temp'] = $t;
+    if (post($u, $d)[0] !== 400) ok(false, 'Gär-Temperatur ' . var_export($t, true) . ' wird abgelehnt');
+}
+ok(true, 'Gär-Temperatur: nur Zahl von −30 bis 120 (Text, 121, −31, true, Liste → 400)');
 $u = gut(); $u['kontext']['gaerung'] = null; $u['kontext']['korpusNMethode'] = null;
 ok(post($u, $d)[0] === 200, 'Gärmodell und korpusNMethode dürfen null sein');
 $u = gut(); $u['kontext']['rollenBp'] = ['struktur' => 'hundert'];

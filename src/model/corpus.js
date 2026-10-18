@@ -87,8 +87,9 @@ export function stats(normalized, rollen = ROLLEN, { proMethode = true } = {}) {
     fluessigkeitZutat: count((r) => (r.zutaten || []).find((z) => z.rolle === 'fluessigkeit')?.zutat ?? '—'),
     einlageZutat: count((r) => (r.zutaten || []).find((z) => z.rolle === 'einlage')?.zutat ?? '—'),
     sauer: normalized.filter((r) => r.sauer).length,
-    // Anteil der Rezepte mit kalter Gare (T49): entscheidet, ob das Gärmodell mit Kältefaktor rechnet.
-    kuehlAnteil: n ? normalized.filter((r) => r.gehen_kuehl === true).length / n : 0,
+    // Gär-Temperaturen, die Rezepte ausdrücklich nennen (T52, rohe Angaben — die Engine löst sie mit temperaturen.json auf):
+    // nennt über die Hälfte eine, gilt deren Median statt der Vorgabe der Operation.
+    gareTemperaturen: normalized.map((r) => r.temperaturen?.gehen).filter((t) => t != null),
     einlage: normalized.filter((r) => r.hatEinlage).length,
     teigmasse: summarize(normalized.map((r) => r.teigmasse)),
     // Verteilung der Gesamtbilanz (Bäckerprozent) — Erfahrungs-Toleranz für T35

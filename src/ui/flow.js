@@ -110,10 +110,11 @@ export function renderFlow(svg, details, computed, data = {}) {
 
 // Warten zeigt Wert und Fenster (DR-024/T44), alle anderen Schritte nur die ungefähre Dauer.
 function dauerText(s) {
-  if (!s.dauer) return '';
-  if (s.typ !== 'warten') return ` · ~${fmtZeit(s.dauer)}`;
+  const temp = s.temperatur ? ` · bei ${s.temperatur}` : '';
+  if (!s.dauer) return temp;
+  if (s.typ !== 'warten') return ` · ~${fmtZeit(s.dauer)}${temp}`;
   const f = s.zeit;
-  return ` · ${fmtZeit(s.dauer)} warten${f ? ` (Fenster ${fmtZeit(f.min)}–${fmtZeit(f.max)})` : ''}`;
+  return ` · ${fmtZeit(s.dauer)} warten${f ? ` (Fenster ${fmtZeit(f.min)}–${fmtZeit(f.max)})` : ''}${temp}`;
 }
 
 // Schritte derselben Ebene hängen nicht voneinander ab (T38) — Reihenfolge frei.

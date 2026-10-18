@@ -3,14 +3,15 @@
 //   1) Grenzen am Rand: wie weit liegt das extremste Rezept von jeder Grenze entfernt, und trägt ein EINZELNES Rezept sie?
 //      (DR-020: ein Rezept genügt, um eine empfohlen-Grenze zu öffnen — dann lohnt der Blick, ob es ein Ausreißer ist.)
 //   2) Gärmodell: Rezepte, deren Gärzeit um mehr als `gaerungFaktor` vom Modell abweicht, und ob ganze Gruppen systematisch
-//      abweichen (Hinweis auf eine fehlende Größe, z. B. Raumtemperatur).
-//   3) Muster: welche Eigenschaften (Methode, kalt, Trieb …) bei den Gärmodell-Abweichlern häufiger vorkommen als bei
+//      abweichen (Hinweis auf eine fehlende Größe).
+//   3) Muster: welche Eigenschaften (Methode, Gär-Temperatur, Trieb …) bei den Gärmodell-Abweichlern häufiger vorkommen als bei
 //      allen vom Gärmodell geprüften Rezepten.
 // Der Korpus enthält nur Erfolge (Überlebenden-Auswahl): der Bericht zeigt Muster, nie „sollte klappen, tat es nicht“ —
 // dafür sind die Rückmeldungen (T53) da.
 import { normalizeRecipe } from './corpus.js';
 import { messwert } from './bilanz.js';
 import { erwarteteGare } from './gaerung.js';
+import { temperaturBereich, schrittTemperatur, gareOperation } from './temperatur.js';
 
 export const STANDARD = { reserve: 0.2, nahe: 0.1, rand: 0.05, luecke: 0.1, gaerungFaktor: 2.5, minGruppe: 3, minMuster: 2, minLift: 1.5 };
 
@@ -22,17 +23,20 @@ function dominante(rezept, rolle) {
   return e.length ? e.reduce((a, b) => ((b.menge || 0) > (a.menge || 0) ? b : a)).zutat : null;
 }
 
-function eigenschaften(r, gaerungKalt, hefe) {
-  const e = [`variante:${r.variante}`, `methode:${r.methode}`];
-  if (gaerungKalt !== null) e.push(`gare:${gaerungKalt ? 'kalt' : 'warm'}`);
+// Grobe Stufe der Gär-Temperatur für Gruppen und Muster (Kühlschrank / Raumtemperatur / warm)
+const tempStufe = (t) => (t == null ? 'warm' : t < 10 ? 'kalt' : t < 25 ? 'raum' : 'warm');
+
+function eigenschaften(r, stufe, hefe) {
+  const e = [`variante:${r.variante}`, `methode:${r.methode}`, `gare:${stufe}`];
   if (hefe > 0) e.push(`hefe:${hefe < 1.5 ? 'wenig (< 1,5 %)' : hefe > 6 ? 'viel (> 6 %)' : 'mittel'}`);
   for (const rolle of ['fett', 'fluessigkeit', 'trieb']) { const z = dominante(r, rolle); if (z) e.push(`${rolle}:${z}`); }
   if ((r.zutaten || []).some((z) => z.rolle === 'einlage')) e.push('einlage:ja');
   return e;
 }
 
-// korpora: {archetypKey: {variante: [rohe Rezepte]}}; archetypes/ingredients/grenzen/modelle: die JSON-Daten
-export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modelle, korpora }, schwellen = {}) {
+// korpora: {archetypKey: {variante: [rohe Rezepte]}}; archetypes/ingredients/grenzen/modelle/methods/operations/temperaturen:
+// die JSON-Daten (die letzten drei liefern die Gär-Temperatur; ohne sie rechnet das Modell mit `temp_standard`)
+export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modelle, korpora, methods, operations, temperaturen }, schwellen = {}) {
   const s = { ...STANDARD, ...schwellen };
   const grenzZeilen = [];
   const gaerRezepte = [];
@@ -77,10 +81,10 @@ export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modell
       const z = roh.zeiten || {};
       const T = (z.vorteig ?? 0) + (z.gehen ?? 0) + (z.stueckgare ?? 0);
       const hefe = n.bilanz.bp.hefe;
-      const kalt = roh.gehen_kuehl === true;
       if (model && roh.methode !== 'hefe_vorteig' && z.gehen > 0 && hefe > 0 && T > 0) {
-        const erwartet = erwarteteGare(hefe, kalt, model);
-        gaerRezepte.push({ id: roh.id, roh, variante: roh.variante, methode: roh.methode, kalt, hefe, T, erwartet, faktor: T / erwartet });
+        const temp = temperaturBereich(schrittTemperatur('gehen', gareOperation(roh.methode, methods, operations), roh), temperaturen)?.mitte ?? null;
+        const erwartet = erwarteteGare(hefe, temp, model);
+        gaerRezepte.push({ id: roh.id, roh, variante: roh.variante, methode: roh.methode, temp, stufe: tempStufe(temp), hefe, T, erwartet, faktor: T / erwartet });
       }
       alle.push(roh.id);
     }
@@ -88,7 +92,7 @@ export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modell
 
   const auffaellig = gaerRezepte.filter((r) => r.faktor > s.gaerungFaktor || r.faktor < 1 / s.gaerungFaktor).sort((a, b) => Math.abs(Math.log(b.faktor)) - Math.abs(Math.log(a.faktor)));
   const gruppen = {};
-  for (const r of gaerRezepte) (gruppen[`${r.methode}/${r.kalt ? 'kalt' : 'warm'}`] ??= []).push(r);
+  for (const r of gaerRezepte) (gruppen[`${r.methode}/${r.stufe}`] ??= []).push(r);
   const gaerGruppen = Object.entries(gruppen).map(([gruppe, l]) => {
     const zuLang = l.filter((r) => r.faktor > s.gaerungFaktor).length;
     const zuKurz = l.filter((r) => r.faktor < 1 / s.gaerungFaktor).length;
@@ -103,7 +107,7 @@ export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modell
   // 3) Muster: Eigenschaften der auffälligen Rezepte gegenüber den Rezepten, die das Gärmodell tatsächlich prüft
   // (nicht gegenüber dem ganzen Korpus — sonst wirkt alles am Hefeteig „überrepräsentiert“), getrennt nach Richtung
   // (Rezepte brauchen länger bzw. kürzer als das Modell sagt), weil beide Richtungen verschiedene Ursachen haben.
-  const zaehle = (liste) => { const c = {}; for (const r of liste) for (const p of eigenschaften(r.roh, r.kalt, r.hefe)) c[p] = (c[p] || 0) + 1; return c; };
+  const zaehle = (liste) => { const c = {}; for (const r of liste) for (const p of eigenschaften(r.roh, r.stufe, r.hefe)) c[p] = (c[p] || 0) + 1; return c; };
   const imVergleich = zaehle(gaerRezepte);
   const musterFuer = (richtung, liste) => {
     const beiUe = zaehle(liste);

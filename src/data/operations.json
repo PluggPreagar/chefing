@@ -2,6 +2,7 @@
   "_schema": {
     "gaerung": "optional (T49): true = diese Wartezeit zählt zur Gärzeit des Gärmodells (modelle.json: Hefe × Zeit × Temperatur); \"vorteig\" = Vorteig-Reifung, das Modell ist dann nicht anwendbar (Hefe im Vorteig nicht aufgeteilt).",
     "typ": "vorbereitung | mischen | erhitzen | warten (passiv: zählt zur Wartezeit, nicht zur aktiven Zeit, DR-024)",
+    "temperatur": "optional (T52, DR-028): Temperatur der Operation als Bereich — Zahl (fester Wert), {wert, tol}, {min, max} oder Name aus temperaturen.json (z. B. \"raum\"). Eine Aktion ist Warten (Dauer) plus Temperatur; ein Rezept überschreibt sie unter `temperaturen`. Das Gärmodell rechnet mit der Mitte des Bereichs der Gare (`gaerung: true`).",
     "zeit": "optional (DR-024/T44): Zeit-Fenster {min, typ, max, ziel, unter_min, ueber_max, strenge} in Minuten. ziel = Effekt, der im Fenster eintritt (z. B. gluten_entspannt, gequollen, volumen_verdoppelt); typ = Standardwert; unter_min/ueber_max = Hinweistext, wenn der Wert außerhalb liegt; strenge empfohlen (Default, Warnung) | hart (ungültig). Eine Methode kann den Wert per `zeiten` festlegen, eine Erfahrungsregel das Fenster per `zeit_op` + `faktor` verschieben. Ohne `zeit` gilt `dauer_min`.",
     "verb": "Essentielles Verb aus verben.json — Icon-Basis fürs Ablaufdiagramm. Für verb=mischen bestimmt `intensitaet` das konkrete Icon (vorbereiten/mischen/schlagen); für verb=erhitzen ist `intensitaet` bisher nur Dokumentation (ein Icon für alle Stufen, siehe verben.json).",
     "intensitaet": "bei verb=mischen: passiv (Einlegen/Quellen-Icon) | sanft (Mischen-Icon) | kraeftig (Schlagen-Icon). Bei verb=erhitzen: mittel (Garen/Backen) — sanft/stark vorgesehen, noch ungenutzt.",
@@ -155,6 +156,7 @@
   "hefe_ansetzen": {
     "label": "Hefe in lauwarmer Flüssigkeit lösen",
     "typ": "vorbereitung",
+    "temperatur": "lauwarm",
     "verb": "vorbereiten",
     "variante": "Hefe auflösen",
     "auf": ["trieb", "fluessigkeit"],
@@ -183,6 +185,7 @@
     "label": "Teig gehen lassen (Stockgare)",
     "typ": "warten",
     "gaerung": true,
+    "temperatur": "warm",
     "verb": "mischen",
     "intensitaet": "passiv",
     "variante": "gehen lassen",
@@ -217,6 +220,7 @@
     "label": "Geformten Teig nochmal gehen lassen",
     "typ": "warten",
     "gaerung": true,
+    "temperatur": "warm",
     "verb": "mischen",
     "intensitaet": "passiv",
     "variante": "Stückgare",

@@ -61,7 +61,6 @@
       "gehen": 60,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe in lauwarmer Milch lösen, Butter schmelzen und etwas abkühlen lassen.",
       "Mehl, Zucker, Salz, Hefemilch und Butter mindestens 5 Minuten zu einem Teig kneten.",
@@ -149,7 +148,6 @@
       "gehen": 45,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe in lauwarmer Milch lösen, in Mehlmulde (Mehl, Zucker, Salz) geben und 15 Minuten anspringen lassen.",
       "Ei zugeben, mit dem Rührgerät kneten, Butter stückweise unterarbeiten.",
@@ -243,7 +241,6 @@
       "gehen": 45,
       "stueckgare": 15
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe mit etwas Zucker und Milch glattrühren, in Mehlmulde geben und ca. 15 Minuten ruhen lassen.",
       "Übrige Milch, Zucker, Butter, Eier, Salz zugeben, kneten, Sultaninen unterarbeiten.",
@@ -331,7 +328,6 @@
       "gehen": 60,
       "stueckgare": 10
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe mit Zucker und etwas Milch lösen, Ei verquirlen (2 EL zum Bestreichen beiseite).",
       "Mehl, Salz, Hefemischung und restliche Milch verkneten, Butter in Stücken einarbeiten, ca. 10 Minuten.",
@@ -418,7 +414,6 @@
       "gehen": 30,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe in lauwarmer Milch mit einer Prise Zucker lösen.",
       "Mehl, Salz, Hefemilch, Eidotter, Zucker, Fett und Zitronenschale zu einem Teig kneten.",
@@ -505,7 +500,6 @@
       "gehen": 60,
       "stueckgare": 45
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Warme Milch mit Hefe, Zucker und Ei verrühren.",
       "Mehl mit Salz mischen, Milchmischung unterkneten, nach ca. 5 Minuten Butter einarbeiten.",
@@ -591,7 +585,7 @@
     "zeiten": {
       "gehen": 120
     },
-    "gehen_kuehl": false,
+    "temperaturen": { "gehen": "raum" },
     "ablauf": [
       "Mehl, Zucker, Salz mischen; Hefe in erwärmter Milch lösen.",
       "Hefemilch, Butter und ein Ei zum Mehl geben und glatt kneten.",
@@ -685,7 +679,6 @@
       "gehen": 60,
       "stueckgare": 15
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hälfte der Milch lauwarm erwärmen, Hefe und 1 TL Zucker darin lösen, bis es Bläschen wirft.",
       "Mehl, Zucker, Salz, ganzes Ei, Eiweiß, Zitronenschale, restliche Milch, Butter und Hefemilch zu glattem Teig kneten.",
@@ -785,7 +778,6 @@
     "zeiten": {
       "gehen": 60
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Mehl, Zucker, Salz und Zitronenschale mischen.",
       "Milch erwärmen, Butter darin schmelzen, Ei einrühren, Hefe darin lösen.",
@@ -865,7 +857,6 @@
       "gehen": 40,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Mehlmulde mit Hefe und etwas Milch zu dünnem Brei verrühren, 20 Minuten stehen lassen.",
       "Geschmolzene Margarine und restliche Zutaten zugeben, nur bis alles verbunden ist kneten.",
@@ -953,7 +944,6 @@
       "gehen": 60,
       "stueckgare": 15
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Fett schmelzen (nicht bräunen), Hefe in handwarmer Milch lösen.",
       "Mehl, Zucker, Salz und Rosinen mischen, Fett und Hefemilch zugeben und ca. 15 Minuten kneten.",
@@ -1055,7 +1045,6 @@
       "gehen": 15,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Alle Zutaten mit dem Handrührgerät verkneten (erst niedrig, dann ca. 4 Minuten hoch).",
       "15 Minuten warm ruhen lassen, nochmals kurz durchkneten.",
@@ -1157,7 +1146,6 @@
       "gehen": 60,
       "stueckgare": 20
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Dampfl aus Germ, Zucker, etwas Mehl und etwas Milch ansetzen, ca. 15 Min. gehen lassen.",
       "Trockene Zutaten mischen, restliche Zutaten und Dampfl zugeben, in der Maschine kneten bis der Teig sich löst.",
@@ -1259,7 +1247,6 @@
       "vorteig": 15,
       "gehen": 90
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe, 1 TL Zucker und 100 ml Milch in die Mehlmulde rühren, ca. 15 Min. schäumen lassen.",
       "Restmilch, Butter, Eier, Salz, Zucker und Zitronenschale zugeben, ca. 10 Min. kneten.",
@@ -1347,7 +1334,6 @@
       "gehen": 30,
       "stueckgare": 25
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe, Zucker, lauwarme Milch und etwas Mehl in der Mehlmulde zum Vorteig verrühren, ca. 20 Min. gehen lassen.",
       "Restmilch, zerlassene Butter, Ei und Salz zugeben und zu glattem Teig kneten, 30 Min. gehen lassen.",
@@ -1434,7 +1420,6 @@
       "gehen": 45,
       "stueckgare": 12
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe mit einer Prise Zucker und fast der ganzen Milch in die Mehlmulde rühren, ca. 15 Min. als Vorteig gehen lassen.",
       "Mit Salz, Butter, restlichem Zucker und Zitronenschale zu glattem Teig kneten, ca. 45 Min. gehen lassen.",
@@ -1519,7 +1504,7 @@
     "zeiten": {
       "gehen": 720
     },
-    "gehen_kuehl": true,
+    "temperaturen": { "gehen": "kuehlschrank" },
     "ablauf": [
       "Mehl, Hefe, Zucker, Salz mischen; Butter, Orangenschale, kaltes Wasser und Eier unterrühren (nicht kneten).",
       "Abgedeckt über Nacht im Kühlschrank gehen lassen.",
@@ -1620,7 +1605,7 @@
       "gehen": 720,
       "stueckgare": 30
     },
-    "gehen_kuehl": true,
+    "temperaturen": { "gehen": "kuehlschrank" },
     "ablauf": [
       "Hefe mit etwas Zucker in lauwarmer Milch anruehren, 5 Minuten stehen lassen.",
       "Mehl, Zucker, Salz, Aromen und Eier mit dem Loeffel verruehren, nicht kneten; Butter in drei Portionen einarbeiten.",
@@ -1692,7 +1677,7 @@
     "zeiten": {
       "stueckgare": 35
     },
-    "gehen_kuehl": true,
+    "temperaturen": { "gehen": "kuehlschrank" },
     "ablauf": [
       "Hefe in die Milch broeckeln, Butter, Mehl und Zucker zugeben.",
       "Zu einem Teigkloss verarbeiten (Knetdauer nicht angegeben), abdecken.",
@@ -1779,7 +1764,7 @@
       "kneten": 10,
       "gehen": 720
     },
-    "gehen_kuehl": true,
+    "temperaturen": { "gehen": { "wert": 10, "tol": 3 } },
     "ablauf": [
       "Hefe mit 1 EL Zucker in kalter Milch aufloesen, zum Mehl geben, restliche Zutaten zufuegen, Butter zuletzt.",
       "10 Minuten mit Knethaken kneten, zu einer Kugel formen.",
@@ -1867,7 +1852,7 @@
       "gehen": 780,
       "stueckgare": 105
     },
-    "gehen_kuehl": true,
+    "temperaturen": { "gehen": "kuehlschrank" },
     "ablauf": [
       "Alle Zutaten ausser Butter 4 Min mischen, 4-6 Min kneten; kalte Butter zugeben und unterkneten.",
       "1 Stunde bei Raumtemperatur ruhen, dann 12-16 Stunden in gebutterter Wanne im Kuehlschrank gehen lassen.",
@@ -1953,7 +1938,7 @@
     "zeiten": {
       "stueckgare": 30
     },
-    "gehen_kuehl": true,
+    "temperaturen": { "gehen": "kuehlschrank" },
     "ablauf": [
       "Am Vorabend Milch mit Zucker und Butter erwaermen, Hefe darin aufloesen.",
       "Mit Mehl, Salz und Eiern in der Kuechenmaschine zu einem Teig verarbeiten (Knetzeit nicht angegeben).",
@@ -2049,7 +2034,6 @@
       "gehen": 60,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Vorteig aus Mehl, Hefe und lauwarmer Milch ansetzen, 30 Minuten warm ruhen lassen.",
       "Restliche Zutaten zugeben, 8-10 Minuten kneten, 60 Minuten gehen lassen.",
@@ -2138,7 +2122,6 @@
       "gehen": 30,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Vorteig (Milch, Mehl, Hefe, Salz) kurz kneten, 60-90 Minuten bei Raumtemperatur ruhen, dann 12-24 Stunden in den Kuehlschrank.",
       "Vorteig ca. 90 Minuten vor Gebrauch aus dem Kuehlschrank nehmen.",
@@ -2247,7 +2230,6 @@
       "gehen": 60,
       "stueckgare": 45
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Hefe mit etwas Zucker und 2 EL Wasser anruehren (optionaler Mini-Vorteig, 15 Min.).",
       "Restliche Zutaten ausser Schokodrops zugeben und ca. 10 Min. kneten.",
@@ -2350,7 +2332,6 @@
       "gehen": 60,
       "stueckgare": 25
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Milch mit Butter erwaermen, lauwarm abkuehlen lassen.",
       "Alle Zutaten ausser Schokotropfen ca. 10 Min. kneten.",
@@ -2447,7 +2428,6 @@
       "gehen": 30,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Mehl und Zucker mischen, Butter am Rand verteilen, Hefe in der Mulde mit lauwarmer Milch anruehren (15 Min.).",
       "Ei und Salz zugeben, ca. 5 Min. kneten, Rosinen unterkneten.",
@@ -2534,7 +2514,6 @@
       "gehen": 60,
       "stueckgare": 30
     },
-    "gehen_kuehl": false,
     "ablauf": [
       "Milch mit Butter, Zucker, Hefe und Salz auf max. 37 Grad erwaermen.",
       "Mit dem Mehl glatt kneten, Rosinen unterkneten.",
@@ -2622,7 +2601,7 @@
       "gehen": 1440,
       "stueckgare": 30
     },
-    "gehen_kuehl": true,
+    "temperaturen": { "gehen": "kuehlschrank" },
     "ablauf": [
       "Milch auf knapp 40 Grad erwaermen, Hefe darin loesen.",
       "Mehl, Butter, Zucker, Salz und Hefemilch 5 Min. kneten, dann Rosinen 5 Min. unterkneten.",

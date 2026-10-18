@@ -112,6 +112,12 @@ function fb_pruefe(array $m): array {
             $kontext['gaerung'][$f] = fb_zahl($g[$f] ?? null);
             if ($kontext['gaerung'][$f] === null) return [null, 'kontext.gaerung'];
         }
+        // Gär-Temperatur in °C (T52); ältere Clients senden sie nicht
+        if (($g['temp'] ?? null) !== null) {
+            $t = fb_zahl($g['temp']);
+            if ($t === null || $t < -30 || $t > 120) return [null, 'kontext.gaerung'];
+            $kontext['gaerung']['temp'] = $t;
+        }
     }
 
     return [[

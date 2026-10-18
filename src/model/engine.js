@@ -1,7 +1,8 @@
 import { fromGrams } from './units.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } from './rules.js';
 import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
-import { gaerungModell, gaerungsZeit, hefeFuerGare, erwarteteGare, pruefeGaerung, fmtDauer } from './gaerung.js';
+import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
+import { temperaturBereich, medianBereich, fmtTemperatur } from './temperatur.js';
 import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 export function varianteFuerGefaess(gefaessKey, arch, vessels) {
@@ -78,11 +79,15 @@ export function compute(state, data, korpusStats) {
   const modell = gaerungModell(data);
   const gare = gaerungsZeit(res.schritte.map((s, i) => ({ gaerung: s.op.gaerung, dauer: zeiten[i].dauer })));
   const modellGilt = !!modell && !!bpZiel[modell.rolle] && props[modell.rolle]?.trieb_typ === modell.trieb_typ && gare.summe != null;
-  const kuehl = stM ? (stM.kuehlAnteil ?? 0) > 0.5 : method.kuehl === true;
+  // Temperatur der Gare (T52): Vorgabe der Operation; nennt über die Hälfte der Rezepte dieser Methode eine eigene, gilt deren Median.
+  const gareSchritt = res.schritte.find((s) => s.op.gaerung === true);
+  const genannt = (stM?.gareTemperaturen ?? []).map((t) => temperaturBereich(t, data.temperaturen)).filter(Boolean);
+  const gareTemp = stM && genannt.length / stM.n > 0.5 ? medianBereich(genannt) : temperaturBereich(gareSchritt?.op.temperatur, data.temperaturen);
+  const gareTempText = fmtTemperatur(gareTemp);
   if (modellGilt && !stM) {
-    const hefe = hefeFuerGare(gare.summe, kuehl, modell);
+    const hefe = hefeFuerGare(gare.summe, gareTemp?.mitte, modell);
     bpZiel[modell.rolle] = { bp: hefe, quelle: 'berechnet' };
-    anpassungen.push(`Keine Rezepte mit „${method.label}“ in dieser Variante: Hefe aus der Gärzeit gerechnet (${fmtDauer(gare.summe)}${kuehl ? ' kalt' : ''} → ${hefe.toFixed(1).replace('.', ',')} % Hefe). Richtwert aus dem Gärmodell, Spielraum etwa ×${String(modell.warn_faktor).replace('.', ',')}.`);
+    anpassungen.push(`Keine Rezepte mit „${method.label}“ in dieser Variante: Hefe aus der Gärzeit gerechnet (${fmtDauer(gare.summe)}${gareTempText ? ` bei ${gareTempText}` : ''} → ${hefe.toFixed(1).replace('.', ',')} % Hefe). Richtwert aus dem Gärmodell, Spielraum etwa ×${String(modell.warn_faktor).replace('.', ',')}.`);
   }
 
   if (bpZiel.struktur && props.struktur && props.struktur.unterkategorie === 'nuss') {
@@ -217,7 +222,7 @@ export function compute(state, data, korpusStats) {
     if (z.hinweis) (z.hinweis.strenge === 'hart' ? zeitGruende : zeitWarnungen).push(zeitMeldung(res.schritte[i].op, z));
   });
   // Plausibilität (Stufe 1): passen Gärzeit und Hefemenge zusammen? (nach der Berechnung oben trivial erfüllt)
-  const gaerPruefung = modellGilt ? pruefeGaerung({ hefeBp: bpZiel[modell.rolle].bp, gare: gare.summe, kuehl }, modell) : null;
+  const gaerPruefung = modellGilt ? pruefeGaerung({ hefeBp: bpZiel[modell.rolle].bp, gare: gare.summe, temp: gareTemp?.mitte, tempText: gareTempText }, modell) : null;
   if (gaerPruefung) zeitWarnungen.push(gaerPruefung.text);
   const ablauf = res.schritte.map((s, i) => ({
     nr: i + 1,
@@ -238,6 +243,8 @@ export function compute(state, data, korpusStats) {
     risiko: s.op.risiko ?? null,
     dauer: s.key === 'backen' ? minuten : zeiten[i].dauer,
     zeit: zeiten[i].fenster,
+    // Temperatur der Aktion (T52): die Gare zeigt die Temperatur, mit der das Gärmodell rechnet
+    temperatur: (s === gareSchritt ? gareTempText : fmtTemperatur(temperaturBereich(s.op.temperatur, data.temperaturen))) || null,
   }));
 
   // Alle Regeln, die dem Nutzer etwas gesagt haben (Grenzen, Voraussetzungen, Zeit-Fenster, Gärmodell, eingefügte
@@ -265,7 +272,7 @@ export function compute(state, data, korpusStats) {
     gruende: [...res.gruende, ...gebuendelt.hart, ...zeitGruende],
     warnungen: [...res.warnungen, ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
     zeit: zeitleiste(ablauf),
-    gaerung: modellGilt ? { gare: gare.summe, kuehl, hefeBp: bpZiel[modell.rolle].bp, erwartet: erwarteteGare(bpZiel[modell.rolle].bp, kuehl, modell), berechnet: !stM, warnFaktor: modell.warn_faktor, pruefung: gaerPruefung } : null,
+    gaerung: modellGilt ? gaerungErgebnis({ gare: gare.summe, hefeBp: bpZiel[modell.rolle].bp, gareTemp, gareTempText, berechnet: !stM, pruefung: gaerPruefung }, modell) : null,
     toleranzHinweise,
     bilanz: bilanzZeilen,
     // Kaskaden-Vorschläge (DR-019/T26): Ersatzkandidaten für Rollen, die eine harte

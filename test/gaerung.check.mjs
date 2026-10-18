@@ -1,26 +1,30 @@
-// T49: Gärmodell (Hefe × Zeit × Temperatur, DR-026) — Rechnung, Parameter gegen den Korpus, Engine-Einbindung.
+// T49/T52: Gärmodell (Hefe × Zeit × Temperatur in °C, DR-026/DR-028) — Rechnung, Parameter gegen den Korpus, Engine-Einbindung.
 import fs from 'fs';
 const P=new URL('../src/', import.meta.url).href;
 const J=(n)=>JSON.parse(fs.readFileSync(new URL(P+'data/'+n+'.json')));
 const { normalizeRecipe, stats } = await import(P+'model/corpus.js');
 const { compute } = await import(P+'model/engine.js');
 const { erwarteteGare, hefeFuerGare, gaerungsZeit, pruefeGaerung, fmtDauer, gaerungModell } = await import(P+'model/gaerung.js');
+const { fmtTemperatur, temperaturBereich } = await import(P+'model/temperatur.js');
 const { lesen, fitten } = await import(new URL('../tools/gaerung-fit.mjs', import.meta.url).href);
-const names=['ingredients','operations','methods','archetypes','vessels','kategorien','verben','erfahrungsregeln','grenzen','modelle'];
+const names=['ingredients','operations','methods','archetypes','vessels','kategorien','verben','erfahrungsregeln','grenzen','modelle','temperaturen'];
 const data=Object.fromEntries(names.map(n=>[n,J(n)]));
 let fail=0; const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++;};
 const near=(a,b,e=1e-9)=>Math.abs(a-b)<e;
 const m=gaerungModell(data);
 
 // --- Rechnung -----------------------------------------------------------------------------------------
-ok(!!m && m.exponent<0 && m.kuehl_faktor>1 && m.warn_faktor>1 && m.rolle==='trieb' && m.trieb_typ==='biologisch','modelle.json: Parameter vorhanden und plausibel (mehr Hefe → kürzer, Kälte → länger)');
+ok(!!m && m.exponent<0 && m.exponent>-1.2 && m.temp_koeffizient>0 && m.temp_koeffizient<0.2 && Number.isFinite(m.temp_ref) && Number.isFinite(m.temp_standard) && m.warn_faktor>1 && m.rolle==='trieb' && m.trieb_typ==='biologisch','modelle.json: Parameter vorhanden und plausibel (mehr Hefe → kürzer, Wärme → kürzer, Q10 zwischen 1 und 6)');
 ok(gaerungModell({})===null && gaerungModell(undefined)===null,'ohne modelle.json: kein Modell, kein Absturz');
-const umkehrungOk=[false,true].every(k=>[0.5,1,2.4,4,8].every(h=>near(hefeFuerGare(erwarteteGare(h,k,m),k,m),h,1e-9)));
-ok(umkehrungOk,'hefeFuerGare ist die Umkehrung von erwarteteGare (5 Hefemengen × warm/kalt)');
-ok(erwarteteGare(8,false,m)<erwarteteGare(4,false,m) && erwarteteGare(4,false,m)<erwarteteGare(1,false,m),'mehr Hefe → kürzere Gare');
-ok(near(erwarteteGare(4,true,m)/erwarteteGare(4,false,m),m.kuehl_faktor,1e-9),'Kälte verlängert um genau den Kältefaktor');
-const ungefaehrKonstant=[1,2,4,8].map(h=>h*erwarteteGare(h,false,m)/60);
-ok(Math.max(...ungefaehrKonstant)/Math.min(...ungefaehrKonstant)<1.6,`Hefe × Zeit ist ungefähr konstant über 1–8 % (${ungefaehrKonstant.map(x=>x.toFixed(1)).join(', ')} %·Std.)`);
+const WARM=28, RAUM=21, KALT=5.5;
+const umkehrungOk=[KALT,RAUM,WARM,null].every(t=>[0.5,1,2.4,4,8].every(h=>near(hefeFuerGare(erwarteteGare(h,t,m),t,m),h,1e-9)));
+ok(umkehrungOk,'hefeFuerGare ist die Umkehrung von erwarteteGare (5 Hefemengen × 3 Temperaturen und „ohne Angabe“)');
+ok(erwarteteGare(8,WARM,m)<erwarteteGare(4,WARM,m) && erwarteteGare(4,WARM,m)<erwarteteGare(1,WARM,m),'mehr Hefe → kürzere Gare');
+ok(near(erwarteteGare(4,WARM-10,m)/erwarteteGare(4,WARM,m),Math.exp(10*m.temp_koeffizient),1e-9) && erwarteteGare(4,KALT,m)>erwarteteGare(4,RAUM,m) && erwarteteGare(4,RAUM,m)>erwarteteGare(4,WARM,m),'10 °C kälter verlängert genau um Q10; kalt > Raumtemperatur > warm');
+ok(near(erwarteteGare(4,null,m),erwarteteGare(4,m.temp_standard,m),1e-12) && near(erwarteteGare(4,m.temp_ref,m),Math.exp(m.ln_konstante+m.exponent*Math.log(4)),1e-9),'ohne Temperatur gilt `temp_standard`; bei `temp_ref` entfällt der Temperatur-Term');
+ok(erwarteteGare(4,0,m)>erwarteteGare(4,KALT,m) && !near(erwarteteGare(4,0,m),erwarteteGare(4,null,m),1e-6) && near(hefeFuerGare(erwarteteGare(4,0,m),0,m),4,1e-9),'0 °C ist eine Temperatur, keine fehlende Angabe (länger als im Kühlschrank, nicht der Standard)');
+const ungefaehrKonstant=[1,2,4,8].map(h=>h*erwarteteGare(h,WARM,m)/60);
+ok(Math.max(...ungefaehrKonstant)/Math.min(...ungefaehrKonstant)<2.5,`Hefe × Zeit ist nur schwach von der Hefemenge abhängig, Exponent ${m.exponent} (${ungefaehrKonstant.map(x=>x.toFixed(1)).join(', ')} %·Std. bei 1, 2, 4, 8 %)`);
 ok(fmtDauer(45)==='45 Min.' && fmtDauer(90)==='1 Std. 30 Min.' && fmtDauer(720)==='12 Std.','fmtDauer');
 let g=gaerungsZeit([{gaerung:true,dauer:60},{gaerung:null,dauer:10},{gaerung:true,dauer:30}]);
 ok(g.summe===90 && !g.vorteig,'gaerungsZeit summiert nur Schritte mit gaerung: true');
@@ -29,30 +33,32 @@ ok(g.summe===null && g.vorteig,'Vorteig macht das Modell unanwendbar');
 ok(gaerungsZeit([{gaerung:null,dauer:5}]).summe===null,'ohne Gärschritt keine Gärzeit');
 
 // --- Plausibilitätsprüfung (Stufe 1) -----------------------------------------------------------------------
-const soll=erwarteteGare(4,false,m);
-ok(pruefeGaerung({hefeBp:4,gare:soll,kuehl:false},m)===null && pruefeGaerung({hefeBp:4,gare:soll*3,kuehl:false},m)===null && pruefeGaerung({hefeBp:4,gare:soll/3,kuehl:false},m)===null,'innerhalb des Spielraums ×3 keine Warnung');
-let w=pruefeGaerung({hefeBp:4,gare:720,kuehl:false},m);
+const soll=erwarteteGare(4,WARM,m);
+ok(pruefeGaerung({hefeBp:4,gare:soll,temp:WARM},m)===null && pruefeGaerung({hefeBp:4,gare:soll*3,temp:WARM},m)===null && pruefeGaerung({hefeBp:4,gare:soll/3,temp:WARM},m)===null,'innerhalb des Spielraums ×3 keine Warnung');
+let w=pruefeGaerung({hefeBp:4,gare:720,temp:WARM},m);
 ok(w?.art==='zu_lang' && /übergärt/.test(w.text) && /4,0 % Hefe/.test(w.text) && /12 Std\./.test(w.text),`4 % Hefe bei 12 Std. warm: „${w?.text}“`);
-w=pruefeGaerung({hefeBp:0.4,gare:60,kuehl:false},m);
+w=pruefeGaerung({hefeBp:0.4,gare:60,temp:WARM},m);
 ok(w?.art==='zu_kurz' && /nicht genug auf/.test(w.text),'0,4 % Hefe bei 1 Std.: zu kurz');
-w=pruefeGaerung({hefeBp:4,gare:720,kuehl:true},m);
-ok(w===null && erwarteteGare(4,true,m)>7*60 && erwarteteGare(4,true,m)<11*60,`4 % Hefe bei 12 Std. KALT ist plausibel (Modell erwartet ${fmtDauer(erwarteteGare(4,true,m))}) — dieselbe Zeit warm warnt`);
-ok(pruefeGaerung({hefeBp:0,gare:60,kuehl:false},m)===null && pruefeGaerung({hefeBp:4,gare:0,kuehl:false},m)===null,'ohne Hefe oder Zeit keine Aussage');
+w=pruefeGaerung({hefeBp:4,gare:720,temp:KALT},m);
+ok(w===null && erwarteteGare(4,KALT,m)>10*60 && erwarteteGare(4,KALT,m)<16*60,`4 % Hefe bei 12 Std. im Kühlschrank ist plausibel (Modell erwartet ${fmtDauer(erwarteteGare(4,KALT,m))}) — dieselbe Zeit warm warnt`);
+w=pruefeGaerung({hefeBp:4,gare:720,temp:WARM,tempText:'26–30 °C (warm)'},m);
+ok(/Gare 12 Std\. bei 26–30 °C \(warm\) mit 4,0 % Hefe/.test(w.text),`Meldung nennt die Temperatur: „${w.text.slice(0,60)}…“`);
+ok(pruefeGaerung({hefeBp:0,gare:60,temp:WARM},m)===null && pruefeGaerung({hefeBp:4,gare:0,temp:WARM},m)===null,'ohne Hefe oder Zeit keine Aussage');
 
 // --- Parameter gegen den Korpus (kein stilles Veralten) ---------------------------------------------------------
-const zeilen=lesen(); const f=fitten(zeilen);
-ok(zeilen.length>=38 && f.n===zeilen.length,`Fit-Daten: ${zeilen.length} Rezepte ohne Vorteig mit Zeit und Hefe`);
-ok(Math.abs(f.exponent-m.exponent)<0.25 && f.kuehl_faktor/m.kuehl_faktor<1.5 && f.kuehl_faktor/m.kuehl_faktor>1/1.5,`gespeicherte Parameter passen noch zum Korpus (Exponent ${m.exponent} vs. Fit ${f.exponent.toFixed(2)}, Kältefaktor ${m.kuehl_faktor} vs. ${f.kuehl_faktor.toFixed(1)}) — sonst node tools/gaerung-fit.mjs prüfen`);
-const faktoren=zeilen.map(r=>{const e=erwarteteGare(r.hefe,!!r.kalt,m);return Math.max(r.T/e,e/r.T);}).sort((a,b)=>a-b);
+const alleZeilen=lesen(); const zeilen=alleZeilen.filter(r=>!r.pruef); const f=fitten(zeilen);
+ok(zeilen.length>=m.fit_n && f.n===zeilen.length && alleZeilen.length-zeilen.length===m.validierung.ids.length,`Fit-Daten: ${zeilen.length} Rezepte ohne Vorteig mit Zeit und Hefe, ohne die ${m.validierung.ids.length} Prüf-Rezepte`);
+ok(Math.abs(f.exponent-m.exponent)<0.25 && f.temp_koeffizient/m.temp_koeffizient<1.5 && f.temp_koeffizient/m.temp_koeffizient>1/1.5,`gespeicherte Parameter passen noch zum Korpus (Exponent ${m.exponent} vs. Fit ${f.exponent.toFixed(2)}, Temperatur-Koeffizient ${m.temp_koeffizient} vs. ${f.temp_koeffizient.toFixed(3)}) — sonst node tools/gaerung-fit.mjs prüfen`);
+const faktoren=zeilen.map(r=>{const e=erwarteteGare(r.hefe,r.temp,m);return Math.max(r.T/e,e/r.T);}).sort((a,b)=>a-b);
 const innerhalb=faktoren.filter(x=>x<=m.warn_faktor).length/faktoren.length;
 ok(faktoren[Math.floor(faktoren.length/2)]<2 && innerhalb>=0.9,`mit den gespeicherten Parametern: Median-Abweichung ×${faktoren[Math.floor(faktoren.length/2)].toFixed(2)}, ${Math.round(innerhalb*100)} % der Rezepte innerhalb des Warn-Spielraums ×${m.warn_faktor}`);
 
-// --- Unabhängiger Testsatz (Parameter vor der Recherche eingefroren) ---------------------------------------------
+// --- Prüf-Rezepte (nicht im Fit) --------------------------------------------------------------------------------
 const korpusAlle=Object.values(data.archetypes.hefeteig.varianten).flatMap(v=>J('corpus/'+v.korpus));
 const val=m && data.modelle.gaerung.validierung.ids.map(id=>korpusAlle.find(r=>r.id===id));
-ok(val.every(Boolean) && val.length===2,'Validierungs-Rezepte stehen im Korpus (kalte Weißbrote, nach dem Einfrieren der Parameter recherchiert)');
-{const abw=val.map(r=>{const n=normalizeRecipe(r,data.ingredients,{rollen:data.archetypes.hefeteig.rollen.map(x=>x.rolle)});const z=r.zeiten;const T=(z.vorteig??0)+(z.gehen??0)+(z.stueckgare??0);const e=erwarteteGare(n.bilanz.bp.hefe,r.gehen_kuehl===true,m);return Math.max(T/e,e/T);});
-ok(abw.every(x=>x<=m.warn_faktor),`Vorhersage der Gärzeit liegt bei beiden Test-Rezepten innerhalb ×${m.warn_faktor} (Abweichung ×${abw.map(x=>x.toFixed(1)).join(', ×')})`);}
+ok(val.every(Boolean) && val.length===2,'Prüf-Rezepte stehen im Korpus (kalte Weißbrote) und gehen nicht in den Fit ein');
+{const abw=alleZeilen.filter(r=>r.pruef).map(r=>{const e=erwarteteGare(r.hefe,r.temp,m);return Math.max(r.T/e,e/r.T);});
+ok(abw.length===2 && abw.every(x=>x<=m.warn_faktor),`Vorhersage der Gärzeit liegt bei beiden Prüf-Rezepten innerhalb ×${m.warn_faktor} (Abweichung ×${abw.map(x=>x.toFixed(1)).join(', ×')})`);}
 
 // --- Engine ---------------------------------------------------------------------------------------------------------
 const arch=data.archetypes.hefeteig; const rollen=arch.rollen.map(r=>r.rolle);
@@ -67,22 +73,22 @@ let c=compute(zustand('weissbrot','hefe_direkt'),data,ks);
 ok(c.gaerung && !c.gaerung.berechnet && c.rollenBp.trieb.quelle==='korpus' && near(hefeBp(c),ks.weissbrot.proMethode.hefe_direkt.bp.trieb.median) && c.gaerung.pruefung===null,'Methode mit Rezepten (Weißbrot direkt): Hefe aus der Zelle, Modell prüft nur');
 ok(!c.anpassungen.some(a=>/Gärzeit gerechnet/.test(a)),'… keine Berechnungs-Anpassung');
 c=compute(zustand('hefezopf','hefe_kalt'),data,ks);
-ok(c.gaerung.kuehl===true && !c.gaerung.berechnet && c.gaerung.pruefung===null,'Zopf kalte Führung: Zelle ist zu 100 % kalt → Kältefaktor gilt');
+ok(c.gaerung.kuehl===true && c.gaerung.temp<10 && /4–7 °C/.test(c.gaerung.tempText) && !c.gaerung.berechnet && c.gaerung.pruefung===null,`Zopf kalte Führung: alle Rezepte der Zelle gären im Kühlschrank → ${c.gaerung.tempText}, Modell rechnet mit ${c.gaerung.temp} °C`);
 c=compute(zustand('weissbrot','hefe_vorteig'),data,ks);
 ok(c.gaerung===null && !c.warnungen.some(x=>/Gärmodell/.test(x)),'Vorteig: Modell nicht anwendbar (Hefe im Vorteig nicht aufgeteilt)');
 
 // ohne Rezepte (simuliert und echt): Hefe aus der Gärzeit
 const gerechnet=(vk,methode,k2)=>{const cc=compute(zustand(vk,methode),data,k2);const ablaufGare=cc.ablauf.filter(s=>['gehen','stueckgare'].includes(s.key)).reduce((a,s)=>a+s.dauer,0);return {cc,ablaufGare};};
-for (const [vk,methode,kuehl] of [['weissbrot','hefe_direkt',false],['weissbrot','hefe_noknead',false],['hefezopf','hefe_direkt',false]]) {
+for (const [vk,methode,kuehl] of [['weissbrot','hefe_direkt',WARM],['weissbrot','hefe_noknead',RAUM],['hefezopf','hefe_direkt',WARM]]) {
   const {cc,ablaufGare}=gerechnet(vk,methode,ohneZelle(vk,methode));
-  ok(cc.gaerung.berechnet && cc.rollenBp.trieb.quelle==='berechnet' && near(hefeBp(cc),hefeFuerGare(ablaufGare,kuehl,m),1e-9),`${vk}/${methode} ohne Rezepte: Hefe ${hefeBp(cc).toFixed(2)} % aus ${fmtDauer(ablaufGare)} gerechnet`);
+  ok(cc.gaerung.berechnet && cc.rollenBp.trieb.quelle==='berechnet' && near(hefeBp(cc),hefeFuerGare(ablaufGare,kuehl,m),1e-9),`${vk}/${methode} ohne Rezepte: Hefe ${hefeBp(cc).toFixed(2)} % aus ${fmtDauer(ablaufGare)} bei ${kuehl} °C gerechnet`);
 }
 const kalt=compute(zustand('weissbrot','hefe_kalt'),data,ks);
 const gareKalt=kalt.ablauf.filter(s=>['gehen','stueckgare'].includes(s.key)).reduce((a,s)=>a+s.dauer,0);
-ok(!ks.weissbrot.proMethode.hefe_kalt===(kalt.gaerung.berechnet) && near(hefeBp(kalt),kalt.gaerung.berechnet?hefeFuerGare(gareKalt,true,m):ks.weissbrot.proMethode.hefe_kalt.bp.trieb.median,1e-9),'Weißbrot kalt: gerechnet, solange der Korpus keine kalten Weißbrote enthält, sonst aus der Zelle');
+ok(!ks.weissbrot.proMethode.hefe_kalt===(kalt.gaerung.berechnet) && near(hefeBp(kalt),kalt.gaerung.berechnet?hefeFuerGare(gareKalt,KALT,m):ks.weissbrot.proMethode.hefe_kalt.bp.trieb.median,1e-9),'Weißbrot kalt: gerechnet, solange der Korpus keine kalten Weißbrote enthält, sonst aus der Zelle');
 {const {cc}=gerechnet('weissbrot','hefe_noknead',ohneZelle('weissbrot','hefe_noknead')); ok(hefeBp(cc)<1 && cc.gaerung.erwartet>600,`lange Führung ohne Rezepte: sehr wenig Hefe (${hefeBp(cc).toFixed(2)} %) statt der 2,4 % des Variantenmedians`);}
 c=compute(zustand('weissbrot','hefe_kalt'),data,ohneZelle('weissbrot','hefe_kalt'));
-ok(c.anpassungen.some(a=>/Keine Rezepte mit „Kalte Führung“/.test(a) && /Gärzeit gerechnet/.test(a) && /kalt/.test(a) && /Richtwert/.test(a)),'Anpassungstext nennt Methode, Gärzeit, kalt und „Richtwert“');
+ok(c.anpassungen.some(a=>/Keine Rezepte mit „Kalte Führung“/.test(a) && /Gärzeit gerechnet/.test(a) && /bei 4–7 °C \(Kühlschrank\)/.test(a) && /Richtwert/.test(a)),'Anpassungstext nennt Methode, Gärzeit, Temperatur und „Richtwert“');
 ok(c.zutatenListe.find(z=>z.rolle==='trieb').bpQuelle==='berechnet','Zutatenliste markiert die Hefe als „berechnet“');
 ok(c.gaerung.pruefung===null && near(c.gaerung.gare/c.gaerung.erwartet,1,1e-9),'berechnete Hefe ist zur Gärzeit konsistent (Faktor 1)');
 
@@ -115,6 +121,6 @@ const meldungen=[];
 for (const vk of Object.keys(arch.varianten)) for (const meth of [null,...arch.methoden]) { const cc=compute(zustand(vk,meth),data,ks); for (const wt of cc.warnungen) if (/Gärmodell|Gare .* Hefe/.test(wt)) meldungen.push(`${vk}/${meth}: ${wt}`); }
 ok(meldungen.length===0,`kein Preset und keine Methode mit Rezepten löst die Gärmodell-Warnung aus${meldungen.length?' — '+meldungen.join(' | '):''}`);
 const nk=compute(zustand('weissbrot','hefe_noknead'),data,ks).gaerung;
-ok(nk.gare/nk.erwartet<m.warn_faktor,`bekannte Grenze: Weißbrot ohne Kneten liegt bei ×${(nk.gare/nk.erwartet).toFixed(2)} (Raumtemperatur ~20 °C ist langsamer als das „warm“ des Modells), noch unter ×${m.warn_faktor}`);
+ok(nk.temp===RAUM && nk.gare/nk.erwartet<m.warn_faktor,`Weißbrot ohne Kneten rechnet mit ${nk.tempText} und liegt bei ×${(nk.gare/nk.erwartet).toFixed(2)} (bleibt bekannte Grenze: die Gare dauert länger als die Hefedosis erwarten lässt), unter ×${m.warn_faktor}`);
 
 console.log(fail?fail+' FAIL':'ALL PASS');

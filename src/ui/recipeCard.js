@@ -61,7 +61,8 @@ export function renderRecipe(root, computed, state, data, onChange) {
   const g = computed.gaerung;
   if (g) {
     const std = (m) => (m >= 90 ? `${(m / 60).toFixed(1).replace('.', ',')} Std.` : `${Math.round(m)} Min.`);
-    root.append(el('p', 'fine', `Gärmodell (Richtwert): ${g.hefeBp.toFixed(1).replace('.', ',')} % Hefe, Gare ${std(g.gare)}${g.kuehl ? ' kalt' : ''} — das Modell erwartet ${std(g.erwartet)} (Spielraum etwa ×${String(g.warnFaktor).replace('.', ',')}; Hefe × Zeit ist ungefähr konstant, Kälte verlängert).`));
+    const erwartet = g.fenster ? `${std(g.erwartet)} (${std(g.fenster[0])}–${std(g.fenster[1])} je nach Temperatur)` : std(g.erwartet);
+    root.append(el('p', 'fine', `Gärmodell (Richtwert): ${g.hefeBp.toFixed(1).replace('.', ',')} % Hefe, Gare ${std(g.gare)}${g.tempText ? ` bei ${g.tempText}` : ''} — das Modell erwartet ${erwartet} (Spielraum etwa ×${String(g.warnFaktor).replace('.', ',')}; Hefe × Zeit ist ungefähr konstant, Kälte verlängert).`));
   }
 
   // Gesamtbilanz (DR-020/T33): Wasser/Fett/Zucker über alle Zutaten, mit Korpus-Spanne (T35).

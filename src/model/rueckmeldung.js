@@ -40,7 +40,7 @@ export function baueMeldung({ state, computed, eingabe, appVersion }) {
       korpusN: computed.korpusN ?? null,
       korpusNMethode: computed.korpusNMethode ?? null,
       rollenBp: Object.fromEntries(Object.entries(computed.rollenBp || {}).map(([r, v]) => [r, Math.round(v.bp * 100) / 100])),
-      gaerung: g ? { gare: Math.round(g.gare), erwartet: Math.round(g.erwartet * 10) / 10, hefeBp: Math.round(g.hefeBp * 100) / 100, kuehl: !!g.kuehl, berechnet: !!g.berechnet } : null,
+      gaerung: g ? { gare: Math.round(g.gare), erwartet: Math.round(g.erwartet * 10) / 10, hefeBp: Math.round(g.hefeBp * 100) / 100, temp: Math.round(g.temp * 10) / 10, kuehl: !!g.kuehl, berechnet: !!g.berechnet } : null,
     },
   };
 }

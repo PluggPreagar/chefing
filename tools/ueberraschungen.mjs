@@ -21,6 +21,7 @@ if (arg('--reserve') != null) schwellen.reserve = arg('--reserve');
 if (arg('--gaerung') != null) schwellen.gaerungFaktor = arg('--gaerung');
 const b = ueberraschungenSuchen({
   archetypes, ingredients: lies('data/ingredients.json'), grenzen: lies('data/grenzen.json'), modelle: lies('data/modelle.json'), korpora,
+  methods: lies('data/methods.json'), operations: lies('data/operations.json'), temperaturen: lies('data/temperaturen.json'),
 }, schwellen);
 
 if (process.argv.includes('--json')) { console.log(JSON.stringify(b, null, 2)); process.exit(0); }
@@ -40,9 +41,9 @@ console.log('\n2) Gärmodell (Hefe × Zeit × Temperatur)');
 if (!b.gaerung) console.log('   (kein Modell in modelle.json)');
 else {
   console.log(`   ${b.gaerung.gepruefte} Rezepte geprüft, ${b.gaerung.auffaellig.length} weichen um mehr als ×${b.schwellen.gaerungFaktor} ab:`);
-  for (const r of b.gaerung.auffaellig) console.log(`   ×${p(r.faktor)}  ${r.id}  (${p(r.hefe)} % Hefe, ${p(r.T / 60)} Std., ${r.kalt ? 'kalt' : 'warm'}, ${r.methode}; Modell erwartet ${p(r.erwartet / 60)} Std.)`);
+  for (const r of b.gaerung.auffaellig) console.log(`   ×${p(r.faktor)}  ${r.id}  (${p(r.hefe)} % Hefe, ${p(r.T / 60)} Std. bei ${p(r.temp ?? 0)} °C, ${r.methode}; Modell erwartet ${p(r.erwartet / 60)} Std.)`);
   console.log('   Gruppen:');
-  for (const g of b.gaerung.gruppen) console.log(`   ${g.gruppe.padEnd(22)} n = ${String(g.n).padStart(2)}, Median ×${p(g.median)}${g.systematisch ? `  ← SYSTEMATISCH: ${g.richtung}${/noknead|warm/.test(g.gruppe) ? ' (fehlende Größe vermuten, z. B. Raumtemperatur → T52/T56)' : ' (fehlende Größe vermuten)'}` : ''}`);
+  for (const g of b.gaerung.gruppen) console.log(`   ${g.gruppe.padEnd(22)} n = ${String(g.n).padStart(2)}, Median ×${p(g.median)}${g.systematisch ? `  ← SYSTEMATISCH: ${g.richtung} (fehlende Größe vermuten; die Temperatur steckt schon im Modell)` : ''}`);
 }
 
 console.log(`\n3) Muster bei den Gärmodell-Abweichlern (verglichen mit allen ${b.gaerung?.gepruefte ?? 0} vom Gärmodell geprüften Rezepten, getrennt nach Richtung)`);
