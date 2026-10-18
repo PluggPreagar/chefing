@@ -6,6 +6,7 @@ import { renderRecipe } from './ui/recipeCard.js';
 import { renderStats } from './ui/stats.js';
 import { renderRueckfragen } from './ui/rueckfragen.js';
 import { renderKandidaten } from './ui/kandidaten.js';
+import { sendeOffene } from './model/rueckmeldung.js';
 
 async function loadJson(path) {
   const r = await fetch(path);
@@ -148,8 +149,12 @@ loadJson('./version.json').then((v) => {
   const el = $('version-info');
   if (!el || !v?.sha) return;
   const kurzSha = String(v.sha).slice(0, 7);
+  data.appVersion = kurzSha; // Rückmeldungen nennen die App-Version (welche Regeln galten, T53)
   el.textContent = `Version ${kurzSha}${v.time ? ` · deployed ${v.time}` : ''}`;
   el.hidden = false;
 }).catch(() => {}); // kein version.json (lokale Entwicklung) — kein Fehler, Zeile bleibt versteckt
+
+// Rückmeldungen, die beim letzten Mal nicht ankamen (Netz, Limit), noch einmal still versuchen (T53)
+sendeOffene().catch(() => {});
 
 render();

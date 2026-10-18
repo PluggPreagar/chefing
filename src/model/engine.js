@@ -131,6 +131,7 @@ export function compute(state, data, korpusStats) {
   );
   const toleranzHinweise = [];
   const toleranzWarnungen = [];
+  const toleranzIds = []; // welche Größen dem Nutzer als „untypisch/ungetestet“ gezeigt wurden (Rückmeldungen, T53)
   // Eine Grenzverletzung erklärt die Korpus-Abweichung meist schon (Stärke allein → Eiweiß-Grenzen);
   // die Bilanz-Tabelle markiert sie weiter, nur der Zusatztext entfällt (T42).
   const hatGrenzverletzung = verletzt.hart.length + verletzt.empfohlen.length > 0;
@@ -145,6 +146,7 @@ export function compute(state, data, korpusStats) {
         ? `${GROESSEN_LABEL[g]} ${wert} % vom Mehl liegt außerhalb aller ${korpus.n} Korpus-Rezepte (${fmtProzent(korpus.min)}–${fmtProzent(korpus.max)} %) — ungetestete Kombination.`
         : `${GROESSEN_LABEL[g]} ${wert} % vom Mehl ist untypisch (Korpus Q1–Q3: ${fmtProzent(korpus.q1)}–${fmtProzent(korpus.q3)} %).`;
       (t === 'ausserhalb_spanne' ? toleranzWarnungen : toleranzHinweise).push(text);
+      toleranzIds.push(`toleranz:${g}`);
     }
     return { groesse: g, label: GROESSEN_LABEL[g], gramm: bil.gramm[g], bp: bil.bp[g], korpus, toleranz: t };
   });
@@ -238,7 +240,21 @@ export function compute(state, data, korpusStats) {
     zeit: zeiten[i].fenster,
   }));
 
+  // Alle Regeln, die dem Nutzer etwas gesagt haben (Grenzen, Voraussetzungen, Zeit-Fenster, Gärmodell, eingefügte
+  // Vorbereitung, Korpus-Toleranz) — jede ist eine Vorhersage; Rückmeldungen („hat es geklappt?“, T53) etikettieren sie.
+  const regelIds = [...new Set([
+    ...verletzt.hart.map((v) => v.id),
+    ...verletzt.empfohlen.map((v) => v.id),
+    ...blockaden.map((b) => b.id),
+    ...toleranzIds,
+    ...res.schritte.filter((s) => s.eingefuegt).map((s) => `prep:${s.key}`),
+    ...zeiten.flatMap((z, i) => (z.hinweis ? [`zeit:${res.schritte[i].key}`] : [])),
+    ...(gaerPruefung ? ['gaerung_modell'] : []),
+    ...(modellGilt && !stM ? ['gaerung_berechnet'] : []),
+  ])];
+
   return {
+    regelIds,
     variante,
     varianteLabel: arch.varianten[variante]?.label,
     korpusN: st.n,

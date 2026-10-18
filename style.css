@@ -126,6 +126,23 @@ table { width: 100%; border-collapse: collapse; font-size: .9rem; margin: .5rem 
 th, td { text-align: left; padding: .35rem .4rem; border-bottom: 1px solid var(--line); vertical-align: top; }
 th { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
 .fine { color: var(--muted); font-size: .8rem; margin: .35rem 0; }
+
+/* Rückmeldung „Hat es geklappt?“ (T53) */
+.rueckmeldung { margin-top: 1rem; border: 1px solid var(--line, rgba(128, 128, 128, .35)); border-radius: 6px; padding: .5rem .75rem; }
+.rueckmeldung > summary { cursor: pointer; font-weight: 600; }
+.rueckmeldung-form { display: grid; gap: .5rem; margin-top: .6rem; }
+.rm-punkte { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .25rem .9rem; }
+.rm-punkte legend { padding: 0; margin-bottom: .25rem; color: var(--muted); font-size: .85rem; }
+.rm-punkt { display: inline-flex; align-items: center; gap: .3rem; cursor: pointer; }
+.rm-kommentar { color: var(--muted); font-size: .85rem; }
+.rueckmeldung textarea { width: 100%; box-sizing: border-box; font: inherit; }
+.rm-mengen { font-size: .9rem; }
+.rm-falle { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.rm-vorschau pre { white-space: pre-wrap; word-break: break-word; font-size: .75rem; max-height: 14rem; overflow: auto; }
+.rm-senden { justify-self: start; }
+.rm-status { min-height: 1.2em; margin: 0; font-size: .9rem; }
+.rm-ok { color: var(--ok, #2e7d32); }
+.rm-fehler { color: var(--bad, #c62828); }
 .bake { margin-top: .75rem; padding: .6rem .75rem; background: var(--warn-bg); border-radius: 8px; }
 .bake-main { font-weight: 700; }
 .bake-hints { margin: .35rem 0 0; padding-left: 1.1rem; font-size: .85rem; color: var(--muted); }

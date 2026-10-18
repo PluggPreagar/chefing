@@ -1,6 +1,7 @@
 import { fmtProzent } from '../model/bilanz.js';
 import { overrideErfassen, overridesFuer } from '../model/overrides.js';
 import { fmtZeit } from '../model/zeit.js';
+import { renderRueckmeldung } from './rueckmeldung.js';
 
 export function renderRecipe(root, computed, state, data, onChange) {
   root.replaceChildren();
@@ -101,6 +102,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
     const klasse = fett < 70 ? 'leicht' : ei != null && ei < 90 ? 'mittel' : 'schwer';
     root.append(el('p', 'fine', `Einordnung nach Lehrbuch (Mehl = 100): Fett ${fmt(fett)} · Zucker ${fmt(suesse)} · Ei ${fmt(ei)} → „${klasse}er“ ${computed.archetypLabel}. ${lb.kommentar}`));
   }
+  root.append(renderRueckmeldung(state, data, computed)); // „Hat es geklappt?“ (T53)
 }
 
 // Vorschlagen-dann-bestätigen (DR-019 Punkt 1/T27): mutiert `state.zutaten` erst nach Klick,

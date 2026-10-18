@@ -24,7 +24,7 @@ Tests (Node ≥ 18, keine Abhängigkeiten):
 sh test/run.sh
 ```
 
-Jede Datei `test/*.check.mjs` ist eine eigene Suite (15 Suiten, rund 370 Fälle). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
+Jede Datei `test/*.check.mjs` ist eine eigene Suite (17 Suiten, rund 490 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
 
 ```bash
 git config core.hooksPath .githooks
@@ -36,6 +36,7 @@ git config core.hooksPath .githooks
 - **Variante** = benanntes Preset: Gefäß, Korpus und „Best-of“-Zutaten. Die Mengen sind der **Median aus dem Korpus** in Bäckerprozent (Mehl = 100), nicht kuratiert; hat die gewählte Methode Rezepte in der Variante, zählen nur deren Rezepte (Vorteig-Brot braucht weniger Hefe als direkt geführtes); ein einzelnes geprüftes Rezept schlägt den Median fremder Methoden (DR-026).
 - **Methode** = geordnete Folge von **Operationen** (als Graph, mit parallelen Strängen). Jede Operation prüft **Voraussetzungen** an den Zutat-Eigenschaften, zum Beispiel „Natron braucht eine saure Zutat“. Die Engine prüft nur generisch, die Regeln stehen in den Daten.
 - **Zeit**: Operationen haben ein Fenster (min/typ/max) mit Hinweis, was außerhalb passiert; Warten ist eine eigene Operation (Gehen, Ruhen, Einlegen). Die Karte zeigt aktive Zeit, Wartezeit und Gesamtzeit.
+- **Rückmeldung** („Hat es geklappt?“ unter jedem Rezept): 1–5 Punkte und Kommentar gehen an `feedback.php`. Jede Regel, Grenze und Modellwarnung ist eine Vorhersage; die Meldungen zeigen je Regel, ob sie zu streng ist oder fehlt (`node tools/rueckmeldungen.mjs feedback.jsonl`). Nichts wird ohne Klick gesendet, es werden weder IP noch Cookies gespeichert (DR-027).
 - **Gärmodell** (Hefeteig): Hefe × Gehzeit ist ungefähr konstant, Kälte verlängert. Es warnt bei Widersprüchen (4 % Hefe, 12 Std.) und rechnet die Hefe für Methoden ohne Korpus-Rezepte aus der Gärzeit. Ein Richtwert mit Spielraum ×3,5, Rezepte gehen immer vor (DR-026).
 - **Gesamtbilanz**: Wasser, Fett, Zucker, Eiweiß, Gluten, Stärke, Triebkraft, Hefe und Salz über alle Zutaten. Dagegen laufen die **Grenzen** (`hart` macht die Kombination ungültig, `empfohlen` warnt) und der Vergleich mit der Korpus-Spanne.
 - **Feedback-Schleife**: harte Regeln lassen sich bewusst überschreiben, als Fehler melden und aus dem Korpus als Kandidaten ableiten. Alles lokal im Browser (`localStorage`), kein Backend; Änderungen an den Regeldateien macht der Maintainer von Hand.
@@ -53,13 +54,15 @@ src/model/                   Engine ohne DOM (testbar)
   bilanz.js                  Gesamtbilanz, Grenzen, Kaskaden-Vorschläge, Korpus-Toleranz
   zeit.js                    Zeit-Fenster und Zeitleiste
   corpus.js, units.js        Korpus laden, normalisieren, Statistik, Einheiten → Gramm
+  rueckmeldung.js            Rückmeldung bauen, senden, Warteschlange, Auswertung je Regel
   qualitaet.js               Qualitätsnote je Korpus-Rezept (Vorschlag, Überschreiben)
   gaerung.js                 Gärmodell: erwartete Gärzeit, Hefe aus Gärzeit, Plausibilitätswarnung
   korrelation*.js            Regel-Kandidaten aus dem Korpus
   overrides.js, errorRequests.js   Feedback-Schleife
 src/ui/                      Morphologischer Kasten, Ablaufdiagramm, Rezeptkarte, Statistik, Icons
 src/data/                    alle Fachdaten als JSON (siehe unten)
-tools/                       Pflege-Skripte (Qualitätsnote, Gärmodell: Fit und Prüfung neuer Rezepte)
+tools/                       Pflege-Skripte (Qualitätsnote, Gärmodell, Auswertung der Rückmeldungen)
+feedback.php                 Endpunkt für Rückmeldungen (nur auf dem Server, siehe Deploy)
 test/                        headless-Checks, `sh test/run.sh`
 docs/                        TODO.md (+ Archiv), DECISIONS.md, QUELLEN.md
 HANDOFF/                     Abgleich zwischen Planung (claude.ai) und Umsetzung (Laptop)
@@ -114,3 +117,7 @@ Der Archetyp-Umschalter erscheint automatisch, sobald es mehr als einen Archetyp
 ## Deploy
 
 Der Webspace holt `main` von GitHub per `deploy.php` (Aufruf mit Zugriffstoken, steht nur auf dem Server, nie im Repo). Welche Dateien übernommen werden, steht in `chefing.cfg`. Die Server-Datei `.htaccess` gehört nicht ins Repo. Hintergrund: DR-013.
+
+### Rückmeldungen einrichten (einmalig)
+
+`feedback.php` verteilt `deploy.php` bewusst nicht (das Muster in `chefing.cfg` kennt nur `*.html *.js *.css *.json`). Datei einmal von Hand neben `index.html` auf den Webspace legen (PHP ab 8.1). Beim ersten Schreiben entsteht `feedback-data/` mit eigener `.htaccess`; danach prüfen, dass `…/feedback-data/feedback.jsonl` mit 403 oder 404 antwortet. Auswerten: `feedback-data/feedback.jsonl` herunterladen und `node tools/rueckmeldungen.mjs feedback.jsonl` ausführen. Grenzen und Löschung stehen in `feedback.php` (30 Meldungen je 15 Minuten, 500 je Tag, 5 MB). Die Datenschutzerklärung der Seite sollte die Kommentare erwähnen.
