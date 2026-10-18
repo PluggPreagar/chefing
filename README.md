@@ -8,7 +8,7 @@ Aktuell drei **Archetypen** mit sieben Varianten:
 |---|---|---|
 | Rührteig | Rührkuchen (Kastenform), Muffins, Gugelhupf | 45 Rezepte |
 | Pfannkuchen | Eierkuchen (dünn), Pancakes (dick) | 31 Rezepte |
-| Hefeteig | Weißbrot (Kastenform), Hefezopf (Blech) | 32 Rezepte |
+| Hefeteig | Weißbrot (Kastenform), Hefezopf (Blech) | 51 Rezepte |
 
 ## Starten
 

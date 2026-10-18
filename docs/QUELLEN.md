@@ -96,3 +96,18 @@ Nicht abrufbar oder für den Crawler gesperrt (T04): rewe.de, edeka.de (403), ei
 | 2026-10-18 | dioezese-linz.at, kidsrezepte.de, diamant-zucker.de, weightwatchers.com | je 1 | Zopf Vorteig | Dampfl bzw. Hefevorteig 15–30 Min.; teils mit dem gesamten Mehl im Vorteig |
 
 Nicht abrufbar oder gesperrt: rewe.de, brooot.de, ines-kocht.de (403/410), derstandard.at (Consent-Wand), nutella.com (404), mehrere PDFs. Verworfen aus inhaltlichen Gründen u. a.: Sauerteig/Anstellgut/Lievito Madre, Vollkorn-, Roggen-, Dinkel- und Emmermehl, Honig/Rübensirup/Malz/Vanilleextrakt im Teig, Rahm/Schmand/Eigelb-Grundrezepte, freie Brote auf Blech oder im Topf statt Kastenform, Vorteig unter 30 Minuten bei „Vorteig“-Methode, widersprüchliche Mengen.
+
+## 2026-10-18 — Nachrecherche Hefeteig-Korpus (T47)
+
+3 Subagenten parallel (WebSearch/WebFetch), gezielt für Lücken: Weißbrot ohne Kneten und mit Vorteig, Zopf ohne Kneten/kalt und mit Vorteig, Zopf mit Schokolade oder Rosinen. Nur neue Domains, je Domain ein Rezept. Eingepflegt: 19 Rezepte. Zwei Rezepte, die in T45 zu Unrecht (Vanilleextrakt) verworfen worden waren, sind jetzt dabei (rita-ehser.de, madamedessert.de).
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-18 | veenaazmanov.com, biggerbolderbaking.com, mamtaskitchen.com, dovesfarm.co.uk, buttermilkbysam.com | je 1 | Weißbrot ohne Kneten | englischsprachig, Mengen in Gramm bzw. Tassen-Angaben nur mit Gramm übernommen; 6–18 Std. Gare |
+| 2026-10-18 | backshop.staedter.de, snapcalorie.com | je 1 | Weißbrot Vorteig | Vorteig 30 Min. kühl über Nacht bzw. Poolish 12–16 Std. |
+| 2026-10-18 | rita-ehser.de, bella-cooks-and-travels.com, zimtblume.de, heimbaecker.de, zimtkringel.org | je 1 | Zopf ohne Kneten und kalte Führung | nur rita-ehser wird nicht geknetet; die anderen vier sind „kalte Führung“ |
+| 2026-10-18 | madamedessert.de, olis-backegge.ch | je 1 | Zopf Vorteig | Hefevorteig 30 Min. bzw. 12 Std. kühl |
+| 2026-10-18 | sallys-blog.de, katrinsbackblog.com | je 1 | Zopf mit Schokolade | Schokoladenmenge in Gramm angegeben |
+| 2026-10-18 | kochp.de, familienkost.de, digilotta.de | je 1 | Zopf mit Rosinen | digilotta mit 24 Std. kühler Gare |
+
+Nicht abrufbar oder gesperrt: edeka.de, kuchenfee.de (403). Verworfen u. a.: Rezepte mit Sauerteig/Anstellgut/Lievito Madre, Dinkel-, Vollkorn- und Roggenmehl, Backmalz, Agavendicksaft, Eierlikör, Milchpulver, Schokolade nur als Füllung oder „1 Päckchen“ ohne Gramm, Topf- und freie Brote statt Kastenform, widersprüchliche oder unvollständige Mengen.

@@ -25,7 +25,7 @@ for (const [k,list] of Object.entries(norm)) {
   ok(list.every(r=>r.unbekannt.length===0),`Korpus ${k}: keine unbekannten Zutaten/Einheiten`);
   const ausserhalb=[];
   for (const r of list) for (const [op,min] of Object.entries(r.zeiten||{})) {
-    const f=op==='gehen'&&r.methode==='hefe_noknead'?langeGare:fenster[op];
+    const f=op==='gehen'&&['hefe_noknead','hefe_kalt'].includes(r.methode)?langeGare:fenster[op];
     if (!f) ausserhalb.push(`${r.id}: unbekannte Zeit ${op}`); else if (min<f.min||min>f.max) ausserhalb.push(`${r.id}: ${op} ${min}`);
   }
   ok(ausserhalb.length===0,`Korpus ${k}: alle Zeiten im Fenster der Operation${ausserhalb.length?' — '+ausserhalb.join('; '):''}`);
@@ -67,6 +67,14 @@ const gr=data.grenzen.archetypen.hefeteig.find(g=>g.id==='hf_hefe_band');
 ok(hefeBp(c)>=gr.min && !c.warnungen.some(w=>w.includes('Hefe')),`Lange Führung: Hefe ${hefeBp(c).toFixed(1)} % liegt im Band ${gr.min}–${gr.max} %, keine Warnung`);
 ok(Math.abs(c.zutatenListe.find(z=>z.rolle==='trieb').gramm/c.zutatenListe.find(z=>z.rolle==='struktur').gramm*100-hefeBp(c))<1e-6,'Lange Führung: Hefe-Gramm folgen dem Faktor in der Zutatenliste');
 ok(hefeBp(compute({...st('hefezopf'),methode:'hefe_noknead'},data,ks))<0.35*hefeBp(compute(st('hefezopf'),data,ks)),'Hefezopf mit langer Führung: ebenfalls weniger Hefe');
+
+// T47: kalte Führung = normal kneten, dann lange kühle Gare (anders als die Führung ohne Kneten)
+c=compute({...st('hefezopf'),methode:'hefe_kalt'},data,ks);
+const kalt=c.ablauf.find(s=>s.key==='gehen');
+ok(c.ablauf.map(s=>s.key).join()==='hefe_ansetzen,kneten,gehen,formen,stueckgare,backen' && kalt.dauer===720 && kalt.zeit.min===360 && c.status!=='invalid','Kalte Führung: Kneten bleibt, Gare 12 Std. (Fenster 6–30 Std.)');
+ok(c.zeit.gesamt>=720+30 && c.zeit.aktiv<90,`Kalte Führung: Gesamtzeit ${c.zeit.gesamt} Min. bei nur ${c.zeit.aktiv} Min. aktiver Zeit`);
+ok(Object.keys(ks.weissbrot.methoden).length===3 && Object.keys(ks.hefezopf.methoden).length===4 && ks.weissbrot.n>=20 && ks.hefezopf.n>=25,`Korpus nach T47: Weißbrot ${ks.weissbrot.n} (${JSON.stringify(ks.weissbrot.methoden)}), Zopf ${ks.hefezopf.n} (${JSON.stringify(ks.hefezopf.methoden)})`);
+ok(norm.hefezopf.filter(r=>r.hatEinlage).length>=6 && norm.hefezopf.some(r=>r.zutaten.some(z=>z.zutat==='schokolade')) && norm.hefezopf.some(r=>r.zutaten.some(z=>z.zutat==='rosinen')),'Hefezopf-Korpus enthält Einlagen: Schokolade und Rosinen');
 
 // Hefeteig ohne Gluten (Stärke statt Mehl) geht nicht auf — harte Regel, überschreibbar
 c=compute(st('weissbrot',{struktur:E('speisestaerke')}),data,ks);

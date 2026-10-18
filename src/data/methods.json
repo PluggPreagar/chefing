@@ -276,6 +276,47 @@
     "geeignet_fuer": ["brotform", "blech"],
     "warum": "Ein Teil der Hefe und des Mehls reift vorab: mehr Aroma, stabilere Gare, weniger Hefe nötig. Kostet Zeit (Dampfl 15–30 Minuten, Poolish über Nacht)."
   },
+  "hefe_kalt": {
+    "label": "Kalte Führung",
+    "kurz": "Hefe lösen, kneten, über Nacht kalt gehen lassen, formen, nochmal gehen lassen, backen",
+    "sequenz": [
+      "einlegen",
+      "hefe_ansetzen",
+      "kneten",
+      "einlage_unterheben",
+      {
+        "key": "gehen",
+        "label": "Teig lange und kühl gehen lassen",
+        "typ": "warten",
+        "verb": "mischen",
+        "intensitaet": "passiv",
+        "variante": "lange Gare im Kühlschrank",
+        "auf": ["struktur", "fluessigkeit", "trieb"],
+        "voraussetzung": [
+          {
+            "rolle": "struktur", "eigenschaft": "bildet_gluten", "wert": true, "strenge": "hart", "id": "hefe_braucht_gluten",
+            "hinweis": "ein Mehl mit Klebereiweiß — ohne Gluten kann der Teig das Hefegas nicht halten und geht nicht auf"
+          }
+        ],
+        "zeit": {
+          "min": 360, "typ": 720, "max": 1800, "ziel": "volumen_verdoppelt", "strenge": "empfohlen",
+          "unter_min": "für eine kalte Führung zu kurz — im Kühlschrank arbeitet die Hefe langsam, der Teig ist noch nicht aufgegangen.",
+          "ueber_max": "der Teig übergärt auch im Kühlschrank: Gerüst reißt, Geschmack wird alkoholisch."
+        },
+        "wirkung": "Der normal geknetete Teig geht 6 bis 30 Stunden im Kühlschrank. Die Hefe arbeitet langsam, es entsteht viel Aroma, und der Teig ist am nächsten Tag ohne Zeitdruck bereit.",
+        "dauer_min": 720
+      },
+      "formen",
+      "stueckgare",
+      "backen"
+    ],
+    "optional": ["einlegen", "einlage_unterheben"],
+    "nach": {"einlegen": [], "hefe_ansetzen": [], "kneten": ["hefe_ansetzen"], "einlage_unterheben": ["kneten", "einlegen"]},
+    "textur": "aromatisch, gleichmäßig, wie direkte Führung mit mehr Geschmack",
+    "triebquelle": "Hefe, sehr lange kühle Gare nach dem Kneten",
+    "geeignet_fuer": ["brotform", "blech"],
+    "warum": "Wie die direkte Führung, nur wird die Gare in den Kühlschrank verlegt: mehr Aroma, planbar über Nacht, aber der Teig muss vor dem Formen etwas temperieren. Anders als die lange Führung ohne Kneten wird normal geknetet."
+  },
   "hefe_noknead": {
     "label": "Lange Führung ohne Kneten",
     "kurz": "Alles verrühren, sehr lange gehen lassen, formen, nochmal gehen lassen, backen",

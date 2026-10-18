@@ -1135,5 +1135,509 @@
     },
     "stueckzahl": 1,
     "notizen": "Mehl: Mischung aus Weizenbrotmehl und Allzweckmehl (beides Weizen, genaue Typenzahl nicht angegeben, deshalb als weizenmehl erfasst). Gehzeit 12-18 h (Mitte 15 h = 900 Min.), Stückgare 1,5-2 h (Mitte 105 Min.). Hefe 1 TL Trockenhefe = ca. 3 g, Frischhefe-Äquivalent ca. 9 g = 1,9 %. Wasser 76,6 %, Salz ca. 1,9 %. Form 23 x 12 cm (kleiner als 25 cm)."
+  },
+  {
+    "id": "veenaazmanov-no-knead-kastenbrot",
+    "titel": "Easy No Knead Sandwich Bread",
+    "quelle": {
+      "url": "https://veenaazmanov.com/no-knead-sandwich-bread/",
+      "site": "veenaazmanov.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g all-purpose flour"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 400,
+        "einheit": "ml",
+        "original": "400 g warm water"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 3,
+        "einheit": "g",
+        "original": "3 g instant dry yeast"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 7,
+        "einheit": "g",
+        "original": "7 g salt"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 15,
+        "einheit": "g",
+        "original": "15 g olive oil"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 15,
+        "einheit": "g",
+        "original": "15 g sugar"
+      }
+    ],
+    "methode": "hefe_noknead",
+    "zeiten": {
+      "gehen": 420,
+      "stueckgare": 60
+    },
+    "gehen_kuehl": true,
+    "ablauf": [
+      "Alle Zutaten nur verruehren, kein Kneten.",
+      "1 Stunde abgedeckt bei Raumtemperatur stehen lassen.",
+      "Danach mindestens 6 Stunden (bis 24 Stunden) im Kuehlschrank ruhen lassen.",
+      "Teig in eine mit Backpapier ausgelegte Kastenform (ca. 23 x 10 cm) geben und 60-90 Minuten warm gehen lassen.",
+      "Im vorgeheizten Ofen backen und mindestens 20 Minuten auskuehlen lassen."
+    ],
+    "backen": {
+      "tempOU": 200,
+      "tempUmluft": null,
+      "minuten": 43,
+      "original": "400 F / 200 C, Mitte, 40-45 Minuten"
+    },
+    "stueckzahl": null,
+    "notizen": "Hydration 80 %. Zeiten: gehen = 60 min Raumtemperatur + mind. 6 h Kuehlschrank (bis 24 h); Stueckgare 60-90 min (untere Grenze). Backzeit 40-45 min (Mitte 43). Form laut Seite 9x4 Zoll (ca. 23x10 cm), Ertragsangabe der Seite uneinheitlich. Olivenoel als pflanzenoel erfasst."
+  },
+  {
+    "id": "biggerbolderbaking-no-knead-sandwichbrot",
+    "titel": "Easy No Knead Sandwich Bread (5 Ingredients)",
+    "quelle": {
+      "url": "https://www.biggerbolderbaking.com/wprm_print/easy-no-knead-sandwich-bread-5-ingredients",
+      "site": "biggerbolderbaking.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 460,
+        "einheit": "g",
+        "original": "247 g bread flour + 213 g all-purpose flour"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 360,
+        "einheit": "ml",
+        "original": "1 1/2 cups (360 ml) lukewarm water"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 teaspoon instant yeast"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1.5,
+        "einheit": "tl",
+        "original": "1 1/2 teaspoons salt"
+      }
+    ],
+    "methode": "hefe_noknead",
+    "zeiten": {
+      "gehen": 720,
+      "stueckgare": 90
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Mehle, Salz, Hefe und Wasser mit der Hand zu einem zotteligen Teig verruehren, nicht kneten.",
+      "12 bis 18 Stunden abgedeckt bei Raumtemperatur gehen lassen (danach bis 2 Tage kuehl moeglich).",
+      "Teig zu einem Rechteck druecken, in Dritteln falten und mit der Naht nach unten in die gebutterte Kastenform (9x5 Zoll) legen.",
+      "1,5 bis 2 Stunden bis zur Verdopplung gehen lassen, bemehlen und einschneiden.",
+      "Bei hoher Hitze backen, vollstaendig auskuehlen lassen."
+    ],
+    "backen": {
+      "tempOU": 230,
+      "tempUmluft": null,
+      "minuten": 38,
+      "original": "450 F / 230 C, 35-40 Minuten"
+    },
+    "stueckzahl": null,
+    "notizen": "Mehl = Bread Flour (247 g) + All-Purpose (213 g), beides Weizenmehl, zu 460 g zusammengefasst. Hydration 78 %. Salz in TL angegeben (1,5 TL = 9 g, 2 %). Zeiten: gehen 12-18 h (untere Grenze), Stueckgare 1,5-2 h (untere Grenze), Backzeit 35-40 min (Mitte 38). Kastenform 9x5 Zoll (ca. 23x12,5 cm)."
+  },
+  {
+    "id": "mamtaskitchen-no-knead-brot-kastenform",
+    "titel": "Bread Loaf Using Easy No Knead Method",
+    "quelle": {
+      "url": "https://www.mamtaskitchen.com/recipe_display.php?id=13560",
+      "site": "mamtaskitchen.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g strong white flour"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 350,
+        "einheit": "ml",
+        "original": "350 ml lukewarm water"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 tsp instant yeast"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 tsp salt"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 1.5,
+        "einheit": "el",
+        "original": "1-2 tbsp olive oil"
+      }
+    ],
+    "methode": "hefe_noknead",
+    "zeiten": {
+      "gehen": 480
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Mehl, Hefe, Salz, Wasser und Oel nur zu einem sehr weichen, fast fluessigen Teig verruehren.",
+      "Abgedeckt ueber Nacht bzw. 8-10 Stunden stehen lassen (bei Hitze kuehl stellen).",
+      "Teig in eine Kastenform legen, Naht nach unten, bis zur Verdopplung gehen lassen.",
+      "Bei 200 C backen, auf dem Rost auskuehlen lassen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "200 C, Mitte; Seite nennt nur 10-12 min (offenbar fuer Broetchen), Brotzeit nicht angegeben"
+    },
+    "stueckzahl": null,
+    "notizen": "Hydration 70 %. Oel als Spanne 1-2 EL, Mittelwert 1,5 EL erfasst. Backzeit fuer Brot nicht verwertbar (Seite nennt Brötchenzeit), daher null. Stueckgare ohne Zeitangabe (bis Verdopplung). Mehl 'strong white flour' = Weizenmehl. Backzeit der Seite (10–12 Min.) gilt offenbar für Brötchen und ist nicht erfasst. Backzeit der Seite (10–12 Min.) gilt offenbar für Brötchen und ist nicht erfasst."
+  },
+  {
+    "id": "dovesfarm-white-no-knead-overnight",
+    "titel": "White No Knead Overnight Bread",
+    "quelle": {
+      "url": "https://www.dovesfarm.co.uk/recipes/white-no-knead-overnight-bread",
+      "site": "dovesfarm.co.uk",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g strong white bread flour"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 375,
+        "einheit": "ml",
+        "original": "375 ml tepid water"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 tsp quick yeast"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 tsp salt"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 tbsp oil"
+      }
+    ],
+    "methode": "hefe_noknead",
+    "zeiten": {
+      "gehen": 720,
+      "stueckgare": 60
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Mehl, Hefe und Salz mischen, Wasser zugeben und zu einem leicht klebrigen Teig verruehren.",
+      "Abgedeckt 12 bis 18 Stunden ueber Nacht ruhen lassen.",
+      "Oel auf den Teig geben, kurz dehnen und 4-5 Mal falten, zur Kugel formen.",
+      "In die geoelte 1-kg-Kastenform legen, abgedeckt 1-3 Stunden bis zur etwa doppelten Groesse gehen lassen.",
+      "Bei 220 C 40-45 Minuten backen, auf dem Rost auskuehlen lassen."
+    ],
+    "backen": {
+      "tempOU": 220,
+      "tempUmluft": 200,
+      "minuten": 43,
+      "original": "220 C (200 C Umluft), 40-45 Minuten"
+    },
+    "stueckzahl": null,
+    "notizen": "Hydration 75 %. Hefe laut Rezept 1 TL (ein Kommentar auf der Seite empfiehlt 7 g, nicht uebernommen). Gehzeit 12-18 h und Stueckgare 1-3 h (jeweils untere Grenze), Backzeit 40-45 min (Mitte 43). Oel 2 EL wird auf den Teig gegeben (Einfetten der Form nicht erfasst). 1-kg-Kastenform."
+  },
+  {
+    "id": "buttermilkbysam-everyday-sandwich-bread-no-knead",
+    "titel": "Everyday Sandwich Bread (No Knead)",
+    "quelle": {
+      "url": "https://buttermilkbysam.com/everyday-sandwich-bread-no-knead/",
+      "site": "buttermilkbysam.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 430,
+        "einheit": "g",
+        "original": "430 g bread flour"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 360,
+        "einheit": "ml",
+        "original": "360 g cool tap water (1 1/2 cups)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 0.25,
+        "einheit": "tl",
+        "original": "1/4 tsp active dry yeast"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1.5,
+        "einheit": "tl",
+        "original": "1 1/2 tsp fine sea salt"
+      }
+    ],
+    "methode": "hefe_noknead",
+    "zeiten": {
+      "gehen": 480,
+      "stueckgare": 120
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe im Wasser verquirlen, Mehl und Salz einruehren, zotteligen Teig bilden, kein Kneten.",
+      "45-60 Minuten ruhen lassen, dann den Teig dehnen und falten; nach weiteren 45-60 Minuten ein zweites Mal.",
+      "Abgedeckt ueber Nacht (ca. 8 Stunden) auf der Arbeitsplatte gehen lassen.",
+      "Teig zu einem Laib formen, in die gebutterte Kastenform (9x5 Zoll) legen und etwa 2 Stunden ueber den Rand gehen lassen.",
+      "Mit Dampf (Schale mit Eis im Ofen) backen, mindestens 1 Stunde auskuehlen lassen."
+    ],
+    "backen": {
+      "tempOU": 220,
+      "tempUmluft": null,
+      "minuten": 33,
+      "original": "425 F (ca. 220 C), 30-35 Minuten, Kerntemperatur ca. 88 C"
+    },
+    "stueckzahl": null,
+    "notizen": "Hydration 84 % (ueber 80 %, so im Original). Optionaler 1 EL Ahornsirup nicht erfasst. Salz in TL (1,5 TL = 9 g, 2,1 %). Nachtgare bei Raumtemperatur (kein Kuehlschrank). Backzeit 30-35 min (Mitte 33), Temperatur von 425 F umgerechnet. Stueckgare bis ueber den Rand, bis 2 h."
+  },
+  {
+    "id": "staedter-kastenweissbrot-vorteig",
+    "titel": "Kastenweissbrot (Vorteig ueber Nacht)",
+    "quelle": {
+      "url": "https://backshop.staedter.de/de/rezept/kastenweissbrot",
+      "site": "backshop.staedter.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "Vorteig 300 g + Hauptteig 200 g Weizenmehl Type 405"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 300,
+        "einheit": "ml",
+        "original": "Vorteig 200 ml + Hauptteig 100 ml Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 4,
+        "einheit": "g",
+        "original": "Vorteig 2 g + Hauptteig 2 g Trockenhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Salz (im Vorteig)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Zucker (im Vorteig)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Butter"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "kneten": 15,
+      "vorteig": 30,
+      "stueckgare": 60
+    },
+    "gehen_kuehl": true,
+    "ablauf": [
+      "Vorteig aus Hefe, Mehl, Wasser, Salz und Zucker ansetzen, 30 Minuten warm gehen lassen, dann ueber Nacht in den Kuehlschrank stellen.",
+      "Zweite Portion Hefe in lauwarmem Wasser loesen, mit Vorteig, restlichem Mehl und Butter ca. 15 Minuten in der Maschine kneten.",
+      "Teig in die leicht gefettete Kastenform legen und etwa 1 Stunde warm gehen lassen.",
+      "Mit gefettetem Deckel bei 220 C ca. 35-40 Minuten backen, danach mit Salzwasser besprühen."
+    ],
+    "backen": {
+      "tempOU": 220,
+      "tempUmluft": null,
+      "minuten": 38,
+      "original": "220 C Ober-/Unterhitze, ca. 35-40 Minuten, mit Deckel"
+    },
+    "stueckzahl": null,
+    "notizen": "Vorteig 30 min warm, dann ueber Nacht kalt (Dauer nicht in Minuten angegeben, daher vorteig=30). Unklar, ob die 100 ml Wasser im Hauptteig das Hefewasser einschliessen; so uebernommen. Hydration 60 %. Backzeit 35-40 min (Mitte 38). Die verlinkte Form ist eine Toastform mit Deckel."
+  },
+  {
+    "id": "snapcalorie-weisses-sandwichbrot-poolish",
+    "titel": "White Sandwich Loaf with Poolish",
+    "quelle": {
+      "url": "https://www.snapcalorie.com/recipes/white_sandwich_loaf_with_poolish.html",
+      "site": "snapcalorie.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "Poolish 150 g + Teig 350 g bread flour"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 350,
+        "einheit": "ml",
+        "original": "Poolish 150 ml + Teig 200 ml Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 5.1,
+        "einheit": "g",
+        "original": "Poolish eine Prise (ca. 0,1 g) + Teig 5 g instant yeast"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g salt"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 20,
+        "einheit": "g",
+        "original": "20 g sugar"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 25,
+        "einheit": "g",
+        "original": "25 g unsalted butter, softened"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "kneten": 9,
+      "vorteig": 720,
+      "gehen": 60,
+      "stueckgare": 60
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Poolish aus Mehl, Wasser und einer Prise Hefe anruehren und 12-16 Stunden bei Raumtemperatur reifen lassen.",
+      "Poolish mit Mehl, Wasser, Hefe, Salz, Zucker und Butter 8-10 Minuten kneten.",
+      "1-2 Stunden bis zur Verdopplung gehen lassen.",
+      "Zum Laib rollen, in die gefettete Kastenform (9x5 Zoll) legen und 1-1,5 Stunden ueber den Rand gehen lassen.",
+      "Bei 190 C 25-30 Minuten backen."
+    ],
+    "backen": {
+      "tempOU": 190,
+      "tempUmluft": null,
+      "minuten": 28,
+      "original": "190 C (375 F), 25-30 Minuten, Kerntemperatur ca. 93 C"
+    },
+    "stueckzahl": null,
+    "notizen": "Hydration 70 %. Hefe im Poolish 'a pinch' = ca. 0,1 g laut Seite (Summe 5,1 g). Zeiten jeweils untere Grenze: Poolish 12-16 h, Kneten 8-10 min (9), Stockgare 1-2 h, Stueckgare 1-1,5 h; Backzeit 25-30 min (Mitte 28). Butter steht in der Zutatenliste, ihr Zeitpunkt im Ablauf ist auf der Seite unklar. Ofenart (OU/Umluft) nicht angegeben."
   }
 ]

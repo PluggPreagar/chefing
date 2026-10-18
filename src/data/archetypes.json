@@ -69,14 +69,14 @@
       { "rolle": "fett",         "label": "Fett",         "pflicht": false, "fallback_bp": 10,  "optionen": ["butter", "margarine", "pflanzenoel"], "default": null, "hinweis": "Macht die Krume weich und hält sie länger frisch; im Brot oft 0, im süßen Hefeteig 10–25 %." },
       { "rolle": "suesse",       "label": "Süße",         "pflicht": false, "fallback_bp": 5,   "optionen": ["zucker", "brauner_zucker"], "default": null, "hinweis": "Nahrung für die Hefe in kleinen Mengen; über ~15 % bremst sie." },
       { "rolle": "bindung",      "label": "Bindung",      "pflicht": false, "fallback_bp": 20,  "optionen": ["ei"], "default": null, "hinweis": "Im süßen Hefeteig für Farbe, Bindung und weiche Krume." },
-      { "rolle": "aroma",        "label": "Aroma",        "pflicht": false, "fallback_bp": 2,   "optionen": ["vanillezucker", "zitronenabrieb", "zimt"], "default": null },
+      { "rolle": "aroma",        "label": "Aroma",        "pflicht": false, "fallback_bp": 2,   "optionen": ["vanillezucker", "vanilleextrakt", "zitronenabrieb", "orangenabrieb", "zimt"], "default": null },
       { "rolle": "einlage",      "label": "Einlage",      "pflicht": false, "fallback_bp": 25,  "optionen": ["rosinen", "schokolade"], "default": null }
     ],
     "lehrbuch": {
       "quelle": "keine Lehrbuch-Referenz hinterlegt — nur Korpus",
       "schwer": {}
     },
-    "methoden": ["hefe_direkt", "hefe_vorteig", "hefe_noknead"],
+    "methoden": ["hefe_direkt", "hefe_vorteig", "hefe_kalt", "hefe_noknead"],
     "gefaesse": ["brotform_25", "backblech"],
     "varianten": {
       "weissbrot": { "label": "Weißbrot (Kastenform)", "kurz": "Weißbrot", "gefaess": "brotform_25", "korpus": "weissbrot", "bestof": { "fluessigkeit": "wasser", "trieb": "hefe_frisch", "salz": "salz", "fett": null, "suesse": null, "bindung": null, "aroma": null, "einlage": null } },
