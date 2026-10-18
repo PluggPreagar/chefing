@@ -1,4 +1,4 @@
-import { toGrams, bakersPercent, summarize } from './units.js';
+import { toGrams, bakersPercent, summarize, quantile } from './units.js';
 import { bilanz, GROESSEN } from './bilanz.js';
 import { effektiveQualitaet, istManuell } from './qualitaet.js';
 
@@ -65,7 +65,49 @@ export function normalizeRecipe(recipe, ingredients, { rollen = ROLLEN, referenz
 // Streuung fängt das Toleranzband in bilanz.js ab.
 export const MIN_N_METHODE = 1;
 
-export function stats(normalized, rollen = ROLLEN, { proMethode = true } = {}) {
+// Qualitätsnote in die Mengen (T51, DR-026: „ein geprüftes Rezept vertrauen“): Gewicht je Rezept aus der Note 1–5. Ohne
+// Note zählt 2 (wie Note 4), Note 2 und darunter zählt nicht. Mit höchstens 2 Rezepten je Zelle gilt das beste Rezept
+// (bei gleicher Note der Median dieser Rezepte). Nur die Rollen-Mengen (`bp`) werden gewichtet — Toleranzbänder, Backen und
+// Statistik-Anzeige rechnen mit dem ungewichteten Median (`medianRoh` bleibt in jeder Zelle erhalten).
+export const QUALITAET_GEWICHT = (note) => (note == null ? 2 : Math.max(0, note - 2));
+
+export function gewichteterMedian(werte, gewichte) {
+  const p = werte.map((w, i) => ({ w, g: gewichte[i] })).filter((x) => x.w != null && Number.isFinite(x.w) && x.g > 0).sort((a, b) => a.w - b.w);
+  if (!p.length) return null;
+  const summe = p.reduce((s, x) => s + x.g, 0);
+  let lauf = 0;
+  for (let i = 0; i < p.length; i++) {
+    lauf += p[i].g;
+    if (lauf > summe / 2) return p[i].w;
+    if (lauf === summe / 2) return (p[i].w + p[i + 1].w) / 2; // genau die Hälfte: Mitte zwischen den beiden Nachbarn
+  }
+  return p.at(-1).w;
+}
+
+// Zusammenfassung einer Größe über Rezepte; bei `gewichtet` ersetzt der Qualitäts-Median den Median (der rohe bleibt in `medianRoh`).
+function summarizeQ(liste, fn, gewichtet) {
+  const werte = liste.map(fn);
+  const s = summarize(werte);
+  if (!s || !gewichtet) return s;
+  const noten = liste.map((r) => effektiveQualitaet(r));
+  const mit = werte.map((w, i) => ({ w, note: noten[i] })).filter((x) => x.w != null && Number.isFinite(x.w));
+  let median;
+  if (mit.length <= 2) {
+    const beste = Math.max(...mit.map((x) => x.note ?? 0));
+    median = quantile(mit.filter((x) => (x.note ?? 0) === beste).map((x) => x.w), 0.5);
+  } else {
+    median = gewichteterMedian(werte, noten.map(QUALITAET_GEWICHT)) ?? s.median;
+  }
+  return { ...s, median, medianRoh: s.median };
+}
+
+// `gewichtet`: Standard aus QUALITAET_GEWICHTET (ein Schalter für alle Aufrufer). AUS, weil die Messung am Korpus (T51) zeigt:
+// 32 von 171 Mengen-Zellen würden sich verschieben, in einzelnen um 10–58 % — ein Median springt zum Nachbarwert, sobald ein
+// oder zwei abgeleitete Noten (Seitenwertung, Notiz-Stichwörter) die Waage kippen. Erst einschalten, wenn die Noten mehr
+// Aussagekraft haben (Handnoten `qualitaet_manuell`); Test und Werkzeug rechnen mit `{ gewichtet: true }`.
+export const QUALITAET_GEWICHTET = false;
+
+export function stats(normalized, rollen = ROLLEN, { proMethode = true, gewichtet = QUALITAET_GEWICHTET } = {}) {
   const n = normalized.length;
   // Die Methode verschiebt Mengen (Vorteig-Brot braucht weniger Hefe, Creme mehr Fett als Rühr-Öl); der Median
   // über alle Methoden mischt das. Zellen mit zu wenig Rezepten fehlen hier und fallen auf die Variante zurück.
@@ -80,7 +122,7 @@ export function stats(normalized, rollen = ROLLEN, { proMethode = true } = {}) {
 
   return {
     n,
-    bp: Object.fromEntries(rollen.map((r) => [r, summarize(normalized.map((x) => x.bp[r]))])),
+    bp: Object.fromEntries(rollen.map((r) => [r, summarizeQ(normalized, (x) => x.bp[r], gewichtet)])),
     methoden: count((r) => r.methode),
     fettTyp: count((r) => r.fettTyp),
     fettZutat: count((r) => (r.zutaten || []).find((z) => z.rolle === 'fett')?.zutat),
@@ -117,7 +159,7 @@ export function stats(normalized, rollen = ROLLEN, { proMethode = true } = {}) {
     qualitaet: summarize(normalized.map((r) => effektiveQualitaet(r))),
     unbekannt: normalized.flatMap((r) => r.unbekannt.map((z) => `${r.id}: ${z.zutat} (${z.menge} ${z.einheit})`)),
     proMethode: Object.fromEntries(
-      Object.entries(nachMethode).filter(([, liste]) => liste.length >= MIN_N_METHODE).map(([m, liste]) => [m, stats(liste, rollen, { proMethode: false })]),
+      Object.entries(nachMethode).filter(([, liste]) => liste.length >= MIN_N_METHODE).map(([m, liste]) => [m, stats(liste, rollen, { proMethode: false, gewichtet })]),
     ),
   };
 }
