@@ -45,13 +45,22 @@ export function renderRecipe(root, computed, state, data, onChange) {
     const menge = `${z.menge} ${z.einheit}${z.hinweis ? ` (${z.hinweis})` : ''}`;
     const k = z.korpus;
     const spanne = k ? `${fmt(k.q1)}–${fmt(k.q3)} %` : '—';
-    const row = tr([z.rolleLabel, z.label, menge, `${fmt(z.bp)} %${z.bpQuelle === 'schätzung' ? ' *' : ''}`, spanne]);
+    const marker = z.bpQuelle === 'schätzung' ? ' *' : z.bpQuelle === 'berechnet' ? ' †' : '';
+    const row = tr([z.rolleLabel, z.label, menge, `${fmt(z.bp)} %${marker}`, z.bpQuelle === 'berechnet' ? '—' : spanne]);
     tbody.append(row);
   }
   table.append(tbody);
   root.append(table);
   if (computed.zutatenListe.some((z) => z.bpQuelle === 'schätzung')) {
     root.append(el('p', 'fine', '* keine Korpus-Daten für diese Rolle — Schätzwert'));
+  }
+  if (computed.zutatenListe.some((z) => z.bpQuelle === 'berechnet')) {
+    root.append(el('p', 'fine', '† berechnet aus der Gärzeit (Gärmodell, Richtwert) — kein Rezept dieser Methode im Korpus'));
+  }
+  const g = computed.gaerung;
+  if (g) {
+    const std = (m) => (m >= 90 ? `${(m / 60).toFixed(1).replace('.', ',')} Std.` : `${Math.round(m)} Min.`);
+    root.append(el('p', 'fine', `Gärmodell (Richtwert): ${g.hefeBp.toFixed(1).replace('.', ',')} % Hefe, Gare ${std(g.gare)}${g.kuehl ? ' kalt' : ''} — das Modell erwartet ${std(g.erwartet)} (Spielraum etwa ×${String(g.warnFaktor).replace('.', ',')}; Hefe × Zeit ist ungefähr konstant, Kälte verlängert).`));
   }
 
   // Gesamtbilanz (DR-020/T33): Wasser/Fett/Zucker über alle Zutaten, mit Korpus-Spanne (T35).

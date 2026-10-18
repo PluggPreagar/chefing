@@ -63,13 +63,16 @@ const hefeM=(v,m)=>zelle(v,m).bp.trieb.median;
 const hefe=(cc)=>cc.rollenBp.trieb.bp;
 const direkt=compute({...st('weissbrot'),methode:'hefe_direkt'},data,ks);
 const vor=compute({...st('weissbrot'),methode:'hefe_vorteig'},data,ks);
-ok(MIN_N_METHODE===1 && Object.keys(ks.weissbrot.proMethode).sort().join()==='hefe_direkt,hefe_noknead,hefe_vorteig' && Object.keys(ks.hefezopf.proMethode).sort().join()==='hefe_direkt,hefe_kalt,hefe_noknead,hefe_vorteig' && Object.values(ks.weissbrot.proMethode).every(s=>Object.keys(s.proMethode).length===0),'stats(): jede Methode mit mindestens einem Rezept bildet eine Zelle (Weißbrot kalt n = 0 fehlt), Zellen ohne Verschachtelung');
+ok(MIN_N_METHODE===1 && Object.keys(ks.weissbrot.proMethode).sort().join()==='hefe_direkt,hefe_kalt,hefe_noknead,hefe_vorteig' && Object.keys(ks.hefezopf.proMethode).sort().join()==='hefe_direkt,hefe_kalt,hefe_noknead,hefe_vorteig' && Object.values(ks.weissbrot.proMethode).every(s=>Object.keys(s.proMethode).length===0),'stats(): jede Methode mit mindestens einem Rezept bildet eine Zelle (Weißbrot kalt seit T49 mit 2 Rezepten), Zellen ohne Verschachtelung');
 ok(hefeM('weissbrot','hefe_direkt')>1.5*ks.weissbrot.bp.trieb.median,`Voraussetzung: im Weißbrot weicht die Hefe der direkten Führung (${hefeM('weissbrot','hefe_direkt').toFixed(1)} %) deutlich vom Variantenmedian (${ks.weissbrot.bp.trieb.median.toFixed(1)} %) ab`);
 ok(Math.abs(hefe(direkt)-hefeM('weissbrot','hefe_direkt'))<1e-9 && Math.abs(hefe(vor)-hefeM('weissbrot','hefe_vorteig'))<1e-9 && Math.abs(hefe(c)-hefeM('weissbrot','hefe_noknead'))<1e-9,`Weißbrot: Hefe je Methode aus deren Rezepten (direkt ${hefe(direkt).toFixed(1)} %, Vorteig ${hefe(vor).toFixed(1)} %, ohne Kneten ${hefe(c).toFixed(1)} %)`);
 ok(hefe(c)<0.6*hefe(direkt),'Weißbrot ohne Kneten braucht deutlich weniger Hefe als direkte Führung');
-ok(direkt.korpusNMethode===10 && vor.korpusNMethode===5 && c.korpusNMethode===7 && direkt.korpusN===22,'Ergebnis nennt Variante (n = 22) und Methoden-Rezepte (10 / 5 / 7)');
+ok(direkt.korpusNMethode===10 && vor.korpusNMethode===5 && c.korpusNMethode===7 && direkt.korpusN===24,'Ergebnis nennt Variante (n = 24) und Methoden-Rezepte (10 / 5 / 7)');
 const kaltW=compute({...st('weissbrot'),methode:'hefe_kalt'},data,ks);
-ok(kaltW.korpusNMethode===null && Math.abs(hefe(kaltW)-ks.weissbrot.bp.trieb.median)<1e-9,'Methode ohne genug Rezepte (Weißbrot kalt n = 0): Rückfall auf den Variantenmedian');
+ok(kaltW.korpusNMethode===2 && Math.abs(hefe(kaltW)-hefeM('weissbrot','hefe_kalt'))<1e-9,'Weißbrot kalt (n = 2): die zwei Rezepte zählen (T49: „Daten statt Modell“)');
+const ksOhneKalt={...ks,weissbrot:{...ks.weissbrot,proMethode:Object.fromEntries(Object.entries(ks.weissbrot.proMethode).filter(([k])=>k!=='hefe_kalt'))}};
+const kaltLeer=compute({...st('weissbrot'),methode:'hefe_kalt'},{...data,modelle:undefined},ksOhneKalt);
+ok(kaltLeer.korpusNMethode===null && Math.abs(hefe(kaltLeer)-ks.weissbrot.bp.trieb.median)<1e-9,'Methode ohne Rezepte und ohne Gärmodell: Rückfall auf den Variantenmedian');
 const zopfNK=compute({...st('hefezopf'),methode:'hefe_noknead'},data,ks);
 ok(zopfNK.korpusNMethode===2 && Math.abs(hefe(zopfNK)-hefeM('hefezopf','hefe_noknead'))<1e-9 && hefe(zopfNK)>4,`Zopf ohne Kneten (n = 2): die zwei Rezepte zählen (${hefe(zopfNK).toFixed(1)} % Hefe, kalt über Nacht), kein geratener Faktor`);
 ok(c.anpassungen.length===0 && !c.toleranzHinweise.some(h=>/Hefe/.test(h)),'ohne Kneten: keine Anpassungstexte, kein „untypisch“-Hinweis zur Hefe');
@@ -84,7 +87,7 @@ c=compute({...st('hefezopf'),methode:'hefe_kalt'},data,ks);
 const kalt=c.ablauf.find(s=>s.key==='gehen');
 ok(c.ablauf.map(s=>s.key).join()==='hefe_ansetzen,kneten,gehen,formen,stueckgare,backen' && kalt.dauer===720 && kalt.zeit.min===360 && c.status!=='invalid','Kalte Führung: Kneten bleibt, Gare 12 Std. (Fenster 6–30 Std.)');
 ok(c.zeit.gesamt>=720+30 && c.zeit.aktiv<90,`Kalte Führung: Gesamtzeit ${c.zeit.gesamt} Min. bei nur ${c.zeit.aktiv} Min. aktiver Zeit`);
-ok(Object.keys(ks.weissbrot.methoden).length===3 && Object.keys(ks.hefezopf.methoden).length===4 && ks.weissbrot.n>=20 && ks.hefezopf.n>=25,`Korpus nach T47: Weißbrot ${ks.weissbrot.n} (${JSON.stringify(ks.weissbrot.methoden)}), Zopf ${ks.hefezopf.n} (${JSON.stringify(ks.hefezopf.methoden)})`);
+ok(Object.keys(ks.weissbrot.methoden).length===4 && Object.keys(ks.hefezopf.methoden).length===4 && ks.weissbrot.n>=20 && ks.hefezopf.n>=25,`Korpus nach T47: Weißbrot ${ks.weissbrot.n} (${JSON.stringify(ks.weissbrot.methoden)}), Zopf ${ks.hefezopf.n} (${JSON.stringify(ks.hefezopf.methoden)})`);
 ok(norm.hefezopf.filter(r=>r.hatEinlage).length>=6 && norm.hefezopf.some(r=>r.zutaten.some(z=>z.zutat==='schokolade')) && norm.hefezopf.some(r=>r.zutaten.some(z=>z.zutat==='rosinen')),'Hefezopf-Korpus enthält Einlagen: Schokolade und Rosinen');
 
 // Hefeteig ohne Gluten (Stärke statt Mehl) geht nicht auf — harte Regel, überschreibbar

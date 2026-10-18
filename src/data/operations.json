@@ -1,5 +1,6 @@
 {
   "_schema": {
+    "gaerung": "optional (T49): true = diese Wartezeit zählt zur Gärzeit des Gärmodells (modelle.json: Hefe × Zeit × Temperatur); \"vorteig\" = Vorteig-Reifung, das Modell ist dann nicht anwendbar (Hefe im Vorteig nicht aufgeteilt).",
     "typ": "vorbereitung | mischen | erhitzen | warten (passiv: zählt zur Wartezeit, nicht zur aktiven Zeit, DR-024)",
     "zeit": "optional (DR-024/T44): Zeit-Fenster {min, typ, max, ziel, unter_min, ueber_max, strenge} in Minuten. ziel = Effekt, der im Fenster eintritt (z. B. gluten_entspannt, gequollen, volumen_verdoppelt); typ = Standardwert; unter_min/ueber_max = Hinweistext, wenn der Wert außerhalb liegt; strenge empfohlen (Default, Warnung) | hart (ungültig). Eine Methode kann den Wert per `zeiten` festlegen, eine Erfahrungsregel das Fenster per `zeit_op` + `faktor` verschieben. Ohne `zeit` gilt `dauer_min`.",
     "verb": "Essentielles Verb aus verben.json — Icon-Basis fürs Ablaufdiagramm. Für verb=mischen bestimmt `intensitaet` das konkrete Icon (vorbereiten/mischen/schlagen); für verb=erhitzen ist `intensitaet` bisher nur Dokumentation (ein Icon für alle Stufen, siehe verben.json).",
@@ -181,6 +182,7 @@
   "gehen": {
     "label": "Teig gehen lassen (Stockgare)",
     "typ": "warten",
+    "gaerung": true,
     "verb": "mischen",
     "intensitaet": "passiv",
     "variante": "gehen lassen",
@@ -214,13 +216,14 @@
   "stueckgare": {
     "label": "Geformten Teig nochmal gehen lassen",
     "typ": "warten",
+    "gaerung": true,
     "verb": "mischen",
     "intensitaet": "passiv",
     "variante": "Stückgare",
     "auf": ["struktur", "trieb"],
     "voraussetzung": [],
     "zeit": {
-      "min": 10, "typ": 30, "max": 150, "ziel": "nachgegangen", "strenge": "empfohlen",
+      "min": 10, "typ": 30, "max": 240, "ziel": "nachgegangen", "strenge": "empfohlen",
       "unter_min": "der geformte Teig ist noch nicht locker — er reißt im Ofen unkontrolliert und bleibt dicht.",
       "ueber_max": "der Teig übergärt in der Form und fällt beim Backen zusammen."
     },
@@ -242,6 +245,7 @@
   "vorteig_reifen": {
     "label": "Vorteig reifen lassen",
     "typ": "warten",
+    "gaerung": "vorteig",
     "verb": "mischen",
     "intensitaet": "passiv",
     "variante": "Vorteig reifen",

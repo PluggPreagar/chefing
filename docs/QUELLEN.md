@@ -111,3 +111,15 @@ Nicht abrufbar oder gesperrt: rewe.de, brooot.de, ines-kocht.de (403/410), derst
 | 2026-10-18 | kochp.de, familienkost.de, digilotta.de | je 1 | Zopf mit Rosinen | digilotta mit 24 Std. kühler Gare |
 
 Nicht abrufbar oder gesperrt: edeka.de, kuchenfee.de (403). Verworfen u. a.: Rezepte mit Sauerteig/Anstellgut/Lievito Madre, Dinkel-, Vollkorn- und Roggenmehl, Backmalz, Agavendicksaft, Eierlikör, Milchpulver, Schokolade nur als Füllung oder „1 Päckchen“ ohne Gramm, Topf- und freie Brote statt Kastenform, widersprüchliche oder unvollständige Mengen.
+
+## 2026-10-18 — Testsatz kalte Weißbrote für das Gärmodell (T49)
+
+2 Subagenten parallel (deutsch- und englischsprachig), gezielt für kalte Führung im Kastenbrot (kneten, 6–30 Std. Kühlschrank-Stockgare, dann formen). Rund 100 Seiten gesichtet, 2 Treffer: die Kombination „ungeformter Teig kalt + Kastenform + Gramm-Angaben“ ist selten; die meisten Seiten kühlen einen Vorteig oder erst den geformten Teigling. Nur neue Domains, Mengen aus WebFetch-Zusammenfassungen.
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-18 | brotwein.net | 1 | Weißbrot kalt | Toastbrot über Nacht, 8–10 Std. Kühlschrank (Mitte 9 Std.), 2 Laibe in Kastenform; 2 Std. warme Stockgare vorher nicht erfasst |
+| 2026-10-18 | seasonsandsuppers.ca | 1 | Weißbrot kalt | Overnight Sandwich Bread, mind. 12 Std. kalt, Stückgare 3,5 Std. bei 22 °C; Zucker 78 g, Öl 85 g („Öl oder Butter“) |
+
+Nicht abrufbar (403): breadsandsweets.com, madaboutfood.co, kitchensanctuary.com, iambaker.net, justonecookbook.com (laut Suchtreffern hat breadsandsweets möglicherweise ein passendes Rezept, mit 20–24 Std. Kühlschrank — per Browser prüfbar). Verworfen u. a.: No-Knead mit nur Faltungen, Vorteig im Kühlschrank, Teigling erst nach dem Formen gekühlt (kalte Stückgare), Honig, Sauerteig, Vollkorn, Dinkel, Tangzhong, nur Cup-Angaben, Gare nur bei Raumtemperatur, freie Brote statt Kastenform.
+

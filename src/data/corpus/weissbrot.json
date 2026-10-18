@@ -1683,5 +1683,183 @@
     "notizen": "Hydration 70 %. Hefe im Poolish 'a pinch' = ca. 0,1 g laut Seite (Summe 5,1 g). Zeiten jeweils untere Grenze: Poolish 12-16 h, Kneten 8-10 min (9), Stockgare 1-2 h, Stueckgare 1-1,5 h; Backzeit 25-30 min (Mitte 28). Butter steht in der Zutatenliste, ihr Zeitpunkt im Ablauf ist auf der Seite unklar. Ofenart (OU/Umluft) nicht angegeben.",
     "qualitaet": 4,
     "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25"
+  },
+  {
+    "id": "brotwein-toastbrot-ueber-nacht-weizentoast",
+    "titel": "Toastbrot mit ueber Nacht Gare als Weizentoast",
+    "quelle": {
+      "url": "https://brotwein.net/toastbrot-mit-ueber-nacht-gare-als-weizentoast-5773",
+      "site": "brotwein.net",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 780,
+        "einheit": "g",
+        "original": "780 g Weizenmehl 550"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 280,
+        "einheit": "ml",
+        "original": "280 g Wasser (25-50 ml zurueckhalten)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 g Milch"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g geschmolzene Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 20,
+        "einheit": "g",
+        "original": "20 g Zucker oder Honig"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 18,
+        "einheit": "g",
+        "original": "18 g Salz"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 7.8,
+        "einheit": "g",
+        "original": "7,8 g Frischhefe (1 %)"
+      }
+    ],
+    "methode": "hefe_kalt",
+    "zeiten": {
+      "kneten": 15,
+      "gehen": 540,
+      "stueckgare": 135
+    },
+    "gehen_kuehl": true,
+    "ablauf": [
+      "Alle Zutaten mischen und in der Maschine ca. 15 Minuten kneten (10 langsam, 5 schnell).",
+      "2 Stunden bei Raumtemperatur ruhen lassen, dabei nach 45 und 90 Minuten dehnen und falten.",
+      "Abgedeckt 8-10 Stunden im Kuehlschrank bei 5-7 Grad reifen lassen.",
+      "Kalten Teig halbieren, in je 4 Stuecke teilen, zu Rollen formen und zu je 4 in die Form legen.",
+      "Bei Raumtemperatur ca. 2-2,5 Stunden bis zur Verdoppelung gehen lassen.",
+      "Mit Dampf backen, Dampf ablassen und herunterschalten, nach 20 Minuten aus der Form nehmen und fertig backen."
+    ],
+    "backen": {
+      "tempOU": 175,
+      "tempUmluft": null,
+      "minuten": 50,
+      "original": "10 Min. mit Dampf bei mind. 250 Grad, dann 175 Grad: 20 Min. in der Form, danach 20-25 Min. ohne Form (insgesamt ca. 50 Min.)"
+    },
+    "stueckzahl": null,
+    "notizen": "Rezept fuer 2 Laibe a ca. 700 g (Kastenform 25 cm), Mengen fuer den ganzen Teig. gehen = Mittel aus 8-10 h Kuehlschrank (9 h = 540 min); die 2 h Raumtemperatur-Stockgare davor sind nicht enthalten. Stueckgare 2-2,5 h, Mittel 135 min. Zucker 'oder Honig': als Zucker erfasst. Wasser: 25-50 ml sollen zunaechst zurueckgehalten werden, voll angesetzt. Fluessigkeit gesamt 530 ml = 68 %, Salz 2,3 %, Frischhefe 1 %. Backzeit-Summe aus 10 + 20 + 20-25 (ca. 50 laut Seite).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
+  },
+  {
+    "id": "seasonsandsuppers-overnight-sandwich-bread",
+    "titel": "Overnight Sandwich Bread (2 Kastenbrote, Kuehlschrank-Stockgare)",
+    "quelle": {
+      "url": "https://www.seasonsandsuppers.ca/overnight-sandwich-bread/",
+      "site": "seasonsandsuppers.ca",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 794,
+        "einheit": "g",
+        "original": "794 g bread flour"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 425,
+        "einheit": "g",
+        "original": "425 g lukewarm milk (about 35 C)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 9,
+        "einheit": "g",
+        "original": "9 g instant yeast"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 14,
+        "einheit": "g",
+        "original": "14 g salt"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 78,
+        "einheit": "g",
+        "original": "78 g white sugar"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 85,
+        "einheit": "g",
+        "original": "85 g vegetable oil or melted butter"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 large egg"
+      }
+    ],
+    "methode": "hefe_kalt",
+    "zeiten": {
+      "kneten": 8,
+      "gehen": 720,
+      "stueckgare": 210
+    },
+    "gehen_kuehl": true,
+    "ablauf": [
+      "Trockenzutaten kurz mischen, Milch, Ei und Oel zugeben, ca. 2 Min. langsam mischen.",
+      "Mit dem Knethaken ca. 5 Min. kneten, danach ca. 1 Min. von Hand zu einer Kugel formen.",
+      "Teig in geoelter Schuessel fest abgedeckt mindestens 12 Std. im Kuehlschrank gehen lassen.",
+      "Kalten Teig entgasen, halbieren, jede Haelfte zu einem Rechteck druecken, aufrollen und in eine Kastenform legen.",
+      "Abgedeckt bei Raumtemperatur 2,5-4 Std. gehen lassen, bis der Teig ca. 4-5 cm ueber den Rand steigt.",
+      "Bei 175 C ohne Umluft backen, nach 20 Min. Formen drehen, insgesamt 40-45 Min."
+    ],
+    "backen": {
+      "tempOU": 175,
+      "tempUmluft": null,
+      "minuten": 43,
+      "original": "350 F (175 C), convection off; 20 min, rotate pans, then another 20-25 min (40-45 min total), core at least 185 F (85 C)"
+    },
+    "stueckzahl": null,
+    "notizen": "Rezept gibt Mengen fuer 2 Brote (je ca. 700 g Teig, je eine 8,5x4,5-inch-Form), Mengen hier fuer den gesamten Teig. Kuehlzeit 'mindestens 12 Std., bis zu 4 Tage': 720 Min. als Untergrenze angesetzt. Stueckgare 2,5-4 Std. (ca. 3,5 Std. bei 22 C): 210 Min. als Mittelwert, liegt ueber dem Brief-Limit von 2,5 Std. Backzeit 40-45 Min., Mittelwert 43. Kneten: 2 Min. Mischen + 5 Min. Haken + 1 Min. Hand = 8 Min. Milch 425 g (nicht ml) wie im Original. 'Oel oder geschmolzene Butter' als pflanzenoel erfasst. Hefe: 9 g Instant = ca. 27 g Frischhefe-Aequivalent (3,4 % vom Mehl, hoch fuer lange Kuehlzeit). Ei ohne Grammangabe (1 large).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Zucker −0,5"
   }
 ]

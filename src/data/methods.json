@@ -6,6 +6,7 @@
     "zeiten": "optional (DR-024/T44): {opKey: minuten} legt den Wert einer Operation mit Zeit-Fenster fest (z. B. {\"gehen\": 720} für die lange kalte Führung). Liegt er außerhalb des Fensters, meldet die Engine den unter_min-/ueber_max-Text der Operation. Mischformen (kurz kneten, lange ruhen) sind eigene Methoden, keine ODER-Logik.",
     "textur": "typisches Ergebnis",
     "triebquelle": "woher die Lockerung überwiegend kommt",
+    "kuehl": "optional (T49): true = die lange Gare läuft im Kühlschrank; das Gärmodell rechnet dann mit dem Kältefaktor. Gibt es Korpus-Rezepte der Methode, entscheidet deren Anteil mit `gehen_kuehl` (> 50 %), das Feld gilt nur ohne Rezepte.",
     "mengen": "Keine Mengen-Felder an der Methode: Rollen-Mengen kommen aus dem Korpus. Hat die Methode in der Variante mindestens `MIN_N_METHODE` (5) Rezepte, rechnet die Engine mit deren Medianen, sonst mit dem Median der ganzen Variante (T48, corpus.js)."
   },
   "creme": {
@@ -286,6 +287,7 @@
         "key": "gehen",
         "label": "Teig lange und kühl gehen lassen",
         "typ": "warten",
+        "gaerung": true,
         "verb": "mischen",
         "intensitaet": "passiv",
         "variante": "lange Gare im Kühlschrank",
@@ -310,6 +312,7 @@
     ],
     "optional": ["einlegen", "einlage_unterheben"],
     "nach": {"einlegen": [], "hefe_ansetzen": [], "kneten": ["hefe_ansetzen"], "einlage_unterheben": ["kneten", "einlegen"]},
+    "kuehl": true,
     "textur": "aromatisch, gleichmäßig, wie direkte Führung mit mehr Geschmack",
     "triebquelle": "Hefe, sehr lange kühle Gare nach dem Kneten",
     "geeignet_fuer": ["brotform", "blech"],
@@ -338,6 +341,7 @@
         "key": "gehen",
         "label": "Teig sehr lange gehen lassen",
         "typ": "warten",
+        "gaerung": true,
         "verb": "mischen",
         "intensitaet": "passiv",
         "variante": "lange Gare (Raumtemperatur oder kühl)",

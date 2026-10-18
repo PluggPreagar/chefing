@@ -1,0 +1,26 @@
+{
+  "_schema": {
+    "gaerung": "Gärmodell (T49, DR-026): Hefe × Zeit × Temperatur ≈ konstante Dosis. ln(Gare in Min.) = ln_konstante + exponent · ln(Hefe in Bäckerprozent, Frischhefe-Äquivalent) + ln(kuehl_faktor) · kalt. Gare = Summe der Operationen mit `gaerung: true` (gehen, Stückgare). Rezepte mit Vorteig sind ausgenommen (die Hefe im Vorteig ist nicht aufgeteilt).",
+    "warn_faktor": "Abweichung (Faktor, nach oben und unten), ab der die Engine warnt; aus dem Korpus gewählt (deckt fast alle Fit-Rezepte).",
+    "fit_n": "Anzahl der Rezepte, an denen die Parameter gefittet wurden. Parameter werden nicht automatisch nachgezogen — `node tools/gaerung-fit.mjs` zeigt die Abweichung zum aktuellen Korpus.",
+    "validierung": "Rezepte (ids im Korpus), die erst nach dem Einfrieren der Parameter recherchiert wurden, und das Ergebnis der Vorhersage gegen sie; `test/gaerung.check.mjs` prüft sie dauerhaft.",
+    "trieb_typ": "Das Modell gilt nur, wenn der Trieb diesen `trieb_typ` hat (Hefe = biologisch).",
+    "rolle": "Rolle, deren Bäckerprozent die Hefemenge ist."
+  },
+  "gaerung": {
+    "label": "Gärdosis (Hefe × Zeit × Temperatur)",
+    "rolle": "trieb",
+    "trieb_typ": "biologisch",
+    "ln_konstante": 5.985,
+    "exponent": -0.927,
+    "kuehl_faktor": 4.79,
+    "warn_faktor": 3.5,
+    "fit_n": 38,
+    "stand": "2026-10-18",
+    "validierung": {
+      "ids": ["brotwein-toastbrot-ueber-nacht-weizentoast", "seasonsandsuppers-overnight-sandwich-bread"],
+      "ergebnis": "Unabhängiger Testsatz (2026-10-18, nach dem Einfrieren der Parameter recherchiert, n = 2 kalte Weißbrote): Gärzeit aus der Hefe um ×2,8 und ×1,5 daneben (beide innerhalb ×3,5, passend zur Fit-Genauigkeit); Hefe aus der Gärzeit um ×3,1 und ×1,6 daneben — der Median der Variante (2,4 %) lag mit ×2,4 und ×1,4 näher. Zu klein, um das Modell gegen diese Alternative zu entscheiden; die tatsächliche Hefe streut bei kalter Gare stark (1,0 % bei 11 Std., 3,4 % bei 15,5 Std.)."
+    },
+    "quelle": "Log-Log-Regression an 38 Hefeteig-Korpus-Rezepten ohne Vorteig (6 mit kalter Gare): R² 0,69; Abweichung der Zeit im Median ×1,5, bei 90 % der Rezepte höchstens ×2,9, maximal ×4,6. Exponent −0,93 (−1 hieße Hefe × Zeit konstant), kalt etwa 4,8-mal so lange bei gleicher Hefe. Richtwert, kein Garantiewert: Temperatur, Mehl und Teigmenge fehlen im Modell."
+  }
+}

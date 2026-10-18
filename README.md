@@ -24,7 +24,7 @@ Tests (Node ≥ 18, keine Abhängigkeiten):
 sh test/run.sh
 ```
 
-Jede Datei `test/*.check.mjs` ist eine eigene Suite (14 Suiten, rund 330 Fälle). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
+Jede Datei `test/*.check.mjs` ist eine eigene Suite (15 Suiten, rund 370 Fälle). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
 
 ```bash
 git config core.hooksPath .githooks
@@ -36,6 +36,7 @@ git config core.hooksPath .githooks
 - **Variante** = benanntes Preset: Gefäß, Korpus und „Best-of“-Zutaten. Die Mengen sind der **Median aus dem Korpus** in Bäckerprozent (Mehl = 100), nicht kuratiert; hat die gewählte Methode Rezepte in der Variante, zählen nur deren Rezepte (Vorteig-Brot braucht weniger Hefe als direkt geführtes); ein einzelnes geprüftes Rezept schlägt den Median fremder Methoden (DR-026).
 - **Methode** = geordnete Folge von **Operationen** (als Graph, mit parallelen Strängen). Jede Operation prüft **Voraussetzungen** an den Zutat-Eigenschaften, zum Beispiel „Natron braucht eine saure Zutat“. Die Engine prüft nur generisch, die Regeln stehen in den Daten.
 - **Zeit**: Operationen haben ein Fenster (min/typ/max) mit Hinweis, was außerhalb passiert; Warten ist eine eigene Operation (Gehen, Ruhen, Einlegen). Die Karte zeigt aktive Zeit, Wartezeit und Gesamtzeit.
+- **Gärmodell** (Hefeteig): Hefe × Gehzeit ist ungefähr konstant, Kälte verlängert. Es warnt bei Widersprüchen (4 % Hefe, 12 Std.) und rechnet die Hefe für Methoden ohne Korpus-Rezepte aus der Gärzeit. Ein Richtwert mit Spielraum ×3,5, Rezepte gehen immer vor (DR-026).
 - **Gesamtbilanz**: Wasser, Fett, Zucker, Eiweiß, Gluten, Stärke, Triebkraft, Hefe und Salz über alle Zutaten. Dagegen laufen die **Grenzen** (`hart` macht die Kombination ungültig, `empfohlen` warnt) und der Vergleich mit der Korpus-Spanne.
 - **Feedback-Schleife**: harte Regeln lassen sich bewusst überschreiben, als Fehler melden und aus dem Korpus als Kandidaten ableiten. Alles lokal im Browser (`localStorage`), kein Backend; Änderungen an den Regeldateien macht der Maintainer von Hand.
 
@@ -53,11 +54,12 @@ src/model/                   Engine ohne DOM (testbar)
   zeit.js                    Zeit-Fenster und Zeitleiste
   corpus.js, units.js        Korpus laden, normalisieren, Statistik, Einheiten → Gramm
   qualitaet.js               Qualitätsnote je Korpus-Rezept (Vorschlag, Überschreiben)
+  gaerung.js                 Gärmodell: erwartete Gärzeit, Hefe aus Gärzeit, Plausibilitätswarnung
   korrelation*.js            Regel-Kandidaten aus dem Korpus
   overrides.js, errorRequests.js   Feedback-Schleife
 src/ui/                      Morphologischer Kasten, Ablaufdiagramm, Rezeptkarte, Statistik, Icons
 src/data/                    alle Fachdaten als JSON (siehe unten)
-tools/                       Pflege-Skripte (Qualitätsnote)
+tools/                       Pflege-Skripte (Qualitätsnote, Gärmodell: Fit und Prüfung neuer Rezepte)
 test/                        headless-Checks, `sh test/run.sh`
 docs/                        TODO.md (+ Archiv), DECISIONS.md, QUELLEN.md
 HANDOFF/                     Abgleich zwischen Planung (claude.ai) und Umsetzung (Laptop)
@@ -75,6 +77,7 @@ dev/                         Skizzen und Vorschauen, nicht Teil der App
 | `vessels.json` | Gefäße mit Teigmasse, Backwerten, Hinweisen |
 | `grenzen.json` | quantitative Grenzen je Archetyp, mit Herkunft im Feld `quelle` |
 | `erfahrungsregeln.json` | Praxis-Regeln, die Mengen oder Zeit-Fenster anpassen |
+| `modelle.json` | Rechenmodelle mit Parametern, Quelle und Validierung (Gärmodell: Hefe × Zeit × Temperatur) |
 | `kategorien.json`, `verben.json` | Icon-Kategorien und Verben |
 | `corpus/*.json` | Quellrezepte je Variante: Zutatenmengen als Fakten, Link zur Quelle |
 
