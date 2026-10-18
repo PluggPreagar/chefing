@@ -1,5 +1,6 @@
 import { fmtProzent } from '../model/bilanz.js';
 import { overrideErfassen, overridesFuer } from '../model/overrides.js';
+import { fmtZeit } from '../model/zeit.js';
 
 export function renderRecipe(root, computed, state, data, onChange) {
   root.replaceChildren();
@@ -17,6 +18,10 @@ export function renderRecipe(root, computed, state, data, onChange) {
     el('span', null, `${Math.round(computed.teigmasse)} g Teig`),
     el('span', null, `Referenz: ${computed.varianteLabel} (n = ${computed.korpusN})`),
   );
+  const zt = computed.zeit; // Zeitleiste aus dem Ablauf-Graph (DR-024/T44)
+  if (zt?.gesamt) {
+    meta.append(el('span', null, `Zeit ca. ${fmtZeit(zt.gesamt)} (aktiv ${fmtZeit(zt.aktiv)}${zt.warten ? `, warten ${fmtZeit(zt.warten)}` : ''})`));
+  }
   root.append(meta);
 
   for (const g of computed.gruende) root.append(el('p', 'note note-bad', g));

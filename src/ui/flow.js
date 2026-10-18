@@ -1,4 +1,5 @@
 import { iconGroup, iconHtml } from './icons.js';
+import { fmtZeit } from '../model/zeit.js';
 
 const NS = 'http://www.w3.org/2000/svg';
 const W = 168, H = 76, GAP = 44, PAD = 16, ICON = 15, ICON_GAP = 3, ROW_GAP = 46;
@@ -9,8 +10,13 @@ const W = 168, H = 76, GAP = 44, PAD = 16, ICON = 15, ICON_GAP = 3, ROW_GAP = 46
 // zusätzlich automatisch das Wiederholen-Icon.
 const MISCHEN_ICON = { passiv: 'vorbereiten', sanft: 'mischen', kraeftig: 'schlagen' };
 
+// Warten (DR-024/T44) zeigt statt des Verb-Icons eine Uhr der nächstliegenden Dauer-Stufe.
+const DAUER_STUFEN = [5, 10, 15, 30, 45, 60];
+const dauerIconKey = (min) => `dauer_${DAUER_STUFEN.reduce((a, m) => (Math.abs(m - min) < Math.abs(a - min) ? m : a), DAUER_STUFEN[0])}`;
+
 function iconKeysFor(s) {
-  const hauptIcon = s.verb === 'mischen' ? (MISCHEN_ICON[s.intensitaet] ?? 'mischen') : s.verb;
+  const hauptIcon = s.typ === 'warten' && s.dauer ? dauerIconKey(s.dauer)
+    : s.verb === 'mischen' ? (MISCHEN_ICON[s.intensitaet] ?? 'mischen') : s.verb;
   const zusatz = [...(s.zusatzVerben || [])];
   if (s.verteilung) zusatz.push('wiederholen');
   return [...s.zutatKategorien, hauptIcon, ...zusatz].filter(Boolean);
@@ -86,7 +92,7 @@ export function renderFlow(svg, details, computed, data = {}) {
     const iconKeys = iconKeysFor(s);
     h.insertAdjacentHTML('beforeend', iconKeys.map((k) => iconHtml(k, 14, namen[k]?.label)).join(''));
     h.append(document.createTextNode(
-      ` ${s.nr}. ${s.label}${s.dauer ? ` · ~${s.dauer} Min.` : ''}${s.eingefuegt ? ' · automatisch eingefügt' : ''}${parallelText(s, steps)}`,
+      ` ${s.nr}. ${s.label}${dauerText(s)}${s.eingefuegt ? ' · automatisch eingefügt' : ''}${parallelText(s, steps)}`,
     ));
     const w = document.createElement('div');
     w.className = 'step-why';
@@ -100,6 +106,14 @@ export function renderFlow(svg, details, computed, data = {}) {
     }
     details.append(li);
   }
+}
+
+// Warten zeigt Wert und Fenster (DR-024/T44), alle anderen Schritte nur die ungefähre Dauer.
+function dauerText(s) {
+  if (!s.dauer) return '';
+  if (s.typ !== 'warten') return ` · ~${fmtZeit(s.dauer)}`;
+  const f = s.zeit;
+  return ` · ${fmtZeit(s.dauer)} warten${f ? ` (Fenster ${fmtZeit(f.min)}–${fmtZeit(f.max)})` : ''}`;
 }
 
 // Schritte derselben Ebene hängen nicht voneinander ab (T38) — Reihenfolge frei.

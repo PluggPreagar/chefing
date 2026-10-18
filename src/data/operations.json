@@ -1,6 +1,7 @@
 {
   "_schema": {
-    "typ": "vorbereitung | mischen | erhitzen",
+    "typ": "vorbereitung | mischen | erhitzen | warten (passiv: zählt zur Wartezeit, nicht zur aktiven Zeit, DR-024)",
+    "zeit": "optional (DR-024/T44): Zeit-Fenster {min, typ, max, ziel, unter_min, ueber_max, strenge} in Minuten. ziel = Effekt, der im Fenster eintritt (z. B. gluten_entspannt, gequollen, volumen_verdoppelt); typ = Standardwert; unter_min/ueber_max = Hinweistext, wenn der Wert außerhalb liegt; strenge empfohlen (Default, Warnung) | hart (ungültig). Eine Methode kann den Wert per `zeiten` festlegen, eine Erfahrungsregel das Fenster per `zeit_op` + `faktor` verschieben. Ohne `zeit` gilt `dauer_min`.",
     "verb": "Essentielles Verb aus verben.json — Icon-Basis fürs Ablaufdiagramm. Für verb=mischen bestimmt `intensitaet` das konkrete Icon (vorbereiten/mischen/schlagen); für verb=erhitzen ist `intensitaet` bisher nur Dokumentation (ein Icon für alle Stufen, siehe verben.json).",
     "intensitaet": "bei verb=mischen: passiv (Einlegen/Quellen-Icon) | sanft (Mischen-Icon) | kraeftig (Schlagen-Icon). Bei verb=erhitzen: mittel (Garen/Backen) — sanft/stark vorgesehen, noch ungenutzt.",
     "verteilung": "optional: einzeln | abwechselnd — zeigt zusätzlich automatisch das Wiederholen-Icon (portionsweise/mehrfach statt auf einmal)",
@@ -15,12 +16,17 @@
   },
   "einlegen": {
     "label": "Einlegen",
-    "typ": "vorbereitung",
+    "typ": "warten",
     "verb": "mischen",
     "intensitaet": "passiv",
     "variante": "Einlegen/Quellen",
     "auf": ["einlage"],
     "voraussetzung": [],
+    "zeit": {
+      "min": 20, "typ": 30, "max": 720, "ziel": "gequollen", "strenge": "empfohlen",
+      "unter_min": "die Einlage ist noch nicht ausgequollen und entzieht dem Teig später Wasser.",
+      "ueber_max": "die Einlage wird weich und verliert ihre Form."
+    },
     "wirkung": "Trockene Einlage (z. B. Rosinen) quillt in Flüssigkeit vor und entzieht dem Teig später kein Wasser.",
     "dauer_min": 30
   },
@@ -107,12 +113,17 @@
   },
   "ruhen": {
     "label": "Teig ruhen lassen",
-    "typ": "vorbereitung",
+    "typ": "warten",
     "verb": "mischen",
     "intensitaet": "passiv",
     "variante": "ruhen/quellen",
     "auf": ["struktur", "fluessigkeit"],
     "voraussetzung": [],
+    "zeit": {
+      "min": 15, "typ": 30, "max": 120, "ziel": "gluten_entspannt", "strenge": "empfohlen",
+      "unter_min": "Mehl noch nicht durchgequollen, Gluten gespannt — zäher, blasiger Teig, der beim Wenden reißt.",
+      "ueber_max": "der Teig setzt sich ab: vor dem Backen umrühren; bei Backpulver-Teig verfliegt der Trieb."
+    },
     "wirkung": "Mehl quillt, Gluten entspannt sich, eingerührte Luftbläschen steigen auf → zarter, weniger gummiartiger Pfannkuchen, der beim Wenden nicht reißt.",
     "risiko": "Ohne Ruhezeit wird der Teig zäher und die Oberfläche blasig.",
     "dauer_min": 30

@@ -4,7 +4,8 @@
     "wenn": "Bedingung {rolle, eigenschaft, wert} gegen die geblendeten Zutat-Eigenschaften (props) — gleiches Format/gleiche Prüf-Funktion (pruefeBedingung) wie voraussetzung in operations.json.",
     "voraussetzung_quelle": "optional: 'korpus' — Regel gilt nur, wenn der Bäckerprozent-Wert dieser Rolle tatsächlich aus dem Korpus stammt (bpZiel[rolle].quelle), nicht aus dem Schätzwert-Fallback.",
     "wenn_korpus_fehlt": "optional {feld, wert} — Regel gilt nur, wenn der Referenz-Korpus für diese Variante KEIN Beispiel mit korpusStats[feld][wert] enthält (Deckungslücke, z. B. kein Öl-Rezept im Korpus).",
-    "faktor": "Multiplikator auf den Bäckerprozent-Wert der Rolle.",
+    "faktor": "Multiplikator auf den Bäckerprozent-Wert der Rolle — oder, mit `zeit_op`, auf das Zeit-Fenster dieser Operation.",
+    "zeit_op": "optional (DR-024/T44): Schlüssel einer Operation mit `zeit`-Fenster. Eine Regel mit `zeit_op` hat keine `rolle`; sie skaliert min/typ/max des Fensters mit `faktor`, wenn `wenn` zutrifft (z. B. mehr Hefe → kürzere Gehzeit). Pro Operation gewinnt die erste passende Regel.",
     "begruendung": "Nutzer-sichtbarer Text (erscheint in computed.anpassungen). Kann {rolle}-Platzhalter enthalten, die durch das Label der dominanten Zutat dieser Rolle ersetzt werden.",
     "quelle": "Herkunft der Regel — hier durchweg Fachwissen/Berechnung, nicht aus einer Korpus-Korrelation abgeleitet (DR-019 Punkt 5 beschreibt die künftige automatische Korrelationssuche als eigenen, größeren Schritt, der einen größeren Korpus braucht, T04)."
   },

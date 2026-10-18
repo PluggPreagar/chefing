@@ -1,5 +1,6 @@
 import { fromGrams } from './units.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } from './rules.js';
+import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
 import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 export function varianteFuerGefaess(gefaessKey, arch, vessels) {
@@ -183,6 +184,15 @@ export function compute(state, data, korpusStats) {
     const vor = (s.nach || []).map((k) => nrVon[k]).filter(Boolean);
     ebenen[i] = vor.length ? Math.max(...vor.map((n) => ebenen[n - 1])) + 1 : 0;
   });
+  // Zeit-Fenster (DR-024/T44): Dauer je Schritt aus `zeit` (Methode/Erfahrungsregel können sie festlegen
+  // bzw. verschieben), sonst `dauer_min`. Backen nimmt die berechnete Backzeit.
+  const zeiten = res.schritte.map((s) => zeitFuerSchritt(s.key, s.op, method, props, data.erfahrungsregeln));
+  const zeitGruende = [];
+  const zeitWarnungen = [];
+  zeiten.forEach((z, i) => {
+    if (z.anpassung && !anpassungen.includes(z.anpassung)) anpassungen.push(z.anpassung);
+    if (z.hinweis) (z.hinweis.strenge === 'hart' ? zeitGruende : zeitWarnungen).push(zeitMeldung(res.schritte[i].op, z));
+  });
   const ablauf = res.schritte.map((s, i) => ({
     nr: i + 1,
     nach: (s.nach || []).map((k) => nrVon[k]).filter(Boolean),
@@ -200,7 +210,8 @@ export function compute(state, data, korpusStats) {
     eingefuegt: s.eingefuegt,
     wirkung: s.op.wirkung,
     risiko: s.op.risiko ?? null,
-    dauer: s.op.dauer_min ?? null,
+    dauer: s.key === 'backen' ? minuten : zeiten[i].dauer,
+    zeit: zeiten[i].fenster,
   }));
 
   return {
@@ -209,9 +220,10 @@ export function compute(state, data, korpusStats) {
     korpusN: st.n,
     methodKey,
     method,
-    status,
-    gruende: [...res.gruende, ...gebuendelt.hart],
-    warnungen: [...res.warnungen, ...gebuendelt.empfohlen, ...toleranzWarnungen],
+    status: zeitGruende.length ? 'invalid' : status,
+    gruende: [...res.gruende, ...gebuendelt.hart, ...zeitGruende],
+    warnungen: [...res.warnungen, ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
+    zeit: zeitleiste(ablauf),
     toleranzHinweise,
     bilanz: bilanzZeilen,
     // Kaskaden-Vorschläge (DR-019/T26): Ersatzkandidaten für Rollen, die eine harte
