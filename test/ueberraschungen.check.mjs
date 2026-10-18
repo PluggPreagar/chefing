@@ -1,0 +1,118 @@
+// T54: Überraschungs-Bericht aus dem Korpus — synthetische Fälle für jede Regel, dann die echten Befunde und das Werkzeug.
+import fs from 'fs';
+import { execFileSync } from 'child_process';
+const P=new URL('../src/', import.meta.url).href;
+const J=(n)=>JSON.parse(fs.readFileSync(new URL(P+'data/'+n+'.json')));
+const { ueberraschungenSuchen, STANDARD } = await import(P+'model/ueberraschungen.js');
+let fail=0; const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++;};
+const near=(a,b,e=1e-9)=>Math.abs(a-b)<e;
+
+// --- synthetische Welt ---------------------------------------------------------------------------------------------
+const ingredients={ mehl:{label:'Mehl',wasseranteil:0.14}, wasser:{label:'Wasser',wasseranteil:1}, hefe_frisch:{label:'Hefe',wasseranteil:0,funktionen:{hefe:1}} };
+const archetypes={ x:{ rollen:[{rolle:'struktur',referenz:true},{rolle:'fluessigkeit'},{rolle:'trieb'}], methoden:['m'], varianten:{v:{korpus:'k'}} } };
+const rez=(id,wasser,hefe,methode='hefe_direkt',zeiten=null,kuehl=false)=>({ id, variante:'v', methode, gehen_kuehl:kuehl, zeiten,
+  zutaten:[{rolle:'struktur',zutat:'mehl',menge:100,einheit:'g'},{rolle:'fluessigkeit',zutat:'wasser',menge:wasser,einheit:'g'},{rolle:'trieb',zutat:'hefe_frisch',menge:hefe,einheit:'g'}] });
+const grenzen=(extra=[])=>({archetypen:{x:[
+  {id:'w_max',groesse:'wasser',bezug:{rolle:'struktur'},max:100,strenge:'empfohlen',quelle:'Faustwert, am Korpus angehoben'},
+  {id:'w_min',groesse:'wasser',bezug:{rolle:'struktur'},min:60,strenge:'empfohlen',quelle:'Faustwert'},
+  ...extra]}});
+const modelle={gaerung:{ln_konstante:6,exponent:-1,kuehl_faktor:4,warn_faktor:3.5}};
+const erwartet=(h,kalt)=>Math.exp(6-Math.log(h)+(kalt?Math.log(4):0)); // Minuten
+const suche=(rezepte,over={})=>ueberraschungenSuchen({archetypes,ingredients,grenzen:over.grenzen??grenzen(),modelle:'modelle' in over?over.modelle:modelle,korpora:{x:{v:rezepte}}},over.schwellen);
+
+// --- 1) Grenzen am Rand -------------------------------------------------------------------------------------------------
+// Wasser-Bilanz = 14 (Mehl) + Wasser; A liegt dicht an max 100, die anderen weit weg
+const basis=[rez('A',80,4),rez('B',60,4),rez('C',62,4),rez('D',63,4),rez('E',64,4)];
+let b=suche(basis);
+const zmax=b.grenzen.find(g=>g.id==='w_max');
+ok(!!zmax && zmax.art==='max' && zmax.extrem.id==='A' && near(zmax.extrem.wert,94) && near(zmax.reserve,0.06) && zmax.zweiter.id==='E' && near(zmax.zweiter.wert,78),'Grenze max 100: extremstes Rezept A bei 94 → Reserve 6 %, nächstes E bei 78');
+ok(zmax.nahe===1 && zmax.getragenVonEinem===true,'ein einzelnes Rezept im Randbereich (10 %) und große Lücke zum nächsten → „getragen von einem Rezept“');
+ok(zmax.amKorpusGelockert===true && zmax.strenge==='empfohlen' && !zmax.verletzt,'Hinweis „am Korpus gelockert“ aus dem quelle-Feld, nicht verletzt');
+ok(!b.grenzen.some(g=>g.id==='w_min'),'Grenze min 60: Reserve (74−60)/60 = 23 % liegt über der Schwelle 20 % → nicht gelistet');
+b=suche(basis,{schwellen:{reserve:0.3}});
+const zmin=b.grenzen.find(g=>g.id==='w_min');
+ok(!!zmin && zmin.art==='min' && zmin.extrem.id==='B' && near(zmin.extrem.wert,74) && near(zmin.reserve,(74-60)/60) && zmin.amKorpusGelockert===false,'mit Schwelle 30 %: Grenze min 60 erscheint, Reserve (74−60)/60, nicht „am Korpus gelockert“');
+ok(b.grenzen[0].reserve<=b.grenzen[1].reserve,'Zeilen nach Reserve sortiert (knappste zuerst)');
+b=suche([...basis,rez('A2',78,4),rez('A3',79,4)]);
+const z3=b.grenzen.find(g=>g.id==='w_max');
+ok(z3.nahe===3 && z3.getragenVonEinem===false,'drei Rezepte im Randbereich → die Grenze wird nicht von einem einzelnen getragen');
+b=suche([...basis,rez('LANG',99,4)]);
+const zv=b.grenzen.find(g=>g.id==='w_max');
+ok(zv.verletzt===true && zv.reserve<0 && zv.extrem.id==='LANG' && zv.getragenVonEinem===false,'Rezept über der Grenze: „verletzt“ (Korpus und Grenzen passen nicht mehr zusammen)');
+{const dicht=suche([rez('A',80,4),rez('N',73,4),rez('B',60,4)]).grenzen.find(g=>g.id==='w_max');
+ ok(dicht.nahe===1 && near(dicht.reserve,0.06) && near(dicht.zweiter.wert,87) && dicht.getragenVonEinem===false,'ein Rezept im Randbereich, aber das nächste liegt dicht dahinter (Lücke 7 % < 10 %) → nicht „getragen von einem Rezept“');}
+{const g2=suche(basis,{grenzen:{archetypen:{x:[{id:'w_min50',groesse:'wasser',bezug:{rolle:'struktur'},min:50,strenge:'empfohlen',quelle:''},{id:'w_max',groesse:'wasser',bezug:{rolle:'struktur'},max:100,strenge:'empfohlen',quelle:''}]}},schwellen:{reserve:0.5}}).grenzen;
+ ok(g2.length===2 && g2[0].id==='w_max' && g2[1].id==='w_min50' && g2[0].reserve<g2[1].reserve,'Sortierung unabhängig von der Reihenfolge in grenzen.json (knappste Reserve zuerst)');}
+ok(suche(basis).randRezepte===0 && suche([...basis,rez('R',85,4)]).randRezepte===1,'Randrezepte: nur Rezepte innerhalb von 5 % einer Grenze werden gezählt');
+b=suche(basis,{grenzen:grenzen([{id:'null',groesse:'wasser',bezug:{rolle:'struktur'},max:0,strenge:'hart',quelle:''}])});
+ok(!b.grenzen.some(g=>g.id==='null'),'Grenze mit Wert 0 wird übersprungen (keine relative Reserve)');
+b=suche(basis,{grenzen:{archetypen:{}}});
+ok(b.grenzen.length===0,'Archetyp ohne Grenzen: keine Zeilen');
+
+// --- 2) Gärmodell --------------------------------------------------------------------------------------------------------
+const gz=(min)=>({gehen:min});
+const g4=erwartet(4,false), g4k=erwartet(4,true);
+const rezepte=[
+  ...[1,2,3,4].map(i=>rez('direkt'+i,70,4,'hefe_direkt',gz(Math.round(g4)))),                 // passt
+  ...[1,2,3].map(i=>rez('nk'+i,70,4,'hefe_noknead',gz(1000))),                                // ×9,9 zu lang, warm
+  ...[1,2].map(i=>rez('kalt'+i,70,4,'hefe_kalt',gz(Math.round(g4k)),true)),                   // passt, kalt
+  rez('vorteig',70,4,'hefe_vorteig',{vorteig:720,gehen:60}),                                  // ausgenommen
+  rez('ohnehefe',70,0,'hefe_direkt',gz(60)),                                                  // ausgenommen
+  rez('ohnezeit',70,4,'hefe_direkt',null),                                                    // ausgenommen
+];
+b=suche(rezepte);
+ok(b.gaerung.gepruefte===9,'geprüft werden 9 Rezepte (ohne Vorteig, ohne Hefe, ohne Zeitangabe)');
+ok(suche([...rezepte,rez('nurstueck',70,4,'hefe_direkt',{stueckgare:30})]).gaerung.gepruefte===9,'Rezept nur mit Stückgare, ohne Gehzeit, wird nicht geprüft (das Modell gilt für die Gehzeit)');
+ok(b.gaerung.auffaellig.length===3 && b.gaerung.auffaellig.every(r=>/^nk/.test(r.id) && r.faktor>9 && r.faktor<10.5),'drei Rezepte ohne Kneten weichen um etwa ×10 ab (zu lang)');
+ok(near(b.gaerung.auffaellig[0].erwartet,g4,1e-6) && b.gaerung.auffaellig[0].kalt===false && b.gaerung.auffaellig[0].methode==='hefe_noknead','Abweichler tragen erwartete Zeit, kalt-Flag und Methode');
+const grp=Object.fromEntries(b.gaerung.gruppen.map(x=>[x.gruppe,x]));
+ok(grp['hefe_noknead/warm'].systematisch===true && /länger/.test(grp['hefe_noknead/warm'].richtung) && grp['hefe_noknead/warm'].zuLang===3,'Gruppe „ohne Kneten, warm“: systematisch, Rezepte brauchen länger');
+ok(grp['hefe_direkt/warm'].systematisch===false && grp['hefe_direkt/warm'].n===4 && near(grp['hefe_direkt/warm'].median,1,0.01) && grp['hefe_kalt/kalt'].systematisch===false,'passende Gruppen sind nicht systematisch (Median ×1)');
+const klein=suche([rez('a',70,4,'hefe_noknead',gz(1000)),rez('b',70,4,'hefe_noknead',gz(1000)),rez('c',70,4,'hefe_direkt',gz(Math.round(g4)))]);
+ok(Object.fromEntries(klein.gaerung.gruppen.map(x=>[x.gruppe,x]))['hefe_noknead/warm'].systematisch===false,'Gruppe mit nur 2 Rezepten wird nie „systematisch“ (Mindestgröße 3)');
+const gemischt=suche([rez('l1',70,4,'hefe_noknead',gz(1000)),rez('k1',70,4,'hefe_noknead',gz(10)),rez('k2',70,4,'hefe_noknead',gz(10)),rez('ok',70,4,'hefe_noknead',gz(Math.round(g4)))]);
+ok(Object.fromEntries(gemischt.gaerung.gruppen.map(x=>[x.gruppe,x]))['hefe_noknead/warm'].systematisch===true && /kürzer/.test(Object.fromEntries(gemischt.gaerung.gruppen.map(x=>[x.gruppe,x]))['hefe_noknead/warm'].richtung),'Mehrheit zu kurz → Richtung „kürzer“');
+const zuKurz=suche([...rezepte,rez('kurz',70,4,'hefe_direkt',gz(20))]);
+ok(zuKurz.gaerung.auffaellig.some(r=>r.id==='kurz' && r.faktor<0.4),'Rezept mit viel zu kurzer Zeit wird ebenfalls gefunden (×0,2)');
+ok(suche(rezepte,{schwellen:{gaerungFaktor:20}}).gaerung.auffaellig.length===0,'Schwelle ×20: nichts fällt auf');
+ok(suche(rezepte,{modelle:undefined}).gaerung===null,'ohne Gärmodell: Abschnitt entfällt');
+ok(suche(rezepte,{modelle:{}}).gaerung===null,'modelle ohne gaerung: Abschnitt entfällt');
+
+// --- 3) Muster ------------------------------------------------------------------------------------------------------------
+ok(b.gaerung.muster.nZuLang===3 && b.gaerung.muster.nZuKurz===0 && b.gaerung.muster.zuKurz.length===0,'Muster: 3 Abweichler „länger“, keine „kürzer“');
+const mn=b.gaerung.muster.zuLang.find(m=>m.eigenschaft==='methode:hefe_noknead');
+ok(!!mn && mn.nAuffaellig===3 && mn.nVergleich===3 && near(mn.anteilAuffaellig,1) && near(mn.anteilVergleich,3/9) && near(mn.lift,3),'Muster „ohne Kneten“: 3 von 3 Abweichlern gegenüber 3 von 9 geprüften Rezepten → 3× häufiger');
+ok(!b.gaerung.muster.zuLang.some(m=>m.eigenschaft==='methode:hefe_direkt'),'Eigenschaften, die nicht häufiger vorkommen, erscheinen nicht');
+ok(b.gaerung.muster.zuLang.every(m=>m.lift>=STANDARD.minLift && m.nAuffaellig>=STANDARD.minMuster),'jedes Muster erfüllt Mindestanzahl und Mindest-Lift');
+const kurz2=suche([...rezepte,rez('k1',70,4,'hefe_direkt',gz(20)),rez('k2',70,4,'hefe_direkt',gz(20))]);
+ok(kurz2.gaerung.muster.nZuKurz===2 && kurz2.gaerung.muster.zuKurz.some(m=>m.eigenschaft==='methode:hefe_direkt'),'Richtungen werden getrennt ausgewertet (zwei „kürzer“-Rezepte bilden ein eigenes Muster)');
+ok(kurz2.gaerung.muster.nZuLang===3 && !kurz2.gaerung.muster.zuLang.some(m=>m.eigenschaft==='methode:hefe_direkt') && kurz2.gaerung.muster.zuLang.some(m=>m.eigenschaft==='methode:hefe_noknead'),'… und die „länger“-Liste enthält die „kürzer“-Rezepte nicht (kein Vermischen der Richtungen)');
+ok(zuKurz.gaerung.muster.nZuKurz===1 && zuKurz.gaerung.muster.zuKurz.length===0,'ein einzelner „kürzer“-Abweichler bildet kein Muster (Mindestanzahl 2)');
+const niedrig=suche([...rezepte,rez('h1',70,1,'hefe_kalt',gz(60),true),rez('h2',70,1,'hefe_kalt',gz(60),true)]);
+ok(niedrig.gaerung.muster.zuKurz.some(m=>m.eigenschaft==='hefe:wenig (< 1,5 %)'),'Hefemenge ist eine Eigenschaft (wenig Hefe bei den „kürzer“-Rezepten)');
+
+// --- Echte Daten: die Befunde vom 2026-10-18 ------------------------------------------------------------------------------------
+const archReal=J('archetypes');
+const korpora={}; for (const [ak,a] of Object.entries(archReal)) { if(ak.startsWith('_')) continue; korpora[ak]=Object.fromEntries(Object.entries(a.varianten).map(([vk,v])=>[vk,J('corpus/'+v.korpus)])); }
+const echt=ueberraschungenSuchen({archetypes:archReal,ingredients:J('ingredients'),grenzen:J('grenzen'),modelle:J('modelle'),korpora});
+ok(echt.rezepte>=129 && echt.gaerung.gepruefte>=40,`Echter Korpus: ${echt.rezepte} Rezepte, ${echt.gaerung.gepruefte} vom Gärmodell geprüft`);
+ok(!echt.grenzen.some(g=>g.verletzt),'Kein Korpus-Rezept verletzt eine Grenze (Grenzen und Korpus passen zusammen)');
+ok(echt.grenzen.some(g=>g.getragenVonEinem && g.amKorpusGelockert),'Befund: mindestens eine am Korpus gelockerte Grenze wird von einem einzelnen Rezept getragen');
+const eg=Object.fromEntries(echt.gaerung.gruppen.map(x=>[x.gruppe,x]));
+ok(eg['hefe_noknead/warm'].systematisch && /länger/.test(eg['hefe_noknead/warm'].richtung) && eg['hefe_noknead/warm'].median>2,`Befund: Weißbrot ohne Kneten bei Raumtemperatur braucht systematisch länger als das Modell (Median ×${eg['hefe_noknead/warm'].median.toFixed(1)}) → fehlende Größe Raumtemperatur (T52/T56)`);
+ok(echt.gaerung.muster.zuLang.some(m=>m.eigenschaft==='methode:hefe_noknead'),'Befund: bei „länger“ sticht die Methode ohne Kneten heraus');
+ok(echt.gaerung.muster.zuKurz.some(m=>m.eigenschaft==='hefe:wenig (< 1,5 %)') && echt.gaerung.muster.zuKurz.some(m=>m.eigenschaft==='gare:kalt'),'Befund: bei „kürzer“ sticht wenig Hefe mit kalter Gare heraus (Kältefaktor bei wenig Hefe zu groß)');
+ok(echt.gaerung.auffaellig.length>=5 && echt.gaerung.auffaellig.every(r=>!('roh' in r)),'Abweichler ohne Rohdaten im Ergebnis (ausgabefähig)');
+
+// --- Werkzeug ----------------------------------------------------------------------------------------------------------------------
+const tool=new URL('../tools/ueberraschungen.mjs',import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1');
+const text=execFileSync(process.execPath,[tool],{encoding:'utf8'});
+ok(/1\) Grenzen am Rand/.test(text) && /2\) Gärmodell/.test(text) && /3\) Muster/.test(text) && /SYSTEMATISCH/.test(text) && /T52\/T56/.test(text) && /nur Erfolge/.test(text),'Werkzeug: alle drei Abschnitte, Hinweis auf fehlende Größe und auf die Erfolgs-Auswahl');
+const json=JSON.parse(execFileSync(process.execPath,[tool,'--json'],{encoding:'utf8'}));
+ok(json.rezepte===echt.rezepte && json.gaerung.auffaellig.length===echt.gaerung.auffaellig.length && json.grenzen.length===echt.grenzen.length,'Werkzeug --json liefert dasselbe wie das Modul');
+const eng=JSON.parse(execFileSync(process.execPath,[tool,'--json','--gaerung','100'],{encoding:'utf8'}));
+ok(eng.gaerung.auffaellig.length===0 && eng.schwellen.gaerungFaktor===100,'Werkzeug: --gaerung stellt die Schwelle ein');
+const reserve=JSON.parse(execFileSync(process.execPath,[tool,'--json','--reserve','0.05'],{encoding:'utf8'}));
+ok(reserve.grenzen.length<json.grenzen.length && reserve.grenzen.every(g=>g.verletzt||g.reserve<=0.05+1e-9),'Werkzeug: --reserve stellt die Grenzen-Schwelle ein');
+
+console.log(fail?fail+' FAIL':'ALL PASS');

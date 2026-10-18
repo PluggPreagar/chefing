@@ -45,7 +45,7 @@ export function bilanz(posten, ingredients, referenzRolle = 'struktur') {
 
 // Wert einer Grenze im Maß ihres `bezug`: Prozent relativ zu einer Rolle, oder Faktor zu einer
 // anderen Bilanz-Größe.
-function messwert(grenze, b) {
+export function messwert(grenze, b) {
   if (grenze.bezug?.groesse) {
     const nenner = b.gramm[grenze.bezug.groesse];
     return nenner > 0 ? b.gramm[grenze.groesse] / nenner : null;

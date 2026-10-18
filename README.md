@@ -24,7 +24,7 @@ Tests (Node ≥ 18, keine Abhängigkeiten):
 sh test/run.sh
 ```
 
-Jede Datei `test/*.check.mjs` ist eine eigene Suite (17 Suiten, rund 490 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
+Jede Datei `test/*.check.mjs` ist eine eigene Suite (18 Suiten, rund 540 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
 
 ```bash
 git config core.hooksPath .githooks
@@ -55,13 +55,14 @@ src/model/                   Engine ohne DOM (testbar)
   zeit.js                    Zeit-Fenster und Zeitleiste
   corpus.js, units.js        Korpus laden, normalisieren, Statistik, Einheiten → Gramm
   rueckmeldung.js            Rückmeldung bauen, senden, Warteschlange, Auswertung je Regel
+  ueberraschungen.js         Korpus-Rezepte, denen die Regeln widersprechen („sollte nicht klappen, tat es“)
   qualitaet.js               Qualitätsnote je Korpus-Rezept (Vorschlag, Überschreiben)
   gaerung.js                 Gärmodell: erwartete Gärzeit, Hefe aus Gärzeit, Plausibilitätswarnung
   korrelation*.js            Regel-Kandidaten aus dem Korpus
   overrides.js, errorRequests.js   Feedback-Schleife
 src/ui/                      Morphologischer Kasten, Ablaufdiagramm, Rezeptkarte, Statistik, Icons
 src/data/                    alle Fachdaten als JSON (siehe unten)
-tools/                       Pflege-Skripte (Qualitätsnote, Gärmodell, Auswertung der Rückmeldungen)
+tools/                       Pflege-Skripte (Qualitätsnote, Gärmodell, Überraschungs-Bericht, Auswertung der Rückmeldungen)
 feedback.php                 Endpunkt für Rückmeldungen (nur auf dem Server, siehe Deploy)
 test/                        headless-Checks, `sh test/run.sh`
 docs/                        TODO.md (+ Archiv), DECISIONS.md, QUELLEN.md
@@ -106,6 +107,7 @@ Der Archetyp-Umschalter erscheint automatisch, sobald es mehr als einen Archetyp
 - Jede Web-Recherche wird in [docs/QUELLEN.md](docs/QUELLEN.md) protokolliert, pro Domain.
 - Mengen aus Seiten-Zusammenfassungen sind nicht gegengeprüft; Auffälligkeiten stehen in `notizen` je Rezept.
 - Vor dem Einpflegen prüfen: Zutat-Schlüssel, Rollen, Einheiten, Dubletten (id und URL), Grenzen.
+- Nach jedem Korpus-Zuwachs `node tools/ueberraschungen.mjs` laufen lassen: zeigt Grenzen, die ein einzelnes Rezept trägt, und Rezepte, die das Gärmodell verfehlen — mit Mustern (zum Beispiel fehlt die Raumtemperatur). Der Korpus enthält nur Erfolge; Misserfolge kommen nur aus den Rückmeldungen.
 - **Qualitätsnote 1–5** je Rezept (`qualitaet`, mit Begründung in `qualitaet_grund`): nach neuen Rezepten `node tools/qualitaet.mjs --write` ausführen. Eigene Note: `qualitaet_manuell` im Rezept setzen, das Skript fasst sie nie an. Die Note wird nur angezeigt, Mengen rechnen unabhängig davon (DR-026). Rezepte, die nicht ins Raster passen (Sauerteig, Honig, andere Mehlsorten), lieber weglassen als erfinden.
 
 ## Arbeitsweise
