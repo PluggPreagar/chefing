@@ -32,6 +32,6 @@ ok(grenzenBuendeln({hart:[],empfohlen:[]}).hart.length===0,'keine Verletzung →
 
 // Presets bleiben still, 1:1-Mischung zeigt weiterhin genau die Warnung + den Vorschlag
 for (const vk of Object.keys(arch.varianten)){c=compute(st(vk),data,ks); ok(alle(c).length===0 || c.status!=='invalid',`${vk}: Preset gültig`);}
-c=compute(st('kastenkuchen',{struktur:[{zutat:'weizenmehl',anteil:1},{zutat:'speisestaerke',anteil:1}]}),data,ks);
-ok(c.warnungen.filter(w=>/Klebereiweiß nur/.test(w)).length===1,'Mehl+Stärke 1:1: Klebereiweiß-Warnung genau einmal');
+c=compute(st('kastenkuchen',{struktur:[{zutat:'weizenmehl',anteil:1},{zutat:'speisestaerke',anteil:3}]}),data,ks);
+ok(c.warnungen.filter(w=>/Klebereiweiß nur/.test(w)).length===1,'Mehl+Stärke 1:3: Klebereiweiß-Warnung genau einmal');
 console.log(fail?fail+' FAIL':'ALL PASS');

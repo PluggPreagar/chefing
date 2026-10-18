@@ -463,5 +463,742 @@
     },
     "stueckzahl": null,
     "notizen": "Englisches Rezept mit Self-raising flour (enthält bereits Triebmittel), hier als weizenmehl erfasst, zusätzliches Backpulver ist dadurch effektiv hoch. Mehl:Milch 1:1, Quelle ist die BBC-Good-Food-Middle-East-Seite ohne Bewertungsanzeige; Portion: 4 Personen."
+  },
+  {
+    "id": "kuechenfibel-einfache-fluffige-pfannkuchen",
+    "titel": "Einfache fluffige Pfannkuchen (Pancakes)",
+    "quelle": {
+      "url": "https://www.kuechenfibel.de/?p=2238",
+      "site": "kuechenfibel.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 195,
+        "einheit": "g",
+        "original": "1 ½ Cups (195 g) Weizenmehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 großes Ei"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 295,
+        "einheit": "ml",
+        "original": "1 ¼ Cups (295 ml) Milch"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 57,
+        "einheit": "g",
+        "original": "4 EL Butter, geschmolzen"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "½ TL Salz"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanilleextrakt",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Vanilleextrakt"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Trockene Zutaten mischen.",
+      "Milch, Ei, Vanille und flüssige Butter verquirlen.",
+      "Nasse Mischung zur trockenen geben, kurz verrühren.",
+      "Teig portionsweise in die Pfanne geben und beidseitig goldbraun backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 1.75,
+      "original": "erste Seite ca. 2 Min., zweite Seite 1-2 Min."
+    },
+    "stueckzahl": null,
+    "notizen": "Sehr viel Backpulver (1 EL auf 195 g Mehl) und viel geschmolzene Butter im Teig bei nur einem Ei. Milch-Anteil mit 1:1,5 recht flüssig."
+  },
+  {
+    "id": "blick-pancakes-buttermilch",
+    "titel": "Pancakes mit Buttermilch (US-Klassiker)",
+    "quelle": {
+      "url": "https://www.blick.ch/life/essen/rezept/fruehstueck/pancakes-rezept-den-knusprigen-us-klassiker-selber-machen-id18275737.html",
+      "site": "blick.ch",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Weissmehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "2 dl Buttermilch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Mehl, Backpulver, Zucker und Salz mischen.",
+      "Eier mit Buttermilch verrühren und untermengen.",
+      "Kleine Teigportionen in der Pfanne ausbacken."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht angegeben"
+    },
+    "stueckzahl": null,
+    "notizen": "Ganz ohne Fett im Teig, nur Buttermilch als Flüssigkeit (1:1) und nur Backpulver. Etwas Vanillepulver ohne Mengenangabe wurde weggelassen."
+  },
+  {
+    "id": "utopia-buttermilch-pancakes",
+    "titel": "Buttermilch-Pancakes",
+    "quelle": {
+      "url": "https://utopia.de/ratgeber/buttermilch-pancakes-einfaches-rezept-fuer-fluffige-pfannkuchen/",
+      "site": "utopia.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Weißmehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Buttermilch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Buttermilch, Eier und Salz verrühren.",
+      "Mehl mit Backpulver dazugeben und zu einem Teig verrühren.",
+      "Portionsweise in Butter in der Pfanne backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht angegeben"
+    },
+    "stueckzahl": 12,
+    "notizen": "Minimalistisch: kein Fett im Teig, kein Zucker (nur optional genannt), drei Eier auf 250 g Mehl. Ersatzoptionen (vegan, Dinkel) wurden ignoriert."
+  },
+  {
+    "id": "kevindundon-fluffy-blueberry-pancakes",
+    "titel": "Fluffy Blueberry Pancakes",
+    "quelle": {
+      "url": "https://kevindundon.com/recipe/fluffy-blueberry-pancakes/",
+      "site": "kevindundon.com",
+      "bewertung": 4.67,
+      "anzahlBewertungen": 9
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 300,
+        "einheit": "g",
+        "original": "300 g plain flour"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 eggs"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 400,
+        "einheit": "ml",
+        "original": "400 ml buttermilk (more if the batter is too thick)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 28,
+        "einheit": "g",
+        "original": "2 tbsp butter, melted (optional)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 tsp baking powder"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "blaubeeren",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g blueberries (optional)"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Mehl und Backpulver mischen.",
+      "Eier mit Buttermilch und flüssiger Butter verrühren, zum Mehl geben.",
+      "Blaubeeren unterheben.",
+      "Teig löffelweise in der Pfanne beidseitig goldbraun backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 2.75,
+      "original": "ca. 3 Min. erste Seite, 2-3 Min. zweite Seite"
+    },
+    "stueckzahl": null,
+    "notizen": "Kein Zucker im Teig, dafür viel Einlage (200 g Blaubeeren auf 300 g Mehl) und wenig Backpulver. Butter im Teig ist laut Quelle optional."
+  },
+  {
+    "id": "zwilling-buttermilk-pancakes",
+    "titel": "Buttermilch-Pancakes",
+    "quelle": {
+      "url": "https://www.zwilling.com/de/magazin/inspirierende-rezepte/rezepte-fuer-kuechengeraete/stabmixer-handruehrgeraet/buttermilk-pancakes-xtend.html",
+      "site": "zwilling.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 300,
+        "einheit": "g",
+        "original": "300 g Weizenmehl (Type 405)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 500,
+        "einheit": "ml",
+        "original": "500 ml Buttermilch"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL neutrales Pflanzenöl"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Backpulver"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "natron",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 gestr. TL Natron"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Bourbonvanillezucker (8 g)"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Trockene Zutaten mischen.",
+      "Eier, Buttermilch und Öl verrühren.",
+      "Beide Mischungen kurz zu einem Teig verbinden.",
+      "Pancakes portionsweise in der Pfanne backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht angegeben"
+    },
+    "stueckzahl": null,
+    "notizen": "Viel Buttermilch (1:1,67) mit Natron und Backpulver, Öl statt Butter im Teig. Beeren, Walnüsse und Ahornsirup sind nur Beilage und nicht erfasst."
+  },
+  {
+    "id": "notquitenigella-light-fluffy-buttermilk-pancakes",
+    "titel": "Light and Fluffy Classic Buttermilk Pancakes",
+    "quelle": {
+      "url": "https://www.notquitenigella.com/2025/09/28/buttermilk-pancakes/",
+      "site": "notquitenigella.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 150,
+        "einheit": "g",
+        "original": "1 cup (150 g) plain flour"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 egg"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml buttermilk"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g melted butter (plus 80 g extra for frying)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 tbsp caster sugar (15 g)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 tsp baking powder"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "natron",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "1/2 tsp bicarb soda"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.33,
+        "einheit": "tl",
+        "original": "1/3 tsp fine salt"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanilleextrakt",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 tsp vanilla"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Trockene Zutaten verrühren.",
+      "Buttermilch, Ei, Vanille und geschmolzene Butter dazugeben.",
+      "Nur kurz mischen.",
+      "Pancakes in der Pfanne backen, zweite Seite deutlich kürzer."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 0.75,
+      "original": "ca. 1 Min. erste Seite, ca. 30 Sek. zweite Seite"
+    },
+    "stueckzahl": 8,
+    "notizen": "Extrem viel Butter im Teig (80 g auf 150 g Mehl) bei sehr kurzer Backzeit. Zusätzliche 80 g Butter fürs Braten nicht erfasst."
+  },
+  {
+    "id": "emmikochteinfach-american-pancakes",
+    "titel": "American Pancakes (Buttermilch, Original)",
+    "quelle": {
+      "url": "https://emmikochteinfach.de/pancakes-rezept-das-original/",
+      "site": "emmikochteinfach.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 74
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 300,
+        "einheit": "g",
+        "original": "300 g Mehl, Type 405"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier, Größe M"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 500,
+        "einheit": "ml",
+        "original": "500 ml Buttermilch"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 70,
+        "einheit": "g",
+        "original": "70 g Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Backpulver"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "natron",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "1/2 TL Natron"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.25,
+        "einheit": "tl",
+        "original": "1/4 TL Salz"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Bourbon Vanillezucker"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Trockene Zutaten mischen.",
+      "Buttermilch, Eier und flüssige Butter verrühren.",
+      "Beides nur kurz verrühren, Klümpchen sind ok.",
+      "In Butterschmalz oder Öl ausbacken, erste Seite kürzer als zweite."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 1.75,
+      "original": "ca. 1-2 Min. erste Seite, ca. 2 Min. zweite Seite"
+    },
+    "stueckzahl": 14,
+    "notizen": "Gut bewertetes Buttermilch-Rezept mit Natron plus Backpulver und mehr Zucker (70 g, knapp 5 EL). Flüssigkeitsanteil 1:1,67, am oberen Rand."
+  },
+  {
+    "id": "kochbar-blaubeer-pancakes-amerikanisch",
+    "titel": "Blaubeer-Pancakes amerikanisch",
+    "quelle": {
+      "url": "https://www.kochbar.de/rezept/556396/Blaubeer-Pancakes-amerikanisch.html",
+      "site": "kochbar.de",
+      "bewertung": 4.43,
+      "anzahlBewertungen": 7
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 175,
+        "einheit": "ml",
+        "original": "175 ml Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 3,
+        "einheit": "el",
+        "original": "3 EL Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Backpulver"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "natron",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Natron"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "blaubeeren",
+        "menge": 300,
+        "einheit": "g",
+        "original": "300 g Blaubeeren"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Mehl, Zucker, Backpulver, Natron und Salz mischen.",
+      "Eier und Milch dazugeben, zu einem dicken Teig verrühren.",
+      "Blaubeeren unterheben.",
+      "Portionsweise in der Pfanne backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht angegeben"
+    },
+    "stueckzahl": null,
+    "notizen": "Sehr dicker Teig (Milch nur 1:0,7), viel Blaubeer-Einlage (300 g), Natron ohne saure Zutat, kein Fett im Teig. Vegane Variante der Seite ignoriert."
+  },
+  {
+    "id": "pursuedtirol-fluffige-pancakes-mit-joghurt",
+    "titel": "Fluffige Pancakes mit Joghurt",
+    "quelle": {
+      "url": "https://www.pursuedtirol.com/de/ueber-uns/genussmagazin/suedtiroler-rezepte/fluffige-pancakes-mit-joghurt",
+      "site": "pursuedtirol.com",
+      "bewertung": 4.7,
+      "anzahlBewertungen": 6106
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 große Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "joghurt",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml Naturjoghurt"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 ml Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.25,
+        "einheit": "tl",
+        "original": "1/4 TL Salz"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanilleextrakt",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Vanilleextrakt"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Trockene Zutaten in einer Schüssel mischen.",
+      "Eier, Joghurt, Milch und Vanille separat verrühren.",
+      "Beides nur bis zur Glätte verrühren.",
+      "In Butter bei mittlerer Hitze backen, wenden wenn Bläschen aufsteigen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht angegeben"
+    },
+    "stueckzahl": null,
+    "notizen": "Joghurt als Hauptflüssigkeit mit etwas Milch (1:1,2), kein Fett im Teig, nur Backpulver. Sehr hohe Bewertungszahl."
   }
 ]

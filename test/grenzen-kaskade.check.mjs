@@ -12,9 +12,9 @@ for (const [k,v] of Object.entries(arch.varianten)){kn[k]=J('corpus/'+v.korpus).
 let fail=0; const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++;};
 const g=data.grenzen.archetypen.ruehrteig, G=(id)=>g.find(x=>x.id===id);
 // Kaskade
-const posten=[{rolle:'struktur',zutat:'weizenmehl',gramm:100},{rolle:'fluessigkeit',zutat:'wasser',gramm:180},{rolle:'suesse',zutat:'zucker',gramm:60}];
+const posten=[{rolle:'struktur',zutat:'weizenmehl',gramm:100},{rolle:'fluessigkeit',zutat:'wasser',gramm:250},{rolle:'suesse',zutat:'zucker',gramm:60}];
 const fl=arch.rollen.find(r=>r.rolle==='fluessigkeit').optionen;
-ok(grenzenKaskade(G('wasser_band'),posten,fl,data.ingredients,g)==='saure_sahne','Wasser 194 % → erste passende Option (Saure Sahne; Milch landet bei 172 %)');
+ok(grenzenKaskade(G('wasser_band'),posten,fl,data.ingredients,g)==='saure_sahne','Wasser 264 % → erste passende Option unter der Grenze 220 % (Saure Sahne 214 %; Milch landet bei 234 %)');
 ok(grenzenKaskade(G('zucker_max_hart'),posten,fl,data.ingredients,g)===null,'Grenze ohne kaskade_ziel → kein Vorschlag');
 // Katalog
 const kat=alleUeberschreibbarenRegeln(data); const gk=kat.filter(k=>k.ausloeser==='Gesamtbilanz');
@@ -23,10 +23,14 @@ ok(gk.length===alleG.filter(x=>x.strenge==='hart').length && gk.every(k=>alleG.f
 ok(g.filter(x=>x.strenge==='hart').every(x=>gk.some(k=>k.id===x.id)),'alle 5 hart-Grenzen des Rührteigs darin');
 console.log('  ', gk.map(k=>k.text).join(' | '), '|', beschreibeGrenze(G('zucker_wasser_max')));
 // Engine: forced violation via tightened grenze clone
-const d2={...data, grenzen:{archetypen:{ruehrteig:[{...G('wasser_band'),max:112,strenge:'hart',id:'test_wasser'}]}}};
 const E=(w)=>w==null?[]:[{zutat:w,anteil:1}];
 const v=arch.varianten.kastenkuchen;const z={};for(const r of arch.rollen)z[r.rolle]=E(v.bestof[r.rolle]!==undefined?v.bestof[r.rolle]:r.default);
-let state={archetyp:'ruehrteig',gefaess:v.gefaess,methode:null,fixiert:{rollen:{},zutaten:{}},zutaten:z};
+// Grenze relativ zum Korpus setzen (Preset-Wasser vs. wasserärmste Flüssigkeit), damit der Test bei wachsendem Korpus stabil bleibt
+const stOf=(over={})=>({archetyp:'ruehrteig',gefaess:v.gefaess,methode:null,fixiert:{rollen:{},zutaten:{}},zutaten:{...z,...over}});
+const wasserVon=(over)=>compute(stOf(over),data,ks).bilanz.find(b=>b.groesse==='wasser').bp;
+const w0=wasserVon({}), wMin=Math.min(...fl.map(f=>wasserVon({fluessigkeit:E(f)})));
+const d2={...data, grenzen:{archetypen:{ruehrteig:[{...G('wasser_band'),max:(w0+wMin)/2,strenge:'hart',id:'test_wasser'}]}}};
+let state=stOf();
 let c=compute(state,d2,ks);
 ok(c.status==='invalid' && c.blockaden.some(b=>b.id==='test_wasser'),'hart-Grenze → invalid + Blockade');
 console.log('   kaskaden:',JSON.stringify(c.kaskaden));

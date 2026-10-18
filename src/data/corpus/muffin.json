@@ -2,18 +2,65 @@
   {
     "id": "gutekueche-saftige-muffins-mit-oel",
     "titel": "Saftige Muffins mit Öl",
-    "quelle": { "url": "https://www.gutekueche.at/saftige-muffins-mit-oel-rezept-22625", "site": "gutekueche.at", "bewertung": 4.5, "anzahlBewertungen": 12234 },
+    "quelle": {
+      "url": "https://www.gutekueche.at/saftige-muffins-mit-oel-rezept-22625",
+      "site": "gutekueche.at",
+      "bewertung": 4.5,
+      "anzahlBewertungen": 12234
+    },
     "archetyp": "ruehrteig",
     "variante": "muffin",
     "gefaess": "muffinform_12",
     "zutaten": [
-      { "rolle": "bindung",      "zutat": "ei",            "menge": 4,   "einheit": "stk", "original": "4 Eier (Größe M)" },
-      { "rolle": "suesse",       "zutat": "zucker",        "menge": 140, "einheit": "g",   "original": "140 g Zucker" },
-      { "rolle": "aroma",        "zutat": "vanillezucker", "menge": 1,   "einheit": "pkt", "original": "1 Pk Vanillezucker" },
-      { "rolle": "struktur",     "zutat": "weizenmehl",    "menge": 200, "einheit": "g",   "original": "200 g Weizenmehl (glatt, W480)" },
-      { "rolle": "trieb",        "zutat": "backpulver",    "menge": 1,   "einheit": "pkt", "original": "1 Pk Backpulver" },
-      { "rolle": "fett",         "zutat": "pflanzenoel",   "menge": 150, "einheit": "ml",  "original": "150 ml Öl" },
-      { "rolle": "fluessigkeit", "zutat": "milch",         "menge": 50,  "einheit": "ml",  "original": "50 ml Milch" }
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier (Größe M)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 140,
+        "einheit": "g",
+        "original": "140 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pk Vanillezucker"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Weizenmehl (glatt, W480)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pk Backpulver"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 150,
+        "einheit": "ml",
+        "original": "150 ml Öl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 50,
+        "einheit": "ml",
+        "original": "50 ml Milch"
+      }
     ],
     "methode": "ruehroel",
     "ablauf": [
@@ -23,27 +70,91 @@
       "Teig zu zwei Dritteln in die Förmchen füllen",
       "Backen bis goldgelb"
     ],
-    "backen": { "tempOU": 180, "tempUmluft": null, "minuten": 20, "original": "180 °C Ober-/Unterhitze, 20 Minuten" },
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 20,
+      "original": "180 °C Ober-/Unterhitze, 20 Minuten"
+    },
     "stueckzahl": 12,
     "notizen": "Sehr eihaltig (4 Eier auf 200 g Mehl) und fettreich (150 ml Öl), dafür wenig Milch. Zusätzlich 1 EL Öl für die Form, nicht als Teigzutat erfasst."
   },
   {
     "id": "gutekueche-muffins-mit-schokostueckchen",
     "titel": "Muffins mit Schokostückchen",
-    "quelle": { "url": "https://www.gutekueche.at/muffins-mit-schokostueckchen-rezept-22629", "site": "gutekueche.at", "bewertung": 4.5, "anzahlBewertungen": 13872 },
+    "quelle": {
+      "url": "https://www.gutekueche.at/muffins-mit-schokostueckchen-rezept-22629",
+      "site": "gutekueche.at",
+      "bewertung": 4.5,
+      "anzahlBewertungen": 13872
+    },
     "archetyp": "ruehrteig",
     "variante": "muffin",
     "gefaess": "muffinform_12",
     "zutaten": [
-      { "rolle": "bindung",      "zutat": "ei",            "menge": 3,   "einheit": "stk",   "original": "3 Stk Eier (Größe M)" },
-      { "rolle": "fett",         "zutat": "butter",        "menge": 120, "einheit": "g",     "original": "120 g Butter (weich)" },
-      { "rolle": "suesse",       "zutat": "zucker",        "menge": 120, "einheit": "g",     "original": "120 g Kristallzucker" },
-      { "rolle": "aroma",        "zutat": "vanillezucker", "menge": 1,   "einheit": "pkt",   "original": "1 Pk Vanillezucker" },
-      { "rolle": "aroma",        "zutat": "salz",          "menge": 1,   "einheit": "prise", "original": "1 Prise Salz" },
-      { "rolle": "fluessigkeit", "zutat": "milch",         "menge": 120, "einheit": "ml",    "original": "120 ml Milch" },
-      { "rolle": "struktur",     "zutat": "weizenmehl",    "menge": 250, "einheit": "g",     "original": "250 g Weizenmehl (glatt, Typ 480)" },
-      { "rolle": "trieb",        "zutat": "backpulver",    "menge": 1,   "einheit": "pkt",   "original": "1 Pk Backpulver" },
-      { "rolle": "einlage",      "zutat": "schokolade",    "menge": 150, "einheit": "g",     "original": "150 g Schokotropfen" }
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Stk Eier (Größe M)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g Butter (weich)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g Kristallzucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pk Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 120,
+        "einheit": "ml",
+        "original": "120 ml Milch"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Weizenmehl (glatt, Typ 480)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pk Backpulver"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "schokolade",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Schokotropfen"
+      }
     ],
     "methode": "ruehroel",
     "ablauf": [
@@ -54,25 +165,77 @@
       "Schokotropfen unterheben",
       "Teig zu zwei Dritteln in die Förmchen füllen und backen"
     ],
-    "backen": { "tempOU": 200, "tempUmluft": null, "minuten": 17.5, "original": "200 °C Ober-/Unterhitze, ca. 15–20 Minuten" },
+    "backen": {
+      "tempOU": 200,
+      "tempUmluft": null,
+      "minuten": 17.5,
+      "original": "200 °C Ober-/Unterhitze, ca. 15–20 Minuten"
+    },
     "stueckzahl": 12,
     "notizen": "Weiche Butter wird nicht mit Zucker schaumig geschlagen, sondern zusammen mit Eiern und Milch verquirlt, dann Zucker, dann Mehl – daher ruehroel statt creme. Zusätzlich 1 EL Öl für die Form, nicht erfasst."
   },
   {
     "id": "gutekueche-grundrezept-muffins",
     "titel": "Grundrezept Muffins",
-    "quelle": { "url": "https://www.gutekueche.at/grundrezept-muffins-rezept-4060", "site": "gutekueche.at", "bewertung": 4.3, "anzahlBewertungen": 5703 },
+    "quelle": {
+      "url": "https://www.gutekueche.at/grundrezept-muffins-rezept-4060",
+      "site": "gutekueche.at",
+      "bewertung": 4.3,
+      "anzahlBewertungen": 5703
+    },
     "archetyp": "ruehrteig",
     "variante": "muffin",
     "gefaess": "muffinform_12",
     "zutaten": [
-      { "rolle": "struktur",     "zutat": "weizenmehl",     "menge": 280, "einheit": "g",   "original": "280 g Mehl" },
-      { "rolle": "trieb",        "zutat": "backpulver",     "menge": 1,   "einheit": "pkt", "original": "1 Pk Backpulver" },
-      { "rolle": "bindung",      "zutat": "ei",             "menge": 2,   "einheit": "stk", "original": "2 Stk Eier" },
-      { "rolle": "fett",         "zutat": "butter",         "menge": 80,  "einheit": "g",   "original": "80 g Butter (zimmerwarm)" },
-      { "rolle": "suesse",       "zutat": "zucker",         "menge": 120, "einheit": "g",   "original": "120 g Zucker" },
-      { "rolle": "aroma",        "zutat": "vanillearoma",   "menge": 3,   "einheit": "stk", "original": "3 Tr Vanillearoma" },
-      { "rolle": "fluessigkeit", "zutat": "joghurt",        "menge": 250, "einheit": "g",   "original": "250 g Joghurt" }
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 280,
+        "einheit": "g",
+        "original": "280 g Mehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pk Backpulver"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Stk Eier"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g Butter (zimmerwarm)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillearoma",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Tr Vanillearoma"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "joghurt",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Joghurt"
+      }
     ],
     "methode": "ruehroel",
     "ablauf": [
@@ -83,28 +246,98 @@
       "Teig in die Förmchen geben und backen",
       "Warm aus der Form lösen"
     ],
-    "backen": { "tempOU": 190, "tempUmluft": null, "minuten": 20, "original": "190 °C Ober- und Unterhitze, ca. 20 Min." },
+    "backen": {
+      "tempOU": 190,
+      "tempUmluft": null,
+      "minuten": 20,
+      "original": "190 °C Ober- und Unterhitze, ca. 20 Min."
+    },
     "stueckzahl": 12,
     "notizen": "Originaltext lässt offen, wann genau die Mehlmischung dazukommt (implizit nach der Ei-Butter-Joghurt-Masse). Einheit Tropfen (Tr) nicht im Schema, als stk erfasst. Wenig Fett (80 g Butter) bei viel Joghurt (250 g)."
   },
   {
     "id": "emmikochteinfach-schokomuffins",
     "titel": "Schokomuffins – saftig & einfach",
-    "quelle": { "url": "https://emmikochteinfach.de/schokomuffins/", "site": "emmikochteinfach.de", "bewertung": 5.0, "anzahlBewertungen": 130 },
+    "quelle": {
+      "url": "https://emmikochteinfach.de/schokomuffins/",
+      "site": "emmikochteinfach.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 130
+    },
     "archetyp": "ruehrteig",
     "variante": "muffin",
     "gefaess": "muffinform_12",
     "zutaten": [
-      { "rolle": "struktur",     "zutat": "weizenmehl",    "menge": 300, "einheit": "g",   "original": "300 g Mehl, Type 405" },
-      { "rolle": "fluessigkeit", "zutat": "schmand",       "menge": 200, "einheit": "g",   "original": "200 g Schmand" },
-      { "rolle": "fett",         "zutat": "pflanzenoel",   "menge": 100, "einheit": "ml",  "original": "100 ml Pflanzenöl" },
-      { "rolle": "suesse",       "zutat": "zucker",        "menge": 150, "einheit": "g",   "original": "150 g Zucker" },
-      { "rolle": "einlage",      "zutat": "schokolade",    "menge": 100, "einheit": "g",   "original": "100 g Schokochunks" },
-      { "rolle": "aroma",        "zutat": "kakao",         "menge": 50,  "einheit": "g",   "original": "50 g Backkakao" },
-      { "rolle": "trieb",        "zutat": "backpulver",    "menge": 3,   "einheit": "tl",  "original": "3 TL Backpulver (11 g)" },
-      { "rolle": "bindung",      "zutat": "ei",            "menge": 2,   "einheit": "stk", "original": "2 Eier, Größe M" },
-      { "rolle": "fluessigkeit", "zutat": "milch",         "menge": 2,   "einheit": "el",  "original": "2 EL Milch" },
-      { "rolle": "aroma",        "zutat": "vanillezucker", "menge": 1,   "einheit": "pkt", "original": "1 Päckchen Bourbon Vanillezucker" }
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 300,
+        "einheit": "g",
+        "original": "300 g Mehl, Type 405"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "schmand",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Schmand"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 ml Pflanzenöl"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Zucker"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "schokolade",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Schokochunks"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "kakao",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Backkakao"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 3,
+        "einheit": "tl",
+        "original": "3 TL Backpulver (11 g)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier, Größe M"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Milch"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Bourbon Vanillezucker"
+      }
     ],
     "methode": "muffin",
     "ablauf": [
@@ -115,27 +348,91 @@
       "Teig in Muffinförmchen füllen",
       "Backen, Stäbchenprobe"
     ],
-    "backen": { "tempOU": 180, "tempUmluft": 160, "minuten": 25, "original": "180 °C Ober-/Unterhitze (160 °C Umluft), 25 Minuten" },
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 25,
+      "original": "180 °C Ober-/Unterhitze (160 °C Umluft), 25 Minuten"
+    },
     "stueckzahl": 12,
     "notizen": "Klassische Muffin-Methode mit Schmand als saurer Flüssigkeit; Backpulver in TL und Gramm (11 g) angegeben. Kakao ersetzt keinen Mehlanteil, sondern kommt zusätzlich zu 300 g Mehl."
   },
   {
     "id": "familienkost-blaubeermuffins-joghurt",
     "titel": "Blaubeermuffins mit Joghurt – schnell & saftig",
-    "quelle": { "url": "https://www.familienkost.de/rezept_blaubeermuffins.html", "site": "familienkost.de", "bewertung": 5.0, "anzahlBewertungen": 32 },
+    "quelle": {
+      "url": "https://www.familienkost.de/rezept_blaubeermuffins.html",
+      "site": "familienkost.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 32
+    },
     "archetyp": "ruehrteig",
     "variante": "muffin",
     "gefaess": "muffinform_12",
     "zutaten": [
-      { "rolle": "struktur",     "zutat": "weizenmehl",  "menge": 250, "einheit": "g",     "original": "250 g Weizenmehl" },
-      { "rolle": "trieb",        "zutat": "backpulver",  "menge": 2,   "einheit": "tl",    "original": "2 TL Backpulver (gestrichen)" },
-      { "rolle": "trieb",        "zutat": "natron",      "menge": 0.5, "einheit": "tl",    "original": "½ TL Natron" },
-      { "rolle": "bindung",      "zutat": "ei",          "menge": 1,   "einheit": "stk",   "original": "1 Ei" },
-      { "rolle": "suesse",       "zutat": "zucker",      "menge": 130, "einheit": "g",     "original": "130 g Zucker" },
-      { "rolle": "aroma",        "zutat": "salz",        "menge": 1,   "einheit": "prise", "original": "1 Prise Salz" },
-      { "rolle": "fett",         "zutat": "pflanzenoel", "menge": 80,  "einheit": "ml",    "original": "80 ml Sonnenblumenöl" },
-      { "rolle": "fluessigkeit", "zutat": "joghurt",     "menge": 250, "einheit": "g",     "original": "250 g Naturjoghurt" },
-      { "rolle": "einlage",      "zutat": "blaubeeren",  "menge": 250, "einheit": "g",     "original": "250 g Blaubeeren" }
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Weizenmehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Backpulver (gestrichen)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "natron",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "½ TL Natron"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Ei"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 130,
+        "einheit": "g",
+        "original": "130 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 80,
+        "einheit": "ml",
+        "original": "80 ml Sonnenblumenöl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "joghurt",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Naturjoghurt"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "blaubeeren",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Blaubeeren"
+      }
     ],
     "methode": "ruehroel",
     "ablauf": [
@@ -146,26 +443,84 @@
       "Muffinform mit Papierförmchen auslegen, Teig verteilen",
       "Backen"
     ],
-    "backen": { "tempOU": 180, "tempUmluft": null, "minuten": 30, "original": "180 °C Ober-/Unterhitze, 30 Minuten" },
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 30,
+      "original": "180 °C Ober-/Unterhitze, 30 Minuten"
+    },
     "stueckzahl": 12,
     "notizen": "Nur 1 Ei; Natron zusätzlich zum Backpulver reagiert mit dem Joghurt. Hoher Einlage-Anteil (250 g Beeren auf 250 g Mehl), längste Backzeit im Korpus."
   },
   {
     "id": "oetker-buttermilch-muffins",
     "titel": "Buttermilch-Muffins",
-    "quelle": { "url": "https://www.oetker.de/rezepte/r/buttermilch-muffins", "site": "oetker.de", "bewertung": 4.4, "anzahlBewertungen": 21 },
+    "quelle": {
+      "url": "https://www.oetker.de/rezepte/r/buttermilch-muffins",
+      "site": "oetker.de",
+      "bewertung": 4.4,
+      "anzahlBewertungen": 21
+    },
     "archetyp": "ruehrteig",
     "variante": "muffin",
     "gefaess": "muffinform_12",
     "zutaten": [
-      { "rolle": "struktur",     "zutat": "weizenmehl",     "menge": 200, "einheit": "g",   "original": "200 g Weizenmehl" },
-      { "rolle": "trieb",        "zutat": "backpulver",     "menge": 2,   "einheit": "tl",  "original": "2 gestr. TL Dr. Oetker Original Backin" },
-      { "rolle": "suesse",       "zutat": "zucker",         "menge": 125, "einheit": "g",   "original": "125 g Zucker" },
-      { "rolle": "aroma",        "zutat": "vanillezucker",  "menge": 1,   "einheit": "pkt", "original": "1 Pck. Dr. Oetker Vanillin-Zucker" },
-      { "rolle": "fett",         "zutat": "butter",         "menge": 125, "einheit": "g",   "original": "125 g weiche Butter oder Margarine" },
-      { "rolle": "bindung",      "zutat": "ei",             "menge": 2,   "einheit": "stk", "original": "2 Eier (Größe M)" },
-      { "rolle": "fluessigkeit", "zutat": "buttermilch",    "menge": 150, "einheit": "ml",  "original": "150 ml Buttermilch" },
-      { "rolle": "aroma",        "zutat": "zitronenabrieb", "menge": 1,   "einheit": "pkt", "original": "1 Pck. Dr. Oetker Finesse Geriebene Zitronenschale" }
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Weizenmehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 gestr. TL Dr. Oetker Original Backin"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pck. Dr. Oetker Vanillin-Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g weiche Butter oder Margarine"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier (Größe M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 150,
+        "einheit": "ml",
+        "original": "150 ml Buttermilch"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pck. Dr. Oetker Finesse Geriebene Zitronenschale"
+      }
     ],
     "methode": "allinone",
     "ablauf": [
@@ -175,26 +530,84 @@
       "Backen",
       "10 Minuten in der Form ruhen lassen, dann auf einem Rost erkalten lassen"
     ],
-    "backen": { "tempOU": 180, "tempUmluft": 160, "minuten": 25, "original": "180 °C (Ober-/Unterhitze) oder 160 °C (Umluft), etwa 25 Minuten" },
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 25,
+      "original": "180 °C (Ober-/Unterhitze) oder 160 °C (Umluft), etwa 25 Minuten"
+    },
     "stueckzahl": 12,
     "notizen": "All-in-Teig. Im Original werden zusätzlich 2/3 einer Packung Buchstaben-Zuckerstreusel in den Teig gerührt und die Muffins mit Puderzucker-Buttermilch-Guss verziert; Dekor und Guss nicht als Teigzutaten erfasst."
   },
   {
     "id": "oetker-muffins-mit-schokostueckchen",
     "titel": "Muffins mit Schokostückchen",
-    "quelle": { "url": "https://www.oetker.de/rezepte/r/muffins-mit-schokostueckchen", "site": "oetker.de", "bewertung": 4.1, "anzahlBewertungen": 2514 },
+    "quelle": {
+      "url": "https://www.oetker.de/rezepte/r/muffins-mit-schokostueckchen",
+      "site": "oetker.de",
+      "bewertung": 4.1,
+      "anzahlBewertungen": 2514
+    },
     "archetyp": "ruehrteig",
     "variante": "muffin",
     "gefaess": "muffinform_12",
     "zutaten": [
-      { "rolle": "struktur", "zutat": "weizenmehl",    "menge": 200, "einheit": "g",     "original": "200 g Weizenmehl" },
-      { "rolle": "trieb",    "zutat": "backpulver",    "menge": 2,   "einheit": "tl",    "original": "2 gestr. TL Dr. Oetker Original Backin" },
-      { "rolle": "suesse",   "zutat": "zucker",        "menge": 100, "einheit": "g",     "original": "100 g Zucker" },
-      { "rolle": "aroma",    "zutat": "vanillezucker", "menge": 1,   "einheit": "pkt",   "original": "1 Pck. Dr. Oetker Bourbon Vanille-Zucker" },
-      { "rolle": "aroma",    "zutat": "salz",          "menge": 1,   "einheit": "prise", "original": "1 Pr. Salz" },
-      { "rolle": "fett",     "zutat": "butter",        "menge": 150, "einheit": "g",     "original": "150 g weiche Butter oder Margarine" },
-      { "rolle": "bindung",  "zutat": "ei",            "menge": 3,   "einheit": "stk",   "original": "3 Eier (Größe M)" },
-      { "rolle": "einlage",  "zutat": "schokolade",    "menge": 100, "einheit": "g",     "original": "100 g Dr. Oetker Chocolate Chunks Vollmilch" }
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Weizenmehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 gestr. TL Dr. Oetker Original Backin"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pck. Dr. Oetker Bourbon Vanille-Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Pr. Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g weiche Butter oder Margarine"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier (Größe M)"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "schokolade",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Dr. Oetker Chocolate Chunks Vollmilch"
+      }
     ],
     "methode": "allinone",
     "ablauf": [
@@ -205,8 +618,773 @@
       "Teig in die Form füllen, restliche Chunks aufstreuen",
       "Backen, auf einem Kuchenrost erkalten lassen"
     ],
-    "backen": { "tempOU": 180, "tempUmluft": 160, "minuten": 25, "original": "Ober-/Unterhitze etwa 180 °C, Heißluft etwa 160 °C, etwa 25 Minuten" },
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 25,
+      "original": "Ober-/Unterhitze etwa 180 °C, Heißluft etwa 160 °C, etwa 25 Minuten"
+    },
     "stueckzahl": 12,
     "notizen": "Keine zusätzliche Flüssigkeit – Feuchtigkeit kommt nur aus 3 Eiern und 150 g Butter; eher Rührkuchenteig in Muffinform. Butter-Anteil relativ zum Mehl (75 %) am höchsten im Korpus."
+  },
+  {
+    "id": "lecker-klassische-blaubeermuffins",
+    "titel": "Klassische Blaubeermuffins",
+    "quelle": {
+      "url": "https://www.lecker.de/classic-blueberry-muffins-blaubeer-muffins-5529.html",
+      "site": "lecker.de",
+      "bewertung": 4.4,
+      "anzahlBewertungen": 423
+    },
+    "archetyp": "ruehrteig",
+    "variante": "muffin",
+    "gefaess": "muffinform_12",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 350,
+        "einheit": "g",
+        "original": "350 g Mehl"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 135,
+        "einheit": "g",
+        "original": "135 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier (Größe M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 125,
+        "einheit": "ml",
+        "original": "125 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "½ TL Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.25,
+        "einheit": "tl",
+        "original": "¼ TL Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "blaubeeren",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Blaubeeren (frisch oder TK)"
+      }
+    ],
+    "methode": "muffin",
+    "ablauf": [
+      "Butter schmelzen, Zucker und Vanillezucker einrühren.",
+      "Eier und Milch unterrühren.",
+      "Mehl, Backpulver und Salz mischen und nur kurz unter die flüssige Masse rühren.",
+      "Blaubeeren vorsichtig unterheben, Teig auf die Mulden verteilen.",
+      "Backen und mit dem Holzspieß die Garprobe machen."
+    ],
+    "backen": {
+      "tempOU": 190,
+      "tempUmluft": null,
+      "minuten": 18,
+      "original": "190 °C (E-Herd), ca. 18 Minuten"
+    },
+    "stueckzahl": 12,
+    "notizen": "Sehr mehlreich (350 g) bei wenig Milch und geschmolzener Butter, dazu die höchste Backtemperatur der Gruppe. Klassischer Muffin-Weg mit kurzem Rühren und viel Obst."
+  },
+  {
+    "id": "kuechengoetter-saure-sahne-muffins",
+    "titel": "Saure-Sahne-Muffins",
+    "quelle": {
+      "url": "https://www.kuechengoetter.de/rezepte/saure-sahne-muffins-46020",
+      "site": "kuechengoetter.de",
+      "bewertung": null,
+      "anzahlBewertungen": 202
+    },
+    "archetyp": "ruehrteig",
+    "variante": "muffin",
+    "gefaess": "muffinform_12",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier (Größe L)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g weiche Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Vanillezucker"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "saure_sahne",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g saure Sahne"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Mehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 0.5,
+        "einheit": "pkt",
+        "original": "½ Päckchen Backpulver"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Eier, weiche Butter, Zucker und Vanillezucker schaumig aufschlagen.",
+      "Saure Sahne unterrühren.",
+      "Mehl und Backpulver mischen und nur kurz unterheben.",
+      "In die Mulden füllen und backen; Verzierung nach Belieben."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": 160,
+      "minuten": 20,
+      "original": "Vorheizen 180 °, gebacken Umluft 160 °, ca. 20 Minuten"
+    },
+    "stueckzahl": 12,
+    "notizen": "Drei große Eier und saure Sahne als einzige Flüssigkeit, wenig Mehl (200 g): sehr eireicher, weicher Teig. Butter hier schaumig geschlagen statt geschmolzen."
+  },
+  {
+    "id": "homemade-baked-schnelle-schokomuffins",
+    "titel": "Schnelle Muffins mit Schokostückchen",
+    "quelle": {
+      "url": "https://www.homemade-baked.de/schnelle-muffins-mit-schokostueckchen/",
+      "site": "homemade-baked.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 15
+    },
+    "archetyp": "ruehrteig",
+    "variante": "muffin",
+    "gefaess": "muffinform_12",
+    "zutaten": [
+      {
+        "rolle": "einlage",
+        "zutat": "schokolade",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g Schokolade (z. B. Osterhasen/Weihnachtsmänner, Tafelschokolade)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "margarine",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Margarine"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 0.5,
+        "einheit": "pkt",
+        "original": "½ Päckchen Backpulver"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Mineralwasser mit Kohlensäure"
+      }
+    ],
+    "methode": "allinone",
+    "ablauf": [
+      "Schokolade hacken.",
+      "Margarine, Zucker, Salz und Eier schaumig rühren.",
+      "Mehl, Backpulver und Mineralwasser kurz einrühren.",
+      "Schokolade unterheben, in Förmchen füllen und backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 22.5,
+      "original": "180 °C Ober-/Unterhitze, 20-25 Minuten"
+    },
+    "stueckzahl": 12,
+    "notizen": "Margarine statt Butter und Sprudelwasser als einzige Flüssigkeit, kein Milchprodukt. Sehr kurze Zutatenliste, Schokolade ist mit 120 g für den Teig reichlich."
+  },
+  {
+    "id": "essen-und-trinken-rosinenmuffins",
+    "titel": "Rosinenmuffins",
+    "quelle": {
+      "url": "https://www.essen-und-trinken.de/rezepte/40792-rzpt-rosinenmuffins",
+      "site": "essen-und-trinken.de",
+      "bewertung": null,
+      "anzahlBewertungen": 0
+    },
+    "archetyp": "ruehrteig",
+    "variante": "muffin",
+    "gefaess": "muffinform_12",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pk. Vanillezucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "margarine",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Margarine"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Bio-Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "joghurt",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Naturjoghurt"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 40,
+        "einheit": "g",
+        "original": "40 g Rosinen"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zitronensaft"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Eier, Zucker, Vanillezucker, Zitronensaft und Margarine schaumig schlagen.",
+      "Joghurt unterrühren.",
+      "Mehl, Backpulver, Salz und Rosinen zu einem glatten Teig einarbeiten.",
+      "In Förmchen verteilen, backen, 5 Minuten in der Form ruhen lassen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 25,
+      "original": "180 °C (Modus nicht angegeben), ca. 25 Minuten"
+    },
+    "stueckzahl": 12,
+    "notizen": "Süß (200 g Zucker) mit Margarine, Joghurt und nur 40 g Rosinen. Eine Messerspitze Natron aus dem Original ist nicht erfasst. Seite hat noch keine Bewertung."
+  },
+  {
+    "id": "backenmachtgluecklich-rosinen-muffins-joghurt",
+    "titel": "Rosinen-Muffins mit Joghurt",
+    "quelle": {
+      "url": "https://www.backenmachtgluecklich.de/rezepte/rosinen-muffins.html",
+      "site": "backenmachtgluecklich.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 3
+    },
+    "archetyp": "ruehrteig",
+    "variante": "muffin",
+    "gefaess": "muffinform_12",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Weizenmehl"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "speisestaerke",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Speisestärke oder gemahlene Mandeln"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Backpulver"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "natron",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "½ TL Natron"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL abgeriebene Zitronenschale"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zimt",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "½ TL Zimt"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 mittelgroße Eier"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 ml Rapsöl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "joghurt",
+        "menge": 180,
+        "einheit": "g",
+        "original": "180 g Joghurt oder Buttermilch"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g Rosinen (in Saft oder Rum eingeweicht)"
+      }
+    ],
+    "methode": "muffin",
+    "ablauf": [
+      "Rosinen in Saft oder Rum einweichen.",
+      "Trockene Zutaten inklusive Gewürzen mischen.",
+      "Eier und Zucker verquirlen, Öl und Joghurt unterrühren.",
+      "Beide Mischungen kurz zu einem glatten Teig verrühren, abgetropfte Rosinen unterheben.",
+      "In Förmchen füllen und backen."
+    ],
+    "backen": {
+      "tempOU": 175,
+      "tempUmluft": null,
+      "minuten": 21,
+      "original": "175 °C Ober-/Unterhitze, 20-22 Minuten"
+    },
+    "stueckzahl": 12,
+    "notizen": "Öl-Joghurt-Teig mit Natron und viel Rosinen (120 g), dazu Zitrone und Zimt. Der Einweichsaft/Rum (2 EL) ist nicht erfasst. Nur 3 Bewertungen."
+  },
+  {
+    "id": "madamecuisine-einfache-schokomuffins",
+    "titel": "Einfache Schoko-Muffins",
+    "quelle": {
+      "url": "https://www.madamecuisine.de/einfache-schoko-muffins/",
+      "site": "madamecuisine.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 5
+    },
+    "archetyp": "ruehrteig",
+    "variante": "muffin",
+    "gefaess": "muffinform_12",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Bio-Eier Gr. M"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Rohrzucker"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "saure_sahne",
+        "menge": 180,
+        "einheit": "g",
+        "original": "180 g saure Sahne"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanilleextrakt",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Vanilleextrakt"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 120,
+        "einheit": "ml",
+        "original": "120 ml Rapsöl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 120,
+        "einheit": "ml",
+        "original": "120 ml Milch"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Weizenmehl Typ 405"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "kakao",
+        "menge": 40,
+        "einheit": "g",
+        "original": "40 g dunkles Kakaopulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "natron",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Natron"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zimt",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Zimt"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "schokolade",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g Zartbitter-Schokotropfen"
+      }
+    ],
+    "methode": "ruehroel",
+    "ablauf": [
+      "Eier mit Zucker, saurer Sahne und Vanilleextrakt verrühren.",
+      "Öl, dann Milch langsam unterrühren.",
+      "Mehl, Kakao, Salz, Natron, Zimt und Schokotropfen mischen und kurz unterheben.",
+      "Förmchen zu zwei Dritteln füllen, backen, mit Stäbchen prüfen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": 175,
+      "minuten": 20,
+      "original": "Umluft 220 °C vorheizen, nach 5 Minuten auf 175 °C reduzieren, insgesamt ca. 20 Minuten"
+    },
+    "stueckzahl": 14,
+    "notizen": "Kakao plus Natron und Öl, saure Sahne und Milch zusammen als Flüssigkeit. Ergibt laut Seite 14 Muffins; Start mit 5 Minuten Hitzeschock bei 220 °C. Rohrzucker als zucker erfasst."
+  },
+  {
+    "id": "heidelberg24-grundrezept-muffins",
+    "titel": "Einfaches Grundrezept: Lockere Muffins",
+    "quelle": {
+      "url": "https://www.heidelberg24.de/ratgeber/backen-teig-zutaten-fruechte-schokolade-variante-grundrezept-muffins-zr-93013400.html",
+      "site": "heidelberg24.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "ruehrteig",
+    "variante": "muffin",
+    "gefaess": "muffinform_12",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 260,
+        "einheit": "g",
+        "original": "260 g Mehl"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 180,
+        "einheit": "ml",
+        "original": "180 ml Milch"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 110,
+        "einheit": "g",
+        "original": "110 g Butter, geschmolzen"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      }
+    ],
+    "methode": "muffin",
+    "ablauf": [
+      "Mehl, Zucker, Backpulver und Salz in einer Schüssel mischen.",
+      "Milch, geschmolzene Butter und Eier in einer zweiten Schüssel verrühren.",
+      "Trockene Mischung nach und nach unterrühren.",
+      "In ein gefettetes oder ausgelegtes Muffinblech füllen und backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 22.5,
+      "original": "180 °C Ober-/Unterhitze, 20-25 Minuten"
+    },
+    "stueckzahl": 12,
+    "notizen": "Sehr schlankes Basisrezept ohne Einlage, geschmolzene Butter und Milch, wenig Zucker (100 g). Die Stückzahl steht nicht auf der Seite, 12 ergibt sich aus der 12er-Form. Keine Bewertungen (Ratgeberseite)."
+  },
+  {
+    "id": "swissmilk-muffins-mit-schokostueckchen",
+    "titel": "Muffins mit Schokostückchen",
+    "quelle": {
+      "url": "https://www.swissmilk.ch/de/rezepte-kochideen/rezepte/SM2025_W-CH_03/muffins-mit-schokostueckchen/",
+      "site": "swissmilk.ch",
+      "bewertung": 3.9,
+      "anzahlBewertungen": 53
+    },
+    "archetyp": "ruehrteig",
+    "variante": "muffin",
+    "gefaess": "muffinform_12",
+    "zutaten": [
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g Butter, weich"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.25,
+        "einheit": "tl",
+        "original": "¼ TL Salz"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 3,
+        "einheit": "tl",
+        "original": "3 TL Backpulver"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "2 dl Milch"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "schokolade",
+        "menge": 160,
+        "einheit": "g",
+        "original": "160 g Schokoladenwürfel"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Butter, Zucker, Vanillezucker und Salz schaumig rühren, Eier nacheinander einrühren.",
+      "Mehl und Backpulver mischen und abwechselnd mit der Milch einrühren, dabei wenig rühren.",
+      "Schokoladenwürfel unterheben.",
+      "In Papierkapseln füllen, backen, kurz in der Form ruhen lassen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 32.5,
+      "original": "180 °C Ober-/Unterhitze (Umluft 160 °C), 30-35 Minuten"
+    },
+    "stueckzahl": 12,
+    "notizen": "Klassische Butterrührung mit wechselweise Mehl und Milch, viel Schokolade (160 g) und 3 TL Backpulver. Mit 30-35 Minuten auffallend lange Backzeit. Schweizer Seite, Milchmenge als 2 dl umgerechnet."
   }
 ]

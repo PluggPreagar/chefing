@@ -464,5 +464,625 @@
     },
     "stueckzahl": null,
     "notizen": "Reichhaltiger Teig: 80 g Butter direkt im Teig, Flüssigkeit 70 % Milch und 30 % Wasser, Mehl:Flüssigkeit 1:2. Alle Zutaten werden gleichzeitig verrührt, nicht schrittweise."
+  },
+  {
+    "id": "desired-original-crepes",
+    "titel": "Original Crêpes",
+    "quelle": {
+      "url": "https://www.desired.de/rezepte/original-crepes/",
+      "site": "desired.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "eierkuchen",
+    "gefaess": "pfanne_24",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 500,
+        "einheit": "ml",
+        "original": "500 ml Milch"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Butter, geschmolzen und abgekühlt"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Vanillezucker (für die süße Variante)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pfannkuchen_glatt",
+    "ablauf": [
+      "Mehl, Milch, Salz, Vanillezucker und Eier glatt verrühren.",
+      "Butter schmelzen, etwas abkühlen lassen und unterrühren.",
+      "Teig etwa 30 Minuten ruhen lassen, vor dem Backen durchrühren (bei Bedarf Milch ergänzen).",
+      "Je eine Kelle Teig in der Pfanne dünn verteilen und von beiden Seiten hell bis goldbraun backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 1.25,
+      "original": "60 bis 90 Sekunden pro Seite"
+    },
+    "stueckzahl": null,
+    "notizen": "Klassischer Crêpe-Teig mit Butter im Teig und 4 Eiern auf 250 g Mehl, also eierreich und sehr flüssig (Mehl:Flüssigkeit 1:2). Stückzahl nennt die Seite nicht, nur 8 Portionen."
+  },
+  {
+    "id": "kochbar-buttermilch-pfannkuchen",
+    "titel": "Buttermilch Pfannkuchen",
+    "quelle": {
+      "url": "https://www.kochbar.de/rezept/462038/Buttermilch-Pfannkuchen.html",
+      "site": "kochbar.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 54
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "eierkuchen",
+    "gefaess": "pfanne_24",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 5,
+        "einheit": "stk",
+        "original": "5 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 500,
+        "einheit": "ml",
+        "original": "500 ml Buttermilch"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 125,
+        "einheit": "ml",
+        "original": "1/8 l Wasser"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pfannkuchen_glatt",
+    "ablauf": [
+      "Eier mit Buttermilch, Wasser, Zucker und Salz verquirlen.",
+      "Die Eiermischung nach und nach unter das Mehl rühren.",
+      "Teig 30 Minuten ruhen lassen und vor dem Backen noch einmal durchrühren.",
+      "Dünn in die heiße Pfanne geben, wenden und fertig backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht angegeben (Gesamtzeit 20 Minuten)"
+    },
+    "stueckzahl": null,
+    "notizen": "Sehr eierreich (5 Eier auf 250 g Mehl) und die einzige Buttermilch-Variante, mit Wasser verdünnt (Mehl:Flüssigkeit 1:2,5). Rapsöl (5 EL) und Zitronenschale stehen in der Liste, sind aber Bratfett bzw. nur 'etwas' und wurden weggelassen."
+  },
+  {
+    "id": "ddr-rezepte-eierkuchen-grundrezept",
+    "titel": "Eierkuchen Grundrezept",
+    "quelle": {
+      "url": "https://ddr-rezepte.net/eierkuchen-grundrezept/",
+      "site": "ddr-rezepte.net",
+      "bewertung": 3.9,
+      "anzahlBewertungen": 69
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "eierkuchen",
+    "gefaess": "pfanne_24",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 500,
+        "einheit": "ml",
+        "original": "1/2 Liter Milch, Wasser oder halb und halb"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "1/2 TL Salz"
+      }
+    ],
+    "methode": "pfannkuchen_glatt",
+    "ablauf": [
+      "Eier, Flüssigkeit und Salz verquirlen.",
+      "Gesiebtes Mehl nach und nach einrühren, bis der Teig glatt ist.",
+      "Etwa 15 Minuten quellen lassen.",
+      "In wenig Fett auf mittlerer Hitze von beiden Seiten goldbraun backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht angegeben (beidseitig goldbraun, Gesamtzeit 20 Minuten)"
+    },
+    "stueckzahl": 9,
+    "notizen": "Sehr eierarm (2 Eier auf 250 g Mehl), kein Zucker und kein Fett im Teig (Mehl:Flüssigkeit 1:2). Flüssigkeit laut Quelle frei wählbar (Milch, Wasser oder halb/halb), hier als reine Milch erfasst; Stückzahl 8 bis 10 als 9."
+  },
+  {
+    "id": "foodtempel-duenne-pfannkuchen-mineralwasser-milch",
+    "titel": "Dünne Pfannkuchen mit Mineralwasser und Milch",
+    "quelle": {
+      "url": "https://www.foodtempel.de/duenne-pfannkuchen-mit-mineralwasser-und-milch/",
+      "site": "foodtempel.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 10
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "eierkuchen",
+    "gefaess": "pfanne_24",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 240,
+        "einheit": "ml",
+        "original": "240 ml Milch"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 240,
+        "einheit": "ml",
+        "original": "240 ml Mineralwasser mit Kohlensäure"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 20,
+        "einheit": "g",
+        "original": "20 g Puderzucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanilleextrakt",
+        "menge": 0.25,
+        "einheit": "tl",
+        "original": "1/4 TL Vanilleextrakt"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "1/2 TL Salz"
+      }
+    ],
+    "methode": "pfannkuchen_glatt",
+    "ablauf": [
+      "Eier mit Puderzucker leicht aufschlagen.",
+      "Mehl, Salz, Vanille, Milch und Mineralwasser zugeben und glatt rühren.",
+      "Teig abgedeckt etwa 1 Stunde kühl ruhen lassen, vor dem Backen durchrühren.",
+      "Mit nur ganz wenig Öl in der Pfanne dünn ausbacken."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht angegeben (mittlere Hitze bis goldgelb)"
+    },
+    "stueckzahl": null,
+    "notizen": "Milch und Mineralwasser zu gleichen Teilen (Mehl:Flüssigkeit etwa 1:1,9), dazu wenig Zucker und Vanilleextrakt. Ruhezeit mit 1 Stunde im Kühlschrank vergleichsweise lang; Stückzahl nennt die Seite nicht."
+  },
+  {
+    "id": "alltagskitchen-einfaches-grundrezept-pfannkuchen",
+    "titel": "Einfaches Grundrezept für Pfannkuchen",
+    "quelle": {
+      "url": "https://www.alltagskitchen.com/einfaches-grundrezept-fuer-pfannkuchen/",
+      "site": "alltagskitchen.com",
+      "bewertung": 4.5,
+      "anzahlBewertungen": 2
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "eierkuchen",
+    "gefaess": "pfanne_24",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Milch"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Mineralwasser"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Öl oder geschmolzene Butter"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pfannkuchen_glatt",
+    "ablauf": [
+      "Eier und Milch verquirlen.",
+      "Mineralwasser, Öl und Salz einrühren.",
+      "Mehl löffelweise unterrühren, bis der Teig glatt ist.",
+      "15 Minuten ruhen lassen, dann je 3 bis 4 EL Teig in der beschichteten Pfanne beidseitig goldbraun backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 2.5,
+      "original": "ca. 2-3 Minuten pro Seite"
+    },
+    "stueckzahl": null,
+    "notizen": "Milch und Mineralwasser je 250 ml (Mehl:Flüssigkeit 1:2) plus 2 EL Fett im Teig; Quelle erlaubt Öl oder Butter, hier als Pflanzenöl erfasst. Optionale Orangen-/Zitronenschale weggelassen; nur 2 Bewertungen."
+  },
+  {
+    "id": "zwilling-crepes",
+    "titel": "Crêpes",
+    "quelle": {
+      "url": "https://www.zwilling.com/de/enfinigy-recipes/crepes.html",
+      "site": "zwilling.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "eierkuchen",
+    "gefaess": "pfanne_24",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Weizenmehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 500,
+        "einheit": "ml",
+        "original": "500 ml Milch"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g geschmolzene Butter"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pfannkuchen_glatt",
+    "ablauf": [
+      "Alle Teigzutaten im Mixer zu einem glatten Teig verarbeiten.",
+      "Crêpe-Pfanne erhitzen.",
+      "Gerade so viel Teig eingießen, dass der Boden bedeckt ist.",
+      "Auf beiden Seiten bei mittlerer Hitze backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 2.5,
+      "original": "ca. 2-3 Minuten pro Seite bei mittlerer Hitze"
+    },
+    "stueckzahl": null,
+    "notizen": "Fast identisch mit dem desired.de-Teig (4 Eier, 500 ml Milch, 50 g Butter auf 250 g Mehl), aber ohne Zucker und ohne Ruhezeit, da im Mixer gerührt. Seite nennt 8 bis 10 Personen statt Stückzahl."
+  },
+  {
+    "id": "familienkost-eierkuchen",
+    "titel": "Eierkuchen",
+    "quelle": {
+      "url": "https://www.familienkost.de/rezept_eierkuchen.html",
+      "site": "familienkost.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 272
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "eierkuchen",
+    "gefaess": "pfanne_24",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 350,
+        "einheit": "g",
+        "original": "350 g Weizenmehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 500,
+        "einheit": "ml",
+        "original": "500 ml Milch"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml Mineralwasser"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pfannkuchen_glatt",
+    "ablauf": [
+      "Eier und Milch verrühren, dann das Mehl unterrühren.",
+      "Salz zugeben und zuletzt das Mineralwasser einrühren, bis der Teig glatt ist.",
+      "Pfanne mit etwas Öl oder Butterschmalz erhitzen, eine Kelle Teig eingießen und schwenken.",
+      "Nach etwa 30 Sekunden wenden und fertig backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "erste Seite ca. 30 Sekunden, zweite Seite nicht angegeben"
+    },
+    "stueckzahl": null,
+    "notizen": "Mit 350 g Mehl und 4 Eiern mittlerer Eigehalt (etwa 2,9 Eier je 250 g), Mineralwasser erst zuletzt eingerührt (Mehl:Flüssigkeit 1:2). 2 EL Zucker sind nur optional und wurden nicht erfasst; sehr gut bewertet (272 Stimmen)."
+  },
+  {
+    "id": "eat-omas-pfannkuchen-mit-mineralwasser",
+    "titel": "Omas Pfannkuchen mit Mineralwasser",
+    "quelle": {
+      "url": "https://eat.de/rezept/omas-pfannkuchen-mit-mineralwasser/",
+      "site": "eat.de",
+      "bewertung": 4.9,
+      "anzahlBewertungen": 35
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "eierkuchen",
+    "gefaess": "pfanne_24",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Weizenmehl Typ 405"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml Mineralwasser"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pfannkuchen_glatt",
+    "ablauf": [
+      "Eier verquirlen und das Mineralwasser unterrühren.",
+      "Salz und Zucker einrühren.",
+      "Mehl einsieben, glatt rühren und 10 Minuten quellen lassen.",
+      "In heißem Öl je Seite etwa 2 Minuten backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 2,
+      "original": "etwa 2 Minuten pro Seite"
+    },
+    "stueckzahl": 7,
+    "notizen": "Milchfrei: nur Mineralwasser als Flüssigkeit (Mehl:Flüssigkeit 1:2), mit 2 Eiern auf 100 g Mehl sehr eierreich (5 Eier je 250 g). Stückzahl 6 bis 8 als 7 erfasst."
+  },
+  {
+    "id": "berliner-kurier-eierkuchen-selters",
+    "titel": "Eierkuchen mit Selters",
+    "quelle": {
+      "url": "https://www.berliner-kurier.de/article/rezept-fuer-eierkuchen-mit-ein-paar-zutaten-werden-sie-perfekt-225566",
+      "site": "berliner-kurier.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "eierkuchen",
+    "gefaess": "pfanne_24",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 300,
+        "einheit": "ml",
+        "original": "300 ml Milch"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 150,
+        "einheit": "ml",
+        "original": "150 ml Selters"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pfannkuchen_glatt",
+    "ablauf": [
+      "Alle Teigzutaten mit dem Handmixer glatt und flüssig verrühren.",
+      "Öl in der Pfanne mit einem Pinsel gleichmäßig verteilen.",
+      "Teig dünn auf den Boden gießen, erste Seite backen, wenden, zweite Seite kürzer backen.",
+      "Fertige Eierkuchen warm halten und den Rest portionsweise backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 1.5,
+      "original": "erste Seite ca. 2 Minuten, zweite ca. 1 Minute (Mittelwert)"
+    },
+    "stueckzahl": null,
+    "notizen": "Ohne Ruhezeit direkt aus der Schüssel gebacken, Selters ersetzt einen Teil der Milch (Mehl:Flüssigkeit 1:1,8). Kein Fett im Teig, Vanillezucker als einzige Süße."
   }
 ]

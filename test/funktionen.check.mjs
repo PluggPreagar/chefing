@@ -16,7 +16,9 @@ ok(has(c,/Gleiche Ursache: Eiweiß \(Gerüst\)/),'Stärke allein → eiweiss_min
 c=compute(st('kastenkuchen',{struktur:[{zutat:'weizenmehl',anteil:7},{zutat:'speisestaerke',anteil:1}]}),data,ks);
 ok(!has(c,/Klebereiweiß nur/),`Mehl 7 : Stärke 1 → ok (Gluten ${B(c,'gluten').bp.toFixed(1)} %)`);
 c=compute(st('kastenkuchen',{struktur:[{zutat:'weizenmehl',anteil:1},{zutat:'speisestaerke',anteil:1}]}),data,ks);
-ok(has(c,/Klebereiweiß nur/),`Mehl 1 : Stärke 1 → Warnung (alte Regel sah nur Dominante; Gluten ${B(c,'gluten').bp.toFixed(1)} %)`);
+ok(!has(c,/Klebereiweiß nur/),`Mehl 1 : Stärke 1 → keine Warnung mehr (Korpus: Kastenkuchen 50 : 50 mit Gluten ${B(c,'gluten').bp.toFixed(1)} % funktioniert, Grenze 3 %)`);
+c=compute(st('kastenkuchen',{struktur:[{zutat:'weizenmehl',anteil:1},{zutat:'speisestaerke',anteil:3}]}),data,ks);
+ok(has(c,/Klebereiweiß nur/),`Mehl 1 : Stärke 3 → Warnung (Mischung, die die alte Dominanz-Regel nicht sah; Gluten ${B(c,'gluten').bp.toFixed(1)} %)`);
 c=compute(st('kastenkuchen',{struktur:E('mandeln_gemahlen')}),data,ks);
 ok(has(c,/Klebereiweiß nur/) && !has(c,/Gesamteiweiß .*Grenze/),`Mandeln: kein Gluten, aber Eiweiß ${B(c,'eiweiss').bp.toFixed(1)} % reicht`);
 const cb=compute(st('kastenkuchen',{fluessigkeit:E('buttermilch')}),data,ks), cn=compute(st('kastenkuchen',{fluessigkeit:E('buttermilch'),trieb:E('natron')}),data,ks);

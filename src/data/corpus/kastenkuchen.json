@@ -2,19 +2,72 @@
   {
     "id": "oetker-grundrezept-ruehrteig-kastenkuchen",
     "titel": "Grundrezept Rührteig für Kastenkuchen",
-    "quelle": { "url": "https://www.oetker.de/rezepte/r/grundrezept-ruehrteig-fuer-kastenkuchen", "site": "oetker.de", "bewertung": 4.2, "anzahlBewertungen": 585 },
+    "quelle": {
+      "url": "https://www.oetker.de/rezepte/r/grundrezept-ruehrteig-fuer-kastenkuchen",
+      "site": "oetker.de",
+      "bewertung": 4.2,
+      "anzahlBewertungen": 585
+    },
     "archetyp": "ruehrteig",
     "variante": "kastenkuchen",
     "gefaess": "kastenform_25",
     "zutaten": [
-      { "rolle": "fett", "zutat": "butter", "menge": 250, "einheit": "g", "original": "250 g weiche Butter oder Margarine" },
-      { "rolle": "suesse", "zutat": "zucker", "menge": 150, "einheit": "g", "original": "150 g Zucker" },
-      { "rolle": "aroma", "zutat": "vanillezucker", "menge": 1, "einheit": "pkt", "original": "1 Pck. Dr. Oetker Vanillin-Zucker" },
-      { "rolle": "aroma", "zutat": "salz", "menge": 1, "einheit": "prise", "original": "1 Prise Salz" },
-      { "rolle": "bindung", "zutat": "ei", "menge": 4, "einheit": "stk", "original": "4 Eier (Größe M)" },
-      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 300, "einheit": "g", "original": "300 g Weizenmehl" },
-      { "rolle": "trieb", "zutat": "backpulver", "menge": 4, "einheit": "tl", "original": "4 gestr. TL Dr. Oetker Original Backin" },
-      { "rolle": "fluessigkeit", "zutat": "milch", "menge": 2, "einheit": "el", "original": "2 EL Milch" }
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g weiche Butter oder Margarine"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pck. Dr. Oetker Vanillin-Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier (Größe M)"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 300,
+        "einheit": "g",
+        "original": "300 g Weizenmehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 4,
+        "einheit": "tl",
+        "original": "4 gestr. TL Dr. Oetker Original Backin"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Milch"
+      }
     ],
     "methode": "creme",
     "ablauf": [
@@ -26,25 +79,83 @@
       "Nach ca. 15 Min. Backzeit den Kuchen längs ca. 1 cm tief einschneiden",
       "10 Min. in der Form abkühlen lassen, dann stürzen und auskühlen lassen"
     ],
-    "backen": { "tempOU": 180, "tempUmluft": 160, "minuten": 60, "original": "Ober-/Unterhitze etwa 180 °C, Heißluft etwa 160 °C, etwa 60 Min." },
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 60,
+      "original": "Ober-/Unterhitze etwa 180 °C, Heißluft etwa 160 °C, etwa 60 Min."
+    },
     "notizen": "Kastenform 25 x 11 cm. Backpulver als 4 gestrichene TL statt Päckchen angegeben. Sehr fettreich (Butter:Mehl 250:300), wenig Flüssigkeit (2 EL Milch)."
   },
   {
     "id": "lecker-ruehrteig-kastenkuchen",
     "titel": "Rührteig-Kastenkuchen",
-    "quelle": { "url": "https://www.lecker.de/ruehrteig-kastenkuchen-45014.html", "site": "lecker.de", "bewertung": 3.7, "anzahlBewertungen": 43 },
+    "quelle": {
+      "url": "https://www.lecker.de/ruehrteig-kastenkuchen-45014.html",
+      "site": "lecker.de",
+      "bewertung": 3.7,
+      "anzahlBewertungen": 43
+    },
     "archetyp": "ruehrteig",
     "variante": "kastenkuchen",
     "gefaess": "kastenform_30",
     "zutaten": [
-      { "rolle": "fett", "zutat": "butter", "menge": 250, "einheit": "g", "original": "250 g Butter oder Margarine" },
-      { "rolle": "aroma", "zutat": "vanillezucker", "menge": 1, "einheit": "pkt", "original": "1 Päckchen Vanillin-Zucker" },
-      { "rolle": "aroma", "zutat": "salz", "menge": 1, "einheit": "prise", "original": "1 Prise Salz" },
-      { "rolle": "suesse", "zutat": "zucker", "menge": 200, "einheit": "g", "original": "200 g Zucker" },
-      { "rolle": "bindung", "zutat": "ei", "menge": 4, "einheit": "stk", "original": "4 Eier (Gr. M)" },
-      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 350, "einheit": "g", "original": "350 g Mehl" },
-      { "rolle": "trieb", "zutat": "backpulver", "menge": 1, "einheit": "pkt", "original": "1 Päckchen Backpulver" },
-      { "rolle": "fluessigkeit", "zutat": "milch", "menge": 75, "einheit": "ml", "original": "75 ml Milch" }
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Butter oder Margarine"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Vanillin-Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier (Gr. M)"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 350,
+        "einheit": "g",
+        "original": "350 g Mehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Backpulver"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 75,
+        "einheit": "ml",
+        "original": "75 ml Milch"
+      }
     ],
     "methode": "creme",
     "ablauf": [
@@ -56,22 +167,62 @@
       "Ca. 15 Minuten abkühlen lassen, aus der Form stürzen, auf einem Kuchengitter auskühlen lassen",
       "Vor dem Servieren mit Puderzucker bestäuben"
     ],
-    "backen": { "tempOU": 175, "tempUmluft": 150, "minuten": 60, "original": "E-Herd: 175 °C / Umluft: 150 °C / Gas: Stufe 2, ca. 60 Minuten" },
+    "backen": {
+      "tempOU": 175,
+      "tempUmluft": 150,
+      "minuten": 60,
+      "original": "E-Herd: 175 °C / Umluft: 150 °C / Gas: Stufe 2, ca. 60 Minuten"
+    },
     "notizen": "Kastenform 30 cm Länge, 2 3/4 Liter Inhalt. Puderzucker zum Bestäuben nicht als Teigzutat erfasst."
   },
   {
     "id": "gutekueche-ruehrkuchen",
     "titel": "Rührkuchen",
-    "quelle": { "url": "https://www.gutekueche.at/ruehrkuchen-rezept-4960", "site": "gutekueche.at", "bewertung": 4.3, "anzahlBewertungen": 129 },
+    "quelle": {
+      "url": "https://www.gutekueche.at/ruehrkuchen-rezept-4960",
+      "site": "gutekueche.at",
+      "bewertung": 4.3,
+      "anzahlBewertungen": 129
+    },
     "archetyp": "ruehrteig",
     "variante": "kastenkuchen",
     "gefaess": "kastenform_unbekannt",
     "zutaten": [
-      { "rolle": "aroma", "zutat": "salz", "menge": 1, "einheit": "prise", "original": "1 Prise Salz" },
-      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 220, "einheit": "g", "original": "220 g Mehl" },
-      { "rolle": "suesse", "zutat": "puderzucker", "menge": 220, "einheit": "g", "original": "220 g Staubzucker" },
-      { "rolle": "fett", "zutat": "butter", "menge": 220, "einheit": "g", "original": "220 g Butter" },
-      { "rolle": "bindung", "zutat": "ei", "menge": 4, "einheit": "stk", "original": "4 Stk Eier" }
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 220,
+        "einheit": "g",
+        "original": "220 g Mehl"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "puderzucker",
+        "menge": 220,
+        "einheit": "g",
+        "original": "220 g Staubzucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 220,
+        "einheit": "g",
+        "original": "220 g Butter"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Stk Eier"
+      }
     ],
     "methode": "creme",
     "ablauf": [
@@ -82,25 +233,83 @@
       "Im vorgeheizten Backofen ca. 45-50 Min. bei 180 °C Ober-/Unterhitze backen",
       "In der Form auskühlen lassen, danach stürzen"
     ],
-    "backen": { "tempOU": 180, "tempUmluft": null, "minuten": 47.5, "original": "ca. 45-50 Min. bei 180° C Ober-/Unterhitze" },
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 47.5,
+      "original": "ca. 45-50 Min. bei 180° C Ober-/Unterhitze"
+    },
     "notizen": "Kastenform ohne Größenangabe. Pound-Cake-Typ: gleiche Teile Mehl/Zucker/Butter (220 g), ohne Backpulver und ohne Flüssigkeit; Staubzucker statt Kristallzucker."
   },
   {
     "id": "familienkost-ruehrkuchen-grundrezept",
     "titel": "Rührkuchen – das besonders einfache Grundrezept",
-    "quelle": { "url": "https://www.familienkost.de/rezept_grundrezept_fuer_schnellen_ruehrkuchen.html", "site": "familienkost.de", "bewertung": 5.0, "anzahlBewertungen": 124 },
+    "quelle": {
+      "url": "https://www.familienkost.de/rezept_grundrezept_fuer_schnellen_ruehrkuchen.html",
+      "site": "familienkost.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 124
+    },
     "archetyp": "ruehrteig",
     "variante": "kastenkuchen",
     "gefaess": "kastenform_25",
     "zutaten": [
-      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 250, "einheit": "g", "original": "250 g Weizenmehl" },
-      { "rolle": "fett", "zutat": "butter", "menge": 125, "einheit": "g", "original": "125 g Butter (weich)" },
-      { "rolle": "suesse", "zutat": "zucker", "menge": 125, "einheit": "g", "original": "125 g Zucker" },
-      { "rolle": "aroma", "zutat": "vanillezucker", "menge": 1, "einheit": "pkt", "original": "1 Päckchen Vanillezucker" },
-      { "rolle": "bindung", "zutat": "ei", "menge": 3, "einheit": "stk", "original": "3 Eier" },
-      { "rolle": "fluessigkeit", "zutat": "milch", "menge": 125, "einheit": "ml", "original": "125 ml Milch" },
-      { "rolle": "trieb", "zutat": "backpulver", "menge": 0.5, "einheit": "pkt", "original": "½ Päckchen Backpulver" },
-      { "rolle": "aroma", "zutat": "salz", "menge": 1, "einheit": "prise", "original": "1 Prise Salz" }
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Weizenmehl"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Butter (weich)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Vanillezucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 125,
+        "einheit": "ml",
+        "original": "125 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 0.5,
+        "einheit": "pkt",
+        "original": "½ Päckchen Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
     ],
     "methode": "creme",
     "ablauf": [
@@ -110,24 +319,76 @@
       "Im vorgeheizten Backofen bei 185 °C Ober-/Unterhitze 55 Minuten backen (Stäbchenprobe)",
       "Nach Belieben mit Schokoglasur, Zuckerguss oder Puderzucker verzieren"
     ],
-    "backen": { "tempOU": 185, "tempUmluft": null, "minuten": 55, "original": "185°C Ober-/ Unterhitze für 55 Minuten" },
+    "backen": {
+      "tempOU": 185,
+      "tempUmluft": null,
+      "minuten": 55,
+      "original": "185°C Ober-/ Unterhitze für 55 Minuten"
+    },
     "notizen": "Rezepttext: 'normale Kastenform'; laut Autorenantwort in den Kommentaren 25 cm lang. Vergleichsweise fett- und zuckerarm (je 125 g auf 250 g Mehl), viel Milch."
   },
   {
     "id": "zimtliebe-saftiger-ruehrkuchen-mit-oel",
     "titel": "Saftiger Rührkuchen - Schnell & einfach mit Öl",
-    "quelle": { "url": "https://zimtliebe.de/saftiger-ruehrkuchen-schnell-einfach-mit-oel/", "site": "zimtliebe.de", "bewertung": 5.0, "anzahlBewertungen": 7 },
+    "quelle": {
+      "url": "https://zimtliebe.de/saftiger-ruehrkuchen-schnell-einfach-mit-oel/",
+      "site": "zimtliebe.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 7
+    },
     "archetyp": "ruehrteig",
     "variante": "kastenkuchen",
     "gefaess": "kastenform_30",
     "zutaten": [
-      { "rolle": "bindung", "zutat": "ei", "menge": 5, "einheit": "stk", "original": "5 Eier" },
-      { "rolle": "suesse", "zutat": "zucker", "menge": 250, "einheit": "g", "original": "250 g Zucker" },
-      { "rolle": "aroma", "zutat": "vanillezucker", "menge": 1, "einheit": "pkt", "original": "1 Pck Vanillezucker" },
-      { "rolle": "fluessigkeit", "zutat": "milch", "menge": 175, "einheit": "ml", "original": "175 ml Milch" },
-      { "rolle": "fett", "zutat": "pflanzenoel", "menge": 175, "einheit": "ml", "original": "175 ml neutrales Pflanzenöl" },
-      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 350, "einheit": "g", "original": "350 g Mehl" },
-      { "rolle": "trieb", "zutat": "backpulver", "menge": 1, "einheit": "pkt", "original": "1 Pck Backpulver" }
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 5,
+        "einheit": "stk",
+        "original": "5 Eier"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pck Vanillezucker"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 175,
+        "einheit": "ml",
+        "original": "175 ml Milch"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 175,
+        "einheit": "ml",
+        "original": "175 ml neutrales Pflanzenöl"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 350,
+        "einheit": "g",
+        "original": "350 g Mehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pck Backpulver"
+      }
     ],
     "methode": "ruehroel",
     "ablauf": [
@@ -138,28 +399,104 @@
       "Teig einfüllen und auf der zweiten Schiene von unten goldbraun backen",
       "Nach dem Auskühlen mit Puderzucker bestäuben oder nach Belieben glasieren"
     ],
-    "backen": { "tempOU": 180, "tempUmluft": 160, "minuten": 52.5, "original": "50-55 Minuten, 180 °C Ober-/Unterhitze (160 °C Umluft)" },
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 52.5,
+      "original": "50-55 Minuten, 180 °C Ober-/Unterhitze (160 °C Umluft)"
+    },
     "notizen": "30 cm Kastenform. Öl statt Butter, kein Salz. Optionale Zitronenglasur (250 g Puderzucker, 1-3 EL Zitronensaft) nicht als Teigzutat erfasst. Bewertung auf der Seite als '5 von 7 Bewertungen' angezeigt (interpretiert als 5 Sterne bei 7 Stimmen)."
   },
   {
     "id": "herzelieb-schmandkuchen-kastenform",
     "titel": "Omas Schmandkuchen aus der Kastenform",
-    "quelle": { "url": "https://herzelieb.de/rezept-schmandkuchen-aus-der-kastenform-oma/", "site": "herzelieb.de", "bewertung": null, "anzahlBewertungen": null },
+    "quelle": {
+      "url": "https://herzelieb.de/rezept-schmandkuchen-aus-der-kastenform-oma/",
+      "site": "herzelieb.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
     "archetyp": "ruehrteig",
     "variante": "kastenkuchen",
     "gefaess": "kastenform_25",
     "zutaten": [
-      { "rolle": "aroma", "zutat": "orangenabrieb", "menge": 0.5, "einheit": "stk", "original": "1 unbehandelte Orange (Hälfte der Schale abgerieben)" },
-      { "rolle": "fluessigkeit", "zutat": "orangensaft", "menge": 0.5, "einheit": "stk", "original": "1 unbehandelte Orange (Saft einer Hälfte)" },
-      { "rolle": "fett", "zutat": "butter", "menge": 175, "einheit": "g", "original": "175 g zimmerwarme Butter" },
-      { "rolle": "suesse", "zutat": "zucker", "menge": 175, "einheit": "g", "original": "175 g Zucker" },
-      { "rolle": "aroma", "zutat": "salz", "menge": 2, "einheit": "g", "original": "2 g Salz" },
-      { "rolle": "bindung", "zutat": "ei", "menge": 3, "einheit": "stk", "original": "3 Eier (Größe M)" },
-      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 300, "einheit": "g", "original": "300 g Weizenmehl Typ 550" },
-      { "rolle": "aroma", "zutat": "vanillezucker", "menge": 1, "einheit": "tl", "original": "1 TL Vanillezucker" },
-      { "rolle": "trieb", "zutat": "backpulver", "menge": 1, "einheit": "pkt", "original": "1 Päckchen Backpulver" },
-      { "rolle": "fluessigkeit", "zutat": "schmand", "menge": 200, "einheit": "g", "original": "200 g Schmand" },
-      { "rolle": "fluessigkeit", "zutat": "milch", "menge": 100, "einheit": "ml", "original": "100 ml Milch" }
+      {
+        "rolle": "aroma",
+        "zutat": "orangenabrieb",
+        "menge": 0.5,
+        "einheit": "stk",
+        "original": "1 unbehandelte Orange (Hälfte der Schale abgerieben)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "orangensaft",
+        "menge": 0.5,
+        "einheit": "stk",
+        "original": "1 unbehandelte Orange (Saft einer Hälfte)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 175,
+        "einheit": "g",
+        "original": "175 g zimmerwarme Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 175,
+        "einheit": "g",
+        "original": "175 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 2,
+        "einheit": "g",
+        "original": "2 g Salz"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier (Größe M)"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 300,
+        "einheit": "g",
+        "original": "300 g Weizenmehl Typ 550"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Vanillezucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Backpulver"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "schmand",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Schmand"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 ml Milch"
+      }
     ],
     "methode": "creme",
     "ablauf": [
@@ -171,25 +508,83 @@
       "45 Minuten backen, nach 15 Minuten oben längs einschneiden",
       "Fertig bei Kerntemperatur 94 °C; mit Puderzucker bestäuben"
     ],
-    "backen": { "tempOU": 180, "tempUmluft": null, "minuten": 45, "original": "180 °C Ober-/Unterhitze, 45 Minuten" },
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 45,
+      "original": "180 °C Ober-/Unterhitze, 45 Minuten"
+    },
     "notizen": "25 cm Kastenform. Saure Flüssigkeit (200 g Schmand) plus Milch und Orangensaft; Salz in Gramm angegeben; Mehl Typ 550. Kurze Backzeit (45 Min.) mit Kerntemperatur-Angabe. Keine Sternebewertung auf der Seite gefunden."
   },
   {
     "id": "lecker-zitronen-joghurt-kuchen",
     "titel": "Zitronen-Joghurt-Kuchen",
-    "quelle": { "url": "https://www.lecker.de/zitronen-joghurt-kuchen-9209.html", "site": "lecker.de", "bewertung": 3.8, "anzahlBewertungen": 21 },
+    "quelle": {
+      "url": "https://www.lecker.de/zitronen-joghurt-kuchen-9209.html",
+      "site": "lecker.de",
+      "bewertung": 3.8,
+      "anzahlBewertungen": 21
+    },
     "archetyp": "ruehrteig",
     "variante": "kastenkuchen",
     "gefaess": "kastenform_25",
     "zutaten": [
-      { "rolle": "fett", "zutat": "butter", "menge": 125, "einheit": "g", "original": "125 g weiche Butter oder Margarine" },
-      { "rolle": "suesse", "zutat": "zucker", "menge": 200, "einheit": "g", "original": "250 g Zucker (davon 200 g im Teig, 50 g für den Sirup)" },
-      { "rolle": "bindung", "zutat": "ei", "menge": 2, "einheit": "stk", "original": "2 Eier (Gr. M)" },
-      { "rolle": "struktur", "zutat": "weizenmehl", "menge": 275, "einheit": "g", "original": "275 g Mehl" },
-      { "rolle": "trieb", "zutat": "backpulver", "menge": 2, "einheit": "tl", "original": "2 TL Backpulver" },
-      { "rolle": "fluessigkeit", "zutat": "joghurt", "menge": 250, "einheit": "g", "original": "250 g Vollmilchjoghurt" },
-      { "rolle": "fluessigkeit", "zutat": "zitronensaft", "menge": 3, "einheit": "el", "original": "6 EL Zitronensaft (davon 3 EL im Teig, 3 EL für den Sirup)" },
-      { "rolle": "aroma", "zutat": "zitronenabrieb", "menge": 1, "einheit": "stk", "original": "abgeriebene Schale von 1 unbehandelten Zitrone" }
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g weiche Butter oder Margarine"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "250 g Zucker (davon 200 g im Teig, 50 g für den Sirup)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier (Gr. M)"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 275,
+        "einheit": "g",
+        "original": "275 g Mehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Backpulver"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "joghurt",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Vollmilchjoghurt"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 3,
+        "einheit": "el",
+        "original": "6 EL Zitronensaft (davon 3 EL im Teig, 3 EL für den Sirup)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "abgeriebene Schale von 1 unbehandelten Zitrone"
+      }
     ],
     "methode": "creme",
     "ablauf": [
@@ -201,7 +596,751 @@
       "Ca. 10 Minuten abkühlen lassen; 50 g Zucker, 120 ml Wasser, 3 EL Zitronensaft und Zesten aufkochen, ca. 4 Minuten köcheln",
       "Kuchen mit dem heißen Sirup beträufeln und auskühlen lassen"
     ],
-    "backen": { "tempOU": 175, "tempUmluft": 150, "minuten": 57.5, "original": "E-Herd: 175 °C / Umluft: 150 °C / Gas: Stufe 2, 55-60 Minuten" },
+    "backen": {
+      "tempOU": 175,
+      "tempUmluft": 150,
+      "minuten": 57.5,
+      "original": "E-Herd: 175 °C / Umluft: 150 °C / Gas: Stufe 2, 55-60 Minuten"
+    },
     "notizen": "Kastenform 25 cm Länge, 1,5 Liter Inhalt. Saure Flüssigkeit (250 g Joghurt) plus Zitronensaft; nur 2 Eier und 125 g Fett bei 275 g Mehl, dafür hoher Zuckeranteil. Zitronensirup (50 g Zucker, 120 ml Wasser, 3 EL Zitronensaft) zum Tränken nicht als Teigzutat erfasst."
+  },
+  {
+    "id": "essen-und-trinken-double-chocolate-kastenkuchen",
+    "titel": "Double-Chocolate-Kastenkuchen",
+    "quelle": {
+      "url": "https://www.essen-und-trinken.de/rezepte/55215-rzpt-double-chocolate-kastenkuchen",
+      "site": "essen-und-trinken.de",
+      "bewertung": null,
+      "anzahlBewertungen": 125
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_30",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 190,
+        "einheit": "g",
+        "original": "190 g Mehl"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Butter (weich)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Bio-Eier (Kl. M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "saure_sahne",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g saure Sahne"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "kakao",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g Kakaopulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "schokolade",
+        "menge": 300,
+        "einheit": "g",
+        "original": "200 g Zartbitterkuvertüre (geschmolzen) + 100 g Zartbitterschokolade (gehackt)"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Kuvertüre schmelzen, übrige Schokolade hacken.",
+      "Butter, Zucker und Salz cremig rühren, Eier einzeln unterrühren.",
+      "Geschmolzene Kuvertüre kurz einarbeiten.",
+      "Mehl, Kakao, Backpulver und gehackte Schokolade abwechselnd mit der sauren Sahne nur kurz unterrühren.",
+      "Auf der untersten Schiene backen."
+    ],
+    "backen": {
+      "tempOU": 175,
+      "tempUmluft": 150,
+      "minuten": 77.5,
+      "original": "175 °C, Umluft 150 °C, unterste Schiene, 75-80 Min."
+    },
+    "stueckzahl": 15,
+    "notizen": "Sehr schokoladig: geschmolzene Kuvertüre im Teig plus Schokostücke, dazu saure Sahne als Feuchtigkeitsgeber. Mandelblättchen (50 g, im Teig) sind nicht erfasst; Sahne und Lemon Curd sind nur Beilage."
+  },
+  {
+    "id": "kuechengoetter-ruck-zuck-kuchen",
+    "titel": "Ruck-zuck-Kuchen",
+    "quelle": {
+      "url": "https://www.kuechengoetter.de/rezepte/ruck-zuck-kuchen-80409",
+      "site": "kuechengoetter.de",
+      "bewertung": null,
+      "anzahlBewertungen": 103
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_unbekannt",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 65,
+        "einheit": "g",
+        "original": "65 g Mehl (Type 405)"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "speisestaerke",
+        "menge": 65,
+        "einheit": "g",
+        "original": "65 g Speisestärke"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 140,
+        "einheit": "g",
+        "original": "140 g geschmacksneutrales Öl (z.B. Sonnenblumen- oder Rapsöl)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 130,
+        "einheit": "g",
+        "original": "130 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier (Größe M)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Backpulver (7 g)"
+      }
+    ],
+    "methode": "ruehroel",
+    "ablauf": [
+      "Alle Zutaten in eine Schüssel geben.",
+      "Etwa 10 Minuten auf kleiner Stufe zu einem glatten Teig rühren.",
+      "In die vorbereitete Form füllen, nach ca. 15 Minuten die Oberfläche längs einritzen.",
+      "Mit Trampolin- und Messerprobe prüfen, kurz ruhen lassen und stürzen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 37.5,
+      "original": "Vorheizen auf 220 °C, nach dem Einschieben auf 180 °C reduzieren, Mitte, 35-40 Min."
+    },
+    "stueckzahl": 12,
+    "notizen": "Extrem schlichter Ein-Schüssel-Teig mit viel Öl und halb Mehl, halb Stärke, ohne Milch oder Joghurt; die Krume wird dadurch fein. Kleine Form (20 cm, 1 l), daher kleine Teigmenge; Ofen wird nach dem Einschieben von 220 auf 180 °C gesenkt."
+  },
+  {
+    "id": "kochbar-saftiger-heidelbeerkuchen-schmand",
+    "titel": "Saftiger Heidelbeerkuchen (Kastenform)",
+    "quelle": {
+      "url": "https://www.kochbar.de/rezept/518213/Saftiger-Heidelbeerkuchen.html",
+      "site": "kochbar.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 6
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 175,
+        "einheit": "g",
+        "original": "175 g Mehl"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g Butter, weich"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "schmand",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Schmand"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Zitronenschale, gerieben"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "blaubeeren",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Heidelbeeren, frisch"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Butter, Zucker, Zitronenschale und Salz schaumig schlagen, Eier einzeln unterrühren.",
+      "Mehl mit Backpulver mischen und abwechselnd mit dem Schmand unterrühren.",
+      "Beeren vorsichtig unterheben.",
+      "In der Form im unteren Ofendrittel backen und in der Form abkühlen lassen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 60,
+      "original": "180 °C, Umluft 160 °C, unteres Drittel, ca. 60 Min."
+    },
+    "stueckzahl": 10,
+    "notizen": "Kleiner Teig (nur 2 Eier) mit Schmand als Hauptflüssigkeit und frischen Beeren. Kommentare melden gesunkene Beeren; Tipp: vorher in Mehl wälzen. Puderzuckerglasur und Deko-Beeren sind nicht erfasst."
+  },
+  {
+    "id": "eat-saftiger-marmorkuchen-mit-oel",
+    "titel": "Saftiger Marmorkuchen mit Öl: ganz ohne Butter",
+    "quelle": {
+      "url": "https://eat.de/rezept/saftiger-marmorkuchen-mit-oel/",
+      "site": "eat.de",
+      "bewertung": 4.9,
+      "anzahlBewertungen": 84
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Weizenmehl Typ 405"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 120,
+        "einheit": "ml",
+        "original": "120 ml Sonnenblumenöl"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 120,
+        "einheit": "ml",
+        "original": "120 ml Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 3,
+        "einheit": "tl",
+        "original": "3 TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "kakao",
+        "menge": 15,
+        "einheit": "g",
+        "original": "15 g Backkakao (in halben Teig)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "Prise Salz"
+      }
+    ],
+    "methode": "ruehroel",
+    "ablauf": [
+      "Eier trennen, Eiweiß steif schlagen.",
+      "Eigelb mit Zucker, Salz, Vanillezucker, Öl und Wasser schaumig schlagen.",
+      "Mehl und Backpulver unterrühren, Eischnee unterheben.",
+      "Teig halbieren, eine Hälfte mit Kakao färben, abwechselnd einfüllen und mit der Gabel marmorieren."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 50,
+      "original": "180 °C Ober-/Unterhitze, mittlere Schiene, ca. 50 Min."
+    },
+    "stueckzahl": null,
+    "notizen": "Öl und Wasser statt Butter und Milch; Eiweiß wird separat als Schnee untergehoben, das macht die Krume besonders locker. Kakao nur im halben Teig (Marmorierung); Schokoglasur ist nicht erfasst."
+  },
+  {
+    "id": "marions-kochbuch-rosinenkuchen-margarine",
+    "titel": "Rosinen Kuchen",
+    "quelle": {
+      "url": "https://www.marions-kochbuch.de/rezept/0388.htm",
+      "site": "marions-kochbuch.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Weizenmehl Type 405"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "margarine",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Margarine"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 0.5,
+        "einheit": "pkt",
+        "original": "1/2 Pkt Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pkt Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "rum",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Rum"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Rosinen"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Margarine, Zucker und Vanillezucker schaumig rühren, Eier nach und nach unterrühren.",
+      "Mehl, Backpulver und Salz mischen und einrühren.",
+      "Milch und Rum zugeben, Rosinen unterheben.",
+      "Etwa 55 Minuten backen, stürzen und abkühlen lassen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 55,
+      "original": "180 °C (ohne Angabe Ober-/Unterhitze oder Umluft), mittlere Schiene, 55 Min."
+    },
+    "stueckzahl": null,
+    "notizen": "Klassischer Rosinenkuchen mit Margarine und wenig Flüssigkeit; Rosinen machen 200 g auf 250 g Mehl aus (hoher Einlageanteil). Seite zeigt keine Bewertung."
+  },
+  {
+    "id": "backenmitleidenschaft-marmor-kastenkuchen-buttermilch",
+    "titel": "Marmor-Kastenkuchen mit Buttermilch",
+    "quelle": {
+      "url": "https://backenmitleidenschaft.com/2023/12/17/marmor-kastenkuchen-mit-buttermilch/",
+      "site": "backenmitleidenschaft.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_unbekannt",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Weizenmehl 405"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "speisestaerke",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Speisestärke"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 180,
+        "einheit": "g",
+        "original": "180 g weiche Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier (Gr. M-L)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 160,
+        "einheit": "g",
+        "original": "160 g Buttermilch"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Milch (in den Kakaoteil)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 12,
+        "einheit": "g",
+        "original": "12 g Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 30,
+        "einheit": "g",
+        "original": "20 g Vanillezucker + 10 g Vanillezucker (Kakaoteil)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "kakao",
+        "menge": 35,
+        "einheit": "g",
+        "original": "35 g Kakaopulver (dunkel, Backkakao)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Pr Salz"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Butter mit Zucker und Vanillezucker aufschlagen, Eier einzeln einrühren, dann die Buttermilch.",
+      "Mehl, Stärke, Backpulver und Salz einsieben und nur kurz unterheben.",
+      "Etwa ein Drittel des Teigs mit Kakao, Vanillezucker und Milch färben.",
+      "Hellen und dunklen Teig einfüllen und mit der Gabel marmorieren.",
+      "Backen, nach ca. 35 Minuten mit Backpapier abdecken."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 45,
+      "original": "180 °C Ober-/Unterhitze, mittlere Schiene, ca. 45 Min."
+    },
+    "stueckzahl": null,
+    "notizen": "Buttermilch wird direkt nach den Eiern eingerührt, nicht abwechselnd mit dem Mehl; mit nur 80 g Zucker bei 180 g Butter auffallend wenig süß. Blog ohne Bewertungen, Formgröße nicht genannt."
+  },
+  {
+    "id": "einfachmalene-zitronenkuchen-joghurt-kastenform",
+    "titel": "Einfacher saftiger Zitronenkuchen mit Joghurt",
+    "quelle": {
+      "url": "https://www.einfachmalene.de/saftiger-zitronenkuchen-kastenkuchen/",
+      "site": "einfachmalene.de",
+      "bewertung": 4.9,
+      "anzahlBewertungen": 230
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_30",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 240,
+        "einheit": "g",
+        "original": "240 g Mehl"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g neutrales Pflanzenöl (Raps- oder Sonnenblumenöl)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "joghurt",
+        "menge": 220,
+        "einheit": "g",
+        "original": "220 g griechischer Joghurt, cremig und nicht zu flüssig"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL (Weinstein-)Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 3,
+        "einheit": "el",
+        "original": "3 EL Abrieb der Zitronenschale (ca. 2-3 Zitronen)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "1/2 TL Salz"
+      }
+    ],
+    "methode": "ruehroel",
+    "ablauf": [
+      "Eier, Zucker und Joghurt verrühren, bis sich der Zucker löst.",
+      "Öl und Zitronenabrieb unterrühren.",
+      "Mehl, Backpulver und Salz mischen und nur kurz unterheben.",
+      "Backen, bei zu starker Bräunung abdecken; in der Form abkühlen lassen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 50,
+      "original": "180 °C Ober-/Unterhitze, mindestens 50 Min."
+    },
+    "stueckzahl": null,
+    "notizen": "Wenig Öl (80 g), dafür viel Joghurt und reichlich Zitronenabrieb; Eier und Zucker werden mit dem Joghurt aufgeschlagen statt Fett cremig zu rühren. Nicht erfasst: Zitronensaft einer Zitrone, Zitronenaroma (4 Tropfen) und Zuckerguss."
+  },
+  {
+    "id": "the-inspiring-life-ruehrkuchen-mit-schokostueckchen",
+    "titel": "Saftiger Rührkuchen mit Schokostückchen",
+    "quelle": {
+      "url": "https://www.the-inspiring-life.com/2019/10/saftiger-ruehrkuchen-mit-schokostueckchen.html",
+      "site": "the-inspiring-life.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_unbekannt",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Mehl (Type 405)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanilleextrakt",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Vanilleextrakt"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "schokolade",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Schokotröpfchen"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Butter, Zucker, Vanillezucker und Vanilleextrakt schaumig schlagen, Eier cremig einrühren.",
+      "Mehl mit Backpulver mischen, zur Hälfte einrühren, dann die halbe Milch zugeben.",
+      "Restliches Mehl und restliche Milch einarbeiten.",
+      "Schokotröpfchen unterheben, einfüllen und backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": 180,
+      "minuten": 55,
+      "original": "180 °C Umluft, 50-60 Min., Stäbchenprobe nach 50 Min."
+    },
+    "stueckzahl": null,
+    "notizen": "Sehr große Teigmenge (500 g Mehl, 250 g Butter); laut Kommentaren passt sie nur in eine 30-cm-Form (2/3 gefüllt) und die Mitte war teils noch roh. Blog ohne Bewertungen; Schokoglasur nicht erfasst."
   }
 ]
