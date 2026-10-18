@@ -21,7 +21,8 @@ c=compute(st('muffin',{struktur:E('speisestaerke')}),data,ks); show('Muffin Stä
 // T43 integriert: wenig Stärke im Mehl (15 : 1, 7 : 1) erzeugt keine Korpus-Meldung mehr, 1 : 1 weiterhin
 const mix=(a,b)=>[{zutat:'weizenmehl',anteil:a},{zutat:'speisestaerke',anteil:b}];
 const korpusMeldung=(cc)=>[...cc.toleranzHinweise,...cc.warnungen.filter(w=>/Korpus-Rezepte/.test(w))];
-ok([15,7].every(a=>korpusMeldung(compute(st('kastenkuchen',{struktur:mix(a,1)}),data,ks)).filter(t=>/Klebereiweiß|Stärke/.test(t)).length===0),'T43: Kastenkuchen mit 15 : 1 und 7 : 1 Mehl : Stärke ohne Klebereiweiß-/Stärke-Meldung');
+ok(korpusMeldung(compute(st('kastenkuchen',{struktur:mix(15,1)}),data,ks)).filter(t=>/Klebereiweiß|Stärke/.test(t)).length===0,'T43: Kastenkuchen mit 15 : 1 Mehl : Stärke (Klebereiweiß −6 %) ohne Klebereiweiß-/Stärke-Meldung');
+{const m=korpusMeldung(compute(st('kastenkuchen',{struktur:mix(7,1)}),data,ks)); ok(m.some(t=>/Klebereiweiß/.test(t)) && !m.some(t=>/außerhalb aller/.test(t)),'T48: 7 : 1 (Klebereiweiß −12 %) → nur ein Hinweis „untypisch“, keine Warnung „ungetestet“');}
 ok(korpusMeldung(compute(st('muffin',{struktur:mix(1,1)}),data,ks)).some(t=>/Klebereiweiß/.test(t)),'T43: Muffin mit 1 : 1 Mehl : Stärke meldet Klebereiweiß weiterhin');
 // Synthetic Grenzen-Test
 const { grenzenPruefen, bilanz, toleranz } = await import(P+'model/bilanz.js');
@@ -36,8 +37,10 @@ ok(toleranz(5,{n:2,min:1,q1:2,q3:3,max:4})===null,'Toleranz n<3 → null');
 ok(toleranz(50,{n:5,min:10,q1:20,q3:30,max:40})==='ausserhalb_spanne' && toleranz(35,{n:5,min:10,q1:20,q3:30,max:40})==='ausserhalb_q' && toleranz(25,{n:5,min:10,q1:20,q3:30,max:40})==='typisch','Toleranz-Stufen');
 // T43: Mindestbreite — alle Rezepte gleich (Klebereiweiß 8,0 %) macht jede Abweichung nicht „ungetestet“
 const eng={n:15,min:8,q1:8,median:8,q3:8,max:8};
-ok(toleranz(7.5,eng)==='typisch' && toleranz(7.0,eng)==='typisch','T43: 7,5 % und 7,0 % bei Korpus 8,0–8,0 → typisch (±15 %)');
-ok(toleranz(6.4,eng)==='ausserhalb_q' && toleranz(4.0,eng)==='ausserhalb_spanne','T43: 6,4 % → Hinweis (−20 %), 4,0 % → ungetestet (−50 %)');
+ok(toleranz(7.5,eng)==='typisch' && toleranz(7.7,eng)==='typisch','T43/T48: 7,5 % (−6 %) und 7,7 % bei Korpus 8,0–8,0 → typisch (±5 % sicher, bis ±10 % üblich)');
+ok(toleranz(7.3,eng)==='typisch' && toleranz(7.0,eng)==='ausserhalb_q','T43/T48: −9 % noch üblich, 7,0 % (−12,5 %) → Hinweis');
+ok(toleranz(6.0,eng)==='ausserhalb_spanne' && toleranz(4.0,eng)==='ausserhalb_spanne' && toleranz(6.5,eng)==='ausserhalb_q','T43/T48: −25 % und −50 % → ungetestet, −19 % → nur Hinweis');
+ok(toleranz(7.0,{n:1,min:8,q1:8,median:8,q3:8,max:8},1)==='ausserhalb_q' && toleranz(7.5,{n:1,min:8,q1:8,median:8,q3:8,max:8},1)==='typisch' && toleranz(7.0,{n:1,min:8,q1:8,median:8,q3:8,max:8})===null,'T48: ein einzelnes Rezept (n = 1) ist Referenz, wenn minN = 1 gesetzt ist; mit Standard-minN bleibt es unbewertet');
 ok(toleranz(0.9,{n:15,min:1,q1:1.1,median:4.7,q3:10.9,max:16})==='typisch','T43: absolute Untergrenze 0,5 Punkte (Fett 0,9 % statt min. 1,0 %)');
 ok(toleranz(5,{n:5,min:1,q1:2,q3:3,max:4})==='ausserhalb_spanne','T43: ohne median im Eingang (alte Aufrufer) wird die Mitte aus Q1/Q3 genommen');
 console.log(fail? `\n${fail} FAIL`:'\nALL PASS');

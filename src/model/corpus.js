@@ -60,7 +60,9 @@ export function normalizeRecipe(recipe, ingredients, { rollen = ROLLEN, referenz
 }
 
 // Ab so vielen Rezepten einer Methode rechnet die Engine deren eigene Mediane statt des Variantenmedians (T48).
-export const MIN_N_METHODE = 5;
+// 1: ein geprüftes Rezept der Methode schlägt jeden Median fremder Methoden (Nutzer-Vorgabe 2026-10-18); die
+// Streuung fängt das Toleranzband in bilanz.js ab.
+export const MIN_N_METHODE = 1;
 
 export function stats(normalized, rollen = ROLLEN, { proMethode = true } = {}) {
   const n = normalized.length;

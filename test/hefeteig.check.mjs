@@ -42,7 +42,7 @@ for (const [vk,erwartet] of [['weissbrot','hefe_direkt'],['hefezopf','hefe_direk
   const c=compute(st(vk),data,ks);
   ok(c.status!=='invalid' && c.methodKey===erwartet,`${vk}: gültig, Methode ${c.methodKey}`);
   ok(c.varianteLabel===arch.varianten[vk].label && c.backen.tempOU>0 && c.backen.minuten>0,`${vk}: ${c.backen.tempOU} °C O/U · ${c.backen.minuten} Min.`);
-  ok([...c.warnungen,...c.gruende].length===0,`${vk}: Preset ohne Meldung${[...c.warnungen,...c.gruende].length?': '+[...c.warnungen,...c.gruende].join(' | '):''}`);
+  ok([...c.warnungen,...c.gruende,...c.toleranzHinweise].length===0,`${vk}: Preset ohne Meldung${[...c.warnungen,...c.gruende,...c.toleranzHinweise].length?': '+[...c.warnungen,...c.gruende,...c.toleranzHinweise].join(' | '):''}`);
   ok(c.ablauf.at(-1).key==='backen' && c.ablauf.some(s=>s.key==='gehen'&&s.typ==='warten') && c.ablauf.some(s=>s.key==='kneten'),`${vk}: Ablauf ${c.ablauf.map(s=>s.key).join(' → ')}`);
   ok(c.zeit.warten>=60 && c.zeit.gesamt>=c.zeit.aktiv,`${vk}: Zeit gesamt ${c.zeit.gesamt} Min. (aktiv ${c.zeit.aktiv}, warten ${c.zeit.warten})`);
   const hefe=c.zutatenListe.find(z=>z.rolle==='trieb');
@@ -63,7 +63,7 @@ const hefeM=(v,m)=>zelle(v,m).bp.trieb.median;
 const hefe=(cc)=>cc.rollenBp.trieb.bp;
 const direkt=compute({...st('weissbrot'),methode:'hefe_direkt'},data,ks);
 const vor=compute({...st('weissbrot'),methode:'hefe_vorteig'},data,ks);
-ok(MIN_N_METHODE===5 && Object.keys(ks.weissbrot.proMethode).sort().join()==='hefe_direkt,hefe_noknead,hefe_vorteig' && Object.keys(ks.hefezopf.proMethode).sort().join()==='hefe_direkt,hefe_kalt,hefe_vorteig' && Object.values(ks.weissbrot.proMethode).every(s=>Object.keys(s.proMethode).length===0),'stats(): Zellen nur ab 5 Rezepten (Zopf ohne Kneten n = 2 fehlt), Zellen ohne Verschachtelung');
+ok(MIN_N_METHODE===1 && Object.keys(ks.weissbrot.proMethode).sort().join()==='hefe_direkt,hefe_noknead,hefe_vorteig' && Object.keys(ks.hefezopf.proMethode).sort().join()==='hefe_direkt,hefe_kalt,hefe_noknead,hefe_vorteig' && Object.values(ks.weissbrot.proMethode).every(s=>Object.keys(s.proMethode).length===0),'stats(): jede Methode mit mindestens einem Rezept bildet eine Zelle (Weißbrot kalt n = 0 fehlt), Zellen ohne Verschachtelung');
 ok(hefeM('weissbrot','hefe_direkt')>1.5*ks.weissbrot.bp.trieb.median,`Voraussetzung: im Weißbrot weicht die Hefe der direkten Führung (${hefeM('weissbrot','hefe_direkt').toFixed(1)} %) deutlich vom Variantenmedian (${ks.weissbrot.bp.trieb.median.toFixed(1)} %) ab`);
 ok(Math.abs(hefe(direkt)-hefeM('weissbrot','hefe_direkt'))<1e-9 && Math.abs(hefe(vor)-hefeM('weissbrot','hefe_vorteig'))<1e-9 && Math.abs(hefe(c)-hefeM('weissbrot','hefe_noknead'))<1e-9,`Weißbrot: Hefe je Methode aus deren Rezepten (direkt ${hefe(direkt).toFixed(1)} %, Vorteig ${hefe(vor).toFixed(1)} %, ohne Kneten ${hefe(c).toFixed(1)} %)`);
 ok(hefe(c)<0.6*hefe(direkt),'Weißbrot ohne Kneten braucht deutlich weniger Hefe als direkte Führung');
@@ -71,7 +71,7 @@ ok(direkt.korpusNMethode===10 && vor.korpusNMethode===5 && c.korpusNMethode===7 
 const kaltW=compute({...st('weissbrot'),methode:'hefe_kalt'},data,ks);
 ok(kaltW.korpusNMethode===null && Math.abs(hefe(kaltW)-ks.weissbrot.bp.trieb.median)<1e-9,'Methode ohne genug Rezepte (Weißbrot kalt n = 0): Rückfall auf den Variantenmedian');
 const zopfNK=compute({...st('hefezopf'),methode:'hefe_noknead'},data,ks);
-ok(zopfNK.korpusNMethode===null && Math.abs(hefe(zopfNK)-ks.hefezopf.bp.trieb.median)<1e-9,'Zopf ohne Kneten (n = 2 < 5): Rückfall auf die Variante statt eines geratenen Faktors');
+ok(zopfNK.korpusNMethode===2 && Math.abs(hefe(zopfNK)-hefeM('hefezopf','hefe_noknead'))<1e-9 && hefe(zopfNK)>4,`Zopf ohne Kneten (n = 2): die zwei Rezepte zählen (${hefe(zopfNK).toFixed(1)} % Hefe, kalt über Nacht), kein geratener Faktor`);
 ok(c.anpassungen.length===0 && !c.toleranzHinweise.some(h=>/Hefe/.test(h)),'ohne Kneten: keine Anpassungstexte, kein „untypisch“-Hinweis zur Hefe');
 const gr=data.grenzen.archetypen.hefeteig.find(g=>g.id==='hf_hefe_band');
 ok(hefe(c)>=gr.min && !c.warnungen.some(w=>w.includes('Hefe')),`ohne Kneten: Hefe ${hefe(c).toFixed(1)} % liegt im Band ${gr.min}–${gr.max} %, keine Warnung`);

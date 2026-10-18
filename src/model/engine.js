@@ -48,8 +48,8 @@ export function compute(state, data, korpusStats) {
   const methodKey = state.methode && evals[state.methode] ? state.methode : bestMethod(evals, st.methoden, state.gefaess, data);
   const res = evals[methodKey];
   const method = data.methods[methodKey];
-  // Mengen aus den Rezepten dieser Methode, wenn es genug gibt (T48); Backzeit, Toleranz und Öl-Deckung
-  // bleiben auf der ganzen Variante, denn sie beschreiben Gefäß bzw. „was der Korpus überhaupt kennt“.
+  // Mengen aus den Rezepten dieser Methode, wenn es welche gibt (T48); Backzeit, Toleranz-Vergleich und
+  // Öl-Deckung bleiben auf der ganzen Variante (Gefäß bzw. „was der Korpus überhaupt kennt“).
   const stM = st.proMethode?.[methodKey] ?? null;
   const stRolle = stM ?? st;
   const props = propsOf(state.zutaten, data.ingredients);
@@ -118,6 +118,8 @@ export function compute(state, data, korpusStats) {
   // die Bilanz-Tabelle markiert sie weiter, nur der Zusatztext entfällt (T42).
   const hatGrenzverletzung = verletzt.hart.length + verletzt.empfohlen.length > 0;
   const bilanzZeilen = Object.keys(GROESSEN).map((g) => {
+    // Toleranz gegen die ganze Variante: die Preset-Zutaten (bestof) gelten je Variante, nicht je Methode —
+    // gegen eine kleine Methoden-Zelle meldete schon das Standard-Preset „untypisch“.
     const korpus = st.bilanz?.[g] ?? null;
     const t = toleranz(bil.bp[g], korpus);
     if (!hatGrenzverletzung && !groessenMitGrenze.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
