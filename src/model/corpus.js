@@ -53,6 +53,7 @@ export function normalizeRecipe(recipe, ingredients, { rollen = ROLLEN, referenz
     bp,
     teigmasse,
     bilanz: bilanz(posten, ingredients, referenz),
+    posten,
     fettTyp,
     sauer,
     hatEinlage: rollenGramm.einlage > 0,
@@ -121,6 +122,7 @@ export function stats(normalized, rollen = ROLLEN, { proMethode = true, gewichte
       return acc;
     }, {});
 
+  const count1 = (fn) => normalized.reduce((acc, r) => { for (const k of fn(r)) acc[k] = (acc[k] || 0) + 1; return acc; }, {}); // je Rezept mehrere Schlüssel
   return {
     n,
     bp: Object.fromEntries(rollen.map((r) => [r, summarizeQ(normalized, (x) => x.bp[r], gewichtet)])),
@@ -130,6 +132,10 @@ export function stats(normalized, rollen = ROLLEN, { proMethode = true, gewichte
     fluessigkeitZutat: count((r) => (r.zutaten || []).find((z) => z.rolle === 'fluessigkeit')?.zutat ?? '—'),
     einlageZutat: count((r) => (r.zutaten || []).find((z) => z.rolle === 'einlage')?.zutat ?? '—'),
     sauer: normalized.filter((r) => r.sauer).length,
+    // Vergleichsbasis (T67): in wie vielen Rezepten kommt eine Zutat, eine Rolle, eine Bilanz-Größe überhaupt vor?
+    zutaten: count1((r) => [...new Set((r.zutaten || []).map((z) => z.zutat))]),
+    rollenBelegt: Object.fromEntries(rollen.map((ro) => [ro, normalized.filter((r) => r.rollenGramm?.[ro] > 0).length])),
+    bilanzBelegt: Object.fromEntries(Object.keys(GROESSEN).map((g) => [g, normalized.filter((r) => r.bilanz?.bp[g] > 0).length])),
     cluster: clusterBilden(normalized),
     // Gär-Temperaturen, die Rezepte ausdrücklich nennen (T52, rohe Angaben — die Engine löst sie mit temperaturen.json auf):
     // nennt über die Hälfte eine, gilt deren Median statt der Vorgabe der Operation.

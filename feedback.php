@@ -18,6 +18,8 @@ const FEEDBACK_LIMIT_15MIN    = 30;      // Meldungen je 15-Minuten-Fenster insg
 const FEEDBACK_TAGESLIMIT     = 500;     // Meldungen pro Tag insgesamt
 const FEEDBACK_MAX_DATEI      = 5242880; // 5 MB
 const FEEDBACK_DATEN_DIR      = __DIR__ . '/feedback-data';
+// Prozessfehler zum Ankreuzen (T66); dieselbe Liste wie PROZESS_FEHLER in src/model/rueckmeldung.js
+const FEEDBACK_PROZESS        = ['zu_lange_geruehrt', 'tuer_frueh_geoeffnet', 'ofen_zu_heiss', 'ofen_zu_kalt', 'zutaten_zu_kalt'];
 
 function fb_text($v, int $max): ?string {
     if (!is_string($v) || !mb_check_encoding($v, 'UTF-8')) return null;
@@ -41,6 +43,10 @@ function fb_pruefe(array $m): array {
     $kommentar = fb_text($m['kommentar'] ?? '', FEEDBACK_MAX_KOMMENTAR);
     if ($kommentar === null) return [null, 'kommentar'];
     if (!is_bool($m['mengenWieVorgeschlagen'] ?? null)) return [null, 'mengen'];
+    // Angekreuzte Prozessfehler (T66): nur bekannte Schlüssel, höchstens einmal; ältere Clients senden das Feld nicht
+    $prozess = $m['prozess'] ?? [];
+    if (!is_array($prozess) || !array_is_list($prozess) || count($prozess) > count(FEEDBACK_PROZESS)) return [null, 'prozess'];
+    foreach ($prozess as $p) if (!is_string($p) || !in_array($p, FEEDBACK_PROZESS, true)) return [null, 'prozess'];
     $app = fb_text($m['app'] ?? 'lokal', 40);
     $k = $m['kontext'] ?? null;
     if ($app === null || !is_array($k)) return [null, 'kontext'];
@@ -135,6 +141,7 @@ function fb_pruefe(array $m): array {
         'bewertung' => $b,
         'kommentar' => $kommentar,
         'mengenWieVorgeschlagen' => $m['mengenWieVorgeschlagen'],
+        'prozess' => array_values(array_unique($prozess)),
         'app' => $app,
         'kontext' => $kontext,
     ], null];

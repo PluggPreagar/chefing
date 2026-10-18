@@ -85,6 +85,18 @@ $u = gut(); $u['kontext']['zutaten'] = ['struktur' => [['zutat' => 'mehl', 'ante
 ok(post($u, $d)[0] === 400, 'Anteil muss eine Zahl sein');
 $u = gut(); $u['kontext']['warnungen'] = array_fill(0, 13, 'w');
 ok(post($u, $d)[0] === 400, 'mehr als 12 Warnungen → 400');
+// Prozessfehler zum Ankreuzen (T66)
+ok(FEEDBACK_PROZESS === ['zu_lange_geruehrt', 'tuer_frueh_geoeffnet', 'ofen_zu_heiss', 'ofen_zu_kalt', 'zutaten_zu_kalt'], 'Prozessfehler: fünf bekannte Schlüssel (wie PROZESS_FEHLER im Client)');
+$dp = tmpdir();
+[$s, $a] = post(gut(['prozess' => ['ofen_zu_heiss', 'zu_lange_geruehrt', 'ofen_zu_heiss']]), $dp);
+$ep = json_decode($zeilen($dp)[0] ?? 'null', true);
+ok($s === 200 && $ep['prozess'] === ['ofen_zu_heiss', 'zu_lange_geruehrt'], 'bekannte Schlüssel werden gespeichert, doppelte nur einmal');
+[$s] = post(gut(), $dp);
+$ep2 = json_decode($zeilen($dp)[1] ?? 'null', true);
+ok($s === 200 && $ep2['prozess'] === [], 'ohne das Feld (ältere Clients): angenommen, leere Liste gespeichert');
+ok(post(gut(['prozess' => ['gibtsnicht']]), $dp)[0] === 400 && post(gut(['prozess' => 'ofen_zu_heiss']), $dp)[0] === 400 && post(gut(['prozess' => ['a' => 'ofen_zu_heiss']]), $dp)[0] === 400 && post(gut(['prozess' => [1]]), $dp)[0] === 400 && post(gut(['prozess' => ['ofen_zu_heiss', null]]), $dp)[0] === 400, 'unbekannter Schlüssel, Text, Objekt, Zahl, null in der Liste → 400');
+ok(post(gut(['prozess' => ['zu_lange_geruehrt', 'tuer_frueh_geoeffnet', 'ofen_zu_heiss', 'ofen_zu_kalt', 'zutaten_zu_kalt']]), $dp)[0] === 200 && post(gut(['prozess' => array_fill(0, 6, 'ofen_zu_heiss')]), $dp)[0] === 400, 'alle fünf zusammen sind erlaubt, mehr als fünf Einträge nicht');
+rmrf($dp);
 $u = gut(); $u['kontext']['gaerung'] = ['gare' => 'lang', 'erwartet' => 1, 'hefeBp' => 1, 'kuehl' => true, 'berechnet' => false];
 ok(post($u, $d)[0] === 400, 'Gärmodell-Werte müssen Zahlen sein');
 ok($e['kontext']['gaerung']['temp'] === 5.5, 'Gär-Temperatur in °C wird mit gespeichert');

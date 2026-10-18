@@ -1,4 +1,4 @@
-import { baueMeldung, pruefeEingabe, meldeErgebnis, BEWERTUNG_TEXT, MAX_KOMMENTAR } from '../model/rueckmeldung.js';
+import { baueMeldung, pruefeEingabe, meldeErgebnis, BEWERTUNG_TEXT, MAX_KOMMENTAR, PROZESS_FEHLER } from '../model/rueckmeldung.js';
 
 // Formular „Hat es geklappt?“ (T53, DR-027): 1–5 Punkte, Kommentar, Häkchen „mit den vorgeschlagenen Mengen“.
 // Nichts wird ohne Klick auf „Senden“ übertragen; „Was wird gesendet?“ zeigt vorher die genaue Meldung.
@@ -19,6 +19,18 @@ export function renderRueckmeldung(state, data, computed) {
   }
   form.append(punkte);
 
+  // Prozessfehler (T66): optional, nur Ja/Nein — hier steckt oft die Ursache, die die Mengen nicht zeigen
+  const prozess = el('fieldset', 'rm-prozess');
+  prozess.append(el('legend', null, 'Was lief anders als geplant? (optional)'));
+  for (const [schluessel, text] of Object.entries(PROZESS_FEHLER)) {
+    const label = el('label', 'rm-prozess-punkt');
+    const box = document.createElement('input');
+    box.type = 'checkbox'; box.name = 'prozess'; box.value = schluessel;
+    label.append(box, el('span', null, ` ${text}`));
+    prozess.append(label);
+  }
+  form.append(prozess);
+
   const kommentar = document.createElement('textarea');
   kommentar.rows = 3; kommentar.maxLength = MAX_KOMMENTAR; kommentar.name = 'kommentar';
   kommentar.placeholder = 'Was ist passiert? (optional — bitte keine persönlichen Daten)';
@@ -38,14 +50,14 @@ export function renderRueckmeldung(state, data, computed) {
 
   const aktuell = () => {
     const gewaehlt = form.querySelector('input[name="bewertung"]:checked');
-    const eingabe = { bewertung: gewaehlt ? Number(gewaehlt.value) : null, kommentar: kommentar.value, mengenWieVorgeschlagen: mengen.checked };
+    const eingabe = { bewertung: gewaehlt ? Number(gewaehlt.value) : null, kommentar: kommentar.value, mengenWieVorgeschlagen: mengen.checked, prozess: [...form.querySelectorAll('input[name="prozess"]:checked')].map((x) => x.value) };
     return { eingabe, meldung: baueMeldung({ state, computed, eingabe, appVersion: data.appVersion }) };
   };
 
   const vorschau = el('details', 'rm-vorschau');
   vorschau.append(el('summary', null, 'Was wird gesendet?'));
   const pre = el('pre');
-  vorschau.append(pre, el('p', 'fine', 'Wertung, Kommentar und die Rezeptdaten oben (Zutaten, Methode, Hinweise). Keine IP-Adresse, keine Cookies, kein Konto. Gespeichert wird auf dem Server dieser Seite.'));
+  vorschau.append(pre, el('p', 'fine', 'Wertung, Kommentar, angekreuzte Ablauf-Angaben und die Rezeptdaten oben (Zutaten, Methode, Hinweise). Keine IP-Adresse, keine Cookies, kein Konto. Gespeichert wird auf dem Server dieser Seite.'));
   vorschau.addEventListener('toggle', () => { if (vorschau.open) pre.textContent = JSON.stringify(aktuell().meldung, null, 2); });
   form.addEventListener('input', () => { if (vorschau.open) pre.textContent = JSON.stringify(aktuell().meldung, null, 2); });
   form.append(vorschau);

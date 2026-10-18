@@ -8,7 +8,7 @@
 import fs from 'fs';
 
 const wurzel = new URL('../src/', import.meta.url);
-const { auswerten, klasseVon, MIN_BERICHT_N } = await import(new URL('model/rueckmeldung.js', wurzel));
+const { auswerten, klasseVon, MIN_BERICHT_N, PROZESS_FEHLER } = await import(new URL('model/rueckmeldung.js', wurzel));
 
 const datei = process.argv[2];
 if (!datei) { console.log('Aufruf: node tools/rueckmeldungen.mjs <feedback.jsonl> [--min N]'); process.exit(1); }
@@ -36,6 +36,11 @@ console.log('\nRezepte ohne jede Meldung (hier zeigen sich fehlende Regeln):');
 console.log('  Variante/Methode'.padEnd(36), 'n'.padStart(3), 'klappt'.padStart(8), 'geht so'.padStart(8), 'nicht'.padStart(8), '  Urteil');
 for (const g of a.ohneWarnung) console.log(`  ${g.gruppe}`.padEnd(36), String(g.n).padStart(3), prozent(g, 'klappt').padStart(8), prozent(g, 'abweichung').padStart(8), prozent(g, 'nicht').padStart(8), ' ', g.urteil);
 if (!a.ohneWarnung.length) console.log('  (noch keine)');
+
+console.log('\nAngekreuzte Prozessfehler (T66) — zeigen Ursachen, die das Modell nicht prüfen kann:');
+console.log('  Fehler'.padEnd(36), 'n'.padStart(3), 'klappt'.padStart(8), 'geht so'.padStart(8), 'nicht'.padStart(8), '  Urteil');
+for (const p of a.prozessFehler) console.log(`  ${PROZESS_FEHLER[p.schluessel] ?? p.schluessel}`.padEnd(36), String(p.n).padStart(3), prozent(p, 'klappt').padStart(8), prozent(p, 'abweichung').padStart(8), prozent(p, 'nicht').padStart(8), ' ', p.urteil);
+if (!a.prozessFehler.length) console.log('  (noch keine)');
 
 const zeige = (m) => `  ${m.bewertung}★ ${m.kontext?.variante}/${m.kontext?.methode} [${m.app}] ${JSON.stringify(m.kontext?.rollenBp)}${m.kommentar ? `\n     „${m.kommentar.replace(/\s+/g, ' ').slice(0, 200)}“` : ''}`;
 if (a.fehlendeRegel.length) { console.log(`\nMisslungen ohne Warnung (${a.fehlendeRegel.length}) — Kandidaten für neue Regeln:`); a.fehlendeRegel.forEach((m) => console.log(zeige(m))); }

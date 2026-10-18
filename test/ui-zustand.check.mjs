@@ -15,6 +15,9 @@ class Knoten {
   set textContent(t){ this._text=String(t); }
   get textContent(){ return this._text+this.children.map(c=>c.textContent).join(''); }
   klick(){ for (const f of this.handler.click||[]) f({preventDefault(){}}); }
+  // nur `input[name="x"]:checked` — gerade genug für das Rückmeldeformular
+  querySelectorAll(sel){ const m=sel.match(/^input\[name="(\w+)"\]:checked$/); if(!m) return []; return alle(this,k=>k.tag==='input' && k.name===m[1] && k.checked===true); }
+  querySelector(sel){ return this.querySelectorAll(sel)[0]||null; }
 }
 globalThis.document={ createElement:(t)=>new Knoten(t) };
 const alle=(k,f,aus=[])=>{ if(f(k)) aus.push(k); for(const c of k.children) alle(c,f,aus); return aus; };
@@ -73,7 +76,7 @@ st=zustand({einlage:30}); r=zeige(st,()=>{});
 ok(r.c.zutatenListe.every(z=>z.bpQuelle!=='manuell') && !/✎ manuell gesetzt/.test(r.w.textContent) && /keine wirksam/.test(r.w.textContent),'manuelle Menge für eine leere Rolle: nichts wirksam, Hinweis sagt es ehrlich („keine wirksam“)');
 
 // --- Feedback: manuelle Mengen ----------------------------------------------------------------------------------------------------
-const checkbox=(w)=>alle(w,k=>k.tag==='input' && k.type==='checkbox')[0];
+const checkbox=(w)=>alle(w,k=>k.tag==='input' && k.type==='checkbox' && k.name!=='prozess')[0];
 st=zustand({}); r=zeige(st,()=>{});
 ok(checkbox(r.w).checked===true,'Rückmeldung ohne manuelle Menge: „vorgeschlagene Mengen verwendet“ ist vorangekreuzt');
 st=zustand({fluessigkeit:2,bindung:10}); r=zeige(st,()=>{});
@@ -83,6 +86,16 @@ ok(meldung.mengenWieVorgeschlagen===false && JSON.stringify([...meldung.kontext.
 const m0=R.baueMeldung({state:zustand({}),computed:rechne(zustand({})),eingabe:{bewertung:3,kommentar:'',mengenWieVorgeschlagen:true},appVersion:'t'});
 ok(m0.mengenWieVorgeschlagen===true && m0.kontext.mengenManuell.length===0,'Meldung ohne manuelle Menge: Flag bleibt, Liste leer');
 ok(fs.readFileSync(new URL('../feedback.php',import.meta.url),'utf8').includes("'mengenManuell'") ,'feedback.php kennt kontext.mengenManuell');
+// Prozessfehler zum Ankreuzen (T66)
+{const boxen=alle(r.w,k=>k.tag==='input' && k.name==='prozess');
+ ok(boxen.length===Object.keys(R.PROZESS_FEHLER).length && boxen.every(b=>b.type==='checkbox' && b.checked!==true) && boxen.map(b=>b.value).join()===Object.keys(R.PROZESS_FEHLER).join(),'Formular: ein Ankreuzfeld je Prozessfehler (fünf), alle zunächst nicht angekreuzt, Schlüssel wie im Modell');
+ ok(alle(r.w,k=>k.tag==='legend' && /Was lief anders als geplant\? \(optional\)/.test(k.textContent)).length===1 && alle(r.w,k=>k.tag==='span' && /Nach dem Mehl zu lange gerührt/.test(k.textContent)).length===1,'Überschrift „optional“ und Beschriftung in eigenen Worten');
+ // Vorschau „Was wird gesendet?“ zeigt die angekreuzten Angaben
+ boxen[0].checked=true; boxen[3].checked=true;
+ const vorschau=alle(r.w,k=>k.tag==='details' && /rm-vorschau/.test(k.className))[0], pre=alle(vorschau,k=>k.tag==='pre')[0];
+ vorschau.open=true; for (const f of vorschau.handler.toggle||[]) f();
+ const gesendet=JSON.parse(pre.textContent);
+ ok(JSON.stringify(gesendet.prozess)==='["zu_lange_geruehrt","ofen_zu_kalt"]' && /angekreuzte Ablauf-Angaben/.test(vorschau.textContent),'Vorschau zeigt die angekreuzten Angaben (zu lange gerührt, Ofen zu kalt) im Feld prozess; der Hinweistext nennt sie');}
 
 // --- Zusammenfassen -------------------------------------------------------------------------------------------------------------
 const ing={ mehl:{label:'Mehl',wasseranteil:0.14}, wasser:{label:'Wasser',wasseranteil:1} };

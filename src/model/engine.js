@@ -3,7 +3,7 @@ import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } f
 import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
-import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, basisLuecke, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 // Größen, die aus geschätzten Kapazitäten folgen (Natron-Säure-Balance, T37): ihre Grenze trägt die Aussage, kein Vergleich mit den Korpus-Quartilen
 const OHNE_TOLERANZ = new Set(['natron', 'saeure']);
@@ -141,6 +141,7 @@ export function compute(state, data, korpusStats) {
   // Butter), und genau die sieht nur die Bilanz. Darum wird die Toleranz auf der Bilanz geprüft.
   const referenzRolle = arch.rollen.find((r) => r.referenz)?.rolle ?? 'struktur';
   const bil = bilanz(zutatenListe, data.ingredients, referenzRolle);
+  const bpPosten = zutatenListe.map((z) => ({ rolle: z.rolle, zutat: z.zutat, gramm: z.bp }));
   const grenzen = data.grenzen?.archetypen?.[state.archetyp] || [];
   const verletzt = grenzenPruefen(bil, grenzen);
   const groessenMitGrenze = new Set(
@@ -156,7 +157,16 @@ export function compute(state, data, korpusStats) {
     // Toleranz gegen die ganze Variante: die Preset-Zutaten (bestof) gelten je Variante, nicht je Methode —
     // gegen eine kleine Methoden-Zelle meldete schon das Standard-Preset „untypisch“.
     const korpus = st.bilanz?.[g] ?? null;
-    const t = toleranz(bil.bp[g], korpus);
+    let t = toleranz(bil.bp[g], korpus);
+    // Fehlt dem Korpus die Vergleichsbasis (T67), ist „untypisch“ keine Aussage: statt Warnung ein Hinweis mit dem Grund
+    const luecke = (t === 'ausserhalb_q' || t === 'ausserhalb_spanne') ? basisLuecke(g, { posten: bpPosten, ingredients: data.ingredients, st, rollen: arch.rollen }) : null;
+    if (luecke) {
+      if (!hatGrenzverletzung && !groessenMitGrenze.has(g) && !OHNE_TOLERANZ.has(g)) {
+        toleranzHinweise.push(`${GROESSEN_LABEL[g]} ${fmtProzent(bil.bp[g])} % vom Mehl: keine Vergleichsbasis im Korpus (${luecke}) — die Abweichung sagt hier wenig.`);
+        toleranzIds.push(`basis:${g}`);
+      }
+      t = 'keine_basis';
+    }
     if (!hatGrenzverletzung && !groessenMitGrenze.has(g) && !OHNE_TOLERANZ.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
       const wert = fmtProzent(bil.bp[g]);
       const text = t === 'ausserhalb_spanne'
@@ -178,7 +188,6 @@ export function compute(state, data, korpusStats) {
   const blockaden = [...(res.blockaden || [])];
   const kaskaden = [...(res.kaskaden || [])];
   const mengenVorschlaege = [];
-  const bpPosten = zutatenListe.map((z) => ({ rolle: z.rolle, zutat: z.zutat, gramm: z.bp }));
   for (const v of [...verletzt.hart, ...verletzt.empfohlen]) {
     const g = grenzen.find((x) => x.id === v.id);
     if (!g) continue;

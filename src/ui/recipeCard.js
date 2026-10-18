@@ -80,7 +80,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
     bh.append(tr(['Bilanz', 'Gramm', '% vom Mehl', 'Korpus (Q1–Q3)', 'Herkunft (Rolle)'], 'th'));
     bt.append(bh);
     const bb = el('tbody');
-    const markierung = { ausserhalb_q: ' ◦', ausserhalb_spanne: ' ⚠' };
+    const markierung = { ausserhalb_q: ' ◦', ausserhalb_spanne: ' ⚠', keine_basis: ' ?' };
     for (const z of computed.bilanz) {
       const k = z.korpus;
       if (!(z.gramm > 0) && !(k?.max > 0)) continue; // Größe kommt im Archetyp nicht vor (z. B. Hefe im Rührteig)
@@ -89,7 +89,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
     }
     bt.append(bb);
     root.append(bt);
-    root.append(el('p', 'fine', 'Bilanz = Summe über alle Zutaten ohne Einlage (z. B. Wasser aus Ei/Butter/Milch, Eiweiß aus Mehl/Ei/Milch). Herkunft: welche Rolle wie viel liefert (ab 5 %). ◦ außerhalb Q1–Q3 · ⚠ außerhalb Korpus-Spanne'));
+    root.append(el('p', 'fine', 'Bilanz = Summe über alle Zutaten ohne Einlage (z. B. Wasser aus Ei/Butter/Milch, Eiweiß aus Mehl/Ei/Milch). Herkunft: welche Rolle wie viel liefert (ab 5 %). ◦ außerhalb Q1–Q3 · ⚠ außerhalb Korpus-Spanne · ? keine Vergleichsbasis im Korpus'));
   }
 
   const bake = el('div', 'bake');

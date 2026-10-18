@@ -130,6 +130,41 @@ export function toleranz(wert, verteilung, minN = 3, marge = 0.05, minBreite = {
   return 'typisch';
 }
 
+// Vergleichsbasis (T67, DR-036): „untypisch“ gegenüber dem Korpus sagt nur etwas, wenn der Korpus den Fall überhaupt kennt. Liefert den
+// Grund, warum die Basis fehlt (sonst null): (c) die Größe kommt in weniger als MIN_BASIS Korpus-Rezepten vor (z. B. Triebkraft im
+// Eierkuchen), (b) eine Rolle fehlt, die fast jedes Korpus-Rezept hat und die zur Größe beiträgt (Pfannkuchen ohne Ei), (a) eine Zutat
+// liefert mindestens 20 % der Größe und kommt kaum im Korpus vor (Quark). st = Korpus-Statistik der Variante (corpus.js stats),
+// rollen = Rollen des Archetyps, posten = [{rolle, zutat, gramm}] des Rezepts.
+export const MIN_BASIS = 3;
+export function basisLuecke(groesse, { posten, ingredients, st, rollen = [] }) {
+  if (!st?.n) return null;
+  const label = GROESSEN_LABEL[groesse];
+  if ((st.bilanzBelegt?.[groesse] ?? st.n) < MIN_BASIS) return `${label} kommt in weniger als ${MIN_BASIS} Korpus-Rezepten vor`;
+  const wert = GROESSEN[groesse];
+  for (const r of rollen) {
+    const belegt = st.rollenBelegt?.[r.rolle];
+    if (belegt == null || belegt / st.n < 0.9) continue;
+    if (posten.some((p) => p.rolle === r.rolle && p.gramm > 0)) continue;
+    const ing = ingredients[r.default ?? r.optionen?.[0]];
+    if (ing && wert(ing) > 0) return `die Rolle „${r.label}“ fehlt, im Korpus hat sie fast jedes Rezept (${belegt} von ${st.n})`;
+  }
+  const je = new Map();
+  let summe = 0;
+  for (const p of posten) {
+    const ing = ingredients[p.zutat];
+    if (!(p.gramm > 0) || AUSSERHALB_MATRIX.has(p.rolle) || !ing) continue;
+    const b = p.gramm * wert(ing);
+    if (b > 0) { je.set(p.zutat, (je.get(p.zutat) || 0) + b); summe += b; }
+  }
+  if (st.zutaten) {
+    for (const [zutat, b] of je) {
+      const n = st.zutaten[zutat] ?? 0;
+      if (n < MIN_BASIS && b / summe >= 0.2) return `${ingredients[zutat].label} liefert ${Math.round((b / summe) * 100)} % davon, kommt aber nur in ${n} von ${st.n} Korpus-Rezepten vor`;
+    }
+  }
+  return null;
+}
+
 // Statische Beschreibung einer Grenze ohne konkreten Messwert — für den Regel-Katalog
 // (alleUeberschreibbarenRegeln, DR-019/T29), unabhängig vom aktuellen Rezept.
 export function beschreibeGrenze(g) {

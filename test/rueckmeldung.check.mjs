@@ -50,6 +50,22 @@ ok(R.pruefeEingabe({bewertung:4,kommentar:'x'.repeat(1001)})!==null,'Eingabe: Ko
 ok(R.klasseVon(1)==='nicht' && R.klasseVon(2)==='nicht' && R.klasseVon(3)==='abweichung' && R.klasseVon(4)==='klappt' && R.klasseVon(5)==='klappt','Klassen: 1–2 klappt nicht, 3 mit Abweichung, 4–5 klappt');
 
 // --- Senden und Warteschlange --------------------------------------------------------------------------------------------
+// --- Prozessfehler (T66) ---------------------------------------------------------------------------------------------------------
+{const KEYS=Object.keys(R.PROZESS_FEHLER); const {state,computed}=rechne('ruehrteig','kastenkuchen',null);
+ ok(KEYS.join()==='zu_lange_geruehrt,tuer_frueh_geoeffnet,ofen_zu_heiss,ofen_zu_kalt,zutaten_zu_kalt' && Object.values(R.PROZESS_FEHLER).every(t=>t.length>10 && !/["„“]/.test(t)),'Prozessfehler: fünf Schlüssel mit Anzeigetext in eigenen Worten');
+ const ein={bewertung:2,kommentar:'',mengenWieVorgeschlagen:true};
+ ok(Array.isArray(R.baueMeldung({state,computed,eingabe:ein,appVersion:'a'}).prozess) && R.baueMeldung({state,computed,eingabe:ein,appVersion:'a'}).prozess.length===0,'ohne Angabe: leere Liste (Feld immer vorhanden)');
+ ok(JSON.stringify(R.baueMeldung({state,computed,eingabe:{...ein,prozess:['ofen_zu_heiss','zu_lange_geruehrt','ofen_zu_heiss','gibtsnicht']},appVersion:'a'}).prozess)==='["ofen_zu_heiss","zu_lange_geruehrt"]','unbekannte Schlüssel fallen heraus, doppelte zählen einmal, Reihenfolge bleibt');
+ ok(R.baueMeldung({state,computed,eingabe:{...ein,prozess:'ofen_zu_heiss'},appVersion:'a'}).prozess.length===0 && R.baueMeldung({state,computed,eingabe:{...ein,prozess:null},appVersion:'a'}).prozess.length===0,'kein Array (Text, null): leere Liste');
+ ok(R.pruefeEingabe({...ein,prozess:['ofen_zu_heiss']})===null && R.pruefeEingabe({...ein,prozess:[]})===null && R.pruefeEingabe(ein)===null && /Ablauf/.test(R.pruefeEingabe({...ein,prozess:['x']})) && /Ablauf/.test(R.pruefeEingabe({...ein,prozess:'ofen_zu_heiss'})),'pruefeEingabe: bekannte Schlüssel, leer und fehlend sind ok; unbekannt oder kein Array wird abgelehnt');
+ const mk2=(bew,prozess,extra={})=>({v:1,bewertung:bew,kommentar:'',mengenWieVorgeschlagen:true,prozess,app:'x',kontext:{archetyp:'a',variante:'v',methode:'m',gefaess:'g',status:'ok',zutaten:{},regelIds:[],warnungen:[],korpusN:1,korpusNMethode:null,rollenBp:{},gaerung:null},...extra});
+ const a=R.auswerten([mk2(1,['zu_lange_geruehrt']),mk2(2,['zu_lange_geruehrt','ofen_zu_heiss']),mk2(1,['zu_lange_geruehrt']),mk2(5,['ofen_zu_heiss']),mk2(4,[],{}),mk2(1,['zu_lange_geruehrt'],{mengenWieVorgeschlagen:false}),mk2(3,undefined)]);
+ const t=Object.fromEntries(a.prozessFehler.map(x=>[x.schluessel,x]));
+ ok(t.zu_lange_geruehrt.n===4 && t.zu_lange_geruehrt.nicht===4 && t.zu_lange_geruehrt.urteil==='Kandidat' && t.ofen_zu_heiss.n===2 && t.ofen_zu_heiss.klappt===1 && t.ofen_zu_heiss.nicht===1 && t.ofen_zu_heiss.urteil==='zu wenige','Auswertung: Prozessfehler je Schlüssel gezählt (auch bei eigenen Mengen), ab 3 Meldungen und mindestens der Hälfte Misserfolge ein Kandidat');
+ const drittel=R.auswerten([mk2(1,['ofen_zu_kalt']),mk2(5,['ofen_zu_kalt']),mk2(4,['ofen_zu_kalt'])]).prozessFehler[0], haelfte=R.auswerten([mk2(1,['ofen_zu_kalt']),mk2(2,['ofen_zu_kalt']),mk2(5,['ofen_zu_kalt']),mk2(4,['ofen_zu_kalt'])]).prozessFehler[0];
+ ok(drittel.n===3 && drittel.nicht===1 && drittel.urteil==='unklar' && haelfte.n===4 && haelfte.nicht===2 && haelfte.urteil==='Kandidat','Schwelle: 1 von 3 Misserfolgen (ein Drittel) bleibt „unklar“, 2 von 4 (die Hälfte) ist Kandidat');
+ ok(a.prozessFehler[0].schluessel==='zu_lange_geruehrt' && R.auswerten([]).prozessFehler.length===0 && R.auswerten([mk2(1,['ofen_zu_kalt','ofen_zu_kalt','ofen_zu_kalt'])]).prozessFehler[0].n===1,'sortiert nach Anzahl; leere Eingabe: leer; doppelte Schlüssel in einer Meldung zählen einmal');
+}
 const meldung=(over={})=>({v:1,bewertung:4,kommentar:'',mengenWieVorgeschlagen:true,app:'x',kontext:{archetyp:'a',variante:'v',methode:'m',gefaess:'g',status:'ok',zutaten:{},regelIds:[],warnungen:[],korpusN:1,korpusNMethode:null,rollenBp:{},gaerung:null},...over});
 const antwort=(status,body)=>async()=>({ok:status>=200&&status<300,status,json:async()=>{ if(body===undefined) throw new Error('kein json'); return body; }});
 let aufgerufen=[];
@@ -135,6 +151,58 @@ ok(gruppe([5,5,1])==='fehlende Regel?' && gruppe([5,5,4,1])==='ok' && gruppe([5,
  ok(/gaerung_modell\s+4\s+100 %.*zu streng\?/.test(aus) && /hf_hefe_band\s+3\s+0 %.*100 %.*bestaetigt/.test(aus),'Werkzeug: Tabelle je Regel mit Prozenten und Urteil');
  ok(/hefezopf\/hefe_direkt.*fehlende Regel\?/.test(aus) && /Misslungen ohne Warnung \(3\)/.test(aus) && /Hefeteig blieb dicht nach 12 Std\./.test(aus),'Werkzeug: Misserfolge ohne Warnung einzeln mit Kommentar (Zeilenumbruch geglättet)');
  ok(/Kandidaten für neue Korpus-Rezepte/.test(aus),'Werkzeug: Meldungen mit eigenen Mengen als Korpus-Kandidaten');}
+
+// --- Auswertungswerkzeug: Prozessfehler (T66) ---------------------------------------------------------------------------------------
+{const tmp=path.join(os.tmpdir(),`chefing_fb_pf_${Date.now()}.jsonl`);
+ const mp=(b,prozess)=>JSON.stringify({id:'p',empfangen:'2026-10-18T10:00:00+00:00',...(set.filter(Boolean)[0]),bewertung:b,prozess});
+ fs.writeFileSync(tmp,[mp(1,['zu_lange_geruehrt']),mp(2,['zu_lange_geruehrt']),mp(1,['zu_lange_geruehrt']),mp(5,['ofen_zu_heiss'])].join('\n')+'\n');
+ const aus=execFileSync(process.execPath,[new URL('../tools/rueckmeldungen.mjs',import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1'),tmp],{encoding:'utf8'});
+ fs.rmSync(tmp);
+ ok(/Angekreuzte Prozessfehler/.test(aus) && /Nach dem Mehl zu lange gerührt\s+3\s+0 %.*100 %\s+Kandidat/.test(aus) && /Ofen war zu heiß\s+1\s+100 %.*zu wenige/.test(aus),'Werkzeug: Abschnitt Prozessfehler mit Anzahl, Prozenten und Urteil (Kandidat ab 3 Meldungen und der Hälfte Misserfolge)');}
+
+// --- Von der Rückmeldung zum Negativ-Korpus (T68) ------------------------------------------------------------------------------------
+{const { meldungZuFall } = R;
+ const ingr=JSON.parse(fs.readFileSync(new URL('../src/data/ingredients.json',import.meta.url)));
+ const bau=(ak,vk,methode,over,eingabe,extra={})=>{const {state,computed}=rechne(ak,vk,methode,over);return {id:'abc123',empfangen:'2026-10-18T10:00:00+00:00',...R.baueMeldung({state,computed,eingabe:{mengenWieVorgeschlagen:true,kommentar:'GEHEIMER KOMMENTAR 0151',...eingabe},appVersion:'t'}),...extra};};
+ const m=bau('ruehrteig','kastenkuchen',null,{trieb:E('natron'),fluessigkeit:E('buttermilch')},{bewertung:1,prozess:['zu_lange_geruehrt']});
+ const f=meldungZuFall(m,{ingredients:ingr});
+ ok(f.id==='rueckmeldung-abc123' && f.entwurf===true && f.archetyp==='ruehrteig' && f.variante===m.kontext.variante && f.ergebnis==='misslungen' && f.verlaesslichkeit===2 && f.mengen_vorhanden===true && f.methode===m.kontext.methode,'Entwurf: id aus der Meldung, entwurf: true, Archetyp, Variante, Methode, misslungen bei 1 Punkt');
+ const mehl=f.zutaten.find(z=>z.rolle==='struktur'), natron=f.zutaten.find(z=>z.zutat==='natron');
+ ok(mehl.menge===100 && mehl.einheit==='g' && /% vom Mehl in der Rolle struktur/.test(mehl.original) && Math.abs(natron.menge-m.kontext.rollenBp.trieb/(ingr.natron.aequivalent_faktor??1))<0.01 && f.zutaten.some(z=>z.zutat==='buttermilch'),'Gramm aus dem Bäckerprozent: Mehl 100 g, Buttermilch aus ihrer Rolle, Natron zurückgerechnet');
+ const mh=meldungZuFall(bau('hefeteig','weissbrot',null,{trieb:E('hefe_trocken')},{bewertung:2}),{ingredients:ingr}), th=mh.zutaten.find(z=>z.zutat==='hefe_trocken'), bph=bau('hefeteig','weissbrot',null,{trieb:E('hefe_trocken')},{bewertung:2}).kontext.rollenBp.trieb;
+ ok(ingr.hefe_trocken.aequivalent_faktor!==undefined && ingr.hefe_trocken.aequivalent_faktor!==1 && Math.abs(th.menge-bph/ingr.hefe_trocken.aequivalent_faktor)<0.01 && th.menge!==Math.round(bph*100)/100,'Trockenhefe: Gramm = Bäckerprozent geteilt durch den Äquivalent-Faktor (das Frischhefe-Äquivalent wird zurückgerechnet)');
+ ok(f.ursache_art==='prozess' && f.kontrollfall===true && /Nach dem Mehl zu lange gerührt/.test(f.ursache_laut_quelle) && f.mengen_wie_vorgeschlagen===true,'angekreuzter Prozessfehler bei vorgeschlagenen Mengen: Ursache-Art prozess, Kontrollfall, Ursache nennt den Text');
+ ok(!JSON.stringify(f).includes('GEHEIMER KOMMENTAR') && !JSON.stringify(f).includes('0151'),'der Kommentar des Nutzers wird nicht übernommen (Datenschutz)');
+ const o=meldungZuFall(bau('ruehrteig','kastenkuchen',null,{},{bewertung:3}),{ingredients:ingr});
+ ok(o.ergebnis==='teilweise' && o.ursache_art==='offen' && o.kontrollfall===undefined && /noch zu ergänzen/.test(o.ursache_laut_quelle) && /keine Regel hat gewarnt/.test(o.notiz),'3 Punkte ohne Prozessfehler: teilweise, Ursache offen, kein Kontrollfall, Notiz nennt fehlende Warnung');
+ const eigen=meldungZuFall(bau('ruehrteig','kastenkuchen',null,{},{bewertung:2,prozess:['ofen_zu_heiss'],mengenWieVorgeschlagen:false}),{ingredients:ingr});
+ ok(eigen.ursache_art==='offen' && eigen.kontrollfall===undefined && eigen.mengen_wie_vorgeschlagen===false,'eigene Mengen mit Prozessfehler: kein Kontrollfall (die Mengen sind nicht die vorgeschlagenen)');
+ const mitWarnung=meldungZuFall({...bau('ruehrteig','kastenkuchen',null,{trieb:E('natron')},{bewertung:1}),id:undefined},{ingredients:ingr});
+ ok(mitWarnung.id==='rueckmeldung-ohne-id' && /gezeigte Regeln: .*natron_braucht_saeure/.test(mitWarnung.notiz),'ohne id: „ohne-id“; die gezeigten Regeln stehen in der Notiz');
+ ok(meldungZuFall(null)===null && meldungZuFall({})===null && meldungZuFall({kontext:{},bewertung:'x'})===null && meldungZuFall({kontext:{zutaten:{},rollenBp:{}},bewertung:1}).zutaten.length===0 && meldungZuFall({kontext:{zutaten:{},rollenBp:{}},bewertung:1}).mengen_vorhanden===false,'keine Meldung, keine Bewertung: null; ohne Zutaten: leere Liste und mengen_vorhanden false');
+ const roh=bau('ruehrteig','kastenkuchen',null,{},{bewertung:1}); roh.kontext.rollenBp.aroma=0; roh.kontext.zutaten.einlage=[{zutat:'gibtsnicht',anteil:1}]; roh.kontext.rollenBp.einlage=10;
+ const fz=meldungZuFall(roh,{ingredients:ingr});
+ ok(!fz.zutaten.some(z=>z.rolle==='aroma') && fz.zutaten.some(z=>z.zutat==='gibtsnicht' && z.menge===10),'Rollen mit 0 % entfallen; eine unbekannte Zutat bleibt (die Prüfung meldet sie als nicht prüfbar)');
+ const mix=bau('ruehrteig','kastenkuchen',null,{fett:[{zutat:'butter',anteil:3},{zutat:'pflanzenoel',anteil:1}]},{bewertung:1});
+ const fm=meldungZuFall(mix,{ingredients:ingr}), fb=fm.zutaten.find(z=>z.zutat==='butter'), fo=fm.zutaten.find(z=>z.zutat==='pflanzenoel');
+ ok(Math.abs(fb.menge/fo.menge-3)<0.05 && Math.abs(fb.menge+fo.menge-mix.kontext.rollenBp.fett)<0.05,'Rolle mit zwei Zutaten: Bäckerprozent nach Anteil geteilt (3 : 1)');
+ // der Entwurf lässt sich mit dem Negativ-Korpus rechnen
+ const {negativPruefen}=await import(P+'model/negativ.js');
+ const korpora={}; for (const [ak,a] of Object.entries(data.archetypes)) { if(ak.startsWith('_')) continue; korpora[ak]={}; for (const [vk,x] of Object.entries(a.varianten)) korpora[ak][vk]=JSON.parse(fs.readFileSync(new URL('../src/data/corpus/'+x.korpus+'.json',import.meta.url))); }
+ const lauf=negativPruefen({faelle:[f,{...o,id:'rueckmeldung-offen'}],archetypes:data.archetypes,ingredients:data.ingredients,grenzen:data.grenzen,modelle:data.modelle,korpora,methods:data.methods,operations:data.operations,temperaturen:data.temperaturen});
+ ok(lauf.faelle.length===2 && lauf.faelle.every(x=>x.geprueft===true && x.unbekannt.length===0),'Entwürfe laufen durch negativPruefen (geprüft, keine unbekannten Zutaten)');
+ ok(lauf.faelle.find(x=>x.id===f.id).kontrolle===true && lauf.faelle.find(x=>x.id==='rueckmeldung-offen').kontrolle===false,'der Prozess-Entwurf zählt als Kontrollfall, der offene als Misserfolg');
+ // Werkzeug
+ const tmp=path.join(os.tmpdir(),`chefing_fb_zf_${Date.now()}.jsonl`);
+ fs.writeFileSync(tmp,[JSON.stringify(m),JSON.stringify(bau('ruehrteig','kastenkuchen',null,{},{bewertung:5})),JSON.stringify(bau('ruehrteig','kastenkuchen',null,{},{bewertung:3})),'{kaputt','',JSON.stringify({v:2,bewertung:1})].join('\n')+'\n');
+ const tool=new URL('../tools/rueckmeldungen-zu-faellen.mjs',import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1');
+ const t1=spawnSync(process.execPath,[tool,tmp],{encoding:'utf8'}), t2=spawnSync(process.execPath,[tool,tmp,'--alle'],{encoding:'utf8'}), t3=spawnSync(process.execPath,[tool,tmp,'--max-bewertung','5'],{encoding:'utf8'});
+ fs.rmSync(tmp);
+ const j1=JSON.parse(t1.stdout), j2=JSON.parse(t2.stdout), j3=JSON.parse(t3.stdout);
+ ok(t1.status===0 && j1.length===1 && j1[0].id==='rueckmeldung-abc123' && /1 Entwürfe \(bis 2 Punkte\), 3 Meldungen übersprungen, 1 unlesbare Zeilen/.test(t1.stderr),'Werkzeug: Standard nimmt nur Meldungen bis 2 Punkte; 5 Punkte, falsche Version und unlesbare Zeilen werden übersprungen und gemeldet');
+ ok(j2.length===2 && j3.length===3,'--alle nimmt 3 Punkte mit, --max-bewertung 5 alle gültigen Meldungen');
+ ok(spawnSync(process.execPath,[tool],{encoding:'utf8'}).status===1,'ohne Datei: Aufruf-Hinweis und Fehlercode 1');
+}
 
 // --- Regel-ids der Engine --------------------------------------------------------------------------------------------------
 const ids=(c)=>c.regelIds;

@@ -4,7 +4,7 @@
 // gelungene Kontrollfälle mit Warnung sind Falsch-Alarme. Der Korpus enthält nur Erfolge — das hier ist die einzige Gegenprobe
 // vor den Nutzer-Rückmeldungen (T53); n ist klein und die Auswahl verzerrt (Selbstauswahl der Fragenden).
 import { normalizeRecipe, stats } from './corpus.js';
-import { grenzenPruefen, toleranz, GROESSEN } from './bilanz.js';
+import { grenzenPruefen, toleranz, basisLuecke, GROESSEN } from './bilanz.js';
 import { erwarteteGare, pruefeGaerung } from './gaerung.js';
 import { temperaturBereich } from './temperatur.js';
 import { toGrams } from './units.js';
@@ -72,7 +72,7 @@ export function negativPruefen({ faelle, archetypes, ingredients, grenzen, model
     const hatMehl = zutaten.some((z) => z.rolle === referenz);
     const kontrolle = f.ergebnis === 'gelungen' || f.kontrollfall === true;
     const ausgenommen = f.ausgenommen ?? null; // Fall ohne klare Aussage (weder Misserfolg noch Kontrolle): zählt in keiner Quote
-    const zeile = { id: f.id, archetyp: f.archetyp, ergebnis: f.ergebnis, kontrolle, ausgenommen, ursacheArt: f.ursache_art ?? null, verlaesslichkeit: f.verlaesslichkeit ?? null, unbekannt, ignoriert, geprueft: false, grenzen: [], toleranz: [], gaerung: null, erkannt: false };
+    const zeile = { id: f.id, archetyp: f.archetyp, ergebnis: f.ergebnis, kontrolle, ausgenommen, ursacheArt: f.ursache_art ?? null, verlaesslichkeit: f.verlaesslichkeit ?? null, unbekannt, ignoriert, geprueft: false, grenzen: [], toleranz: [], keineBasis: [], gaerung: null, erkannt: false };
     if (!hatMehl || zutaten.length < 3) {
       zeilen.push({ ...zeile, grund: f.mengen_vorhanden === false ? 'keine Mengen' : 'zu wenige Mengen für die Bilanz' });
       continue;
@@ -93,7 +93,11 @@ export function negativPruefen({ faelle, archetypes, ingredients, grenzen, model
       const w = n.bilanz.bp[g];
       if (w == null) continue;
       const aussen = varianten.every((vk) => toleranz(w, statsFuer(f.archetyp, vk).bilanz?.[g]) === 'ausserhalb_spanne');
-      if (aussen) zeile.toleranz.push({ groesse: g, wert: w });
+      if (!aussen) continue;
+      // Fehlt die Vergleichsbasis im Korpus (T67), zeigt das Modell nur einen Hinweis „keine Vergleichsbasis“: kein Befund, kein Falsch-Alarm
+      const gruende = varianten.map((vk) => basisLuecke(g, { posten: n.posten, ingredients, st: statsFuer(f.archetyp, vk), rollen: arch.rollen }));
+      if (gruende.every(Boolean)) zeile.keineBasis.push({ groesse: g, wert: w, grund: gruende[0] });
+      else zeile.toleranz.push({ groesse: g, wert: w });
     }
     // Gärmodell, wenn Gare-Zeit und -Temperatur kuratiert sind (pruefung.gare_min, pruefung.gare_temp_c / gare_temp)
     const p = f.pruefung;
