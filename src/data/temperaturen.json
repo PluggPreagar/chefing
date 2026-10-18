@@ -12,5 +12,5 @@
   "lauwarm": { "label": "lauwarm", "min": 30, "max": 35 },
   "plastisch": { "label": "plastisch", "min": 18, "max": 22 },
   "teig": { "label": "Teig", "min": 24, "max": 26 },
-  "unterstellt": { "label": "unterstellt (Kühlschrank bis warmer Raum)", "min": -20, "max": 27 }
+  "unterstellt": { "label": "unterstellt", "min": -20, "max": 27 }
 }

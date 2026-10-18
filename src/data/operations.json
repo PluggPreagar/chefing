@@ -41,7 +41,7 @@
     "variante": "Schmelzen",
     "auf": ["fett"],
     "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart", "id": "fett_muss_fest_fuer_schmelzen" }],
-    "wirkt_auf_eigenschaften": { "fett": { "temperatur": { "von": { "rolle": "fett", "feld": "schmelzpunkt_c" }, "faktor": 1.05 }, "cremig_schlagbar": false, "geschmolzen": true } },
+    "wirkt_auf_eigenschaften": { "fett": { "temperatur": { "von": { "rolle": "fett", "feld": "schmelzpunkt_c" }, "faktor": 1.05 }, "geschmolzen": true } },
     "wirkung": "Festes Fett wird flüssig und verhält sich wie Öl. Eingeschlagene Luft ist damit nicht mehr möglich.",
     "risiko": "Zu heiß eingerührt → Ei stockt vorzeitig.",
     "dauer_min": 3

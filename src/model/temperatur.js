@@ -51,7 +51,7 @@ export const grad = (x) => String(Math.round(x * 10) / 10).replace('.', ',');
 // "118 °C", "87–97 °C", "4–7 °C (Kühlschrank)"
 export function fmtTemperatur(b) {
   if (!b) return '';
-  const wert = b.min === b.max ? `${grad(b.min)} °C` : `${grad(b.min)}–${grad(b.max)} °C`;
+  const wert = b.min === b.max ? `${grad(b.min)} °C` : `${grad(b.min)}${b.min < 0 ? ' bis ' : '–'}${grad(b.max)} °C`; // „−20 bis 27“, nicht „−20–27“
   return b.name ? `${wert} (${b.label})` : wert;
 }
 

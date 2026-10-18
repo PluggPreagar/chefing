@@ -1,6 +1,6 @@
 import { beschreibeGrenze } from './bilanz.js';
-import { aggregatAus, formVon, erfuellt, standardBereich, FORM_LABEL } from './eigenschaften.js';
-import { temperaturBereich } from './temperatur.js';
+import { aggregatAus, formVon, cremigAus, erfuellt, standardBereich, FORM_LABEL } from './eigenschaften.js';
+import { temperaturBereich, fmtTemperatur, grad } from './temperatur.js';
 // Eine Rolle kann mehrere Zutaten mit relativen Anteilen tragen (z. B. Fett
 // aus Butter + Öl gemischt). propsOf liefert pro Rolle ein geblendetes
 // Eigenschafts-Objekt: Aggregatzustand/Schmelzpunkt/Label folgen der
@@ -14,7 +14,7 @@ const alleRollen = (data) => [...(data.arch?.rollen ?? []), ...Object.values(dat
 const rollenLabelVon = (data, rolle) => alleRollen(data).find((r) => r.rolle === rolle)?.label ?? rolle;
 
 // `temperatur` (Bereich, optional, T62): Aggregat und Form folgen ihr (eigenschaften.js); ohne sie gilt das Aggregat der Zutat.
-export function blendProps(entries, ingredients, temperatur = null) {
+export function blendProps(entries, ingredients, temperatur = null, benannt = null) {
   const valid = (entries || []).filter((e) => e?.zutat && ingredients[e.zutat]);
   if (!valid.length) return null;
   const sumAnteile = valid.reduce((a, e) => a + (e.anteil || 1), 0) || 1;
@@ -31,7 +31,7 @@ export function blendProps(entries, ingredients, temperatur = null) {
   return {
     key: dominant.zutat,
     ...domIng,
-    ...(temperatur ? { aggregat, form: formVon(domIng, aggregat), temperatur } : {}),
+    ...(temperatur ? { aggregat, form: formVon(domIng, aggregat), cremig_schlagbar: cremigAus(temperatur, domIng, benannt), temperatur } : {}),
     label: gemischt ? anteile.map((a) => `${a.label} (${Math.round(a.anteilProzent)} %)`).join(' + ') : domIng.label,
     kurzlabel: gemischt ? anteile.map((a) => a.label).join(' + ') : domIng.label,
     gemischt,
@@ -54,7 +54,7 @@ export function propsOf(zutaten, ingredients, ctx = {}) {
   const out = {};
   for (const [rolle, entries] of Object.entries(zutaten)) {
     const genannt = ctx.zutatTemp?.[rolle] != null ? temperaturBereich(ctx.zutatTemp[rolle], ctx.benannt) : null;
-    out[rolle] = blendProps(entries, ingredients, genannt ?? standard);
+    out[rolle] = blendProps(entries, ingredients, genannt ?? standard, ctx.benannt);
   }
   return out;
 }
@@ -118,8 +118,14 @@ export function checkOperation(op, props, operations, fixiert = {}, data = null)
     if (b.wenn && !pruefeBedingung(b.wenn, props).ok) continue;
     const r = pruefeBedingung(b, props);
     if (r.ok) continue;
+    if ((b.strenge || 'hart') === 'frei') continue; // legitime Variante — kein Hinweis
+    // Im Zweifel Warnung (T62): ist die Eigenschaft aus der Temperatur nicht sicher gegeben (`unbestimmt`), wird nichts verboten und
+    // keine Vorbereitung eingefügt — es bleibt ein Hinweis mit der Temperatur.
+    if (r.ist === 'unbestimmt') {
+      empfehlungen.push({ ...b, ist: r.ist, strenge: 'empfohlen', unsicher: true, temperatur: props[b.rolle]?.temperatur ?? null });
+      continue;
+    }
     const strenge = b.strenge || 'hart';
-    if (strenge === 'frei') continue; // legitime Variante — kein Hinweis
     // Konflikt-Kennzeichnung (DR-019 Punkt 3/T24, Zutat-Ebene T31): eine gesperrte Rolle (oder
     // eine verantwortliche Zutat darin) wird nie automatisch angepasst (die eigentliche
     // Ersatzsuche kommt erst in T26) — hier wird nur sichtbar gemacht, WAS die Kollision
@@ -157,7 +163,7 @@ export function nachVorbereitung(prepKey, props, operations, data = null) {
     if (bereich) {
       const ing = data.ingredients[neu.key];
       const aggregat = aggregatAus(bereich, ing);
-      neu = { ...neu, temperatur: bereich, aggregat, form: formVon(ing, aggregat) };
+      neu = { ...neu, temperatur: bereich, aggregat, form: formVon(ing, aggregat), cremig_schlagbar: cremigAus(bereich, ing, data.temperaturen) };
     }
     next[rolle] = { ...neu, ...rest };
   }
@@ -266,7 +272,10 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
         blockaden.push({ id: f.id, ausloeser: op.label, text: beschreibeBedingungen([f], data) });
       }
     } else if (check.empfehlungen?.length) {
-      warnungen.push(`${op.label}: ${beschreibeBedingungen(check.empfehlungen, data)} empfohlen, aber nicht zwingend — Ergebnis kann etwas abweichen.`);
+      const normal = check.empfehlungen.filter((e) => !e.unsicher);
+      const unsicher = check.empfehlungen.filter((e) => e.unsicher);
+      if (normal.length) warnungen.push(`${op.label}: ${beschreibeBedingungen(normal, data)} empfohlen, aber nicht zwingend — Ergebnis kann etwas abweichen.`);
+      if (unsicher.length) warnungen.push(`${op.label}: ${unsicherText(unsicher, props, data)}`);
     }
     const nach = vorgaenger(key).filter((k) => k !== vorbereitungKey);
     schritte.push({ key, op, eingefuegt: false, nach: vorbereitungKey ? [...nach, vorbereitungKey] : nach });
@@ -280,7 +289,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
 }
 
 const AGGREGAT = { fest: 'festes', fluessig: 'flüssiges', pulver: 'pulvriges', stueckig: 'stückiges' };
-const IST = { fest: 'fest', fluessig: 'flüssig', pulver: 'pulvrig', stueckig: 'stückig', unbestimmt: 'unbestimmt (Temperatur um den Schmelzpunkt)', ...FORM_LABEL, true: 'ja', false: 'nein' };
+const IST = { fest: 'fest', fluessig: 'flüssig', pulver: 'pulvrig', stueckig: 'stückig', unbestimmt: 'unbestimmt',...FORM_LABEL, true: 'ja', false: 'nein' };
 
 // Anforderung als Text: „flüssiges“, „mindestens kleinteiliges“ (Form), sonst „eigenschaft = wert“
 function sollVon(f) {
@@ -290,6 +299,22 @@ function sollVon(f) {
   if (f.eigenschaft === 'form' && f.mindestens) return `mindestens ${FORM_LABEL[f.mindestens] ?? f.mindestens}es`;
   if (f.eigenschaft === 'form' && f.hoechstens) return `höchstens ${FORM_LABEL[f.hoechstens] ?? f.hoechstens}es`;
   return `${f.eigenschaft} = ${f.wert}`;
+}
+
+// Warnung für Anforderungen, die die Temperatur nicht sicher erfüllt (T62): was gebraucht wird, bei welcher Temperatur die Zutat steht und
+// wo der Umschlagpunkt liegt (Schmelzpunkt bzw. Bereich zum Aufschlagen).
+function unsicherText(liste, props, data) {
+  const teile = liste.map((f) => {
+    const ing = props[f.rolle];
+    let grund = '';
+    if (f.eigenschaft === 'aggregat' && typeof ing?.schmelzpunkt_c === 'number') grund = ` (Schmelzpunkt ${grad(ing.schmelzpunkt_c)} °C)`;
+    if (f.eigenschaft === 'cremig_schlagbar' && ing?.aufschlag_temp != null) {
+      const b = temperaturBereich(ing.aufschlag_temp, data.temperaturen);
+      if (b) grund = ` (plastisch bei ${b.min === b.max ? grad(b.min) : `${grad(b.min)}–${grad(b.max)}`} °C)`;
+    }
+    return `${sollVon(f)} ${rollenLabelVon(data, f.rolle)} nicht sicher gegeben — Temperatur ${fmtTemperatur(f.temperatur) || 'unbekannt'}${grund}`;
+  });
+  return `${teile.join(', ')}. Im Zweifel vorher herstellen, sonst kann das Ergebnis abweichen.`;
 }
 
 function beschreibeBedingungen(fehlend, data) {

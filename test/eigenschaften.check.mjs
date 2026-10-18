@@ -2,7 +2,7 @@
 import fs from 'fs';
 const P=new URL('../src/', import.meta.url).href;
 const J=(n)=>JSON.parse(fs.readFileSync(new URL(P+'data/'+n+'.json')));
-const { aggregatAus, formVon, erfuellt, standardBereich, FORM_SKALA, FORM_LABEL } = await import(P+'model/eigenschaften.js');
+const { aggregatAus, formVon, cremigAus, erfuellt, standardBereich, FORM_SKALA, FORM_LABEL } = await import(P+'model/eigenschaften.js');
 const { temperaturBereich } = await import(P+'model/temperatur.js');
 const { propsOf, blendProps, pruefeBedingung, checkOperation, nachVorbereitung, resolveMethod } = await import(P+'model/rules.js');
 const { normalizeRecipe, stats } = await import(P+'model/corpus.js');
@@ -26,7 +26,7 @@ ok(aggregatAus(std,ing.pflanzenoel)==='fluessig' && aggregatAus(std,ing.weizenme
 
 // --- Form: geordnete Skala --------------------------------------------------------------------------------------------------------
 ok(FORM_SKALA.join()==='block,stueckig,broeselig,kleinteilig,fluessig' && FORM_SKALA.every(f=>FORM_LABEL[f]),'Skala von grob nach fein, jede Stufe mit Anzeigename');
-ok(formVon(ing.butter,'fest')==='block' && formVon(ing.butter,'fluessig')==='fluessig' && formVon(ing.butter,'unbestimmt')===null,'Butter: fest = Block, flüssig = flüssig, unbestimmt = unbekannt');
+ok(formVon(ing.butter,'fest')==='block' && formVon(ing.butter,'fluessig')==='fluessig' && formVon(ing.butter,'unbestimmt')==='unbestimmt','Butter: fest = Block, flüssig = flüssig, unbestimmt bleibt unbestimmt');
 ok(formVon(ing.weizenmehl,'pulver')==='kleinteilig' && formVon(ing.schokolade,'stueckig')==='stueckig' && formVon(ing.hefe_frisch,'fest')==='broeselig' && formVon(ing.zitronenabrieb,'stueckig')==='kleinteilig' && formVon(ing.milch,'fluessig')==='fluessig','Form aus dem Aggregat; Frischhefe bröselig, Abrieb kleinteilig (Feld `form` der Zutat)');
 ok(erfuellt({eigenschaft:'form',mindestens:'kleinteilig'},'fluessig') && erfuellt({eigenschaft:'form',mindestens:'kleinteilig'},'kleinteilig') && !erfuellt({eigenschaft:'form',mindestens:'kleinteilig'},'broeselig') && !erfuellt({eigenschaft:'form',mindestens:'kleinteilig'},'block'),'„mindestens kleinteilig“: flüssig und kleinteilig erfüllen, bröselig und Block nicht');
 ok(erfuellt({eigenschaft:'form',hoechstens:'broeselig'},'block') && !erfuellt({eigenschaft:'form',hoechstens:'broeselig'},'kleinteilig') && erfuellt({eigenschaft:'form',mindestens:'stueckig',hoechstens:'kleinteilig'},'broeselig') && !erfuellt({eigenschaft:'form',mindestens:'stueckig',hoechstens:'kleinteilig'},'fluessig'),'„höchstens“ und beides zusammen (Spanne auf der Skala)');
@@ -42,7 +42,7 @@ ok(propsOf({fett:E('butter')},ing).fett.aggregat==='fest' && propsOf({fett:E('bu
 p=propsOf({fett:E('butter')},ing,{benannt:T,zutatTemp:{fett:50}});
 ok(p.fett.aggregat==='fluessig' && p.fett.form==='fluessig' && p.fett.temperatur.mitte===50,'Rezept nennt 50 °C für das Fett: flüssig');
 p=propsOf({fett:E('butter')},ing,{benannt:T,zutatTemp:{fett:'lauwarm'}});
-ok(p.fett.aggregat==='unbestimmt' && p.fett.form===null,'Rezept nennt „lauwarm“ (30–35 °C): unbestimmt — der Schmelzpunkt liegt im Bereich');
+ok(p.fett.aggregat==='unbestimmt' && p.fett.form==='unbestimmt','Rezept nennt „lauwarm“ (30–35 °C): unbestimmt — der Schmelzpunkt liegt im Bereich');
 p=propsOf({fett:E('butter')},ing,{benannt:T,zutatTemp:{fett:'gibtsnicht'}});
 ok(p.fett.aggregat==='fest' && p.fett.temperatur.name==='unterstellt','unbekannter Temperatur-Name: es bleibt beim Standard (keine stille Zufallsangabe)');
 p=propsOf({fett:E('butter'),aroma:E('zimt')},ing,{benannt:T,zutatTemp:{fett:'kuehlschrank'}});
@@ -57,7 +57,7 @@ ok(pruefeBedingung({rolle:'trieb',eigenschaft:'form',mindestens:'broeselig'},p).
 const lau=propsOf({fett:E('butter')},ing,{benannt:T,zutatTemp:{fett:'lauwarm'}});
 ok(pruefeBedingung({rolle:'fett',eigenschaft:'aggregat',wert:'fest'},lau).ist==='unbestimmt' && !pruefeBedingung({rolle:'fett',eigenschaft:'aggregat',wert:'fluessig'},lau).ok && !pruefeBedingung({rolle:'fett',eigenschaft:'aggregat',wert:'fest'},lau).ok,'unbestimmtes Aggregat erfüllt weder „fest“ noch „flüssig“');
 
-ok(pruefeBedingung({rolle:'fett',eigenschaft:'form',mindestens:'kleinteilig'},lau).ist==='unbekannt' && pruefeBedingung({rolle:'fett',eigenschaft:'form',mindestens:'kleinteilig'},lau).ok===false,'Form unbestimmt (null): „unbekannt“, nicht erfüllt');
+ok(pruefeBedingung({rolle:'fett',eigenschaft:'form',mindestens:'kleinteilig'},lau).ist==='unbestimmt' && pruefeBedingung({rolle:'fett',eigenschaft:'form',mindestens:'kleinteilig'},lau).ok===false && pruefeBedingung({rolle:'fett',eigenschaft:'gibtsnicht',wert:1},lau).ist==='unbekannt','Form unbestimmt: „unbestimmt“, nicht erfüllt; eine unbekannte Eigenschaft bleibt „unbekannt“');
 
 // --- Vorbereitung: Schmelzen setzt die Temperatur, Aggregat und Form folgen --------------------------------------------------------
 const nach=nachVorbereitung('schmelzen',propsOf({fett:E('butter')},ing,{benannt:T}),data.operations,data);
@@ -78,7 +78,7 @@ ok(res.status==='ok' && !res.schritte.some(s=>s.key==='schmelzen'),'Muffin mit �
 res=resolveMethod('muffin',{...basis,fett:E('butter')},v0.gefaess,data,{rollen:{},zutaten:{}},{fett:50});
 ok(res.status==='ok' && !res.schritte.some(s=>s.key==='schmelzen'),'Rezept nennt „Butter 50 °C“ (schon flüssig): kein Schmelzen eingefügt');
 res=resolveMethod('muffin',{...basis,fett:E('butter')},v0.gefaess,data,{rollen:{},zutaten:{}},{fett:'lauwarm'});
-ok(res.status==='invalid' && res.gruende.some(g=>/ist: unbestimmt/.test(g)),'Butter „lauwarm“: weder fest (zum Schmelzen) noch flüssig — ungültig mit Hinweis „unbestimmt“ (bekannte Randstelle, DR-032)');
+ok(res.status==='ok' && !res.schritte.some(s=>s.key==='schmelzen') && res.warnungen.some(w=>/flüssiges Fett nicht sicher gegeben/.test(w) && /30–35 °C \(lauwarm\)/.test(w) && /Schmelzpunkt 34 °C/.test(w) && /Im Zweifel vorher herstellen/.test(w)),'Butter „lauwarm“ (30–35 °C): im Zweifel Warnung statt Verbot — kein Schmelzen eingefügt, der Hinweis nennt Temperatur und Schmelzpunkt');
 const ks={}; for (const [k,x] of Object.entries(data.archetypes.ruehrteig.varianten)) ks[k]=stats(J('corpus/'+x.korpus).map(r=>normalizeRecipe(r,data.ingredients,{rollen:rr})),rr);
 const c=compute({archetyp:'ruehrteig',gefaess:v0.gefaess,methode:'muffin',fixiert:{rollen:{},zutaten:{}},zutaten:{...basis,fett:E('butter')},zutatTemperaturen:{fett:50}},data,ks);
 ok(c.status!=='prep' && !c.regelIds.some(i=>/^prep:schmelzen/.test(i)),'Engine reicht die Zutaten-Temperatur durch (state.zutatTemperaturen)');
@@ -87,6 +87,48 @@ ok(c0.status==='prep' && c0.regelIds.includes('prep:schmelzen'),'ohne Angabe wie
 {const regel={regeln:[{id:'t',rolle:'fett',wenn:{rolle:'fett',eigenschaft:'aggregat',wert:'fluessig'},faktor:0.5,begruendung:'Regel greift bei {fett}.',quelle:'t'}]};
  const zt=(extra)=>compute({archetyp:'ruehrteig',gefaess:v0.gefaess,methode:'muffin',fixiert:{rollen:{},zutaten:{}},zutaten:{...basis,fett:E('butter')},...extra},{...data,erfahrungsregeln:regel},ks);
  ok(zt({zutatTemperaturen:{fett:50}}).anpassungen.some(a=>/Regel greift/.test(a)) && !zt({}).anpassungen.some(a=>/Regel greift/.test(a)),'die Erfahrungsregeln der Engine sehen den Zustand „Butter 50 °C = flüssig“ (und bei fester Butter nicht)');}
+
+
+// --- Cremig schlagbar und Aufschlag-Temperatur (T62): im Zweifel Warnung ----------------------------------------------------------
+const pl=R('plastisch'); // 18–22 °C
+ok(cremigAus(R({min:19,max:21}),ing.butter,T)===true && cremigAus(pl,ing.butter,T)===true && cremigAus(R({wert:20}),ing.butter,T)===true,'ganz im Bereich zum Aufschlagen (Butter 18–22 °C): ja');
+ok(cremigAus(R('kuehlschrank'),ing.butter,T)===false && cremigAus({min:50,max:50},ing.butter,T)===false && cremigAus({min:22.1,max:30},ing.butter,T)===false && cremigAus({min:10,max:17.9},ing.butter,T)===false,'ganz daneben (Kühlschrank, 50 °C, knapp über 22, knapp unter 18): nein');
+ok(cremigAus(std,ing.butter,T)==='unbestimmt' && cremigAus({min:18,max:25},ing.butter,T)==='unbestimmt' && cremigAus({min:22,max:30},ing.butter,T)==='unbestimmt' && cremigAus({min:17,max:20},ing.butter,T)==='unbestimmt','Überlappt der Bereich nur teilweise (Standard −20 bis 27, auch bei Berührung am Rand 22): unbestimmt');
+ok(cremigAus(std,ing.margarine,T)==='unbestimmt' && cremigAus({min:16,max:23},ing.margarine,T)===true,'Margarine (15–24 °C) hat ihren eigenen Bereich');
+ok(cremigAus(std,ing.pflanzenoel,T)===false && cremigAus(std,ing.weizenmehl,T)===undefined && cremigAus(null,ing.butter,T)===true && cremigAus(std,{aufschlag_temp:'gibtsnicht',cremig_schlagbar:true},T)===true,'ohne Aufschlag-Temperatur oder ohne Temperatur gilt das Feld der Zutat; unbekannter Name: Feld der Zutat');
+p=propsOf({fett:E('butter')},ing,{benannt:T});
+ok(p.fett.cremig_schlagbar==='unbestimmt' && propsOf({fett:E('butter')},ing,{benannt:T,zutatTemp:{fett:'plastisch'}}).fett.cremig_schlagbar===true && propsOf({fett:E('butter')},ing,{benannt:T,zutatTemp:{fett:'kuehlschrank'}}).fett.cremig_schlagbar===false,'propsOf: Standard unbestimmt, „plastisch“ ja, Kühlschrank nein');
+ok(propsOf({fett:E('butter')},ing).fett.cremig_schlagbar===true,'ohne Temperatur-Daten bleibt das Feld der Zutat (alter Aufruf)');
+ok(nachVorbereitung('schmelzen',propsOf({fett:E('butter')},ing,{benannt:T}),data.operations,data).fett.cremig_schlagbar===false && !('cremig_schlagbar' in data.operations.schmelzen.wirkt_auf_eigenschaften.fett),'Schmelzen: geschmolzene Butter ist nicht cremig schlagbar — aus der Temperatur abgeleitet, nicht von Hand gesetzt');
+// Checks an der Operation: unbestimmt → Hinweis (empfehlungen mit unsicher), nie ein Grund oder eine eingefügte Vorbereitung
+const aufschl={label:'Aufschlagen',voraussetzung:[{rolle:'fett',eigenschaft:'cremig_schlagbar',wert:true,strenge:'hart',id:'x'}]};
+let ck=checkOperation(aufschl,propsOf({fett:E('butter')},ing,{benannt:T}),data.operations);
+ok(ck.ok && ck.fehlend.length===0 && ck.vorbereitung===null && ck.empfehlungen.length===1 && ck.empfehlungen[0].unsicher===true && ck.empfehlungen[0].strenge==='empfohlen' && ck.empfehlungen[0].temperatur.name==='unterstellt','hart-Anforderung, Wert unbestimmt: ok mit Hinweis (unsicher, Temperatur), keine Vorbereitung');
+ck=checkOperation(aufschl,propsOf({fett:E('butter')},ing,{benannt:T,zutatTemp:{fett:'kuehlschrank'}}),data.operations);
+ok(!ck.ok && ck.fehlend.length===1 && ck.fehlend[0].ist==='false' && ck.empfehlungen.length===0,'sicher nicht erfüllt (Butter aus dem Kühlschrank): hart, ungültig');
+ck=checkOperation({...aufschl,voraussetzung:[{...aufschl.voraussetzung[0],strenge:'frei'}]},propsOf({fett:E('butter')},ing,{benannt:T}),data.operations);
+ok(ck.ok && ck.empfehlungen.length===0,'Strenge „frei“ bleibt ohne Hinweis, auch bei unbestimmt');
+ck=checkOperation({...aufschl,voraussetzung:[{...aufschl.voraussetzung[0],strenge:'empfohlen'}]},propsOf({fett:E('butter')},ing,{benannt:T}),data.operations);
+ok(ck.ok && ck.empfehlungen.length===1 && ck.empfehlungen[0].unsicher===true,'Strenge „empfohlen“ und unbestimmt: ebenfalls Hinweis mit Temperatur');
+// Ende-zu-Ende: Crememethode
+{const a=data.archetypes.ruehrteig; const vk=a.varianten.kastenkuchen; const b2={}; for (const r of a.rollen) b2[r.rolle]=E(vk.bestof[r.rolle]!==undefined?vk.bestof[r.rolle]:r.default);
+ const ev=(zt)=>compute({archetyp:'ruehrteig',gefaess:vk.gefaess,methode:'creme',fixiert:{rollen:{},zutaten:{}},zutaten:b2,zutatTemperaturen:zt},data,ks);
+ const w=(c)=>c.warnungen.filter(x=>/nicht sicher gegeben/.test(x));
+ ok(ev().status==='ok' && w(ev()).length===1 && /Fett \+ Zucker aufschlagen: cremig schlagbares Fett nicht sicher gegeben — Temperatur -20 bis 27 °C \(unterstellt\) \(plastisch bei 18–22 °C\)/.test(w(ev())[0]),'Kastenkuchen (Creme) mit Butter ohne Temperaturangabe: ein Hinweis, Rezept bleibt gültig');
+ ok(ev({fett:'plastisch'}).status==='ok' && w(ev({fett:'plastisch'})).length===0 && ev({fett:20}).warnungen.every(x=>!/nicht sicher/.test(x)),'Rezept nennt „Butter zimmerwarm (18–22 °C)“: kein Hinweis');
+ ok(ev({fett:'kuehlschrank'}).status==='invalid' && ev({fett:'kuehlschrank'}).gruende.some(g=>/cremig schlagbares Fett \(ist: nein\)/.test(g)),'Rezept nennt „Butter aus dem Kühlschrank“: Creme ist ungültig (sicher nicht plastisch)');
+ // gemischt: eine normale Empfehlung und ein Zweifel an derselben Operation ergeben zwei getrennte Meldungen, jede nur mit ihrem Teil
+ const creme=data.methods.creme;
+ const d2={...data,methods:{...data.methods,creme:{...creme,sequenz:creme.sequenz.map(e=>typeof e==='object' && e.key==='aufschlagen' ? {...e,voraussetzung:[...e.voraussetzung,{rolle:'fett',eigenschaft:'aggregat',wert:'fluessig',strenge:'empfohlen'}]} : e)}}};
+ const cg=compute({archetyp:'ruehrteig',gefaess:vk.gefaess,methode:'creme',fixiert:{rollen:{},zutaten:{}},zutaten:b2},d2,ks);
+ const wn=cg.warnungen.filter(x=>/empfohlen, aber nicht zwingend/.test(x)), wu=cg.warnungen.filter(x=>/nicht sicher gegeben/.test(x));
+ ok(wn.length===1 && !/cremig/.test(wn[0]) && /flüssiges Fett/.test(wn[0]) && wu.length===1 && /cremig schlagbares/.test(wu[0]) && !/flüssiges/.test(wu[0]),'normale Empfehlung und Zweifel an einer Operation: zwei Meldungen, jede nur mit ihrem Teil');
+ // Aufschlag-Temperatur als einzelne Zahl: „plastisch bei 20 °C“
+ const d3={...data,ingredients:{...data.ingredients,butter:{...data.ingredients.butter,aufschlag_temp:20}}};
+ const c3=compute({archetyp:'ruehrteig',gefaess:vk.gefaess,methode:'creme',fixiert:{rollen:{},zutaten:{}},zutaten:b2},d3,ks);
+ ok(c3.warnungen.some(x=>/\(plastisch bei 20 °C\)/.test(x)),'Aufschlag-Temperatur als einzelne Zahl: „plastisch bei 20 °C“ (keine Spanne)');
+ ok(ev({fett:'lauwarm'}).status==='invalid' && ev({fett:'lauwarm'}).gruende.some(g=>/cremig schlagbares Fett \(ist: nein\)/.test(g)),'Butter „lauwarm“ (30–35 °C) liegt ganz über 22 °C: sicher nicht plastisch, Creme ungültig (der Zweifel beim Schmelzpunkt allein hebt das nicht auf)');
+}
 
 // --- Daten ---------------------------------------------------------------------------------------------------------------------------
 const formen=Object.entries(ing).filter(([k,v])=>!k.startsWith('_') && v?.form);

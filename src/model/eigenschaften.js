@@ -23,11 +23,22 @@ export function aggregatAus(bereich, ing) {
   return 'unbestimmt';
 }
 
-// Form: flüssig, wenn flüssig; sonst das Feld `form` der Zutat, sonst aus dem Aggregat; unbestimmt bleibt unbekannt (null).
+// Form: flüssig, wenn flüssig; sonst das Feld `form` der Zutat, sonst aus dem Aggregat; unbestimmt bleibt unbestimmt.
 export function formVon(ing, aggregat) {
   if (aggregat === 'fluessig') return 'fluessig';
-  if (aggregat === 'unbestimmt') return null;
+  if (aggregat === 'unbestimmt') return 'unbestimmt';
   return ing?.form ?? FORM_AUS_AGGREGAT[aggregat] ?? null;
+}
+
+// Cremig schlagbar (T62): hat die Zutat `aufschlag_temp`, entscheidet der Bereich — ganz darin ja, ganz daneben nein, sonst unbestimmt.
+// Ohne `aufschlag_temp` oder ohne Temperatur gilt das Feld der Zutat.
+export function cremigAus(bereich, ing, benannt) {
+  if (!bereich || ing?.aufschlag_temp == null) return ing?.cremig_schlagbar;
+  const soll = temperaturBereich(ing.aufschlag_temp, benannt);
+  if (!soll) return ing.cremig_schlagbar;
+  if (bereich.min >= soll.min && bereich.max <= soll.max) return true;
+  if (bereich.max < soll.min || bereich.min > soll.max) return false;
+  return 'unbestimmt';
 }
 
 // Gilt die Bedingung `b` für den Ist-Wert? `wert` = gleich; `mindestens` / `hoechstens` = auf der Skala der Eigenschaft (Form).
