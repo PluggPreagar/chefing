@@ -231,5 +231,98 @@
     "triebquelle": "Backpulver (chemisch)",
     "geeignet_fuer": ["pfanne"],
     "warum": "Wie die Muffin-Methode: wenig rühren, Trieb aus dem Backpulver. Der dickere Teig braucht keine Ruhezeit."
+  },
+  "hefe_direkt": {
+    "label": "Direkte Führung",
+    "kurz": "Hefe lösen, kneten, gehen lassen, formen, nochmal gehen lassen, backen",
+    "sequenz": [
+      "einlegen",
+      "hefe_ansetzen",
+      "kneten",
+      "einlage_unterheben",
+      "gehen",
+      "formen",
+      "stueckgare",
+      "backen"
+    ],
+    "optional": ["einlegen", "einlage_unterheben"],
+    "nach": {"einlegen": [], "hefe_ansetzen": [], "kneten": ["hefe_ansetzen"], "einlage_unterheben": ["kneten", "einlegen"]},
+    "textur": "gleichmäßig, weich bis elastisch, je nach Fett und Ei",
+    "triebquelle": "Hefe (biologisch), ein bis zwei Gehzeiten",
+    "geeignet_fuer": ["brotform", "blech"],
+    "warum": "Die Standard-Methode: alle Zutaten in einem Teig, eine Gare vor dem Formen, eine kurze danach. Schnell (etwa 2–3 Stunden), aber weniger Aroma als mit Vorteig oder langer Gare."
+  },
+  "hefe_vorteig": {
+    "label": "Vorteig-Methode",
+    "kurz": "Vorteig ansetzen und reifen lassen, Hauptteig kneten, gehen lassen, formen, backen",
+    "sequenz": [
+      "einlegen",
+      "vorteig_ansetzen",
+      "vorteig_reifen",
+      "kneten",
+      "einlage_unterheben",
+      "gehen",
+      "formen",
+      "stueckgare",
+      "backen"
+    ],
+    "optional": ["einlegen", "einlage_unterheben"],
+    "nach": {"einlegen": [], "vorteig_ansetzen": [], "vorteig_reifen": ["vorteig_ansetzen"], "kneten": ["vorteig_reifen"], "einlage_unterheben": ["kneten", "einlegen"]},
+    "textur": "aromatischer, feinporiger, bleibt länger frisch",
+    "triebquelle": "Hefe, die vorab im Vorteig vermehrt wird",
+    "geeignet_fuer": ["brotform", "blech"],
+    "warum": "Ein Teil der Hefe und des Mehls reift vorab: mehr Aroma, stabilere Gare, weniger Hefe nötig. Kostet Zeit (Dampfl 15–30 Minuten, Poolish über Nacht)."
+  },
+  "hefe_noknead": {
+    "label": "Lange Führung ohne Kneten",
+    "kurz": "Alles verrühren, sehr lange gehen lassen, formen, nochmal gehen lassen, backen",
+    "sequenz": [
+      "einlegen",
+      {
+        "key": "verruehren_ohne_kneten",
+        "label": "Alles zu einem Teig verrühren",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "sanft",
+        "variante": "verrühren (nicht kneten)",
+        "auf": ["struktur", "fluessigkeit", "trieb", "salz", "fett", "suesse", "bindung", "aroma"],
+        "voraussetzung": [],
+        "wirkung": "Mehl, Wasser, Hefe und Salz werden nur verrührt, bis kein Mehl mehr trocken ist. Das Gluten bildet sich von allein während der langen Gare — Kneten ersetzt hier die Zeit.",
+        "risiko": "Zu wenig Hefe oder zu kalt → die Gare braucht noch viel länger, der Teig bleibt dicht.",
+        "dauer_min": 3
+      },
+      "einlage_unterheben",
+      {
+        "key": "gehen",
+        "label": "Teig sehr lange gehen lassen",
+        "typ": "warten",
+        "verb": "mischen",
+        "intensitaet": "passiv",
+        "variante": "lange Gare (Raumtemperatur oder kühl)",
+        "auf": ["struktur", "fluessigkeit", "trieb"],
+        "voraussetzung": [
+          {
+            "rolle": "struktur", "eigenschaft": "bildet_gluten", "wert": true, "strenge": "hart", "id": "hefe_braucht_gluten",
+            "hinweis": "ein Mehl mit Klebereiweiß — ohne Gluten kann der Teig das Hefegas nicht halten und geht nicht auf"
+          }
+        ],
+        "zeit": {
+          "min": 360, "typ": 720, "max": 1800, "ziel": "volumen_verdoppelt", "strenge": "empfohlen",
+          "unter_min": "für eine Führung ohne Kneten zu kurz — das Gluten hat sich nicht von allein ausgebildet, das Brot bleibt dicht.",
+          "ueber_max": "der Teig übergärt: Gerüst reißt, Geschmack wird alkoholisch."
+        },
+        "wirkung": "Mit sehr wenig Hefe geht der Teig 6 bis 30 Stunden bei Raumtemperatur oder im Kühlschrank. In dieser Zeit bildet sich das Gluten ohne Kneten, und es entsteht viel Aroma.",
+        "dauer_min": 720
+      },
+      "formen",
+      "stueckgare",
+      "backen"
+    ],
+    "optional": ["einlegen", "einlage_unterheben"],
+    "nach": {"einlegen": [], "verruehren_ohne_kneten": [], "einlage_unterheben": ["verruehren_ohne_kneten", "einlegen"]},
+    "textur": "großporig, saftig, kräftige Kruste",
+    "triebquelle": "wenig Hefe, sehr lange Gare",
+    "geeignet_fuer": ["brotform", "blech"],
+    "warum": "Zeit statt Arbeit: kaum Handarbeit, viel Aroma, aber ein ganzer Tag Vorlauf. Nur mit Mehl, das genug Gluten bildet."
   }
 }

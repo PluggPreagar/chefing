@@ -64,6 +64,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
     const markierung = { ausserhalb_q: ' ◦', ausserhalb_spanne: ' ⚠' };
     for (const z of computed.bilanz) {
       const k = z.korpus;
+      if (!(z.gramm > 0) && !(k?.max > 0)) continue; // Größe kommt im Archetyp nicht vor (z. B. Hefe im Rührteig)
       bb.append(tr([z.label, `${fmtProzent(z.gramm)} g`, `${fmtProzent(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmtProzent(k.q1)}–${fmtProzent(k.q3)} %` : '—']));
     }
     bt.append(bb);

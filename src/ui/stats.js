@@ -26,7 +26,7 @@ export function renderStats(root, korpusStats, data) {
     }
     // Gesamtbilanz (DR-020): Wasser/Fett/Zucker über alle Zutaten, Bäckerprozent
     for (const [g, s] of Object.entries(st.bilanz || {})) {
-      if (!s) continue;
+      if (!s || !(s.max > 0)) continue; // Größe kommt im Archetyp nicht vor
       t.append(tr([`Σ ${GROESSEN_LABEL[g]}`, `${fmtProzent(s.median)} %`, `${fmtProzent(s.q1)}–${fmtProzent(s.q3)} %`, `${fmtProzent(s.min)}–${fmtProzent(s.max)} %`, '—']));
     }
     box.append(t);

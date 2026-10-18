@@ -1,0 +1,1139 @@
+[
+  {
+    "id": "martin-thoma-weissbrot",
+    "titel": "Weißbrot Rezept (Silikon-Kastenform)",
+    "quelle": {
+      "url": "https://martin-thoma.com/weissbrot-rezept/",
+      "site": "martin-thoma.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl (Type 405 oder 550)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 350,
+        "einheit": "ml",
+        "original": "350 ml Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "7 g (1 Päckchen) Trockenhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 12,
+        "einheit": "g",
+        "original": "12 g (2 TL) Salz"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 6,
+        "einheit": "g",
+        "original": "6 g (1 TL) Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 12,
+        "einheit": "g",
+        "original": "12 g (1 EL) Olivenöl"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 45
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Alle Zutaten zu einem glatten Teig kneten.",
+      "Teig etwa 45 Minuten ruhen lassen.",
+      "In eine Silikon-Kastenform geben.",
+      "Form in den Ofen schieben, ein Blech mit Wasser für Dampf dazustellen.",
+      "Bei 190 °C Umluft backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": 190,
+      "minuten": 40,
+      "original": "190 °C Umluft, nach Erreichen der Temperatur 40 Minuten"
+    },
+    "stueckzahl": null,
+    "notizen": "Olivenöl als pflanzenoel erfasst. Keine Knetzeit und keine getrennte Stückgare angegeben (Teig geht 45 min, dann Form). Silikonform ohne Größenangabe. Wasser 70 %, Salz 2,4 %, Hefe-Äquivalent 4,2 %."
+  },
+  {
+    "id": "lecker-toastbrot-selber-backen",
+    "titel": "Toastbrot selber backen",
+    "quelle": {
+      "url": "https://www.lecker.de/toastbrot-selber-backen-84931.html",
+      "site": "lecker.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Mehl (z. B. Typ 550)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 150,
+        "einheit": "ml",
+        "original": "150 ml Milch"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 150,
+        "einheit": "ml",
+        "original": "150 ml Wasser (nur in der Zubereitung genannt)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 0.5,
+        "einheit": "stk",
+        "original": "1/2 Würfel frische Hefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Salz"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Butter"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 30,
+      "stueckgare": 60
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Milch mit Butter erwärmen, bis die Butter schmilzt.",
+      "Mehl, Zucker, Salz mischen, Hefe darüber bröckeln, lauwarme Milchmischung und Wasser zugeben.",
+      "Mit den Knethaken zu glattem Teig verkneten, etwa 30 Minuten zugedeckt ruhen lassen.",
+      "Zu einer Rolle in Formlänge (ca. 25 cm) formen, in die gefettete Kastenform legen, etwa 1 Stunde gehen lassen.",
+      "Oberfläche mit Wasser bestreichen und backen, optional Schale Wasser im Ofen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 30,
+      "original": "ca. 30 Minuten bei 180 °C Ober-/Unterhitze bzw. 160 °C Umluft"
+    },
+    "stueckzahl": null,
+    "notizen": "Wasser steht nur im Ablauf, nicht in der Zutatenliste. Knetzeit nicht angegeben. Wasser+Milch 60 %, Salz 2,4 %, Hefe 4,2 %. Kastenform ca. 25 cm."
+  },
+  {
+    "id": "oekotest-toastbrot-grundrezept",
+    "titel": "Toastbrot selber backen Grundrezept",
+    "quelle": {
+      "url": "https://www.oekotest.de/essen-trinken/Toastbrot-selber-backen-Grundrezept-und-Varianten_15752_1.html",
+      "site": "oekotest.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl Type 550"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 275,
+        "einheit": "ml",
+        "original": "275 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 0.5,
+        "einheit": "stk",
+        "original": "1/2 Würfel Frischhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g Salz"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 75,
+        "einheit": "g",
+        "original": "75 g Butter"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 45,
+      "stueckgare": 45
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Milch mit gewürfelter Butter lauwarm erwärmen.",
+      "Mehl, Zucker, Salz mischen, Hefe darüber bröckeln, Milchmischung zugeben und glatt kneten.",
+      "Zugedeckt etwa 45 Minuten warm gehen lassen.",
+      "Kurz durchkneten, zur dicken Rolle in Formlänge formen und in die gefettete Kastenform legen.",
+      "Weitere 45 Minuten gehen lassen, bis das Volumen deutlich zugenommen hat, dann backen (Schale Wasser im Ofen)."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 30,
+      "original": "ca. 30 Minuten bei 180 °C bzw. 160 °C Umluft; bei zu starker Bräunung mit Alufolie abdecken"
+    },
+    "stueckzahl": null,
+    "notizen": "Seite nennt 180/160 °C ohne ausdrücklich Ober-/Unterhitze zu sagen. Knetzeit nicht angegeben. Milch 55 %, Salz 2 %, Hefe 4,2 %."
+  },
+  {
+    "id": "utopia-weissbrot-klassiker",
+    "titel": "Weißbrot backen, einfaches Rezept für den Klassiker",
+    "quelle": {
+      "url": "https://utopia.de/ratgeber/weissbrot-backen-einfaches-rezept-fuer-den-klassiker",
+      "site": "utopia.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 850,
+        "einheit": "g",
+        "original": "850 g Mehl (im Text als Weizenmehl bezeichnet)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 600,
+        "einheit": "ml",
+        "original": "600 ml lauwarmes Wasser (davon 150 ml für die Hefe)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Packung Trockenhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 3,
+        "einheit": "tl",
+        "original": "1 EL Salz"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Zucker"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 120,
+      "stueckgare": 60
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe und Zucker in 150 ml lauwarmem Wasser verrühren.",
+      "Mehl und Salz mischen, Hefewasser und restliches Wasser zugießen.",
+      "Teig glatt kneten und mindestens 2 Stunden warm gehen lassen.",
+      "Nochmals durchkneten, in die Kastenform legen und etwa 1 Stunde gehen lassen.",
+      "Schräg einschneiden, mit Hafermilch bestreichen und backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": 180,
+      "minuten": 45,
+      "original": "ca. 45 Minuten bei 180 °C Umluft"
+    },
+    "stueckzahl": null,
+    "notizen": "Packungsgröße der Hefe nicht angegeben, 1 Päckchen = 7 g angenommen. 1 EL Salz als 3 TL (18 g) erfasst. Mehltyp nicht genannt, Mehl laut Einleitung Weizenmehl. Kastenformgröße nicht angegeben. Hafermilch zum Bestreichen nicht erfasst. Wasser 70,6 %, Salz 2,1 %, Hefe-Äquivalent 2,5 %."
+  },
+  {
+    "id": "gutekueche-weissbrot-frische-hefe",
+    "titel": "Weißbrot mit frischer Hefe",
+    "quelle": {
+      "url": "https://www.gutekueche.de/weissbrot-mit-frischer-hefe-rezept-24564",
+      "site": "gutekueche.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl Type 550"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 240,
+        "einheit": "ml",
+        "original": "240 ml lauwarmes Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Würfel frische Hefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 3,
+        "einheit": "tl",
+        "original": "1 EL Salz"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "kneten": 10,
+      "gehen": 60,
+      "stueckgare": 30
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe mit Zucker im lauwarmen Wasser auflösen.",
+      "Mehl, Salz und Hefewasser etwa 10 Minuten in der Maschine kneten.",
+      "60 Minuten warm gehen lassen.",
+      "Zum Laib formen, in die gefettete Kastenform legen, 30 Minuten gehen lassen.",
+      "Mit Wasser bestreichen, einschneiden und mit Schüssel Wasser im Ofen backen: erst heiß, dann niedriger."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": 210,
+      "minuten": 50,
+      "original": "10 Min. bei 210 °C Umluft, dann 40 Min. bei 180 °C Umluft"
+    },
+    "stueckzahl": null,
+    "notizen": "Außerhalb der Standardspannen, aber so im Original: Wasser nur 48 %, 1 EL Salz = 18 g (3,6 %, als 3 TL erfasst), Hefe 1 Würfel = 8,4 %. Zucker als Prise. Temperatur im Feld ist die erste Phase (210), danach 180 Umluft. Kastenformgröße nicht angegeben. Prise Zucker nicht erfasst (nicht umrechenbar, vernachlässigbar)."
+  },
+  {
+    "id": "brot-backen-weissbrot-kastenform",
+    "titel": "Weißbrot aus der Kastenform",
+    "quelle": {
+      "url": "https://brot-backen.de/weissbrot-kastenform/",
+      "site": "brot-backen.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl Type 550"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 300,
+        "einheit": "ml",
+        "original": "300 ml lauwarmes Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 7,
+        "einheit": "g",
+        "original": "7 g Trockenhefe (oder 20 g frische Hefe)"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g Salz"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Öl (Sonnenblumen- oder Rapsöl)"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "kneten": 10,
+      "gehen": 60,
+      "stueckgare": 30
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe und Zucker im lauwarmen Wasser lösen, etwa 5 Minuten stehen lassen (kein echter Vorteig).",
+      "Mehl, Salz, Hefewasser und Öl etwa 10 Minuten zu elastischem Teig kneten.",
+      "Abgedeckt 1 bis 1,5 Stunden bis zur Verdopplung gehen lassen.",
+      "Zum länglichen Laib formen, in die geölte Kastenform legen, 30 Minuten gehen lassen.",
+      "Einschneiden, erst heiß anbacken, dann Temperatur senken."
+    ],
+    "backen": {
+      "tempOU": 220,
+      "tempUmluft": null,
+      "minuten": 40,
+      "original": "10 Min. bei 220 °C Ober-/Unterhitze, dann 30 Min. bei 190 °C"
+    },
+    "stueckzahl": null,
+    "notizen": "Stockgare 1 bis 1,5 h angegeben, 60 min erfasst (Rezeptkarte: Gehzeit gesamt 1 h 30). Hefe wahlweise Trocken (erfasst) oder Frisch. Temperatur im Feld ist die erste Phase (220). Kastenformgröße nicht angegeben. Wasser 60 %, Salz 2 %, Hefe-Äquivalent 4,2 %."
+  },
+  {
+    "id": "kochbar-weissbrot-kastenbrot",
+    "titel": "Weißbrot - schnell & einfach",
+    "quelle": {
+      "url": "https://www.kochbar.de/rezept/535471/Weissbrot.html",
+      "site": "kochbar.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 400,
+        "einheit": "g",
+        "original": "400 g Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml warmes Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Trockenhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Salz"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 3,
+        "einheit": "el",
+        "original": "3 EL Öl"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 30
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Mehl mit der Trockenhefe mischen.",
+      "Öl, Salz, Zucker und warmes Wasser zugeben und zu einem Teig kneten.",
+      "Zugedeckt etwa 30 Minuten warm gehen lassen.",
+      "Nochmals durchkneten, in die Kastenform legen und der Länge nach einschneiden.",
+      "Backen, zur Hälfte der Zeit mit Wasser bestreichen."
+    ],
+    "backen": {
+      "tempOU": 200,
+      "tempUmluft": null,
+      "minuten": 35,
+      "original": "ca. 35 Minuten bei 200 °C Ober-/Unterhitze"
+    },
+    "stueckzahl": null,
+    "notizen": "Mehltyp nicht genannt (nur Mehl, in Weißbrot-Rezept als Weizenmehl angenommen). Päckchengröße nicht angegeben, 7 g angenommen. Keine Knetzeit, keine getrennte Stückgare, Formgröße unbekannt. Wasser 62,5 %, Salz 1,5 %, Hefe-Äquivalent 5,3 %."
+  },
+  {
+    "id": "kuechenlatein-milchbrot-dan-lepard",
+    "titel": "Dan Lepards Milchbrot",
+    "quelle": {
+      "url": "https://kuechenlatein.com/dan-lepards-milchbrot/",
+      "site": "kuechenlatein.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 625,
+        "einheit": "g",
+        "original": "625 g Weizenmehl Type 550"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 375,
+        "einheit": "g",
+        "original": "375 g Vollmilch"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 ml kaltes Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Trockenhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 gestrichene TL Salz"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 25,
+        "einheit": "g",
+        "original": "25 g Zucker oder Honig"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 75,
+        "einheit": "g",
+        "original": "75 g weiche Butter"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 60,
+      "stueckgare": 30
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Milch aufkochen, mit dem kalten Wasser abkühlen, Hefe zugeben, 5 Minuten stehen lassen.",
+      "Mehl, Zucker, Salz und Butter zugeben, grob mischen, kurz kräftig kneten.",
+      "1 Stunde ruhen lassen, nach 20 und 40 Minuten kurz auf geölter Fläche kneten.",
+      "In 2 Stücke teilen, zu Kugeln formen und in die Form legen, etwa 30 Minuten gehen lassen.",
+      "Bemehlen, nach Wunsch einschneiden und backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 45,
+      "original": "180 °C, 40 bis 50 Minuten je nach Formgröße (Ober-/Umluft nicht angegeben)"
+    },
+    "stueckzahl": null,
+    "notizen": "Zucker ODER Honig im Original, Zucker erfasst. Milch in g (375 g), nicht umgerechnet. 2 TL Trockenhefe = ca. 6 g geschätzt. Backzeit 40-50, Mittelwert 45; Heizart nicht genannt (180 als OU erfasst). Form 25 x 12 x 9,5 cm (oder 2 kleine Formen). Hydration 76 % (hoch, aber so im Original), Salz 1,9 %, Hefe-Äquivalent ca. 2,9 %. Rezept von Dan Lepard, auf kuechenlatein.com wiedergegeben."
+  },
+  {
+    "id": "eat-toastbrot-selber-backen",
+    "titel": "Toastbrot selber backen",
+    "quelle": {
+      "url": "https://eat.de/rezept/toastbrot-selber-backen/",
+      "site": "eat.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl Type 405"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 275,
+        "einheit": "ml",
+        "original": "275 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 20,
+        "einheit": "g",
+        "original": "20 g frische Hefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 11,
+        "einheit": "g",
+        "original": "11 g Salz"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g weiche Butter"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "kneten": 7,
+      "gehen": 45,
+      "stueckgare": 60
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Milch auf 25 bis 32 °C erwärmen, Zucker und Hefe darin lösen.",
+      "Mehl und Salz mischen, Butter und Hefemilch zugeben, 6 bis 8 Minuten kneten.",
+      "Zugedeckt etwa 45 Minuten gehen lassen.",
+      "Zu einer Rolle formen, in die gefettete Kastenform legen, etwa 60 Minuten gehen lassen.",
+      "Mit Wasser bestreichen, einschneiden und mit Schale Wasser im Ofen backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 30,
+      "original": "ca. 30 Minuten bei 180 °C Ober-/Unterhitze, mittlere Schiene"
+    },
+    "stueckzahl": null,
+    "notizen": "Kastenform 30 x 12 cm. Seite nennt Trockenhefe (1 Päckchen, 7 g) als Alternative. Kneten 6-8 min, 7 erfasst. Milch 55 %, Salz 2,2 %, Hefe 4 %."
+  },
+  {
+    "id": "einfachekochrezepte-sandwichbrot",
+    "titel": "Sandwichbrot Rezept",
+    "quelle": {
+      "url": "https://einfachekochrezepte.com/sandwichbrot-rezept/",
+      "site": "einfachekochrezepte.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 480,
+        "einheit": "g",
+        "original": "480 g Weizenmehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 125,
+        "einheit": "ml",
+        "original": "125 ml Vollmilch"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 125,
+        "einheit": "ml",
+        "original": "125 ml heißes Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Trockenhefe (oder 21 g frische Hefe)"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1.25,
+        "einheit": "tl",
+        "original": "1 1/4 TL Salz"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 55,
+        "einheit": "g",
+        "original": "55 g Butter, geschmolzen"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "kneten": 7,
+      "gehen": 60,
+      "stueckgare": 60
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Heißes Wasser in die Milch gießen, Hefe mit etwas davon anrühren.",
+      "Hefeflüssigkeit mit Mehl und einem Teil des Zuckers verrühren, geschmolzene Butter, Salz, restlichen Zucker und Flüssigkeit zugeben.",
+      "6 bis 8 Minuten kneten, etwa 60 Minuten bis zur Verdopplung gehen lassen.",
+      "Zum Oval formen, in die Kastenform legen, etwa 60 Minuten gehen lassen.",
+      "Backen, sofort aus der Form lösen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 35,
+      "original": "ca. 35 Minuten bei 180 °C (Heizart nicht angegeben)"
+    },
+    "stueckzahl": null,
+    "notizen": "Hefe wahlweise Trocken (erfasst) oder 21 g Frisch. Mehltyp nicht genannt. Heizart nicht genannt (180 als OU erfasst). Kneten 6-8 min, 7 erfasst. Form 23 x 12 cm. Seite erlaubt etwas mehr warmes Wasser je nach Mehl. Flüssigkeit 52 %, Salz 1,6 %, Hefe-Äquivalent 4,4 %."
+  },
+  {
+    "id": "hellwegradio-beginner-weissbrot",
+    "titel": "Beginner-Weißbrot (Hefevorteig, 1-kg-Kastenform)",
+    "quelle": {
+      "url": "https://www.hellwegradio.de/files/pdf2/beginner-weissbrot.pdf",
+      "site": "hellwegradio.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "100 g Weizenmehl Typ 550 (Vorteig) + 400 g Weizenmehl Typ 550 (Hauptteig)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 325,
+        "einheit": "ml",
+        "original": "100 g Wasser (Vorteig) + 225 g Wasser (Hauptteig)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 9,
+        "einheit": "g",
+        "original": "1 g frische Hefe (Vorteig) + 8 g frische Hefe (Hauptteig)"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g Salz"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "kneten": 5,
+      "vorteig": 720,
+      "gehen": 120,
+      "stueckgare": 50
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Vorteig aus Mehl, Wasser und einer erbsengroßen Menge Hefe anrühren und 12 Stunden bei Raumtemperatur reifen lassen.",
+      "Hefe im Wasser lösen, Vorteig, Mehl und Salz zugeben, rühren und gut 5 Minuten von Hand durchwalken.",
+      "Abgedeckt 30 Minuten gehen lassen, dann dreimal im 30-Minuten-Takt dehnen und falten, danach noch 30 Minuten ruhen.",
+      "Teig länglich formen, in die Kastenform legen und abgedeckt 50 Minuten gehen lassen.",
+      "Einschneiden, mit Wasserschale im Ofen bei 240 Grad starten, nach 15 Minuten Dampf ablassen und auf 210 Grad senken."
+    ],
+    "backen": {
+      "tempOU": 240,
+      "tempUmluft": null,
+      "minuten": 45,
+      "original": "15 Min. bei 240 Grad mit Dampf, dann 210 Grad; Gesamtbackzeit 40-50 Minuten (45 als Mittelwert); Betriebsart nicht genannt, als Ober-/Unterhitze erfasst"
+    },
+    "stueckzahl": 1,
+    "notizen": "Mengen für 1 Brot (1-kg-Kastenform). Hauptteig nennt 200 g Vorteig = der gesamte Vorteig (100+100+1 g); Mehl/Wasser/Hefe daher aus Vorteig + Hauptteig addiert. Zeit 'gehen' = 4 x 30 Min. (Stockgare inkl. 3 Faltungen). Das PDF stammt von brotdoc/brotfee, dort wird die Variante teils als Batard geformt; die hier gelesene PDF-Fassung backt in der Kastenform. Wasser 65 %, Salz 2 %, Hefe 1,8 % - alles im Rahmen."
+  },
+  {
+    "id": "backhausgefluester-kastenweissbrot-1000g",
+    "titel": "Kastenweißbrot 1000 g (Grundrezept mit Vorteig)",
+    "quelle": {
+      "url": "https://xn--backhausgeflster-uzb.de/rezept-kastenweissbrot-1000-g",
+      "site": "backhausgeflüster.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 660,
+        "einheit": "g",
+        "original": "270 g Weizenmehl 550 (Vorteig) + 390 g Weizenmehl 550 (Hauptteig)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 400,
+        "einheit": "ml",
+        "original": "200 g Wasser (Vorteig) + 200 g Wasser (Hauptteig)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 10.3,
+        "einheit": "g",
+        "original": "0,3 g Hefe frisch (Vorteig) + 10 g Hefe frisch (Hauptteig)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 15,
+        "einheit": "g",
+        "original": "15 g Butter"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 13.5,
+        "einheit": "g",
+        "original": "13,5 g Salz"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "kneten": 17,
+      "vorteig": 810,
+      "gehen": 15,
+      "stueckgare": 143
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe im kalten Wasser lösen, mit dem Mehl verrühren und 12-15 Stunden bei 21-22 Grad reifen lassen.",
+      "Vorteig mit allen Hauptteig-Zutaten in der Maschine kneten (5 Min. langsam, 12 Min. schneller), bis sich der Teig vom Kessel löst.",
+      "Teig kurz ruhen lassen, rundwirken, entspannen und länglich in die gefettete 1000-g-Kastenform legen.",
+      "Bei 21-22 Grad gehen lassen, bis der Teigling zu etwa drei Vierteln gegart ist.",
+      "Mit Wasser bestreichen, einschneiden, in Stufen backen (240 Grad mit Dampf, dann 200, zuletzt 220 mit Spalt in der Tür)."
+    ],
+    "backen": {
+      "tempOU": 240,
+      "tempUmluft": null,
+      "minuten": 49,
+      "original": "240 Grad 9 Min. mit Dampf, dann 200 Grad 35 Min., dann 220 Grad ca. 5 Min. bei einen Spalt geöffneter Tür; gesamt ca. 49 Min."
+    },
+    "stueckzahl": 1,
+    "notizen": "Kastenform 1000 g Nennfüllmenge. Mengen aus Vorteig + Hauptteig addiert (Seite nennt 'ca. 460 g reifer Vorteig', die Summe der Vorteig-Zutaten wäre 470,3 g; Gesamtteigmenge laut Seite 1088,5 g, Summe der Einzelzutaten ca. 1099 g - kleine Abweichung im Original). Betriebsart nicht genannt, als Ober-/Unterhitze erfasst. Vorteig-Zeit 12-15 h (Mitte 13,5 h = 810 Min.), Stückgare 135-150 Min. (Mitte 143). Wasser 60,6 %, Salz 2,0 %, Hefe 1,6 %."
+  },
+  {
+    "id": "herzelieb-sandwichbrot-poolish",
+    "titel": "Sandwichbrot mit Poolish (Kastenform 25 cm)",
+    "quelle": {
+      "url": "https://herzelieb.de/sandwichbrot-rezept-toastbrot-einfach-saftig/",
+      "site": "herzelieb.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "100 g Weizenmehl Typ 550 (Poolish) + 400 g Weizenmehl Typ 550 (Hauptteig)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 ml Wasser (Poolish)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 330,
+        "einheit": "ml",
+        "original": "330 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 7,
+        "einheit": "g",
+        "original": "2 g Frischhefe (Poolish) + 5 g frische Hefe (Hauptteig)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g Zucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 25,
+        "einheit": "g",
+        "original": "25 g Butter"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "kneten": 10,
+      "vorteig": 1410,
+      "gehen": 90,
+      "stueckgare": 90
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Poolish aus Mehl, Wasser und Hefe ansetzen, 1,5 Stunden bei Raumtemperatur, dann etwa 22 Stunden abgedeckt im Kühlschrank reifen lassen.",
+      "Hauptteig-Mehl mit Salz mischen, Poolish und die Milch mit gelöster Hefe und Zucker zugeben, 3 Min. langsam kneten.",
+      "Butter stückchenweise zugeben und 7 Min. auf mittlerer Stufe weiterkneten.",
+      "1,5 Stunden gehen lassen, alle 30 Minuten dehnen und falten; kurz durchkneten, 10 Min. ruhen.",
+      "Teig zu einer Rolle formen, in drei Stücke schneiden, gedreht in die gebutterte 25-cm-Form setzen und 1,5 Stunden gehen lassen.",
+      "Bei 240 Grad mit Schwaden backen, nach 10 Min. Dampf ablassen, auf 180 Grad senken, später ohne Form fertig backen."
+    ],
+    "backen": {
+      "tempOU": 240,
+      "tempUmluft": null,
+      "minuten": 48,
+      "original": "10 Min. bei 240 Grad mit Dampf, dann 180 Grad 20 Min. in der Form, danach 15-20 Min. ohne Form; gesamt 45-50 Min. (Mitte 48)"
+    },
+    "stueckzahl": 1,
+    "notizen": "Flüssigkeit gesamt 430 ml = 86 % vom Mehl (Wasser 100 ml im Poolish + 330 ml Milch), liegt über der 50-80 %-Spanne, steht aber so im Original. Poolish-Zeit 90 Min. RT + ca. 22 h kühl = 1410 Min.; nur der Vorteig ist kalt geführt, daher gehen_kuehl false. Hefe 1,4 %, Salz 2 %. Der Zusatz 'Prise Liebe' in der Zutatenliste nicht erfasst."
+  },
+  {
+    "id": "brotaberlecker-no-knead-weizenbrot",
+    "titel": "Brotbacken für Einsteiger: Mein erstes Weizenbrot (No-knead, Kastenform)",
+    "quelle": {
+      "url": "https://www.brotaberlecker.de/2019/11/25/brotbacken-fuer-einsteiger-teil1-mein-erstes-weizenbrot/",
+      "site": "brotaberlecker.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500g Weizenmehl (Type 550)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 380,
+        "einheit": "ml",
+        "original": "380ml Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 0.25,
+        "einheit": "tl",
+        "original": "1/4 Tl Trockenhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 Tl Salz"
+      }
+    ],
+    "methode": "hefe_noknead",
+    "zeiten": {
+      "gehen": 720,
+      "stueckgare": 45
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Alle Zutaten in einer Schüssel zu einer flüssigen, homogenen Masse verrühren, nicht kneten.",
+      "Abgedeckt etwa 12 Stunden (10-16) bei Raumtemperatur gehen lassen, bis der Teig blubberig ist.",
+      "Einmal dehnen und falten, dann in die gefettete, bemehlte Kastenform geben und 45 Minuten gehen lassen.",
+      "Backofen mit Wasserschale auf dem Boden auf 230 Grad vorheizen, Form einschieben und sofort auf 200 Grad senken.",
+      "Nach etwa 45 Minuten stürzen; klingt der Boden hohl, ist das Brot fertig."
+    ],
+    "backen": {
+      "tempOU": 230,
+      "tempUmluft": null,
+      "minuten": 45,
+      "original": "230 Grad Ober-/Unterhitze vorheizen, nach dem Einschieben sofort auf 200 Grad; nach ca. 45 Minuten fertig"
+    },
+    "stueckzahl": 1,
+    "notizen": "Gehzeit 'ungefähr 12 Stunden' (10-16 h toleriert). 1/4 TL Trockenhefe = ca. 0,75 g, Frischhefe-Äquivalent ca. 2,3 g = 0,45 %. Salz 2 TL = 12 g = 2,4 %. Wasser 76 %. Kastenformgröße nicht angegeben."
+  },
+  {
+    "id": "culineli-weissbrot-ohne-kneten",
+    "titel": "Einfaches Weißbrot ohne Kneten (Übernachtgare, Kastenform)",
+    "quelle": {
+      "url": "https://culineli.de/einfaches-eiweissbrot-ohne-knete/",
+      "site": "culineli.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 470,
+        "einheit": "g",
+        "original": "250 g Weizenbrotmehl + 220 g Allzweckmehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 360,
+        "einheit": "ml",
+        "original": "360 ml lauwarmes Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Trockenhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1.5,
+        "einheit": "tl",
+        "original": "1 1/2 TL Salz"
+      }
+    ],
+    "methode": "hefe_noknead",
+    "zeiten": {
+      "gehen": 900,
+      "stueckgare": 105
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Mehl, Salz und Trockenhefe mischen, Wasser zugeben und mit dem Spatel zu einem groben Teig verrühren.",
+      "Abgedeckt 12-18 Stunden bei Raumtemperatur gehen lassen.",
+      "Teig auf bemehlter Fläche entgasen, zum Rechteck (ca. 20 x 30 cm) ziehen, von der kurzen Seite aufrollen und mit der Naht nach unten in die Form (23 x 12 cm) legen.",
+      "1,5-2 Stunden gehen lassen, bis sich das Volumen verdoppelt hat.",
+      "Bemehlen, längs einschneiden und bei 230 Grad backen."
+    ],
+    "backen": {
+      "tempOU": 230,
+      "tempUmluft": null,
+      "minuten": 38,
+      "original": "230 Grad Ober-/Unterhitze, 35-40 Minuten bis goldbraun (Mitte 38)"
+    },
+    "stueckzahl": 1,
+    "notizen": "Mehl: Mischung aus Weizenbrotmehl und Allzweckmehl (beides Weizen, genaue Typenzahl nicht angegeben, deshalb als weizenmehl erfasst). Gehzeit 12-18 h (Mitte 15 h = 900 Min.), Stückgare 1,5-2 h (Mitte 105 Min.). Hefe 1 TL Trockenhefe = ca. 3 g, Frischhefe-Äquivalent ca. 9 g = 1,9 %. Wasser 76,6 %, Salz ca. 1,9 %. Form 23 x 12 cm (kleiner als 25 cm)."
+  }
+]

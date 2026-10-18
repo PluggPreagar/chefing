@@ -224,6 +224,12 @@ export const ICONS = {
   formen: [
     { tag: 'polygon', attrs: { points: '5,6 19,6 16,21 8,21', fill: F } },
   ],
+  kneten: [
+    // Teigklumpen mit Druckpfeil von oben — Kneten = durchdrücken
+    { tag: 'ellipse', attrs: { cx: 12, cy: 17, rx: 8.5, ry: 4.5, fill: F } },
+    { tag: 'line', attrs: { x1: 12, y1: 2, x2: 12, y2: 8, stroke: F, 'stroke-width': 2, 'stroke-linecap': 'round' } },
+    { tag: 'polygon', attrs: { points: '8,7 16,7 12,12', fill: F } },
+  ],
   sieben: [
     // Sieb-Ring mit Gitter + durchfallendes Pulver — eigenes Symbol fürs trockene Mischen/Sieben
     { tag: 'circle', attrs: { cx: 12, cy: 9, r: 7, fill: 'none', stroke: F, 'stroke-width': 2 } },

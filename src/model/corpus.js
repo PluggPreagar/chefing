@@ -36,7 +36,7 @@ export function normalizeRecipe(recipe, ingredients, { rollen = ROLLEN, referenz
     }
     if (!ing) unbekannt.push(z);
     if (rollenGramm[z.rolle] == null) rollenGramm[z.rolle] = 0;
-    rollenGramm[z.rolle] += g;
+    rollenGramm[z.rolle] += g * (ing?.aequivalent_faktor ?? 1);
     posten.push({ rolle: z.rolle, zutat: z.zutat, gramm: g });
     if (z.rolle === 'fett' && ing) fettTyp = ing.aggregat === 'fluessig' ? 'fluessig' : 'fest';
     if (ing?.saeure && z.rolle !== 'aroma' && z.rolle !== 'einlage') sauer = true;

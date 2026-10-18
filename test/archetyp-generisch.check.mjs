@@ -18,7 +18,7 @@ const st=(archetyp)=>({archetyp,gefaess:v.gefaess,methode:null,fixiert:{rollen:{
 const kopie={...data,archetypes:{...data.archetypes,kopie:arch},grenzen:{...data.grenzen,archetypen:{...data.grenzen.archetypen,kopie:data.grenzen.archetypen.ruehrteig}}};
 const a=compute(st('ruehrteig'),data,ks), b=compute(st('kopie'),kopie,ks);
 ok(JSON.stringify(a)===JSON.stringify(b),'Archetyp unter anderem Schlüssel → identisches Ergebnis');
-ok(a.zutatenListe.length>0 && a.bilanz.length===8,'Ergebnis nicht leer (Zutaten, 8 Bilanz-Größen)');
+ok(a.zutatenListe.length>0 && a.bilanz.length>=8,'Ergebnis nicht leer (Zutaten, Bilanz-Größen)');
 
 // Rollenliste und Referenzrolle kommen vom Aufrufer
 const rez={id:'x',methode:'creme',zutaten:[{zutat:'weizenmehl',menge:200,einheit:'g',rolle:'geruest'},{zutat:'wasser',menge:100,einheit:'ml',rolle:'nass'}]};

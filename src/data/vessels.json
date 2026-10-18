@@ -64,6 +64,26 @@
     "hinweise": ["Form gründlich fetten UND mehlen", "Ofen die ersten 40 Min. nicht öffnen"],
     "korpus_ids": ["gugelhupfform_26"]
   },
+  "brotform_25": {
+    "label": "Kastenform 25 cm (Brot)",
+    "familie": "brotform",
+    "volumen_ml": 1500,
+    "fuellgrad": 0.55,
+    "teigmasse_g": 850,
+    "geometrie": "Block, Hitze nur von außen; der Teig geht in der Form noch auf, deshalb nur halb füllen",
+    "basis": { "tempOU": 220, "tempUmluft": 200, "minuten": 45 },
+    "hinweise": ["Form fetten, Teig nur etwa zur Hälfte füllen — er geht in der Form noch auf", "Backofen mit einer Schale Wasser beschwaden → bessere Kruste", "Klopfprobe: Brot klingt auf der Unterseite hohl"],
+    "korpus_ids": ["brotform_25"]
+  },
+  "backblech": {
+    "label": "Backblech (Hefezopf)",
+    "familie": "blech",
+    "teigmasse_g": 850,
+    "geometrie": "flach, frei geformter Zopf auf Backpapier → Hitze von allen Seiten, kürzere Backzeit",
+    "basis": { "tempOU": 180, "tempUmluft": 160, "minuten": 35 },
+    "hinweise": ["Vor dem Backen mit Eigelb oder Milch bestreichen → Glanz und Farbe", "Nach der Hälfte der Zeit abdecken, wenn er zu dunkel wird"],
+    "korpus_ids": ["backblech"]
+  },
   "pfanne_24": {
     "label": "Pfanne 24 cm (Eierkuchen)",
     "familie": "pfanne",

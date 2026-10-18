@@ -108,8 +108,8 @@
         "id": "natron_braucht_saeure"
       }
     ],
-    "wirkung": "Ab ~60 °C verkleistert Stärke, ab ~65 °C stockt Eiprotein, Backpulver setzt CO₂ frei, ab ~140 °C Maillard-Bräunung. Kleine Gefäße: heißer und kürzer; große: milder und länger, sonst außen dunkel, innen roh.",
-    "risiko": "Ofen in der ersten Hälfte öffnen → Temperatursturz → Kuchen fällt zusammen."
+    "wirkung": "Ab ~60 °C verkleistert Stärke, ab ~65 °C stockt Eiprotein, Backpulver setzt CO₂ frei, ab ~140 °C Maillard-Bräunung. Kleine Gefäße: heißer und kürzer; große: milder und länger, sonst außen dunkel, innen roh. Hefeteig: In den ersten Minuten arbeitet die Hefe noch (Ofentrieb), bis sie bei ~55 °C stirbt.",
+    "risiko": "Ofen in der ersten Hälfte öffnen → Temperatursturz → Gebäck fällt zusammen."
   },
   "ruhen": {
     "label": "Teig ruhen lassen",
@@ -150,5 +150,109 @@
     "wirkung": "Dünne Teigschicht stockt bei mittlerer Hitze in 1–3 Minuten je Seite: Eiprotein gerinnt, Stärke verkleistert, Maillard-Reaktion bräunt die Unterseite. Jede Portion wird einzeln gebacken und gewendet.",
     "risiko": "Pfanne zu heiß → außen dunkel, innen roh; zu kalt → blass und zäh.",
     "dauer_min": 12
+  },
+  "hefe_ansetzen": {
+    "label": "Hefe in lauwarmer Flüssigkeit lösen",
+    "typ": "vorbereitung",
+    "verb": "vorbereiten",
+    "variante": "Hefe auflösen",
+    "auf": ["trieb", "fluessigkeit"],
+    "voraussetzung": [],
+    "wirkung": "Die Hefe wird in 30–35 °C warmer Flüssigkeit (mit etwas Zucker, falls im Rezept) verteilt und aktiviert. Trockenhefe kann auch direkt ins Mehl gemischt werden.",
+    "risiko": "Über ~45 °C stirbt die Hefe, Salz direkt auf der Hefe bremst sie.",
+    "dauer_min": 2
+  },
+  "kneten": {
+    "label": "Teig kneten",
+    "typ": "mischen",
+    "verb": "kneten",
+    "variante": "kneten (Maschine oder Hand)",
+    "auf": ["struktur", "fluessigkeit", "trieb", "salz", "fett", "suesse", "bindung", "aroma"],
+    "voraussetzung": [],
+    "zeit": {
+      "min": 4, "typ": 10, "max": 20, "ziel": "gluten_entwickelt", "strenge": "empfohlen",
+      "unter_min": "das Klebergerüst ist noch nicht ausgebildet — der Teig reißt, hält das Gas schlecht und geht flach auf.",
+      "ueber_max": "der Teig erwärmt sich und das Gerüst reißt wieder — schmierig und klebrig."
+    },
+    "wirkung": "Mehl und Flüssigkeit bilden beim Kneten Gluten: ein dehnbares Netz, das das Hefegas hält. Fertig ist der Teig, wenn er sich vom Schüsselrand löst und glatt und elastisch ist (Fenstertest).",
+    "risiko": "Zu kurz geknetet → dichtes Brot; zu trocken oder zu nass → Mehl bzw. Wasser nur in kleinen Mengen nachgeben.",
+    "dauer_min": 10
+  },
+  "gehen": {
+    "label": "Teig gehen lassen (Stockgare)",
+    "typ": "warten",
+    "verb": "mischen",
+    "intensitaet": "passiv",
+    "variante": "gehen lassen",
+    "auf": ["struktur", "fluessigkeit", "trieb"],
+    "voraussetzung": [
+      {
+        "rolle": "struktur", "eigenschaft": "bildet_gluten", "wert": true, "strenge": "hart", "id": "hefe_braucht_gluten",
+        "hinweis": "ein Mehl mit Klebereiweiß — ohne Gluten kann der Teig das Hefegas nicht halten und geht nicht auf"
+      }
+    ],
+    "zeit": {
+      "min": 15, "typ": 60, "max": 180, "ziel": "volumen_verdoppelt", "strenge": "empfohlen",
+      "unter_min": "der Teig hat sein Volumen noch nicht verdoppelt — Brot bleibt dicht und schwer.",
+      "ueber_max": "der Teig übergärt: Gerüst reißt, Geschmack wird alkoholisch, das Gebäck fällt im Ofen zusammen."
+    },
+    "wirkung": "Die Hefe baut Zucker und Stärke zu CO₂ und Aroma ab; das Glutennetz hält das Gas, der Teig verdoppelt sein Volumen. Warm (~25–30 °C) geht es schnell, kühl langsamer und aromatischer.",
+    "risiko": "Zugluft und Kälte bremsen die Hefe, zu viel Wärme lässt den Teig übergären.",
+    "dauer_min": 60
+  },
+  "formen": {
+    "label": "Teig formen",
+    "typ": "vorbereitung",
+    "verb": "formen",
+    "variante": "formen (Laib, Zopf, Kranz)",
+    "auf": [],
+    "voraussetzung": [],
+    "wirkung": "Der Teig wird kurz entgast, zum Laib oder Zopf geformt und in die Form bzw. aufs Blech gelegt. Straff formen, damit die Oberfläche spannt.",
+    "risiko": "Zu grob geknetet → Gas weg und Teig geht schlecht nach; zu locker geformt → Brot läuft auseinander.",
+    "dauer_min": 5
+  },
+  "stueckgare": {
+    "label": "Geformten Teig nochmal gehen lassen",
+    "typ": "warten",
+    "verb": "mischen",
+    "intensitaet": "passiv",
+    "variante": "Stückgare",
+    "auf": ["struktur", "trieb"],
+    "voraussetzung": [],
+    "zeit": {
+      "min": 10, "typ": 30, "max": 150, "ziel": "nachgegangen", "strenge": "empfohlen",
+      "unter_min": "der geformte Teig ist noch nicht locker — er reißt im Ofen unkontrolliert und bleibt dicht.",
+      "ueber_max": "der Teig übergärt in der Form und fällt beim Backen zusammen."
+    },
+    "wirkung": "Der geformte Teig geht in der Form bzw. auf dem Blech noch einmal sichtbar auf (etwa auf das 1,5-fache) — kurz vor dem Backen, nicht davor.",
+    "risiko": "Zu lange gehen lassen: Der Ofentrieb fehlt dann, das Brot fällt ein.",
+    "dauer_min": 30
+  },
+  "vorteig_ansetzen": {
+    "label": "Vorteig ansetzen",
+    "typ": "mischen",
+    "verb": "mischen",
+    "intensitaet": "sanft",
+    "variante": "Vorteig anrühren (Poolish/Dampfl)",
+    "auf": ["struktur", "fluessigkeit", "trieb"],
+    "voraussetzung": [],
+    "wirkung": "Hefe, ein Teil der Flüssigkeit und ein Teil des Mehls werden zu einem weichen Teig verrührt, der getrennt vom Hauptteig reift. Der Vorteig bringt Aroma und stabilisiert die Gare.",
+    "dauer_min": 2
+  },
+  "vorteig_reifen": {
+    "label": "Vorteig reifen lassen",
+    "typ": "warten",
+    "verb": "mischen",
+    "intensitaet": "passiv",
+    "variante": "Vorteig reifen",
+    "auf": ["struktur", "fluessigkeit", "trieb"],
+    "voraussetzung": [],
+    "zeit": {
+      "min": 15, "typ": 60, "max": 1440, "ziel": "vorteig_aktiv", "strenge": "empfohlen",
+      "unter_min": "der Vorteig hat noch kaum gearbeitet — kein Aroma- und Triebvorsprung.",
+      "ueber_max": "der Vorteig ist zusammengefallen und überreif — er schmeckt säuerlich und trägt nicht mehr."
+    },
+    "wirkung": "Die Hefe vermehrt sich im Vorteig, es entstehen Aromastoffe. Kurze Hefevorteige (Dampfl) reifen 15–30 Minuten, Poolish über Nacht (12–24 Stunden, im Kühlschrank länger).",
+    "dauer_min": 60
   }
 }

@@ -13,7 +13,7 @@ const E=(w)=>w==null?[]:Array.isArray(w)?w:[{zutat:w,anteil:1}];
 function st(variante, over={}){const v=arch.varianten[variante];const z={};for(const r of arch.rollen)z[r.rolle]=E(v.bestof[r.rolle]!==undefined?v.bestof[r.rolle]:r.default);Object.assign(z,over);return {archetyp:'ruehrteig',gefaess:v.gefaess,methode:null,fixiert:{rollen:{},zutaten:{}},zutaten:z};}
 let fail=0; const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++;};
 const show=(name,c)=>{console.log(`\n# ${name}: status=${c.status}`);for(const b of c.bilanz)console.log(`  ${b.label} ${Math.round(b.gramm)} g ${Math.round(b.bp)} % [${b.toleranz}]`);for(const g of c.gruende)console.log('  GRUND',g);for(const w of c.warnungen)console.log('  WARN',w);for(const h of c.toleranzHinweise)console.log('  HINW',h);};
-for (const v of Object.keys(arch.varianten)) { const c=compute(st(v),data,ks); show(v,c); ok(c.status!=='invalid' && c.bilanz.length===8, `${v}: Preset gültig, Bilanz vorhanden`); }
+for (const v of Object.keys(arch.varianten)) { const c=compute(st(v),data,ks); show(v,c); ok(c.status!=='invalid' && c.bilanz.length>=8, `${v}: Preset gültig, Bilanz vorhanden`); }
 let c=compute(st('kastenkuchen',{fluessigkeit:E('schmand')}),data,ks); show('Schmand statt Milch',c);
 ok(c.bilanz.find(b=>b.groesse==='fett').bp > compute(st('kastenkuchen'),data,ks).bilanz.find(b=>b.groesse==='fett').bp, 'Schmand erhöht Reinfett (Fett aus Flüssigkeit zählt mit)');
 c=compute(st('kastenkuchen',{fett:E('pflanzenoel')}),data,ks); show('Öl statt Butter',c);

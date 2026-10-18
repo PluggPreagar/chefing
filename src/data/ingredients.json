@@ -11,6 +11,8 @@
     "cremig_schlagbar": "true wenn sich bei Raumtemperatur Luft einschlagen lässt",
     "schmelzpunkt_c": "°C, nur bei festen Fetten",
     "trieb_typ": "chemisch_doppelt | chemisch_basisch | keiner",
+    "salzanteil": "0..1 Massenanteil Salz, Default 0 — Bilanz-Größe `salz` (T45)",
+    "aequivalent_faktor": "optional (T45): 1 g dieser Zutat zählt in den Rollen-Bäckerprozent wie N g der Referenz-Zutat der Rolle (Trockenhefe 3, weil 1 g ≈ 3 g Frischhefe). Gramm, Einheiten und Bilanz bleiben echte Gramm; nur die Rollen-Gramm werden umgerechnet, damit Frisch- und Trockenhefe-Rezepte im Korpus vergleichbar sind.",
     "umrechnung": "Gramm pro Einheit: stk, tl, el, pkt, prise, ml"
   },
   "weizenmehl": {
@@ -264,6 +266,33 @@
     "eigenschaften": ["nur Base → BRAUCHT saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker)", "etwa 3× so stark wie Backpulver", "Überschuss schmeckt seifig"],
     "umrechnung": { "tl": 5, "pkt": 5 }
   },
+  "hefe_frisch": {
+    "label": "Frischhefe (Würfel 42 g)",
+    "kategorie": "pulver",
+    "unterkategorie": "trieb",
+    "aggregat": "fest",
+    "fettanteil": 0.01,
+    "wasseranteil": 0.7,
+    "funktionen": {"hefe": 1},
+    "saeure": false,
+    "trieb_typ": "biologisch",
+    "eigenschaften": ["lebende Hefe → CO₂ und Aroma aus Zucker/Stärke, braucht Wärme und Zeit", "ab ~50 °C tot, Salz und viel Zucker bremsen sie", "1 Würfel (42 g) auf 500 g Mehl ist die Standardmenge"],
+    "umrechnung": { "stk": 42 }
+  },
+  "hefe_trocken": {
+    "label": "Trockenhefe (Päckchen 7 g)",
+    "kategorie": "pulver",
+    "unterkategorie": "trieb",
+    "aggregat": "pulver",
+    "fettanteil": 0.05,
+    "wasseranteil": 0.06,
+    "funktionen": {"hefe": 3},
+    "aequivalent_faktor": 3,
+    "saeure": false,
+    "trieb_typ": "biologisch",
+    "eigenschaften": ["gleiche Hefe, getrocknet → 1 g wirkt wie ~3 g Frischhefe", "1 Päckchen (7 g) entspricht einem halben Würfel Frischhefe (21 g) — Faustregel 1:3, je nach Marke 1:2,5 bis 1:3"],
+    "umrechnung": { "pkt": 7, "tl": 3 }
+  },
   "vanillezucker": {
     "label": "Vanillezucker",
     "kategorie": "pulver",
@@ -294,8 +323,9 @@
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
+    "salzanteil": 1,
     "saeure": false,
-    "eigenschaften": ["Geschmacksverstärker, betont Süße", "strafft Gluten leicht"],
+    "eigenschaften": ["Geschmacksverstärker, betont Süße", "strafft Gluten leicht", "bremst die Hefe"],
     "umrechnung": { "prise": 1, "tl": 6 }
   },
   "zitronenabrieb": {

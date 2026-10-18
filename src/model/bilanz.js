@@ -14,10 +14,12 @@ export const GROESSEN = {
   wasser: anteil('wasseranteil'), fett: anteil('fettanteil'), zucker: anteil('zuckeranteil'),
   eiweiss: funktion('eiweiss'), gluten: funktion('gluten'), staerke: funktion('staerke'),
   emulgator: funktion('emulgator'), triebkraft: funktion('triebkraft'),
+  hefe: funktion('hefe'), salz: anteil('salzanteil'),
 };
 export const GROESSEN_LABEL = {
   wasser: 'Gesamtwasser', fett: 'Reinfett', zucker: 'Zucker', eiweiss: 'Eiweiß (Gerüst)',
   gluten: 'Klebereiweiß', staerke: 'Stärke', emulgator: 'Emulgator', triebkraft: 'Triebkraft (Backpulver-Äq.)',
+  hefe: 'Hefe (Frischhefe-Äq.)', salz: 'Salz',
 };
 
 // Kleine Werte (Triebkraft, Emulgator, Gluten) mit einer Nachkommastelle, sonst ganzzahlig.

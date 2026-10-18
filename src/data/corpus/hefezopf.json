@@ -1,0 +1,1507 @@
+[
+  {
+    "id": "aldi-sued-grundrezept-klassischer-hefezopf",
+    "titel": "Grundrezept Klassischer Hefezopf",
+    "quelle": {
+      "url": "https://www.aldi-sued.de/rezepte/internationale-rezepte/deutschland/rdp-grundrezept-klassischer-hefezopf",
+      "site": "aldi-sued.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl Type 405"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml H-Milch 3,5 % Fett"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Würfel frische Backhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Zucker"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "kneten": 10,
+      "gehen": 60,
+      "stueckgare": 30
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe in lauwarmer Milch lösen, Butter schmelzen und etwas abkühlen lassen.",
+      "Mehl, Zucker, Salz, Hefemilch und Butter mindestens 5 Minuten zu einem Teig kneten.",
+      "Teig 1 Stunde warm gehen lassen, danach nochmals ca. 5 Minuten durchkneten.",
+      "Zu einem Zopf flechten, auf Blech mit Backpapier legen und 30 Minuten abgedeckt gehen lassen.",
+      "Mit Eigelb bestreichen und backen."
+    ],
+    "backen": {
+      "tempOU": 150,
+      "tempUmluft": null,
+      "minuten": 27.5,
+      "original": "150 °C Ober-/Unterhitze (am besten ohne Umluft), mittlere Schiene, 25-30 Minuten"
+    },
+    "stueckzahl": null,
+    "notizen": "Kein Ei im Teig (Eigelb nur zum Bestreichen, nicht erfasst). Würfel ohne Grammangabe, 1 Würfel = 42 g (8,4 % vom Mehl, obere Grenze). Backtemperatur 150 °C ungewöhnlich niedrig, steht so im Original. Backzeit Mittelwert aus 25-30 min. Salzprise unter 1 %."
+  },
+  {
+    "id": "lecker-hefezopf-wie-von-oma",
+    "titel": "Einfacher Hefezopf wie von Oma",
+    "quelle": {
+      "url": "https://www.lecker.de/hefezopf-83580.html",
+      "site": "lecker.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl Type 405"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 21,
+        "einheit": "g",
+        "original": "1/2 Würfel (ca. 21 g) frische Hefe, alternativ 1 Päckchen Trockenhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g weiche Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 75,
+        "einheit": "g",
+        "original": "75 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier (Gr. M)"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "kneten": 8,
+      "gehen": 45,
+      "stueckgare": 30
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe in lauwarmer Milch lösen, in Mehlmulde (Mehl, Zucker, Salz) geben und 15 Minuten anspringen lassen.",
+      "Ei zugeben, mit dem Rührgerät kneten, Butter stückweise unterarbeiten.",
+      "Teig ca. 45 Minuten warm gehen lassen, bis er doppelt so groß ist.",
+      "In 3 Stränge teilen, flechten, auf Blech mit Backpapier ca. 30 Minuten gehen lassen.",
+      "Mit Eigelb-Milch bestreichen, Hagelzucker aufstreuen, backen."
+    ],
+    "backen": {
+      "tempOU": 200,
+      "tempUmluft": 175,
+      "minuten": 25,
+      "original": "200 °C Ober-/Unterhitze bzw. 175 °C Umluft, ca. 25 Minuten (letzte 10 Min. ggf. mit Alufolie abdecken)"
+    },
+    "stueckzahl": null,
+    "notizen": "Kurze Hefe-Mehl-Milch-Ruhe von 15 Min. vor dem Kneten (kein echter Vorteig). Hefe 21 g als Frischhefe erfasst, Alternative 1 Päckchen Trockenhefe. Salzprise unter 1 %."
+  },
+  {
+    "id": "fuersie-hefezopf-mit-sultaninen",
+    "titel": "Rezept Hefezopf (mit Sultaninen)",
+    "quelle": {
+      "url": "https://www.fuersie.de/ostern/backrezepte-desserts-fuer-ostern/artikel/rezept-hefezopf",
+      "site": "fuersie.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml lauwarme Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Würfel frische Hefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g weiche Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Sultaninen"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 45,
+      "stueckgare": 15
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe mit etwas Zucker und Milch glattrühren, in Mehlmulde geben und ca. 15 Minuten ruhen lassen.",
+      "Übrige Milch, Zucker, Butter, Eier, Salz zugeben, kneten, Sultaninen unterarbeiten.",
+      "Ca. 45 Minuten gehen lassen, dann von Hand durchkneten und dritteln.",
+      "Zu 50-cm-Strängen rollen, flechten, auf Blech 15 Minuten ruhen lassen.",
+      "Mit Eigelb-Milch bestreichen, Hagelzucker aufstreuen, backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 40,
+      "original": "200 °C 15 Minuten, dann 180 °C 25 Minuten (Betriebsart nicht angegeben)"
+    },
+    "stueckzahl": 20,
+    "notizen": "Würfel ohne Grammangabe, 1 Würfel = 42 g. Betriebsart der Backtemperatur nicht angegeben, daher beide Temperaturfelder null. Backzeit = 15 + 25 min. Vorteig nur ca. 15 Min. Ruhe der Hefe in der Mehlmulde. Stückzahl 20 Portionen laut Seite."
+  },
+  {
+    "id": "madamecuisine-osterkranz-hefezopf",
+    "titel": "Osterkranz / Hefezopf",
+    "quelle": {
+      "url": "https://www.madamecuisine.de/osterkranz-hefezopf/",
+      "site": "madamecuisine.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml lauwarme Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 21,
+        "einheit": "g",
+        "original": "1/2 Würfel frische Hefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 75,
+        "einheit": "g",
+        "original": "75 g zimmerwarme Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 75,
+        "einheit": "g",
+        "original": "75 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Ei (davon ca. 2 EL zum Bestreichen zurückbehalten)"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "kneten": 10,
+      "gehen": 60,
+      "stueckgare": 10
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe mit Zucker und etwas Milch lösen, Ei verquirlen (2 EL zum Bestreichen beiseite).",
+      "Mehl, Salz, Hefemischung und restliche Milch verkneten, Butter in Stücken einarbeiten, ca. 10 Minuten.",
+      "Abgedeckt 1 Stunde warm gehen lassen, nochmals durchkneten.",
+      "Zu Zopf oder Kranz formen, auf Blech ca. 10 Minuten ruhen lassen.",
+      "Mit Ei bestreichen, Hagelzucker aufstreuen, backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": 180,
+      "minuten": 25,
+      "original": "180 °C Umluft, ca. 25 Minuten, 2. Schiene von unten"
+    },
+    "stueckzahl": null,
+    "notizen": "Ei: 1 Ei laut Liste, ca. 2 EL davon zum Bestreichen, voll als 1 stk erfasst. Hefe 1/2 Würfel = 21 g."
+  },
+  {
+    "id": "meinbezirk-osterstriezel",
+    "titel": "Osterstriezel",
+    "quelle": {
+      "url": "https://www.meinbezirk.at/tirol/c-freizeit/osterstriezel-der-zu-ostern-nicht-fehlen-darf_a6591351",
+      "site": "meinbezirk.at",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 1000,
+        "einheit": "g",
+        "original": "1 kg Weizenmehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 400,
+        "einheit": "ml",
+        "original": "ca. 400 ml lauwarme Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Germ (frische Hefe)"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 18,
+        "einheit": "g",
+        "original": "1 gestrichener EL Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g zerlassene Butter oder Öl"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "2 Eidotter (je 0,5 stk)"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 30,
+      "stueckgare": 30
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe in lauwarmer Milch mit einer Prise Zucker lösen.",
+      "Mehl, Salz, Hefemilch, Eidotter, Zucker, Fett und Zitronenschale zu einem Teig kneten.",
+      "Ca. 30 Minuten abgedeckt gehen lassen, nochmals kneten, kurz ruhen.",
+      "Teig halbieren, Stränge rollen und zu zwei Striezeln flechten, aufs gefettete Blech legen, 30 Minuten gehen lassen.",
+      "Mit Ei bestreichen, backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 35,
+      "original": "170 °C ca. 35 Minuten (Betriebsart nicht angegeben)"
+    },
+    "stueckzahl": null,
+    "notizen": "Nur Eigelb (2 Dotter = 1 stk). Fett im Original 'Butter oder Öl', als pflanzenoel erfasst. Salz '1 gestrichener EL' als 18 g umgerechnet (1 EL = 3 TL x 6 g). Zitronenschale ohne Menge, nicht erfasst. Methode nennt Rosinen, stehen aber nicht in der Zutatenliste, daher keine Einlage. Mengen für 1 kg Mehl (2 Striezel auf dem Blech) wie angegeben. Betriebsart nicht angegeben."
+  },
+  {
+    "id": "stuttgarter-zeitung-hefezopf-extrem-fluffig",
+    "titel": "Hefezopf zu Ostern",
+    "quelle": {
+      "url": "https://www.stuttgarter-zeitung.de/lokales/stuttgart/zu-ostern-gibt-es-zoepfe-hefezopf-backen-mit-diesem-rezept-wird-er-extrem-fluffig-78915242.html",
+      "site": "stuttgarter-zeitung.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Mehl (Type 550 bzw. doppelgriffig)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml warme Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Würfel Hefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 75,
+        "einheit": "g",
+        "original": "75 g zimmerweiche Butter, gewürfelt"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 75,
+        "einheit": "g",
+        "original": "75 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Ei"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 60,
+      "stueckgare": 45
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Warme Milch mit Hefe, Zucker und Ei verrühren.",
+      "Mehl mit Salz mischen, Milchmischung unterkneten, nach ca. 5 Minuten Butter einarbeiten.",
+      "Ca. 1 Stunde warm gehen lassen, dann durchkneten, dritteln und 15 Minuten ruhen lassen.",
+      "Stränge rollen, locker flechten, auf Blech 45 Minuten gehen lassen.",
+      "Mit Ei-Milch bestreichen, Hagelzucker und Mandelblättchen aufstreuen, backen."
+    ],
+    "backen": {
+      "tempOU": 200,
+      "tempUmluft": 180,
+      "minuten": 27.5,
+      "original": "200 °C bzw. 180 °C Umluft, 25-30 Minuten, 2. Schiene von unten"
+    },
+    "stueckzahl": null,
+    "notizen": "Würfel ohne Grammangabe, 1 Würfel = 42 g. Rosinen 'nach Belieben' ohne Menge, daher nicht erfasst. Backzeit Mittelwert 25-30 min. Zusätzlich 15 min Ruhe der Teigkugeln."
+  },
+  {
+    "id": "infranken-hefezopf-traditionell",
+    "titel": "Hefezopf: Traditionelles Rezept für den Gebäck-Klassiker",
+    "quelle": {
+      "url": "https://www.infranken.de/ratgeber/genuss/rezepte/hefezopf-traditionelles-rezept-fuer-den-gebaeck-klassiker-art-6339884,PRINT",
+      "site": "infranken.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 300,
+        "einheit": "ml",
+        "original": "300 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 20,
+        "einheit": "g",
+        "original": "20 g Hefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 120
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Mehl, Zucker, Salz mischen; Hefe in erwärmter Milch lösen.",
+      "Hefemilch, Butter und ein Ei zum Mehl geben und glatt kneten.",
+      "Abgedeckt bei Zimmertemperatur ca. 2 Stunden gehen lassen.",
+      "Dritteln, flechten, auf Blech nochmals gehen lassen.",
+      "Mit Ei bestreichen, Hagelzucker aufstreuen, backen."
+    ],
+    "backen": {
+      "tempOU": 200,
+      "tempUmluft": null,
+      "minuten": 20,
+      "original": "200 °C Ober-/Unterhitze, ca. 20 Minuten"
+    },
+    "stueckzahl": null,
+    "notizen": "Nur 2 EL Zucker (ca. 30 g, 6 % vom Mehl) und Milch 60 % am oberen Rand der Spanne, beides so im Original. 2 Eier im Teig (zusätzliches Ei zum Bestreichen nicht erfasst). Zweite Gare ohne Zeitangabe. Seite nennt Gesamtzeit 50 min, nicht stimmig zur Backzeit."
+  },
+  {
+    "id": "eat-osterzopf-mit-trockenhefe",
+    "titel": "Osterzopf mit Trockenhefe und Mandeln",
+    "quelle": {
+      "url": "https://eat.de/rezept/osterzopf-mit-trockenhefe/",
+      "site": "eat.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 600,
+        "einheit": "g",
+        "original": "600 g Weizenmehl Type 405"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen (7 g) Trockenhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "1/2 TL Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 75,
+        "einheit": "g",
+        "original": "75 g weiche Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1.5,
+        "einheit": "stk",
+        "original": "2 Eier (1 ganzes Ei + 1 Eiweiß im Teig, Eigelb zum Bestreichen)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "Schale von 1 Bio-Zitrone"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 60,
+      "stueckgare": 15
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hälfte der Milch lauwarm erwärmen, Hefe und 1 TL Zucker darin lösen, bis es Bläschen wirft.",
+      "Mehl, Zucker, Salz, ganzes Ei, Eiweiß, Zitronenschale, restliche Milch, Butter und Hefemilch zu glattem Teig kneten.",
+      "Ca. 1 Stunde warm gehen lassen.",
+      "In 3 Stränge (ca. 60 cm) teilen, flechten, auf Blech 15 Minuten abgedeckt ruhen lassen.",
+      "Mit Eigelb bestreichen, Mandelblättchen aufstreuen, backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": 160,
+      "minuten": 30,
+      "original": "160 °C Umluft, ca. 30 Minuten"
+    },
+    "stueckzahl": null,
+    "notizen": "Eiweiß als 0,5 stk gerechnet (Annahme analog Eigelb), daher 1,5 stk. Salz 1/2 TL = 3 g, unter 1 %. Trockenhefe 7 g x 3 = 3,5 % Frischhefe-Äquivalent. Hefe in lauwarmer Milch mit 10-15 Min. Anspringzeit."
+  },
+  {
+    "id": "kuechengoetter-schwaebischer-hefezopf",
+    "titel": "Schwäbischer Hefezopf",
+    "quelle": {
+      "url": "https://www.kuechengoetter.de/rezepte/schwaebischer-hefezopf-36900",
+      "site": "kuechengoetter.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Würfel Hefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g weiche Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Ei (Größe M)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Bio-Zitrone (Schale)"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g Rosinen"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 60
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Mehl, Zucker, Salz und Zitronenschale mischen.",
+      "Milch erwärmen, Butter darin schmelzen, Ei einrühren, Hefe darin lösen.",
+      "Mit Mehl und Rosinen kneten, bis der Teig sich vom Schüsselrand löst und Blasen wirft.",
+      "Mindestens 1 Stunde warm gehen lassen, dritteln, zu ca. 35-cm-Strängen rollen und flechten.",
+      "Mit Ei-Milch bestreichen, Hagelzucker und Mandelblättchen aufstreuen, Blech in den kalten Ofen schieben und backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 35,
+      "original": "Blech in den kalten Ofen (Mitte), auf 180 °C stellen, nicht Umluft, ca. 35 Minuten"
+    },
+    "stueckzahl": 20,
+    "notizen": "Betriebsart nur indirekt (Seite rät von Umluft ab), daher als Ober-/Unterhitze erfasst. Würfel ohne Grammangabe, 1 Würfel = 42 g. Kalter Ofen als Start. Keine zweite Gare angegeben. Salzprise unter 1 %."
+  },
+  {
+    "id": "wunder-kueche-hefezopf-margarine",
+    "titel": "Hefezopf (und seine Freunde)",
+    "quelle": {
+      "url": "https://wunder-kueche.de/hefezopf/",
+      "site": "wunder-kueche.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl Type 550"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 280,
+        "einheit": "ml",
+        "original": "280 ml lauwarme Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 21,
+        "einheit": "g",
+        "original": "1/2 Würfel frische Hefe oder 1 Päckchen Trockenhefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "margarine",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g Margarine, geschmolzen"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g Zucker"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 40,
+      "stueckgare": 30
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Mehlmulde mit Hefe und etwas Milch zu dünnem Brei verrühren, 20 Minuten stehen lassen.",
+      "Geschmolzene Margarine und restliche Zutaten zugeben, nur bis alles verbunden ist kneten.",
+      "Abgedeckt 40 Minuten gehen lassen (alternativ über Nacht im Kühlschrank).",
+      "Dritteln, flechten, direkt auf Backpapier-Blech legen, 30 Minuten gehen lassen.",
+      "Optional mit Milch bestreichen, Hagelzucker oder Mandelblättchen aufstreuen, backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 30,
+      "original": "180 °C Ober-/Unterhitze, mittlere Schiene, ca. 30 Minuten (evtl. 5-10 Minuten länger)"
+    },
+    "stueckzahl": null,
+    "notizen": "Kein Ei im Teig. Hefe 1/2 Würfel = 21 g (Alternative 1 Päckchen Trockenhefe). Optional 1/4 TL gemahlene Vanille oder 1 TL Vanillezucker nicht erfasst (Mengenwahl offen). Rosinen nur als optionale Zugabe, nicht im Grundrezept. Hefe-Mehl-Ruhe 20 min vor Hauptteig. Kühlgare nur als Option genannt."
+  },
+  {
+    "id": "utopia-hefezopf-mit-rosinen",
+    "titel": "Hefezopf mit Rosinen",
+    "quelle": {
+      "url": "https://utopia.de/ratgeber/hefezopf-mit-rosinen-mit-diesem-rezept-gelingt-er-dir",
+      "site": "utopia.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Milch oder pflanzliche Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 21,
+        "einheit": "g",
+        "original": "0,5 Packung frische Hefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "margarine",
+        "menge": 75,
+        "einheit": "g",
+        "original": "75 g Butter oder vegane Margarine"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Zucker"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Rosinen"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "kneten": 15,
+      "gehen": 60,
+      "stueckgare": 15
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Fett schmelzen (nicht bräunen), Hefe in handwarmer Milch lösen.",
+      "Mehl, Zucker, Salz und Rosinen mischen, Fett und Hefemilch zugeben und ca. 15 Minuten kneten.",
+      "Abgedeckt ca. 1 Stunde gehen lassen, bis doppelt so groß.",
+      "In 3 Stränge teilen, flechten, auf Blech 15 Minuten gehen lassen.",
+      "Mit Milch bestreichen, nach Wunsch Hagelzucker oder Mandeln aufstreuen, backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 42.5,
+      "original": "180 °C Ober-/Unterhitze, 40-45 Minuten"
+    },
+    "stueckzahl": null,
+    "notizen": "Kein Ei im Teig. Fett im Original 'Butter oder vegane Margarine', als margarine erfasst. Hefe '0,5 Packung frische Hefe' ohne Gramm, als 21 g (1/2 Würfel) umgerechnet. Milch 'oder pflanzliche Milch', als Milch erfasst. Backzeit Mittelwert 40-45 min. Salz 2 %."
+  },
+  {
+    "id": "heimwerker-hefezopf-und-hefekranz",
+    "titel": "Hefezopf und Hefekranz backen (Hefezopf)",
+    "quelle": {
+      "url": "https://www.heimwerker.de/hefezopf-und-hefekranz-backen/",
+      "site": "heimwerker.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 400,
+        "einheit": "g",
+        "original": "400 g Weizen-Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 150,
+        "einheit": "ml",
+        "original": "150 ml lauwarme Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 21,
+        "einheit": "g",
+        "original": "1/2 Würfel Hefe"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 40,
+        "einheit": "g",
+        "original": "40 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier (mittlere Größe)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 0.5,
+        "einheit": "stk",
+        "original": "Schale von 1/2 Zitrone"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "kneten": 4,
+      "gehen": 15,
+      "stueckgare": 30
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Alle Zutaten mit dem Handrührgerät verkneten (erst niedrig, dann ca. 4 Minuten hoch).",
+      "15 Minuten warm ruhen lassen, nochmals kurz durchkneten.",
+      "In 3 Stränge teilen, flechten und aufs gefettete Blech legen.",
+      "30 Minuten warm gehen lassen.",
+      "Mit Ei bestreichen und backen."
+    ],
+    "backen": {
+      "tempOU": 200,
+      "tempUmluft": 180,
+      "minuten": 25,
+      "original": "E-Herd 200 °C / Umluft 180 °C / Gas Stufe 3-4, ca. 25 Minuten, mittlere Schiene"
+    },
+    "stueckzahl": null,
+    "notizen": "Von der Seite wurde nur der 'Hefezopf (zum Vergleich)' erfasst, nicht der Osterkranz. Mehl nur 400 g (Mengen für einen Teig wie angegeben). Hefe 1/2 Würfel = 21 g (5,3 % vom Mehl). Salzprise unter 1 %. Kurze Gare nur 15 min nach dem ersten Kneten."
+  },
+  {
+    "id": "dioezese-linz-osterstriezel-dampfl",
+    "titel": "Osterstriezel mit Dampfl",
+    "quelle": {
+      "url": "https://dioezese-linz.at/ostern/rezepte/osterstriezel",
+      "site": "dioezese-linz.at",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 600,
+        "einheit": "g",
+        "original": "60 dag Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "1/4 l warme Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 0.5,
+        "einheit": "stk",
+        "original": "1/2 Würfel Germ (Dampfl)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Zucker"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Zucker (Dampfl)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "5 dag Butter, zerlassen"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Vanillezucker"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "vorteig": 15,
+      "gehen": 60,
+      "stueckgare": 20
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Dampfl aus Germ, Zucker, etwas Mehl und etwas Milch ansetzen, ca. 15 Min. gehen lassen.",
+      "Trockene Zutaten mischen, restliche Zutaten und Dampfl zugeben, in der Maschine kneten bis der Teig sich löst.",
+      "Ca. 1 Std. auf doppeltes Volumen gehen lassen.",
+      "Teig halbieren, jede Hälfte zu einem Zopf flechten (zwei Striezel).",
+      "Auf Blech mit Backpapier 20 Min. gehen lassen, mit Ei bestreichen und goldbraun backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "180 °C Ober-/Unterhitze, bis goldbraun (keine Zeit angegeben)"
+    },
+    "stueckzahl": 2,
+    "notizen": "Rosinen ohne Mengenangabe im Original, daher nicht erfasst. Dampfl-Mehl (2 TL) und Dampfl-Milch (ein wenig) ohne genaue Menge, nicht gesondert erfasst; 'Vanillezucker 1 EL' wie im Original. Backzeit fehlt. Ergibt zwei Zöpfe."
+  },
+  {
+    "id": "kidsrezepte-hefezopf-wie-vom-baecker",
+    "titel": "Hefezopf wie vom Bäcker (Vorteig)",
+    "quelle": {
+      "url": "https://kidsrezepte.de/hefezopf/",
+      "site": "kidsrezepte.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl Type 405"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "100 ml lauwarme Milch (Vorteig) + 100 ml lauwarme Milch (Hauptteig)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 35,
+        "einheit": "g",
+        "original": "35 g frische Hefe"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g Zucker"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Zucker (Vorteig)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g geschmolzene Butter oder Margarine"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "1/2 TL Salz"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 0.5,
+        "einheit": "stk",
+        "original": "Abgeriebene Schale einer 1/2 Zitrone"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "kneten": 10,
+      "vorteig": 15,
+      "gehen": 90
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe, 1 TL Zucker und 100 ml Milch in die Mehlmulde rühren, ca. 15 Min. schäumen lassen.",
+      "Restmilch, Butter, Eier, Salz, Zucker und Zitronenschale zugeben, ca. 10 Min. kneten.",
+      "Ca. 1,5 Std. warm gehen lassen.",
+      "Nochmals kneten, in drei Stränge teilen, flechten und aufs Blech legen.",
+      "Mit Eigelb-Milch bestreichen und backen."
+    ],
+    "backen": {
+      "tempOU": 200,
+      "tempUmluft": null,
+      "minuten": 25,
+      "original": "200 °C Ober-/Unterhitze, 20-30 Minuten (Mittelwert 25 verwendet)"
+    },
+    "stueckzahl": null,
+    "notizen": "Vorteig enthält das gesamte Mehl. Salz nur 0,5 TL (ca. 0,6 % vom Mehl, unter 1 %), so im Original. Hefe 7 % vom Mehl (hoch, aber im Original). Backzeit-Spanne 20-30 Min., Mittelwert eingetragen. Mandeln/Hagelzucker nur Belag."
+  },
+  {
+    "id": "diamant-zucker-klassischer-hefezopf",
+    "titel": "Klassischer Hefezopf (Diamant Zucker)",
+    "quelle": {
+      "url": "https://www.diamant-zucker.de/rezepte/backen/sonstiges-geb%C3%A4ck/klassischer-hefezopf",
+      "site": "diamant-zucker.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl Type 550"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 300,
+        "einheit": "ml",
+        "original": "300 ml lauwarme Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 30,
+        "einheit": "g",
+        "original": "30 g frische Hefe"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 3,
+        "einheit": "el",
+        "original": "3 EL Rübenzucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Ei (Größe M)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Butter oder Margarine"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "vorteig": 20,
+      "gehen": 30,
+      "stueckgare": 25
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe, Zucker, lauwarme Milch und etwas Mehl in der Mehlmulde zum Vorteig verrühren, ca. 20 Min. gehen lassen.",
+      "Restmilch, zerlassene Butter, Ei und Salz zugeben und zu glattem Teig kneten, 30 Min. gehen lassen.",
+      "Nochmals kneten, in drei Teile teilen, Stränge rollen und flechten.",
+      "Auf Backpapier 20-30 Min. gehen lassen, mit Eigelb-Milch bestreichen, mit Hagelzucker bestreuen, backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 28,
+      "original": "180 °C Ober-/Unterhitze (160 °C Umluft), ca. 25-30 Minuten (Mittelwert 28 verwendet)"
+    },
+    "stueckzahl": null,
+    "notizen": "Vorteig-Mengen nur als 'etwas' angegeben, Gesamtmengen aber vollständig. Rosinen nur als Tipp (nicht erfasst). Backzeit-Spanne, Mittelwert eingetragen. Stückgare 20-30 Min., Mittelwert 25."
+  },
+  {
+    "id": "weightwatchers-osterhefezopf",
+    "titel": "Osterhefezopf (WW)",
+    "quelle": {
+      "url": "https://www.weightwatchers.com/ch/de/rezept/osterhefezopf/6047677a0cec904566e24c88",
+      "site": "weightwatchers.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 480,
+        "einheit": "g",
+        "original": "480 g Weissmehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 240,
+        "einheit": "ml",
+        "original": "250 ml Milch (davon 240 ml im Vorteig, ca. 10 ml zum Bestreichen)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Würfel frische Hefe"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 90,
+        "einheit": "g",
+        "original": "90 g Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g Halbfettbutter"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 3,
+        "einheit": "tl",
+        "original": "1 EL abgeriebene Zitronenschale"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "vorteig": 15,
+      "gehen": 45,
+      "stueckgare": 12
+    },
+    "gehen_kuehl": false,
+    "ablauf": [
+      "Hefe mit einer Prise Zucker und fast der ganzen Milch in die Mehlmulde rühren, ca. 15 Min. als Vorteig gehen lassen.",
+      "Mit Salz, Butter, restlichem Zucker und Zitronenschale zu glattem Teig kneten, ca. 45 Min. gehen lassen.",
+      "Nochmals kneten, in drei Stränge teilen und flechten, 10-15 Min. gehen lassen.",
+      "Mit Rest-Milch bestreichen und backen."
+    ],
+    "backen": {
+      "tempOU": 200,
+      "tempUmluft": 180,
+      "minuten": 18,
+      "original": "200 °C (Umluft 180 °C), ca. 15-20 Minuten (Mittelwert 18 verwendet)"
+    },
+    "stueckzahl": null,
+    "notizen": "Kein Ei im Rezept. Milch 240 ml im Teig (250 ml gesamt minus ca. 10 ml zum Bestreichen, so aus Seite abgeleitet). Zitronenschale 1 EL als 3 TL umgerechnet. Hefe 1 Würfel = 8,75 % vom Mehl. Backzeit- und Stückgare-Spannen, Mittelwerte eingetragen. Vorteig enthält das gesamte Mehl. Fettreduziertes Rezept (Halbfettbutter, Magermilch)."
+  },
+  {
+    "id": "lecker-hoppelhasen-hefezopf-nacht",
+    "titel": "Nussiger Hoppelhasen-Hefezopf (Übernacht-Teig)",
+    "quelle": {
+      "url": "https://www.lecker.de/nussiger-hoppelhasen-hefezopf-74964.html",
+      "site": "lecker.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "hefeteig",
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 450,
+        "einheit": "g",
+        "original": "450 g Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 150,
+        "einheit": "ml",
+        "original": "150 ml kaltes Wasser"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_trocken",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pck. Trockenhefe"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 70,
+        "einheit": "g",
+        "original": "70 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier (Gr. M)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Butter, geschmolzen, lauwarm"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Salz"
+      }
+    ],
+    "methode": "hefe_noknead",
+    "zeiten": {
+      "gehen": 720
+    },
+    "gehen_kuehl": true,
+    "ablauf": [
+      "Mehl, Hefe, Zucker, Salz mischen; Butter, Orangenschale, kaltes Wasser und Eier unterrühren (nicht kneten).",
+      "Abgedeckt über Nacht im Kühlschrank gehen lassen.",
+      "Am nächsten Tag kurz durchkneten, ca. 30 Min. ruhen lassen, ausrollen, mit Nussfüllung belegen und aufrollen.",
+      "Rolle diagonal aufs Blech legen, einschneiden, Scheiben umklappen (geflochtener Zopf), mit Ei-Milch bestreichen.",
+      "Backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 25,
+      "original": "180 °C Ober-/Unterhitze bzw. 160 °C Umluft, ca. 25 Minuten"
+    },
+    "stueckzahl": null,
+    "notizen": "ACHTUNG: Orangenschale wurde als zitronenabrieb gemappt (nicht in Zutatenliste). Nussfüllung nicht erfasst. Wasser nur 33 % vom Mehl (unter 35 %), dafür 3 Eier (reichlich Flüssigkeit aus Ei), so im Original. Teig wird nur verrührt, am nächsten Tag kurz durchgeknetet. Gehzeit 720 Min. = 'über Nacht' (Wert aus Seiten-Angabe Wartezeit, nicht im Fließtext explizit). Hefe: Päckchen Trockenhefe (7 g). Orangenschale (nicht in der Zutatenliste, vom Rechercheagenten ergänzt) nicht erfasst; Gehzeit 720 Min. aus der Wartezeit der Seite abgeleitet."
+  }
+]

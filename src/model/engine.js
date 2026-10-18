@@ -80,7 +80,7 @@ export function compute(state, data, korpusStats) {
     return entries.map((e) => {
       const ing = data.ingredients[e.zutat];
       const anteilAnteil = (e.anteil || 1) / sumAnteile;
-      const gramsIng = grams * anteilAnteil;
+      const gramsIng = (grams * anteilAnteil) / (ing.aequivalent_faktor ?? 1);
       const anzeige = fromGrams(e.zutat, ing, gramsIng);
       return {
         rolle: r,
