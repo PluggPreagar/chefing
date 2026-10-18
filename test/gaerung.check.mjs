@@ -123,4 +123,26 @@ ok(meldungen.length===0,`kein Preset und keine Methode mit Rezepten löst die G�
 const nk=compute(zustand('weissbrot','hefe_noknead'),data,ks).gaerung;
 ok(nk.temp===RAUM && nk.gare/nk.erwartet<m.warn_faktor,`Weißbrot ohne Kneten rechnet mit ${nk.tempText} und liegt bei ×${(nk.gare/nk.erwartet).toFixed(2)} (bleibt bekannte Grenze: die Gare dauert länger als die Hefedosis erwarten lässt), unter ×${m.warn_faktor}`);
 
+// --- Mindestzeit (T58) und Hinweis zum Exponenten -------------------------------------------------------------------------------------
+{const {mitMindestzeit}=await import(P+'model/gaerung.js');
+ ok(mitMindestzeit(100,360)===360 && mitMindestzeit(500,360)===500 && mitMindestzeit(100,null)===100 && mitMindestzeit(100,undefined)===100 && mitMindestzeit(100,0)===100,'mitMindestzeit: nie kürzer als die Mindestzeit, ohne Mindestzeit unverändert');
+ const ohne=pruefeGaerung({hefeBp:8,gare:60,temp:WARM},m);
+ const mit=pruefeGaerung({hefeBp:8,gare:30,temp:WARM,mindest:360},m);
+ ok(ohne===null && mit?.art==='zu_kurz' && /mindestens 6 Std\./.test(mit.text) && /Mindestzeit der Gare/.test(mit.text),`8 % Hefe, 30 Min. Gare: mit Mindestzeit 6 Std. „zu kurz“ („${mit?.text.slice(0,90)}…“), ohne nicht`);
+ ok(pruefeGaerung({hefeBp:8,gare:120,temp:WARM,mindest:360},m)===null,'2 Std. bei Mindestzeit 6 Std. und 8 % Hefe: noch innerhalb des Spielraums (×0,33 > 1/3,5)');
+ const lang=pruefeGaerung({hefeBp:4,gare:720,temp:WARM,mindest:360},m);
+ ok(lang?.art==='zu_lang' && near(lang.erwartet,erwarteteGare(4,WARM,m),1e-9),'nach oben gilt das Modell allein: 12 Std. bei 4 % Hefe sind „übergärt“, auch mit Mindestzeit (die Mindestzeit hebt die Obergrenze nicht an)');
+ const gErg=compute(zustand('weissbrot','hefe_noknead'),data,ks).gaerung;
+ ok(gErg.mindest===360 && gErg.modell>0 && gErg.erwartet===Math.max(gErg.modell,360) && gErg.mindestGilt===(gErg.modell<360),`ohne Kneten: Mindestzeit 6 Std. aus dem Operations-Fenster, erwartet ${Math.round(gErg.erwartet)} Min. (Modell ${Math.round(gErg.modell)} Min.)`);
+ ok(gErg.fenster && gErg.fenster[0]===360 && gErg.fenster[1]>=gErg.erwartet,`das Zeitfenster aus der Temperatur-Breite unterschreitet die Mindestzeit nicht (${Math.round(gErg.fenster[0])}–${Math.round(gErg.fenster[1])} Min.)`);
+ const viel=compute(zustand('weissbrot','hefe_noknead'),data,zelle('weissbrot','hefe_noknead',12)).gaerung;
+ ok(viel.mindestGilt===true && viel.erwartet===360 && viel.modell<360 && viel.pruefung?.art==='zu_lang','12 % Hefe ohne Kneten: Modell allein sagt unter 6 Std., es gilt die Mindestzeit, die Warnung „übergärt“ bleibt');
+ const direkt=compute(zustand('weissbrot','hefe_direkt'),data,ks).gaerung;
+ ok(direkt.mindest===15 && direkt.mindestGilt===false,'direkte Führung: Mindestzeit 15 Min. (Fenster der Operation) bleibt ohne Wirkung');
+ ok(typeof m.exponent_hinweis==='string' && /grob belegt/.test(m.exponent_hinweis) && gErg.hinweis===m.exponent_hinweis && compute(zustand('weissbrot','hefe_noknead'),{...data,modelle:{gaerung:{...m,exponent_hinweis:undefined}}},ks).gaerung.hinweis===null,'Hinweis zum Hefe-Exponenten steht in modelle.json und kommt mit dem Gärmodell-Ergebnis (ohne Text: null)');
+ const nk=compute(zustand('weissbrot','hefe_noknead'),data,ohneZelle('weissbrot','hefe_noknead'));
+ ok(nk.anpassungen.some(a=>/nur grob belegt/.test(a)),'Anpassungstext bei berechneter Hefe nennt die Unsicherheit des Hefe-Einflusses');
+ const alt=m.exponent_alternativen; const ohneNk=fitten(zeilen.filter(r=>!(r.methode==='hefe_noknead' && r.temp>=18 && r.temp<=24)));
+ ok(Math.abs(alt.ohne_noknead_raum-ohneNk.exponent)<0.1 && alt.erstes_modell_ohne_temperatur<-0.8 && ohneNk.exponent>m.exponent,`Zahlen im Hinweis stimmen noch (ohne Rezepte ohne Kneten bei Raumtemperatur: Fit ${ohneNk.exponent.toFixed(2)}, gespeichert ${alt.ohne_noknead_raum}) — sonst node tools/gaerung-fit.mjs prüfen`);}
+
 console.log(fail?fail+' FAIL':'ALL PASS');

@@ -10,7 +10,7 @@
 // dafür sind die Rückmeldungen (T53) da.
 import { normalizeRecipe } from './corpus.js';
 import { messwert } from './bilanz.js';
-import { erwarteteGare } from './gaerung.js';
+import { erwarteteGare, mitMindestzeit } from './gaerung.js';
 import { temperaturBereich, schrittTemperatur, gareOperation } from './temperatur.js';
 
 export const STANDARD = { reserve: 0.2, nahe: 0.1, rand: 0.05, luecke: 0.1, gaerungFaktor: 2.5, minGruppe: 3, minMuster: 2, minLift: 1.5 };
@@ -82,8 +82,9 @@ export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modell
       const T = (z.vorteig ?? 0) + (z.gehen ?? 0) + (z.stueckgare ?? 0);
       const hefe = n.bilanz.bp.hefe;
       if (model && roh.methode !== 'hefe_vorteig' && z.gehen > 0 && hefe > 0 && T > 0) {
-        const temp = temperaturBereich(schrittTemperatur('gehen', gareOperation(roh.methode, methods, operations), roh), temperaturen)?.mitte ?? null;
-        const erwartet = erwarteteGare(hefe, temp, model);
+        const gareOp = gareOperation(roh.methode, methods, operations);
+        const temp = temperaturBereich(schrittTemperatur('gehen', gareOp, roh), temperaturen)?.mitte ?? null;
+        const erwartet = mitMindestzeit(erwarteteGare(hefe, temp, model), gareOp?.zeit?.min); // wie die Engine (T58)
         gaerRezepte.push({ id: roh.id, roh, variante: roh.variante, methode: roh.methode, temp, stufe: tempStufe(temp), hefe, T, erwartet, faktor: T / erwartet });
       }
       alle.push(roh.id);

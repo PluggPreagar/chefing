@@ -87,6 +87,10 @@ if (process.argv[1]?.endsWith('gaerung-fit.mjs')) {
     console.log(`Prüfung Raumtemperatur (Fit ohne diese ${raum.length}: Q10 ${fmt(g.q10)}): Vorhersage der Gärzeit im Median ×${fmt(med)} daneben, ${abw.filter((a) => a.lang).length} von ${abw.length} länger als vorhergesagt`);
     for (const a of abw) console.log(`   ${a.id.slice(0, 50).padEnd(51)} ×${fmt(a.faktor)} ${a.lang ? 'länger' : 'kürzer'}`);
   }
+  // Wie robust ist der Hefe-Exponent? (T58) Leave-one-out und Fit ohne die Rezepte ohne Kneten bei Raumtemperatur
+  const loo = zeilen.map((_, i) => fitten(zeilen.filter((__, j) => j !== i)).exponent);
+  const ohneNk = fitten(zeilen.filter((r) => !(r.methode === 'hefe_noknead' && istRaum(r.temp))));
+  console.log(`Hefe-Exponent: ${fmt(f.exponent, 3)}; Leave-one-out ${fmt(Math.min(...loo), 3)} bis ${fmt(Math.max(...loo), 3)}; ohne die Rezepte ohne Kneten bei Raumtemperatur ${fmt(ohneNk.exponent, 3)} (R² ${fmt(ohneNk.r2)})`);
   const pruef = alle.filter((r) => r.pruef);
   if (pruef.length) {
     const abw = abweichungen(pruef, { ...f, temp_ref: TEMP_REF, temp_standard: 28 });

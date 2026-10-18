@@ -88,6 +88,14 @@ ok(suche(rezepte,{schwellen:{gaerungFaktor:20}}).gaerung.auffaellig.length===0,'
 ok(suche(rezepte,{modelle:undefined}).gaerung===null,'ohne Gärmodell: Abschnitt entfällt');
 ok(suche(rezepte,{modelle:{}}).gaerung===null,'modelle ohne gaerung: Abschnitt entfällt');
 
+// Mindestzeit der Gare-Operation (T58): wie in der Engine nie kürzer als `zeit.min`; nach oben zählt nur das Modell
+{const opsMin={gehen:{gaerung:true,temperatur:'warm',zeit:{min:360}}};
+ const mit=suche([rez('lang',70,4,'hefe_direkt',gz(300)),rez('ok',70,4,'hefe_direkt',gz(Math.round(g4)))],{operations:opsMin});
+ const ohne=suche([rez('lang',70,4,'hefe_direkt',gz(300)),rez('ok',70,4,'hefe_direkt',gz(Math.round(g4)))]);
+ ok(ohne.gaerung.auffaellig.some(r=>r.id==='lang' && r.faktor>6) && !mit.gaerung.auffaellig.some(r=>r.id==='lang'),'Mindestzeit 6 Std.: 5 Std. Gare bei 4 % Hefe sind ×6,7 über dem Modell, mit Mindestzeit ×0,8 — kein Abweichler mehr');
+ const kurz=suche([rez('kurz',70,4,'hefe_direkt',gz(60))],{operations:opsMin});
+ ok(kurz.gaerung.auffaellig.some(r=>r.id==='kurz' && near(r.erwartet,360,1e-6) && r.faktor<0.2),'unter der Mindestzeit liegt weiter auf: erwartet wird die Mindestzeit (360 Min.), 60 Min. sind ×0,17');}
+
 // --- 3) Muster ------------------------------------------------------------------------------------------------------------
 ok(b.gaerung.muster.nZuLang===3 && b.gaerung.muster.nZuKurz===0 && b.gaerung.muster.zuKurz.length===0,'Muster: 3 Abweichler „länger“, keine „kürzer“');
 const mn=b.gaerung.muster.zuLang.find(m=>m.eigenschaft==='methode:hefe_noknead');
@@ -109,15 +117,17 @@ ok(echt.rezepte>=129 && echt.gaerung.gepruefte>=40,`Echter Korpus: ${echt.rezept
 ok(!echt.grenzen.some(g=>g.verletzt),'Kein Korpus-Rezept verletzt eine Grenze (Grenzen und Korpus passen zusammen)');
 ok(echt.grenzen.some(g=>g.getragenVonEinem && g.amKorpusGelockert),'Befund: mindestens eine am Korpus gelockerte Grenze wird von einem einzelnen Rezept getragen');
 const eg=Object.fromEntries(echt.gaerung.gruppen.map(x=>[x.gruppe,x]));
-ok(eg['hefe_noknead/raum'].systematisch && /länger/.test(eg['hefe_noknead/raum'].richtung) && eg['hefe_noknead/raum'].median>1.5,`Befund: ohne Kneten bei Raumtemperatur braucht auch mit Temperatur im Modell noch länger als das Modell (Median ×${eg['hefe_noknead/raum'].median.toFixed(1)}, T58)`);
-ok(echt.gaerung.muster.zuLang.some(m=>m.eigenschaft==='methode:hefe_noknead'),'Befund: bei „länger“ sticht die Methode ohne Kneten heraus');
+ok(!eg['hefe_noknead/raum'].systematisch && eg['hefe_noknead/raum'].median>1.4 && eg['hefe_noknead/raum'].median<2.5,`Befund: ohne Kneten bei Raumtemperatur liegt mit der Mindestzeit (T58) nicht mehr systematisch daneben, bleibt aber über dem Modell (Median ×${eg['hefe_noknead/raum'].median.toFixed(1)})`);
+ok(!echt.gaerung.muster.zuLang.some(m=>m.eigenschaft==='methode:hefe_noknead'),'Befund: bei „länger“ sticht die Methode ohne Kneten nicht mehr heraus (Mindestzeit)');
 ok(echt.gaerung.muster.zuKurz.some(m=>m.eigenschaft==='gare:kalt'),'Befund: bei „kürzer“ sticht die kalte Gare heraus');
-ok(echt.gaerung.auffaellig.length>=5 && echt.gaerung.auffaellig.every(r=>!('roh' in r)),'Abweichler ohne Rohdaten im Ergebnis (ausgabefähig)');
+ok(echt.gaerung.auffaellig.length>=3 && echt.gaerung.auffaellig.every(r=>!('roh' in r)),'Abweichler ohne Rohdaten im Ergebnis (ausgabefähig)');
 
 // --- Werkzeug ----------------------------------------------------------------------------------------------------------------------
 const tool=new URL('../tools/ueberraschungen.mjs',import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1');
 const text=execFileSync(process.execPath,[tool],{encoding:'utf8'});
-ok(/1\) Grenzen am Rand/.test(text) && /2\) Gärmodell/.test(text) && /3\) Muster/.test(text) && /SYSTEMATISCH/.test(text) && /fehlende Größe/.test(text) && /nur Erfolge/.test(text) && / °C, hefe_/.test(text),'Werkzeug: alle drei Abschnitte, Hinweis auf fehlende Größe, Temperatur je Abweichler und Erfolgs-Auswahl');
+ok(/1\) Grenzen am Rand/.test(text) && /2\) Gärmodell/.test(text) && /3\) Muster/.test(text) && /nur Erfolge/.test(text) && / °C, hefe_/.test(text),'Werkzeug: alle drei Abschnitte, Temperatur je Abweichler und Erfolgs-Auswahl');
+const streng=execFileSync(process.execPath,[tool,'--gaerung','1.2'],{encoding:'utf8'});
+ok(/SYSTEMATISCH/.test(streng) && /fehlende Größe/.test(streng),'Werkzeug: bei enger Schwelle werden systematische Gruppen mit Hinweis auf eine fehlende Größe markiert');
 const json=JSON.parse(execFileSync(process.execPath,[tool,'--json'],{encoding:'utf8'}));
 ok(json.rezepte===echt.rezepte && json.gaerung.auffaellig.length===echt.gaerung.auffaellig.length && json.grenzen.length===echt.grenzen.length,'Werkzeug --json liefert dasselbe wie das Modul');
 const eng=JSON.parse(execFileSync(process.execPath,[tool,'--json','--gaerung','100'],{encoding:'utf8'}));
