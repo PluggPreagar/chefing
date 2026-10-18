@@ -162,9 +162,9 @@
     "verb": "vorbereiten",
     "variante": "Hefe auflösen",
     "auf": ["trieb", "fluessigkeit"],
-    "voraussetzung": [],
+    "voraussetzung": [{ "rolle": "fluessigkeit", "eigenschaft": "temperatur", "hoechstens": { "von": { "rolle": "trieb", "feld": "kultur_max_c" } }, "strenge": "hart", "id": "hefe_fluessigkeit_zu_heiss" }],
     "wirkung": "Die Hefe wird in 30–35 °C warmer Flüssigkeit (mit etwas Zucker, falls im Rezept) verteilt und aktiviert. Trockenhefe kann auch direkt ins Mehl gemischt werden.",
-    "risiko": "Über ~45 °C stirbt die Hefe, Salz direkt auf der Hefe bremst sie.",
+    "risiko": "Ab 42 °C stirbt die Hefe (Eiweiße denaturieren), Salz direkt auf der Hefe bremst sie.",
     "dauer_min": 2
   },
   "kneten": {
@@ -246,7 +246,7 @@
     "intensitaet": "sanft",
     "variante": "Vorteig anrühren (Poolish/Dampfl)",
     "auf": ["struktur", "fluessigkeit", "trieb"],
-    "voraussetzung": [],
+    "voraussetzung": [{ "rolle": "fluessigkeit", "eigenschaft": "temperatur", "hoechstens": { "von": { "rolle": "trieb", "feld": "kultur_max_c" } }, "strenge": "hart", "id": "hefe_fluessigkeit_zu_heiss" }],
     "wirkung": "Hefe, ein Teil der Flüssigkeit und ein Teil des Mehls werden zu einem weichen Teig verrührt, der getrennt vom Hauptteig reift. Der Vorteig bringt Aroma und stabilisiert die Gare.",
     "dauer_min": 2
   },

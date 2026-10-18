@@ -4,7 +4,7 @@ const P=new URL('../src/', import.meta.url).href;
 const J=(n)=>JSON.parse(fs.readFileSync(new URL(P+'data/'+n+'.json')));
 const { aggregatAus, formVon, cremigAus, erfuellt, standardBereich, FORM_SKALA, FORM_LABEL } = await import(P+'model/eigenschaften.js');
 const { temperaturBereich } = await import(P+'model/temperatur.js');
-const { propsOf, blendProps, pruefeBedingung, checkOperation, nachVorbereitung, resolveMethod } = await import(P+'model/rules.js');
+const { propsOf, blendProps, pruefeBedingung, checkOperation, nachVorbereitung, resolveMethod, alleUeberschreibbarenRegeln } = await import(P+'model/rules.js');
 const { normalizeRecipe, stats } = await import(P+'model/corpus.js');
 const { compute } = await import(P+'model/engine.js');
 let fail=0; const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++;};
@@ -128,6 +128,44 @@ ok(ck.ok && ck.empfehlungen.length===1 && ck.empfehlungen[0].unsicher===true,'St
  const c3=compute({archetyp:'ruehrteig',gefaess:vk.gefaess,methode:'creme',fixiert:{rollen:{},zutaten:{}},zutaten:b2},d3,ks);
  ok(c3.warnungen.some(x=>/\(plastisch bei 20 °C\)/.test(x)),'Aufschlag-Temperatur als einzelne Zahl: „plastisch bei 20 °C“ (keine Spanne)');
  ok(ev({fett:'lauwarm'}).status==='invalid' && ev({fett:'lauwarm'}).gruende.some(g=>/cremig schlagbares Fett \(ist: nein\)/.test(g)),'Butter „lauwarm“ (30–35 °C) liegt ganz über 22 °C: sicher nicht plastisch, Creme ungültig (der Zweifel beim Schmelzpunkt allein hebt das nicht auf)');
+}
+
+// --- Lebende Kulturen: Temperatur-Obergrenze (T63, DR-034) ---------------------------------------------------------------------------
+{const hy={rolle:'fluessigkeit',eigenschaft:'temperatur',hoechstens:{von:{rolle:'trieb',feld:'kultur_max_c'}}};
+ const mitT=(t,trieb='hefe_frisch')=>propsOf({fluessigkeit:E('milch'),trieb:E(trieb)},ing,{benannt:T,zutatTemp:t?{fluessigkeit:t}:undefined});
+ ok(ing.hefe_frisch.kultur_max_c===42 && ing.hefe_trocken.kultur_max_c===42 && ing.joghurt.kultur_max_c===50 && Object.entries(ing).filter(([k,v])=>!k.startsWith('_') && v?.kultur_max_c!==undefined).length===3,'Daten: Hefe 42 °C, Joghurt-Kulturen 50 °C — nur diese drei Zutaten tragen eine Kultur-Grenze');
+ ok(pruefeBedingung(hy,mitT()).ok && pruefeBedingung(hy,mitT('lauwarm')).ok && pruefeBedingung(hy,mitT('kuehlschrank')).ok,'Standard-Bereich (−20 bis 27 °C), lauwarm und Kühlschrank liegen ganz unter 42 °C: erfüllt, kein Hinweis');
+ ok(pruefeBedingung(hy,mitT(42)).ok && !pruefeBedingung(hy,mitT(42.1)).ok && pruefeBedingung(hy,mitT({min:38,max:42})).ok,'Grenze genau bei 42 °C: erfüllt (höchstens schließt ein), 42,1 °C nicht');
+ let r2=pruefeBedingung(hy,mitT(50));
+ ok(!r2.ok && r2.ist==='50 °C' && r2.hoechstens===42,'50 °C Flüssigkeit: nicht erfüllt, ganz über der Grenze (ist: 50 °C, Grenze 42)');
+ r2=pruefeBedingung(hy,mitT({min:40,max:50}));
+ ok(!r2.ok && r2.ist==='unbestimmt' && r2.hoechstens===42,'Bereich 40–50 °C überdeckt die Grenze: unbestimmt (im Zweifel Warnung)');
+ ok(pruefeBedingung(hy,mitT({min:42,max:50})).ist==='unbestimmt' && pruefeBedingung(hy,mitT({min:42.1,max:50})).ist==='42,1–50 °C' && pruefeBedingung({rolle:'fluessigkeit',eigenschaft:'temperatur',mindestens:20},mitT({min:15,max:20})).ist==='unbestimmt' && pruefeBedingung({rolle:'fluessigkeit',eigenschaft:'temperatur',mindestens:20},mitT({min:15,max:19.9})).ist==='15–19,9 °C','Berührung am Rand der Grenze (genau 42 bzw. 20 °C) ist unbestimmt, knapp daneben sicher nicht erfüllt');
+ ok(pruefeBedingung(hy,mitT(60,'backpulver')).ist==='unbekannt','ohne Kultur-Grenze bleibt „ist“ unbekannt (keine Scheinangabe)');
+ ok(pruefeBedingung(hy,mitT(60,'backpulver')).ok && pruefeBedingung(hy,mitT(60,'natron')).ok,'ohne Kultur in der Rolle „Trieb“ (Backpulver, Natron) gibt es keine Grenze: erfüllt');
+ ok(pruefeBedingung(hy,propsOf({fluessigkeit:E('milch'),trieb:E('hefe_frisch')},ing)).ok && pruefeBedingung(hy,propsOf({fluessigkeit:E('milch')},ing,{benannt:T})).ok,'ohne Temperatur-Daten (alter Aufruf) oder ohne Trieb-Rolle: erfüllt');
+ ok(!pruefeBedingung(hy,propsOf({trieb:E('hefe_frisch')},ing,{benannt:T})).ok && pruefeBedingung(hy,propsOf({trieb:E('hefe_frisch')},ing,{benannt:T})).ist==='nicht belegt','Rolle ohne Zutat: „nicht belegt“ wie bei jeder Bedingung');
+ const hm={rolle:'fluessigkeit',eigenschaft:'temperatur',mindestens:20};
+ ok(pruefeBedingung(hm,mitT({min:21,max:25})).ok && pruefeBedingung(hm,mitT(20)).ok && !pruefeBedingung(hm,mitT(10)).ok && pruefeBedingung(hm,mitT({min:15,max:25})).ist==='unbestimmt','„mindestens“ als Zahl: ganz darüber erfüllt (20 °C genau), ganz darunter nicht, dazwischen unbestimmt');
+ ok(pruefeBedingung({rolle:'fluessigkeit',eigenschaft:'temperatur',hoechstens:30},mitT({min:25,max:29})).ok && !pruefeBedingung({rolle:'fluessigkeit',eigenschaft:'temperatur',hoechstens:30},mitT(31)).ok,'„höchstens“ als feste Zahl funktioniert ebenso');
+ // Operation: Entry mit Grenze, Texte
+ const op={label:'Hefe lösen',voraussetzung:[{...hy,strenge:'hart',id:'x'}]};
+ let ck=checkOperation(op,mitT(50),data.operations);
+ ok(!ck.ok && ck.fehlend[0].hoechstens===42 && ck.fehlend[0].ist==='50 °C','checkOperation: harter Verstoß trägt die Grenze und den Ist-Wert');
+ ck=checkOperation(op,mitT({min:40,max:50}),data.operations);
+ ok(ck.ok && ck.empfehlungen[0].unsicher===true && ck.empfehlungen[0].hoechstens===42 && ck.empfehlungen[0].temperatur.max===50,'checkOperation: Zweifel wird Hinweis mit Grenze und Temperatur');
+ const ops=['hefe_ansetzen','vorteig_ansetzen'].map(k=>data.operations[k].voraussetzung);
+ ok(ops.every(v=>v.length===1 && v[0].id==='hefe_fluessigkeit_zu_heiss' && v[0].strenge==='hart' && v[0].hoechstens.von.feld==='kultur_max_c') && /42 °C/.test(data.operations.hefe_ansetzen.risiko),'Daten: „Hefe ansetzen“ und „Vorteig ansetzen“ tragen dieselbe harte Regel hefe_fluessigkeit_zu_heiss; das Risiko nennt 42 °C');
+ ok(alleUeberschreibbarenRegeln(data).filter(k=>k.id==='hefe_fluessigkeit_zu_heiss').length===1 && /nicht heißer, als die Kultur in „Trieb“ verträgt/.test(alleUeberschreibbarenRegeln(data).find(k=>k.id==='hefe_fluessigkeit_zu_heiss').text),'Regel-Katalog führt die Regel einmal (überschreibbar), die Anforderung als Text');
+ // Ende-zu-Ende: Weißbrot (direkte Führung)
+ const ah=data.archetypes.hefeteig, vw=ah.varianten.weissbrot, bw={}; for (const r of ah.rollen) bw[r.rolle]=E(vw.bestof[r.rolle]!==undefined?vw.bestof[r.rolle]:r.default);
+ const rh=ah.rollen.map(q=>q.rolle), ksh=Object.fromEntries(Object.entries(ah.varianten).map(([k,x])=>[k,stats(J('corpus/'+x.korpus).map(q=>normalizeRecipe(q,data.ingredients,{rollen:rh})),rh)]));
+ const ev=(zt,methode='hefe_direkt')=>compute({archetyp:'hefeteig',gefaess:vw.gefaess,methode,fixiert:{rollen:{},zutaten:{}},zutaten:bw,zutatTemperaturen:zt},data,ksh);
+ ok(ev().status!=='invalid' && !ev().warnungen.some(w=>/nicht sicher gegeben/.test(w)) && ev({fluessigkeit:'lauwarm'}).status!=='invalid','Weißbrot ohne Angabe oder mit lauwarmer Flüssigkeit: gültig, ohne Hinweis');
+ ok(ev({fluessigkeit:50}).status==='invalid' && ev({fluessigkeit:50}).gruende.some(g=>/Temperatur höchstens 42 °C für Flüssigkeit \(ist: 50 °C\)/.test(g) && /Hefe wird in 30–35 °C/.test(g)) && ev({fluessigkeit:50}).blockaden.some(b=>b.id==='hefe_fluessigkeit_zu_heiss'),'Flüssigkeit 50 °C: Hefeteig ungültig, Grund nennt Grenze, Ist und die Wirkung der Operation; als Regel überschreibbar');
+ ok(ev({fluessigkeit:{min:40,max:50}}).status!=='invalid' && ev({fluessigkeit:{min:40,max:50}}).warnungen.some(w=>/Temperatur höchstens 42 °C für Flüssigkeit nicht sicher gegeben — Temperatur 40–50 °C/.test(w)),'Flüssigkeit 40–50 °C: im Zweifel Warnung, Rezept bleibt gültig');
+ ok(ev({fluessigkeit:50},'hefe_kalt').status==='invalid' && ev({fluessigkeit:50},'hefe_vorteig').status==='invalid','auch Kalte Führung und Vorteig lösen die Hefe in der Flüssigkeit: dieselbe Regel');
+ ok(ev({fluessigkeit:50},'hefe_noknead').status!=='invalid','ohne Hefe-Ansetzen (ohne Kneten: Hefe wird direkt untergemischt) gilt die Regel nicht');
 }
 
 // --- Daten ---------------------------------------------------------------------------------------------------------------------------

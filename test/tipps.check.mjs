@@ -19,8 +19,8 @@ ok(tipps.every(t=>t.quellen.length>=1 && t.quellen.every(q=>q.url.startsWith('ht
 ok(tipps.every(t=>[t.symptom,t.ursache,t.hinweis||''].every(x=>x.length<=420 && !/["„“]/.test(x))),'Urheberrecht: nur kurze eigene Zusammenfassungen (höchstens 420 Zeichen, keine wörtlichen Zitate in Anführungszeichen)');
 ok(tipps.filter(t=>t.modell.stand==='abgedeckt').every(t=>t.modell.luecke===null && t.modell.durch.length>0) && tipps.filter(t=>t.modell.stand!=='abgedeckt').every(t=>typeof t.modell.luecke==='string' && t.modell.luecke.length>10) && tipps.filter(t=>t.modell.stand==='ausserhalb').every(t=>t.modell.durch.length===0) && tipps.filter(t=>t.modell.stand==='luecke').every(t=>/Kandidat|Kein|nicht/.test(t.modell.luecke)),'Modell-Stand passt zu den Feldern: abgedeckt ohne Lücke, sonst mit Beschreibung, ausserhalb ohne Verweise');
 const zaehl=(f)=>tipps.filter(f).length;
-ok(zaehl(t=>t.modell.stand==='abgedeckt')===4 && zaehl(t=>t.modell.stand==='teilweise')===9 && zaehl(t=>t.modell.stand==='luecke')===3 && zaehl(t=>t.modell.stand==='ausserhalb')===3,'Befund: 4 abgedeckt, 9 teilweise, 3 Lücken, 3 außerhalb');
-ok(tipps.filter(t=>t.modell.stand==='luecke').map(t=>t.id).sort().join()==='hefe-fluessigkeit-zu-heiss,kuchen-ofen-und-backzeit,ruehrteig-uebermischen','die drei Lücken: Flüssigkeit zu heiß für die Hefe (keine Obergrenze), Übermischen (Rührzeit), Ofen und Backzeit');
+ok(zaehl(t=>t.modell.stand==='abgedeckt')===5 && zaehl(t=>t.modell.stand==='teilweise')===9 && zaehl(t=>t.modell.stand==='luecke')===2 && zaehl(t=>t.modell.stand==='ausserhalb')===3,'Befund: 5 abgedeckt, 9 teilweise, 2 Lücken, 3 außerhalb (T63 hat die Hefe-Flüssigkeit geschlossen)');
+ok(tipps.filter(t=>t.modell.stand==='luecke').map(t=>t.id).sort().join()==='kuchen-ofen-und-backzeit,ruehrteig-uebermischen','die zwei Lücken: Übermischen (Rührzeit), Ofen und Backzeit');
 
 // --- Verweise ins Modell lösen sich auf ------------------------------------------------------------------------------------------
 const grenzIds=new Set(Object.values(data.grenzen.archetypen).flat().map(g=>g.id));
@@ -58,6 +58,7 @@ const basis=(a,vk)=>{ const v=a.varianten[vk], b={}; for (const r of a.rollen) b
  const rechne=(extra={})=>compute({archetyp:'hefeteig',gefaess:v.gefaess,methode:'hefe_direkt',fixiert:{rollen:{},zutaten:{}},zutaten:b,...extra},data,ks);
  const t13=tipps.find(t=>t.id==='hefe-zu-trocken').modell.durch.map(d=>d.split(':')[1]);
  ok(t13.some(id=>rechne({mengen:{fluessigkeit:20}}).regelIds.includes(id)) && !t13.some(id=>rechne().regelIds.includes(id)),'hefe-zu-trocken: 20 % Flüssigkeit löst die Wasser-Untergrenze aus, die Ausgangslage nicht');
+ ok(rechne({zutatTemperaturen:{fluessigkeit:50}}).status==='invalid' && rechne({zutatTemperaturen:{fluessigkeit:50}}).regelIds.includes('hefe_fluessigkeit_zu_heiss') && rechne({zutatTemperaturen:{fluessigkeit:'lauwarm'}}).status!=='invalid','hefe-fluessigkeit-zu-heiss: Flüssigkeit 50 °C macht den Hefeteig ungültig (Regel hefe_fluessigkeit_zu_heiss), lauwarm nicht');
  const m=gaerungModell(data);
  ok(erwarteteGare(1,15,m)>erwarteteGare(1,28,m) && erwarteteGare(1,5,m)>erwarteteGare(1,15,m) && erwarteteGare(1,28,m)>erwarteteGare(1,40,m),'hefe-zu-kalt-langsam: das Gärmodell verlängert die Gare bei Kälte und verkürzt sie bei Wärme (5 < 15 < 28 < 40 °C)');
  ok(!['hf_fett_max','hf_zucker_max'].some(id=>rechne({mengen:{fett:20,suesse:15}}).regelIds.includes(id)) && ['hf_fett_max','hf_zucker_max'].some(id=>rechne({mengen:{fett:50,suesse:30}}).regelIds.includes(id)),'hefe-viel-fett-zucker: 50 % Fett oder 30 % Zucker lösen die Grenzen aus, 20 und 15 % nicht');}

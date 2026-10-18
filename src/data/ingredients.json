@@ -12,6 +12,7 @@
     "zusammensetzung": "optional (T37): Fertighelfer als Anteile seiner Bestandteile (Summe höchstens 1; Backpulver = Natron + Säureträger + Stärke). `funktionen` bleibt davon abgeleitet: triebkraft(Natron) / triebkraft(Backpulver) = 1 / Natron-Anteil, `funktionen.staerke` = Stärke-Anteil — der Test in daten-konsistenz hält beides zusammen.",
     "cremig_schlagbar": "true wenn sich bei Raumtemperatur Luft einschlagen lässt; gilt genau dann, wenn `aufschlag_temp` gesetzt ist (T56, Test in daten-konsistenz). Zur Laufzeit folgt die Eigenschaft der Temperatur der Zutat (T62): ganz im Bereich `aufschlag_temp` ja, ganz daneben nein, sonst `unbestimmt` (Warnung statt Verbot)",
     "aufschlag_temp": "Temperatur-Bereich (Zahl, Spanne oder Name aus temperaturen.json), in dem das feste Fett plastisch ist und sich Luft einschlagen lässt; Butter 18–22 °C, Margarine breiter (T56). Operationen leiten daraus ihre Temperatur ab (`temperatur: {von: …}`).",
+    "kultur_max_c": "°C, nur bei lebenden Kulturen (T63, DR-034): ab dieser Temperatur sterben die Zellen ab (Eiweiße denaturieren); Hefe 42 °C, Joghurt-Kulturen 50 °C (sie gären bei 42–45 °C am besten). Anforderungen an andere Rollen können sich darauf beziehen (`von: {rolle, feld: \"kultur_max_c\"}`)",
     "schmelzpunkt_c": "°C, nur bei festen Fetten; Aggregat und Form folgen daraus und der Temperatur der Zutat (T62: ganz darunter fest, ganz darüber flüssig, dazwischen unbestimmt)",
     "form": "optional: block | stueckig | broeselig | kleinteilig | fluessig (geordnet, grob → fein; Anforderungen sagen „mindestens kleinteilig“). Ohne Angabe aus dem Aggregat: fest = block, stueckig, pulver = kleinteilig, fluessig. Frischhefe ist bröselig, Abrieb kleinteilig (T62)",
     "trieb_typ": "chemisch_doppelt | chemisch_basisch | keiner",
@@ -226,6 +227,7 @@
   },
   "joghurt": {
     "label": "Joghurt (3,5 %)",
+    "kultur_max_c": 50,
     "kategorie": "fluessigkeit",
     "unterkategorie": "milchprodukt",
     "aggregat": "fluessig",
@@ -281,6 +283,7 @@
   },
   "hefe_frisch": {
     "label": "Frischhefe (Würfel 42 g)",
+    "kultur_max_c": 42,
     "kategorie": "pulver",
     "unterkategorie": "trieb",
     "aggregat": "fest",
@@ -295,6 +298,7 @@
   },
   "hefe_trocken": {
     "label": "Trockenhefe (Päckchen 7 g)",
+    "kultur_max_c": 42,
     "kategorie": "pulver",
     "unterkategorie": "trieb",
     "aggregat": "pulver",

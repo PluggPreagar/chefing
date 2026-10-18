@@ -70,8 +70,26 @@ export function pruefeBedingung(b, props) {
   }
   const ing = props[b.rolle];
   if (!ing) return { ok: false, ist: 'nicht belegt' };
+  if (b.eigenschaft === 'temperatur') return pruefeTemperatur(b, ing, props);
   const ist = ing[b.eigenschaft];
   return { ok: erfuellt(b, ist), ist: ist == null ? 'unbekannt' : String(ist) };
+}
+
+// Temperatur-Anforderung (T63, DR-034): `hoechstens` / `mindestens` als Zahl oder abgeleitet aus einer Eigenschaft einer anderen Rolle
+// (`{von: {rolle, feld}}`, z. B. das Absterben der Hefe in `trieb`). Der Temperatur-Bereich der Rolle muss GANZ darunter bzw. darüber
+// liegen; ganz daneben = nicht erfüllt, dazwischen = unbestimmt (im Zweifel Warnung). Ohne Grenze (Backpulver statt Hefe) oder ohne
+// Temperatur-Daten (alter Aufruf) gilt die Anforderung als erfüllt.
+function pruefeTemperatur(b, ing, props) {
+  const t = ing.temperatur;
+  const grenze = (spec) => (typeof spec === 'number' ? spec : spec?.von ? props[spec.von.rolle]?.[spec.von.feld] : undefined);
+  const hoch = grenze(b.hoechstens);
+  const tief = grenze(b.mindestens);
+  if (!t || (typeof hoch !== 'number' && typeof tief !== 'number')) return { ok: true, ist: 'unbekannt' };
+  const ganz = (typeof hoch !== 'number' || t.max <= hoch) && (typeof tief !== 'number' || t.min >= tief);
+  const daneben = (typeof hoch === 'number' && t.min > hoch) || (typeof tief === 'number' && t.max < tief);
+  const grenzText = typeof hoch === 'number' ? { hoechstens: hoch } : { mindestens: tief };
+  if (ganz) return { ok: true, ist: fmtTemperatur(t), ...grenzText };
+  return { ok: false, ist: daneben ? fmtTemperatur(t) : 'unbestimmt', ...grenzText };
 }
 
 // Ist eine Rolle für automatische Anpassung gesperrt? Entweder ganz fixiert (T24), oder
@@ -122,7 +140,7 @@ export function checkOperation(op, props, operations, fixiert = {}, data = null)
     // Im Zweifel Warnung (T62): ist die Eigenschaft aus der Temperatur nicht sicher gegeben (`unbestimmt`), wird nichts verboten und
     // keine Vorbereitung eingefügt — es bleibt ein Hinweis mit der Temperatur.
     if (r.ist === 'unbestimmt') {
-      empfehlungen.push({ ...b, ist: r.ist, strenge: 'empfohlen', unsicher: true, temperatur: props[b.rolle]?.temperatur ?? null });
+      empfehlungen.push({ ...b, ist: r.ist, strenge: 'empfohlen', unsicher: true, temperatur: props[b.rolle]?.temperatur ?? null, ...(r.hoechstens !== undefined ? { hoechstens: r.hoechstens } : {}), ...(r.mindestens !== undefined ? { mindestens: r.mindestens } : {}) });
       continue;
     }
     const strenge = b.strenge || 'hart';
@@ -132,7 +150,7 @@ export function checkOperation(op, props, operations, fixiert = {}, data = null)
     // verursacht: die Rolle der Bedingung selbst, oder — bei "wenn"-Bedingungen — die Rolle,
     // deren fixierte Wahl die Voraussetzung überhaupt erst ausgelöst hat (z. B. Trieb=Natron fix).
     const fixInfo = data ? ermittleFixierung(fixiert, b, props, data) : null;
-    const eintrag = { ...b, ist: r.ist, strenge, fixiert: fixInfo };
+    const eintrag = { ...b, ist: r.ist, strenge, fixiert: fixInfo, ...(r.hoechstens !== undefined ? { hoechstens: r.hoechstens } : {}), ...(r.mindestens !== undefined ? { mindestens: r.mindestens } : {}) };
     if (strenge === 'empfohlen') empfehlungen.push(eintrag);
     else fehlend.push(eintrag);
   }
@@ -296,6 +314,8 @@ function sollVon(f) {
   if (f.eigenschaft === 'cremig_schlagbar') return 'cremig schlagbares';
   if (f.eigenschaft === 'aggregat') return AGGREGAT[f.wert] ?? f.wert;
   if (f.eigenschaft === 'saeure') return 'saures';
+  if (f.eigenschaft === 'temperatur' && typeof f.hoechstens === 'number') return `Temperatur höchstens ${grad(f.hoechstens)} °C für`;
+  if (f.eigenschaft === 'temperatur' && typeof f.mindestens === 'number') return `Temperatur mindestens ${grad(f.mindestens)} °C für`;
   if (f.eigenschaft === 'form' && f.mindestens) return `mindestens ${FORM_LABEL[f.mindestens] ?? f.mindestens}es`;
   if (f.eigenschaft === 'form' && f.hoechstens) return `höchstens ${FORM_LABEL[f.hoechstens] ?? f.hoechstens}es`;
   return `${f.eigenschaft} = ${f.wert}`;
@@ -348,6 +368,11 @@ function beschreibeBedingungen(fehlend, data) {
 function beschreibeAnforderung(b, data) {
   if (b.hinweis) return b.hinweis;
   const rollenLabel = rollenLabelVon(data, b.rolle);
+  // abgeleitete Temperatur-Grenze: ohne konkrete Zutat nur die Beziehung nennen
+  if (b.eigenschaft === 'temperatur' && (b.hoechstens?.von || b.mindestens?.von)) {
+    const spec = b.hoechstens?.von ?? b.mindestens.von;
+    return `${rollenLabel} nicht ${b.hoechstens?.von ? 'heißer' : 'kühler'}, als die Kultur in „${rollenLabelVon(data, spec.rolle)}“ verträgt`;
+  }
   return `${sollVon(b)} ${rollenLabel}`;
 }
 
