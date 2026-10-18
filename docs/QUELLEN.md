@@ -136,3 +136,18 @@ Nicht abrufbar (403): breadsandsweets.com, madaboutfood.co, kitchensanctuary.com
 | 2026-10-18 | snapcalorie.com | 1 | Vorteig-Zahlen | Prise = 0,1 g Instant laut Seite |
 | 2026-10-18 | dioezese-linz.at, kidsrezepte.de, diamant-zucker.de, weightwatchers.com, madamedessert.de, kochp.de | je 1 | Hefe-Ansatz | Hefe in Mehlmulde/Milch, 15–30 Min.; Mehl im Ansatz meist nicht genannt |
 | 2026-10-18 | olis-backegge.ch | 1 | Vorteig-Zahlen | Variante mit 60–90 Min. Raum plus 12–24 Std. Kühlschrank erfasst |
+
+## 2026-10-18 — Negativ-Korpus: dokumentierte Misserfolge (T55)
+
+1 Subagent suchte Fehlschläge mit Mengen (Hefeteig, Rührteig, Pfannkuchen): 14 Fälle, nur Fakten und eigene Kurzfassungen, Mengen aus WebFetch-Zusammenfassungen (Tassen und Löffel unverändert gespeichert, Umrechnung im Code). Starke Selbstauswahl: fast alle Hefeteig-Fälle aus einem Forum, englischsprachig, US-Maße. Weitere Seiten gelesen, aber ohne verwertbaren Fall: 177milkstreet.com, kingarthurbaking.com, oldcountrykitchenware.com, bine-backt.de, wassollichheutekochen.de, bakedbyclo.com, recipetineats.com, inspiredtaste.net.
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-18 | thefreshloaf.com | 7 | Negativ-Korpus Hefeteig | 7 Fälle (zu viel Hefe, Übergare, Brioche mit viel Fett, Braunzucker, Backautomat); Mengen meist in Tassen |
+| 2026-10-18 | smittenkitchen.com | 1 | Negativ-Korpus Rührteig | 2 Fälle aus Kommentaren (Backpulver bitter, selbsttreibendes Mehl plus Backpulver), kaum Mengen |
+| 2026-10-18 | bakeschool.com | 1 | Negativ-Korpus Rührteig | Teilmengen (2 TL Backpulver auf 2 Tassen Mehl), Ursache nur Vermutung |
+| 2026-10-18 | nigella.com | 2 | Negativ-Korpus Rührteig | 1 Fall ohne Mengen (Kokoskuchen fällt zusammen); zweite Seite ohne Mengen |
+| 2026-10-18 | breadexperience.com | 1 | Negativ-Korpus Hefeteig | Salz vergessen, keine Mengen |
+| 2026-10-18 | pickuplimes.com | 1 | Negativ-Korpus Pfannkuchen | vegane Crêpes reißen, Basisrezept der Seite |
+
+Nicht abrufbar: gutefrage.net (403), food52.com (403/429), cakecentral.com (521), hummingbirdhigh.com (403), forums.egullet.org (Anubis-Sperre), reddit.com und api.stackexchange.com (vom Tool gesperrt); eine Suche auf cooking.stackexchange.com ergab keine Treffer. Gerade diese Foren hätten deutschsprachige und gramm-genaue Fälle enthalten können (per Browser prüfbar, T61).

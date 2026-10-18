@@ -81,6 +81,7 @@ dev/                         Skizzen und Vorschauen, nicht Teil der App
 | `vessels.json` | Gefäße mit Teigmasse, Backwerten, Hinweisen |
 | `grenzen.json` | quantitative Grenzen je Archetyp, mit Herkunft im Feld `quelle` |
 | `erfahrungsregeln.json` | Praxis-Regeln, die Mengen oder Zeit-Fenster anpassen |
+| `negativ.json` | dokumentierte Misserfolge mit Mengen (Negativ-Korpus, T55) für `node tools/negativ.mjs` |
 | `modelle.json` | Rechenmodelle mit Parametern, Quelle und Validierung (Gärmodell: Hefe × Zeit × Temperatur) |
 | `temperaturen.json` | benannte Temperatur-Bereiche (Kühlschrank, kühl, Raum, warm, lauwarm); Temperaturen stehen überall als Zahl, Wert ± Spielraum, Spanne oder Name (`temperatur` an Operationen, `temperaturen` im Rezept) |
 | `kategorien.json`, `verben.json` | Icon-Kategorien und Verben |

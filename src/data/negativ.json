@@ -1,0 +1,821 @@
+{
+  "_schema": {
+    "zweck": "Negativ-Korpus (T55, DR-029): dokumentierte Misserfolge mit Mengen, nur Fakten und eigene Kurzfassungen (kein Rezepttext). Gegenprobe für die Regeln; src/model/negativ.js und tools/negativ.mjs halten sie gegen grenzen.json, die Korpus-Toleranz und das Gärmodell.",
+    "ergebnis": "misslungen | teilweise (Ergebnis brauchbar, aber mit dem beschriebenen Fehler)",
+    "ursache_art": "menge = die Quelle nennt Mengen oder Mengenverhältnisse als Ursache (nur diese kann eine Mengen-Regel finden) | prozess = Handlungsfehler (zu kurz geknetet) | offen = strittig oder nur Vermutung",
+    "ausgenommen": "Grund, warum der Fall in keiner Quote zählt (weder klarer Misserfolg noch Kontrollfall); er wird nur angezeigt",
+    "kontrollfall": "true = die Mengen liegen im Normalbereich, die Ursache liegt im Prozess; eine Warnung wäre ein Falsch-Alarm",
+    "verlaesslichkeit": "1 bis 3; 3 = konkrete Mengen und klare Ursache, 1 = Ursache offen oder nur Vermutung",
+    "einheiten": "Mengen wie in der Quelle: g, ml, stk, pkt, tsp (= tl), tbsp (= el), cup (Tassen; Umrechnung in negativ.js TASSE_G, Schätzwerte)",
+    "pruefung": "von Hand kuratiert, wenn die Quelle Gare-Zeit und -Temperatur nennt: gare_min (alle Gare-Phasen zusammen), gare_temp (Zahl oder Name aus temperaturen.json)",
+    "auswahl": "Selbstauswahl: wer Fehlschläge meldet oder erfragt, ist nicht repräsentativ; Hefeteig-Fälle fast nur aus einem englischsprachigen Forum, Mengen meist in Tassen; Lücken bei Rührteig mit viel Fett/Zucker, Gugelhupf, Kastenkuchen und Hefezopf mit Gramm-Angaben."
+  },
+  "faelle": [
+    {
+      "id": "freshloaf-vollkorn-5-laibe-35g-hefe-kollaps",
+      "archetyp": "hefeteig",
+      "variante": "weissbrot",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 3,
+      "mengen_vorhanden": true,
+      "symptom": "Laibe stiegen im Ofen zunächst 4-5 cm über den Formrand, fielen dann in der Mitte ein; Endhöhe unter 2,5 cm über Formrand",
+      "ursache_laut_quelle": "Übergare (Stückgare bei ca. 40 °C war viel schneller als gedacht) und Hefe zu hoch dosiert; Salz wurde nicht als Hauptursache gesehen",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 1600,
+          "einheit": "g",
+          "original": "1600 g Vollkornweizenmehl, frisch gemahlen"
+        },
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 200,
+          "einheit": "g",
+          "original": "200 g Brotmehl (King Arthur)"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "wasser",
+          "menge": 1134,
+          "einheit": "g",
+          "original": "1134 g (40 oz) Wasser, Raumtemperatur"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "schmalz",
+          "menge": 127,
+          "einheit": "g",
+          "original": "127 g weiches Schmalz"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 133,
+          "einheit": "g",
+          "original": "133 g Zucker"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_trocken",
+          "menge": 35,
+          "einheit": "g",
+          "original": "35 g (3 EL) Aktivtrockenhefe; späterer Versuch mit 2 EL"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 80,
+          "einheit": "g",
+          "original": "80 g Salz (Kosher)"
+        }
+      ],
+      "zeiten": {
+        "stueckgare": 120,
+        "backen": 40
+      },
+      "temperaturen": {
+        "stueckgare": 41,
+        "backen_start": 232,
+        "backen": 177
+      },
+      "methode": "hefe_direkt",
+      "quelle": {
+        "url": "https://www.thefreshloaf.com/comment/229632",
+        "site": "thefreshloaf.com"
+      },
+      "notiz": "Stückgare 105 F, Backen 450 F gesenkt auf 350 F (Umrechnung gerundet). Keine erste Gare, direkt in 5 Formen. Salz laut Kommentator 4,4 % vom Gesamtmehl (1800 g), vom Poster nur auf Vollkornmehl bezogen mit 2 % gerechnet. Fünf Antwortende nannten Übergare als Ursache. Schmalz ist kein Schlüssel in ingredients.json. Auswahlverzerrung: Forenfrage nach Fehlschlag.",
+      "ursache_art": "menge",
+      "pruefung": {
+        "gare_min": 120,
+        "gare_temp": 41
+      }
+    },
+    {
+      "id": "freshloaf-brotbackautomat-honig-hoehe-einbruch",
+      "archetyp": "hefeteig",
+      "variante": "weissbrot",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Teig stieg normal, sackte beim Backen ein; Krater etwa ein Drittel tief, dünne Oberkruste",
+      "ursache_laut_quelle": "Ursache offen; genannt wurden Übergare, zu wenig Mehl durch gelöffeltes Abmessen, Hefe reduzieren, Salz (Kosher-Salz wiegt weniger als Tafelsalz), Höhenlage",
+      "zutaten": [
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 1.333,
+          "einheit": "cup",
+          "original": "1 1/3 Tassen Milch, mit 1/4 Tasse Wasser auf 35 °C erwärmt"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "wasser",
+          "menge": 0.25,
+          "einheit": "cup",
+          "original": "1/4 Tasse Wasser"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "honig",
+          "menge": 2,
+          "einheit": "tbsp",
+          "original": "2 EL Honig"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 4,
+          "einheit": "tbsp",
+          "original": "4 EL Butter, Raumtemperatur, gewürfelt"
+        },
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 2,
+          "einheit": "cup",
+          "original": "2 Tassen Vollkornweizenmehl"
+        },
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 2,
+          "einheit": "cup",
+          "original": "2 Tassen Brotmehl"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 1,
+          "einheit": "tsp",
+          "original": "1 TL Kosher-Salz"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_trocken",
+          "menge": 1.25,
+          "einheit": "tsp",
+          "original": "1 1/4 TL Brotautomaten-Hefe (Red Star)"
+        }
+      ],
+      "zeiten": {},
+      "temperaturen": {
+        "fluessigkeit": 35
+      },
+      "methode": "hefe_direkt",
+      "quelle": {
+        "url": "https://www.thefreshloaf.com/node/62054/recipe-keeps-resulting-collapsed-loaf",
+        "site": "thefreshloaf.com"
+      },
+      "notiz": "Mengen in Tassen/Löffeln, nicht gewogen; Umrechnung nötig und unsicher (Mehl gelöffelt vs. geschöpft). Brotbackautomat, ca. 1300 m Höhe. Ursache nicht geklärt, mehrere Hypothesen. Auswahlverzerrung: Forenfrage.",
+      "ursache_art": "offen"
+    },
+    {
+      "id": "freshloaf-weissbrot-500g-8g-frischhefe-einsinken",
+      "archetyp": "hefeteig",
+      "variante": "weissbrot",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Brot sank nach dem Einschneiden leicht ein, kein Ofentrieb",
+      "ursache_laut_quelle": "Umstritten: Ein Antwortender sah zu viel Hefe (empfahl 4-5 g auf 500 g) oder Übergare; andere hielten 1,6 % Frischhefe für normal und sahen schwache Teigstruktur/zu kurze erste Gare",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 500,
+          "einheit": "g",
+          "original": "500 g helles Weizenmehl (stark)"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "wasser",
+          "menge": 330,
+          "einheit": "g",
+          "original": "330 g Wasser (66 %)"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_frisch",
+          "menge": 8,
+          "einheit": "g",
+          "original": "8 g Frischhefe"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 8,
+          "einheit": "g",
+          "original": "8 g Salz"
+        }
+      ],
+      "zeiten": {
+        "erste_gare": 80,
+        "stueckgare": 70,
+        "kneten": 12
+      },
+      "temperaturen": {
+        "gare": 22
+      },
+      "methode": "hefe_direkt",
+      "quelle": {
+        "url": "https://www.thefreshloaf.com/comment/282452",
+        "site": "thefreshloaf.com"
+      },
+      "notiz": "Rezept liegt im Normalbereich (66 % Wasser, 1,6 % Hefe, 1,6 % Salz): kein Regelverstoß erwartet, Ursache liegt im Prozess. Nützlich als Kontrollfall (Warnung wäre Fehlalarm). Auswahlverzerrung: Forenfrage.",
+      "kontrollfall": true,
+      "pruefung": {
+        "gare_min": 150,
+        "gare_temp": 22
+      }
+    },
+    {
+      "id": "freshloaf-vollkorn-2-25tl-hefe-lange-stockgare-dicht",
+      "archetyp": "hefeteig",
+      "variante": "weissbrot",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 3,
+      "mengen_vorhanden": true,
+      "symptom": "Teig gärte in der Bulk-Phase stark (mehr als verdoppelt, Hefe-/Weingeruch), ging nach dem Formen kaum noch auf; kleine, dichte, durchgebackene Brote",
+      "ursache_laut_quelle": "Zu viel Hefe für 12-18 h Raumtemperatur-Gare: Nahrung der Hefe aufgebraucht, danach kein Trieb mehr",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 3,
+          "einheit": "cup",
+          "original": "3 Tassen Vollkornweizenmehl"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "wasser",
+          "menge": 1.333,
+          "einheit": "cup",
+          "original": "1 1/3 Tassen Wasser"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_unbekannt",
+          "menge": 2.25,
+          "einheit": "tsp",
+          "original": "2 1/4 TL Hefe (Sorte nicht genannt)"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 1.25,
+          "einheit": "tsp",
+          "original": "1 1/4 TL Salz"
+        }
+      ],
+      "zeiten": {
+        "bulk_min": 720,
+        "bulk_max": 1080,
+        "stueckgare": 120,
+        "backen": 30
+      },
+      "temperaturen": {
+        "backen": 232
+      },
+      "methode": null,
+      "quelle": {
+        "url": "https://www.thefreshloaf.com/comment/372055",
+        "site": "thefreshloaf.com"
+      },
+      "notiz": "Bulk 12-18 h. Backen 450 F. Poster-Gegentests: mit 1/4 TL Hefe stieg das Brot normal (leicht zu dunkel); mit kaltem Wasser und 1/4 TL Hefe 18 h bei ca. 19 °C fast keine Aktivität. Ablauf entspricht einem No-Knead-Brot, Methode aber nicht ausdrücklich genannt. Mengen in Tassen/Löffeln. Auswahlverzerrung: Forenfrage.",
+      "ursache_art": "menge",
+      "pruefung": {
+        "gare_min": 900,
+        "gare_temp": "raum"
+      }
+    },
+    {
+      "id": "freshloaf-vollkorn-braunzucker-geht-nicht-auf",
+      "archetyp": "hefeteig",
+      "variante": null,
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Teig ging nicht auf, dichte Laibe; nach der ersten Ruhe wirkte der Teig leicht trocken",
+      "ursache_laut_quelle": "Ursache offen; genannt wurden zu viel Mehl (gepackt gemessen oder beim Kneten zugegeben), Vollkorn saugt mehr Wasser, Trockenhefe nicht aufgelöst, Gare nach Uhr statt nach Teig",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 5.25,
+          "einheit": "cup",
+          "original": "Mehl als Spanne 5–5,5 Tassen, Mitte"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "wasser",
+          "menge": 1.75,
+          "einheit": "cup",
+          "original": "1 3/4 Tassen Wasser"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_trocken",
+          "menge": 1,
+          "einheit": "pkt",
+          "original": "1 Päckchen Aktivtrockenhefe (laut Poster getestet, aktiv)"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "brauner_zucker",
+          "menge": 1.75,
+          "einheit": "cup",
+          "original": "1 3/4 Tassen Braunzucker, fest gepackt"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "unbekannt",
+          "menge": 3,
+          "einheit": "tbsp",
+          "original": "3 EL Butter, Margarine oder Backfett"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 1.25,
+          "einheit": "tsp",
+          "original": "1 1/4 TL Salz"
+        }
+      ],
+      "zeiten": {
+        "erste_ruhe": 120
+      },
+      "temperaturen": {},
+      "methode": "hefe_direkt",
+      "quelle": {
+        "url": "https://www.thefreshloaf.com/comment/217254",
+        "site": "thefreshloaf.com"
+      },
+      "notiz": "Sehr hoher Zuckeranteil (1 3/4 Tassen Braunzucker auf rund 5-5,5 Tassen Mehl, Rezept nach Angabe des Posters); Antwortende nannten den Zucker nicht, die Hefe-Osmose-Hypothese ist also nur eine Lesart des Auswerters, nicht der Quelle. Mehlmenge als Spanne, daher menge null. Rezeptvorgabe 1,5 h Ruhe, Poster ließ 2 h. Auswahlverzerrung: Forenfrage.",
+      "ursache_art": "offen"
+    },
+    {
+      "id": "freshloaf-brioche-5eier-1cup-butter-dicht",
+      "archetyp": "hefeteig",
+      "variante": "hefezopf",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 2,
+      "mengen_vorhanden": true,
+      "symptom": "Teig wird nach der Butterzugabe breiig; Krume dicht statt leicht; Gare dauert viele Stunden",
+      "ursache_laut_quelle": "Fett, Salz und Zucker bremsen die Hefe; Antwortende empfahlen mehr Hefe (bis doppelt), Butter geschmolzen unterarbeiten oder in Stücken, Mehl vorher mit Flüssigkeit hydratisieren",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 5,
+          "einheit": "cup",
+          "original": "ca. 5 Tassen Weizenmehl (AP)"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 5,
+          "einheit": "stk",
+          "original": "5 Eier"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 1,
+          "einheit": "cup",
+          "original": "1 Tasse (2 Stangen) Butter"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 2,
+          "einheit": "tbsp",
+          "original": "2 EL Zucker"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 2,
+          "einheit": "tsp",
+          "original": "2 TL Salz"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_trocken",
+          "menge": 2,
+          "einheit": "tsp",
+          "original": "2 TL Instant-Hefe"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 1,
+          "einheit": "cup",
+          "original": "1 Tasse Milch"
+        }
+      ],
+      "zeiten": {
+        "bulk_kalt": 720,
+        "stueckgare": 240
+      },
+      "temperaturen": {
+        "stueckgare": 21
+      },
+      "methode": "hefe_kalt",
+      "quelle": {
+        "url": "https://www.thefreshloaf.com/comment/4221",
+        "site": "thefreshloaf.com"
+      },
+      "notiz": "Brioche, als Hefezopf-Nachbar eingeordnet. Thread von 2006. Ergebnis brauchbar, nur dicht und sehr langsam (teilweise). Mengen in Tassen, ca.-Angabe beim Mehl. Auswahlverzerrung: Forenfrage.",
+      "ursache_art": "menge",
+      "pruefung": {
+        "gare_min": 960,
+        "gare_temp": "kuehlschrank"
+      }
+    },
+    {
+      "id": "freshloaf-nutella-sternbrot-dicht",
+      "archetyp": "hefeteig",
+      "variante": null,
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 2,
+      "mengen_vorhanden": true,
+      "symptom": "Gebäck zu dicht, nicht luftig",
+      "ursache_laut_quelle": "Zu kurz geknetet (7-9 min), kaum Stockgare vor dem Kühlen, Fett und Eigelb schwächen das Gluten; Ei selbst wurde nicht als Ursache gesehen",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 410,
+          "einheit": "g",
+          "original": "410 g Weizenmehl im Teig (insgesamt 464 g, 54 g zum Bestäuben zurückbehalten)"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 212,
+          "einheit": "g",
+          "original": "212 g Milch, leicht erwärmt"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_trocken",
+          "menge": 1,
+          "einheit": "tsp",
+          "original": "1 TL Instant-Hefe"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 0.25,
+          "einheit": "tsp",
+          "original": "1/4 TL Salz"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 70,
+          "einheit": "g",
+          "original": "70 g Zucker"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 40,
+          "einheit": "g",
+          "original": "40 g geschmolzene Butter"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "eigelb",
+          "menge": 3,
+          "einheit": "stk",
+          "original": "3 Eigelb"
+        }
+      ],
+      "zeiten": {
+        "kneten_min": 7,
+        "kneten_max": 9,
+        "gehen_kalt": null,
+        "stueckgare": 20,
+        "backen_min": 15,
+        "backen_max": 20
+      },
+      "temperaturen": {
+        "backen": 177
+      },
+      "methode": "hefe_kalt",
+      "quelle": {
+        "url": "https://www.thefreshloaf.com/comment/367018",
+        "site": "thefreshloaf.com"
+      },
+      "notiz": "Kühl-Nacht-Gare in 4 Teilstücken; Füllung (Nutella) nicht erfasst. Kühlgare nur als 'über Nacht' angegeben, daher null. Backen 350 F. Ursachen liegen im Prozess, nicht in den Mengen. Auswahlverzerrung: Forenfrage.",
+      "ursache_art": "prozess"
+    },
+    {
+      "id": "breadexperience-weissbrot-salz-vergessen",
+      "archetyp": "hefeteig",
+      "variante": "weissbrot",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 2,
+      "mengen_vorhanden": false,
+      "symptom": "Teig ging zu schnell auf und fiel beim Backen zusammen",
+      "ursache_laut_quelle": "Salz vergessen; Salz bremst die Gärung, ohne Salz braucht der Teig kühlere Führung oder kürzere Gare",
+      "zutaten": [],
+      "zeiten": {},
+      "temperaturen": {},
+      "methode": "hefe_direkt",
+      "quelle": {
+        "url": "https://www.breadexperience.com/lessons-in-bread-baking-oops-i-forgot",
+        "site": "breadexperience.com"
+      },
+      "notiz": "Dan-Lepard-Schnellweißbrot mit Spezialmehl und Puffhirse; keine Mengen, keine Zeiten. Ursache laut Autorin klar (Salz = 0 %). Prüffall für Regel 'Salz fehlt' (derzeit hf_salz_max kennt kein Minimum). Auswahlverzerrung: Blog-Beichte.",
+      "ursache_art": "menge"
+    },
+    {
+      "id": "freshloaf-karottencupcakes-2tl-bp-1tl-natron-flach",
+      "archetyp": "ruehrteig",
+      "variante": "muffin",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 2,
+      "mengen_vorhanden": true,
+      "symptom": "Cupcakes gingen nicht auf, liefen in der Form auseinander",
+      "ursache_laut_quelle": "Ursache offen; Antwortende nannten Backtriebmittel zu hoch (Empfehlung 1-1,5 TL Backpulver), viel Zucker ohne Gerüst, überfüllte Förmchen, altes Backpulver; Poster gab Überfüllen zu",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 2,
+          "einheit": "cup",
+          "original": "2 Tassen Mehl"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "brauner_zucker",
+          "menge": 1.5,
+          "einheit": "cup",
+          "original": "1 1/2 Tassen Braunzucker"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "backpulver",
+          "menge": 2,
+          "einheit": "tsp",
+          "original": "2 TL Backpulver"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "natron",
+          "menge": 1,
+          "einheit": "tsp",
+          "original": "1 TL Natron"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "pflanzenoel",
+          "menge": 0.5,
+          "einheit": "cup",
+          "original": "1/2 Tasse Maisöl"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "orangensaft",
+          "menge": 0.25,
+          "einheit": "cup",
+          "original": "1/4 Tasse Orangensaft"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 2,
+          "einheit": "stk",
+          "original": "2 Eier"
+        },
+        {
+          "rolle": "einlage",
+          "zutat": "karotten",
+          "menge": 1.5,
+          "einheit": "cup",
+          "original": "1 1/2 Tassen geriebene Karotten"
+        },
+        {
+          "rolle": "einlage",
+          "zutat": "schokolade",
+          "menge": 0.5,
+          "einheit": "cup",
+          "original": "1/2 Tasse Schokostückchen"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "ingwer",
+          "menge": 0.5,
+          "einheit": "tsp",
+          "original": "1/2 TL Ingwer"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "zimt",
+          "menge": 0.25,
+          "einheit": "tsp",
+          "original": "1/4 TL Zimt"
+        }
+      ],
+      "zeiten": {
+        "backen": 25
+      },
+      "temperaturen": {
+        "backen": 177
+      },
+      "methode": null,
+      "quelle": {
+        "url": "https://www.thefreshloaf.com/comment/444956",
+        "site": "thefreshloaf.com"
+      },
+      "notiz": "12 Förmchen, 350 F. Salz und Vanille ohne Menge. Ein Kommentar nennt '3 EL' Triebmittel, korrekt sind 3 TL (2 TL BP + 1 TL Natron). Saure Zutat nur Orangensaft. Mehrere gleichrangige Hypothesen, Überfüllen vom Poster selbst eingeräumt, daher keine saubere Ursache. Mengen in Tassen/Löffeln. Auswahlverzerrung: Forenfrage.",
+      "ursache_art": "offen"
+    },
+    {
+      "id": "smittenkitchen-muffins-2tl-bp-bitter",
+      "archetyp": "ruehrteig",
+      "variante": "muffin",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Muffins schmecken bitter",
+      "ursache_laut_quelle": "Kommentatorin vermutet Backpulver (2 TL für 12 Muffins wirken viel) oder Zimt; Austausch gegen Natron minderte, beseitigte die Bitterkeit nicht",
+      "zutaten": [
+        {
+          "rolle": "trieb",
+          "zutat": "backpulver",
+          "menge": 2,
+          "einheit": "tsp",
+          "original": "2 TL Backpulver (aluminiumfrei)"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "zimt",
+          "menge": 2,
+          "einheit": "tsp",
+          "original": "2 TL Zimt"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "muskat",
+          "menge": 0.5,
+          "einheit": "tsp",
+          "original": "1/2 TL Muskat"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "ingwer",
+          "menge": 0.5,
+          "einheit": "tsp",
+          "original": "1/2 TL Ingwer"
+        }
+      ],
+      "zeiten": {},
+      "temperaturen": {},
+      "methode": null,
+      "quelle": {
+        "url": "https://smittenkitchen.com/2009/12/why-do-my-muffins-taste-metallic/",
+        "site": "smittenkitchen.com"
+      },
+      "notiz": "Nur Teilmengen genannt (Mehl, Zucker, Fett, Flüssigkeit fehlen); 12 Muffins. Ursache nur Vermutung der Kommentatorin. Blog-Autorin führt Metallgeschmack allgemein auf aluminiumhaltiges Backpulver zurück, ohne Menge. Auswahlverzerrung: Kommentarspalte zum Thema Fehlgeschmack.",
+      "ursache_art": "offen"
+    },
+    {
+      "id": "smittenkitchen-muffins-selbsttreibendes-mehl-plus-backpulver",
+      "archetyp": "ruehrteig",
+      "variante": "muffin",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": false,
+      "symptom": "Metallischer Geschmack",
+      "ursache_laut_quelle": "Triebmittel unbemerkt verdoppelt: selbsttreibendes Mehl (mit Aluminium-Backpulver) plus im Rezept zusätzliches Backpulver; ohne zusätzliches Backpulver verschwand der Geschmack",
+      "zutaten": [],
+      "zeiten": {},
+      "temperaturen": {},
+      "methode": null,
+      "quelle": {
+        "url": "https://smittenkitchen.com/2009/12/why-do-my-muffins-taste-metallic/",
+        "site": "smittenkitchen.com"
+      },
+      "notiz": "Keine Mengen. Ursache klar und vom Kommentator selbst belegt (Weglassen löste das Problem), aber Selbstauskunft eines Einzelnen. Prüffall für Triebkraft aus Mehlmischungen (triebkraft_max, falls selbsttreibendes Mehl als Zutat modelliert wäre; ingredients.json kennt keines). Auswahlverzerrung: Kommentarspalte.",
+      "ursache_art": "menge"
+    },
+    {
+      "id": "bakeschool-kuchen-2tl-bp-auf-2-tassen-mehl",
+      "archetyp": "ruehrteig",
+      "variante": null,
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Große Löcher im Kuchen und Flecken auf der Oberfläche",
+      "ursache_laut_quelle": "Autorin vermutet zu viel Backpulver (2 TL auf 2 Tassen Mehl, Referenz etwa 1 TL) und/oder zu dicken Teig; Vermutung, nicht bestätigt",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 2,
+          "einheit": "cup",
+          "original": "2 Tassen Mehl"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "backpulver",
+          "menge": 2,
+          "einheit": "tsp",
+          "original": "2 TL Backpulver"
+        }
+      ],
+      "zeiten": {},
+      "temperaturen": {},
+      "methode": null,
+      "quelle": {
+        "url": "https://bakeschool.com/cake-collapse/",
+        "site": "bakeschool.com"
+      },
+      "notiz": "Nur Mehl und Backpulver genannt, sonstige Zutaten fehlen. Seite beschreibt außerdem ohne Mengen: Backsoda-Versuch (mehr Soda stieg, fiel dann; weniger stieg höher) sowie Kollaps durch zu viel Fett/Zucker/Flüssigkeit oder zu wenig Ei. Symptom ist Lochbildung, nicht Einfallen. Auswahlverzerrung: Blog-Troubleshooting.",
+      "ursache_art": "offen"
+    },
+    {
+      "id": "nigella-kokoskuchen-extra-backpulver-kollaps",
+      "archetyp": "ruehrteig",
+      "variante": null,
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": false,
+      "symptom": "Zwei Kuchen sahen nach dem Backen gut aus, fielen binnen etwa 5 Minuten fast ganz zusammen",
+      "ursache_laut_quelle": "Wahrscheinlich zu viel zusätzliches Backpulver zu selbsttreibendem Mehl (Rezept nennt ein knappes halbes TL, bei Rührmethode sogar ohne); weitere Möglichkeiten: Unterbacken, Ofentür zu früh geöffnet",
+      "zutaten": [],
+      "zeiten": {},
+      "temperaturen": {},
+      "methode": "creme",
+      "quelle": {
+        "url": "https://www.nigella.com/ask/coconut-cake-collapse",
+        "site": "nigella.com"
+      },
+      "notiz": "Mengen der Fragenden unbekannt; Referenz: 1/2 TL (2,5 ml) levelter Zusatz. Antwort nennt mehrere Ursachen. Methode creme aus der Antwort (Creaming-Methode). Auswahlverzerrung: Hersteller-Q&A zeigt nur gemeldete Fälle.",
+      "ursache_art": "offen"
+    },
+    {
+      "id": "pickuplimes-vegane-crepes-reissen",
+      "archetyp": "pfannkuchen",
+      "variante": "eierkuchen",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Crêpes reißen beim Abheben/Wenden, Teig wirkt dicht; bei einer Kommentatorin klebt er an und ist schwer zu wenden",
+      "ursache_laut_quelle": "Teig zu dick oder zu kurz geruht; Redaktion rät mehr Pflanzenmilch, Pfanne ganz vorheizen, niedrigere Hitze",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 135,
+          "einheit": "g",
+          "original": "135 g Weizenmehl (1 Tasse)"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "sojamilch",
+          "menge": 300,
+          "einheit": "ml",
+          "original": "300 ml ungesüßte Sojamilch (1 1/4 Tassen)"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "vegane_butter",
+          "menge": 55,
+          "einheit": "g",
+          "original": "55 g vegane Butter, geschmolzen"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 25,
+          "einheit": "g",
+          "original": "25 g Zucker"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "salz",
+          "menge": 0.25,
+          "einheit": "tsp",
+          "original": "1/4 TL Salz"
+        }
+      ],
+      "zeiten": {
+        "ruhen": 60
+      },
+      "temperaturen": {},
+      "methode": "pfannkuchen_glatt",
+      "quelle": {
+        "url": "https://www.pickuplimes.com/recipe/vegan-crêpes-1171",
+        "site": "pickuplimes.com"
+      },
+      "notiz": "Mengen sind das Basisrezept der Seite, Kommentatoren nannten keine Abweichung (eine Kommentatorin ruhte den Teig über Nacht). Kein Ei (vegan), Bindung fehlt; Wasseranteil des Teigs rund 220 % vom Mehl, im Korpusband. Ursache der Rissbildung daher unklar, kein sicherer Mengenfehler. Rezept selbst bei anderen funktionierend (Kontrollfall). Fünf Beschwerden aus Kommentaren über mehrere Jahre. Auswahlverzerrung: Kommentare bei einem Rezept, Kommentatoren melden überproportional Probleme.",
+      "ausgenommen": "Rezept gelingt vielen; die Rissbildung hat keine klare Ursache, und ohne Ei liegt es ohnehin außerhalb des Eier-Korpus"
+    }
+  ]
+}
