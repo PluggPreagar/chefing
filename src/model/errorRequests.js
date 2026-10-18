@@ -45,7 +45,9 @@ export function errorRequestEinreichen(regelId, begruendung) {
 // Listen-Hygiene, kein "Ablehnen" durch einen Maintainer (das passiert außerhalb der App).
 export function errorRequestEntfernen(regelId, zeitpunkt) {
   const alle = laden();
-  const liste = (alle[regelId] || []).filter((r) => r.zeitpunkt !== zeitpunkt);
+  const liste = [...(alle[regelId] || [])];
+  const i = liste.findIndex((r) => r.zeitpunkt === zeitpunkt);
+  if (i >= 0) liste.splice(i, 1); // nur einen: zwei Requests in derselben Millisekunde teilen sich den Zeitstempel
   if (liste.length) alle[regelId] = liste;
   else delete alle[regelId];
   speichern(alle);
