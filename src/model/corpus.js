@@ -8,7 +8,7 @@ export async function loadCorpus(varianten, base = './src/data/corpus/') {
   const entries = await Promise.all(
     Object.entries(varianten).map(async ([key, v]) => {
       try {
-        const res = await fetch(`${base}${v.korpus}.json`);
+        const res = await fetch(`${base}${v.korpus}.json`, { cache: 'no-cache' });
         if (!res.ok) throw new Error(`${res.status}`);
         return [key, await res.json()];
       } catch (e) {

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Chefing — Rührteig-Kombinator</title>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css" id="css">
 </head>
 <body>
   <header class="top">
@@ -50,6 +50,28 @@
     <p id="version-info" class="version" hidden></p>
   </footer>
 
-  <script type="module" src="./src/main.js"></script>
+  <script>
+    // Cache-Busting: version.json (vom Deploy) liefert die Version; jeder Modul-Import bekommt ?v=<Version>
+    // über eine Import-Map, die Modul-Liste steht in src/manifest.json. Ohne version.json (lokal) lädt alles unverändert.
+    (async () => {
+      let v = null;
+      try {
+        const hol = (u) => fetch(u, { cache: 'no-store' }).then((r) => { if (!r.ok) throw new Error(u); return r; });
+        const r = await hol('./version.json');
+        v = await r.json();
+        v.deployed = r.headers.get('last-modified');
+        const q = '?v=' + String(v.sha).slice(0, 12);
+        const imports = {};
+        for (const m of await (await hol('./src/manifest.json')).json()) { const u = new URL(m, location.href).href; imports[u] = u + q; }
+        const s = document.createElement('script');
+        s.type = 'importmap';
+        s.textContent = JSON.stringify({ imports });
+        document.head.append(s);
+        document.getElementById('css').href = './style.css' + q;
+      } catch (e) { /* kein version.json (lokale Entwicklung): ohne Versionierung weiter */ }
+      window.CHEFING_VERSION = v;
+      import('./src/main.js');
+    })();
+  </script>
 </body>
 </html>

@@ -16,7 +16,7 @@ Aktuell drei **Archetypen** mit sieben Varianten:
 npx serve .
 ```
 
-Dann `http://localhost:3000` öffnen (oder den Port, den `serve` ausgibt). Es gibt nichts zu installieren oder zu bauen. Das 404 auf `version.json` in der Konsole ist normal: die Datei legt nur der Deploy auf dem Server an.
+Dann `http://localhost:3000` öffnen (oder den Port, den `serve` ausgibt). Es gibt nichts zu installieren oder zu bauen. Das 404 auf `version.json` in der Konsole ist normal: die Datei legt nur der Deploy auf dem Server an. Mit ihr hängt der Lade-Stub in `index.html` die Commit-Version an jedes Modul (`?v=…`, Liste in `src/manifest.json`; nach neuen Modulen `node tools/manifest.mjs`), damit Browser nach einem Deploy nie alte Dateien zeigen; der Footer nennt Version, Commit-Zeit und Deploy-Zeit.
 
 Tests (Node ≥ 18, keine Abhängigkeiten):
 
@@ -24,7 +24,7 @@ Tests (Node ≥ 18, keine Abhängigkeiten):
 sh test/run.sh
 ```
 
-Jede Datei `test/*.check.mjs` ist eine eigene Suite (30 Suiten, rund 1000 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
+Jede Datei `test/*.check.mjs` ist eine eigene Suite (31 Suiten, rund 1010 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
 
 ```bash
 git config core.hooksPath .githooks

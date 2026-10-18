@@ -10,7 +10,7 @@ import { sendeOffene } from './model/rueckmeldung.js';
 import { alsEintraege, presetPatch, archetypPatch } from './model/zustand.js';
 
 async function loadJson(path) {
-  const r = await fetch(path);
+  const r = await fetch(path, { cache: 'no-cache' });
   if (!r.ok) throw new Error(`${path}: ${r.status}`);
   return r.json();
 }
@@ -131,14 +131,15 @@ function refreshKandidaten() {
 // version.json mit Commit-SHA + Zeit neben die App (siehe deploy.php, Zeile ~107). Lokal in der
 // Entwicklung existiert die Datei nicht — dann bleibt die Zeile unsichtbar (`hidden`), statt eine
 // Fehlermeldung/Platzhalter zu zeigen, das ist kein Fehlerfall.
-loadJson('./version.json').then((v) => {
-  const el = $('version-info');
-  if (!el || !v?.sha) return;
-  const kurzSha = String(v.sha).slice(0, 7);
+const utc = (s) => { const d = new Date(s); return !(d.getFullYear() > 2000) ? null : `${d.toISOString().slice(0, 16).replace('T', ' ')} UTC`; };
+const appVersion = globalThis.CHEFING_VERSION; // setzt der Lade-Stub in index.html (nur mit Deploy-version.json)
+if ($('version-info') && appVersion?.sha) {
+  const kurzSha = String(appVersion.sha).slice(0, 7);
   data.appVersion = kurzSha; // Rückmeldungen nennen die App-Version (welche Regeln galten, T53)
-  el.textContent = `Version ${kurzSha}${v.time ? ` · deployed ${v.time}` : ''}`;
-  el.hidden = false;
-}).catch(() => {}); // kein version.json (lokale Entwicklung) — kein Fehler, Zeile bleibt versteckt
+  const teile = [`Version ${kurzSha}`, appVersion.time && `Commit ${appVersion.time.replace(/:\d\d UTC$/, ' UTC')}`, utc(appVersion.deployed) && `deployed ${utc(appVersion.deployed)}`];
+  $('version-info').textContent = teile.filter(Boolean).join(' · ');
+  $('version-info').hidden = false;
+} // sonst lokale Entwicklung — kein Fehler, Zeile bleibt versteckt
 
 // Rückmeldungen, die beim letzten Mal nicht ankamen (Netz, Limit), noch einmal still versuchen (T53)
 sendeOffene().catch(() => {});
