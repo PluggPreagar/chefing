@@ -18,6 +18,11 @@ let c=compute(st('kastenkuchen',{fluessigkeit:E('schmand')}),data,ks); show('Sch
 ok(c.bilanz.find(b=>b.groesse==='fett').bp > compute(st('kastenkuchen'),data,ks).bilanz.find(b=>b.groesse==='fett').bp, 'Schmand erhöht Reinfett (Fett aus Flüssigkeit zählt mit)');
 c=compute(st('kastenkuchen',{fett:E('pflanzenoel')}),data,ks); show('Öl statt Butter',c);
 c=compute(st('muffin',{struktur:E('speisestaerke')}),data,ks); show('Muffin Stärke',c);
+// T43 integriert: wenig Stärke im Mehl (15 : 1, 7 : 1) erzeugt keine Korpus-Meldung mehr, 1 : 1 weiterhin
+const mix=(a,b)=>[{zutat:'weizenmehl',anteil:a},{zutat:'speisestaerke',anteil:b}];
+const korpusMeldung=(cc)=>[...cc.toleranzHinweise,...cc.warnungen.filter(w=>/Korpus-Rezepte/.test(w))];
+ok([15,7].every(a=>korpusMeldung(compute(st('kastenkuchen',{struktur:mix(a,1)}),data,ks)).filter(t=>/Klebereiweiß|Stärke/.test(t)).length===0),'T43: Kastenkuchen mit 15 : 1 und 7 : 1 Mehl : Stärke ohne Klebereiweiß-/Stärke-Meldung');
+ok(korpusMeldung(compute(st('muffin',{struktur:mix(1,1)}),data,ks)).some(t=>/Klebereiweiß/.test(t)),'T43: Muffin mit 1 : 1 Mehl : Stärke meldet Klebereiweiß weiterhin');
 // Synthetic Grenzen-Test
 const { grenzenPruefen, bilanz, toleranz } = await import(P+'model/bilanz.js');
 const g=data.grenzen.archetypen.ruehrteig;
@@ -28,7 +33,13 @@ r=grenzenPruefen(b,g); ok(r.hart.some(x=>x.id==='wasser_min_hart'),'Wasser 34 % 
 b=bilanz([{rolle:'struktur',zutat:'weizenmehl',gramm:100},{rolle:'einlage',zutat:'blaubeeren',gramm:300},{rolle:'fluessigkeit',zutat:'wasser',gramm:80}],data.ingredients);
 ok(Math.round(b.bp.wasser)===94,'Einlage nicht in Bilanz, Mehlwasser zählt (94 %)');
 ok(toleranz(5,{n:2,min:1,q1:2,q3:3,max:4})===null,'Toleranz n<3 → null');
-ok(toleranz(5,{n:5,min:1,q1:2,q3:3,max:4})==='ausserhalb_spanne' && toleranz(3.5,{n:5,min:1,q1:2,q3:3,max:4})==='ausserhalb_q','Toleranz-Stufen');
+ok(toleranz(50,{n:5,min:10,q1:20,q3:30,max:40})==='ausserhalb_spanne' && toleranz(35,{n:5,min:10,q1:20,q3:30,max:40})==='ausserhalb_q' && toleranz(25,{n:5,min:10,q1:20,q3:30,max:40})==='typisch','Toleranz-Stufen');
+// T43: Mindestbreite — alle Rezepte gleich (Klebereiweiß 8,0 %) macht jede Abweichung nicht „ungetestet“
+const eng={n:15,min:8,q1:8,median:8,q3:8,max:8};
+ok(toleranz(7.5,eng)==='typisch' && toleranz(7.0,eng)==='typisch','T43: 7,5 % und 7,0 % bei Korpus 8,0–8,0 → typisch (±15 %)');
+ok(toleranz(6.4,eng)==='ausserhalb_q' && toleranz(4.0,eng)==='ausserhalb_spanne','T43: 6,4 % → Hinweis (−20 %), 4,0 % → ungetestet (−50 %)');
+ok(toleranz(0.9,{n:15,min:1,q1:1.1,median:4.7,q3:10.9,max:16})==='typisch','T43: absolute Untergrenze 0,5 Punkte (Fett 0,9 % statt min. 1,0 %)');
+ok(toleranz(5,{n:5,min:1,q1:2,q3:3,max:4})==='ausserhalb_spanne','T43: ohne median im Eingang (alte Aufrufer) wird die Mitte aus Q1/Q3 genommen');
 console.log(fail? `\n${fail} FAIL`:'\nALL PASS');
 {const all=Object.values(arch.varianten).flatMap(v=>J('corpus/'+v.korpus).map(r=>normalizeRecipe(r,data.ingredients)));
 const zw=all.map(r=>r.bilanz.gramm.zucker/r.bilanz.gramm.wasser);console.log('Z/W korpus min/max',Math.min(...zw).toFixed(2),Math.max(...zw).toFixed(2));

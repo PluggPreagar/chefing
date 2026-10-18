@@ -106,12 +106,17 @@ export function grenzenBuendeln(verletzt) {
 // (Warnung). Bei sehr kleinem Korpus bewusst tolerant: erst ab n >= 3 wird überhaupt bewertet,
 // und jede Grenze bekommt eine relative Marge (Default 5 %) — bei n ≈ 7 ist Q1–Q3 so schmal, dass
 // sonst schon Rundungsunterschiede (123 % vs. Q3 122 %) als „untypisch“ auffallen würden.
-export function toleranz(wert, verteilung, minN = 3, marge = 0.05) {
+// Mindestbreite (T43): haben fast alle Rezepte denselben Wert (Klebereiweiß 8,0 %), wäre die Spanne
+// null breit und jede Abweichung „ungetestet“. Darum reicht der Toleranzbereich mindestens ±15 %
+// (Hinweis) bzw. ±25 % (Warnung) um den Median — 15 : 1 Mehl : Stärke bleibt unauffällig — und
+// nie enger als 0,5 Prozentpunkte um die Grenze (Fett im Mehl 0,9 % statt 1,0 % ist kein Befund).
+export function toleranz(wert, verteilung, minN = 3, marge = 0.05, minBreite = { q: 0.15, spanne: 0.25, abs: 0.5 }) {
   if (wert == null || !verteilung || verteilung.n < minN) return null;
-  const unter = (grenze) => wert < grenze * (1 - marge);
-  const ueber = (grenze) => wert > grenze * (1 + marge);
-  if (unter(verteilung.min) || ueber(verteilung.max)) return 'ausserhalb_spanne';
-  if (unter(verteilung.q1) || ueber(verteilung.q3)) return 'ausserhalb_q';
+  const mitte = verteilung.median ?? (verteilung.q1 + verteilung.q3) / 2;
+  const unter = (grenze, breite) => wert < Math.min(grenze * (1 - marge), grenze - minBreite.abs, mitte - Math.abs(mitte) * breite);
+  const ueber = (grenze, breite) => wert > Math.max(grenze * (1 + marge), grenze + minBreite.abs, mitte + Math.abs(mitte) * breite);
+  if (unter(verteilung.min, minBreite.spanne) || ueber(verteilung.max, minBreite.spanne)) return 'ausserhalb_spanne';
+  if (unter(verteilung.q1, minBreite.q) || ueber(verteilung.q3, minBreite.q)) return 'ausserhalb_q';
   return 'typisch';
 }
 
