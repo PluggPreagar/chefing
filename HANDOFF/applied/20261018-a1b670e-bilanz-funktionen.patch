@@ -1,0 +1,1566 @@
+From e2cf6e70e8d26652fb4ef97042e22138d2c8130b Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sat, 17 Oct 2026 18:41:18 +0000
+Subject: [PATCH 1/4] T33-T35: Gesamtbilanz, quantitative Grenzen,
+ Korpus-Toleranz (DR-020) + Todos T36-T39
+
+---
+ docs/DECISIONS.md         | 11 ++++++
+ docs/TODO.md              |  6 +++-
+ docs/TODO_ARCHIVE.md      |  3 ++
+ src/data/grenzen.json     | 63 +++++++++++++++++++++++++++++++++
+ src/data/ingredients.json | 12 +++++++
+ src/main.js               |  6 ++--
+ src/model/bilanz.js       | 74 +++++++++++++++++++++++++++++++++++++++
+ src/model/corpus.js       |  6 ++++
+ src/model/engine.js       | 36 +++++++++++++++++--
+ src/ui/recipeCard.js      | 18 ++++++++++
+ 10 files changed, 228 insertions(+), 7 deletions(-)
+ create mode 100644 src/data/grenzen.json
+ create mode 100644 src/model/bilanz.js
+
+diff --git a/docs/DECISIONS.md b/docs/DECISIONS.md
+index 09471bf..2a53051 100755
+--- a/docs/DECISIONS.md
++++ b/docs/DECISIONS.md
+@@ -237,3 +237,14 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher
+ - **pro:** schließt die aus DR-002 und DR-008 bekannten Risiken (Sonderfälle im Code statt in Daten) konzeptionell; macht explizit sichtbar, warum ein Wert feststeht (Physik/Statistik/Klick) statt es undifferenziert in `warnungen`/`gruende`/`anpassungen` zu vermengen; Physik-Regeln werden kalibrierbar statt für immer als unfehlbar behandelt.
+ - **cons:** reines Konzept, noch nicht umgesetzt; vier zusätzliche Mechanismen (Wert-Zustand, Kaskaden-Propagation, Override-Tracking, Rückfrage-UI) kommen zu den drei bestehenden Datenmodellen (`operations.json`-Regeln, Korpus-Statistik, `state.zutaten`) hinzu.
+ - **risk:** Umfang — würde alles auf einmal umgesetzt, wäre das der größte Einzeleingriff seit DR-012 (state-Form, `rules.js`, `engine.js`, `morphbox.js` alle betroffen). Mitigation: gestufte Reihenfolge über T22–T25 (Code-in-Daten-Migration zuerst, dann Wert-Zustand/Propagation, Override-Feedback zuletzt), nicht in einem Schritt.
++
++## DR-020 · tech · Gesamtbilanz als zweite Sicht neben Rollen-Bäckerprozent + quantitative Grenzen + Korpus-Toleranz
++
++- **descr:** (2026-10-17, Konzept-Review „Rezept = ein Punkt im Variantenraum; Physik begrenzt, Bausteine sind austauschbar“) Die Rollen-Sicht sieht nur, *welche* Zutat in welcher Rolle steht, nicht, *was* sie physikalisch in den Teig bringt (Wasser im Ei/in der Butter, Fett im Schmand). Umgesetzt (T33–T35):
++  1. **Bilanz** (`src/model/bilanz.js`): Summe Wasser/Fett/Zucker über alle Zutaten der Teigmatrix, in Bäckerprozent zur Referenzrolle. `einlage` ausgenommen (stückig, gibt Bestandteile nur teilweise ab). Neues Zutat-Feld `zuckeranteil`. Dieselbe Funktion rechnet Korpus-Rezepte → Bilanz-Verteilung als Erfahrungswert.
++  2. **Quantitative Grenzen** (`src/data/grenzen.json`): neuer Constraint-Typ auf Bilanz-Größen (Prozent zu einer Rolle oder Faktor zu einer anderen Größe), mit derselben `strenge`-Semantik wie DR-008. Bewusst eigene Datei statt Erweiterung von `voraussetzung` in `operations.json`: Grenzen gelten für das ganze Rezept, nicht für eine Operation.
++  3. **Toleranz**: Korpus-Q1–Q3 und min–max wirken jetzt (vorher nur angezeigt), aber auf der Bilanz — Rollen-Bäckerprozent sind per Konstruktion Median.
++- **pro:** Substitutionen werden physikalisch vergleichbar (Öl vs. Butter, Schmand vs. Milch); erste Rezept-weite Physik-Grenzen in Daten; Grundlage für Funktionsvektor (T36) und Zerlegung von Fertighelfern (T37). Rein additiv, Presets unverändert gültig.
++- **cons:** Grenzwerte sind Faustwerte, nicht gemessen; Q1–Q3 bei n ≈ 7 schmal (daher 5 % Marge, Bewertung erst ab n ≥ 3). Bilanz korrigiert Mengen noch nicht selbst, sie bewertet nur.
++- **risk:** Falsch kalibrierte `hart`-Grenze blockiert gültige Rezepte. Mitigation: `hart` nur weit außerhalb der Korpus-Spanne gesetzt; Override-Anbindung als T39.
++
+diff --git a/docs/TODO.md b/docs/TODO.md
+index 633f48a..501d7b6 100755
+--- a/docs/TODO.md
++++ b/docs/TODO.md
+@@ -10,7 +10,11 @@ sobald sie auf `done` gesetzt werden — diese Liste zeigt nur aktive Arbeit.
+ | T03 | README | open | Kurzbeschreibung, Start (`npx serve`), Datenmodell-Übersicht, wie neue Archetypen/Korpus ergänzt werden. | T01 |
+ | T04 | Korpus erweitern | open | Mehr Quellrezepte je Variante (Ziel ≥ 15), damit Median/IQR belastbar werden. Quellen: gutekueche.at, oetker.de, lecker.de, kuechengoetter.de (chefkoch blockiert Fetch). Achtung (DR-015): auf Breite statt Tiefe pro Domain achten, keinen „wesentlichen Teil“ einer einzelnen Quelle entnehmen (Datenbankschutz § 87a UrhG). | T01 |
+ | T05 | Varianten-Cluster in Statistik | open | Korpus nach Fett-Typ × Säure × Einlage clustern und im Stats-Panel zeigen (war im Plan, noch nicht umgesetzt). | T04 |
+-| T06 | Zweiter Archetyp als reine Daten | open | Z. B. „Gemüse braten“ oder „Hefeteig“ — nur JSON ergänzen, keine JS-Sonderlogik. `rules.js` referenziert noch `archetypes.ruehrteig` hart (Zeilen 104, 112) → generalisieren. Baut auf T08 (Kategorien) auf. | T08 |
++| T06 | Zweiter Archetyp als reine Daten | open | Z. B. „Gemüse braten“ oder „Hefeteig“ — nur JSON ergänzen, keine JS-Sonderlogik. `rules.js` referenziert noch `archetypes.ruehrteig` hart (u. a. `evaluateAll`, `ermittleFixierung`, Kaskaden-Labels), ebenso `main.js` (`const arch = archetypes.ruehrteig`) → generalisieren. `grenzen.json` ist bereits je Archetyp geschlüsselt (DR-020). Baut auf T08 (Kategorien) auf. | T08 |
+ | T07 | Tests headless | open | `check.mjs` aus dem Scratchpad ins Repo (`test/`) übernehmen und um Regel-Fälle (u. a. `strenge`) erweitern. | T01, T08 |
+ | T10 | Strenge auf Zutat-Ebene (Rollen) | open | Substitutionsfreiheit auch für Zutat-Wahl markieren (z. B. Einlage-Frucht frei austauschbar, Struktur-Mehl strikt), nicht nur für Operationen. | T08 |
+ | T21 | Icon für Gewürze | open | Gewürze teilen sich aktuell Kategorie und Icon mit Pulver/Backtriebmittel/Kakao (`pulver`: Kegel + Streupunkte) — eigenes, unterscheidbares Icon (ggf. eigene Unterkategorie) für Gewürze ergänzen. | T08 |
++| T36 | Funktionsvektor je Zutat | open | Rolle = Slot → Rolle = Summe einer Funktion ≥ Schwelle. Jede Zutat bekommt einen Funktionsvektor (Struktur, Bindung, Emulgieren, Trieb-Potenzial, Feuchte, Süße, Säure, Aroma), teils ableitbar aus bestehenden Feldern (`wasseranteil`, `fettanteil`, `zuckeranteil`, `bildet_gluten`, `saeure`, `trieb_typ`). Ermöglicht generische Substitution (z. B. Joghurt/Aquafaba für Ei), Ei darf mehrere Funktionen liefern. Ersetzt die ODER-/Dominanz-Blendregeln aus DR-012 durch Summen. | T33 |
++| T37 | Fertighelfer zerlegen | open | `backpulver`, `vanillezucker` (später Puddingpulver) als Zusammensetzung aus Basis-Komponenten modellieren (Backpulver = Natron + Säureträger + Stärke). Säure-Natron-Balance folgt dann aus der Bilanz statt aus `natron_drittel`/`saeure_reduziert_backpulver` in `erfahrungsregeln.json`; Rolle `trieb` wird Funktion „CO₂-Potenzial“. | T33, T36 |
++| T38 | Ablauf als Abhängigkeitsgraph | open | `sequenz` in `methods.json` um `nach: [op]` ergänzen; nur physikalisch erzwungene Kanten (z. B. Fett+Zucker cremig vor Mehl). Schritte ohne Kante = freie Reihenfolge, im Ablaufdiagramm als parallel/gleichrangig darstellen (löst DR-004-Risiko „Diagramm nur linear“). | — |
++| T39 | Grenzen überschreibbar + Kaskade | open | `grenzen.json`-Verletzungen (`hart`, T34) in `blockaden`/Override-Feedback (DR-019 Punkt 4, T25) und Kaskaden-Vorschlag (T26) einhängen — z. B. „Wasser zu hoch → Flüssigkeit reduzieren“. Zusätzlich Bilanz-Größen in Korrelationssuche (`korrelation.js`) und Stats-Panel aufnehmen. | T34 |
+diff --git a/docs/TODO_ARCHIVE.md b/docs/TODO_ARCHIVE.md
+index a7f4588..0fc6628 100755
+--- a/docs/TODO_ARCHIVE.md
++++ b/docs/TODO_ARCHIVE.md
+@@ -7,6 +7,9 @@ noch aktive Arbeit.
+ 
+ | id | title | state | descr | dependencies |
+ |----|-------|-------|-------|--------------|
++| T35 | Korpus-Toleranz als weiche Grenze | done | `toleranz()` in `bilanz.js`: außerhalb Q1–Q3 → Hinweis (`toleranzHinweise`, note-info), außerhalb min–max → Warnung („ungetestete Kombination“). Ab n ≥ 3, mit 5 % relativer Marge (bei n ≈ 7 sonst Rundungsrauschen, z. B. Muffin-Preset 123 % vs. Q3 122 %). Geprüft auf der Bilanz, nicht auf Rollen-Bäckerprozent: diese sind per Konstruktion der Korpus-Median (bzw. bewusst per Erfahrungsregel angepasst) — Abweichung entsteht nur über die Zutatenwahl. Kein Hinweis für eine Größe, für die bereits eine Grenze (T34) greift. Bilanz-Tabelle in `recipeCard.js` markiert ◦/⚠. Verifiziert per Node-Skript (Stufen, n < 3 → keine Bewertung, Presets ohne Rauschen) und jsdom-Render. | T33 |
++| T34 | Quantitative Grenzen (Physik) | done | Neue Datei `src/data/grenzen.json`, je Archetyp: `{id, groesse, bezug: {rolle}|{groesse}, min?, max?, strenge, hinweis, quelle}`. Rührteig: Wasser (hart < 40 / > 250 %, empfohlen 70–170 %), Reinfett (empfohlen ≤ 110, hart ≤ 150 %), Zucker (empfohlen ≤ 120, hart ≤ 160 %), Zucker/Wasser ≤ 1,0 (High-Ratio-Regel). Faustwerte, gegen Korpus (n = 21) plausibilisiert. `grenzenPruefen()` in `bilanz.js`; `engine.js`: `hart` → `status: invalid` + `gruende`, `empfohlen` → `warnungen`. Noch nicht override-fähig → T39. Verifiziert per Node-Skript (Zucker 170 % → hart, Z/W > 1 → empfohlen, Wasser 34 % → hart, alle Presets gültig). | T33 |
++| T33 | Gesamtbilanz Wasser/Fett/Zucker | done | Neues Modul `src/model/bilanz.js`: `bilanz(posten, ingredients, referenzRolle)` summiert über alle Zutaten (ohne Einlage, nicht Teigmatrix) aus `wasseranteil`/`fettanteil`/neuem `zuckeranteil` (11 Zutaten ergänzt) — vorher waren `wasseranteil`/`fettanteil` nirgends gelesen. Gleiche Funktion für generierte Rezepte (`engine.js`, aus `zutatenListe`) und Korpus (`corpus.js#normalizeRecipe` → `stats().bilanz` als Verteilung). Beispiel: Schmand statt Milch erhöht Reinfett 57 → 68 % vom Mehl, obwohl Rollen-Bäckerprozent unverändert. Verifiziert per Node-Skript und jsdom-Render. | — |
+ | T32 | Generische Korpus-Korrelationssuche (DR-019 Punkt 5) | done | Nutzer-Vorgabe „try the mechanics with that few, we will stress it later" — Mechanik jetzt gebaut und tolerant gegenüber dem heutigen kleinen Korpus (~7 Rezepte/Variante), nicht blockiert. Neues Modul `src/model/korrelation.js`: `korrelationenSuchen()` durchsucht generisch alle (Bedingungsrolle × Eigenschaft × Wert × Zielrolle)-Kombinationen, vergleicht Bäckerprozent-Median der Gruppe mit/ohne die Eigenschaft (via `summarize()` aus `units.js`), meldet einen Kandidaten ab einer relativen Mindest-Differenz (Default 15 %) und ab mindestens 2 Rezepten je Gruppe — markiert aber nur als `belastbar: true`, wenn beide Gruppen ≥ 5 Rezepte haben (sonst `vorläufig`, bewusst trotzdem sichtbar statt verworfen). Boolesche Eigenschaften werden nur in einer Richtung gemeldet (kein Spiegel-Duplikat true/false). Neues Modul `src/model/korrelationEntscheidungen.js` (gleiches `localStorage`-Muster wie `overrides.js`/`errorRequests.js`) für Bestätigen/Verwerfen je Kandidat — auch hier kann die App `erfahrungsregeln.json` nicht selbst schreiben, „Bestätigen" markiert nur, dass ein Mensch den Kandidaten für sinnvoll befunden hat. Neue Sektion „Aus Korpus-Korrelation" in `kandidaten.js` (dritte Evidenzquelle neben Feedback-Kandidaten und Error-Requests), rechnet für alle drei Varianten. `main.js` behält jetzt die normalisierten Korpus-Rezeptlisten (vorher nur die aggregierten `stats()` verwendet, Rohliste verworfen). Verifiziert per Node-Skript (14 Fälle: korrekte Mediane/Faktoren, `belastbar`-Schwelle, kein Crash bei n=1/keiner Varianz/leerem Korpus, keine Spiegel-Duplikate) und im Browser gegen den echten Korpus (20 Kandidaten gefunden, alle korrekt „vorläufig" bei n=7, Bestätigen entfernt einen Kandidaten korrekt aus der Liste und schreibt `localStorage`) — keine Konsolenfehler, keine Regression (64 Node-Checks über alle Todos weiterhin grün). Ergebnisqualität hängt direkt von der Korpusgröße ab und verbessert sich automatisch mit T04, ohne weitere Code-Änderung — das ist der vom Nutzer angekündigte „stress it later"-Schritt. | T04, T23 |
+ | T23 | Erfahrungs-Regeln aus `engine.js` in Daten überführen | done | Abhängigkeit von T04 als zu eng gefasst erkannt und korrigiert (siehe DR-019-Nachtrag) — T23 verlangt nur die drei bereits bekannten, fachlich begründeten Anpassungen als Daten-Regeln, nicht die (weiterhin auf T04 wartende) automatische Korpus-Korrelationssuche, dafür neu als T32 registriert. Neue Datei `src/data/erfahrungsregeln.json` (Schema wie `operations.json`s `voraussetzung`: `wenn`-Bedingung gegen geblendete Zutat-Eigenschaften, dazu `voraussetzung_quelle`/`wenn_korpus_fehlt` für die Öl-Regel, die auf tatsächliche Korpus-Deckung prüft) ersetzt die if/else-Kette in `engine.js:34-47`. Generische `wendeErfahrungsregelnAn()` wendet pro Ziel-Rolle nur die erste passende Regel in Deklarationsreihenfolge an (bildet die bisherige Natron-vor-Säure-Priorität nach, sonst würden sich beide Faktoren multiplikativ überlagern). `begruendung` unterstützt `{rolle}`-Platzhalter für die dynamische Zutat-Erwähnung (z. B. „Saure Sahne ist sauer..."). `pruefeBedingung` aus `rules.js` exportiert und wiederverwendet statt dupliziert. Verifiziert per Node-Skript (13 Fälle, inkl. exakter bp-Werte und Korpus-Deckungslücken-Logik) und im Browser gegen den echten, gewachsenen Korpus (der inzwischen bereits ein Öl-Rezept enthält — Fallback-Regel greift dort korrekt NICHT, identisch zum alten Code bei denselben Daten) sowie Natron- und Säure-Pfad einzeln bestätigt — keine Konsolenfehler, keine Regression (37 bisherige Node-Checks weiterhin grün). | — |
+ | T31 | Pin auch pro Zutat, nicht nur pro Rolle | done | `state.fixiert` von `{[rolle]: true}` auf `{rollen: {[rolle]: true}, zutaten: {[rolle]: {[zutat]: true}}}` umgestellt (main.js, morphbox.js, rules.js — bewusste Erweiterung des T24-Schemas). Pin-Icon je Zutat-Option (nur bei bereits gemischter Rolle und tatsächlich gewählter Zutat) erscheint per CSS nur bei `:hover`/`:focus-visible`/aktiv (`.opt-pin` in style.css), als `<span role="button">` statt verschachteltem `<button>` (in mehreren Browsern nicht zuverlässig klickbar), mit `stopPropagation()` wie beim bestehenden Anteil-Eingabefeld. `rules.js`: `rolleIstGesperrt()` prüft Rollen- ODER Zutat-Pin (eine Kaskade, T26, ersetzt immer die ganze Rolle und würde eine fixierte Zutat sonst verdrängen); `ermittleFixierung()` identifiziert präzise die für eine Bedingung tatsächlich *verantwortliche* Zutat — bei „wenn"-Bedingungen die, die die Guard-Eigenschaft auslöst (z. B. Natron für `trieb_typ=chemisch_basisch`, nicht das zufällig mitgepinnte Backpulver), sonst die von `blendProps` dominante Zutat. Verifiziert per Node-Skript (8 neue Fälle: falsche Zutat gepinnt → kein Hinweis, richtige Zutat gepinnt → Hinweis nennt sie namentlich, Zutat in Kaskaden-Zielrolle gepinnt → kein Vorschlag, Zutat in unbeteiligter Rolle gepinnt → Vorschlag bleibt, leeres Pin-Objekt → wie ungepinnt) und im Browser (Butter+Öl-Mix: Pin erscheint nur bei Hover, Klick pinnt ohne die Auswahl zu verändern; Backpulver+Natron-Mix: Backpulver gepinnt → kein Hinweis, Natron gepinnt → „Natron“ (in „Trieb“) genannt, zusätzlich Wasser in Flüssigkeit gepinnt → Kaskaden-Vorschlag verschwindet korrekt) — keine Konsolenfehler, keine Regression (37 Node-Checks über T22/T24/T25/T26/T31 weiterhin grün). | T24 |
+diff --git a/src/data/grenzen.json b/src/data/grenzen.json
+new file mode 100644
+index 0000000..d4ea9ab
+--- /dev/null
++++ b/src/data/grenzen.json
+@@ -0,0 +1,63 @@
++{
++  "_schema": {
++    "id": "stabiler Schlüssel (wie `id` an voraussetzung in operations.json) — Grundlage für spätere Override-Erfassung (T39).",
++    "groesse": "Bilanz-Größe aus bilanz.js: wasser | fett | zucker (Summe über alle Zutaten der Teigmatrix, aus wasseranteil/fettanteil/zuckeranteil).",
++    "bezug": "{rolle: X} = Bäckerprozent relativ zu den Gramm der Rolle X (Referenzrolle, Mehl = 100) | {groesse: Y} = Verhältnis zu einer anderen Bilanz-Größe (Faktor, nicht Prozent).",
++    "min / max": "Grenzwerte im Maß von `bezug` (Prozent bei rolle, Faktor bei groesse). Eines von beiden darf fehlen.",
++    "strenge": "hart (status invalid + Grund) | empfohlen (Warnung, bleibt gültig) — gleiche Semantik wie DR-008.",
++    "hinweis": "Nutzer-sichtbarer Text bei Verletzung. Platzhalter {wert} und {grenze} werden ersetzt.",
++    "quelle": "Herkunft. Alle Werte hier sind Physik-Faustwerte, gegen den Korpus (n = 21) plausibilisiert, nicht gemessen — Kalibrierung über Override-Feedback (DR-019 Punkt 4) vorgesehen."
++  },
++  "archetypen": {
++    "ruehrteig": [
++      {
++        "id": "wasser_min_hart",
++        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "min": 40, "strenge": "hart",
++        "hinweis": "Gesamtwasser nur {wert} % vom Mehl (Grenze {grenze} %) — Teig ist nicht mehr rührfähig, Stärke kann nicht verkleistern.",
++        "quelle": "Physik-Faustwert: unterhalb ~40 % Wasser/Mehl liegt der Mürbeteig-/Krümelbereich. Korpus-Minimum 81 %."
++      },
++      {
++        "id": "wasser_band",
++        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "min": 70, "max": 170, "strenge": "empfohlen",
++        "hinweis": "Gesamtwasser {wert} % vom Mehl liegt außerhalb {grenze} % — zu trocken/bröselig bzw. zu feucht/speckig.",
++        "quelle": "Physik-Faustwert, Korpus-Spanne 81–153 % (ohne Einlage)."
++      },
++      {
++        "id": "wasser_max_hart",
++        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "max": 250, "strenge": "hart",
++        "hinweis": "Gesamtwasser {wert} % vom Mehl (Grenze {grenze} %) — das Gerüst trägt nicht, der Kuchen fällt zusammen.",
++        "quelle": "Physik-Faustwert: oberhalb ~250 % ist es Pfannkuchen-/Crêpe-Teig, kein Rührkuchen."
++      },
++      {
++        "id": "fett_max",
++        "groesse": "fett", "bezug": { "rolle": "struktur" }, "max": 110, "strenge": "empfohlen",
++        "hinweis": "Reinfett {wert} % vom Mehl (Grenze {grenze} %) — Krume wird schwer und fettig, Gluten wird stark gehemmt.",
++        "quelle": "Physik-Faustwert: Sandmasse liegt bei ~82 % Reinfett (100 % Butter). Korpus-Maximum 93 %."
++      },
++      {
++        "id": "fett_max_hart",
++        "groesse": "fett", "bezug": { "rolle": "struktur" }, "max": 150, "strenge": "hart",
++        "hinweis": "Reinfett {wert} % vom Mehl (Grenze {grenze} %) — Emulsion bricht, Fett tritt beim Backen aus.",
++        "quelle": "Physik-Faustwert."
++      },
++      {
++        "id": "zucker_max",
++        "groesse": "zucker", "bezug": { "rolle": "struktur" }, "max": 120, "strenge": "empfohlen",
++        "hinweis": "Zucker {wert} % vom Mehl (Grenze {grenze} %) — Stärke verkleistert verzögert, Mitte sinkt leicht ein.",
++        "quelle": "Physik-Faustwert: Zucker hebt die Verkleisterungstemperatur. Korpus-Maximum 97 %."
++      },
++      {
++        "id": "zucker_max_hart",
++        "groesse": "zucker", "bezug": { "rolle": "struktur" }, "max": 160, "strenge": "hart",
++        "hinweis": "Zucker {wert} % vom Mehl (Grenze {grenze} %) — Struktur kollabiert, auch High-Ratio-Rezepte enden bei ~140 %.",
++        "quelle": "Physik-Faustwert (High-Ratio-Kuchen mit Spezialmehl: ~110–140 %)."
++      },
++      {
++        "id": "zucker_wasser_max",
++        "groesse": "zucker", "bezug": { "groesse": "wasser" }, "max": 1.0, "strenge": "empfohlen",
++        "hinweis": "Zucker/Wasser = {wert} (Grenze {grenze}) — Zucker löst sich nicht vollständig, Krume wird grob, Kruste zuckrig.",
++        "quelle": "High-Ratio-Regel: Gesamtflüssigkeit ≥ Zucker. Korpus-Maximum 0,92."
++      }
++    ]
++  }
++}
+diff --git a/src/data/ingredients.json b/src/data/ingredients.json
+index 4de6f76..cea067f 100755
+--- a/src/data/ingredients.json
++++ b/src/data/ingredients.json
+@@ -5,6 +5,7 @@
+     "aggregat": "fest | fluessig | pulver | stueckig",
+     "fettanteil": "0..1 Massenanteil Fett",
+     "wasseranteil": "0..1 Massenanteil Wasser",
++    "zuckeranteil": "0..1 Massenanteil Zucker (Saccharose + Laktose + Fruchtzucker), Default 0 — für die Gesamtbilanz (bilanz.js, DR-020)",
+     "saeure": "true wenn nennenswert sauer (reagiert mit Backpulver/Natron)",
+     "cremig_schlagbar": "true wenn sich bei Raumtemperatur Luft einschlagen lässt",
+     "schmelzpunkt_c": "°C, nur bei festen Fetten",
+@@ -104,6 +105,7 @@
+     "aggregat": "pulver",
+     "fettanteil": 0,
+     "wasseranteil": 0,
++    "zuckeranteil": 1,
+     "saeure": false,
+     "eigenschaften": ["hygroskopisch → Saftigkeit", "Kristalle reißen beim Aufschlagen Luft in das Fett", "Bräunung durch Karamellisierung"],
+     "umrechnung": { "el": 15, "tl": 5 }
+@@ -115,6 +117,7 @@
+     "aggregat": "pulver",
+     "fettanteil": 0,
+     "wasseranteil": 0.02,
++    "zuckeranteil": 0.97,
+     "saeure": true,
+     "eigenschaften": ["leicht sauer durch Melasse", "karamelliges Aroma", "etwas feuchter"],
+     "umrechnung": { "el": 13, "tl": 4 }
+@@ -126,6 +129,7 @@
+     "aggregat": "pulver",
+     "fettanteil": 0,
+     "wasseranteil": 0,
++    "zuckeranteil": 0.97,
+     "saeure": false,
+     "eigenschaften": ["löst sich sofort", "reißt beim Aufschlagen weniger Luft ein als Kristallzucker"],
+     "umrechnung": { "el": 10, "tl": 3 }
+@@ -148,6 +152,7 @@
+     "aggregat": "fluessig",
+     "fettanteil": 0.035,
+     "wasseranteil": 0.88,
++    "zuckeranteil": 0.05,
+     "saeure": false,
+     "eigenschaften": ["neutral", "reguliert Teigkonsistenz", "Milchzucker fördert Bräunung"],
+     "umrechnung": { "ml": 1.03, "el": 15, "tl": 5 }
+@@ -170,6 +175,7 @@
+     "aggregat": "fluessig",
+     "fettanteil": 0.01,
+     "wasseranteil": 0.90,
++    "zuckeranteil": 0.04,
+     "saeure": true,
+     "eigenschaften": ["Milchsäure reagiert mit Backpulver/Natron → zusätzliches CO₂", "Säure begrenzt Glutenentwicklung → zartere Krume"],
+     "umrechnung": { "ml": 1.03, "el": 15 }
+@@ -203,6 +209,7 @@
+     "aggregat": "fluessig",
+     "fettanteil": 0.035,
+     "wasseranteil": 0.86,
++    "zuckeranteil": 0.04,
+     "saeure": true,
+     "eigenschaften": ["sauer, reagiert mit Trieb", "leichter als Schmand"],
+     "umrechnung": { "ml": 1.03, "el": 18 }
+@@ -250,6 +257,7 @@
+     "aggregat": "pulver",
+     "fettanteil": 0,
+     "wasseranteil": 0,
++    "zuckeranteil": 0.95,
+     "saeure": false,
+     "eigenschaften": ["Aroma + ein wenig Zucker"],
+     "umrechnung": { "pkt": 8, "tl": 4, "el": 12 }
+@@ -305,6 +313,7 @@
+     "aggregat": "fluessig",
+     "fettanteil": 0,
+     "wasseranteil": 0.88,
++    "zuckeranteil": 0.09,
+     "saeure": true,
+     "eigenschaften": ["mild sauer", "bringt Fruchtzucker und Aroma"],
+     "umrechnung": { "ml": 1, "el": 15, "tl": 5, "stk": 80 }
+@@ -371,6 +380,7 @@
+     "aggregat": "stueckig",
+     "fettanteil": 0.35,
+     "wasseranteil": 0.01,
++    "zuckeranteil": 0.5,
+     "saeure": false,
+     "eigenschaften": ["schmilzt teilweise, bleibt als Einschluss", "beeinflusst Teigverhältnis kaum"],
+     "umrechnung": { "el": 15 }
+@@ -382,6 +392,7 @@
+     "aggregat": "stueckig",
+     "fettanteil": 0.005,
+     "wasseranteil": 0.15,
++    "zuckeranteil": 0.6,
+     "saeure": false,
+     "quellfaehig": true,
+     "eigenschaften": ["ziehen Feuchtigkeit aus dem Teig, wenn nicht vorgequollen", "sinken in dünnem Teig ab"],
+@@ -394,6 +405,7 @@
+     "aggregat": "stueckig",
+     "fettanteil": 0,
+     "wasseranteil": 0.85,
++    "zuckeranteil": 0.1,
+     "saeure": true,
+     "eigenschaften": ["geben beim Backen Wasser ab", "in Mehl gewendet sinken sie weniger"],
+     "umrechnung": { "el": 12 }
+diff --git a/src/main.js b/src/main.js
+index 0a4a108..579aed2 100755
+--- a/src/main.js
++++ b/src/main.js
+@@ -13,10 +13,10 @@ async function loadJson(path) {
+   return r.json();
+ }
+ 
+-const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln] = await Promise.all(
+-  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln'].map((n) => loadJson(`./src/data/${n}.json`)),
++const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen] = await Promise.all(
++  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen'].map((n) => loadJson(`./src/data/${n}.json`)),
+ );
+-const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln };
++const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen };
+ const arch = archetypes.ruehrteig;
+ 
+ const raw = await loadCorpus(arch.varianten);
+diff --git a/src/model/bilanz.js b/src/model/bilanz.js
+new file mode 100644
+index 0000000..b3c808c
+--- /dev/null
++++ b/src/model/bilanz.js
+@@ -0,0 +1,74 @@
++// Gesamtbilanz (DR-020, T33): summiert Wasser, Fett und Zucker über ALLE Zutaten der
++// Teigmatrix aus den Massenanteilen in ingredients.json (wasseranteil/fettanteil/zuckeranteil) —
++// unabhängig davon, in welcher Rolle eine Zutat steht. Damit zählen z. B. das Wasser im Ei und in
++// der Butter oder das Fett im Schmand mit, die die Rollen-Sicht (Bäckerprozent je Rolle) übersieht.
++// Die Rolle `einlage` bleibt außen vor: Stückiges (Beeren, Schokostücke) gibt seine Bestandteile
++// beim Backen nur teilweise an den Teig ab — sie gehört nicht zur Teigmatrix.
++
++export const GROESSEN = { wasser: 'wasseranteil', fett: 'fettanteil', zucker: 'zuckeranteil' };
++export const GROESSEN_LABEL = { wasser: 'Gesamtwasser', fett: 'Reinfett', zucker: 'Zucker' };
++const AUSSERHALB_MATRIX = new Set(['einlage']);
++
++// posten: [{rolle, zutat, gramm}] — gleiche Form für generierte Rezepte (engine.js) und
++// Korpus-Rezepte (corpus.js). referenzRolle: Rolle, auf die Bäckerprozent bezogen werden.
++export function bilanz(posten, ingredients, referenzRolle = 'struktur') {
++  const gramm = Object.fromEntries(Object.keys(GROESSEN).map((g) => [g, 0]));
++  let refGramm = 0;
++  for (const p of posten) {
++    if (!(p.gramm > 0)) continue;
++    if (p.rolle === referenzRolle) refGramm += p.gramm;
++    if (AUSSERHALB_MATRIX.has(p.rolle)) continue;
++    const ing = ingredients[p.zutat];
++    if (!ing) continue;
++    for (const [g, feld] of Object.entries(GROESSEN)) gramm[g] += p.gramm * (ing[feld] || 0);
++  }
++  const bp = Object.fromEntries(Object.entries(gramm).map(([g, v]) => [g, refGramm > 0 ? (v / refGramm) * 100 : null]));
++  return { gramm, bp, refGramm };
++}
++
++// Wert einer Grenze im Maß ihres `bezug`: Prozent relativ zu einer Rolle, oder Faktor zu einer
++// anderen Bilanz-Größe.
++function messwert(grenze, b) {
++  if (grenze.bezug?.groesse) {
++    const nenner = b.gramm[grenze.bezug.groesse];
++    return nenner > 0 ? b.gramm[grenze.groesse] / nenner : null;
++  }
++  return b.bp[grenze.groesse];
++}
++
++const fmtWert = (x, faktor) => (faktor ? x.toFixed(2).replace('.', ',') : String(Math.round(x)));
++
++// Quantitative Grenzen (T34): prüft die Bilanz gegen grenzen.json. Rückgabe getrennt nach
++// Strenge — `hart` macht die Kombination ungültig, `empfohlen` warnt nur (DR-008).
++export function grenzenPruefen(b, grenzen) {
++  const hart = [];
++  const empfohlen = [];
++  for (const g of grenzen || []) {
++    const w = messwert(g, b);
++    if (w == null) continue;
++    const zuNiedrig = g.min != null && w < g.min;
++    const zuHoch = g.max != null && w > g.max;
++    if (!zuNiedrig && !zuHoch) continue;
++    const faktor = !!g.bezug?.groesse;
++    const grenzeText = g.min != null && g.max != null
++      ? `${fmtWert(g.min, faktor)}–${fmtWert(g.max, faktor)}`
++      : fmtWert(zuNiedrig ? g.min : g.max, faktor);
++    const text = g.hinweis.replace('{wert}', fmtWert(w, faktor)).replace('{grenze}', grenzeText);
++    (g.strenge === 'hart' ? hart : empfohlen).push({ id: g.id, text, wert: w });
++  }
++  return { hart, empfohlen };
++}
++
++// Korpus-Toleranz (T35): vergleicht einen Wert mit der Korpus-Verteilung (summarize() aus
++// units.js). Außerhalb Q1–Q3 = untypisch (Hinweis), außerhalb min–max = vom Korpus nicht gedeckt
++// (Warnung). Bei sehr kleinem Korpus bewusst tolerant: erst ab n >= 3 wird überhaupt bewertet,
++// und jede Grenze bekommt eine relative Marge (Default 5 %) — bei n ≈ 7 ist Q1–Q3 so schmal, dass
++// sonst schon Rundungsunterschiede (123 % vs. Q3 122 %) als „untypisch“ auffallen würden.
++export function toleranz(wert, verteilung, minN = 3, marge = 0.05) {
++  if (wert == null || !verteilung || verteilung.n < minN) return null;
++  const unter = (grenze) => wert < grenze * (1 - marge);
++  const ueber = (grenze) => wert > grenze * (1 + marge);
++  if (unter(verteilung.min) || ueber(verteilung.max)) return 'ausserhalb_spanne';
++  if (unter(verteilung.q1) || ueber(verteilung.q3)) return 'ausserhalb_q';
++  return 'typisch';
++}
+diff --git a/src/model/corpus.js b/src/model/corpus.js
+index 83dd8e1..1402a87 100755
+--- a/src/model/corpus.js
++++ b/src/model/corpus.js
+@@ -1,4 +1,5 @@
+ import { toGrams, bakersPercent, summarize } from './units.js';
++import { bilanz, GROESSEN } from './bilanz.js';
+ 
+ export const ROLLEN = ['struktur', 'fett', 'suesse', 'bindung', 'fluessigkeit', 'trieb', 'aroma', 'einlage'];
+ 
+@@ -23,6 +24,7 @@ export function normalizeRecipe(recipe, ingredients) {
+   const unbekannt = [];
+   let fettTyp = null;
+   let sauer = false;
++  const posten = []; // je Zutat-Zeile in Gramm — Grundlage der Gesamtbilanz (DR-020/T33)
+ 
+   for (const z of recipe.zutaten || []) {
+     const ing = ingredients[z.zutat];
+@@ -34,6 +36,7 @@ export function normalizeRecipe(recipe, ingredients) {
+     if (!ing) unbekannt.push(z);
+     if (rollenGramm[z.rolle] == null) rollenGramm[z.rolle] = 0;
+     rollenGramm[z.rolle] += g;
++    posten.push({ rolle: z.rolle, zutat: z.zutat, gramm: g });
+     if (z.rolle === 'fett' && ing) fettTyp = ing.aggregat === 'fluessig' ? 'fluessig' : 'fest';
+     if (ing?.saeure && z.rolle !== 'aroma' && z.rolle !== 'einlage') sauer = true;
+   }
+@@ -47,6 +50,7 @@ export function normalizeRecipe(recipe, ingredients) {
+     rollenGramm,
+     bp,
+     teigmasse,
++    bilanz: bilanz(posten, ingredients),
+     fettTyp,
+     sauer,
+     hatEinlage: rollenGramm.einlage > 0,
+@@ -74,6 +78,8 @@ export function stats(normalized) {
+     sauer: normalized.filter((r) => r.sauer).length,
+     einlage: normalized.filter((r) => r.hatEinlage).length,
+     teigmasse: summarize(normalized.map((r) => r.teigmasse)),
++    // Verteilung der Gesamtbilanz (Bäckerprozent) — Erfahrungs-Toleranz für T35
++    bilanz: Object.fromEntries(Object.keys(GROESSEN).map((g) => [g, summarize(normalized.map((r) => r.bilanz?.bp[g]))])),
+     backen: {
+       tempOU: summarize(normalized.map((r) => r.backen?.tempOU)),
+       tempUmluft: summarize(normalized.map((r) => r.backen?.tempUmluft)),
+diff --git a/src/model/engine.js b/src/model/engine.js
+index 3f25f1a..72c1adf 100755
+--- a/src/model/engine.js
++++ b/src/model/engine.js
+@@ -1,6 +1,7 @@
+ import { fromGrams } from './units.js';
+ import { ROLLEN } from './corpus.js';
+ import { evaluateAll, bestMethod, propsOf, pruefeBedingung } from './rules.js';
++import { bilanz, grenzenPruefen, toleranz, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+ 
+ const FALLBACK_BP = { struktur: 100, fett: 90, suesse: 90, bindung: 80, fluessigkeit: 20, trieb: 3, aroma: 3, einlage: 40 };
+ 
+@@ -92,6 +93,33 @@ export function compute(state, data, korpusStats) {
+     });
+   });
+ 
++  // Gesamtbilanz (DR-020/T33) über alle Zutaten-Zeilen, quantitative Grenzen (T34) und
++  // Korpus-Toleranz (T35). Die Rollen-Bäckerprozent sind per Konstruktion der Korpus-Median —
++  // Abweichungen entstehen erst über die Zutatenwahl (z. B. Schmand statt Milch, Öl statt
++  // Butter), und genau die sieht nur die Bilanz. Darum wird die Toleranz auf der Bilanz geprüft.
++  const referenzRolle = arch.rollen.find((r) => r.referenz)?.rolle ?? 'struktur';
++  const bil = bilanz(zutatenListe, data.ingredients, referenzRolle);
++  const grenzen = data.grenzen?.archetypen?.[state.archetyp] || [];
++  const verletzt = grenzenPruefen(bil, grenzen);
++  const groessenMitGrenze = new Set(
++    [...verletzt.hart, ...verletzt.empfohlen].map((v) => grenzen.find((g) => g.id === v.id)?.groesse),
++  );
++  const toleranzHinweise = [];
++  const toleranzWarnungen = [];
++  const bilanzZeilen = Object.keys(GROESSEN).map((g) => {
++    const korpus = st.bilanz?.[g] ?? null;
++    const t = toleranz(bil.bp[g], korpus);
++    if (!groessenMitGrenze.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
++      const wert = Math.round(bil.bp[g]);
++      const text = t === 'ausserhalb_spanne'
++        ? `${GROESSEN_LABEL[g]} ${wert} % vom Mehl liegt außerhalb aller ${korpus.n} Korpus-Rezepte (${Math.round(korpus.min)}–${Math.round(korpus.max)} %) — ungetestete Kombination.`
++        : `${GROESSEN_LABEL[g]} ${wert} % vom Mehl ist untypisch (Korpus Q1–Q3: ${Math.round(korpus.q1)}–${Math.round(korpus.q3)} %).`;
++      (t === 'ausserhalb_spanne' ? toleranzWarnungen : toleranzHinweise).push(text);
++    }
++    return { groesse: g, label: GROESSEN_LABEL[g], gramm: bil.gramm[g], bp: bil.bp[g], korpus, toleranz: t };
++  });
++  const status = verletzt.hart.length ? 'invalid' : res.status;
++
+   const round5 = (x) => Math.round(x / 5) * 5;
+   const kb = st.backen || {};
+   const ausKorpus = st.n >= 3 && kb.minuten?.median != null;
+@@ -131,9 +159,11 @@ export function compute(state, data, korpusStats) {
+     korpusN: st.n,
+     methodKey,
+     method,
+-    status: res.status,
+-    gruende: res.gruende,
+-    warnungen: res.warnungen,
++    status,
++    gruende: [...res.gruende, ...verletzt.hart.map((v) => v.text)],
++    warnungen: [...res.warnungen, ...verletzt.empfohlen.map((v) => v.text), ...toleranzWarnungen],
++    toleranzHinweise,
++    bilanz: bilanzZeilen,
+     // Kaskaden-Vorschläge (DR-019/T26): Ersatzkandidaten für Rollen, die eine harte
+     // Kollision auflösen könnten, wenn sie nicht `gesetzt-fix` sind. Reine Daten, noch
+     // keine Übernahme — die UI dazu (Vorschlagen-dann-bestätigen) kommt in T27.
+diff --git a/src/ui/recipeCard.js b/src/ui/recipeCard.js
+index 4df5f41..40c4366 100755
+--- a/src/ui/recipeCard.js
++++ b/src/ui/recipeCard.js
+@@ -28,6 +28,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
+   for (const b of computed.blockaden || []) root.append(blockadeOverride(b, state, data, onChange));
+   for (const w of computed.warnungen) root.append(el('p', 'note note-warn', w));
+   for (const a of computed.anpassungen) root.append(el('p', 'note note-info', a));
++  for (const h of computed.toleranzHinweise || []) root.append(el('p', 'note note-info', h));
+ 
+   const table = el('table', 'zutaten');
+   const thead = el('thead');
+@@ -47,6 +48,23 @@ export function renderRecipe(root, computed, state, data, onChange) {
+     root.append(el('p', 'fine', '* keine Korpus-Daten für diese Rolle — Schätzwert'));
+   }
+ 
++  // Gesamtbilanz (DR-020/T33): Wasser/Fett/Zucker über alle Zutaten, mit Korpus-Spanne (T35).
++  if (computed.bilanz?.length) {
++    const bt = el('table', 'zutaten bilanz');
++    const bh = el('thead');
++    bh.append(tr(['Bilanz', 'Gramm', '% vom Mehl', 'Korpus (Q1–Q3)'], 'th'));
++    bt.append(bh);
++    const bb = el('tbody');
++    const markierung = { ausserhalb_q: ' ◦', ausserhalb_spanne: ' ⚠' };
++    for (const z of computed.bilanz) {
++      const k = z.korpus;
++      bb.append(tr([z.label, `${Math.round(z.gramm)} g`, `${fmt(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmt(k.q1)}–${fmt(k.q3)} %` : '—']));
++    }
++    bt.append(bb);
++    root.append(bt);
++    root.append(el('p', 'fine', 'Bilanz = Summe über alle Zutaten ohne Einlage (z. B. Wasser aus Ei, Butter, Milch). ◦ außerhalb Q1–Q3 · ⚠ außerhalb Korpus-Spanne'));
++  }
++
+   const bake = el('div', 'bake');
+   bake.append(
+     el('div', 'bake-main', `${computed.backen.tempOU} °C Ober-/Unterhitze · ${computed.backen.tempUmluft} °C Umluft · ${computed.backen.minuten} Min.`),
+-- 
+2.43.0
+
+
+From 28e321a547c2ea7aa22e4a41a2c3434d89e0af4f Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sat, 17 Oct 2026 19:14:19 +0000
+Subject: [PATCH 2/4] =?UTF-8?q?T38+T39:=20Ablauf=20als=20Abh=C3=A4ngigkeit?=
+ =?UTF-8?q?sgraph,=20Grenzen=20=C3=BCberschreibbar=20+=20Kaskade=20(DR-021?=
+ =?UTF-8?q?)=20+=20Todo=20T40?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ docs/DECISIONS.md        |  9 +++++++++
+ docs/TODO.md             |  3 +--
+ docs/TODO_ARCHIVE.md     |  2 ++
+ src/data/grenzen.json    | 13 +++++++------
+ src/data/methods.json    |  5 +++++
+ src/model/bilanz.js      | 31 +++++++++++++++++++++++++++++
+ src/model/engine.js      | 39 +++++++++++++++++++++++++++++++++----
+ src/model/korrelation.js | 15 +++++++++++---
+ src/model/rules.js       | 35 ++++++++++++++++++++++++++++++---
+ src/ui/flow.js           | 42 ++++++++++++++++++++++++++++++++--------
+ src/ui/kandidaten.js     |  5 ++++-
+ src/ui/stats.js          |  6 ++++++
+ style.css                |  2 +-
+ 13 files changed, 179 insertions(+), 28 deletions(-)
+
+diff --git a/docs/DECISIONS.md b/docs/DECISIONS.md
+index 2a53051..4303c68 100755
+--- a/docs/DECISIONS.md
++++ b/docs/DECISIONS.md
+@@ -248,3 +248,12 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher
+ - **cons:** Grenzwerte sind Faustwerte, nicht gemessen; Q1–Q3 bei n ≈ 7 schmal (daher 5 % Marge, Bewertung erst ab n ≥ 3). Bilanz korrigiert Mengen noch nicht selbst, sie bewertet nur.
+ - **risk:** Falsch kalibrierte `hart`-Grenze blockiert gültige Rezepte. Mitigation: `hart` nur weit außerhalb der Korpus-Spanne gesetzt; Override-Anbindung als T39.
+ 
++## DR-021 · tech · Ablauf als Abhängigkeitsgraph (T38) + Grenzen-Kaskade per Simulation (T39)
++
++- **descr:** (2026-10-17)
++  1. **Graph statt Liste:** Abhängigkeiten als Methoden-Feld `nach: {key: [Vorgänger]}` statt Erweiterung der `sequenz`-Einträge — `sequenz` bleibt flache Liste (String oder Inline-Objekt, DR-014), geteilte Operationen aus `operations.json` (z. B. `verquirlen`) brauchen keine methodenspezifische Kopie. Ohne `nach` bleibt alles linear (abwärtskompatibel). Darstellung: Spalte = längster Pfad, parallele Schritte untereinander.
++  2. **Grenzen-Kaskade per Simulation:** Statt pro Grenze eine Ersatz-Eigenschaft zu deklarieren (wie `kaskade_ziel` + Eigenschaft bei Operationen, T26), rechnet die Engine jede Option der Zielrolle durch und nimmt die erste, die die Grenze einhält. Generisch für jede neue Grenze, keine zweite Regelquelle.
++- **pro:** Freiheitsgrade der Reihenfolge werden sichtbar statt verschwiegen (Konzept „Reihenfolge hat oft keinen Einfluss“); Kaskade funktioniert automatisch für jede quantitative Grenze.
++- **cons:** Graph-Layout ohne echten Layout-Algorithmus (keine Kreuzungsminimierung) — reicht für ≤ 2 parallele Stränge. Kaskade wählt die *erste* passende Option in Deklarationsreihenfolge, nicht die nächstliegende; tauscht nur Zutaten, ändert keine Mengen (T40).
++- **risk:** Bei mehr parallelen Strängen (z. B. Hefeteig mit Vorteig, T06) kann die Spaltendarstellung unübersichtlich werden → dann echtes Layout (z. B. dagre) neu bewerten.
++
+diff --git a/docs/TODO.md b/docs/TODO.md
+index 501d7b6..feaa803 100755
+--- a/docs/TODO.md
++++ b/docs/TODO.md
+@@ -16,5 +16,4 @@ sobald sie auf `done` gesetzt werden — diese Liste zeigt nur aktive Arbeit.
+ | T21 | Icon für Gewürze | open | Gewürze teilen sich aktuell Kategorie und Icon mit Pulver/Backtriebmittel/Kakao (`pulver`: Kegel + Streupunkte) — eigenes, unterscheidbares Icon (ggf. eigene Unterkategorie) für Gewürze ergänzen. | T08 |
+ | T36 | Funktionsvektor je Zutat | open | Rolle = Slot → Rolle = Summe einer Funktion ≥ Schwelle. Jede Zutat bekommt einen Funktionsvektor (Struktur, Bindung, Emulgieren, Trieb-Potenzial, Feuchte, Süße, Säure, Aroma), teils ableitbar aus bestehenden Feldern (`wasseranteil`, `fettanteil`, `zuckeranteil`, `bildet_gluten`, `saeure`, `trieb_typ`). Ermöglicht generische Substitution (z. B. Joghurt/Aquafaba für Ei), Ei darf mehrere Funktionen liefern. Ersetzt die ODER-/Dominanz-Blendregeln aus DR-012 durch Summen. | T33 |
+ | T37 | Fertighelfer zerlegen | open | `backpulver`, `vanillezucker` (später Puddingpulver) als Zusammensetzung aus Basis-Komponenten modellieren (Backpulver = Natron + Säureträger + Stärke). Säure-Natron-Balance folgt dann aus der Bilanz statt aus `natron_drittel`/`saeure_reduziert_backpulver` in `erfahrungsregeln.json`; Rolle `trieb` wird Funktion „CO₂-Potenzial“. | T33, T36 |
+-| T38 | Ablauf als Abhängigkeitsgraph | open | `sequenz` in `methods.json` um `nach: [op]` ergänzen; nur physikalisch erzwungene Kanten (z. B. Fett+Zucker cremig vor Mehl). Schritte ohne Kante = freie Reihenfolge, im Ablaufdiagramm als parallel/gleichrangig darstellen (löst DR-004-Risiko „Diagramm nur linear“). | — |
+-| T39 | Grenzen überschreibbar + Kaskade | open | `grenzen.json`-Verletzungen (`hart`, T34) in `blockaden`/Override-Feedback (DR-019 Punkt 4, T25) und Kaskaden-Vorschlag (T26) einhängen — z. B. „Wasser zu hoch → Flüssigkeit reduzieren“. Zusätzlich Bilanz-Größen in Korrelationssuche (`korrelation.js`) und Stats-Panel aufnehmen. | T34 |
++| T40 | Mengen-Kaskade für Grenzen | open | Grenzen-Kaskade (T39) tauscht nur die Zutat der Zielrolle bei gleicher Grammzahl. Ergänzen: Menge der Zielrolle so weit verschieben, bis die Grenze hält (z. B. „Flüssigkeit −30 g“), innerhalb der Korpus-Spanne dieser Rolle. Braucht einen gespeicherten Mengen-Override je Rolle — heute sind Mengen stateless (DR-005, DR-019-Nachtrag). | T39 |
+diff --git a/docs/TODO_ARCHIVE.md b/docs/TODO_ARCHIVE.md
+index 0fc6628..97c4345 100755
+--- a/docs/TODO_ARCHIVE.md
++++ b/docs/TODO_ARCHIVE.md
+@@ -7,6 +7,8 @@ noch aktive Arbeit.
+ 
+ | id | title | state | descr | dependencies |
+ |----|-------|-------|-------|--------------|
++| T39 | Grenzen überschreibbar + Kaskade | done | `engine.js`: verletzte `hart`-Grenzen → `blockaden` (Override-Erfassung wie T25), Grenzen mit neuem Feld `kaskade_ziel` → `kaskaden`-Vorschlag. Vorschlag per Simulation (`grenzenKaskade()` in `bilanz.js`): jede Option der Zielrolle bei gleicher Rollen-Grammzahl durchrechnen, erste nehmen, die die Grenze erfüllt und keine `hart`-Grenze neu verletzt; fixierte Zielrolle (T24/T31) bleibt unangetastet (`rolleIstGesperrt` dafür exportiert). `alleUeberschreibbarenRegeln()` listet die 4 `hart`-Grenzen (Auslöser „Gesamtbilanz“, Text aus `beschreibeGrenze()`), damit Kandidatenliste/Error-Request sie kennen. `korrelation.js`: Bilanz-Größen als zusätzliche Ziel-Dimension (`bilanz:wasser` …) — findet z. B. „saure Flüssigkeit → Gesamtwasser ×1,42“ (vorläufig, n = 2/5). Stats-Panel: Σ-Zeilen je Bilanz-Größe. Grenze der Methode: nur Zutat-Tausch, keine Mengenänderung → T40. Verifiziert per Node-Skript (11 Fälle) und jsdom (Stats, Kandidaten, Katalog). | T34 |
++| T38 | Ablauf als Abhängigkeitsgraph | done | `methods.json`: optionales `nach` je Methode `{key: [Vorgänger]}`; `[]` = Startschritt; fehlender key = linearer Standard (letzter vorhandener Schritt, der nicht Startschritt ist); übersprungene optionale Vorgänger werden ignoriert. Eingetragen nur physikalisch erzwungene Kanten: Einlegen ist überall Startschritt und nur Vorgänger von „Einlage unterheben“; Muffin: „Trockenes mischen“ ∥ „Flüssiges verquirlen“ → „Nass zu Trocken“. Eingefügte Vorbereitung (z. B. Schmelzen) ist Startschritt und Vorgänger der auslösenden Operation. `rules.js` liefert `nach` je Schritt, `engine.js` daraus `nach` (Nummern) und `ebene` (längster Pfad). `flow.js`: Spalte = Ebene, gleiche Ebene untereinander, Kanten als Kurven; Schrittliste zeigt „Reihenfolge frei (parallel zu …)“; `#flow`-Höhe aus SVG-Attribut statt fix 124 px. Linearer Ablauf bleibt eine Zeile (verifiziert: Crememethode ohne Einlage). Verifiziert per Node-Skript (alle 4 Methoden azyklisch, Muffin parallel, Schmelzen-Einfügung) und jsdom-Render; nicht im echten Browser geprüft. | — |
+ | T35 | Korpus-Toleranz als weiche Grenze | done | `toleranz()` in `bilanz.js`: außerhalb Q1–Q3 → Hinweis (`toleranzHinweise`, note-info), außerhalb min–max → Warnung („ungetestete Kombination“). Ab n ≥ 3, mit 5 % relativer Marge (bei n ≈ 7 sonst Rundungsrauschen, z. B. Muffin-Preset 123 % vs. Q3 122 %). Geprüft auf der Bilanz, nicht auf Rollen-Bäckerprozent: diese sind per Konstruktion der Korpus-Median (bzw. bewusst per Erfahrungsregel angepasst) — Abweichung entsteht nur über die Zutatenwahl. Kein Hinweis für eine Größe, für die bereits eine Grenze (T34) greift. Bilanz-Tabelle in `recipeCard.js` markiert ◦/⚠. Verifiziert per Node-Skript (Stufen, n < 3 → keine Bewertung, Presets ohne Rauschen) und jsdom-Render. | T33 |
+ | T34 | Quantitative Grenzen (Physik) | done | Neue Datei `src/data/grenzen.json`, je Archetyp: `{id, groesse, bezug: {rolle}|{groesse}, min?, max?, strenge, hinweis, quelle}`. Rührteig: Wasser (hart < 40 / > 250 %, empfohlen 70–170 %), Reinfett (empfohlen ≤ 110, hart ≤ 150 %), Zucker (empfohlen ≤ 120, hart ≤ 160 %), Zucker/Wasser ≤ 1,0 (High-Ratio-Regel). Faustwerte, gegen Korpus (n = 21) plausibilisiert. `grenzenPruefen()` in `bilanz.js`; `engine.js`: `hart` → `status: invalid` + `gruende`, `empfohlen` → `warnungen`. Noch nicht override-fähig → T39. Verifiziert per Node-Skript (Zucker 170 % → hart, Z/W > 1 → empfohlen, Wasser 34 % → hart, alle Presets gültig). | T33 |
+ | T33 | Gesamtbilanz Wasser/Fett/Zucker | done | Neues Modul `src/model/bilanz.js`: `bilanz(posten, ingredients, referenzRolle)` summiert über alle Zutaten (ohne Einlage, nicht Teigmatrix) aus `wasseranteil`/`fettanteil`/neuem `zuckeranteil` (11 Zutaten ergänzt) — vorher waren `wasseranteil`/`fettanteil` nirgends gelesen. Gleiche Funktion für generierte Rezepte (`engine.js`, aus `zutatenListe`) und Korpus (`corpus.js#normalizeRecipe` → `stats().bilanz` als Verteilung). Beispiel: Schmand statt Milch erhöht Reinfett 57 → 68 % vom Mehl, obwohl Rollen-Bäckerprozent unverändert. Verifiziert per Node-Skript und jsdom-Render. | — |
+diff --git a/src/data/grenzen.json b/src/data/grenzen.json
+index d4ea9ab..9237ddc 100644
+--- a/src/data/grenzen.json
++++ b/src/data/grenzen.json
+@@ -6,37 +6,38 @@
+     "min / max": "Grenzwerte im Maß von `bezug` (Prozent bei rolle, Faktor bei groesse). Eines von beiden darf fehlen.",
+     "strenge": "hart (status invalid + Grund) | empfohlen (Warnung, bleibt gültig) — gleiche Semantik wie DR-008.",
+     "hinweis": "Nutzer-sichtbarer Text bei Verletzung. Platzhalter {wert} und {grenze} werden ersetzt.",
++    "kaskade_ziel": "optional: Rolle, deren Zutat ersetzt werden könnte, um die Grenze einzuhalten (T39). Die Engine simuliert jede Option dieser Rolle bei gleicher Rollen-Grammzahl und schlägt die erste vor, die die Grenze erfüllt, ohne eine andere hart-Grenze zu verletzen. Nichts wird automatisch übernommen (DR-019/T27).",
+     "quelle": "Herkunft. Alle Werte hier sind Physik-Faustwerte, gegen den Korpus (n = 21) plausibilisiert, nicht gemessen — Kalibrierung über Override-Feedback (DR-019 Punkt 4) vorgesehen."
+   },
+   "archetypen": {
+     "ruehrteig": [
+       {
+         "id": "wasser_min_hart",
+-        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "min": 40, "strenge": "hart",
++        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "min": 40, "strenge": "hart", "kaskade_ziel": "fluessigkeit",
+         "hinweis": "Gesamtwasser nur {wert} % vom Mehl (Grenze {grenze} %) — Teig ist nicht mehr rührfähig, Stärke kann nicht verkleistern.",
+         "quelle": "Physik-Faustwert: unterhalb ~40 % Wasser/Mehl liegt der Mürbeteig-/Krümelbereich. Korpus-Minimum 81 %."
+       },
+       {
+         "id": "wasser_band",
+-        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "min": 70, "max": 170, "strenge": "empfohlen",
++        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "min": 70, "max": 170, "strenge": "empfohlen", "kaskade_ziel": "fluessigkeit",
+         "hinweis": "Gesamtwasser {wert} % vom Mehl liegt außerhalb {grenze} % — zu trocken/bröselig bzw. zu feucht/speckig.",
+         "quelle": "Physik-Faustwert, Korpus-Spanne 81–153 % (ohne Einlage)."
+       },
+       {
+         "id": "wasser_max_hart",
+-        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "max": 250, "strenge": "hart",
++        "groesse": "wasser", "bezug": { "rolle": "struktur" }, "max": 250, "strenge": "hart", "kaskade_ziel": "fluessigkeit",
+         "hinweis": "Gesamtwasser {wert} % vom Mehl (Grenze {grenze} %) — das Gerüst trägt nicht, der Kuchen fällt zusammen.",
+         "quelle": "Physik-Faustwert: oberhalb ~250 % ist es Pfannkuchen-/Crêpe-Teig, kein Rührkuchen."
+       },
+       {
+         "id": "fett_max",
+-        "groesse": "fett", "bezug": { "rolle": "struktur" }, "max": 110, "strenge": "empfohlen",
++        "groesse": "fett", "bezug": { "rolle": "struktur" }, "max": 110, "strenge": "empfohlen", "kaskade_ziel": "fett",
+         "hinweis": "Reinfett {wert} % vom Mehl (Grenze {grenze} %) — Krume wird schwer und fettig, Gluten wird stark gehemmt.",
+         "quelle": "Physik-Faustwert: Sandmasse liegt bei ~82 % Reinfett (100 % Butter). Korpus-Maximum 93 %."
+       },
+       {
+         "id": "fett_max_hart",
+-        "groesse": "fett", "bezug": { "rolle": "struktur" }, "max": 150, "strenge": "hart",
++        "groesse": "fett", "bezug": { "rolle": "struktur" }, "max": 150, "strenge": "hart", "kaskade_ziel": "fett",
+         "hinweis": "Reinfett {wert} % vom Mehl (Grenze {grenze} %) — Emulsion bricht, Fett tritt beim Backen aus.",
+         "quelle": "Physik-Faustwert."
+       },
+@@ -54,7 +55,7 @@
+       },
+       {
+         "id": "zucker_wasser_max",
+-        "groesse": "zucker", "bezug": { "groesse": "wasser" }, "max": 1.0, "strenge": "empfohlen",
++        "groesse": "zucker", "bezug": { "groesse": "wasser" }, "max": 1.0, "strenge": "empfohlen", "kaskade_ziel": "fluessigkeit",
+         "hinweis": "Zucker/Wasser = {wert} (Grenze {grenze}) — Zucker löst sich nicht vollständig, Krume wird grob, Kruste zuckrig.",
+         "quelle": "High-Ratio-Regel: Gesamtflüssigkeit ≥ Zucker. Korpus-Maximum 0,92."
+       }
+diff --git a/src/data/methods.json b/src/data/methods.json
+index b7f547a..3459099 100755
+--- a/src/data/methods.json
++++ b/src/data/methods.json
+@@ -2,6 +2,7 @@
+   "_schema": {
+     "sequenz": "geordnete Liste; Einträge sind entweder ein String (Operations-Schlüssel aus operations.json, für mehrfach genutzte Operationen) oder ein Objekt (Operation inline definiert, für methodenspezifische Einzelfälle — gleiche Feldstruktur wie ein operations.json-Eintrag, plus `key` als Bezeichner). Die Engine prüft Voraussetzungen in beiden Fällen gleich.",
+     "optional": "Operationen (per Schlüssel), die nur ausgeführt werden, wenn die zugehörige Rolle belegt ist (z. B. einlage)",
++    "nach": "optional: Abhängigkeiten je Schritt {key: [Vorgänger-keys]} (T38, Ablauf als Graph). Nur physikalisch erzwungene Reihenfolgen eintragen. [] = Startschritt ohne Vorgänger (frei parallel). Fehlt ein key, gilt der letzte vorhandene Schritt als Vorgänger, der nicht selbst Startschritt ist (lineares Standardverhalten). Nicht vorhandene Vorgänger (übersprungene optionale Schritte) werden ignoriert.",
+     "textur": "typisches Ergebnis",
+     "triebquelle": "woher die Lockerung überwiegend kommt"
+   },
+@@ -46,6 +47,7 @@
+       "backen"
+     ],
+     "optional": ["einlegen", "einlage_unterheben"],
++    "nach": {"einlegen": [], "einlage_unterheben": ["unterheben_abwechselnd", "einlegen"]},
+     "textur": "feinporig, gleichmäßig, schnittfest",
+     "triebquelle": "eingeschlagene Luft im Fett + Backpulver",
+     "geeignet_fuer": ["kastenform", "gugelhupfform", "springform"],
+@@ -86,6 +88,7 @@
+       "backen"
+     ],
+     "optional": ["einlegen", "einlage_unterheben"],
++    "nach": {"einlegen": [], "trocken_mischen": [], "verquirlen": [], "unterheben_kurz": ["trocken_mischen", "verquirlen"], "einlage_unterheben": ["unterheben_kurz", "einlegen"]},
+     "textur": "grobporig, locker, weniger schnittfest",
+     "triebquelle": "Backpulver (chemisch), kaum eingeschlagene Luft",
+     "geeignet_fuer": ["muffinform"],
+@@ -115,6 +118,7 @@
+       "backen"
+     ],
+     "optional": ["einlegen", "einlage_unterheben"],
++    "nach": {"einlegen": [], "einlage_unterheben": ["unterheben_abwechselnd", "einlegen"]},
+     "textur": "sehr saftig, etwas dichter, bleibt lange frisch",
+     "triebquelle": "Eischaum + Backpulver",
+     "geeignet_fuer": ["kastenform", "gugelhupfform", "springform", "muffinform"],
+@@ -143,6 +147,7 @@
+       "backen"
+     ],
+     "optional": ["einlegen", "einlage_unterheben"],
++    "nach": {"einlegen": [], "einlage_unterheben": ["alles_verruehren", "einlegen"]},
+     "textur": "dichter, gleichmäßig, robust",
+     "triebquelle": "fast nur Backpulver",
+     "geeignet_fuer": ["kastenform", "gugelhupfform", "muffinform"],
+diff --git a/src/model/bilanz.js b/src/model/bilanz.js
+index b3c808c..803de1a 100644
+--- a/src/model/bilanz.js
++++ b/src/model/bilanz.js
+@@ -72,3 +72,34 @@ export function toleranz(wert, verteilung, minN = 3, marge = 0.05) {
+   if (unter(verteilung.q1) || ueber(verteilung.q3)) return 'ausserhalb_q';
+   return 'typisch';
+ }
++
++// Statische Beschreibung einer Grenze ohne konkreten Messwert — für den Regel-Katalog
++// (alleUeberschreibbarenRegeln, DR-019/T29), unabhängig vom aktuellen Rezept.
++export function beschreibeGrenze(g) {
++  const faktor = !!g.bezug?.groesse;
++  const masz = faktor ? ` / ${GROESSEN_LABEL[g.bezug.groesse]}` : ' % vom Mehl';
++  const teile = [];
++  if (g.min != null) teile.push(`≥ ${fmtWert(g.min, faktor)}`);
++  if (g.max != null) teile.push(`≤ ${fmtWert(g.max, faktor)}`);
++  return `${GROESSEN_LABEL[g.groesse]}${faktor ? masz : ''} ${teile.join(' und ')}${faktor ? '' : masz}`;
++}
++
++// Kaskaden-Vorschlag für eine verletzte Grenze (T39): ersetzt die Zutat(en) der Zielrolle
++// probeweise durch jede Option dieser Rolle (gleiche Rollen-Gramm), rechnet die Bilanz neu und
++// liefert die erste Option, die diese Grenze erfüllt und keine hart-Grenze neu verletzt.
++// Reine Simulation — gleiche Regel wie die Operations-Kaskade (T26): Vorschlag, keine Mutation.
++export function grenzenKaskade(grenze, posten, optionen, ingredients, grenzen, referenzRolle = 'struktur') {
++  const ziel = grenze.kaskade_ziel;
++  if (!ziel) return null;
++  const rollenGramm = posten.filter((p) => p.rolle === ziel).reduce((a, p) => a + p.gramm, 0);
++  if (!(rollenGramm > 0)) return null;
++  const aktuell = new Set(posten.filter((p) => p.rolle === ziel).map((p) => p.zutat));
++  for (const kandidat of optionen) {
++    if (aktuell.has(kandidat) || !ingredients[kandidat]) continue;
++    const probe = [...posten.filter((p) => p.rolle !== ziel), { rolle: ziel, zutat: kandidat, gramm: rollenGramm }];
++    const v = grenzenPruefen(bilanz(probe, ingredients, referenzRolle), grenzen);
++    if (v.hart.length || v.empfohlen.some((x) => x.id === grenze.id)) continue;
++    return kandidat;
++  }
++  return null;
++}
+diff --git a/src/model/engine.js b/src/model/engine.js
+index 72c1adf..0e21cea 100755
+--- a/src/model/engine.js
++++ b/src/model/engine.js
+@@ -1,7 +1,7 @@
+ import { fromGrams } from './units.js';
+ import { ROLLEN } from './corpus.js';
+-import { evaluateAll, bestMethod, propsOf, pruefeBedingung } from './rules.js';
+-import { bilanz, grenzenPruefen, toleranz, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
++import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } from './rules.js';
++import { bilanz, grenzenPruefen, grenzenKaskade, beschreibeGrenze, toleranz, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+ 
+ const FALLBACK_BP = { struktur: 100, fett: 90, suesse: 90, bindung: 80, fluessigkeit: 20, trieb: 3, aroma: 3, einlage: 40 };
+ 
+@@ -120,6 +120,27 @@ export function compute(state, data, korpusStats) {
+   });
+   const status = verletzt.hart.length ? 'invalid' : res.status;
+ 
++  // T39: hart-Grenzen werden überschreibbar (Override-Feedback, DR-019 Punkt 4) und jede
++  // verletzte Grenze mit `kaskade_ziel` bekommt einen simulierten Ersatz-Vorschlag — gleiche
++  // Datenform wie die Operations-Kaskaden/-Blockaden, damit recipeCard.js sie unverändert zeigt.
++  const blockaden = [...(res.blockaden || [])];
++  const kaskaden = [...(res.kaskaden || [])];
++  for (const v of [...verletzt.hart, ...verletzt.empfohlen]) {
++    const g = grenzen.find((x) => x.id === v.id);
++    if (!g) continue;
++    if (g.strenge === 'hart' && !blockaden.some((b) => b.id === g.id)) {
++      blockaden.push({ id: g.id, ausloeser: 'Gesamtbilanz', text: beschreibeGrenze(g) });
++    }
++    if (!g.kaskade_ziel || rolleIstGesperrt(state.fixiert, g.kaskade_ziel)) continue;
++    const rolle = arch.rollen.find((r) => r.rolle === g.kaskade_ziel);
++    const kandidat = grenzenKaskade(g, zutatenListe, rolle?.optionen || [], data.ingredients, grenzen, referenzRolle);
++    if (!kandidat || kaskaden.some((k) => k.rolle === g.kaskade_ziel && k.zutat === kandidat)) continue;
++    kaskaden.push({
++      ausloeser: beschreibeGrenze(g), rolle: g.kaskade_ziel, rolleLabel: rolle?.label ?? g.kaskade_ziel,
++      zutat: kandidat, zutatLabel: data.ingredients[kandidat]?.label ?? kandidat,
++    });
++  }
++
+   const round5 = (x) => Math.round(x / 5) * 5;
+   const kb = st.backen || {};
+   const ausKorpus = st.n >= 3 && kb.minuten?.median != null;
+@@ -135,8 +156,18 @@ export function compute(state, data, korpusStats) {
+     backHinweise.unshift('Öl-/Schmelzfett-Teige sind oft 5 % schneller gar → Zeit um 5 % gekürzt.');
+   }
+ 
++  // Ablauf-Graph (T38): Vorgänger als Schritt-Nummern, `ebene` = längster Pfad vom Start —
++  // Schritte gleicher Ebene haben keine Abhängigkeit untereinander (Reihenfolge frei).
++  const nrVon = Object.fromEntries(res.schritte.map((s, i) => [s.key, i + 1]));
++  const ebenen = [];
++  res.schritte.forEach((s, i) => {
++    const vor = (s.nach || []).map((k) => nrVon[k]).filter(Boolean);
++    ebenen[i] = vor.length ? Math.max(...vor.map((n) => ebenen[n - 1])) + 1 : 0;
++  });
+   const ablauf = res.schritte.map((s, i) => ({
+     nr: i + 1,
++    nach: (s.nach || []).map((k) => nrVon[k]).filter(Boolean),
++    ebene: ebenen[i],
+     key: s.key,
+     label: konkretisiere(s.op.label, props),
+     typ: s.op.typ,
+@@ -167,10 +198,10 @@ export function compute(state, data, korpusStats) {
+     // Kaskaden-Vorschläge (DR-019/T26): Ersatzkandidaten für Rollen, die eine harte
+     // Kollision auflösen könnten, wenn sie nicht `gesetzt-fix` sind. Reine Daten, noch
+     // keine Übernahme — die UI dazu (Vorschlagen-dann-bestätigen) kommt in T27.
+-    kaskaden: res.kaskaden,
++    kaskaden,
+     // Override-fähige Blockaden (DR-019 Punkt 4, T25): welche hart-Bedingungen der Nutzer
+     // bewusst überschreiben kann. Die Erfassung selbst passiert in der UI (`recipeCard.js`).
+-    blockaden: res.blockaden,
++    blockaden,
+     anpassungen,
+     evals,
+     zutatenListe,
+diff --git a/src/model/korrelation.js b/src/model/korrelation.js
+index 87c472b..efe70b3 100755
+--- a/src/model/korrelation.js
++++ b/src/model/korrelation.js
+@@ -1,5 +1,13 @@
+ import { ROLLEN } from './corpus.js';
+ import { summarize } from './units.js';
++import { GROESSEN } from './bilanz.js';
++
++// Ziel-Dimensionen: Rollen-Bäckerprozent UND Bilanz-Größen (T39, Präfix "bilanz:") — so werden
++// auch rollenübergreifende Effekte sichtbar (z. B. saure Flüssigkeit → Gesamtwasser höher).
++const ZIELE = [
++  ...ROLLEN.map((r) => ({ key: r, wert: (rez) => rez.bp[r] })),
++  ...Object.keys(GROESSEN).map((g) => ({ key: `bilanz:${g}`, wert: (rez) => rez.bilanz?.bp[g] })),
++];
+ 
+ // Generische Korpus-Korrelationssuche (DR-019 Punkt 5, T32): durchsucht den Korpus nach
+ // bedingten Abhängigkeiten — "wenn Rolle B die Eigenschaft E=W hat, unterscheidet sich der
+@@ -55,10 +63,11 @@ export function korrelationenSuchen(normalizedRecipes, ingredients, opts = {}) {
+         }
+         if (passt.length < minN || rest.length < minN) continue;
+ 
+-        for (const zRolle of ROLLEN) {
++        for (const ziel of ZIELE) {
++          const zRolle = ziel.key;
+           if (zRolle === bRolle) continue;
+-          const mit = summarize(passt.map((r) => r.bp[zRolle]));
+-          const ohne = summarize(rest.map((r) => r.bp[zRolle]));
++          const mit = summarize(passt.map(ziel.wert));
++          const ohne = summarize(rest.map(ziel.wert));
+           if (!mit || !ohne || mit.n < minN || ohne.n < minN || ohne.median === 0) continue;
+           const unterschied = Math.abs(mit.median - ohne.median) / ohne.median;
+           if (unterschied < minUnterschied) continue;
+diff --git a/src/model/rules.js b/src/model/rules.js
+index e19c585..94eec86 100755
+--- a/src/model/rules.js
++++ b/src/model/rules.js
+@@ -1,3 +1,4 @@
++import { beschreibeGrenze } from './bilanz.js';
+ // Eine Rolle kann mehrere Zutaten mit relativen Anteilen tragen (z. B. Fett
+ // aus Butter + Öl gemischt). propsOf liefert pro Rolle ein geblendetes
+ // Eigenschafts-Objekt: Aggregatzustand/Schmelzpunkt/Label folgen der
+@@ -61,7 +62,7 @@ export function pruefeBedingung(b, props) {
+ // Ist eine Rolle für automatische Anpassung gesperrt? Entweder ganz fixiert (T24), oder
+ // mindestens eine einzelne Zutat darin fixiert (T31) — letzteres reicht schon, weil eine
+ // Kaskade (T26) die Rolle immer komplett ersetzt und dabei die fixierte Zutat verlieren würde.
+-function rolleIstGesperrt(fixiert, rolle) {
++export function rolleIstGesperrt(fixiert, rolle) {
+   if (fixiert?.rollen?.[rolle]) return true;
+   const zutaten = fixiert?.zutaten?.[rolle];
+   return !!zutaten && Object.values(zutaten).some(Boolean);
+@@ -181,6 +182,21 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
+     warnungen.push(`Gemischtes Fett (${props.fett.kurzlabel}): der flüssige Anteil schlägt beim Aufschlagen weniger Luft ein als reines festes Fett — Ergebnis liegt zwischen Creme- und Rühr-Öl-Methode.`);
+   }
+ 
++  // Ablauf als Graph (T38): jeder Schritt bekommt `nach` (Vorgänger-keys). Explizit aus
++  // method.nach, sonst linear: letzter vorhandener Schritt, der nicht selbst Startschritt ist.
++  const startKeys = new Set();
++  const vorgaenger = (key) => {
++    const vorhanden = schritte.map((s) => s.key);
++    const explizit = method.nach?.[key];
++    if (explizit) {
++      if (!explizit.length) { startKeys.add(key); return []; }
++      const da = explizit.filter((k) => vorhanden.includes(k));
++      if (da.length) return da;
++    }
++    const letzter = [...vorhanden].reverse().find((k) => !startKeys.has(k));
++    return letzter ? [letzter] : [];
++  };
++
+   for (const entry of method.sequenz) {
+     const inline = typeof entry === 'object';
+     const key = inline ? entry.key : entry;
+@@ -192,8 +208,12 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
+       if (key === 'einlegen' && !brauchtEinlegen(props)) continue;
+     }
+     const check = checkOperation(op, props, data.operations, fixiert, data);
++    let vorbereitungKey = null;
+     if (check.ok && check.vorbereitung) {
+-      schritte.push({ key: check.vorbereitung, op: data.operations[check.vorbereitung], eingefuegt: true });
++      // Eingefügte Vorbereitung ist ein Startschritt (z. B. Fett schmelzen geht jederzeit vorher).
++      startKeys.add(check.vorbereitung);
++      vorbereitungKey = check.vorbereitung;
++      schritte.push({ key: check.vorbereitung, op: data.operations[check.vorbereitung], eingefuegt: true, nach: [] });
+       props = nachVorbereitung(check.vorbereitung, props, data.operations);
+       if (status === 'ok') status = 'prep';
+       // Nutzer-Vorgabe (2026-09-21, „Purpose not clear"): Zweck zuerst nennen (ein zusätzlicher
+@@ -223,7 +243,8 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
+     } else if (check.empfehlungen?.length) {
+       warnungen.push(`${op.label}: ${beschreibeBedingungen(check.empfehlungen, data)} empfohlen, aber nicht zwingend — Ergebnis kann etwas abweichen.`);
+     }
+-    schritte.push({ key, op, eingefuegt: false });
++    const nach = vorgaenger(key).filter((k) => k !== vorbereitungKey);
++    schritte.push({ key, op, eingefuegt: false, nach: vorbereitungKey ? [...nach, vorbereitungKey] : nach });
+   }
+ 
+   if (vessel && !(method.geeignet_fuer || []).includes(vessel.familie)) {
+@@ -296,6 +317,14 @@ export function alleUeberschreibbarenRegeln(data) {
+       katalog.push({ id: b.id, ausloeser: op.label, text: beschreibeAnforderung(b, data) });
+     }
+   }
++  // Quantitative Grenzen (grenzen.json, T34/T39): jede hart-Grenze mit `id` ist genauso
++  // überschreibbar wie eine hart-Voraussetzung einer Operation.
++  for (const liste of Object.values(data.grenzen?.archetypen || {})) {
++    for (const g of liste) {
++      if (!g.id || g.strenge !== 'hart' || katalog.some((k) => k.id === g.id)) continue;
++      katalog.push({ id: g.id, ausloeser: 'Gesamtbilanz', text: beschreibeGrenze(g) });
++    }
++  }
+   return katalog;
+ }
+ 
+diff --git a/src/ui/flow.js b/src/ui/flow.js
+index 51619dc..0571c73 100755
+--- a/src/ui/flow.js
++++ b/src/ui/flow.js
+@@ -1,7 +1,7 @@
+ import { iconGroup, iconHtml } from './icons.js';
+ 
+ const NS = 'http://www.w3.org/2000/svg';
+-const W = 168, H = 76, GAP = 44, PAD = 16, ICON = 15, ICON_GAP = 3;
++const W = 168, H = 76, GAP = 44, PAD = 16, ICON = 15, ICON_GAP = 3, ROW_GAP = 46;
+ 
+ // verb=mischen wird je nach Intensität als anderes Icon dargestellt
+ // (passiv=Einlegen/Ruhen, sanft=Mischen-S, kraeftig=Schlagen), statt drei
+@@ -19,9 +19,21 @@ function iconKeysFor(s) {
+ export function renderFlow(svg, details, computed, data = {}) {
+   const namen = { ...(data.kategorien || {}), ...(data.verben || {}) };
+   const steps = computed.ablauf;
+-  const total = PAD * 2 + steps.length * W + (steps.length - 1) * GAP;
+-  svg.setAttribute('viewBox', `0 0 ${total} ${H + PAD * 2 + 24}`);
++  // Ablauf als Graph (T38): Spalte = `ebene` (längster Pfad vom Start), Schritte gleicher Ebene
++  // untereinander — sie sind voneinander unabhängig (Reihenfolge frei). Ein rein linearer Ablauf
++  // ergibt eine Zeile, identisch zur bisherigen Darstellung.
++  const ebeneVon = (s, i) => s.ebene ?? i;
++  const zeile = [];
++  const proEbene = {};
++  steps.forEach((s, i) => { const e = ebeneVon(s, i); zeile[i] = proEbene[e] = (proEbene[e] ?? -1) + 1; });
++  const spalten = Math.max(...steps.map(ebeneVon)) + 1;
++  const zeilen = Math.max(...Object.values(proEbene)) + 1;
++  const pos = steps.map((s, i) => ({ x: PAD + ebeneVon(s, i) * (W + GAP), y: PAD + zeile[i] * (H + ROW_GAP) }));
++  const total = PAD * 2 + spalten * W + (spalten - 1) * GAP;
++  const hoehe = PAD * 2 + zeilen * H + (zeilen - 1) * ROW_GAP + 24;
++  svg.setAttribute('viewBox', `0 0 ${total} ${hoehe}`);
+   svg.setAttribute('width', total);
++  svg.setAttribute('height', hoehe);
+   svg.replaceChildren();
+ 
+   const defs = node('defs');
+@@ -31,8 +43,7 @@ export function renderFlow(svg, details, computed, data = {}) {
+   svg.append(defs);
+ 
+   steps.forEach((s, i) => {
+-    const x = PAD + i * (W + GAP);
+-    const y = PAD;
++    const { x, y } = pos[i];
+     const g = node('g', { class: `flow-node typ-${s.typ}${s.eingefuegt ? ' is-inserted' : ''}`, 'data-step': i });
+     g.append(node('rect', { x, y, width: W, height: H, rx: 10 }));
+     // Ein Schritt = Kombination aus Zutat-Icon(s) + Verb-Icon, als Reihe zentriert
+@@ -53,8 +64,16 @@ export function renderFlow(svg, details, computed, data = {}) {
+     t.textContent = s.wirkung;
+     g.append(t);
+     svg.append(g);
+-    if (i < steps.length - 1) {
+-      svg.append(node('line', { x1: x + W, y1: y + H / 2, x2: x + W + GAP - 2, y2: y + H / 2, class: 'flow-edge', 'marker-end': 'url(#arrow)' }));
++    // Kanten von jedem Vorgänger (T38); ohne `nach`-Daten linear zum vorigen Schritt.
++    const vorgaenger = s.nach ?? (i > 0 ? [steps[i - 1].nr] : []);
++    for (const nr of vorgaenger) {
++      const v = pos[nr - 1];
++      if (!v) continue;
++      const x1 = v.x + W, y1 = v.y + H / 2, x2 = x - 2, y2 = y + H / 2;
++      const mx = (x1 + x2) / 2;
++      svg.append(y1 === y2
++        ? node('line', { x1, y1, x2, y2, class: 'flow-edge', 'marker-end': 'url(#arrow)' })
++        : node('path', { d: `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`, fill: 'none', class: 'flow-edge', 'marker-end': 'url(#arrow)' }));
+     }
+   });
+ 
+@@ -67,7 +86,7 @@ export function renderFlow(svg, details, computed, data = {}) {
+     const iconKeys = iconKeysFor(s);
+     h.insertAdjacentHTML('beforeend', iconKeys.map((k) => iconHtml(k, 14, namen[k]?.label)).join(''));
+     h.append(document.createTextNode(
+-      ` ${s.nr}. ${s.label}${s.dauer ? ` · ~${s.dauer} Min.` : ''}${s.eingefuegt ? ' · automatisch eingefügt' : ''}`,
++      ` ${s.nr}. ${s.label}${s.dauer ? ` · ~${s.dauer} Min.` : ''}${s.eingefuegt ? ' · automatisch eingefügt' : ''}${parallelText(s, steps)}`,
+     ));
+     const w = document.createElement('div');
+     w.className = 'step-why';
+@@ -83,6 +102,13 @@ export function renderFlow(svg, details, computed, data = {}) {
+   }
+ }
+ 
++// Schritte derselben Ebene hängen nicht voneinander ab (T38) — Reihenfolge frei.
++function parallelText(s, steps) {
++  if (s.ebene == null) return '';
++  const andere = steps.filter((x) => x !== s && x.ebene === s.ebene).map((x) => `${x.nr}.`);
++  return andere.length ? ` · Reihenfolge frei (parallel zu ${andere.join(', ')})` : '';
++}
++
+ function wrap(textEl, str, maxChars, cx) {
+   const words = str.split(' ');
+   const lines = [];
+diff --git a/src/ui/kandidaten.js b/src/ui/kandidaten.js
+index 2f75121..e5a7fc3 100755
+--- a/src/ui/kandidaten.js
++++ b/src/ui/kandidaten.js
+@@ -1,3 +1,4 @@
++import { GROESSEN_LABEL } from '../model/bilanz.js';
+ import { alleOverrides } from '../model/overrides.js';
+ import { alleErrorRequests, errorRequestEinreichen, errorRequestEntfernen } from '../model/errorRequests.js';
+ import { alleUeberschreibbarenRegeln } from '../model/rules.js';
+@@ -65,7 +66,9 @@ export function renderKandidaten(root, data, korpusNormalisiert, onChange) {
+ function korrelationsKandidaten(data, korpusNormalisiert, onChange) {
+   const box = el('div', null);
+   const entscheidungen = alleEntscheidungen();
+-  const rollenLabel = (r) => data.archetypes.ruehrteig.rollen.find((x) => x.rolle === r)?.label ?? r;
++  const rollenLabel = (r) => r.startsWith('bilanz:')
++    ? GROESSEN_LABEL[r.slice(7)] ?? r
++    : data.archetypes.ruehrteig.rollen.find((x) => x.rolle === r)?.label ?? r;
+ 
+   const varianten = Object.keys(data.archetypes.ruehrteig.varianten);
+   const alleKandidaten = varianten.flatMap((variante) => {
+diff --git a/src/ui/stats.js b/src/ui/stats.js
+index c345ea8..7f777bb 100755
+--- a/src/ui/stats.js
++++ b/src/ui/stats.js
+@@ -1,3 +1,4 @@
++import { GROESSEN_LABEL } from '../model/bilanz.js';
+ import { ROLLEN } from '../model/corpus.js';
+ 
+ export function renderStats(root, korpusStats, data) {
+@@ -24,6 +25,11 @@ export function renderStats(root, korpusStats, data) {
+         lb != null ? `${lb} %` : '—',
+       ]));
+     }
++    // Gesamtbilanz (DR-020): Wasser/Fett/Zucker über alle Zutaten, Bäckerprozent
++    for (const [g, s] of Object.entries(st.bilanz || {})) {
++      if (!s) continue;
++      t.append(tr([`Σ ${GROESSEN_LABEL[g]}`, `${f(s.median)} %`, `${f(s.q1)}–${f(s.q3)} %`, `${f(s.min)}–${f(s.max)} %`, '—']));
++    }
+     box.append(t);
+ 
+     box.append(bar('Methoden', st.methoden, (k) => data.methods[k]?.label ?? k, st.n));
+diff --git a/style.css b/style.css
+index 67787a7..f21965a 100755
+--- a/style.css
++++ b/style.css
+@@ -86,7 +86,7 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
+ .opt-anteil { width: 4.8em; font: inherit; font-size: .8rem; border: 1px solid var(--line); border-radius: 4px; padding: .15rem .4rem; background: var(--panel); color: var(--ink); margin-left: .3rem; }
+ 
+ .flow-scroll { overflow-x: auto; padding-bottom: .5rem; }
+-#flow { display: block; height: 124px; }
++#flow { display: block; } /* Höhe aus SVG-Attribut — wächst mit parallelen Schritten (T38) */
+ .flow-node rect { fill: var(--panel); stroke: var(--ink); stroke-width: 1.5; }
+ .flow-node.typ-vorbereitung rect { stroke: var(--muted); }
+ .flow-node.typ-erhitzen rect { fill: var(--warn-bg); stroke: var(--warn); }
+-- 
+2.43.0
+
+
+From 57a8eb11efa3bdfefec49b4a2ea13467563662ca Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 18 Oct 2026 07:30:55 +0000
+Subject: [PATCH 3/4] =?UTF-8?q?T36=20(Option=20A):=20Funktions-Bilanz=20ad?=
+ =?UTF-8?q?ditiv=20=E2=80=94=20Funktionsvektor=20je=20Zutat,=204=20Funktio?=
+ =?UTF-8?q?ns-Grenzen=20(DR-022)=20+=20Todo=20T41?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ docs/DECISIONS.md         |  7 +++++++
+ docs/TODO.md              |  4 ++--
+ docs/TODO_ARCHIVE.md      |  1 +
+ src/data/grenzen.json     |  6 +++++-
+ src/data/ingredients.json | 15 +++++++++++++++
+ src/model/bilanz.js       | 23 +++++++++++++++++++----
+ src/model/engine.js       |  8 ++++----
+ src/model/rules.js        |  5 ++---
+ src/ui/recipeCard.js      |  5 +++--
+ src/ui/stats.js           |  4 ++--
+ 10 files changed, 60 insertions(+), 18 deletions(-)
+
+diff --git a/docs/DECISIONS.md b/docs/DECISIONS.md
+index 4303c68..d718cdf 100755
+--- a/docs/DECISIONS.md
++++ b/docs/DECISIONS.md
+@@ -257,3 +257,10 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher
+ - **cons:** Graph-Layout ohne echten Layout-Algorithmus (keine Kreuzungsminimierung) — reicht für ≤ 2 parallele Stränge. Kaskade wählt die *erste* passende Option in Deklarationsreihenfolge, nicht die nächstliegende; tauscht nur Zutaten, ändert keine Mengen (T40).
+ - **risk:** Bei mehr parallelen Strängen (z. B. Hefeteig mit Vorteig, T06) kann die Spaltendarstellung unübersichtlich werden → dann echtes Layout (z. B. dagre) neu bewerten.
+ 
++## DR-022 · konzept · Funktionsvektor additiv als Funktions-Bilanz (T36, Option A)
++
++- **descr:** (2026-10-18) Drei Optionen vorgelegt (DR-007): **A** Funktions-Bilanz additiv — Funktionsvektor je Zutat (`funktionen`), summiert wie Wasser/Fett/Zucker, Grenzen darauf, Rollen bleiben Slots; **B** Rolle = Funktion — Rollen als Funktions-Schwellen, Substitution generisch, Umbau von Blendregeln (DR-012), Morphologischem Kasten und Kaskade; **C** Fertighelfer zuerst zerlegen. **Nutzer-Entscheidung: A.** B als T41 zurückgestellt, C bleibt T37 (baut auf A auf).
++- **pro:** Rein additiv, Presets unverändert; physikalisch erklärt, warum mehlfreie Nusskuchen funktionieren (Eiweiß aus Ei statt Gluten) und warum Mehl/Stärke-Mischungen ab ~25 % Stärke kippen; eine hartcodierte Warnung weniger in `rules.js`; Erfahrungsregel „Natron drittel“ durch den Funktionsvektor bestätigt.
++- **cons:** Funktionswerte sind gerundete Nährwert-Richtwerte; Substitution bleibt an Rollen-Optionen gebunden (Ei kann nicht durch Joghurt in „Bindung“ ersetzt werden, bis T41).
++- **risk:** Korpus-Toleranz auf Größen mit kaum Varianz (Klebereiweiß/Stärke: Q1–Q3 fast ein Punkt, weil der Korpus fast nur Weizenmehl enthält) meldet jede Mischung als „untypisch“ — bewusst als Hinweis (nicht Warnung) belassen; verschwindet mit diverserem Korpus (T04).
++
+diff --git a/docs/TODO.md b/docs/TODO.md
+index feaa803..d184523 100755
+--- a/docs/TODO.md
++++ b/docs/TODO.md
+@@ -14,6 +14,6 @@ sobald sie auf `done` gesetzt werden — diese Liste zeigt nur aktive Arbeit.
+ | T07 | Tests headless | open | `check.mjs` aus dem Scratchpad ins Repo (`test/`) übernehmen und um Regel-Fälle (u. a. `strenge`) erweitern. | T01, T08 |
+ | T10 | Strenge auf Zutat-Ebene (Rollen) | open | Substitutionsfreiheit auch für Zutat-Wahl markieren (z. B. Einlage-Frucht frei austauschbar, Struktur-Mehl strikt), nicht nur für Operationen. | T08 |
+ | T21 | Icon für Gewürze | open | Gewürze teilen sich aktuell Kategorie und Icon mit Pulver/Backtriebmittel/Kakao (`pulver`: Kegel + Streupunkte) — eigenes, unterscheidbares Icon (ggf. eigene Unterkategorie) für Gewürze ergänzen. | T08 |
+-| T36 | Funktionsvektor je Zutat | open | Rolle = Slot → Rolle = Summe einer Funktion ≥ Schwelle. Jede Zutat bekommt einen Funktionsvektor (Struktur, Bindung, Emulgieren, Trieb-Potenzial, Feuchte, Süße, Säure, Aroma), teils ableitbar aus bestehenden Feldern (`wasseranteil`, `fettanteil`, `zuckeranteil`, `bildet_gluten`, `saeure`, `trieb_typ`). Ermöglicht generische Substitution (z. B. Joghurt/Aquafaba für Ei), Ei darf mehrere Funktionen liefern. Ersetzt die ODER-/Dominanz-Blendregeln aus DR-012 durch Summen. | T33 |
+-| T37 | Fertighelfer zerlegen | open | `backpulver`, `vanillezucker` (später Puddingpulver) als Zusammensetzung aus Basis-Komponenten modellieren (Backpulver = Natron + Säureträger + Stärke). Säure-Natron-Balance folgt dann aus der Bilanz statt aus `natron_drittel`/`saeure_reduziert_backpulver` in `erfahrungsregeln.json`; Rolle `trieb` wird Funktion „CO₂-Potenzial“. | T33, T36 |
++| T37 | Fertighelfer zerlegen | open | `backpulver`, `vanillezucker` (später Puddingpulver) als Zusammensetzung aus Basis-Komponenten (Backpulver = Natron + Säureträger + Stärke). Baut auf der Funktions-Bilanz (T36) auf: `triebkraft` existiert, fehlt noch `saeure_kapazitaet` (Säure-Äquivalent je g, z. B. Buttermilch, Joghurt, Zitronensaft) und `natron_bedarf`. Dann folgt die Säure-Natron-Balance als Grenze aus der Bilanz statt aus `natron_drittel`/`saeure_reduziert_backpulver` (erfahrungsregeln.json) und der hart-Voraussetzung an `backen` (operations.json). | T36 |
+ | T40 | Mengen-Kaskade für Grenzen | open | Grenzen-Kaskade (T39) tauscht nur die Zutat der Zielrolle bei gleicher Grammzahl. Ergänzen: Menge der Zielrolle so weit verschieben, bis die Grenze hält (z. B. „Flüssigkeit −30 g“), innerhalb der Korpus-Spanne dieser Rolle. Braucht einen gespeicherten Mengen-Override je Rolle — heute sind Mengen stateless (DR-005, DR-019-Nachtrag). | T39 |
++| T41 | Rolle = Funktion (Option B aus DR-022) | open | Zurückgestellt zugunsten Option A. Rollen nicht mehr als Slots, sondern als Funktions-Schwellen; jede Zutat mit passendem Funktionsvektor darf eine Rolle (mit-)füllen, Ei liefert Bindung + Emulgator + Gerüst gleichzeitig. Ersetzt Dominanz-/ODER-Blendregeln (DR-012) durch Summen, berührt Morphologischen Kasten und Kaskade. Erst angehen, wenn die Funktions-Bilanz (T36) sich am größeren Korpus (T04) bewährt hat. | T36, T04 |
+diff --git a/docs/TODO_ARCHIVE.md b/docs/TODO_ARCHIVE.md
+index 97c4345..8b117e1 100755
+--- a/docs/TODO_ARCHIVE.md
++++ b/docs/TODO_ARCHIVE.md
+@@ -7,6 +7,7 @@ noch aktive Arbeit.
+ 
+ | id | title | state | descr | dependencies |
+ |----|-------|-------|-------|--------------|
++| T36 | Funktionsvektor je Zutat (Option A: Funktions-Bilanz additiv) | done | Nutzer-Entscheidung Option A (DR-022). Neues optionales Zutat-Feld `funktionen` {eiweiss, gluten, staerke, emulgator, triebkraft} für 14 Zutaten (Nährwert-Richtwerte; triebkraft = Backpulver-Äquivalent, Natron 3). `bilanz.js`: `GROESSEN` als Getter-Map (Feld oder Funktion), Bilanz jetzt 8 Größen; `fmtProzent()` mit Nachkommastelle für kleine Werte. 4 neue Grenzen in `grenzen.json`: `gluten_min` (empfohlen ≥ 6 % der Struktur, Kaskade → Struktur) ersetzt die hartcodierte `bildet_gluten`-Warnung in `rules.js` und wirkt jetzt auf Mischungen (Mehl 1:1 Stärke → 4 % → Warnung; 7:1 → 7 % ok; die alte Regel sah nur die dominante Zutat), `eiweiss_min` (empfohlen ≥ 12 %; Mandeln ohne Gluten haben 31 % Eiweiß → kein Gerüst-Alarm, Stärke allein schon), `triebkraft_max` (empfohlen ≤ 8 %), `triebkraft_max_hart` (≤ 12 %). Konsistenzcheck: Natron-Drittelregel (Erfahrungsregel) ergibt Triebkraft 4,3 % vs. Backpulver 3,6 % — Funktionsvektor bestätigt die Regel. Rollen unverändert. Korrelation/Stats/Bilanz-Tabelle zeigen die neuen Größen automatisch. Verifiziert per Node-Skript (10 neue Fälle, alle bisherigen Suites grün, Testerwartungen 3→8 Bilanz-Zeilen und 4→5 hart-Grenzen angepasst) und jsdom. | T33 |
+ | T39 | Grenzen überschreibbar + Kaskade | done | `engine.js`: verletzte `hart`-Grenzen → `blockaden` (Override-Erfassung wie T25), Grenzen mit neuem Feld `kaskade_ziel` → `kaskaden`-Vorschlag. Vorschlag per Simulation (`grenzenKaskade()` in `bilanz.js`): jede Option der Zielrolle bei gleicher Rollen-Grammzahl durchrechnen, erste nehmen, die die Grenze erfüllt und keine `hart`-Grenze neu verletzt; fixierte Zielrolle (T24/T31) bleibt unangetastet (`rolleIstGesperrt` dafür exportiert). `alleUeberschreibbarenRegeln()` listet die 4 `hart`-Grenzen (Auslöser „Gesamtbilanz“, Text aus `beschreibeGrenze()`), damit Kandidatenliste/Error-Request sie kennen. `korrelation.js`: Bilanz-Größen als zusätzliche Ziel-Dimension (`bilanz:wasser` …) — findet z. B. „saure Flüssigkeit → Gesamtwasser ×1,42“ (vorläufig, n = 2/5). Stats-Panel: Σ-Zeilen je Bilanz-Größe. Grenze der Methode: nur Zutat-Tausch, keine Mengenänderung → T40. Verifiziert per Node-Skript (11 Fälle) und jsdom (Stats, Kandidaten, Katalog). | T34 |
+ | T38 | Ablauf als Abhängigkeitsgraph | done | `methods.json`: optionales `nach` je Methode `{key: [Vorgänger]}`; `[]` = Startschritt; fehlender key = linearer Standard (letzter vorhandener Schritt, der nicht Startschritt ist); übersprungene optionale Vorgänger werden ignoriert. Eingetragen nur physikalisch erzwungene Kanten: Einlegen ist überall Startschritt und nur Vorgänger von „Einlage unterheben“; Muffin: „Trockenes mischen“ ∥ „Flüssiges verquirlen“ → „Nass zu Trocken“. Eingefügte Vorbereitung (z. B. Schmelzen) ist Startschritt und Vorgänger der auslösenden Operation. `rules.js` liefert `nach` je Schritt, `engine.js` daraus `nach` (Nummern) und `ebene` (längster Pfad). `flow.js`: Spalte = Ebene, gleiche Ebene untereinander, Kanten als Kurven; Schrittliste zeigt „Reihenfolge frei (parallel zu …)“; `#flow`-Höhe aus SVG-Attribut statt fix 124 px. Linearer Ablauf bleibt eine Zeile (verifiziert: Crememethode ohne Einlage). Verifiziert per Node-Skript (alle 4 Methoden azyklisch, Muffin parallel, Schmelzen-Einfügung) und jsdom-Render; nicht im echten Browser geprüft. | — |
+ | T35 | Korpus-Toleranz als weiche Grenze | done | `toleranz()` in `bilanz.js`: außerhalb Q1–Q3 → Hinweis (`toleranzHinweise`, note-info), außerhalb min–max → Warnung („ungetestete Kombination“). Ab n ≥ 3, mit 5 % relativer Marge (bei n ≈ 7 sonst Rundungsrauschen, z. B. Muffin-Preset 123 % vs. Q3 122 %). Geprüft auf der Bilanz, nicht auf Rollen-Bäckerprozent: diese sind per Konstruktion der Korpus-Median (bzw. bewusst per Erfahrungsregel angepasst) — Abweichung entsteht nur über die Zutatenwahl. Kein Hinweis für eine Größe, für die bereits eine Grenze (T34) greift. Bilanz-Tabelle in `recipeCard.js` markiert ◦/⚠. Verifiziert per Node-Skript (Stufen, n < 3 → keine Bewertung, Presets ohne Rauschen) und jsdom-Render. | T33 |
+diff --git a/src/data/grenzen.json b/src/data/grenzen.json
+index 9237ddc..8651941 100644
+--- a/src/data/grenzen.json
++++ b/src/data/grenzen.json
+@@ -58,7 +58,11 @@
+         "groesse": "zucker", "bezug": { "groesse": "wasser" }, "max": 1.0, "strenge": "empfohlen", "kaskade_ziel": "fluessigkeit",
+         "hinweis": "Zucker/Wasser = {wert} (Grenze {grenze}) — Zucker löst sich nicht vollständig, Krume wird grob, Kruste zuckrig.",
+         "quelle": "High-Ratio-Regel: Gesamtflüssigkeit ≥ Zucker. Korpus-Maximum 0,92."
+-      }
++      },
++      {"id": "gluten_min", "groesse": "gluten", "bezug": {"rolle": "struktur"}, "min": 6, "strenge": "empfohlen", "kaskade_ziel": "struktur", "hinweis": "Klebereiweiß nur {wert} % der Struktur (Grenze {grenze} %) — Stärke/Nussmehl liefert kein Eiweißgerüst. In der Praxis höchstens ~25 % der Struktur-Rolle ersetzen (z. B. 350 g Mehl + 50 g Speisestärke).", "quelle": "Ersetzt die hartcodierte Warnung „bildet_gluten = false“ aus rules.js (prüfte nur die dominante Zutat); 6 % ≈ 75 % Weizenmehl (8 % Klebereiweiß) in der Struktur. Korpus 7–8 %."},
++      {"id": "eiweiss_min", "groesse": "eiweiss", "bezug": {"rolle": "struktur"}, "min": 12, "strenge": "empfohlen", "kaskade_ziel": "struktur", "hinweis": "Gesamteiweiß {wert} % vom Mehl (Grenze {grenze} %) — zu wenig koagulierendes Eiweiß, der Kuchen trägt sich nicht und bleibt klitschig.", "quelle": "Physik-Faustwert: Gerüst = Gluten + koaguliertes Ei-/Milcheiweiß (deshalb funktionieren mehlfreie Nusskuchen mit vielen Eiern). Korpus 17–25 %."},
++      {"id": "triebkraft_max", "groesse": "triebkraft", "bezug": {"rolle": "struktur"}, "max": 8, "strenge": "empfohlen", "kaskade_ziel": "trieb", "hinweis": "Triebkraft {wert} % Backpulver-Äquivalent vom Mehl (Grenze {grenze} %) — Teig steigt über, fällt zusammen, schmeckt seifig.", "quelle": "Richtwert 1 Pck. (15 g) je 500 g Mehl = 3 %; Korpus 0–7,5 %. Kein Minimum: Sandmassen ohne Backpulver (Trieb aus Ei/Luft) sind im Korpus."},
++      {"id": "triebkraft_max_hart", "groesse": "triebkraft", "bezug": {"rolle": "struktur"}, "max": 12, "strenge": "hart", "hinweis": "Triebkraft {wert} % Backpulver-Äquivalent vom Mehl (Grenze {grenze} %) — Gasbildung zerreißt das Gerüst, deutlicher Seifengeschmack.", "quelle": "Physik-Faustwert (vierfache Normalmenge)."}
+     ]
+   }
+ }
+diff --git a/src/data/ingredients.json b/src/data/ingredients.json
+index cea067f..467898f 100755
+--- a/src/data/ingredients.json
++++ b/src/data/ingredients.json
+@@ -6,6 +6,7 @@
+     "fettanteil": "0..1 Massenanteil Fett",
+     "wasseranteil": "0..1 Massenanteil Wasser",
+     "zuckeranteil": "0..1 Massenanteil Zucker (Saccharose + Laktose + Fruchtzucker), Default 0 — für die Gesamtbilanz (bilanz.js, DR-020)",
++    "funktionen": "optional, Funktionsvektor (T36, Option A „Funktions-Bilanz additiv“): Massenanteile 0..1 für eiweiss (Gesamteiweiß, koaguliert → Gerüst), gluten (Klebereiweiß, Teilmenge von eiweiss), staerke (verkleistert → Bindung), emulgator (Lecithin); triebkraft = Backpulver-Äquivalent je g (Backpulver 1, Natron ~3, braucht Säure). Fehlend = 0. Richtwerte aus Nährwerttabellen, gerundet.",
+     "saeure": "true wenn nennenswert sauer (reagiert mit Backpulver/Natron)",
+     "cremig_schlagbar": "true wenn sich bei Raumtemperatur Luft einschlagen lässt",
+     "schmelzpunkt_c": "°C, nur bei festen Fetten",
+@@ -20,6 +21,7 @@
+     "aggregat": "pulver",
+     "fettanteil": 0.01,
+     "wasseranteil": 0.14,
++    "funktionen": {"eiweiss": 0.1, "gluten": 0.08, "staerke": 0.71},
+     "saeure": false,
+     "eigenschaften": ["bildet Gluten bei Feuchtigkeit + Bewegung (Körper/Gerüst)", "Stärke verkleistert ab ~60 °C (Bindung)"],
+     "umrechnung": { "el": 10, "tl": 3 }
+@@ -32,6 +34,7 @@
+     "aggregat": "pulver",
+     "fettanteil": 0,
+     "wasseranteil": 0.12,
++    "funktionen": {"staerke": 0.86},
+     "saeure": false,
+     "eigenschaften": ["glutenfrei — bindet/verdickt, liefert aber kein Eiweißgerüst (keinen Körper)", "macht Krume feiner und mürber"],
+     "umrechnung": { "el": 10, "tl": 3 }
+@@ -44,6 +47,7 @@
+     "aggregat": "pulver",
+     "fettanteil": 0.62,
+     "wasseranteil": 0.05,
++    "funktionen": {"eiweiss": 0.14, "staerke": 0.05},
+     "saeure": false,
+     "eigenschaften": ["fettreich, macht Krume feucht", "kein Gluten, kann Teil des Mehls ersetzen"],
+     "umrechnung": { "el": 8 }
+@@ -56,6 +60,7 @@
+     "aggregat": "pulver",
+     "fettanteil": 0.53,
+     "wasseranteil": 0.05,
++    "funktionen": {"eiweiss": 0.21, "staerke": 0.04},
+     "saeure": false,
+     "eigenschaften": ["fettreich, macht Krume feucht", "kein Gluten, kann Teil des Mehls ersetzen"],
+     "umrechnung": { "el": 8 }
+@@ -141,6 +146,7 @@
+     "aggregat": "fluessig",
+     "fettanteil": 0.10,
+     "wasseranteil": 0.75,
++    "funktionen": {"eiweiss": 0.125, "emulgator": 0.03},
+     "saeure": false,
+     "eigenschaften": ["Emulgator (Lecithin) bindet Fett und Wasser", "Protein stockt ab ~65 °C → Struktur", "eingeschlagene Luft = Trieb"],
+     "umrechnung": { "stk": 55 }
+@@ -153,6 +159,7 @@
+     "fettanteil": 0.035,
+     "wasseranteil": 0.88,
+     "zuckeranteil": 0.05,
++    "funktionen": {"eiweiss": 0.034},
+     "saeure": false,
+     "eigenschaften": ["neutral", "reguliert Teigkonsistenz", "Milchzucker fördert Bräunung"],
+     "umrechnung": { "ml": 1.03, "el": 15, "tl": 5 }
+@@ -176,6 +183,7 @@
+     "fettanteil": 0.01,
+     "wasseranteil": 0.90,
+     "zuckeranteil": 0.04,
++    "funktionen": {"eiweiss": 0.033},
+     "saeure": true,
+     "eigenschaften": ["Milchsäure reagiert mit Backpulver/Natron → zusätzliches CO₂", "Säure begrenzt Glutenentwicklung → zartere Krume"],
+     "umrechnung": { "ml": 1.03, "el": 15 }
+@@ -187,6 +195,7 @@
+     "aggregat": "fluessig",
+     "fettanteil": 0.10,
+     "wasseranteil": 0.80,
++    "funktionen": {"eiweiss": 0.03},
+     "saeure": true,
+     "eigenschaften": ["sauer + fetthaltig → saftig und zart", "dickflüssig, bringt weniger freies Wasser"],
+     "umrechnung": { "ml": 1.0, "el": 15 }
+@@ -198,6 +207,7 @@
+     "aggregat": "fluessig",
+     "fettanteil": 0.24,
+     "wasseranteil": 0.68,
++    "funktionen": {"eiweiss": 0.025},
+     "saeure": true,
+     "eigenschaften": ["sehr fettreich unter den sauren Milchprodukten → sehr saftig", "leicht säuerlich"],
+     "umrechnung": { "ml": 1.0, "el": 20 }
+@@ -210,6 +220,7 @@
+     "fettanteil": 0.035,
+     "wasseranteil": 0.86,
+     "zuckeranteil": 0.04,
++    "funktionen": {"eiweiss": 0.04},
+     "saeure": true,
+     "eigenschaften": ["sauer, reagiert mit Trieb", "leichter als Schmand"],
+     "umrechnung": { "ml": 1.03, "el": 18 }
+@@ -221,6 +232,7 @@
+     "aggregat": "fest",
+     "fettanteil": 0.003,
+     "wasseranteil": 0.82,
++    "funktionen": {"eiweiss": 0.12},
+     "saeure": true,
+     "cremig_schlagbar": false,
+     "eigenschaften": ["proteinreich", "sauer", "bringt Feuchtigkeit ohne Fett"],
+@@ -233,6 +245,7 @@
+     "aggregat": "pulver",
+     "fettanteil": 0,
+     "wasseranteil": 0,
++    "funktionen": {"triebkraft": 1, "staerke": 0.3},
+     "saeure": false,
+     "trieb_typ": "chemisch_doppelt",
+     "eigenschaften": ["enthält Base + Säure → braucht keine saure Zutat", "wirkt beim Anfeuchten und beim Erhitzen (doppelt)", "Richtwert ~3 % vom Mehl"],
+@@ -245,6 +258,7 @@
+     "aggregat": "pulver",
+     "fettanteil": 0,
+     "wasseranteil": 0,
++    "funktionen": {"triebkraft": 3},
+     "saeure": false,
+     "trieb_typ": "chemisch_basisch",
+     "eigenschaften": ["nur Base → BRAUCHT saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker)", "etwa 3× so stark wie Backpulver", "Überschuss schmeckt seifig"],
+@@ -347,6 +361,7 @@
+     "aggregat": "pulver",
+     "fettanteil": 0.11,
+     "wasseranteil": 0.03,
++    "funktionen": {"eiweiss": 0.2, "staerke": 0.1},
+     "saeure": true,
+     "eigenschaften": ["saugt Flüssigkeit wie Mehl → trocknet Teig aus", "leicht sauer (Naturkakao)", "ersetzt anteilig Mehl im dunklen Teig"],
+     "umrechnung": { "el": 8, "tl": 3 }
+diff --git a/src/model/bilanz.js b/src/model/bilanz.js
+index 803de1a..0ec8dd4 100644
+--- a/src/model/bilanz.js
++++ b/src/model/bilanz.js
+@@ -5,8 +5,23 @@
+ // Die Rolle `einlage` bleibt außen vor: Stückiges (Beeren, Schokostücke) gibt seine Bestandteile
+ // beim Backen nur teilweise an den Teig ab — sie gehört nicht zur Teigmatrix.
+ 
+-export const GROESSEN = { wasser: 'wasseranteil', fett: 'fettanteil', zucker: 'zuckeranteil' };
+-export const GROESSEN_LABEL = { wasser: 'Gesamtwasser', fett: 'Reinfett', zucker: 'Zucker' };
++// Funktions-Bilanz (T36, Option A): zusätzlich zu Wasser/Fett/Zucker werden die Funktionen aus
++// dem optionalen Funktionsvektor `funktionen` je Zutat summiert. Rollen bleiben unverändert —
++// die Funktionen sind eine zweite, rollenübergreifende Sicht (z. B. Eiweiß aus Mehl + Ei + Milch).
++const anteil = (feld) => (ing) => ing[feld] || 0;
++const funktion = (f) => (ing) => ing.funktionen?.[f] || 0;
++export const GROESSEN = {
++  wasser: anteil('wasseranteil'), fett: anteil('fettanteil'), zucker: anteil('zuckeranteil'),
++  eiweiss: funktion('eiweiss'), gluten: funktion('gluten'), staerke: funktion('staerke'),
++  emulgator: funktion('emulgator'), triebkraft: funktion('triebkraft'),
++};
++export const GROESSEN_LABEL = {
++  wasser: 'Gesamtwasser', fett: 'Reinfett', zucker: 'Zucker', eiweiss: 'Eiweiß (Gerüst)',
++  gluten: 'Klebereiweiß', staerke: 'Stärke', emulgator: 'Emulgator', triebkraft: 'Triebkraft (Backpulver-Äq.)',
++};
++
++// Kleine Werte (Triebkraft, Emulgator, Gluten) mit einer Nachkommastelle, sonst ganzzahlig.
++export const fmtProzent = (x) => (x == null ? '—' : x < 10 ? x.toFixed(1).replace('.', ',') : String(Math.round(x)));
+ const AUSSERHALB_MATRIX = new Set(['einlage']);
+ 
+ // posten: [{rolle, zutat, gramm}] — gleiche Form für generierte Rezepte (engine.js) und
+@@ -20,7 +35,7 @@ export function bilanz(posten, ingredients, referenzRolle = 'struktur') {
+     if (AUSSERHALB_MATRIX.has(p.rolle)) continue;
+     const ing = ingredients[p.zutat];
+     if (!ing) continue;
+-    for (const [g, feld] of Object.entries(GROESSEN)) gramm[g] += p.gramm * (ing[feld] || 0);
++    for (const [g, wert] of Object.entries(GROESSEN)) gramm[g] += p.gramm * wert(ing);
+   }
+   const bp = Object.fromEntries(Object.entries(gramm).map(([g, v]) => [g, refGramm > 0 ? (v / refGramm) * 100 : null]));
+   return { gramm, bp, refGramm };
+@@ -36,7 +51,7 @@ function messwert(grenze, b) {
+   return b.bp[grenze.groesse];
+ }
+ 
+-const fmtWert = (x, faktor) => (faktor ? x.toFixed(2).replace('.', ',') : String(Math.round(x)));
++const fmtWert = (x, faktor) => (faktor ? x.toFixed(2).replace('.', ',') : fmtProzent(x));
+ 
+ // Quantitative Grenzen (T34): prüft die Bilanz gegen grenzen.json. Rückgabe getrennt nach
+ // Strenge — `hart` macht die Kombination ungültig, `empfohlen` warnt nur (DR-008).
+diff --git a/src/model/engine.js b/src/model/engine.js
+index 0e21cea..73481f9 100755
+--- a/src/model/engine.js
++++ b/src/model/engine.js
+@@ -1,7 +1,7 @@
+ import { fromGrams } from './units.js';
+ import { ROLLEN } from './corpus.js';
+ import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } from './rules.js';
+-import { bilanz, grenzenPruefen, grenzenKaskade, beschreibeGrenze, toleranz, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
++import { bilanz, grenzenPruefen, grenzenKaskade, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+ 
+ const FALLBACK_BP = { struktur: 100, fett: 90, suesse: 90, bindung: 80, fluessigkeit: 20, trieb: 3, aroma: 3, einlage: 40 };
+ 
+@@ -110,10 +110,10 @@ export function compute(state, data, korpusStats) {
+     const korpus = st.bilanz?.[g] ?? null;
+     const t = toleranz(bil.bp[g], korpus);
+     if (!groessenMitGrenze.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
+-      const wert = Math.round(bil.bp[g]);
++      const wert = fmtProzent(bil.bp[g]);
+       const text = t === 'ausserhalb_spanne'
+-        ? `${GROESSEN_LABEL[g]} ${wert} % vom Mehl liegt außerhalb aller ${korpus.n} Korpus-Rezepte (${Math.round(korpus.min)}–${Math.round(korpus.max)} %) — ungetestete Kombination.`
+-        : `${GROESSEN_LABEL[g]} ${wert} % vom Mehl ist untypisch (Korpus Q1–Q3: ${Math.round(korpus.q1)}–${Math.round(korpus.q3)} %).`;
++        ? `${GROESSEN_LABEL[g]} ${wert} % vom Mehl liegt außerhalb aller ${korpus.n} Korpus-Rezepte (${fmtProzent(korpus.min)}–${fmtProzent(korpus.max)} %) — ungetestete Kombination.`
++        : `${GROESSEN_LABEL[g]} ${wert} % vom Mehl ist untypisch (Korpus Q1–Q3: ${fmtProzent(korpus.q1)}–${fmtProzent(korpus.q3)} %).`;
+       (t === 'ausserhalb_spanne' ? toleranzWarnungen : toleranzHinweise).push(text);
+     }
+     return { groesse: g, label: GROESSEN_LABEL[g], gramm: bil.gramm[g], bp: bil.bp[g], korpus, toleranz: t };
+diff --git a/src/model/rules.js b/src/model/rules.js
+index 94eec86..f44cc66 100755
+--- a/src/model/rules.js
++++ b/src/model/rules.js
+@@ -174,9 +174,8 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
+   // `hart`-Voraussetzung an der Operation "backen" in operations.json (DR-019/T22) —
+   // wird unten in der Sequenzschleife wie jede andere Voraussetzung geprüft.
+ 
+-  if (props.struktur && props.struktur.bildet_gluten === false) {
+-    warnungen.push(`${props.struktur.label} bindet/verdickt (Stärke), liefert aber kein Eiweißgerüst — allein trägt es den Kuchen nicht („Bindung“ ohne „Körper“). In der Praxis bleibt Stärke/Nussmehl höchstens ~25 % der Struktur-Rolle, als Teilersatz neben echtem Mehl (z. B. 350 g Mehl + 50 g Speisestärke im Korpus), nicht als alleiniger Struktur-Geber.`);
+-  }
++  // Gluten-Warnung (früher hier hartcodiert, nur dominante Zutat) ist jetzt die quantitative
++  // Grenze `gluten_min` in grenzen.json (T36) — wirkt auch auf Mischungen wie Mehl + Stärke.
+ 
+   if (props.fett?.gemischt && new Set(props.fett.anteile.map((a) => a.aggregat)).size > 1) {
+     warnungen.push(`Gemischtes Fett (${props.fett.kurzlabel}): der flüssige Anteil schlägt beim Aufschlagen weniger Luft ein als reines festes Fett — Ergebnis liegt zwischen Creme- und Rühr-Öl-Methode.`);
+diff --git a/src/ui/recipeCard.js b/src/ui/recipeCard.js
+index 40c4366..13b1157 100755
+--- a/src/ui/recipeCard.js
++++ b/src/ui/recipeCard.js
+@@ -1,3 +1,4 @@
++import { fmtProzent } from '../model/bilanz.js';
+ import { overrideErfassen, overridesFuer } from '../model/overrides.js';
+ 
+ export function renderRecipe(root, computed, state, data, onChange) {
+@@ -58,11 +59,11 @@ export function renderRecipe(root, computed, state, data, onChange) {
+     const markierung = { ausserhalb_q: ' ◦', ausserhalb_spanne: ' ⚠' };
+     for (const z of computed.bilanz) {
+       const k = z.korpus;
+-      bb.append(tr([z.label, `${Math.round(z.gramm)} g`, `${fmt(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmt(k.q1)}–${fmt(k.q3)} %` : '—']));
++      bb.append(tr([z.label, `${fmtProzent(z.gramm)} g`, `${fmtProzent(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmtProzent(k.q1)}–${fmtProzent(k.q3)} %` : '—']));
+     }
+     bt.append(bb);
+     root.append(bt);
+-    root.append(el('p', 'fine', 'Bilanz = Summe über alle Zutaten ohne Einlage (z. B. Wasser aus Ei, Butter, Milch). ◦ außerhalb Q1–Q3 · ⚠ außerhalb Korpus-Spanne'));
++    root.append(el('p', 'fine', 'Bilanz = Summe über alle Zutaten ohne Einlage (z. B. Wasser aus Ei/Butter/Milch, Eiweiß aus Mehl/Ei/Milch). ◦ außerhalb Q1–Q3 · ⚠ außerhalb Korpus-Spanne'));
+   }
+ 
+   const bake = el('div', 'bake');
+diff --git a/src/ui/stats.js b/src/ui/stats.js
+index 7f777bb..35ee4ca 100755
+--- a/src/ui/stats.js
++++ b/src/ui/stats.js
+@@ -1,4 +1,4 @@
+-import { GROESSEN_LABEL } from '../model/bilanz.js';
++import { GROESSEN_LABEL, fmtProzent } from '../model/bilanz.js';
+ import { ROLLEN } from '../model/corpus.js';
+ 
+ export function renderStats(root, korpusStats, data) {
+@@ -28,7 +28,7 @@ export function renderStats(root, korpusStats, data) {
+     // Gesamtbilanz (DR-020): Wasser/Fett/Zucker über alle Zutaten, Bäckerprozent
+     for (const [g, s] of Object.entries(st.bilanz || {})) {
+       if (!s) continue;
+-      t.append(tr([`Σ ${GROESSEN_LABEL[g]}`, `${f(s.median)} %`, `${f(s.q1)}–${f(s.q3)} %`, `${f(s.min)}–${f(s.max)} %`, '—']));
++      t.append(tr([`Σ ${GROESSEN_LABEL[g]}`, `${fmtProzent(s.median)} %`, `${fmtProzent(s.q1)}–${fmtProzent(s.q3)} %`, `${fmtProzent(s.min)}–${fmtProzent(s.max)} %`, '—']));
+     }
+     box.append(t);
+ 
+-- 
+2.43.0
+
+
+From 92877bee0ef8e644be570861d53ee4ca056432bf Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 18 Oct 2026 08:26:19 +0000
+Subject: [PATCH 4/4] =?UTF-8?q?T07=20(teilweise):=20Headless-Checks=20f?=
+ =?UTF-8?q?=C3=BCr=20T33=E2=80=93T39=20(test/*.check.mjs,=20test/run.sh)?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ docs/TODO.md                   |  2 +-
+ test/ablauf-graph.check.mjs    | 21 +++++++++++++++++
+ test/bilanz-grenzen.check.mjs  | 36 +++++++++++++++++++++++++++++
+ test/funktionen.check.mjs      | 25 ++++++++++++++++++++
+ test/grenzen-kaskade.check.mjs | 42 ++++++++++++++++++++++++++++++++++
+ test/run.sh                    | 10 ++++++++
+ 6 files changed, 135 insertions(+), 1 deletion(-)
+ create mode 100644 test/ablauf-graph.check.mjs
+ create mode 100644 test/bilanz-grenzen.check.mjs
+ create mode 100644 test/funktionen.check.mjs
+ create mode 100644 test/grenzen-kaskade.check.mjs
+ create mode 100755 test/run.sh
+
+diff --git a/docs/TODO.md b/docs/TODO.md
+index d184523..6c056b8 100755
+--- a/docs/TODO.md
++++ b/docs/TODO.md
+@@ -11,7 +11,7 @@ sobald sie auf `done` gesetzt werden — diese Liste zeigt nur aktive Arbeit.
+ | T04 | Korpus erweitern | open | Mehr Quellrezepte je Variante (Ziel ≥ 15), damit Median/IQR belastbar werden. Quellen: gutekueche.at, oetker.de, lecker.de, kuechengoetter.de (chefkoch blockiert Fetch). Achtung (DR-015): auf Breite statt Tiefe pro Domain achten, keinen „wesentlichen Teil“ einer einzelnen Quelle entnehmen (Datenbankschutz § 87a UrhG). | T01 |
+ | T05 | Varianten-Cluster in Statistik | open | Korpus nach Fett-Typ × Säure × Einlage clustern und im Stats-Panel zeigen (war im Plan, noch nicht umgesetzt). | T04 |
+ | T06 | Zweiter Archetyp als reine Daten | open | Z. B. „Gemüse braten“ oder „Hefeteig“ — nur JSON ergänzen, keine JS-Sonderlogik. `rules.js` referenziert noch `archetypes.ruehrteig` hart (u. a. `evaluateAll`, `ermittleFixierung`, Kaskaden-Labels), ebenso `main.js` (`const arch = archetypes.ruehrteig`) → generalisieren. `grenzen.json` ist bereits je Archetyp geschlüsselt (DR-020). Baut auf T08 (Kategorien) auf. | T08 |
+-| T07 | Tests headless | open | `check.mjs` aus dem Scratchpad ins Repo (`test/`) übernehmen und um Regel-Fälle (u. a. `strenge`) erweitern. | T01, T08 |
++| T07 | Tests headless | open | Teilweise erledigt (2026-10-18): `test/*.check.mjs` + `test/run.sh` (Node ≥ 22, keine Abhängigkeiten) decken Bilanz, Grenzen, Toleranz, Grenzen-Kaskade, Override-Katalog, Ablauf-Graph und Funktions-Bilanz ab (T33–T39). Offen: Regel-Fälle (u. a. `strenge` in operations.json, Kaskaden T26, Pins T31), Aufruf vor Deploy. | T01, T08 |
+ | T10 | Strenge auf Zutat-Ebene (Rollen) | open | Substitutionsfreiheit auch für Zutat-Wahl markieren (z. B. Einlage-Frucht frei austauschbar, Struktur-Mehl strikt), nicht nur für Operationen. | T08 |
+ | T21 | Icon für Gewürze | open | Gewürze teilen sich aktuell Kategorie und Icon mit Pulver/Backtriebmittel/Kakao (`pulver`: Kegel + Streupunkte) — eigenes, unterscheidbares Icon (ggf. eigene Unterkategorie) für Gewürze ergänzen. | T08 |
+ | T37 | Fertighelfer zerlegen | open | `backpulver`, `vanillezucker` (später Puddingpulver) als Zusammensetzung aus Basis-Komponenten (Backpulver = Natron + Säureträger + Stärke). Baut auf der Funktions-Bilanz (T36) auf: `triebkraft` existiert, fehlt noch `saeure_kapazitaet` (Säure-Äquivalent je g, z. B. Buttermilch, Joghurt, Zitronensaft) und `natron_bedarf`. Dann folgt die Säure-Natron-Balance als Grenze aus der Bilanz statt aus `natron_drittel`/`saeure_reduziert_backpulver` (erfahrungsregeln.json) und der hart-Voraussetzung an `backen` (operations.json). | T36 |
+diff --git a/test/ablauf-graph.check.mjs b/test/ablauf-graph.check.mjs
+new file mode 100644
+index 0000000..7232f17
+--- /dev/null
++++ b/test/ablauf-graph.check.mjs
+@@ -0,0 +1,21 @@
++import fs from 'fs';
++const P=new URL('../src/', import.meta.url).pathname; const J=(n)=>JSON.parse(fs.readFileSync(P+'data/'+n+'.json'));
++const { normalizeRecipe, stats } = await import(P+'model/corpus.js'); const { compute } = await import(P+'model/engine.js');
++const names=['ingredients','operations','methods','archetypes','vessels','kategorien','verben','erfahrungsregeln','grenzen'];
++const data=Object.fromEntries(names.map(n=>[n,J(n)]));const arch=data.archetypes.ruehrteig;const ks={};
++for (const [k,v] of Object.entries(arch.varianten)) ks[k]=stats(J('corpus/'+v.korpus).map(r=>normalizeRecipe(r,data.ingredients)));
++let fail=0; const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++;};
++const E=(w)=>w==null?[]:[{zutat:w,anteil:1}];
++function st(vk, methode=null, over={}){const v=arch.varianten[vk];const z={};for(const r of arch.rollen)z[r.rolle]=E(v.bestof[r.rolle]!==undefined?v.bestof[r.rolle]:r.default);Object.assign(z,over);return {archetyp:'ruehrteig',gefaess:v.gefaess,methode,fixiert:{rollen:{},zutaten:{}},zutaten:z};}
++const show=(n,c)=>console.log(`# ${n} [${c.methodKey}] `+c.ablauf.map(s=>`${s.nr}.${s.key}(e${s.ebene}←${s.nach.join(',')||'-'})`).join(' '));
++let c=compute(st('muffin','muffin'),data,ks); show('Muffin',c);
++const by=k=>c.ablauf.find(s=>s.key===k);
++ok(by('trocken_mischen').ebene===by('verquirlen').ebene,'Muffin: Trockenes ∥ Nasses');
++ok(by('unterheben_kurz').nach.length===2,'Muffin: Zusammenführen hat 2 Vorgänger');
++c=compute(st('muffin','muffin',{fett:E('butter')}),data,ks); show('Muffin+Butter',c);
++ok(c.ablauf.find(s=>s.key==='schmelzen')?.ebene===0 && c.ablauf.find(s=>s.key==='verquirlen').nach.includes(c.ablauf.find(s=>s.key==='schmelzen').nr),'Schmelzen = Startschritt, Vorgänger von Verquirlen');
++c=compute(st('kastenkuchen'),data,ks); show('Kasten',c);
++ok(c.ablauf.every((s,i)=>s.ebene===i),'Crememethode ohne Einlage: linear wie bisher');
++c=compute(st('gugelhupf'),data,ks); show('Gugelhupf (Rosinen)',c);
++for (const m of arch.methoden){ const cc=compute(st('gugelhupf',m),data,ks); ok(cc.ablauf.every(s=>s.nach.every(n=>n<s.nr)),`${m}: Kanten nur rückwärts (azyklisch)`); }
++console.log(fail?`${fail} FAIL`:'ALL PASS');
+diff --git a/test/bilanz-grenzen.check.mjs b/test/bilanz-grenzen.check.mjs
+new file mode 100644
+index 0000000..585014d
+--- /dev/null
++++ b/test/bilanz-grenzen.check.mjs
+@@ -0,0 +1,36 @@
++import fs from 'fs';
++const P=new URL('../src/', import.meta.url).pathname;
++const J=(n)=>JSON.parse(fs.readFileSync(P+'data/'+n+'.json'));
++const { normalizeRecipe, stats } = await import(P+'model/corpus.js');
++const { compute } = await import(P+'model/engine.js');
++const names=['ingredients','operations','methods','archetypes','vessels','kategorien','verben','erfahrungsregeln','grenzen'];
++const data=Object.fromEntries(names.map(n=>[n,J(n)]));
++const arch=data.archetypes.ruehrteig;
++const ks={};
++for (const [k,v] of Object.entries(arch.varianten)) ks[k]=stats(J('corpus/'+v.korpus).map(r=>normalizeRecipe(r,data.ingredients)));
++for (const [k,s] of Object.entries(ks)) console.log('KORPUS',k, Object.entries(s.bilanz).map(([g,d])=>`${g} ${Math.round(d.min)}/${Math.round(d.q1)}/${Math.round(d.median)}/${Math.round(d.q3)}/${Math.round(d.max)}`).join(' | '));
++const E=(w)=>w==null?[]:Array.isArray(w)?w:[{zutat:w,anteil:1}];
++function st(variante, over={}){const v=arch.varianten[variante];const z={};for(const r of arch.rollen)z[r.rolle]=E(v.bestof[r.rolle]!==undefined?v.bestof[r.rolle]:r.default);Object.assign(z,over);return {archetyp:'ruehrteig',gefaess:v.gefaess,methode:null,fixiert:{rollen:{},zutaten:{}},zutaten:z};}
++let fail=0; const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++;};
++const show=(name,c)=>{console.log(`\n# ${name}: status=${c.status}`);for(const b of c.bilanz)console.log(`  ${b.label} ${Math.round(b.gramm)} g ${Math.round(b.bp)} % [${b.toleranz}]`);for(const g of c.gruende)console.log('  GRUND',g);for(const w of c.warnungen)console.log('  WARN',w);for(const h of c.toleranzHinweise)console.log('  HINW',h);};
++for (const v of Object.keys(arch.varianten)) { const c=compute(st(v),data,ks); show(v,c); ok(c.status!=='invalid' && c.bilanz.length===8, `${v}: Preset gültig, Bilanz vorhanden`); }
++let c=compute(st('kastenkuchen',{fluessigkeit:E('schmand')}),data,ks); show('Schmand statt Milch',c);
++ok(c.bilanz.find(b=>b.groesse==='fett').bp > compute(st('kastenkuchen'),data,ks).bilanz.find(b=>b.groesse==='fett').bp, 'Schmand erhöht Reinfett (Fett aus Flüssigkeit zählt mit)');
++c=compute(st('kastenkuchen',{fett:E('pflanzenoel')}),data,ks); show('Öl statt Butter',c);
++c=compute(st('muffin',{struktur:E('speisestaerke')}),data,ks); show('Muffin Stärke',c);
++// Synthetic Grenzen-Test
++const { grenzenPruefen, bilanz, toleranz } = await import(P+'model/bilanz.js');
++const g=data.grenzen.archetypen.ruehrteig;
++let b=bilanz([{rolle:'struktur',zutat:'weizenmehl',gramm:100},{rolle:'suesse',zutat:'zucker',gramm:170},{rolle:'fluessigkeit',zutat:'wasser',gramm:100}],data.ingredients);
++let r=grenzenPruefen(b,g); ok(r.hart.some(x=>x.id==='zucker_max_hart'),'Zucker 170 % → hart'); ok(r.empfohlen.some(x=>x.id==='zucker_wasser_max'),'Zucker/Wasser >1 → empfohlen');
++b=bilanz([{rolle:'struktur',zutat:'weizenmehl',gramm:100},{rolle:'fluessigkeit',zutat:'wasser',gramm:20}],data.ingredients);
++r=grenzenPruefen(b,g); ok(r.hart.some(x=>x.id==='wasser_min_hart'),'Wasser 34 % → hart');
++b=bilanz([{rolle:'struktur',zutat:'weizenmehl',gramm:100},{rolle:'einlage',zutat:'blaubeeren',gramm:300},{rolle:'fluessigkeit',zutat:'wasser',gramm:80}],data.ingredients);
++ok(Math.round(b.bp.wasser)===94,'Einlage nicht in Bilanz, Mehlwasser zählt (94 %)');
++ok(toleranz(5,{n:2,min:1,q1:2,q3:3,max:4})===null,'Toleranz n<3 → null');
++ok(toleranz(5,{n:5,min:1,q1:2,q3:3,max:4})==='ausserhalb_spanne' && toleranz(3.5,{n:5,min:1,q1:2,q3:3,max:4})==='ausserhalb_q','Toleranz-Stufen');
++console.log(fail? `\n${fail} FAIL`:'\nALL PASS');
++{const all=Object.values(arch.varianten).flatMap(v=>J('corpus/'+v.korpus).map(r=>normalizeRecipe(r,data.ingredients)));
++const zw=all.map(r=>r.bilanz.gramm.zucker/r.bilanz.gramm.wasser);console.log('Z/W korpus min/max',Math.min(...zw).toFixed(2),Math.max(...zw).toFixed(2));
++const st2=compute(st('muffin'),data,ks); ok(st2.toleranzHinweise.length===0,'Muffin-Preset ohne Rundungs-Rauschen');}
++console.log(fail? `${fail} FAIL`:'ALL PASS 2');
+diff --git a/test/funktionen.check.mjs b/test/funktionen.check.mjs
+new file mode 100644
+index 0000000..0d350e8
+--- /dev/null
++++ b/test/funktionen.check.mjs
+@@ -0,0 +1,25 @@
++import fs from 'fs';
++const P=new URL('../src/', import.meta.url).pathname; const J=(n)=>JSON.parse(fs.readFileSync(P+'data/'+n+'.json'));
++const { normalizeRecipe, stats } = await import(P+'model/corpus.js'); const { compute } = await import(P+'model/engine.js');
++const names=['ingredients','operations','methods','archetypes','vessels','kategorien','verben','erfahrungsregeln','grenzen'];
++const data=Object.fromEntries(names.map(n=>[n,J(n)]));const arch=data.archetypes.ruehrteig;const ks={};
++for (const [k,v] of Object.entries(arch.varianten)) ks[k]=stats(J('corpus/'+v.korpus).map(r=>normalizeRecipe(r,data.ingredients)));
++let fail=0; const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++;};
++const E=(w)=>w==null?[]:Array.isArray(w)?w:[{zutat:w,anteil:1}];
++function st(vk, over={}){const v=arch.varianten[vk];const z={};for(const r of arch.rollen)z[r.rolle]=E(v.bestof[r.rolle]!==undefined?v.bestof[r.rolle]:r.default);Object.assign(z,over);return {archetyp:'ruehrteig',gefaess:v.gefaess,methode:null,fixiert:{rollen:{},zutaten:{}},zutaten:z};}
++const B=(c,g)=>c.bilanz.find(b=>b.groesse===g);
++const has=(c,re)=>[...c.warnungen,...c.gruende,...c.toleranzHinweise].some(t=>re.test(t));
++for (const vk of Object.keys(arch.varianten)){const c=compute(st(vk),data,ks); ok(c.status!=='invalid' && !has(c,/Klebereiweiß nur|Gesamteiweiß .* Grenze|Triebkraft .* Grenze/),`${vk}: Preset ohne Funktions-Grenzen-Meldung`); console.log('   ',c.bilanz.map(b=>`${b.groesse} ${b.bp.toFixed(1)} [${b.toleranz}]`).join(' | '));}
++let c=compute(st('kastenkuchen',{struktur:E('speisestaerke')}),data,ks);
++ok(has(c,/Klebereiweiß nur 0,0/) && c.kaskaden.some(k=>k.rolle==='struktur'&&k.zutat==='weizenmehl'),'Stärke allein → gluten_min + Vorschlag Weizenmehl');
++ok(has(c,/Gesamteiweiß/),'Stärke allein → auch eiweiss_min');
++c=compute(st('kastenkuchen',{struktur:[{zutat:'weizenmehl',anteil:7},{zutat:'speisestaerke',anteil:1}]}),data,ks);
++ok(!has(c,/Klebereiweiß nur/),`Mehl 7 : Stärke 1 → ok (Gluten ${B(c,'gluten').bp.toFixed(1)} %)`);
++c=compute(st('kastenkuchen',{struktur:[{zutat:'weizenmehl',anteil:1},{zutat:'speisestaerke',anteil:1}]}),data,ks);
++ok(has(c,/Klebereiweiß nur/),`Mehl 1 : Stärke 1 → Warnung (alte Regel sah nur Dominante; Gluten ${B(c,'gluten').bp.toFixed(1)} %)`);
++c=compute(st('kastenkuchen',{struktur:E('mandeln_gemahlen')}),data,ks);
++ok(has(c,/Klebereiweiß nur/) && !has(c,/Gesamteiweiß .*Grenze/),`Mandeln: kein Gluten, aber Eiweiß ${B(c,'eiweiss').bp.toFixed(1)} % reicht`);
++const cb=compute(st('kastenkuchen',{fluessigkeit:E('buttermilch')}),data,ks), cn=compute(st('kastenkuchen',{fluessigkeit:E('buttermilch'),trieb:E('natron')}),data,ks);
++console.log('   Triebkraft Backpulver+Buttermilch',B(cb,'triebkraft').bp.toFixed(2),'| Natron+Buttermilch',B(cn,'triebkraft').bp.toFixed(2), cn.anpassungen);
++ok(Math.abs(B(cn,'triebkraft').bp/B(cb,'triebkraft').bp-1)<0.35,'Natron-Drittelregel ≈ gleiche Triebkraft wie Backpulver (Konsistenz Erfahrungsregel ↔ Funktionsvektor)');
++console.log(fail?`${fail} FAIL`:'ALL PASS');
+diff --git a/test/grenzen-kaskade.check.mjs b/test/grenzen-kaskade.check.mjs
+new file mode 100644
+index 0000000..117bfde
+--- /dev/null
++++ b/test/grenzen-kaskade.check.mjs
+@@ -0,0 +1,42 @@
++import fs from 'fs';
++const P=new URL('../src/', import.meta.url).pathname;
++const J=(n)=>JSON.parse(fs.readFileSync(P+'data/'+n+'.json'));
++const { normalizeRecipe, stats } = await import(P+'model/corpus.js');
++const { compute } = await import(P+'model/engine.js');
++const { alleUeberschreibbarenRegeln } = await import(P+'model/rules.js');
++const { grenzenKaskade, beschreibeGrenze } = await import(P+'model/bilanz.js');
++const { korrelationenSuchen } = await import(P+'model/korrelation.js');
++const names=['ingredients','operations','methods','archetypes','vessels','kategorien','verben','erfahrungsregeln','grenzen'];
++const data=Object.fromEntries(names.map(n=>[n,J(n)]));const arch=data.archetypes.ruehrteig;const ks={},kn={};
++for (const [k,v] of Object.entries(arch.varianten)){kn[k]=J('corpus/'+v.korpus).map(r=>normalizeRecipe(r,data.ingredients));ks[k]=stats(kn[k]);}
++let fail=0; const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++;};
++const g=data.grenzen.archetypen.ruehrteig, G=(id)=>g.find(x=>x.id===id);
++// Kaskade
++const posten=[{rolle:'struktur',zutat:'weizenmehl',gramm:100},{rolle:'fluessigkeit',zutat:'wasser',gramm:180},{rolle:'suesse',zutat:'zucker',gramm:60}];
++const fl=arch.rollen.find(r=>r.rolle==='fluessigkeit').optionen;
++ok(grenzenKaskade(G('wasser_band'),posten,fl,data.ingredients,g)==='saure_sahne','Wasser 194 % → erste passende Option (Saure Sahne; Milch landet bei 172 %)');
++ok(grenzenKaskade(G('zucker_max_hart'),posten,fl,data.ingredients,g)===null,'Grenze ohne kaskade_ziel → kein Vorschlag');
++// Katalog
++const kat=alleUeberschreibbarenRegeln(data); const gk=kat.filter(k=>k.ausloeser==='Gesamtbilanz');
++ok(gk.length===5 && gk.every(k=>g.find(x=>x.id===k.id).strenge==='hart'),'5 hart-Grenzen im Override-Katalog');
++console.log('  ', gk.map(k=>k.text).join(' | '), '|', beschreibeGrenze(G('zucker_wasser_max')));
++// Engine: forced violation via tightened grenze clone
++const d2={...data, grenzen:{archetypen:{ruehrteig:[{...G('wasser_band'),max:112,strenge:'hart',id:'test_wasser'}]}}};
++const E=(w)=>w==null?[]:[{zutat:w,anteil:1}];
++const v=arch.varianten.kastenkuchen;const z={};for(const r of arch.rollen)z[r.rolle]=E(v.bestof[r.rolle]!==undefined?v.bestof[r.rolle]:r.default);
++let state={archetyp:'ruehrteig',gefaess:v.gefaess,methode:null,fixiert:{rollen:{},zutaten:{}},zutaten:z};
++let c=compute(state,d2,ks);
++ok(c.status==='invalid' && c.blockaden.some(b=>b.id==='test_wasser'),'hart-Grenze → invalid + Blockade');
++console.log('   kaskaden:',JSON.stringify(c.kaskaden));
++ok(c.kaskaden.some(k=>k.rolle==='fluessigkeit'),'Kaskaden-Vorschlag für Flüssigkeit');
++state={...state,fixiert:{rollen:{fluessigkeit:true},zutaten:{}}};
++c=compute(state,d2,ks); ok(!c.kaskaden.some(k=>k.rolle==='fluessigkeit'),'fixierte Zielrolle → kein Vorschlag');
++// Regression: presets
++state={...state,fixiert:{rollen:{},zutaten:{}}};
++for (const vk of Object.keys(arch.varianten)){const vv=arch.varianten[vk];const zz={};for(const r of arch.rollen)zz[r.rolle]=E(vv.bestof[r.rolle]!==undefined?vv.bestof[r.rolle]:r.default);
++ const cc=compute({...state,gefaess:vv.gefaess,zutaten:zz},data,ks); ok(cc.status!=='invalid'&&cc.blockaden.length===0,`${vk} Preset unverändert gültig`);}
++// Korrelation mit Bilanz-Zielen
++const kk=Object.values(kn).flatMap(r=>korrelationenSuchen(r,data.ingredients)); const kb=kk.filter(k=>k.zRolle.startsWith('bilanz:'));
++ok(kb.length>0,`Korrelation findet Bilanz-Kandidaten (${kb.length} von ${kk.length})`);
++console.log('   z.B.', kb.slice(0,3).map(k=>`${k.bRolle}.${k.eigenschaft}=${k.wert} → ${k.zRolle} ×${k.faktor.toFixed(2)} n=${k.nMit}/${k.nOhne}`).join(' ; '));
++console.log(fail?`${fail} FAIL`:'ALL PASS');
+diff --git a/test/run.sh b/test/run.sh
+new file mode 100755
+index 0000000..81b105a
+--- /dev/null
++++ b/test/run.sh
+@@ -0,0 +1,10 @@
++#!/bin/sh
++# Headless-Checks (T07): node test/run.sh oder sh test/run.sh — Node >= 22, keine Abhängigkeiten.
++cd "$(dirname "$0")/.." || exit 1
++rc=0
++for f in test/*.check.mjs; do
++  echo "== $f"
++  node --experimental-default-type=module "$f" 2>&1 | grep -v ExperimentalWarning | grep -E "FAIL|ALL PASS" || rc=1
++  node --experimental-default-type=module "$f" 2>&1 | grep -q FAIL && rc=1
++done
++exit $rc
+-- 
+2.43.0
+
