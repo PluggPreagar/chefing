@@ -167,3 +167,18 @@ Nicht abrufbar: gutefrage.net (403), food52.com (403/429), cakecentral.com (521)
 | 2026-10-18 | diepta.de, herdgefluester.de | je 1 | Zopf, Ofen-Gare 40–50 °C | Vorheiz-Temperatur des Ofens, die Teigtemperatur liegt darunter (Anlass für den Temperatur-Deckel) |
 
 Gelesen, aber nicht aufgenommen (Zeit oder Temperatur fehlten oder Hefe zu hoch): kuechengoetter.de, rezepte-silkeswelt.de, essmoment.com, foodwithlove.de, heartscontentfarmhouse.com, bluejeanchef.com, hungrylankan.com, servedfromscratch.com, manusmenu.com, thekiwicountrygirl.com, bakedbyanintrovert.com, practicallyhomemade.com, butfirstwebrunch.com, thepracticalkitchen.com, stellabakery.com, topagrar.com, oekotest.de, neff-home.com, lecker.de, globus.de, vier weitere Plötzblog-PDFs. Nicht abrufbar: budgetbytes.com, rewe.de, kuchenfee.de, schmeck-den-sueden.de (403), aeg.co.uk (Timeout), katrinrembold.de (Zertifikat abgelaufen).
+
+## 2026-10-18 — Tipp-Korpus: Backratgeber, Ursache-Wirkung (T61)
+
+Zweck: `src/data/tipps.json` (19 Tipps „wenn X passiert, war es Y“, nur Fakten und eigene Kurzfassung). Vollständig gelesen: lecker.de (2 Seiten), lidl.de, pastrychefonline.com, bakingbites.com; die übrigen nur als Such-Zusammenfassung (Seite nicht geöffnet) oder bei Zeitüberschreitung nicht abrufbar (kuechenfibel.de/faq/was-tun-wenn-die-butter-flockt).
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-18 | lecker.de | 2 | Pannenhilfe, 5 Hefeteig-Fehler | Hefe-Temperatur 30 °C, Küche mindestens 22 °C, Rührkuchen klitschig bei zu viel Milch |
+| 2026-10-18 | lidl.de | 1 | Rührkuchen fällt ein | keine Zahlen; Übermischen, kalte Eier, Form und Schiene |
+| 2026-10-18 | pastrychefonline.com, bakingbites.com | je 1 | Troubleshooting, Tunnel in Muffins | Muffin 205–220 °C, Kekse 30 Min. kühlen, Übermischen |
+| 2026-10-18 | kuechenfibel.de | 2 (Suche) | Butter flockt, Backpulver je 500 g Mehl | 16–17 g Backpulver, Natron etwa 5 g; Butter etwa 18 °C |
+| 2026-10-18 | kingarthurbaking.com, chowhound.com, bakeclub.com.au, tastingtable.com | je 1 (Suche) | Rührteig gerinnt | kalte Eier lassen die Butter fest werden; Butter 65–68 °F |
+| 2026-10-18 | wunderweib.de, heidelberg24.de, leinetal24.de, utopia.de | je 1 (Suche) | Hefeteig, Rührkuchen, Übermischen | Flüssigkeit über 40–45 °C tötet die Hefe; Salz nicht auf die Hefe |
+| 2026-10-18 | antwort.net, ichkoche.at, baketotheroots.de | je 1 (Suche) | Mürbeteig, zu warme Butter | Teig vor dem Ausrollen etwa 1 Std. kühlen |
+| 2026-10-18 | rewe.de, wikibooks.org, berliner-kurier.de | je 1 (Suche) | Pfannkuchen | Ruhezeit 15–20 Min.; Ursache beim Reißen nur Schlussfolgerung |

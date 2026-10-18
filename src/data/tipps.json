@@ -1,0 +1,280 @@
+{
+  "_schema": {
+    "zweck": "Tipp-Korpus (T61): Ursache-Wirkungs-Wissen aus Backratgebern („wenn X passiert, war es Y“), nur Fakten und eigene Kurzfassungen. Ergänzt den Negativ-Korpus (negativ.json: einzelne Misserfolge mit Mengen) um das, was Ratgeber über viele Fälle sagen. Misst, welche Ursachen das Modell überhaupt kennt, und zeigt die Lücken.",
+    "art": "temperatur = Temperatur der Zutat, des Teigs oder der Umgebung | menge = Mengen oder Verhältnisse | prozess = Handlungsfehler oder Reihenfolge | ofen = Ofen, Form, Backzeit | zutat = Qualität oder Alter der Zutat",
+    "zahlen": "Zahlen aus den Quellen, wie genannt (°C, g, Minuten, Verhältnis); Umrechnungen von °F und Päckchen stehen im Feld `hinweis`",
+    "evidenz": "1 bis 3; 3 = mehrere unabhängige Quellen nennen dieselbe Ursache (mit Zahl), 2 = zwei Quellen oder eine mit Zahl, 1 = eine Quelle ohne Zahl oder nur Schlussfolgerung",
+    "modell.stand": "abgedeckt = eine vorhandene Regel, Grenze oder Eigenschaft meldet die Ursache | teilweise = nur ein Teil der Ursache oder nur als Korpus-Spanne | luecke = das Modell kennt die Ursache nicht, ein Kandidat für eine neue Regel steht im Feld `luecke` | ausserhalb = außerhalb dessen, was das Modell abbilden soll (Zutatenqualität, Archetyp fehlt)",
+    "modell.durch": "wodurch das Modell die Ursache sieht: grenze:<id> (grenzen.json) | eigenschaft:<name> (ingredients.json, T62) | operation:<key> (operations.json oder methods.json) | modell:gaerung (modelle.json) | toleranz:<größe> (Korpus-Spanne)",
+    "auswahl": "Ratgeberseiten und Foren, keine Fachliteratur; Zahlen sind Richtwerte. Die Quellen wiederholen einander häufig. Pfannkuchen und Hefeteig sind dünn belegt. Seiten, die nur als Such-Zusammenfassung vorlagen (nicht vollständig gelesen), sind nach bestem Wissen zugeordnet; vollständig gelesen wurden lecker.de (2 Seiten), lidl.de, pastrychefonline.com und bakingbites.com."
+  },
+  "tipps": [
+    {
+      "id": "ruehrteig-gerinnt-kalte-zutaten",
+      "archetyp": "ruehrteig",
+      "symptom": "Die Masse aus Butter, Zucker und Eiern flockt aus und wird körnig; der Kuchen geht schlechter auf und wird grober",
+      "ursache": "Butter oder Eier sind zu kalt, oder die Eier wurden zu schnell hintereinander eingerührt; kalte Eier lassen die Butter wieder fest werden",
+      "art": "temperatur",
+      "zahlen": { "butter_c": "ca. 18 (65–68 °F)", "eier": "Zimmertemperatur, einzeln einarbeiten", "vorlauf_h": 2 },
+      "hinweis": "Rettung laut Quellen: Eier löffelweise einrühren, lauwarmes Wasserbad oder einen Löffel Mehl; kein Mikrowellen-Erwärmen der Butter",
+      "quellen": [
+        { "url": "https://www.kuechenfibel.de/faq/was-tun-wenn-die-butter-flockt", "site": "kuechenfibel.de" },
+        { "url": "https://www.kingarthurbaking.com/blog/2022/01/25/do-eggs-used-in-baking-really-need-to-be-at-room-temperature", "site": "kingarthurbaking.com" },
+        { "url": "https://www.chowhound.com/1985654/why-cake-batter-curdled-temperature-mistake", "site": "chowhound.com" }
+      ],
+      "evidenz": 3,
+      "modell": { "stand": "teilweise", "durch": ["eigenschaft:cremig_schlagbar", "operation:eier_einzeln"], "luecke": "Butter-Temperatur ist seit T62 abgedeckt; Eier haben keine Temperatur-Eigenschaft, und „Eier zu schnell“ ist ein Prozessfehler ohne Prüfung" }
+    },
+    {
+      "id": "butter-zu-kalt-aufschlagen",
+      "archetyp": "ruehrteig",
+      "symptom": "Butter und Zucker lassen sich nicht cremig aufschlagen, es kommt keine Luft in die Masse",
+      "ursache": "Die Butter ist zu kalt (aus dem Kühlschrank) und damit nicht plastisch; ideal sind etwa 18 °C, kurz vorher aus dem Kühlschrank nehmen",
+      "art": "temperatur",
+      "zahlen": { "butter_c": "ca. 18 (65–68 °F)" },
+      "quellen": [
+        { "url": "https://www.kuechenfibel.de/faq/was-tun-wenn-die-butter-flockt", "site": "kuechenfibel.de" },
+        { "url": "https://bakeclub.com.au/blogs/q-a/curdled-butter-and-sugar-mixtures", "site": "bakeclub.com.au" }
+      ],
+      "evidenz": 2,
+      "modell": { "stand": "abgedeckt", "durch": ["eigenschaft:cremig_schlagbar", "operation:aufschlagen"], "luecke": null }
+    },
+    {
+      "id": "ruehrteig-faellt-ein-triebmittel",
+      "archetyp": "ruehrteig",
+      "symptom": "Der Kuchen geht erst stark auf und fällt dann zusammen; bitterer oder seifiger Geschmack",
+      "ursache": "Zu viel Backpulver oder Natron: der Teig geht zu schnell auf, das Gerüst trägt die großen Blasen noch nicht",
+      "art": "menge",
+      "zahlen": { "backpulver_g_je_500g_mehl": "16–17 (ein Päckchen, etwa 1:30)", "natron_g_je_500g_mehl": "ca. 5, nur mit Säure" },
+      "hinweis": "Ein Päckchen entspricht etwa 3,3 % vom Mehl",
+      "quellen": [
+        { "url": "https://www.kuechenfibel.de/faq/wie-viel-backpulver-fur-500g-mehl", "site": "kuechenfibel.de" },
+        { "url": "https://www.lidl.de/c/lidl-rezepte-warum-faellt-mein-kuchen-aus-ruehrteig-nach-dem-backen-ein/s10098163", "site": "lidl.de" }
+      ],
+      "evidenz": 3,
+      "modell": { "stand": "teilweise", "durch": ["grenze:triebkraft_max", "grenze:triebkraft_max_hart", "grenze:natron_saeure_max"], "luecke": "Die Grenzen (8 und 12 %) sind Korpus-Spannen und liegen weit über dem Richtwert der Ratgeber (3,3 %); ob das Modell bei 6 % schon warnen sollte, ist offen" }
+    },
+    {
+      "id": "ruehrteig-uebermischen",
+      "archetyp": "ruehrteig",
+      "symptom": "Zäher, gummiartiger oder eingefallener Kuchen; Tunnel und große Luftlöcher in Muffins",
+      "ursache": "Nach der Mehlzugabe zu lange gerührt, besonders mit der Küchenmaschine: das Gluten vernetzt sich; Muffins brauchen nur gerade so viel Rühren, dass keine trockenen Stellen bleiben",
+      "art": "prozess",
+      "zahlen": { "mehl": "in Portionen von 2–3 EL, nur kurz unterrühren" },
+      "quellen": [
+        { "url": "https://bakingbites.com/2011/06/what-is-tunneling/", "site": "bakingbites.com" },
+        { "url": "https://www.lecker.de/backtipps-kleine-pannenhilfe-fuer-baecker-50407.html", "site": "lecker.de" },
+        { "url": "https://utopia.de/ratgeber/haeufiger-teigfehler-das-solltest-du-beim-backen-unbedingt-beachten", "site": "utopia.de" }
+      ],
+      "evidenz": 3,
+      "modell": { "stand": "luecke", "durch": ["operation:unterheben_kurz"], "luecke": "Rührzeit nach dem Mehl wird nicht erfasst; Kandidat: Zeit-Fenster für die Operationen „unterheben“ (wie bei „kneten“ im Hefeteig) mit Hinweis bei Überschreitung" }
+    },
+    {
+      "id": "ruehrteig-zu-viel-fluessigkeit",
+      "archetyp": "ruehrteig",
+      "symptom": "Der Rührkuchen ist klitschig oder fällt zusammen",
+      "ursache": "Zu viel Milch oder Flüssigkeit im Teig; Faustregel: so viel zugeben, dass der Teig gerade vom Löffel reißt",
+      "art": "menge",
+      "zahlen": {},
+      "quellen": [
+        { "url": "https://www.lecker.de/backtipps-kleine-pannenhilfe-fuer-baecker-50407.html", "site": "lecker.de" }
+      ],
+      "evidenz": 1,
+      "modell": { "stand": "abgedeckt", "durch": ["grenze:wasser_band", "grenze:wasser_max_hart", "grenze:zucker_wasser_max"], "luecke": null }
+    },
+    {
+      "id": "ruehrteig-zu-viel-mehl-trocken",
+      "archetyp": "ruehrteig",
+      "symptom": "Der Kuchen ist fest und trocken",
+      "ursache": "Zu viel Mehl, etwa durch gehäufte Löffel oder Messbecher statt Waage, oder zu kleine Eier; zu wenig Fett oder Flüssigkeit",
+      "art": "menge",
+      "zahlen": {},
+      "quellen": [
+        { "url": "https://www.heidelberg24.de/verbraucher/backen-fehler-vermeiden-kuchen-teig-ruehren-zubereiten-94505789.html", "site": "heidelberg24.de" },
+        { "url": "https://www.lecker.de/backtipps-kleine-pannenhilfe-fuer-baecker-50407.html", "site": "lecker.de" }
+      ],
+      "evidenz": 2,
+      "modell": { "stand": "teilweise", "durch": ["grenze:wasser_min_hart", "grenze:wasser_band", "grenze:eiweiss_min"], "luecke": "Mehl wird in Gramm angenommen; die Messmethode (gehäuft, Tasse) und die Eigröße sind nicht modelliert" }
+    },
+    {
+      "id": "ruehrteig-zu-wenig-zucker",
+      "archetyp": "ruehrteig",
+      "symptom": "Der Kuchen wird trocken und weniger saftig",
+      "ursache": "Zu wenig Zucker: Zucker bindet Feuchtigkeit und macht saftig, nicht nur süß",
+      "art": "menge",
+      "zahlen": {},
+      "quellen": [
+        { "url": "https://www.heidelberg24.de/verbraucher/backen-fehler-vermeiden-kuchen-teig-ruehren-zubereiten-94505789.html", "site": "heidelberg24.de" }
+      ],
+      "evidenz": 1,
+      "modell": { "stand": "teilweise", "durch": ["toleranz:zucker"], "luecke": "Es gibt nur Obergrenzen für Zucker; die Untergrenze kommt allein aus der Korpus-Spanne (Q1)" }
+    },
+    {
+      "id": "kuchen-ofen-und-backzeit",
+      "archetyp": "allgemein",
+      "symptom": "Kuchen fällt ein, ist außen trocken oder innen roh",
+      "ursache": "Ofentür zu früh geöffnet, Ofen zu heiß oder zu kalt, zu lange gebacken, falsche Form oder Schiene; Stäbchenprobe in der Mitte und 5–10 Minuten vor Ende der Zeit",
+      "art": "ofen",
+      "zahlen": { "umluft_c": "160–170", "stabchenprobe_min_vor_ende": "5–10", "tuer_erst_nach": "der halben Backzeit" },
+      "quellen": [
+        { "url": "https://www.lidl.de/c/lidl-rezepte-warum-faellt-mein-kuchen-aus-ruehrteig-nach-dem-backen-ein/s10098163", "site": "lidl.de" },
+        { "url": "https://www.leinetal24.de/leben/genuss/tipps-aus-der-kueche-haeufige-fehler-die-ihren-kuchen-verderben-zr-93582379.html", "site": "leinetal24.de" },
+        { "url": "https://www.lecker.de/backtipps-kleine-pannenhilfe-fuer-baecker-50407.html", "site": "lecker.de" }
+      ],
+      "evidenz": 3,
+      "modell": { "stand": "luecke", "durch": [], "luecke": "Backtemperatur und -zeit werden aus dem Korpus angezeigt, aber Ofen, Form und Schiene sind keine Eingaben; Kandidat: Hinweis je Form-Material (Weißblech braucht länger, Schwarzblech ist schneller gar)" }
+    },
+    {
+      "id": "hefe-fluessigkeit-zu-heiss",
+      "archetyp": "hefeteig",
+      "symptom": "Der Teig geht gar nicht auf",
+      "ursache": "Milch oder Wasser waren zu heiß: die Hefe stirbt ab (genannt: über 40–45 °C); ideal sind etwa 30 °C, lauwarm",
+      "art": "temperatur",
+      "zahlen": { "ideal_c": 30, "hefe_stirbt_ab_c": "40–45", "teig_hoechstens_c": 40 },
+      "quellen": [
+        { "url": "https://www.lecker.de/mein-hefeteig-geht-nicht-auf-die-5-haeufigsten-fehler-68931.html", "site": "lecker.de" },
+        { "url": "https://www.wunderweib.de/hefeteig-geht-nicht-auf-fehler-und-hefeteig-rezept-3628.html", "site": "wunderweib.de" }
+      ],
+      "evidenz": 3,
+      "modell": { "stand": "luecke", "durch": ["operation:hefe_ansetzen"], "luecke": "„Hefe ansetzen“ hat die Temperatur lauwarm (30–35 °C) als Vorgabe, aber keine Obergrenze für die Flüssigkeit; Kandidat: Anforderung temperatur höchstens 40 °C an die Flüssigkeit (T62-Mechanismus, im Zweifel Warnung)" }
+    },
+    {
+      "id": "hefe-zu-kalt-langsam",
+      "archetyp": "hefeteig",
+      "symptom": "Der Teig geht langsam oder scheinbar gar nicht auf",
+      "ursache": "Zu kühle Umgebung, Zugluft oder kalte Flüssigkeit bremsen die Hefe, sie stirbt aber nicht; die Küche soll mindestens 22 °C haben, Gehzeit bis etwa 2 Stunden, Teige mit wenig Hefe dürfen lange im Kühlschrank gehen",
+      "art": "temperatur",
+      "zahlen": { "raum_min_c": 22, "gehzeit_h": "bis 2", "teig_hoechstens_c": 40 },
+      "quellen": [
+        { "url": "https://www.lecker.de/backtipps-kleine-pannenhilfe-fuer-baecker-50407.html", "site": "lecker.de" },
+        { "url": "https://www.lecker.de/mein-hefeteig-geht-nicht-auf-die-5-haeufigsten-fehler-68931.html", "site": "lecker.de" },
+        { "url": "https://www.wunderweib.de/hefeteig-geht-nicht-auf-fehler-und-hefeteig-rezept-3628.html", "site": "wunderweib.de" }
+      ],
+      "evidenz": 3,
+      "modell": { "stand": "abgedeckt", "durch": ["modell:gaerung", "operation:gehen"], "luecke": null }
+    },
+    {
+      "id": "hefe-salz-direkt",
+      "archetyp": "hefeteig",
+      "symptom": "Der Teig geht nicht auf, obwohl die Hefe frisch ist",
+      "ursache": "Salz direkt auf der Hefe entzieht ihr Wasser und tötet sie; die Hefe wird in der Flüssigkeit gelöst, das Salz kommt zum Mehl",
+      "art": "prozess",
+      "zahlen": {},
+      "quellen": [
+        { "url": "https://www.wunderweib.de/hefeteig-geht-nicht-auf-fehler-und-hefeteig-rezept-3628.html", "site": "wunderweib.de" }
+      ],
+      "evidenz": 1,
+      "modell": { "stand": "teilweise", "durch": ["operation:hefe_ansetzen"], "luecke": "Der Ablauf löst die Hefe ohne Salz und gibt das Salz erst beim Kneten dazu; es gibt keine Prüfung, falls ein Rezept es anders macht" }
+    },
+    {
+      "id": "hefe-zu-wenig-kneten",
+      "archetyp": "hefeteig",
+      "symptom": "Der Teig hält die Gasblasen nicht und fällt zusammen oder bleibt dicht",
+      "ursache": "Zu wenig geknetet: ohne Klebergerüst kann der Teig das Gas nicht halten; Fett und Eigelb schwächen das Gluten zusätzlich",
+      "art": "prozess",
+      "zahlen": {},
+      "quellen": [
+        { "url": "https://www.wunderweib.de/hefeteig-geht-nicht-auf-fehler-und-hefeteig-rezept-3628.html", "site": "wunderweib.de" },
+        { "url": "https://www.lecker.de/mein-hefeteig-geht-nicht-auf-die-5-haeufigsten-fehler-68931.html", "site": "lecker.de" }
+      ],
+      "evidenz": 2,
+      "modell": { "stand": "teilweise", "durch": ["operation:kneten", "grenze:hf_gluten_min"], "luecke": "Knetzeit hat ein Fenster (4–30 Min.), das Modell kennt aber nicht die Kneteinwirkung des Nutzers" }
+    },
+    {
+      "id": "hefe-zu-trocken",
+      "archetyp": "hefeteig",
+      "symptom": "Der Teig ist schwer und geht schlecht auf",
+      "ursache": "Zu wenig Flüssigkeit oder zu viel Mehl beim Kneten: ein zu trockener Teig bremst die Gärung",
+      "art": "menge",
+      "zahlen": {},
+      "quellen": [
+        { "url": "https://www.lecker.de/mein-hefeteig-geht-nicht-auf-die-5-haeufigsten-fehler-68931.html", "site": "lecker.de" }
+      ],
+      "evidenz": 1,
+      "modell": { "stand": "abgedeckt", "durch": ["grenze:hf_wasser_min_hart", "grenze:hf_wasser_band"], "luecke": null }
+    },
+    {
+      "id": "hefe-viel-fett-zucker",
+      "archetyp": "hefeteig",
+      "symptom": "Der Teig geht langsam auf oder bleibt dicht",
+      "ursache": "Viel Fett, Eier und Zucker machen den Teig schwer und verlängern das Aufgehen; süßer Hefeteig braucht mehr Zeit",
+      "art": "menge",
+      "zahlen": {},
+      "quellen": [
+        { "url": "https://www.wunderweib.de/hefeteig-geht-nicht-auf-fehler-und-hefeteig-rezept-3628.html", "site": "wunderweib.de" }
+      ],
+      "evidenz": 1,
+      "modell": { "stand": "teilweise", "durch": ["grenze:hf_fett_max", "grenze:hf_zucker_max", "grenze:hf_hefe_band"], "luecke": "Die Grenzen liegen als Korpus-Spannen vor; der Zusammenhang „mehr Fett und Zucker, längere Gare“ wird im Gärmodell nicht abgebildet (T61-Fall Brioche)" }
+    },
+    {
+      "id": "hefe-alt-oder-kalte-flaeche",
+      "archetyp": "hefeteig",
+      "symptom": "Der Teig geht schlecht auf",
+      "ursache": "Abgelaufene Hefe verliert die Triebkraft; eine kalte Arbeitsfläche aus Marmor oder Glas kühlt den Teig beim Kneten",
+      "art": "zutat",
+      "zahlen": {},
+      "quellen": [
+        { "url": "https://www.lecker.de/mein-hefeteig-geht-nicht-auf-die-5-haeufigsten-fehler-68931.html", "site": "lecker.de" }
+      ],
+      "evidenz": 1,
+      "modell": { "stand": "ausserhalb", "durch": [], "luecke": "Zutatenqualität und Arbeitsfläche sind keine Eingaben" }
+    },
+    {
+      "id": "pfannkuchen-reisst-oder-klumpt",
+      "archetyp": "pfannkuchen",
+      "symptom": "Pfannkuchen reißen beim Wenden oder der Teig klumpt",
+      "ursache": "Nur indirekt belegt: Teig zu dünn oder nicht geruht, Pfanne zu kalt, zu früh gewendet; Teig mindestens 15–20 Minuten quellen lassen, bei mittlerer Hitze braten, erst wenden, wenn die Oberfläche matt ist",
+      "art": "prozess",
+      "zahlen": { "ruhezeit_min": "15–20", "hitze": "mittel", "mehl_g": "200–250", "milch_ml": 400, "eier": 4 },
+      "hinweis": "Die Ursache beim Reißen ist Schlussfolgerung aus allgemeinen Pfannkuchen-Anleitungen, keine genannte Ursache",
+      "quellen": [
+        { "url": "https://www.rewe.de/ernaehrung/pfannkuchen/", "site": "rewe.de" },
+        { "url": "https://de.wikibooks.org/wiki/Kochbuch/_Eierpfannkuchen", "site": "wikibooks.org" },
+        { "url": "https://www.berliner-kurier.de/article/pfannkuchen-tricks-2161210", "site": "berliner-kurier.de" }
+      ],
+      "evidenz": 1,
+      "modell": { "stand": "teilweise", "durch": ["grenze:pk_wasser_band", "grenze:pk_gluten_min", "operation:ruhen"], "luecke": "Konsistenz und Ruhezeit sind abgedeckt, Pfannenhitze und Wendezeitpunkt nicht" }
+    },
+    {
+      "id": "muerbeteig-butter-zu-warm",
+      "archetyp": "muerbeteig",
+      "symptom": "Mürbeteig wird zäh, klebrig oder bröselig und lässt sich schlecht ausrollen",
+      "ursache": "Zu warme oder zu weiche Butter verbindet sich zu eng mit dem Mehl und bildet Gluten, oder das Fett tritt aus; Butter erst kurz vor dem Verarbeiten aus dem Kühlschrank, mit kalten Händen und kurz kneten, vor dem Ausrollen etwa eine Stunde kühlen",
+      "art": "temperatur",
+      "zahlen": { "kuehlen_h": 1 },
+      "quellen": [
+        { "url": "https://www.antwort.net/a/antwort.net/wieso-fuehrt-zu-weiche-butter-haeufig-zu-einer-misslungenen-konsistenz-bei-der-herstellung-von-muerbeteig.html", "site": "antwort.net" },
+        { "url": "https://www.ichkoche.at/print/artikel-2768", "site": "ichkoche.at" },
+        { "url": "https://baketotheroots.de/einfache-mandelplaetzchen-mit-marmelade", "site": "baketotheroots.de" }
+      ],
+      "evidenz": 2,
+      "modell": { "stand": "ausserhalb", "durch": [], "luecke": "Kein Archetyp Mürbeteig; die Ursache wäre dort eine Anforderung „Fett höchstens kühl“ (T62-Mechanismus)" }
+    },
+    {
+      "id": "kekse-zerlaufen",
+      "archetyp": "kekse",
+      "symptom": "Kekse laufen zu breit auseinander",
+      "ursache": "Die Butter schmilzt, bevor das Gerüst fest ist; den geformten Teig etwa 30 Minuten kühlen, reine Butterteige laufen mehr als solche mit festem Backfett",
+      "art": "temperatur",
+      "zahlen": { "kuehlen_min": 30 },
+      "quellen": [
+        { "url": "https://pastrychefonline.com/your-friendly-baking-troubleshooting-guide/", "site": "pastrychefonline.com" }
+      ],
+      "evidenz": 1,
+      "modell": { "stand": "ausserhalb", "durch": [], "luecke": "Kein Archetyp Kekse" }
+    },
+    {
+      "id": "muffin-ohne-gipfel-ofen-kalt",
+      "archetyp": "ruehrteig",
+      "symptom": "Muffins haben keinen hohen Gipfel",
+      "ursache": "Der Ofen ist zu kühl; Muffins brauchen etwa 205–220 °C (400–425 °F), Cupcakes dagegen sanftere 165–175 °C (325–350 °F)",
+      "art": "ofen",
+      "zahlen": { "muffin_c": "205–220 (400–425 °F)", "cupcake_c": "165–175 (325–350 °F)" },
+      "quellen": [
+        { "url": "https://pastrychefonline.com/your-friendly-baking-troubleshooting-guide/", "site": "pastrychefonline.com" }
+      ],
+      "evidenz": 1,
+      "modell": { "stand": "teilweise", "durch": [], "luecke": "Die Backtemperatur je Variante kommt aus dem Korpus (Muffin hat eine eigene Backzeit-Spanne); es gibt keinen Vergleich mit einer Nutzer-Temperatur" }
+    }
+  ]
+}
