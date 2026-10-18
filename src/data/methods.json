@@ -152,5 +152,83 @@
     "triebquelle": "fast nur Backpulver",
     "geeignet_fuer": ["kastenform", "gugelhupfform", "muffinform"],
     "warum": "Schnellrezept-Methode. Funktioniert, weil moderne Backpulvermengen den fehlenden Lufteintrag kompensieren — auf Kosten der Feinporigkeit."
+  },
+  "pfannkuchen_glatt": {
+    "label": "Eierkuchen-Methode",
+    "kurz": "Teig klümpchenfrei rühren, ruhen lassen, portionsweise ausbacken",
+    "sequenz": [
+      {
+        "key": "glatt_ruehren",
+        "label": "Teig glatt rühren",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "sanft",
+        "variante": "glatt rühren",
+        "auf": ["struktur", "bindung", "fluessigkeit", "suesse", "fett", "aroma"],
+        "voraussetzung": [],
+        "wirkung": "Mehl erst mit einem Teil der Flüssigkeit glatt anrühren, dann den Rest zugeben → keine Klümpchen und kaum Luft im Teig.",
+        "risiko": "Zu kräftig schlagen → Gluten entwickelt sich, der Pfannkuchen wird gummiartig.",
+        "dauer_min": 2
+      },
+      "ruhen",
+      "einlage_unterheben",
+      "ausbacken"
+    ],
+    "optional": ["einlage_unterheben"],
+    "nach": {},
+    "textur": "dünn, zart, biegsam",
+    "triebquelle": "keine; Dampf aus der Flüssigkeit hebt allenfalls leicht an",
+    "geeignet_fuer": ["pfanne"],
+    "warum": "Der flüssige Teig braucht Zeit zum Quellen, aber keinen Trieb. Dünn ausgebacken stockt er schnell und bleibt weich."
+  },
+  "pancake_kurz": {
+    "label": "Pancake-Methode",
+    "kurz": "Trockenes mischen, Nasses verquirlen, beides kurz verrühren, sofort ausbacken",
+    "sequenz": [
+      {
+        "key": "pc_trocken_mischen",
+        "label": "Trockenes mischen",
+        "typ": "mischen",
+        "verb": "sieben",
+        "variante": "trocken vermengen",
+        "auf": ["struktur", "trieb", "suesse", "aroma"],
+        "voraussetzung": [],
+        "wirkung": "Backpulver, Zucker und Salz verteilen sich gleichmäßig im Mehl → keine Triebmittel-Nester.",
+        "dauer_min": 1
+      },
+      {
+        "key": "pc_nass_verquirlen",
+        "label": "Flüssiges verquirlen",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "kraeftig",
+        "variante": "verquirlen (Emulsion)",
+        "auf": ["bindung", "fluessigkeit", "fett"],
+        "voraussetzung": [],
+        "wirkung": "Ei, Milch und (geschmolzenes) Fett werden zu einer gleichmäßigen Flüssigkeit verquirlt.",
+        "dauer_min": 1
+      },
+      {
+        "key": "pc_kurz_verruehren",
+        "label": "Nass zu Trocken, kurz verrühren",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "sanft",
+        "variante": "kurz verrühren",
+        "auf": ["struktur"],
+        "voraussetzung": [],
+        "wirkung": "Minimale Glutenentwicklung → luftig-dicke Pancakes. Kleine Klümpchen sind erwünscht.",
+        "risiko": "Zu lange gerührt → zäh und flach. Das Backpulver wirkt schon beim Anrühren, deshalb nicht lange stehen lassen.",
+        "dauer_min": 0.5
+      },
+      "einlage_unterheben",
+      "ausbacken"
+    ],
+    "optional": ["einlage_unterheben"],
+    "nach": {"pc_trocken_mischen": [], "pc_nass_verquirlen": [], "pc_kurz_verruehren": ["pc_trocken_mischen", "pc_nass_verquirlen"], "einlage_unterheben": ["pc_kurz_verruehren"]},
+    "textur": "dick, luftig, saftig",
+    "triebquelle": "Backpulver (chemisch)",
+    "geeignet_fuer": ["pfanne"],
+    "warum": "Wie die Muffin-Methode: wenig rühren, Trieb aus dem Backpulver. Der dickere Teig braucht keine Ruhezeit."
   }
 }

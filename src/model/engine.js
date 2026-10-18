@@ -4,7 +4,11 @@ import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, beschreibeGren
 
 export function varianteFuerGefaess(gefaessKey, arch, vessels) {
   const fam = vessels[gefaessKey]?.familie;
-  return Object.entries(arch.varianten).find(([, v]) => vessels[v.gefaess]?.familie === fam)?.[0] ?? Object.keys(arch.varianten)[0];
+  // Erst das Preset-Gefäß selbst (zwei Varianten dürfen sich eine Familie teilen, z. B. zwei Pfannen),
+  // dann die Gefäß-Familie (andere Größe derselben Form).
+  return Object.entries(arch.varianten).find(([, v]) => v.gefaess === gefaessKey)?.[0]
+    ?? Object.entries(arch.varianten).find(([, v]) => vessels[v.gefaess]?.familie === fam)?.[0]
+    ?? Object.keys(arch.varianten)[0];
 }
 
 // Erfahrungs-Regeln aus Daten (DR-019/T23) statt hartcodierter if/else-Kette: passt den
@@ -155,14 +159,18 @@ export function compute(state, data, korpusStats) {
   const round5 = (x) => Math.round(x / 5) * 5;
   const kb = st.backen || {};
   const ausKorpus = st.n >= 3 && kb.minuten?.median != null;
-  const tempOU = ausKorpus && kb.tempOU?.median != null ? round5(kb.tempOU.median) : vessel.basis.tempOU;
-  const tempUmluft = ausKorpus && kb.tempUmluft?.median != null ? round5(kb.tempUmluft.median) : ausKorpus ? tempOU - 20 : vessel.basis.tempUmluft;
+  // Gefäße ohne Ofen (Pfanne, T06) haben keine Temperaturen, nur `hitze` (Text) und Minuten je Einheit.
+  const ofen = vessel.basis.tempOU != null;
+  const minutenLabel = vessel.basis.minuten_label ?? 'Min.';
+  const tempOU = !ofen ? null : ausKorpus && kb.tempOU?.median != null ? round5(kb.tempOU.median) : vessel.basis.tempOU;
+  const tempUmluft = !ofen ? null : ausKorpus && kb.tempUmluft?.median != null ? round5(kb.tempUmluft.median) : ausKorpus ? tempOU - 20 : vessel.basis.tempUmluft;
   let minuten = ausKorpus ? Math.round(kb.minuten.median) : vessel.basis.minuten;
   const backHinweise = [...(vessel.hinweise || [])];
   if (ausKorpus) {
-    backHinweise.unshift(`Median aus ${st.n} Rezepten (Spanne ${Math.round(kb.minuten.min)}–${Math.round(kb.minuten.max)} Min.); Gefäß-Referenz wäre ${vessel.basis.tempOU} °C / ${vessel.basis.minuten} Min.`);
+    const referenz = ofen ? `${vessel.basis.tempOU} °C / ${vessel.basis.minuten} Min.` : `${vessel.basis.minuten} ${minutenLabel}`;
+    backHinweise.unshift(`Median aus ${st.n} Rezepten (Spanne ${Math.round(kb.minuten.min)}–${Math.round(kb.minuten.max)} ${minutenLabel}); Gefäß-Referenz wäre ${referenz}.`);
   }
-  if (props.fett?.aggregat === 'fluessig' || res.schritte.some((s) => s.key === 'schmelzen')) {
+  if (ofen && (props.fett?.aggregat === 'fluessig' || res.schritte.some((s) => s.key === 'schmelzen'))) {
     minuten = Math.round(minuten * 0.95);
     backHinweise.unshift('Öl-/Schmelzfett-Teige sind oft 5 % schneller gar → Zeit um 5 % gekürzt.');
   }
@@ -218,7 +226,8 @@ export function compute(state, data, korpusStats) {
     zutatenListe,
     rollenBp: bpZiel,
     teigmasse,
-    backen: { tempOU, tempUmluft, minuten, hinweise: backHinweise },
+    backen: { tempOU, tempUmluft, minuten, minutenLabel, hitze: vessel.basis.hitze ?? null, hinweise: backHinweise },
+    archetypLabel: arch.label,
     ablauf,
     vessel,
     lehrbuch: arch.lehrbuch,

@@ -63,5 +63,25 @@
     "basis": { "tempOU": 170, "tempUmluft": 155, "minuten": 65 },
     "hinweise": ["Form gründlich fetten UND mehlen", "Ofen die ersten 40 Min. nicht öffnen"],
     "korpus_ids": ["gugelhupfform_26"]
+  },
+  "pfanne_24": {
+    "label": "Pfanne 24 cm (Eierkuchen)",
+    "familie": "pfanne",
+    "teigmasse_g": 500,
+    "stueck": 4,
+    "geometrie": "flacher Boden, Hitze nur von unten → dünne Teigschicht stockt je Seite in 1–3 Minuten",
+    "basis": { "hitze": "mittlere Hitze", "minuten": 2, "minuten_label": "Min. je Seite" },
+    "hinweise": ["Pfanne vorheizen, dünn fetten, Teig mit der Kelle gleichmäßig verteilen", "Gewendet wird, wenn die Oberfläche matt und der Rand löst", "Der erste Pfannkuchen ist oft ein Test für die Hitze"],
+    "korpus_ids": ["pfanne_24"]
+  },
+  "pfanne_pancake": {
+    "label": "Pfanne, kleine Portionen (Pancakes)",
+    "familie": "pfanne",
+    "teigmasse_g": 400,
+    "stueck": 8,
+    "geometrie": "kleine dicke Fladen → Hitze muss bis in die Mitte durchdringen, daher etwas milder als bei dünnen Eierkuchen",
+    "basis": { "hitze": "mittlere bis niedrige Hitze", "minuten": 2, "minuten_label": "Min. je Seite" },
+    "hinweise": ["Gewendet wird, sobald Blasen aufsteigen und platzen", "Nur einmal wenden, nicht plattdrücken", "Fertige Pancakes im Ofen bei ~80 °C warmhalten"],
+    "korpus_ids": ["pfanne_pancake"]
   }
 }

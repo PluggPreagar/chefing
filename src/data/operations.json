@@ -104,5 +104,40 @@
     ],
     "wirkung": "Ab ~60 °C verkleistert Stärke, ab ~65 °C stockt Eiprotein, Backpulver setzt CO₂ frei, ab ~140 °C Maillard-Bräunung. Kleine Gefäße: heißer und kürzer; große: milder und länger, sonst außen dunkel, innen roh.",
     "risiko": "Ofen in der ersten Hälfte öffnen → Temperatursturz → Kuchen fällt zusammen."
+  },
+  "ruhen": {
+    "label": "Teig ruhen lassen",
+    "typ": "vorbereitung",
+    "verb": "mischen",
+    "intensitaet": "passiv",
+    "variante": "ruhen/quellen",
+    "auf": ["struktur", "fluessigkeit"],
+    "voraussetzung": [],
+    "wirkung": "Mehl quillt, Gluten entspannt sich, eingerührte Luftbläschen steigen auf → zarter, weniger gummiartiger Pfannkuchen, der beim Wenden nicht reißt.",
+    "risiko": "Ohne Ruhezeit wird der Teig zäher und die Oberfläche blasig.",
+    "dauer_min": 30
+  },
+  "ausbacken": {
+    "label": "In der Pfanne ausbacken",
+    "typ": "erhitzen",
+    "verb": "erhitzen",
+    "intensitaet": "mittel",
+    "variante": "portionsweise ausbacken, wenden",
+    "auf": [],
+    "voraussetzung": [
+      {
+        "wenn": { "rolle": "trieb", "eigenschaft": "trieb_typ", "wert": "chemisch_basisch" },
+        "rolle": "!trieb",
+        "eigenschaft": "saeure",
+        "wert": true,
+        "strenge": "hart",
+        "hinweis": "eine saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker) — Natron ist nur Base, ohne Säure entsteht kein CO₂ und der Teig schmeckt seifig",
+        "kaskade_ziel": "fluessigkeit",
+        "id": "natron_braucht_saeure"
+      }
+    ],
+    "wirkung": "Dünne Teigschicht stockt bei mittlerer Hitze in 1–3 Minuten je Seite: Eiprotein gerinnt, Stärke verkleistert, Maillard-Reaktion bräunt die Unterseite. Jede Portion wird einzeln gebacken und gewendet.",
+    "risiko": "Pfanne zu heiß → außen dunkel, innen roh; zu kalt → blass und zäh.",
+    "dauer_min": 12
   }
 }

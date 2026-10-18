@@ -1,0 +1,467 @@
+[
+  {
+    "id": "lecker-amerikanische-buttermilch-pancakes",
+    "titel": "Amerikanische Buttermilch-Pancakes",
+    "quelle": {
+      "url": "https://www.lecker.de/amerikanische-buttermilch-pancakes-7004.html",
+      "site": "lecker.de",
+      "bewertung": 3.7,
+      "anzahlBewertungen": 82
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 175,
+        "einheit": "g",
+        "original": "175 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier (Gr. M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Buttermilch"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "natron",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "1/2 TL Natron"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "1/2 TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "1/2 TL Salz"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Eier, Butter und Buttermilch verquirlen.",
+      "Mehl, Natron, Backpulver, Salz und Zucker getrennt mischen und unterruehren.",
+      "Teig kurz ruhen lassen.",
+      "Loeffelweise in die maessig heisse Pfanne geben.",
+      "Wenden, sobald Blaeschen aufsteigen, und goldbraun backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht angegeben (gering bis mittel erhitzte Pfanne, wenden bei Blaeschen)"
+    },
+    "stueckzahl": null,
+    "notizen": "Mehl:Fluessigkeit ca. 1:1,4 (Buttermilch), Butter im Teig und Natron plus Backpulver als Doppeltrieb. Portionszahl und Backzeit fehlen in der Quelle."
+  },
+  {
+    "id": "gutekueche-amerikanische-buttermilch-pancakes",
+    "titel": "Amerikanische Buttermilch Pancakes",
+    "quelle": {
+      "url": "https://www.gutekueche.at/amerikanische-buttermilch-pancakes-rezept-5914",
+      "site": "gutekueche.at",
+      "bewertung": 4.4,
+      "anzahlBewertungen": 397
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Stk Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 300,
+        "einheit": "ml",
+        "original": "300 ml Buttermilch"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Backpulver"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "natron",
+        "menge": 1,
+        "einheit": "g",
+        "original": "2 Prise Natron"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Butter schmelzen und abkuehlen lassen.",
+      "Mit Eiern und Buttermilch verruehren.",
+      "Mehl, Backpulver, Natron, Zucker und Salz unterruehren, bis der Teig glatt ist.",
+      "In Butterschmalz portionsweise zu Pancakes backen.",
+      "Mit Butter und Ahornsirup anrichten."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht angegeben"
+    },
+    "stueckzahl": 12,
+    "notizen": "Mehl:Buttermilch ca. 1:1,2, relativ viel Butter und Zucker im Teig, Backpulver plus Natron nur in Prisenmenge. Kein Eischnee, Teig wird glatt gerührt."
+  },
+  {
+    "id": "essen-und-trinken-american-pancakes-grundrezept",
+    "titel": "American Pancakes: unser Grundrezept",
+    "quelle": {
+      "url": "https://www.essen-und-trinken.de/amp/rezepte/36389-rzpt-american-pancakes",
+      "site": "essen-und-trinken.de",
+      "bewertung": null,
+      "anzahlBewertungen": 1
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Bio-Eier (Kl. M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 3,
+        "einheit": "tl",
+        "original": "3 gestr. TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pk. Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Mehl und Backpulver mischen.",
+      "Milch, Eier, Vanillezucker, Salz und Zitronensaft verruehren.",
+      "Mehlmischung kurz einarbeiten.",
+      "In Butterschmalz bei mittlerer Hitze portionsweise ausbacken.",
+      "Mit Ahornsirup und Obst servieren."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 3,
+      "original": "2-4 Minuten pro Seite, mittlere Hitze"
+    },
+    "stueckzahl": null,
+    "notizen": "Viel Ei (4 auf 200 g Mehl), kein Fett im Teig, kein Zucker ausser Vanillezucker. 1 EL Zitronensaft im Original nicht abbildbar und weggelassen (liefert Saeure zum Backpulver); Seite zeigt nur 1 Bewertung ohne Durchschnitt."
+  },
+  {
+    "id": "kuechengoetter-amerikanische-pancakes",
+    "titel": "Amerikanische Pancakes",
+    "quelle": {
+      "url": "https://www.kuechengoetter.de/rezepte/amerikanische-pancakes-2899",
+      "site": "kuechengoetter.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier (Größe M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 400,
+        "einheit": "ml",
+        "original": "400 ml Milch"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Butter"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Butter schmelzen.",
+      "Mehl, Backpulver, Salz und Milch verquirlen.",
+      "Geschmolzene Butter und Eier unterruehren.",
+      "Teig etwa 10 Minuten abgedeckt ruhen lassen.",
+      "In der Pfanne ausbacken (8 Stueck, ca. 14 cm)."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht angegeben"
+    },
+    "stueckzahl": 8,
+    "notizen": "Grundrezept ohne Zucker (Zucker/Vanillezucker/Zitrusschale nur als optionale Suess-Variante, hier nicht erfasst). Mehl:Milch ca. 1:1,6, also eher flüssiger Teig; Seite zeigt keine verwertbare Sternebewertung."
+  },
+  {
+    "id": "kribbelbunt-american-pancakes",
+    "titel": "American Pancakes",
+    "quelle": {
+      "url": "https://www.kribbelbunt.de/artikel/news/pancakes-rezepte/",
+      "site": "kribbelbunt.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Weizenmehl (Type 405)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier (Gr. M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 2.5,
+        "einheit": "el",
+        "original": "2-3 EL Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Trockene Zutaten mischen.",
+      "Milch und Eier unterruehren.",
+      "Je ca. 2 EL Teig in die geoelte Pfanne geben.",
+      "Auf jeder Seite etwa 2 Minuten backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 2,
+      "original": "ca. 2 Min. pro Seite"
+    },
+    "stueckzahl": 10,
+    "notizen": "Sehr dicker Teig (Mehl:Milch ca. 1:0,8), kein Fett im Teig. Eischnee nur als optionaler Tipp, nicht im Grundrezept; Blog ohne Einzelbewertung."
+  },
+  {
+    "id": "bbcgoodfood-american-pancakes",
+    "titel": "American pancakes",
+    "quelle": {
+      "url": "https://bbcgoodfoodme.com/recipes/american-pancakes",
+      "site": "bbcgoodfoodme.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200g self-raising flour"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 large eggs"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200ml milk"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 25,
+        "einheit": "g",
+        "original": "25g melted butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 tbsp golden caster sugar"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1.5,
+        "einheit": "tl",
+        "original": "1 1/2 tsp baking powder"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Trockene Zutaten gut mischen.",
+      "Eier, Milch und geschmolzene Butter glatt verquirlen.",
+      "Beides zu einem Teig verbinden.",
+      "Etwa 8 cm grosse Kleckse in die Pfanne geben.",
+      "Wenden, sobald Blasen platzen, kurz fertig backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 1.25,
+      "original": "erste Seite 1-2 Min., zweite ca. 1 Min."
+    },
+    "stueckzahl": null,
+    "notizen": "Englisches Rezept mit Self-raising flour (enthält bereits Triebmittel), hier als weizenmehl erfasst, zusätzliches Backpulver ist dadurch effektiv hoch. Mehl:Milch 1:1, Quelle ist die BBC-Good-Food-Middle-East-Seite ohne Bewertungsanzeige; Portion: 4 Personen."
+  }
+]

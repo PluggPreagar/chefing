@@ -67,8 +67,11 @@ export function renderRecipe(root, computed, state, data, onChange) {
   }
 
   const bake = el('div', 'bake');
+  const b = computed.backen;
   bake.append(
-    el('div', 'bake-main', `${computed.backen.tempOU} °C Ober-/Unterhitze · ${computed.backen.tempUmluft} °C Umluft · ${computed.backen.minuten} Min.`),
+    el('div', 'bake-main', b.tempOU != null
+      ? `${b.tempOU} °C Ober-/Unterhitze · ${b.tempUmluft} °C Umluft · ${b.minuten} ${b.minutenLabel}`
+      : `${b.hitze} · ${b.minuten} ${b.minutenLabel}`),
   );
   const ul = el('ul', 'bake-hints');
   for (const h of computed.backen.hinweise) ul.append(el('li', null, h));
@@ -79,9 +82,9 @@ export function renderRecipe(root, computed, state, data, onChange) {
   const fett = computed.rollenBp?.fett?.bp;
   const suesse = computed.rollenBp?.suesse?.bp;
   const ei = computed.rollenBp?.bindung?.bp;
-  if (lb && fett != null) {
+  if (lb?.leicht && fett != null) { // Eischwer-Einordnung gibt es nur für Archetypen mit Lehrbuch-Klassen
     const klasse = fett < 70 ? 'leicht' : ei != null && ei < 90 ? 'mittel' : 'schwer';
-    root.append(el('p', 'fine', `Einordnung nach Lehrbuch (Mehl = 100): Fett ${fmt(fett)} · Zucker ${fmt(suesse)} · Ei ${fmt(ei)} → „${klasse}er“ Rührteig. ${lb.kommentar}`));
+    root.append(el('p', 'fine', `Einordnung nach Lehrbuch (Mehl = 100): Fett ${fmt(fett)} · Zucker ${fmt(suesse)} · Ei ${fmt(ei)} → „${klasse}er“ ${computed.archetypLabel}. ${lb.kommentar}`));
   }
 }
 

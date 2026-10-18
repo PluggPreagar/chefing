@@ -16,21 +16,25 @@ async function loadJson(path) {
 const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen] = await Promise.all(
   ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen'].map((n) => loadJson(`./src/data/${n}.json`)),
 );
-const ARCHETYP = 'ruehrteig'; // einziger Einstiegspunkt; Umschalter folgt mit dem zweiten Archetyp (T06)
-const arch = archetypes[ARCHETYP];
+const archetypKeys = Object.keys(archetypes).filter((k) => !k.startsWith('_'));
+let arch = archetypes[archetypKeys[0]]; // aktiver Archetyp; waehleArchetyp() setzt ihn zusammen mit data.arch und state.archetyp
 const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, arch };
-const rollenKeys = arch.rollen.map((r) => r.rolle);
-const referenz = arch.rollen.find((r) => r.referenz)?.rolle ?? rollenKeys[0];
-const ersteVariante = Object.keys(arch.varianten)[0];
 
-const raw = await loadCorpus(arch.varianten);
 // Normalisierte Rezeptlisten bleiben erhalten (nicht nur die aggregierten `stats()`) — die
 // Korrelationssuche (DR-019 Punkt 5, T32) braucht die Rezepte einzeln, um Bäckerprozent bedingt
 // auf eine Zutat-Eigenschaft zu vergleichen, nicht nur den Gesamt-Median je Rolle.
-const korpusNormalisiert = Object.fromEntries(
-  Object.entries(raw).map(([k, list]) => [k, list.map((r) => normalizeRecipe(r, ingredients, { rollen: rollenKeys, referenz }))]),
-);
-const korpusStats = Object.fromEntries(Object.entries(korpusNormalisiert).map(([k, list]) => [k, stats(list, rollenKeys)]));
+// Varianten-Schlüssel sind archetypübergreifend eindeutig, darum ein gemeinsamer Topf (T06).
+const korpusNormalisiert = {};
+const korpusStats = {};
+for (const key of archetypKeys) {
+  const a = archetypes[key];
+  const rollen = a.rollen.map((r) => r.rolle);
+  const referenz = a.rollen.find((r) => r.referenz)?.rolle ?? rollen[0];
+  for (const [variante, list] of Object.entries(await loadCorpus(a.varianten))) {
+    korpusNormalisiert[variante] = list.map((r) => normalizeRecipe(r, ingredients, { rollen, referenz }));
+    korpusStats[variante] = stats(korpusNormalisiert[variante], rollen);
+  }
+}
 
 // Jede Rolle trägt eine Liste von {zutat, anteil} statt einer einzelnen Zutat —
 // so lassen sich Zutaten mischen (z. B. Fett aus Butter + Öl). Ein einfacher
@@ -42,8 +46,8 @@ function alsEintraege(wert) {
 }
 
 const state = {
-  archetyp: ARCHETYP,
-  gefaess: arch.varianten[ersteVariante].gefaess,
+  archetyp: archetypKeys[0],
+  gefaess: null,
   methode: null,
   // fixiert.rollen[rolle] = true: ganze Rolle bewusst fixiert (DR-019 Wert-Zustand "gesetzt-fix",
   // T24). fixiert.zutaten[rolle][zutat] = true: nur eine einzelne Zutat innerhalb einer
@@ -51,20 +55,45 @@ const state = {
   // automatische Kaskade (T26/T27) darf beides nicht anfassen. Fehlt ein Eintrag, gilt die
   // Rolle/Zutat als flexibel (heutiges Verhalten).
   fixiert: { rollen: {}, zutaten: {} },
-  zutaten: Object.fromEntries(arch.rollen.map((r) => [r.rolle, alsEintraege(r.default)])),
+  zutaten: {},
 };
-applyPreset(ersteVariante);
 
 const $ = (id) => document.getElementById(id);
 
-// Preset-Buttons aus den Varianten des Archetyps (statt fest in index.html).
-for (const [key, v] of Object.entries(arch.varianten)) {
-  const b = document.createElement('button');
-  b.type = 'button';
-  b.dataset.preset = key;
-  b.textContent = v.kurz ?? v.label;
-  $('toggle-stats').before(b);
+// Archetyp wechseln (T06): aktiver Archetyp lebt an drei Stellen (arch, data.arch, state.archetyp) —
+// hier immer gemeinsam setzen. Preset-Buttons kommen aus den Varianten des Archetyps.
+function waehleArchetyp(key) {
+  arch = archetypes[key];
+  data.arch = arch;
+  state.archetyp = key;
+  state.zutaten = Object.fromEntries(arch.rollen.map((r) => [r.rolle, alsEintraege(r.default)]));
+  document.querySelectorAll('[data-preset]').forEach((b) => b.remove());
+  for (const [vKey, v] of Object.entries(arch.varianten)) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.dataset.preset = vKey;
+    b.textContent = v.kurz ?? v.label;
+    b.addEventListener('click', () => { applyPreset(vKey); render(); });
+    $('toggle-stats').before(b);
+  }
+  $('tagline').textContent = `${arch.label} als Kombinatorik: Zutaten nach Eigenschaften wählen, Methode folgt aus der Physik, Mengen aus dem Rezept-Korpus.`;
+  document.title = `Chefing — ${arch.label}-Kombinator`;
+  applyPreset(Object.keys(arch.varianten)[0]);
 }
+
+// Umschalter nur anzeigen, wenn es mehr als einen Archetyp gibt.
+const archetypWahl = $('archetyp-wahl');
+if (archetypKeys.length > 1) {
+  for (const k of archetypKeys) archetypWahl.add(new Option(archetypes[k].label, k));
+  archetypWahl.hidden = false;
+  archetypWahl.addEventListener('change', () => {
+    waehleArchetyp(archetypWahl.value);
+    render();
+    if (!$('stats').hidden) renderStats($('stats'), korpusStats, data);
+    if (!$('kandidaten').hidden) refreshKandidaten();
+  });
+}
+waehleArchetyp(archetypKeys[0]);
 
 // Grenze für die Rückfrage-UI (DR-019/T28): nur Overrides fragen, die VOR diesem Seitenaufruf
 // erfasst wurden — sonst würde ein gerade eben gesetzter Override sofort wieder abgefragt,
@@ -96,7 +125,6 @@ function render() {
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }
 
-document.querySelectorAll('[data-preset]').forEach((b) => b.addEventListener('click', () => { applyPreset(b.dataset.preset); render(); }));
 $('toggle-stats').addEventListener('click', () => {
   const s = $('stats');
   s.hidden = !s.hidden;

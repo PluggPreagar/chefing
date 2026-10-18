@@ -37,8 +37,9 @@ export function renderStats(root, korpusStats, data) {
     box.append(bar('Einlage', st.einlageZutat, (k) => data.ingredients[k]?.label ?? k, st.n));
 
     const b = st.backen;
+    const ofen = b.tempOU?.median != null;
     box.append(el('p', 'fine',
-      `Backen (Median): ${f(b.tempOU?.median)} °C O/U · ${f(b.tempUmluft?.median)} °C Umluft · ${f(b.minuten?.median)} Min. (${f(b.minuten?.min)}–${f(b.minuten?.max)}) · Teigmasse ${f(st.teigmasse?.median)} g`));
+      `${ofen ? 'Backen' : 'Garzeit'} (Median): ${ofen ? `${f(b.tempOU.median)} °C O/U · ${f(b.tempUmluft?.median)} °C Umluft · ` : ''}${f(b.minuten?.median)} Min.${ofen ? '' : ' je Seite'} (${f(b.minuten?.min)}–${f(b.minuten?.max)}) · Teigmasse ${f(st.teigmasse?.median)} g`));
 
     const ul = el('ul', 'quellen');
     for (const q of st.quellen) {

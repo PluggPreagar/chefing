@@ -18,7 +18,9 @@ ok(grenzenKaskade(G('wasser_band'),posten,fl,data.ingredients,g)==='saure_sahne'
 ok(grenzenKaskade(G('zucker_max_hart'),posten,fl,data.ingredients,g)===null,'Grenze ohne kaskade_ziel → kein Vorschlag');
 // Katalog
 const kat=alleUeberschreibbarenRegeln(data); const gk=kat.filter(k=>k.ausloeser==='Gesamtbilanz');
-ok(gk.length===5 && gk.every(k=>g.find(x=>x.id===k.id).strenge==='hart'),'5 hart-Grenzen im Override-Katalog');
+const alleG=Object.values(data.grenzen.archetypen).flat();
+ok(gk.length===alleG.filter(x=>x.strenge==='hart').length && gk.every(k=>alleG.find(x=>x.id===k.id).strenge==='hart'),`${gk.length} hart-Grenzen aller Archetypen im Override-Katalog (5 je Archetyp)`);
+ok(g.filter(x=>x.strenge==='hart').every(x=>gk.some(k=>k.id===x.id)),'alle 5 hart-Grenzen des Rührteigs darin');
 console.log('  ', gk.map(k=>k.text).join(' | '), '|', beschreibeGrenze(G('zucker_wasser_max')));
 // Engine: forced violation via tightened grenze clone
 const d2={...data, grenzen:{archetypen:{ruehrteig:[{...G('wasser_band'),max:112,strenge:'hart',id:'test_wasser'}]}}};

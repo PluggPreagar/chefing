@@ -33,5 +33,29 @@
       "muffin":       { "label": "Muffins",                  "kurz": "Muffins", "gefaess": "muffinform_12",    "korpus": "muffin",       "bestof": { "fett": "pflanzenoel", "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": "schokolade" } },
       "gugelhupf":    { "label": "Gugelhupf",                "kurz": "Gugelhupf", "gefaess": "gugelhupfform_22", "korpus": "gugelhupf",    "bestof": { "fett": "butter",      "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": "rosinen" } }
     }
+  },
+  "pfannkuchen": {
+    "label": "Pfannkuchen",
+    "beschreibung": "Flüssiger bis dickflüssiger Teig aus Mehl, Ei und Milch, in der Pfanne portionsweise ausgebacken. Eierkuchen (dünn, ruhen lassen) und Pancakes (dick, Backpulver, kurz rühren) sind derselbe Teig mit anderem Flüssigkeitsanteil und anderer Methode.",
+    "rollen": [
+      { "rolle": "struktur",     "label": "Struktur",     "pflicht": true,  "referenz": true, "fallback_bp": 100, "optionen": ["weizenmehl", "speisestaerke"], "default": "weizenmehl", "hinweis": "Mehl gibt Gerüst. Stärke kann bis ~25 % ersetzen, dann wird der Pfannkuchen zerbrechlich." },
+      { "rolle": "bindung",      "label": "Bindung",      "pflicht": true,  "fallback_bp": 50,  "optionen": ["ei"], "default": "ei", "hinweis": "Emulgator, Gerüst und Farbe." },
+      { "rolle": "fluessigkeit", "label": "Flüssigkeit",  "pflicht": true,  "fallback_bp": 200, "optionen": ["milch", "wasser", "buttermilch", "joghurt"], "default": "milch", "hinweis": "Bestimmt die Dicke: Eierkuchen etwa doppelt so viel Flüssigkeit wie Mehl, Pancakes nur etwa gleich viel. Saure Varianten reagieren mit dem Trieb." },
+      { "rolle": "fett",         "label": "Fett (im Teig)", "pflicht": false, "fallback_bp": 10, "optionen": ["butter", "margarine", "pflanzenoel"], "default": null, "hinweis": "Macht zarter und löst sich besser aus der Pfanne. Bratfett für die Pfanne zählt nicht dazu." },
+      { "rolle": "suesse",       "label": "Süße",         "pflicht": false, "fallback_bp": 5,   "optionen": ["zucker", "brauner_zucker", "puderzucker"], "default": null },
+      { "rolle": "trieb",        "label": "Trieb",        "pflicht": false, "fallback_bp": 3,   "optionen": ["backpulver", "natron"], "default": null, "hinweis": "Nur für dicke Pancakes. Natron nur mit saurer Zutat." },
+      { "rolle": "aroma",        "label": "Aroma",        "pflicht": false, "fallback_bp": 2,   "optionen": ["salz", "vanillezucker", "vanilleextrakt", "zitronenabrieb", "zimt"], "default": "salz" },
+      { "rolle": "einlage",      "label": "Einlage",      "pflicht": false, "fallback_bp": 30,  "optionen": ["blaubeeren"], "default": null }
+    ],
+    "lehrbuch": {
+      "quelle": "keine Lehrbuch-Referenz hinterlegt — nur Korpus",
+      "schwer": {}
+    },
+    "methoden": ["pfannkuchen_glatt", "pancake_kurz"],
+    "gefaesse": ["pfanne_24", "pfanne_pancake"],
+    "varianten": {
+      "eierkuchen": { "label": "Eierkuchen (dünn)",  "kurz": "Eierkuchen", "gefaess": "pfanne_24",      "korpus": "eierkuchen", "bestof": { "fluessigkeit": "milch", "aroma": "salz", "einlage": null } },
+      "pancakes":   { "label": "Pancakes (dick)",    "kurz": "Pancakes",   "gefaess": "pfanne_pancake", "korpus": "pancakes",   "bestof": { "fett": "butter", "fluessigkeit": "milch", "suesse": "zucker", "trieb": "backpulver", "aroma": "salz", "einlage": null } }
+    }
   }
 }
