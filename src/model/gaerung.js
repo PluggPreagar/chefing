@@ -21,6 +21,14 @@ export function hefeFuerGare(minuten, tempC, m) {
   return Math.exp((ln(minuten) - m.ln_konstante + m.temp_koeffizient * (mitTemp(m, tempC) - m.temp_ref)) / m.exponent);
 }
 
+// Reife-Vorteig (T57): welchen Anteil der Zeit bis zur Verdopplung (Modell) reift der Vorteig? Hefe im Vorteig bezogen auf sein
+// eigenes Mehl, Dauer und Temperatur des Vorteigs. 1 = Verdopplung, darunter junger Vorteig, darüber überreif. Kein Fit-Wert:
+// die Vorteig-Rezepte stehen nicht in der Regression, das ist eine unabhängige Prüfung des Modells.
+export function vorteigDosis({ hefeG, mehlG, dauer, temp }, m) {
+  if (!(hefeG > 0) || !(mehlG > 0) || !(dauer > 0)) return null;
+  return dauer / erwarteteGare((hefeG / mehlG) * 100, temp, m);
+}
+
 // Summe der Gärzeit aus den Schritten mit `gaerung: true`; Vorteig (`gaerung: 'vorteig'`) macht das Modell unanwendbar.
 export function gaerungsZeit(schritte) {
   let summe = 0;

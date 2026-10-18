@@ -10,10 +10,11 @@
 // dafür sind die Rückmeldungen (T53) da.
 import { normalizeRecipe } from './corpus.js';
 import { messwert } from './bilanz.js';
-import { erwarteteGare, mitMindestzeit } from './gaerung.js';
+import { erwarteteGare, mitMindestzeit, vorteigDosis } from './gaerung.js';
 import { temperaturBereich, schrittTemperatur, gareOperation } from './temperatur.js';
 
-export const STANDARD = { reserve: 0.2, nahe: 0.1, rand: 0.05, luecke: 0.1, gaerungFaktor: 2.5, minGruppe: 3, minMuster: 2, minLift: 1.5 };
+// vorteigReife: ab so vielen Minuten gilt ein Vorteig als Reife-Vorteig (Poolish, Biga), darunter als Hefe-Ansatz (Dampfl)
+export const STANDARD = { reserve: 0.2, nahe: 0.1, rand: 0.05, luecke: 0.1, gaerungFaktor: 2.5, minGruppe: 3, minMuster: 2, minLift: 1.5, vorteigReife: 240 };
 
 const median = (l) => { const s = [...l].sort((a, b) => a - b); return s.length ? (s.length % 2 ? s[(s.length - 1) / 2] : (s[s.length / 2 - 1] + s[s.length / 2]) / 2) : null; };
 
@@ -34,12 +35,26 @@ function eigenschaften(r, stufe, hefe) {
   return e;
 }
 
+// Reife-Vorteige gegen das Gärmodell (Dosis = Reifezeit / Zeit bis zur Verdopplung); Hefe-Ansätze (< vorteigReife) getrennt,
+// weil sie nur die Hefe wecken und nicht reifen.
+function vorteigAuswertung(liste, s) {
+  const reife = liste.filter((r) => r.art === 'reife');
+  const ansatz = liste.filter((r) => r.art === 'ansatz');
+  return {
+    gepruefte: liste.length,
+    reife: { n: reife.length, median: median(reife.map((r) => r.dosis)), rezepte: reife },
+    ansatz: { n: ansatz.length, median: median(ansatz.map((r) => r.dosis)), rezepte: ansatz },
+    auffaellig: reife.filter((r) => r.dosis > s.gaerungFaktor || r.dosis < 1 / s.gaerungFaktor).map((r) => r.id),
+  };
+}
+
 // korpora: {archetypKey: {variante: [rohe Rezepte]}}; archetypes/ingredients/grenzen/modelle/methods/operations/temperaturen:
 // die JSON-Daten (die letzten drei liefern die Gär-Temperatur; ohne sie rechnet das Modell mit `temp_standard`)
 export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modelle, korpora, methods, operations, temperaturen }, schwellen = {}) {
   const s = { ...STANDARD, ...schwellen };
   const grenzZeilen = [];
   const gaerRezepte = [];
+  const vorteigRezepte = [];
   const alle = []; // {id, eigenschaften[]}
   const randIds = new Set(); // Rezepte nahe an einer Grenze
   const model = modelle?.gaerung ?? null;
@@ -87,6 +102,12 @@ export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modell
         const erwartet = mitMindestzeit(erwarteteGare(hefe, temp, model), gareOp?.zeit?.min); // wie die Engine (T58)
         gaerRezepte.push({ id: roh.id, roh, variante: roh.variante, methode: roh.methode, temp, stufe: tempStufe(temp), hefe, T, erwartet, faktor: T / erwartet });
       }
+      // Vorteig-Rezepte (T57) stehen nicht im Gärmodell-Fit: der Bericht prüft sie unabhängig
+      if (model && roh.methode === 'hefe_vorteig' && roh.vorteig?.mehl_g > 0 && roh.vorteig.hefe_g_frisch > 0 && z.vorteig > 0) {
+        const temp = temperaturBereich(roh.temperaturen?.vorteig ?? operations?.vorteig_reifen?.temperatur, temperaturen)?.mitte ?? null;
+        const dosis = vorteigDosis({ hefeG: roh.vorteig.hefe_g_frisch, mehlG: roh.vorteig.mehl_g, dauer: z.vorteig, temp }, model);
+        vorteigRezepte.push({ id: roh.id, dauer: z.vorteig, temp, hefeBp: (roh.vorteig.hefe_g_frisch / roh.vorteig.mehl_g) * 100, dosis, art: z.vorteig >= s.vorteigReife ? 'reife' : 'ansatz' });
+      }
       alle.push(roh.id);
     }
   }
@@ -128,5 +149,6 @@ export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modell
     grenzen: grenzZeilen,
     randRezepte: randIds.size,
     gaerung: model ? { gepruefte: gaerRezepte.length, auffaellig: auffaellig.map(({ roh, ...rest }) => rest), gruppen: gaerGruppen, muster } : null,
+    vorteig: model ? vorteigAuswertung(vorteigRezepte, s) : null,
   };
 }

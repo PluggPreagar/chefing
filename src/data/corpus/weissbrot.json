@@ -840,6 +840,8 @@
       "gehen": 120,
       "stueckgare": 50
     },
+    "vorteig": { "mehl_g": 100, "fluessigkeit_g": 100, "hefe_g_frisch": 1 },
+    "temperaturen": { "vorteig": "raum" },
     "ablauf": [
       "Vorteig aus Mehl, Wasser und einer erbsengroßen Menge Hefe anrühren und 12 Stunden bei Raumtemperatur reifen lassen.",
       "Hefe im Wasser lösen, Vorteig, Mehl und Salz zugeben, rühren und gut 5 Minuten von Hand durchwalken.",
@@ -914,6 +916,8 @@
       "gehen": 15,
       "stueckgare": 143
     },
+    "vorteig": { "mehl_g": 270, "fluessigkeit_g": 200, "hefe_g_frisch": 0.3 },
+    "temperaturen": { "vorteig": { "min": 21, "max": 22 } },
     "ablauf": [
       "Hefe im kalten Wasser lösen, mit dem Mehl verrühren und 12-15 Stunden bei 21-22 Grad reifen lassen.",
       "Vorteig mit allen Hauptteig-Zutaten in der Maschine kneten (5 Min. langsam, 12 Min. schneller), bis sich der Teig vom Kessel löst.",
@@ -1002,6 +1006,8 @@
       "gehen": 90,
       "stueckgare": 90
     },
+    "vorteig": { "mehl_g": 100, "fluessigkeit_g": 100, "hefe_g_frisch": 2 },
+    "temperaturen": { "vorteig": "kuehlschrank" },
     "ablauf": [
       "Poolish aus Mehl, Wasser und Hefe ansetzen, 1,5 Stunden bei Raumtemperatur, dann etwa 22 Stunden abgedeckt im Kühlschrank reifen lassen.",
       "Hauptteig-Mehl mit Salz mischen, Poolish und die Milch mit gelöster Hefe und Zucker zugeben, 3 Min. langsam kneten.",
@@ -1570,6 +1576,7 @@
       "stueckgare": 60
     },
     "temperaturen": { "vorteig": "kuehlschrank" },
+    "vorteig": { "mehl_g": 300, "fluessigkeit_g": 200, "hefe_g_frisch": 6 },
     "ablauf": [
       "Vorteig aus Hefe, Mehl, Wasser, Salz und Zucker ansetzen, 30 Minuten warm gehen lassen, dann ueber Nacht in den Kuehlschrank stellen.",
       "Zweite Portion Hefe in lauwarmem Wasser loesen, mit Vorteig, restlichem Mehl und Butter ca. 15 Minuten in der Maschine kneten.",
@@ -1650,6 +1657,8 @@
       "gehen": 60,
       "stueckgare": 60
     },
+    "vorteig": { "mehl_g": 150, "fluessigkeit_g": 150, "hefe_g_frisch": 0.3 },
+    "temperaturen": { "vorteig": "raum" },
     "ablauf": [
       "Poolish aus Mehl, Wasser und einer Prise Hefe anruehren und 12-16 Stunden bei Raumtemperatur reifen lassen.",
       "Poolish mit Mehl, Wasser, Hefe, Salz, Zucker und Butter 8-10 Minuten kneten.",

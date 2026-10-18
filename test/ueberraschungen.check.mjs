@@ -96,6 +96,24 @@ ok(suche(rezepte,{modelle:{}}).gaerung===null,'modelle ohne gaerung: Abschnitt e
  const kurz=suche([rez('kurz',70,4,'hefe_direkt',gz(60))],{operations:opsMin});
  ok(kurz.gaerung.auffaellig.some(r=>r.id==='kurz' && near(r.erwartet,360,1e-6) && r.faktor<0.2),'unter der Mindestzeit liegt weiter auf: erwartet wird die Mindestzeit (360 Min.), 60 Min. sind ×0,17');}
 
+// Vorteig (T57): Reife-Vorteige und Hefe-Ansätze getrennt, Dosis = Reifezeit / Zeit bis zur Verdopplung; nicht im Gärmodell-Fit
+{const rv=(id,mehl,hefe,dauer,temp,methode='hefe_vorteig')=>({...rez(id,70,4,methode,{vorteig:dauer,gehen:60}),vorteig:{mehl_g:mehl,hefe_g_frisch:hefe},temperaturen:temp?{vorteig:temp}:undefined});
+ const e1=Math.round(erwartet(1,5.5)); // 1 % Hefe im Kühlschrank
+ const v=suche([rv('a',100,1,e1,'kuehlschrank'),rv('b',100,1,Math.round(e1/10),'kuehlschrank'),rv('c',100,1,e1*4,'kuehlschrank'),rv('ohnemehl',null,1,e1,'kuehlschrank'),rv('direkt',100,1,e1,'kuehlschrank','hefe_direkt'),rv('warm',100,1,Math.round(erwartet(1,28)*0.5),'warm')]);
+ const R=v.vorteig;
+ ok(R.gepruefte===4 && R.reife.n===2 && R.ansatz.n===2,'Vorteig: geprüft werden nur Rezepte der Methode Vorteig mit Mehl, Hefe und Dauer (4 von 6); ab 240 Min. „Reife-Vorteig“, darunter „Hefe-Ansatz“');
+ const a=R.reife.rezepte.find(r=>r.id==='a'), c=R.reife.rezepte.find(r=>r.id==='c');
+ ok(near(a.dosis,1,0.01) && near(c.dosis,4,0.02) && near(a.hefeBp,1) && a.temp===5.5 && near(R.reife.median,2.5,0.02),'Dosis 1 bei Reifezeit = Zeit bis zur Verdopplung (1 % Hefe im Vorteig, 5,5 °C), ×4 bei vierfacher Zeit; Median der Reife-Vorteige 2,5');
+ ok(R.auffaellig.length===1 && R.auffaellig[0]==='c','nur der überreife Vorteig (Dosis ×4 > Schwelle ×2,5) fällt auf; die Ansätze zählen nicht mit');
+ const jung=suche([rv('jung',100,1,300,'kuehlschrank')]).vorteig;
+ ok(jung.reife.n===1 && jung.auffaellig.join()==='jung' && jung.reife.rezepte[0].dosis<0.4,'zu junger Reife-Vorteig (5 Std. statt 29 Std. bei 1 % Hefe im Kühlschrank, Dosis 0,17) fällt ebenfalls auf, nicht nur zu alter');
+ const mehl2=suche([rv('m2',200,2,e1,'kuehlschrank')]).vorteig.reife.rezepte[0];
+ ok(near(mehl2.hefeBp,1) && near(mehl2.dosis,1,0.01),'Hefe wird auf das Mehl des Vorteigs bezogen (2 g auf 200 g = 1 %, Dosis 1)');
+ const b=R.ansatz.rezepte.find(r=>r.id==='b');
+ ok(near(b.dosis,0.1,0.01) && R.ansatz.rezepte.some(r=>r.id==='warm' && r.temp===28 && near(r.dosis,0.5,0.02)),'Hefe-Ansatz: Dosis 0,1 bzw. 0,5 (Temperatur „warm“ = 28 °C)');
+ ok(v.gaerung.gepruefte===1 && suche([rv('a',100,1,e1,'kuehlschrank')],{modelle:undefined}).vorteig===null,'Vorteig-Rezepte bleiben außerhalb des Gärmodell-Berichts (geprüft wird nur das direkte Rezept); ohne Modell entfällt auch dieser Abschnitt');
+ ok(suche([rv('a',100,1,e1,'kuehlschrank')],{schwellen:{vorteigReife:2000}}).vorteig.ansatz.n===1,'Schwelle vorteigReife ist einstellbar (2000 Min.: derselbe Vorteig wird zum Ansatz)');}
+
 // --- 3) Muster ------------------------------------------------------------------------------------------------------------
 ok(b.gaerung.muster.nZuLang===3 && b.gaerung.muster.nZuKurz===0 && b.gaerung.muster.zuKurz.length===0,'Muster: 3 Abweichler „länger“, keine „kürzer“');
 const mn=b.gaerung.muster.zuLang.find(m=>m.eigenschaft==='methode:hefe_noknead');
@@ -120,12 +138,13 @@ const eg=Object.fromEntries(echt.gaerung.gruppen.map(x=>[x.gruppe,x]));
 ok(!eg['hefe_noknead/raum'].systematisch && eg['hefe_noknead/raum'].median>1.4 && eg['hefe_noknead/raum'].median<2.5,`Befund: ohne Kneten bei Raumtemperatur liegt mit der Mindestzeit (T58) nicht mehr systematisch daneben, bleibt aber über dem Modell (Median ×${eg['hefe_noknead/raum'].median.toFixed(1)})`);
 ok(!echt.gaerung.muster.zuLang.some(m=>m.eigenschaft==='methode:hefe_noknead'),'Befund: bei „länger“ sticht die Methode ohne Kneten nicht mehr heraus (Mindestzeit)');
 ok(echt.gaerung.muster.zuKurz.some(m=>m.eigenschaft==='gare:kalt'),'Befund: bei „kürzer“ sticht die kalte Gare heraus');
+ok(echt.vorteig.reife.n===5 && echt.vorteig.ansatz.n>=2 && echt.vorteig.reife.median>0.3 && echt.vorteig.reife.median<1.6,`Befund (T57): 5 Reife-Vorteige liegen im Median bei ${echt.vorteig.reife.median.toFixed(2)} der Zeit bis zur Verdopplung (unabhängig vom Fit), Hefe-Ansätze bei ${echt.vorteig.ansatz.median.toFixed(2)} — sie reifen nicht`);
 ok(echt.gaerung.auffaellig.length>=3 && echt.gaerung.auffaellig.every(r=>!('roh' in r)),'Abweichler ohne Rohdaten im Ergebnis (ausgabefähig)');
 
 // --- Werkzeug ----------------------------------------------------------------------------------------------------------------------
 const tool=new URL('../tools/ueberraschungen.mjs',import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1');
 const text=execFileSync(process.execPath,[tool],{encoding:'utf8'});
-ok(/1\) Grenzen am Rand/.test(text) && /2\) Gärmodell/.test(text) && /3\) Muster/.test(text) && /nur Erfolge/.test(text) && / °C, hefe_/.test(text),'Werkzeug: alle drei Abschnitte, Temperatur je Abweichler und Erfolgs-Auswahl');
+ok(/1\) Grenzen am Rand/.test(text) && /2\) Gärmodell/.test(text) && /3\) Muster/.test(text) && /nur Erfolge/.test(text) && / °C, hefe_/.test(text) && /2b\) Vorteig/.test(text) && /Hefe-Ansätze/.test(text),'Werkzeug: alle drei Abschnitte, Temperatur je Abweichler und Erfolgs-Auswahl');
 const streng=execFileSync(process.execPath,[tool,'--gaerung','1.2'],{encoding:'utf8'});
 ok(/SYSTEMATISCH/.test(streng) && /fehlende Größe/.test(streng),'Werkzeug: bei enger Schwelle werden systematische Gruppen mit Hinweis auf eine fehlende Größe markiert');
 const json=JSON.parse(execFileSync(process.execPath,[tool,'--json'],{encoding:'utf8'}));

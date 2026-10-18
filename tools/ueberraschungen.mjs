@@ -46,6 +46,14 @@ else {
   for (const g of b.gaerung.gruppen) console.log(`   ${g.gruppe.padEnd(22)} n = ${String(g.n).padStart(2)}, Median ×${p(g.median)}${g.systematisch ? `  ← SYSTEMATISCH: ${g.richtung} (fehlende Größe vermuten; die Temperatur steckt schon im Modell)` : ''}`);
 }
 
+if (b.vorteig?.gepruefte) {
+  const v = b.vorteig;
+  console.log(`\n2b) Vorteig (nicht im Fit; Dosis = Reifezeit / Zeit bis zur Verdopplung nach dem Modell, 1 = verdoppelt)`);
+  console.log(`   Reife-Vorteige (ab ${b.schwellen.vorteigReife} Min.): ${v.reife.n}, Median-Dosis ${v.reife.median == null ? '—' : p(v.reife.median, 2)}${v.auffaellig.length ? `; außerhalb ×${b.schwellen.gaerungFaktor}: ${v.auffaellig.join(', ')}` : ''}`);
+  for (const r of v.reife.rezepte) console.log(`   ${p(r.dosis, 2).padStart(5)}  ${r.id}  (${p(r.hefeBp, 2)} % Hefe im Vorteig, ${p(r.dauer / 60)} Std. bei ${p(r.temp ?? 0)} °C)`);
+  console.log(`   Hefe-Ansätze (unter ${b.schwellen.vorteigReife} Min., wecken nur die Hefe): ${v.ansatz.n}${v.ansatz.n ? `, Median-Dosis ${p(v.ansatz.median, 2)}` : ''}`);
+}
+
 console.log(`\n3) Muster bei den Gärmodell-Abweichlern (verglichen mit allen ${b.gaerung?.gepruefte ?? 0} vom Gärmodell geprüften Rezepten, getrennt nach Richtung)`);
 if (!b.gaerung) console.log('   (kein Gärmodell)');
 else for (const [titel, liste, n] of [['Rezepte brauchen LÄNGER als das Modell', b.gaerung.muster.zuLang, b.gaerung.muster.nZuLang], ['Rezepte brauchen KÜRZER als das Modell', b.gaerung.muster.zuKurz, b.gaerung.muster.nZuKurz]]) {

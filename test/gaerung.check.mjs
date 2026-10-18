@@ -145,4 +145,16 @@ ok(nk.temp===RAUM && nk.gare/nk.erwartet<m.warn_faktor,`Weißbrot ohne Kneten re
  const alt=m.exponent_alternativen; const ohneNk=fitten(zeilen.filter(r=>!(r.methode==='hefe_noknead' && r.temp>=18 && r.temp<=24)));
  ok(Math.abs(alt.ohne_noknead_raum-ohneNk.exponent)<0.1 && alt.erstes_modell_ohne_temperatur<-0.8 && ohneNk.exponent>m.exponent,`Zahlen im Hinweis stimmen noch (ohne Rezepte ohne Kneten bei Raumtemperatur: Fit ${ohneNk.exponent.toFixed(2)}, gespeichert ${alt.ohne_noknead_raum}) — sonst node tools/gaerung-fit.mjs prüfen`);}
 
+// --- Vorteig (T57) ----------------------------------------------------------------------------------------------------------------------
+{const {vorteigDosis}=await import(P+'model/gaerung.js');
+ ok(near(vorteigDosis({hefeG:1,mehlG:100,dauer:erwarteteGare(1,RAUM,m),temp:RAUM},m),1,1e-9) && near(vorteigDosis({hefeG:1,mehlG:100,dauer:erwarteteGare(1,RAUM,m)/2,temp:RAUM},m),0.5,1e-9),'vorteigDosis: 1 bei der Zeit bis zur Verdopplung, halbe Zeit = 0,5');
+ ok(vorteigDosis({hefeG:0,mehlG:100,dauer:60},m)===null && vorteigDosis({hefeG:1,mehlG:null,dauer:60},m)===null && vorteigDosis({hefeG:1,mehlG:100,dauer:0},m)===null && vorteigDosis({hefeG:1,mehlG:0,dauer:60},m)===null,'ohne Hefe, Mehl oder Dauer keine Dosis');
+ ok(vorteigDosis({hefeG:1,mehlG:100,dauer:300,temp:KALT},m)<vorteigDosis({hefeG:1,mehlG:100,dauer:300,temp:WARM},m) && vorteigDosis({hefeG:2,mehlG:100,dauer:300,temp:WARM},m)>vorteigDosis({hefeG:1,mehlG:100,dauer:300,temp:WARM},m),'kälter reift langsamer (kleinere Dosis), mehr Hefe reift schneller (größere Dosis)');
+ // Korpus: Vorteig-Angaben passen zur Gesamt-Hefe und -Mehl des Rezepts (Quer-Prüfung der Nacherfassung)
+ const mitV=korpusAlle.filter(r=>r.vorteig);
+ const fehler=[]; for (const r of mitV) { const n=normalizeRecipe(r,data.ingredients,{rollen:data.archetypes.hefeteig.rollen.map(x=>x.rolle)}); if (!(r.vorteig.hefe_g_frisch>0 && r.vorteig.hefe_g_frisch<=n.rollenGramm.trieb+1e-6)) fehler.push(r.id+': Hefe im Vorteig '+r.vorteig.hefe_g_frisch+' g > Gesamt '+n.rollenGramm.trieb.toFixed(1)); if (r.vorteig.mehl_g!=null && !(r.vorteig.mehl_g>0 && r.vorteig.mehl_g<=n.rollenGramm.struktur+1e-6)) fehler.push(r.id+': Mehl im Vorteig > Gesamt'); if (r.vorteig.fluessigkeit_g!=null && !(r.vorteig.fluessigkeit_g>0)) fehler.push(r.id+': Flüssigkeit'); if (!(r.zeiten?.vorteig>0)) fehler.push(r.id+': Vorteig ohne Zeit'); }
+ ok(mitV.length>=12 && fehler.length===0 && mitV.every(r=>r.methode==='hefe_vorteig'||r.id==='kochp-hefezopf-rosinen'),`Korpus: ${mitV.length} Rezepte mit Vorteig-Angaben, Hefe und Mehl im Vorteig nie über dem Gesamtwert, jeweils mit Vorteig-Zeit${fehler.length?' — '+fehler.join('; '):''}`);
+ const reife=mitV.filter(r=>r.vorteig.mehl_g && r.zeiten.vorteig>=240).map(r=>{const T=temperaturBereich(r.temperaturen?.vorteig,data.temperaturen)?.mitte??null; return vorteigDosis({hefeG:r.vorteig.hefe_g_frisch,mehlG:r.vorteig.mehl_g,dauer:r.zeiten.vorteig,temp:T},m);});
+ ok(reife.length===5 && reife.every(d=>d>1/m.warn_faktor && d<m.warn_faktor),`alle ${reife.length} Reife-Vorteige liegen innerhalb ×${m.warn_faktor} um die Verdopplung (Dosis ${reife.map(d=>d.toFixed(2)).join(', ')}) — Modell gilt ohne Fit auch für sie`);}
+
 console.log(fail?fail+' FAIL':'ALL PASS');

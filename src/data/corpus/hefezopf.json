@@ -1146,6 +1146,7 @@
       "gehen": 60,
       "stueckgare": 20
     },
+    "vorteig": { "hefe_g_frisch": 21 },
     "ablauf": [
       "Dampfl aus Germ, Zucker, etwas Mehl und etwas Milch ansetzen, ca. 15 Min. gehen lassen.",
       "Trockene Zutaten mischen, restliche Zutaten und Dampfl zugeben, in der Maschine kneten bis der Teig sich löst.",
@@ -1247,6 +1248,8 @@
       "vorteig": 15,
       "gehen": 90
     },
+    "vorteig": { "mehl_g": 500, "fluessigkeit_g": 100, "hefe_g_frisch": 35 },
+    "temperaturen": { "vorteig": "warm" },
     "ablauf": [
       "Hefe, 1 TL Zucker und 100 ml Milch in die Mehlmulde rühren, ca. 15 Min. schäumen lassen.",
       "Restmilch, Butter, Eier, Salz, Zucker und Zitronenschale zugeben, ca. 10 Min. kneten.",
@@ -1334,6 +1337,8 @@
       "gehen": 30,
       "stueckgare": 25
     },
+    "vorteig": { "hefe_g_frisch": 30 },
+    "temperaturen": { "vorteig": "warm" },
     "ablauf": [
       "Hefe, Zucker, lauwarme Milch und etwas Mehl in der Mehlmulde zum Vorteig verrühren, ca. 20 Min. gehen lassen.",
       "Restmilch, zerlassene Butter, Ei und Salz zugeben und zu glattem Teig kneten, 30 Min. gehen lassen.",
@@ -1420,6 +1425,8 @@
       "gehen": 45,
       "stueckgare": 12
     },
+    "vorteig": { "fluessigkeit_g": 240, "hefe_g_frisch": 42 },
+    "temperaturen": { "vorteig": "warm" },
     "ablauf": [
       "Hefe mit einer Prise Zucker und fast der ganzen Milch in die Mehlmulde rühren, ca. 15 Min. als Vorteig gehen lassen.",
       "Mit Salz, Butter, restlichem Zucker und Zitronenschale zu glattem Teig kneten, ca. 45 Min. gehen lassen.",
@@ -2034,6 +2041,8 @@
       "gehen": 60,
       "stueckgare": 30
     },
+    "vorteig": { "mehl_g": 330, "fluessigkeit_g": 200, "hefe_g_frisch": 20 },
+    "temperaturen": { "vorteig": "warm" },
     "ablauf": [
       "Vorteig aus Mehl, Hefe und lauwarmer Milch ansetzen, 30 Minuten warm ruhen lassen.",
       "Restliche Zutaten zugeben, 8-10 Minuten kneten, 60 Minuten gehen lassen.",
@@ -2122,6 +2131,8 @@
       "gehen": 30,
       "stueckgare": 30
     },
+    "vorteig": { "mehl_g": 150, "fluessigkeit_g": 100, "hefe_g_frisch": 1 },
+    "temperaturen": { "vorteig": "kuehlschrank" },
     "ablauf": [
       "Vorteig (Milch, Mehl, Hefe, Salz) kurz kneten, 60-90 Minuten bei Raumtemperatur ruhen, dann 12-24 Stunden in den Kuehlschrank.",
       "Vorteig ca. 90 Minuten vor Gebrauch aus dem Kuehlschrank nehmen.",
@@ -2428,6 +2439,7 @@
       "gehen": 30,
       "stueckgare": 30
     },
+    "vorteig": { "fluessigkeit_g": 200, "hefe_g_frisch": 21 },
     "ablauf": [
       "Mehl und Zucker mischen, Butter am Rand verteilen, Hefe in der Mulde mit lauwarmer Milch anruehren (15 Min.).",
       "Ei und Salz zugeben, ca. 5 Min. kneten, Rosinen unterkneten.",

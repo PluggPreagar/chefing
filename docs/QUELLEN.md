@@ -123,3 +123,16 @@ Nicht abrufbar oder gesperrt: edeka.de, kuchenfee.de (403). Verworfen u. a.: Rez
 
 Nicht abrufbar (403): breadsandsweets.com, madaboutfood.co, kitchensanctuary.com, iambaker.net, justonecookbook.com (laut Suchtreffern hat breadsandsweets möglicherweise ein passendes Rezept, mit 20–24 Std. Kühlschrank — per Browser prüfbar). Verworfen u. a.: No-Knead mit nur Faltungen, Vorteig im Kühlschrank, Teigling erst nach dem Formen gekühlt (kalte Stückgare), Honig, Sauerteig, Vollkorn, Dinkel, Tangzhong, nur Cup-Angaben, Gare nur bei Raumtemperatur, freie Brote statt Kastenform.
 
+## 2026-10-18 — Vorteig-Angaben nacherfasst (T57)
+
+1 Subagent las die 11 Vorteig-Rezepte des Hefe-Korpus und kochp-hefezopf-rosinen erneut (Zahlen: Mehl, Flüssigkeit, Hefe im Vorteig, Dauer, Temperatur). Alle Domains stehen schon im Korpus, es sind Wiederholungsbesuche; gespeichert sind nur Zahlen. Quer-Prüfung: Hefe im Vorteig plus Hauptteig ergibt bei allen 12 Rezepten genau die Gesamthefe im Korpus. Beim Abruf von kidsrezepte.de meldete das Abruf-Modell einen eingebetteten Hinweis auf der Seite; er wurde nicht befolgt, die Zahlen stammen aus dem Seitentext.
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-18 | hellwegradio.de | 1 | Vorteig-Zahlen | PDF, mit pdftotext gelesen; 100 g Mehl, 1 g Frischhefe, 12 Std. Raumtemperatur |
+| 2026-10-18 | backhausgeflüster.de | 1 | Vorteig-Zahlen | 270 g Mehl, 0,3 g Hefe, 12–15 Std. bei 21–22 °C |
+| 2026-10-18 | herzelieb.de | 1 | Vorteig-Zahlen | 90 Min. Raum, dann ca. 22 Std. Kühlschrank |
+| 2026-10-18 | backshop.staedter.de | 1 | Vorteig-Zahlen | 30 Min. warm, dann über Nacht Kühlschrank (ohne Stundenzahl, nicht erfasst) |
+| 2026-10-18 | snapcalorie.com | 1 | Vorteig-Zahlen | Prise = 0,1 g Instant laut Seite |
+| 2026-10-18 | dioezese-linz.at, kidsrezepte.de, diamant-zucker.de, weightwatchers.com, madamedessert.de, kochp.de | je 1 | Hefe-Ansatz | Hefe in Mehlmulde/Milch, 15–30 Min.; Mehl im Ansatz meist nicht genannt |
+| 2026-10-18 | olis-backegge.ch | 1 | Vorteig-Zahlen | Variante mit 60–90 Min. Raum plus 12–24 Std. Kühlschrank erfasst |
