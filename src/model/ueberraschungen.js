@@ -102,8 +102,9 @@ export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modell
         const erwartet = mitMindestzeit(erwarteteGare(hefe, temp, model), gareOp?.zeit?.min); // wie die Engine (T58)
         gaerRezepte.push({ id: roh.id, roh, variante: roh.variante, methode: roh.methode, temp, stufe: tempStufe(temp), hefe, T, erwartet, faktor: T / erwartet });
       }
-      // Vorteig-Rezepte (T57) stehen nicht im Gärmodell-Fit: der Bericht prüft sie unabhängig
-      if (model && roh.methode === 'hefe_vorteig' && roh.vorteig?.mehl_g > 0 && roh.vorteig.hefe_g_frisch > 0 && z.vorteig > 0) {
+      // Vorteig-Angaben (T57), gleich welche Methode (Hefe-Ansätze laufen seit T60 als direkte Führung): echte Vorteig-Rezepte
+      // stehen nicht im Gärmodell-Fit, der Bericht prüft sie unabhängig
+      if (model && roh.vorteig?.mehl_g > 0 && roh.vorteig.hefe_g_frisch > 0 && z.vorteig > 0) {
         const temp = temperaturBereich(roh.temperaturen?.vorteig ?? operations?.vorteig_reifen?.temperatur, temperaturen)?.mitte ?? null;
         const dosis = vorteigDosis({ hefeG: roh.vorteig.hefe_g_frisch, mehlG: roh.vorteig.mehl_g, dauer: z.vorteig, temp }, model);
         vorteigRezepte.push({ id: roh.id, dauer: z.vorteig, temp, hefeBp: (roh.vorteig.hefe_g_frisch / roh.vorteig.mehl_g) * 100, dosis, art: z.vorteig >= s.vorteigReife ? 'reife' : 'ansatz' });

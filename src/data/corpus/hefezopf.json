@@ -1140,7 +1140,7 @@
         "original": "1 EL Vanillezucker"
       }
     ],
-    "methode": "hefe_vorteig",
+    "methode": "hefe_direkt",
     "zeiten": {
       "vorteig": 15,
       "gehen": 60,
@@ -1242,7 +1242,7 @@
         "original": "Abgeriebene Schale einer 1/2 Zitrone"
       }
     ],
-    "methode": "hefe_vorteig",
+    "methode": "hefe_direkt",
     "zeiten": {
       "kneten": 10,
       "vorteig": 15,
@@ -1331,7 +1331,7 @@
         "original": "1 Prise Salz"
       }
     ],
-    "methode": "hefe_vorteig",
+    "methode": "hefe_direkt",
     "zeiten": {
       "vorteig": 20,
       "gehen": 30,
@@ -1419,7 +1419,7 @@
         "original": "1 EL abgeriebene Zitronenschale"
       }
     ],
-    "methode": "hefe_vorteig",
+    "methode": "hefe_direkt",
     "zeiten": {
       "vorteig": 15,
       "gehen": 45,

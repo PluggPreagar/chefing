@@ -99,11 +99,11 @@ ok(suche(rezepte,{modelle:{}}).gaerung===null,'modelle ohne gaerung: Abschnitt e
 // Vorteig (T57): Reife-Vorteige und Hefe-Ansätze getrennt, Dosis = Reifezeit / Zeit bis zur Verdopplung; nicht im Gärmodell-Fit
 {const rv=(id,mehl,hefe,dauer,temp,methode='hefe_vorteig')=>({...rez(id,70,4,methode,{vorteig:dauer,gehen:60}),vorteig:{mehl_g:mehl,hefe_g_frisch:hefe},temperaturen:temp?{vorteig:temp}:undefined});
  const e1=Math.round(erwartet(1,5.5)); // 1 % Hefe im Kühlschrank
- const v=suche([rv('a',100,1,e1,'kuehlschrank'),rv('b',100,1,Math.round(e1/10),'kuehlschrank'),rv('c',100,1,e1*4,'kuehlschrank'),rv('ohnemehl',null,1,e1,'kuehlschrank'),rv('direkt',100,1,e1,'kuehlschrank','hefe_direkt'),rv('warm',100,1,Math.round(erwartet(1,28)*0.5),'warm')]);
+ const v=suche([rv('a',100,1,e1,'kuehlschrank'),rv('b',100,1,Math.round(e1/10),'kuehlschrank'),rv('c',100,1,e1*4,'kuehlschrank'),rv('ohnemehl',null,1,e1,'kuehlschrank'),rv('direkt',100,1,e1*2,'kuehlschrank','hefe_direkt'),rv('warm',100,1,Math.round(erwartet(1,28)*0.5),'warm')]);
  const R=v.vorteig;
- ok(R.gepruefte===4 && R.reife.n===2 && R.ansatz.n===2,'Vorteig: geprüft werden nur Rezepte der Methode Vorteig mit Mehl, Hefe und Dauer (4 von 6); ab 240 Min. „Reife-Vorteig“, darunter „Hefe-Ansatz“');
+ ok(R.gepruefte===5 && R.reife.n===3 && R.ansatz.n===2,'Vorteig: geprüft wird jedes Rezept mit Vorteig-Mehl, -Hefe und -Dauer, gleich welche Methode (5 von 6; ohne Mehl nicht); ab 240 Min. „Reife-Vorteig“, darunter „Hefe-Ansatz“');
  const a=R.reife.rezepte.find(r=>r.id==='a'), c=R.reife.rezepte.find(r=>r.id==='c');
- ok(near(a.dosis,1,0.01) && near(c.dosis,4,0.02) && near(a.hefeBp,1) && a.temp===5.5 && near(R.reife.median,2.5,0.02),'Dosis 1 bei Reifezeit = Zeit bis zur Verdopplung (1 % Hefe im Vorteig, 5,5 °C), ×4 bei vierfacher Zeit; Median der Reife-Vorteige 2,5');
+ ok(near(a.dosis,1,0.01) && near(c.dosis,4,0.02) && near(a.hefeBp,1) && a.temp===5.5 && near(R.reife.median,2,0.02),'Dosis 1 bei Reifezeit = Zeit bis zur Verdopplung (1 % Hefe im Vorteig, 5,5 °C), ×4 bei vierfacher Zeit; Median der drei Reife-Vorteige (1, 2, 4) = 2, nicht der aller fünf');
  ok(R.auffaellig.length===1 && R.auffaellig[0]==='c','nur der überreife Vorteig (Dosis ×4 > Schwelle ×2,5) fällt auf; die Ansätze zählen nicht mit');
  const jung=suche([rv('jung',100,1,300,'kuehlschrank')]).vorteig;
  ok(jung.reife.n===1 && jung.auffaellig.join()==='jung' && jung.reife.rezepte[0].dosis<0.4,'zu junger Reife-Vorteig (5 Std. statt 29 Std. bei 1 % Hefe im Kühlschrank, Dosis 0,17) fällt ebenfalls auf, nicht nur zu alter');
