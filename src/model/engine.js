@@ -1,7 +1,7 @@
 import { fromGrams } from './units.js';
 import { ROLLEN } from './corpus.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } from './rules.js';
-import { bilanz, grenzenPruefen, grenzenKaskade, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 const FALLBACK_BP = { struktur: 100, fett: 90, suesse: 90, bindung: 80, fluessigkeit: 20, trieb: 3, aroma: 3, einlage: 40 };
 
@@ -106,10 +106,13 @@ export function compute(state, data, korpusStats) {
   );
   const toleranzHinweise = [];
   const toleranzWarnungen = [];
+  // Eine Grenzverletzung erklärt die Korpus-Abweichung meist schon (Stärke allein → Eiweiß-Grenzen);
+  // die Bilanz-Tabelle markiert sie weiter, nur der Zusatztext entfällt (T42).
+  const hatGrenzverletzung = verletzt.hart.length + verletzt.empfohlen.length > 0;
   const bilanzZeilen = Object.keys(GROESSEN).map((g) => {
     const korpus = st.bilanz?.[g] ?? null;
     const t = toleranz(bil.bp[g], korpus);
-    if (!groessenMitGrenze.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
+    if (!hatGrenzverletzung && !groessenMitGrenze.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
       const wert = fmtProzent(bil.bp[g]);
       const text = t === 'ausserhalb_spanne'
         ? `${GROESSEN_LABEL[g]} ${wert} % vom Mehl liegt außerhalb aller ${korpus.n} Korpus-Rezepte (${fmtProzent(korpus.min)}–${fmtProzent(korpus.max)} %) — ungetestete Kombination.`
@@ -118,6 +121,7 @@ export function compute(state, data, korpusStats) {
     }
     return { groesse: g, label: GROESSEN_LABEL[g], gramm: bil.gramm[g], bp: bil.bp[g], korpus, toleranz: t };
   });
+  const gebuendelt = grenzenBuendeln(verletzt);
   const status = verletzt.hart.length ? 'invalid' : res.status;
 
   // T39: hart-Grenzen werden überschreibbar (Override-Feedback, DR-019 Punkt 4) und jede
@@ -134,7 +138,15 @@ export function compute(state, data, korpusStats) {
     if (!g.kaskade_ziel || rolleIstGesperrt(state.fixiert, g.kaskade_ziel)) continue;
     const rolle = arch.rollen.find((r) => r.rolle === g.kaskade_ziel);
     const kandidat = grenzenKaskade(g, zutatenListe, rolle?.optionen || [], data.ingredients, grenzen, referenzRolle);
-    if (!kandidat || kaskaden.some((k) => k.rolle === g.kaskade_ziel && k.zutat === kandidat)) continue;
+    if (!kandidat) continue;
+    // Gleicher Ersatz löst mehrere Grenzen: ein Vorschlag, alle Auslöser genannt (T42).
+    const vorhanden = kaskaden.find((k) => k.rolle === g.kaskade_ziel && k.zutat === kandidat);
+    if (vorhanden) {
+      const text = beschreibeGrenze(g);
+      vorhanden.weitere ??= [];
+      if (vorhanden.ausloeser !== text && !vorhanden.weitere.includes(text)) vorhanden.weitere.push(text);
+      continue;
+    }
     kaskaden.push({
       ausloeser: beschreibeGrenze(g), rolle: g.kaskade_ziel, rolleLabel: rolle?.label ?? g.kaskade_ziel,
       zutat: kandidat, zutatLabel: data.ingredients[kandidat]?.label ?? kandidat,
@@ -191,8 +203,8 @@ export function compute(state, data, korpusStats) {
     methodKey,
     method,
     status,
-    gruende: [...res.gruende, ...verletzt.hart.map((v) => v.text)],
-    warnungen: [...res.warnungen, ...verletzt.empfohlen.map((v) => v.text), ...toleranzWarnungen],
+    gruende: [...res.gruende, ...gebuendelt.hart],
+    warnungen: [...res.warnungen, ...gebuendelt.empfohlen, ...toleranzWarnungen],
     toleranzHinweise,
     bilanz: bilanzZeilen,
     // Kaskaden-Vorschläge (DR-019/T26): Ersatzkandidaten für Rollen, die eine harte

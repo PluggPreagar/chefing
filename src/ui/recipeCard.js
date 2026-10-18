@@ -92,7 +92,8 @@ function kaskadenVorschlag(k, state, data, onChange) {
   const box = el('div', 'note note-kaskade');
   const aktuelle = (state.zutaten[k.rolle] || []).map((e) => data.ingredients[e.zutat]?.label).filter(Boolean);
   const aktuelleText = aktuelle.length ? aktuelle.join(' + ') : 'nichts';
-  box.append(el('span', null, `Vorschlag: ${k.zutatLabel} statt ${aktuelleText} bei „${k.rolleLabel}“ verwenden — löst „${k.ausloeser}“.`));
+  const loest = [k.ausloeser, ...(k.weitere || [])].map((a) => `„${a}“`).join(' und ');
+  box.append(el('span', null, `Vorschlag: ${k.zutatLabel} statt ${aktuelleText} bei „${k.rolleLabel}“ verwenden — löst ${loest}.`));
   const btn = document.createElement('button');
   btn.type = 'button';
   btn.className = 'kaskade-btn';

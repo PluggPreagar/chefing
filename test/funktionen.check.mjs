@@ -12,7 +12,7 @@ const has=(c,re)=>[...c.warnungen,...c.gruende,...c.toleranzHinweise].some(t=>re
 for (const vk of Object.keys(arch.varianten)){const c=compute(st(vk),data,ks); ok(c.status!=='invalid' && !has(c,/Klebereiweiß nur|Gesamteiweiß .* Grenze|Triebkraft .* Grenze/),`${vk}: Preset ohne Funktions-Grenzen-Meldung`); console.log('   ',c.bilanz.map(b=>`${b.groesse} ${b.bp.toFixed(1)} [${b.toleranz}]`).join(' | '));}
 let c=compute(st('kastenkuchen',{struktur:E('speisestaerke')}),data,ks);
 ok(has(c,/Klebereiweiß nur 0,0/) && c.kaskaden.some(k=>k.rolle==='struktur'&&k.zutat==='weizenmehl'),'Stärke allein → gluten_min + Vorschlag Weizenmehl');
-ok(has(c,/Gesamteiweiß/),'Stärke allein → auch eiweiss_min');
+ok(has(c,/Gleiche Ursache: Eiweiß \(Gerüst\)/),'Stärke allein → eiweiss_min als „Gleiche Ursache“ an gluten_min gebündelt (T42)');
 c=compute(st('kastenkuchen',{struktur:[{zutat:'weizenmehl',anteil:7},{zutat:'speisestaerke',anteil:1}]}),data,ks);
 ok(!has(c,/Klebereiweiß nur/),`Mehl 7 : Stärke 1 → ok (Gluten ${B(c,'gluten').bp.toFixed(1)} %)`);
 c=compute(st('kastenkuchen',{struktur:[{zutat:'weizenmehl',anteil:1},{zutat:'speisestaerke',anteil:1}]}),data,ks);

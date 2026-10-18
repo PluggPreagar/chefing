@@ -247,6 +247,7 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** Substitutionen werden physikalisch vergleichbar (Öl vs. Butter, Schmand vs. Milch); erste Rezept-weite Physik-Grenzen in Daten; Grundlage für Funktionsvektor (T36) und Zerlegung von Fertighelfern (T37). Rein additiv, Presets unverändert gültig.
 - **cons:** Grenzwerte sind Faustwerte, nicht gemessen; Q1–Q3 bei n ≈ 7 schmal (daher 5 % Marge, Bewertung erst ab n ≥ 3). Bilanz korrigiert Mengen noch nicht selbst, sie bewertet nur.
 - **risk:** Falsch kalibrierte `hart`-Grenze blockiert gültige Rezepte. Mitigation: `hart` nur weit außerhalb der Korpus-Spanne gesetzt; Override-Anbindung als T39.
+- **Nachtrag (2026-10-18, T42):** Meldungen werden nach Ursache gebündelt statt je Grenze/Toleranz einzeln: eine Größe → nur die strengste Grenze; gleiche Kaskade-Zielrolle → eine Meldung + „Gleiche Ursache“; Korpus-Hinweis entfällt bei Grenzverletzung. Reine Anzeige, die Prüfung selbst ist unverändert.
 
 ## DR-021 · tech · Ablauf als Abhängigkeitsgraph (T38) + Grenzen-Kaskade per Simulation (T39)
 

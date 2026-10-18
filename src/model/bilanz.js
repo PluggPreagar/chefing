@@ -69,9 +69,34 @@ export function grenzenPruefen(b, grenzen) {
       ? `${fmtWert(g.min, faktor)}–${fmtWert(g.max, faktor)}`
       : fmtWert(zuNiedrig ? g.min : g.max, faktor);
     const text = g.hinweis.replace('{wert}', fmtWert(w, faktor)).replace('{grenze}', grenzeText);
-    (g.strenge === 'hart' ? hart : empfohlen).push({ id: g.id, text, wert: w });
+    const vorzeichen = g.min != null && g.max == null ? '≥ ' : g.max != null && g.min == null ? '≤ ' : '';
+    const kurz = `${GROESSEN_LABEL[g.groesse]} ${fmtWert(w, faktor)}${faktor ? '' : ' %'} (Grenze ${vorzeichen}${grenzeText})`;
+    (g.strenge === 'hart' ? hart : empfohlen).push({ id: g.id, groesse: g.groesse, ziel: g.kaskade_ziel, text, kurz, wert: w });
   }
   return { hart, empfohlen };
+}
+
+// Meldungen entdoppeln (T42): (1) dieselbe Größe mit hart- und empfohlen-Grenze (z. B. Fett
+// 160 % → fett_max + fett_max_hart) meldet nur die harte; (2) Grenzen mit gleicher Kaskade-Zielrolle
+// haben dieselbe Ursache (Struktur → Klebereiweiß + Gesamteiweiß) und werden zu einer Meldung mit
+// Kurzform der übrigen. Nur die Anzeigetexte — Blockaden/Kaskaden rechnen weiter mit allen Grenzen.
+export function grenzenBuendeln(verletzt) {
+  const hartGroessen = new Set(verletzt.hart.map((v) => v.groesse));
+  const buendeln = (liste) => {
+    const gruppen = new Map();
+    for (const v of liste) {
+      const schluessel = v.ziel ?? v.id;
+      if (!gruppen.has(schluessel)) gruppen.set(schluessel, []);
+      gruppen.get(schluessel).push(v);
+    }
+    return [...gruppen.values()].map(([erste, ...rest]) => (
+      rest.length ? `${erste.text.replace(/\.$/, '')}. Gleiche Ursache: ${rest.map((r) => r.kurz).join('; ')}.` : erste.text
+    ));
+  };
+  return {
+    hart: buendeln(verletzt.hart),
+    empfohlen: buendeln(verletzt.empfohlen.filter((v) => !hartGroessen.has(v.groesse))),
+  };
 }
 
 // Korpus-Toleranz (T35): vergleicht einen Wert mit der Korpus-Verteilung (summarize() aus
