@@ -77,18 +77,18 @@ export function renderRecipe(root, computed, state, data, onChange) {
   if (computed.bilanz?.length) {
     const bt = el('table', 'zutaten bilanz');
     const bh = el('thead');
-    bh.append(tr(['Bilanz', 'Gramm', '% vom Mehl', 'Korpus (Q1–Q3)'], 'th'));
+    bh.append(tr(['Bilanz', 'Gramm', '% vom Mehl', 'Korpus (Q1–Q3)', 'Herkunft (Rolle)'], 'th'));
     bt.append(bh);
     const bb = el('tbody');
     const markierung = { ausserhalb_q: ' ◦', ausserhalb_spanne: ' ⚠' };
     for (const z of computed.bilanz) {
       const k = z.korpus;
       if (!(z.gramm > 0) && !(k?.max > 0)) continue; // Größe kommt im Archetyp nicht vor (z. B. Hefe im Rührteig)
-      bb.append(tr([z.label, `${fmtProzent(z.gramm)} g`, `${fmtProzent(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmtProzent(k.q1)}–${fmtProzent(k.q3)} %` : '—']));
+      bb.append(tr([z.label, `${fmtProzent(z.gramm)} g`, `${fmtProzent(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmtProzent(k.q1)}–${fmtProzent(k.q3)} %` : '—', herkunftText(z.herkunft)]));
     }
     bt.append(bb);
     root.append(bt);
-    root.append(el('p', 'fine', 'Bilanz = Summe über alle Zutaten ohne Einlage (z. B. Wasser aus Ei/Butter/Milch, Eiweiß aus Mehl/Ei/Milch). ◦ außerhalb Q1–Q3 · ⚠ außerhalb Korpus-Spanne'));
+    root.append(el('p', 'fine', 'Bilanz = Summe über alle Zutaten ohne Einlage (z. B. Wasser aus Ei/Butter/Milch, Eiweiß aus Mehl/Ei/Milch). Herkunft: welche Rolle wie viel liefert (ab 5 %). ◦ außerhalb Q1–Q3 · ⚠ außerhalb Korpus-Spanne'));
   }
 
   const bake = el('div', 'bake');
@@ -194,6 +194,12 @@ function blockadeOverride(b, state, data, onChange) {
   });
   box.append(btn);
   return box;
+}
+
+// Herkunft einer Bilanz-Größe (T41): Rollen mit mindestens 5 % Anteil, größte zuerst
+export function herkunftText(herkunft) {
+  const teile = (herkunft || []).filter((h) => h.anteil >= 0.05).map((h) => `${h.label} ${Math.round(h.anteil * 100)} %`);
+  return teile.length ? teile.join(', ') : '—';
 }
 
 function tr(cells, tag = 'td') {

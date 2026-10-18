@@ -3,7 +3,7 @@ import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } f
 import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
-import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, beitraege, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 export function varianteFuerGefaess(gefaessKey, arch, vessels) {
   const fam = vessels[gefaessKey]?.familie;
@@ -159,7 +159,9 @@ export function compute(state, data, korpusStats) {
       (t === 'ausserhalb_spanne' ? toleranzWarnungen : toleranzHinweise).push(text);
       toleranzIds.push(`toleranz:${g}`);
     }
-    return { groesse: g, label: GROESSEN_LABEL[g], gramm: bil.gramm[g], bp: bil.bp[g], korpus, toleranz: t };
+    // Herkunft nach Rollen (T41): welche Rolle liefert wie viel dieser Größe
+    const herkunft = beitraege(zutatenListe, data.ingredients, g).map((b) => ({ rolle: b.rolle, label: arch.rollen.find((r) => r.rolle === b.rolle)?.label ?? b.rolle, anteil: b.anteil }));
+    return { groesse: g, label: GROESSEN_LABEL[g], gramm: bil.gramm[g], bp: bil.bp[g], korpus, toleranz: t, herkunft };
   });
   const gebuendelt = grenzenBuendeln(verletzt);
   const status = verletzt.hart.length ? 'invalid' : res.status;

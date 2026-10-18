@@ -183,3 +183,22 @@ export function grenzenMengenKaskade(grenze, posten, spanne, ingredients, grenze
   }
   return null;
 }
+
+// Herkunft einer Bilanz-Größe nach Rollen (T41, Funktions-Sicht): welche Rollen liefern wie viel davon? Das Ei liefert Bindung,
+// Emulgator und Eiweiß zugleich, das Mehl Gerüst und Stärke — die Rollen bleiben Slots, aber die Funktion zeigt, woher sie kommt.
+// Rückgabe: Rollen mit Anteil an der Summe der Größe (0..1), größte zuerst; leer, wenn nichts zur Größe beiträgt.
+export function beitraege(posten, ingredients, groesse) {
+  const wert = GROESSEN[groesse];
+  if (!wert) return [];
+  const je = new Map();
+  for (const p of posten) {
+    if (!(p.gramm > 0)) continue;
+    if (AUSSERHALB_MATRIX.has(p.rolle) && !MIT_EINLAGE.has(groesse)) continue;
+    const ing = ingredients[p.zutat];
+    if (!ing) continue;
+    const g = p.gramm * wert(ing);
+    if (g > 0) je.set(p.rolle, (je.get(p.rolle) || 0) + g);
+  }
+  const summe = [...je.values()].reduce((a, b) => a + b, 0);
+  return summe > 0 ? [...je].map(([rolle, gramm]) => ({ rolle, gramm, anteil: gramm / summe })).sort((a, b) => b.anteil - a.anteil) : [];
+}
