@@ -1,6 +1,6 @@
 {
   "_schema": {
-    "kategorie": "Generische Icon-Kategorie aus kategorien.json (salz|suesse|gemuese|mehl|fett|fluessigkeit|pulver|kohlenhydrate|fleisch|ei)",
+    "kategorie": "Generische Icon-Kategorie aus kategorien.json (salz|suesse|gemuese|mehl|fett|fluessigkeit|pulver|gewuerz|kohlenhydrate|fleisch|ei)",
     "unterkategorie": "Feinere, backspezifische Einordnung (z. B. für Struktur-Sonderfälle wie Nuss statt Getreide)",
     "aggregat": "fest | fluessig | pulver | stueckig",
     "fettanteil": "0..1 Massenanteil Fett",
@@ -295,7 +295,7 @@
   },
   "vanillezucker": {
     "label": "Vanillezucker",
-    "kategorie": "pulver",
+    "kategorie": "gewuerz",
     "unterkategorie": "aroma",
     "aggregat": "pulver",
     "fettanteil": 0,
@@ -307,7 +307,7 @@
   },
   "vanilleextrakt": {
     "label": "Vanilleextrakt",
-    "kategorie": "pulver",
+    "kategorie": "gewuerz",
     "unterkategorie": "aroma",
     "aggregat": "fluessig",
     "fettanteil": 0,
@@ -330,7 +330,7 @@
   },
   "zitronenabrieb": {
     "label": "Zitronenabrieb",
-    "kategorie": "pulver",
+    "kategorie": "gewuerz",
     "unterkategorie": "aroma",
     "aggregat": "stueckig",
     "fettanteil": 0,
@@ -341,7 +341,7 @@
   },
   "orangenabrieb": {
     "label": "Orangenabrieb",
-    "kategorie": "pulver",
+    "kategorie": "gewuerz",
     "unterkategorie": "aroma",
     "aggregat": "stueckig",
     "fettanteil": 0,
@@ -364,7 +364,7 @@
   },
   "vanillearoma": {
     "label": "Vanillearoma (Fläschchen)",
-    "kategorie": "pulver",
+    "kategorie": "gewuerz",
     "unterkategorie": "aroma",
     "aggregat": "fluessig",
     "fettanteil": 0,
@@ -398,7 +398,7 @@
   },
   "zimt": {
     "label": "Zimt",
-    "kategorie": "pulver",
+    "kategorie": "gewuerz",
     "unterkategorie": "aroma",
     "aggregat": "pulver",
     "fettanteil": 0,

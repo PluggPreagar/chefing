@@ -10,7 +10,8 @@
   "mehl": { "label": "Mehl/Getreide", "hinweis": "Getreidemehl, Stärke, gemahlene Nüsse als Mehlersatz." },
   "fett": { "label": "Fett", "hinweis": "Butter, Margarine, Öl — alle Aggregatzustände." },
   "fluessigkeit": { "label": "Flüssigkeit", "hinweis": "Milch, Wasser, Buttermilch, Säfte, saure Milchprodukte." },
-  "pulver": { "label": "Pulver", "hinweis": "Backtriebmittel, Gewürze, Kakao, Aromen — reaktive oder geschmacksgebende Kleinmengen." },
+  "pulver": { "label": "Pulver", "hinweis": "Backtriebmittel, Hefe, Kakao, Alkohol-Aromen — reaktive Kleinmengen." },
+  "gewuerz": { "label": "Gewürz", "hinweis": "Zimt, Vanille, Zitrus-Abrieb und andere geschmacksgebende Kleinmengen (eigenes Icon: Stern)." },
   "kohlenhydrate": { "label": "Kohlenhydrate", "hinweis": "Stärkehaltige Hauptzutaten außerhalb von Mehl (Kartoffel, Reis, Brot) — für künftige Archetypen." },
   "fleisch": { "label": "Fleisch/Fisch", "hinweis": "Für künftige Archetypen (z. B. Braten) — im Rührteig ungenutzt." },
   "ei": { "label": "Ei", "hinweis": "Emulgator, Bindung, Trieb." }

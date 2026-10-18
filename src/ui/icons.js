@@ -92,6 +92,13 @@ function balkenMergedIcon(defs, width, stufe) {
 const ICONS_BALKEN_MERGED = Object.fromEntries([0, 1, 2, 3, 4, 5].map((n) => [`balken_merged_${n}`, balkenMergedIcon(BALKEN5_DEFS, BALKEN5_WIDTH, n)]));
 const ICONS_BALKEN4_MERGED = Object.fromEntries([0, 1, 2, 3, 4].map((n) => [`balken4_merged_${n}`, balkenMergedIcon(BALKEN4_DEFS, BALKEN4_WIDTH, n)]));
 
+// Regelmäßiger Stern mit n Spitzen (Außenradius R, Innenradius r) um (12,12) — Gewürz-Icon (Sternanis-Form, T21)
+const sternPunkte = (n, R, r) => Array.from({ length: n * 2 }, (_, i) => {
+  const w = -Math.PI / 2 + (i * Math.PI) / n;
+  const rad = i % 2 ? r : R;
+  return `${(12 + rad * Math.cos(w)).toFixed(2)},${(12 + rad * Math.sin(w)).toFixed(2)}`;
+}).join(' ');
+
 export const ICONS = {
   // --- Dauer (5/10/15/30/45/60 Min.) --------------------------------------
   ...ICONS_DAUER,
@@ -150,6 +157,10 @@ export const ICONS = {
     { tag: 'circle', attrs: { cx: 9, cy: 6, r: 0.9, fill: F }, keepFill: true },
     { tag: 'circle', attrs: { cx: 13, cy: 4, r: 0.9, fill: F }, keepFill: true },
     { tag: 'circle', attrs: { cx: 16, cy: 7, r: 0.9, fill: F }, keepFill: true },
+  ],
+  gewuerz: [
+    // Achtzackiger Stern (Sternanis): unterscheidet sich vom Pulver-Kegel mit Streupunkten und passt zu Zimt, Vanille, Abrieb
+    { tag: 'polygon', attrs: { points: sternPunkte(8, 9.5, 4.3), fill: F } },
   ],
   kohlenhydrate: [
     { tag: 'path', attrs: { d: 'M5 19 V13 A7 6 0 0 1 19 13 V19 Z', fill: F } },
