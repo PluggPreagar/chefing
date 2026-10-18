@@ -64,6 +64,12 @@ export function compute(state, data, korpusStats) {
   // if/else-Zweige mehr, sondern Daten-Regeln in erfahrungsregeln.json (DR-019/T23).
   anpassungen.push(...wendeErfahrungsregelnAn(bpZiel, props, st, data.erfahrungsregeln));
 
+  // Methoden-Faktor (T46): Der Korpus-Median gilt je Variante über alle Methoden; manche Methode braucht
+  // bei einer Rolle deutlich andere Mengen (lange Führung: ein Drittel der Hefe).
+  const faktoren = Object.entries(method.rollen_faktor || {}).filter(([r]) => bpZiel[r]);
+  for (const [r, f] of faktoren) bpZiel[r].bp *= f;
+  if (faktoren.length && method.rollen_begruendung) anpassungen.push(method.rollen_begruendung);
+
   if (bpZiel.struktur && props.struktur && props.struktur.unterkategorie === 'nuss') {
     anpassungen.push('Nüsse als alleinige Struktur: Kuchen wird sehr feucht und bindet schwach.');
   }
@@ -115,7 +121,8 @@ export function compute(state, data, korpusStats) {
   const hatGrenzverletzung = verletzt.hart.length + verletzt.empfohlen.length > 0;
   const bilanzZeilen = Object.keys(GROESSEN).map((g) => {
     const korpus = st.bilanz?.[g] ?? null;
-    const t = toleranz(bil.bp[g], korpus);
+    // Methoden-Faktor (T46) weicht absichtlich vom Variantenmedian ab → kein Korpus-Vergleich für diese Größe.
+    const t = (method.toleranz_aus || []).includes(g) ? null : toleranz(bil.bp[g], korpus);
     if (!hatGrenzverletzung && !groessenMitGrenze.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
       const wert = fmtProzent(bil.bp[g]);
       const text = t === 'ausserhalb_spanne'

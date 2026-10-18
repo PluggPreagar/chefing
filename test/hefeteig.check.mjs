@@ -56,6 +56,17 @@ c=compute({...st('weissbrot'),methode:'hefe_noknead'},data,ks);
 const lang=c.ablauf.find(s=>s.key==='gehen');
 ok(!c.ablauf.some(s=>s.key==='kneten') && lang.dauer===720 && lang.zeit.max===1800 && c.status!=='invalid','Lange Führung: kein Kneten, Gare 12 Std. (Fenster 6 Std.–30 Std.)');
 ok(c.zeit.gesamt>=720+45,`Lange Führung: Gesamtzeit ${c.zeit.gesamt} Min. enthält die lange Gare`);
+// T46: lange Gare braucht weniger Hefe (Methoden-Faktor), die übrigen Methoden bleiben beim Korpus-Median
+const hefeBp=(cc)=>cc.bilanz.find(b=>b.groesse==='hefe').bp;
+const direkt=compute({...st('weissbrot'),methode:'hefe_direkt'},data,ks);
+const vor=compute({...st('weissbrot'),methode:'hefe_vorteig'},data,ks);
+ok(Math.abs(hefeBp(c)-0.3*hefeBp(direkt))<1e-6 && Math.abs(hefeBp(vor)-hefeBp(direkt))<1e-6,`Lange Führung: Hefe ${hefeBp(c).toFixed(1)} % statt ${hefeBp(direkt).toFixed(1)} % (Faktor 0,3), Vorteig unverändert`);
+ok(c.toleranzHinweise.length===0 && c.bilanz.find(b=>b.groesse==='hefe').toleranz===null,'Lange Führung: kein „untypisch“-Hinweis zur Hefe (Faktor ist gewollt)');
+ok(c.anpassungen.some(a=>a.includes('Drittel der Hefe')) && !direkt.anpassungen.some(a=>a.includes('Drittel der Hefe')),'Lange Führung: Anpassung erklärt (nur dort)');
+const gr=data.grenzen.archetypen.hefeteig.find(g=>g.id==='hf_hefe_band');
+ok(hefeBp(c)>=gr.min && !c.warnungen.some(w=>w.includes('Hefe')),`Lange Führung: Hefe ${hefeBp(c).toFixed(1)} % liegt im Band ${gr.min}–${gr.max} %, keine Warnung`);
+ok(Math.abs(c.zutatenListe.find(z=>z.rolle==='trieb').gramm/c.zutatenListe.find(z=>z.rolle==='struktur').gramm*100-hefeBp(c))<1e-6,'Lange Führung: Hefe-Gramm folgen dem Faktor in der Zutatenliste');
+ok(hefeBp(compute({...st('hefezopf'),methode:'hefe_noknead'},data,ks))<0.35*hefeBp(compute(st('hefezopf'),data,ks)),'Hefezopf mit langer Führung: ebenfalls weniger Hefe');
 
 // Hefeteig ohne Gluten (Stärke statt Mehl) geht nicht auf — harte Regel, überschreibbar
 c=compute(st('weissbrot',{struktur:E('speisestaerke')}),data,ks);
