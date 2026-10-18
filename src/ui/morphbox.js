@@ -1,5 +1,6 @@
 import { evaluateAll } from '../model/rules.js';
 import { haeufigste } from '../model/corpus.js';
+import { gefaessPatch } from '../model/zustand.js';
 import { iconHtml } from './icons.js';
 
 const STATUS_ICON = { ok: '✓', prep: '~', invalid: '✗' };
@@ -20,7 +21,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
         sub: `${data.vessels[g].teigmasse_g} g Teig`,
         selected: state.gefaess === g,
         bestof: Object.values(arch.varianten).some((v) => v.gefaess === g),
-        onClick: () => onChange({ gefaess: g }),
+        onClick: () => onChange(gefaessPatch(g)),
       }))),
   );
 

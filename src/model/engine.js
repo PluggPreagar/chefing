@@ -3,7 +3,10 @@ import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } f
 import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
-import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, beitraege, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+
+// Größen, die aus geschätzten Kapazitäten folgen (Natron-Säure-Balance, T37): ihre Grenze trägt die Aussage, kein Vergleich mit den Korpus-Quartilen
+const OHNE_TOLERANZ = new Set(['natron', 'saeure']);
 
 export function varianteFuerGefaess(gefaessKey, arch, vessels) {
   const fam = vessels[gefaessKey]?.familie;
@@ -65,6 +68,8 @@ export function compute(state, data, korpusStats) {
     if (!state.zutaten[r]?.length) continue;
     let bp = stRolle.bp?.[r]?.median;
     let quelle = 'korpus';
+    // Die Methoden-Zelle kennt die Rolle nicht (Median 0, z. B. Fett im Brot ohne Kneten): erst der Median der Variante, dann der Schätzwert
+    if ((bp == null || bp === 0) && stRolle !== st && st.bp?.[r]?.median > 0) bp = st.bp[r].median;
     if (bp == null || bp === 0) { bp = arch.rollen.find((x) => x.rolle === r).fallback_bp; quelle = 'schätzung'; }
     bpZiel[r] = { bp, quelle };
   }
@@ -78,7 +83,7 @@ export function compute(state, data, korpusStats) {
   // („start low on yeast is compensated by soak time“); sonst prüft das Modell nur die Plausibilität (unten).
   const modell = gaerungModell(data);
   const gare = gaerungsZeit(res.schritte.map((s, i) => ({ gaerung: s.op.gaerung, dauer: zeiten[i].dauer })));
-  const modellGilt = !!modell && !!bpZiel[modell.rolle] && props[modell.rolle]?.trieb_typ === modell.trieb_typ && gare.summe != null;
+  const modellGilt = !!modell && bpZiel[modell.rolle]?.bp > 0 && props[modell.rolle]?.trieb_typ === modell.trieb_typ && gare.summe != null;
   // Temperatur der Gare (T52): Vorgabe der Operation; nennt über die Hälfte der Rezepte dieser Methode eine eigene, gilt deren Median.
   const gareSchritt = res.schritte.find((s) => s.op.gaerung === true);
   const genannt = (stM?.gareTemperaturen ?? []).map((t) => temperaturBereich(t, data.temperaturen)).filter(Boolean);
@@ -95,6 +100,7 @@ export function compute(state, data, korpusStats) {
   for (const [r, bp] of Object.entries(state.mengen || {})) {
     if (bpZiel[r] && Number.isFinite(bp) && bp >= 0) bpZiel[r] = { bp, quelle: 'manuell' };
   }
+  const gaerungAktiv = modellGilt && bpZiel[modell.rolle].bp > 0; // manuell 0 % Hefe: kein Modell (ln 0)
 
   if (bpZiel.struktur && props.struktur && props.struktur.unterkategorie === 'nuss') {
     anpassungen.push('Nüsse als alleinige Struktur: Kuchen wird sehr feucht und bindet schwach.');
@@ -151,7 +157,7 @@ export function compute(state, data, korpusStats) {
     // gegen eine kleine Methoden-Zelle meldete schon das Standard-Preset „untypisch“.
     const korpus = st.bilanz?.[g] ?? null;
     const t = toleranz(bil.bp[g], korpus);
-    if (!hatGrenzverletzung && !groessenMitGrenze.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
+    if (!hatGrenzverletzung && !groessenMitGrenze.has(g) && !OHNE_TOLERANZ.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
       const wert = fmtProzent(bil.bp[g]);
       const text = t === 'ausserhalb_spanne'
         ? `${GROESSEN_LABEL[g]} ${wert} % vom Mehl liegt außerhalb aller ${korpus.n} Korpus-Rezepte (${fmtProzent(korpus.min)}–${fmtProzent(korpus.max)} %) — ungetestete Kombination.`
@@ -208,23 +214,8 @@ export function compute(state, data, korpusStats) {
     });
   }
 
-  // Mehrere Vorschläge für dieselbe Rolle in dieselbe Richtung (z. B. drei Wasser-Grenzen): zu EINEM zusammenfassen, wenn der
-  // weitestgehende Wert alle diese Grenzen zugleich hält und keine neue harte Grenze verletzt (T40)
-  const hartJetzt = new Set(verletzt.hart.map((v) => v.id));
-  for (const rolleKey of new Set(mengenVorschlaege.map((x) => x.rolle))) {
-    const liste = mengenVorschlaege.filter((x) => x.rolle === rolleKey);
-    if (liste.length < 2) continue;
-    const hoch = liste.every((x) => x.nach > x.von);
-    if (!hoch && !liste.every((x) => x.nach < x.von)) continue;
-    const ziel = (hoch ? Math.max : Math.min)(...liste.map((x) => x.nach));
-    const probe = bpPosten.map((z) => (z.rolle === rolleKey ? { ...z, gramm: z.gramm * (ziel / liste[0].von) } : z));
-    const v = grenzenPruefen(bilanz(probe, data.ingredients, referenzRolle), grenzen);
-    const ids = new Set(liste.flatMap((x) => x.grenzIds));
-    if ([...v.hart, ...v.empfohlen].some((x) => ids.has(x.id)) || v.hart.some((x) => !hartJetzt.has(x.id))) continue;
-    const erster = liste.find((x) => x.nach === ziel) ?? liste[0];
-    const texte = [...new Set(liste.flatMap((x) => [x.ausloeser, ...x.weitere]))].filter((t) => t !== erster.ausloeser);
-    mengenVorschlaege.splice(mengenVorschlaege.findIndex((x) => x.rolle === rolleKey), liste.length, { ...erster, nach: ziel, weitere: texte, grenzIds: [...ids] });
-  }
+  // Mehrere Vorschläge für dieselbe Rolle in dieselbe Richtung zu einem zusammenfassen (T40, bilanz.js)
+  const vorschlaegeFertig = vorschlaegeZusammenfassen(mengenVorschlaege, bpPosten, data.ingredients, grenzen, referenzRolle, new Set(verletzt.hart.map((v) => v.id)));
 
   const round5 = (x) => Math.round(x / 5) * 5;
   const kb = st.backen || {};
@@ -261,7 +252,7 @@ export function compute(state, data, korpusStats) {
     if (z.hinweis) (z.hinweis.strenge === 'hart' ? zeitGruende : zeitWarnungen).push(zeitMeldung(res.schritte[i].op, z));
   });
   // Plausibilität (Stufe 1): passen Gärzeit und Hefemenge zusammen? (nach der Berechnung oben trivial erfüllt)
-  const gaerPruefung = modellGilt ? pruefeGaerung({ hefeBp: bpZiel[modell.rolle].bp, gare: gare.summe, temp: gareTemp?.mitte, tempText: gareTempText, mindest: gareMindest }, modell) : null;
+  const gaerPruefung = gaerungAktiv ? pruefeGaerung({ hefeBp: bpZiel[modell.rolle].bp, gare: gare.summe, temp: gareTemp?.mitte, tempText: gareTempText, mindest: gareMindest }, modell) : null;
   if (gaerPruefung) zeitWarnungen.push(gaerPruefung.text);
   const ablauf = res.schritte.map((s, i) => ({
     nr: i + 1,
@@ -311,7 +302,7 @@ export function compute(state, data, korpusStats) {
     gruende: [...res.gruende, ...gebuendelt.hart, ...zeitGruende],
     warnungen: [...res.warnungen, ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
     zeit: zeitleiste(ablauf),
-    gaerung: modellGilt ? gaerungErgebnis({ gare: gare.summe, hefeBp: bpZiel[modell.rolle].bp, gareTemp, gareTempText, mindest: gareMindest, berechnet: !stM, pruefung: gaerPruefung }, modell) : null,
+    gaerung: gaerungAktiv ? gaerungErgebnis({ gare: gare.summe, hefeBp: bpZiel[modell.rolle].bp, gareTemp, gareTempText, mindest: gareMindest, berechnet: !stM, pruefung: gaerPruefung }, modell) : null,
     toleranzHinweise,
     bilanz: bilanzZeilen,
     // Kaskaden-Vorschläge (DR-019/T26): Ersatzkandidaten für Rollen, die eine harte
@@ -319,7 +310,7 @@ export function compute(state, data, korpusStats) {
     // keine Übernahme — die UI dazu (Vorschlagen-dann-bestätigen) kommt in T27.
     kaskaden,
     // Mengen-Vorschläge (T40): Menge der Zielrolle verschieben, wenn kein Zutaten-Tausch die Grenze löst; Übernehmen setzt `state.mengen`
-    mengenVorschlaege,
+    mengenVorschlaege: vorschlaegeFertig,
     // Override-fähige Blockaden (DR-019 Punkt 4, T25): welche hart-Bedingungen der Nutzer
     // bewusst überschreiben kann. Die Erfassung selbst passiert in der UI (`recipeCard.js`).
     blockaden,

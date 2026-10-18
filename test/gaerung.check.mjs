@@ -171,4 +171,17 @@ ok(nk.temp===RAUM && nk.gare/nk.erwartet<m.warn_faktor,`Weißbrot ohne Kneten re
  const kaltNiedrig=fitZ.filter(r=>r.temp<10 && r.hefe<1);
  ok(kaltNiedrig.length>=2 && kaltNiedrig.every(r=>{const e=erwarteteGare(r.hefe,r.temp,m);return r.T<e && e/r.T<2.5;}),`kalte Gare mit wenig Hefe (< 1 %, ${kaltNiedrig.length} Rezepte, T59): jetzt innerhalb ×2,5 (vor dem Neu-Fit ×3,2), aber weiter alle kürzer als das Modell (×2,1) — bekannte, verbleibende Neigung der Sättigung bei wenig Hefe`);}
 
+// --- Nachgelesen (Gegenlesen von T59): Gare im Sinne der Engine, Grenzen der Anzeige, feste Standardtemperatur -----------------------------
+{const {gareMinuten}=await import(P+'model/gaerung.js');
+ ok(gareMinuten({gehen:60,stueckgare:45,vorteig:30})===105 && gareMinuten({vorteig:30})===0 && gareMinuten(null)===0 && gareMinuten({gehen:90})===90,'Gare = Stockgare + Stückgare; der Hefe-Ansatz (vorteig) zählt nicht mit, fehlende Zeiten sind 0');
+ ok(fmtDauer(59)==='59 Min.' && fmtDauer(89)==='89 Min.' && fmtDauer(90)==='1 Std. 30 Min.' && fmtDauer(120)==='2 Std.' && fmtDauer(60.4)==='60 Min.','fmtDauer: bis 89 Min. in Minuten, ab 90 Min. in Stunden (Grenzen 59 / 89 / 90 / 120)');
+ ok(m.temp_standard===28 && m.temp_ref===20,'Standardtemperatur der warmen Gare 28 °C, Referenz 20 °C (feste Werte: Fit und Engine hängen daran)');
+ const fe=compute({archetyp:'hefeteig',gefaess:data.archetypes.hefeteig.varianten.weissbrot.gefaess,methode:'hefe_direkt',fixiert:{rollen:{},zutaten:{}},mengen:{trieb:0},zutaten:Object.fromEntries(data.archetypes.hefeteig.rollen.map(r=>[r.rolle,r.default?[{zutat:r.default,anteil:1}]:[]]))},data,
+   Object.fromEntries(Object.entries(data.archetypes.hefeteig.varianten).map(([k,x])=>[k,stats(JSON.parse(fs.readFileSync(new URL(P+'data/corpus/'+x.korpus+'.json'))).map(r=>normalizeRecipe(r,data.ingredients,{rollen:data.archetypes.hefeteig.rollen.map(q=>q.rolle)})),data.archetypes.hefeteig.rollen.map(q=>q.rolle))])));
+ const hb=data.archetypes.hefeteig, rhb=hb.rollen.map(q=>q.rolle), ksh=Object.fromEntries(Object.entries(hb.varianten).map(([k,x])=>[k,stats(JSON.parse(fs.readFileSync(new URL(P+'data/corpus/'+x.korpus+'.json'))).map(r=>normalizeRecipe(r,data.ingredients,{rollen:rhb})),rhb)]));
+ const nk=compute({archetyp:'hefeteig',gefaess:hb.varianten.weissbrot.gefaess,methode:'hefe_noknead',fixiert:{rollen:{},zutaten:{}},zutaten:Object.fromEntries(hb.rollen.map(r=>[r.rolle,hb.varianten.weissbrot.bestof[r.rolle]!==undefined?(hb.varianten.weissbrot.bestof[r.rolle]?[{zutat:hb.varianten.weissbrot.bestof[r.rolle],anteil:1}]:[]):(r.default?[{zutat:r.default,anteil:1}]:[])]))},data,ksh);
+ const nkFett=nk.zutatenListe.find(z=>z.rolle==='fett');
+ ok(nkFett && nkFett.bpQuelle==='korpus' && nkFett.bp>0 && nk.zutatenListe.every(z=>z.bpQuelle!=='schätzung'),'Weißbrot ohne Kneten: Fett kommt aus dem Korpus (Variante), nicht als Schätzwert — die Methoden-Zelle mit Fett 0 trägt nicht');
+ ok(JSON.stringify(fe).indexOf('Infinity')<0 && JSON.stringify(fe).indexOf('NaN')<0 && (!fe.gaerung || Number.isFinite(fe.gaerung.erwartet)),'Hefemenge 0 (manuell): kein Infinity oder NaN in Ergebnis oder Gärmodell');}
+
 console.log(fail?fail+' FAIL':'ALL PASS');

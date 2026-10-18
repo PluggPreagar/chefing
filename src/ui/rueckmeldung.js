@@ -26,7 +26,8 @@ export function renderRueckmeldung(state, data, computed) {
 
   const mengenLabel = el('label', 'rm-mengen');
   const mengen = document.createElement('input');
-  mengen.type = 'checkbox'; mengen.checked = true;
+  const manuell = Object.values(computed.rollenBp || {}).some((v) => v.quelle === 'manuell'); // manuell gesetzte Mengen (T40)
+  mengen.type = 'checkbox'; mengen.checked = !manuell;
   mengenLabel.append(mengen, el('span', null, ' Ich habe die vorgeschlagenen Mengen verwendet'));
   form.append(mengenLabel);
 

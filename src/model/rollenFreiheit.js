@@ -8,7 +8,7 @@
 // nur mit der Option entstehen). `archetypes.json` trägt das Ergebnis als `substitution`; der Test hält beides zusammen.
 import { compute } from './engine.js';
 
-const E = (w) => (w == null ? [] : [{ zutat: w, anteil: 1 }]);
+const E = (w) => (w == null ? [] : Array.isArray(w) ? w : [{ zutat: w, anteil: 1 }]);
 const RANG = { frei: 0, empfohlen: 1, strikt: 2 };
 // Wahlmöglichkeiten einer Rolle: ihre Optionen, bei optionalen Rollen zusätzlich „keine“ (null)
 const wahl = (rolle) => [...rolle.optionen, ...(rolle.pflicht ? [] : [null])];

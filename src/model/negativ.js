@@ -5,7 +5,7 @@
 // vor den Nutzer-Rückmeldungen (T53); n ist klein und die Auswahl verzerrt (Selbstauswahl der Fragenden).
 import { normalizeRecipe, stats } from './corpus.js';
 import { grenzenPruefen, toleranz, GROESSEN } from './bilanz.js';
-import { erwarteteGare, mitMindestzeit, pruefeGaerung } from './gaerung.js';
+import { erwarteteGare, pruefeGaerung } from './gaerung.js';
 import { temperaturBereich } from './temperatur.js';
 import { toGrams } from './units.js';
 
@@ -99,12 +99,15 @@ export function negativPruefen({ faelle, archetypes, ingredients, grenzen, model
     const p = f.pruefung;
     if (model && p?.gare_min > 0 && n.bilanz.bp.hefe > 0) {
       const tb = temperaturBereich(p.gare_temp ?? p.gare_temp_c, temperaturen);
-      const mindest = p.mindestzeit ?? null;
-      const w = pruefeGaerung({ hefeBp: n.bilanz.bp.hefe, gare: p.gare_min, temp: tb?.mitte, mindest }, model);
-      zeile.gaerung = { hefeBp: n.bilanz.bp.hefe, gare: p.gare_min, temp: tb?.mitte ?? null, erwartet: mitMindestzeit(erwarteteGare(n.bilanz.bp.hefe, tb?.mitte, model), mindest), art: w?.art ?? null };
+      const w = pruefeGaerung({ hefeBp: n.bilanz.bp.hefe, gare: p.gare_min, temp: tb?.mitte }, model);
+      zeile.gaerung = { hefeBp: n.bilanz.bp.hefe, gare: p.gare_min, temp: tb?.mitte ?? null, erwartet: erwarteteGare(n.bilanz.bp.hefe, tb?.mitte, model), art: w?.art ?? null };
     }
     zeile.geprueft = true;
     zeile.erkannt = zeile.grenzen.length > 0 || zeile.toleranz.length > 0 || !!zeile.gaerung?.art;
+    // Erkannt ÜBER DIE URSACHE, die die Quelle nennt (kuratiert in `ursache_regeln`: 'gaerung', 'grenze:<id>', 'toleranz:<größe>')? Eine Warnung
+    // aus anderem Grund (z. B. Eiweiß außerhalb des Korpus bei zu viel Fett) zählt als erkannt, aber nicht als Treffer der Ursache.
+    const treffer = [...(zeile.gaerung?.art ? ['gaerung'] : []), ...zeile.grenzen.map((g) => `grenze:${g.id}`), ...zeile.toleranz.map((t) => `toleranz:${t.groesse}`)];
+    zeile.ursacheGetroffen = (f.ursache_regeln || []).some((r) => treffer.includes(r));
     zeilen.push(zeile);
   }
   const geprueft = zeilen.filter((z) => z.geprueft);
@@ -121,7 +124,7 @@ export function negativPruefen({ faelle, archetypes, ingredients, grenzen, model
       misserfolge: fehl.length,
       erkannt: fehl.filter((z) => z.erkannt).length,
       falschNegativ: fehl.filter((z) => !z.erkannt).map((z) => z.id),
-      mengeUrsache: { geprueft: menge.length, erkannt: menge.filter((z) => z.erkannt).length, nichtPruefbar: zeilen.filter((z) => !z.geprueft && z.ursacheArt === 'menge').map((z) => z.id) },
+      mengeUrsache: { geprueft: menge.length, erkannt: menge.filter((z) => z.erkannt).length, ueberUrsache: menge.filter((z) => z.ursacheGetroffen).length, nichtPruefbar: zeilen.filter((z) => !z.geprueft && z.ursacheArt === 'menge').map((z) => z.id) },
       prozessOderOffen: fehl.filter((z) => z.ursacheArt !== 'menge').map((z) => ({ id: z.id, ursacheArt: z.ursacheArt, erkannt: z.erkannt })),
       ausgenommen: geprueft.filter((z) => z.ausgenommen).map((z) => ({ id: z.id, grund: z.ausgenommen, erkannt: z.erkannt })),
       kontrollen: kontrollen.length,

@@ -8,7 +8,7 @@ Aktuell drei **Archetypen** mit sieben Varianten:
 |---|---|---|
 | Rührteig | Rührkuchen (Kastenform), Muffins, Gugelhupf | 45 Rezepte |
 | Pfannkuchen | Eierkuchen (dünn), Pancakes (dick) | 31 Rezepte |
-| Hefeteig | Weißbrot (Kastenform), Hefezopf (Blech) | 51 Rezepte |
+| Hefeteig | Weißbrot (Kastenform), Hefezopf (Blech) | 65 Rezepte |
 
 ## Starten
 
@@ -24,7 +24,7 @@ Tests (Node ≥ 18, keine Abhängigkeiten):
 sh test/run.sh
 ```
 
-Jede Datei `test/*.check.mjs` ist eine eigene Suite (26 Suiten, rund 790 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
+Jede Datei `test/*.check.mjs` ist eine eigene Suite (27 Suiten, rund 835 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
 
 ```bash
 git config core.hooksPath .githooks
@@ -86,7 +86,7 @@ dev/                         Skizzen und Vorschauen, nicht Teil der App
 | `erfahrungsregeln.json` | Praxis-Regeln, die Mengen oder Zeit-Fenster anpassen |
 | `negativ.json` | dokumentierte Misserfolge mit Mengen (Negativ-Korpus, T55) für `node tools/negativ.mjs` |
 | `modelle.json` | Rechenmodelle mit Parametern, Quelle und Validierung (Gärmodell: Hefe × Zeit × Temperatur) |
-| `temperaturen.json` | benannte Temperatur-Bereiche (Kühlschrank, kühl, Raum, warm, lauwarm); Temperaturen stehen überall als Zahl, Wert ± Spielraum, Spanne oder Name (`temperatur` an Operationen, `temperaturen` im Rezept) |
+| `temperaturen.json` | benannte Temperatur-Bereiche (Kühlschrank, kühl, Raum, warm, lauwarm, plastisch für Fett, Teig für die Teigtemperatur); Temperaturen stehen überall als Zahl, Wert ± Spielraum, Spanne oder Name (`temperatur` an Operationen, `temperaturen` im Rezept) |
 | `kategorien.json`, `verben.json` | Icon-Kategorien und Verben |
 | `corpus/*.json` | Quellrezepte je Variante: Zutatenmengen als Fakten, Link zur Quelle |
 
@@ -112,7 +112,7 @@ Der Archetyp-Umschalter erscheint automatisch, sobald es mehr als einen Archetyp
 - Jede Web-Recherche wird in [docs/QUELLEN.md](docs/QUELLEN.md) protokolliert, pro Domain.
 - Mengen aus Seiten-Zusammenfassungen sind nicht gegengeprüft; Auffälligkeiten stehen in `notizen` je Rezept.
 - Vor dem Einpflegen prüfen: Zutat-Schlüssel, Rollen, Einheiten, Dubletten (id und URL), Grenzen.
-- Nach jedem Korpus-Zuwachs `node tools/ueberraschungen.mjs` laufen lassen: zeigt Grenzen, die ein einzelnes Rezept trägt, und Rezepte, die das Gärmodell verfehlen — mit Mustern (zum Beispiel fehlt die Raumtemperatur). Der Korpus enthält nur Erfolge; Misserfolge kommen nur aus den Rückmeldungen.
+- Nach jedem Korpus-Zuwachs `node tools/ueberraschungen.mjs` laufen lassen: zeigt Grenzen, die ein einzelnes Rezept trägt, und Rezepte, die das Gärmodell verfehlen — mit Mustern (zum Beispiel fehlt die Raumtemperatur). Der Korpus enthält nur Erfolge; Misserfolge kommen aus den Rückmeldungen und aus dem kleinen Negativ-Korpus (`src/data/negativ.json`, `node tools/negativ.mjs`).
 - Nach Änderungen an Regeln, Grenzen oder Korpus außerdem: `node tools/gaerung-fit.mjs` (Gärmodell gegen den Korpus, mit Leave-one-out-Spanne und Prüf-Rezepten), `node tools/negativ.mjs` (dokumentierte Misserfolge gegen die Regeln), `node tools/rollen-freiheit.mjs` (Substitutions-Freiheit je Rolle; `archetypes.json` muss übereinstimmen, der Test prüft es) und `node tools/qualitaet-gewicht.mjs` (wie stark ein Qualitäts-Gewicht die Mengen verschöbe; der Schalter steht in `corpus.js` und ist aus).
 - **Qualitätsnote 1–5** je Rezept (`qualitaet`, mit Begründung in `qualitaet_grund`): nach neuen Rezepten `node tools/qualitaet.mjs --write` ausführen. Eigene Note: `qualitaet_manuell` im Rezept setzen, das Skript fasst sie nie an. Die Note wird nur angezeigt, Mengen rechnen unabhängig davon (DR-026). Rezepte, die nicht ins Raster passen (Sauerteig, Honig, andere Mehlsorten), lieber weglassen als erfinden.
 

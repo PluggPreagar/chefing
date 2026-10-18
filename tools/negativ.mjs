@@ -32,12 +32,12 @@ for (const z of b.faelle) {
     ...z.toleranz.map((t) => `außerhalb des Korpus: ${t.groesse} ${p(t.wert)}`),
     ...(z.gaerung?.art ? [`Gärmodell: ${z.gaerung.art} (${p(z.gaerung.hefeBp)} % Hefe, ${p(z.gaerung.gare / 60)} Std. bei ${p(z.gaerung.temp ?? 0)} °C, erwartet ${p(z.gaerung.erwartet / 60)} Std.)`] : []),
   ];
-  const urteil = z.kontrolle ? (z.erkannt ? 'FALSCH-ALARM' : 'ok (keine Warnung)') : (z.erkannt ? 'erkannt' : 'FALSCH-NEGATIV');
+  const urteil = z.kontrolle ? (z.erkannt ? 'FALSCH-ALARM' : 'ok (keine Warnung)') : (z.erkannt ? (z.ursacheGetroffen ? 'erkannt (über die genannte Ursache)' : 'erkannt (aus anderem Grund)') : 'FALSCH-NEGATIV');
   console.log(`- ${z.id} [${rolle}, Verlässlichkeit ${z.verlaesslichkeit}]: ${urteil}${teile.length ? ' — ' + teile.join('; ') : ''}${z.unbekannt.length ? ` | nicht gerechnet: ${z.unbekannt.join(', ')}` : ''}`);
 }
 const s = b.zusammenfassung;
 const m = s.mengeUrsache;
-console.log(`\n${s.gesamt} Fälle, ${s.geprueft} prüfbar. Misserfolge mit Mengenursache: ${m.erkannt} von ${m.geprueft} erkannt (weitere ${m.nichtPruefbar.length} nicht prüfbar: ${m.nichtPruefbar.join(', ') || '—'}).`);
+console.log(`\n${s.gesamt} Fälle, ${s.geprueft} prüfbar. Misserfolge mit Mengenursache: ${m.erkannt} von ${m.geprueft} erkannt, davon ${m.ueberUrsache} über die Ursache, die die Quelle nennt (weitere ${m.nichtPruefbar.length} nicht prüfbar: ${m.nichtPruefbar.join(', ') || '—'}).`);
 console.log(`Alle prüfbaren Misserfolge: ${s.erkannt} von ${s.misserfolge} erkannt${s.falschNegativ.length ? `; Falsch-Negative: ${s.falschNegativ.join(', ')}` : ''}. Ohne Mengenursache (Prozess oder offen): ${s.prozessOderOffen.map((x) => `${x.id} (${x.ursacheArt}, ${x.erkannt ? 'trotzdem erkannt' : 'nicht erkannt'})`).join('; ') || '—'}.`);
 if (s.ausgenommen.length) console.log(`Nicht gezählt: ${s.ausgenommen.map((x) => `${x.id} (${x.erkannt ? 'Warnung' : 'keine Warnung'}) — ${x.grund}`).join('; ')}.`);
 console.log(`Kontrollfälle: ${s.kontrollen}, Falsch-Alarme: ${s.falschAlarm.length}${s.falschAlarm.length ? ' (' + s.falschAlarm.join(', ') + ')' : ''}.`);

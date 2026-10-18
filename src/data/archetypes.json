@@ -70,7 +70,7 @@
       { "rolle": "fett",         "label": "Fett", "substitution": "empfohlen",         "pflicht": false, "fallback_bp": 10,  "optionen": ["butter", "margarine", "pflanzenoel"], "default": null, "hinweis": "Macht die Krume weich und hält sie länger frisch; im Brot oft 0, im süßen Hefeteig 10–25 %." },
       { "rolle": "suesse",       "label": "Süße", "substitution": "empfohlen",         "pflicht": false, "fallback_bp": 5,   "optionen": ["zucker", "brauner_zucker"], "default": null, "hinweis": "Nahrung für die Hefe in kleinen Mengen; über ~15 % bremst sie." },
       { "rolle": "bindung",      "label": "Bindung", "substitution": "empfohlen",      "pflicht": false, "fallback_bp": 20,  "optionen": ["ei"], "default": null, "hinweis": "Im süßen Hefeteig für Farbe, Bindung und weiche Krume." },
-      { "rolle": "aroma",        "label": "Aroma", "substitution": "frei",        "pflicht": false, "fallback_bp": 2,   "optionen": ["vanillezucker", "vanilleextrakt", "zitronenabrieb", "orangenabrieb", "zimt"], "default": null },
+      { "rolle": "aroma",        "label": "Aroma", "substitution": "empfohlen",   "pflicht": false, "fallback_bp": 2,   "optionen": ["vanillezucker", "vanilleextrakt", "zitronenabrieb", "orangenabrieb", "zimt"], "default": null },
       { "rolle": "einlage",      "label": "Einlage", "substitution": "frei",      "pflicht": false, "fallback_bp": 25,  "optionen": ["rosinen", "schokolade"], "default": null }
     ],
     "lehrbuch": {

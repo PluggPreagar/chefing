@@ -1,7 +1,7 @@
 // Gärmodell (Hefe × Zeit × Temperatur, T49/T52) an den Korpus-Zeiten fitten und mit modelle.json vergleichen.
 //   node tools/gaerung-fit.mjs
 // Modell: ln(Gare_min) = ln_konstante + exponent · ln(Hefe %) − temp_koeffizient · (Temperatur °C − temp_ref)
-// Gare = Summe von Vorteig-, Gehen- und Stückgare-Zeit je Rezept (`zeiten`), Hefe = Frischhefe-Äquivalent in Bäckerprozent,
+// Gare = Summe von Gehen- und Stückgare-Zeit je Rezept (`zeiten`, wie die Engine; ohne Hefe-Ansatz), Hefe = Frischhefe-Äquivalent in Bäckerprozent,
 // Temperatur = Mitte des Bereichs der Gare (Rezept `temperaturen.gehen`, sonst Vorgabe der Methode/Operation).
 // Rezepte mit Vorteig bleiben draußen: die Hefe im Vorteig ist im Korpus nicht aufgeteilt (Poolish: eine Prise für 12 Std.).
 // Die Parameter in modelle.json werden bewusst NICHT automatisch überschrieben — Abweichungen werden nur gemeldet.
@@ -12,7 +12,7 @@ const wurzel = new URL('../src/', import.meta.url);
 const lies = (p) => JSON.parse(fs.readFileSync(new URL(p, wurzel), 'utf8'));
 const { normalizeRecipe } = await import(new URL('model/corpus.js', wurzel));
 const { temperaturBereich, gareOperation, schrittTemperatur } = await import(new URL('model/temperatur.js', wurzel));
-const { erwarteteGare, hatReifenVorteig } = await import(new URL('model/gaerung.js', wurzel));
+const { erwarteteGare, hatReifenVorteig, gareMinuten } = await import(new URL('model/gaerung.js', wurzel));
 const ingredients = lies('data/ingredients.json');
 const arch = lies('data/archetypes.json').hefeteig;
 const methods = lies('data/methods.json');
@@ -33,7 +33,7 @@ export function lesen() {
   for (const v of Object.values(arch.varianten)) for (const r of lies(`data/corpus/${v.korpus}.json`)) {
     const n = normalizeRecipe(r, ingredients, { rollen });
     const z = r.zeiten || {};
-    const T = (z.vorteig ?? 0) + (z.gehen ?? 0) + (z.stueckgare ?? 0);
+    const T = gareMinuten(z);
     if (hatReifenVorteig(r) || !(z.gehen > 0) || !(n.bilanz.bp.hefe > 0) || !(T > 0)) continue;
     const b = temperaturBereich(schrittTemperatur('gehen', gareOperation(r.methode, methods, operations), r), temperaturen);
     if (!b) continue;

@@ -144,6 +144,7 @@ Nicht abrufbar (403): breadsandsweets.com, madaboutfood.co, kitchensanctuary.com
 | Datum | Domain | Seiten | Zweck | Notiz |
 |-------|--------|--------|-------|-------|
 | 2026-10-18 | thefreshloaf.com | 7 | Negativ-Korpus Hefeteig | 7 Fälle (zu viel Hefe, Übergare, Brioche mit viel Fett, Braunzucker, Backautomat); Mengen meist in Tassen |
+| 2026-10-18 | thefreshloaf.com | 1 | Negativ-Korpus Rührteig | Karotten-Cupcakes mit 2 TL Backpulver und 1 TL Natron, flach und ausgelaufen (Kommentar-Thread, Ursache offen) |
 | 2026-10-18 | smittenkitchen.com | 1 | Negativ-Korpus Rührteig | 2 Fälle aus Kommentaren (Backpulver bitter, selbsttreibendes Mehl plus Backpulver), kaum Mengen |
 | 2026-10-18 | bakeschool.com | 1 | Negativ-Korpus Rührteig | Teilmengen (2 TL Backpulver auf 2 Tassen Mehl), Ursache nur Vermutung |
 | 2026-10-18 | nigella.com | 2 | Negativ-Korpus Rührteig | 1 Fall ohne Mengen (Kokoskuchen fällt zusammen); zweite Seite ohne Mengen |

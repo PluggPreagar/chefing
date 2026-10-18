@@ -8,7 +8,8 @@
     "verlaesslichkeit": "1 bis 3; 3 = konkrete Mengen und klare Ursache, 1 = Ursache offen oder nur Vermutung",
     "einheiten": "Mengen wie in der Quelle: g, ml, stk, pkt, tsp (= tl), tbsp (= el), cup (Tassen; Umrechnung in negativ.js TASSE_G, Schätzwerte)",
     "pruefung": "von Hand kuratiert, wenn die Quelle Gare-Zeit und -Temperatur nennt: gare_min (alle Gare-Phasen zusammen), gare_temp (Zahl oder Name aus temperaturen.json)",
-    "auswahl": "Selbstauswahl: wer Fehlschläge meldet oder erfragt, ist nicht repräsentativ; Hefeteig-Fälle fast nur aus einem englischsprachigen Forum, Mengen meist in Tassen; Lücken bei Rührteig mit viel Fett/Zucker, Gugelhupf, Kastenkuchen und Hefezopf mit Gramm-Angaben."
+    "auswahl": "Selbstauswahl: wer Fehlschläge meldet oder erfragt, ist nicht repräsentativ; Hefeteig-Fälle fast nur aus einem englischsprachigen Forum, Mengen meist in Tassen; Lücken bei Rührteig mit viel Fett/Zucker, Gugelhupf, Kastenkuchen und Hefezopf mit Gramm-Angaben.",
+    "ursache_regeln": "von Hand kuratiert (nur Fälle mit Mengenursache): welche Regel die Ursache laut Quelle treffen müsste — gaerung | grenze:<id> | toleranz:<größe>. Der Bericht zählt „erkannt über die genannte Ursache“ getrennt von „erkannt aus anderem Grund“."
   },
   "faelle": [
     {
@@ -90,7 +91,10 @@
       "pruefung": {
         "gare_min": 120,
         "gare_temp": 41
-      }
+      },
+      "ursache_regeln": [
+        "gaerung"
+      ]
     },
     {
       "id": "freshloaf-brotbackautomat-honig-hoehe-einbruch",
@@ -288,7 +292,10 @@
       "pruefung": {
         "gare_min": 900,
         "gare_temp": "raum"
-      }
+      },
+      "ursache_regeln": [
+        "gaerung"
+      ]
     },
     {
       "id": "freshloaf-vollkorn-braunzucker-geht-nicht-auf",
@@ -432,7 +439,11 @@
       "pruefung": {
         "gare_min": 960,
         "gare_temp": "kuehlschrank"
-      }
+      },
+      "ursache_regeln": [
+        "grenze:hf_fett_max",
+        "toleranz:fett"
+      ]
     },
     {
       "id": "freshloaf-nutella-sternbrot-dicht",

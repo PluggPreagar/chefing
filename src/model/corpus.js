@@ -93,8 +93,9 @@ function summarizeQ(liste, fn, gewichtet) {
   const mit = werte.map((w, i) => ({ w, note: noten[i] })).filter((x) => x.w != null && Number.isFinite(x.w));
   let median;
   if (mit.length <= 2) {
-    const beste = Math.max(...mit.map((x) => x.note ?? 0));
-    median = quantile(mit.filter((x) => (x.note ?? 0) === beste).map((x) => x.w), 0.5);
+    const note = (x) => x.note ?? 4; // ohne Note wie Note 4 (QUALITAET_GEWICHT)
+    const beste = Math.max(...mit.map(note));
+    median = quantile(mit.filter((x) => note(x) === beste).map((x) => x.w), 0.5);
   } else {
     median = gewichteterMedian(werte, noten.map(QUALITAET_GEWICHT)) ?? s.median;
   }

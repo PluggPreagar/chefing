@@ -70,9 +70,21 @@ c=rechne({mengen:{fluessigkeit:0}});
 ok(c.zutatenListe.every(z=>z.rolle!=='fluessigkeit' || z.bp===0) ,'Menge 0 ist gültig (Flüssigkeit weglassen)');
 c=rechne({mengen:{struktur:50}});
 ok(c.zutatenListe.find(z=>z.rolle==='struktur').bpQuelle==='manuell',"auch die Referenzrolle kann man manuell setzen (die Engine vertraut dem Nutzer; nur Vorschläge fassen sie nicht an)");
-// UI-Dateien
-const ui=fs.readFileSync(new URL('../src/ui/recipeCard.js',import.meta.url),'utf8'), main=fs.readFileSync(new URL('../src/main.js',import.meta.url),'utf8');
-ok(/mengenVorschlag\(m, state, onChange\)/.test(ui) && /mengen: \{ \.\.\.state\.mengen, \[m\.rolle\]: m\.nach \}/.test(ui) && /Zurücksetzen/.test(ui) && /✎/.test(ui),'Anzeige: Vorschlag mit „Übernehmen“, Hinweis mit „Zurücksetzen“, Markierung ✎');
-ok((main.match(/state\.mengen = \{\}/g)||[]).length===2 && /mengen: \{\},/.test(main),'Zustand: mengen startet leer und wird bei Archetyp- und Preset-Wechsel zurückgesetzt');
+// --- Natron und Säure: Vorschläge bleiben sinnvoll (Gegenlesen) ------------------------------------------------------------------
+{const szen=[['Natron + Milch',{trieb:E('natron'),fluessigkeit:E('milch')},{}],['Natron + Schmand',{trieb:E('natron'),fluessigkeit:E('schmand')},{}],['Natron + Schmand, 6 % Natron',{trieb:E('natron'),fluessigkeit:E('schmand')},{mengen:{trieb:6}}],['Natron + Milch, Flüssigkeit 0',{trieb:E('natron'),fluessigkeit:E('milch')},{mengen:{fluessigkeit:0}}]];
+ const cs=szen.map(([n,z,x])=>[n,rechne({zutaten:{...basis,...z},...x})]);
+ ok(cs.every(([,c])=>c.regelIds.some(i=>/^natron_/.test(i))),'Szenarien lösen jeweils eine Natron-Regel aus (braucht Säure bzw. Säure-Verhältnis)');
+ ok(cs.every(([,c])=>!c.kaskaden.some(k=>k.rolle==='fluessigkeit' && ['milch','wasser'].includes(k.zutat))),'kein Vorschlag, die Säure wegzunehmen (Schmand → Milch, Buttermilch → Wasser verschärft die Natron-Grenze)');
+ ok(cs.every(([,c])=>!c.mengenVorschlaege.some(m=>m.rolle==='fluessigkeit' && m.nach===0)),'kein Mengen-Vorschlag, die Flüssigkeit auf 0 zu setzen (Säure ginge mit)');
+ ok(cs.every(([,c])=>!c.toleranzHinweise.some(h=>/Natron|Säure/i.test(h)) && !c.regelIds.some(i=>/toleranz:(natron|saeure)/.test(i))),'Natron und Säure: nur die Grenze meldet, kein zusätzlicher Korpus-Toleranz-Hinweis (die Größen haben keine Korpus-Spanne)');
+}
+// --- Eigenschaft: ein übernommener Vorschlag hält seine Grenzen (Rundung, Mehrfachvorschläge) ----------------------------------------
+{let n=0, schlecht=[];
+ for (const fl of [0,2,5,8,12,25,60,90,120,200]) for (const bd of [null,10,40,100]) {
+   const mengen={fluessigkeit:fl,...(bd==null?{}:{bindung:bd})}; const c0=rechne({mengen});
+   for (const v of c0.mengenVorschlaege) { n++; const c1=rechne({mengen:{...mengen,[v.rolle]:v.nach}}); const noch=v.grenzIds.filter(id=>c1.regelIds.includes(id)); if (noch.length) schlecht.push(`${JSON.stringify(mengen)} → ${v.rolle} ${v.nach}: ${noch.join(',')}`); }
+ }
+ ok(n>=8 && schlecht.length===0,`${n} Vorschläge über 40 Ausgangsmengen: jeder übernommene Wert löst alle seine Auslöser-Grenzen${schlecht.length?' — '+schlecht.slice(0,3).join('; '):''}`);}
+// Anzeige, Zustand und Rückmeldung: test/ui-zustand.check.mjs
 
 console.log(fail?fail+' FAIL':'ALL PASS');

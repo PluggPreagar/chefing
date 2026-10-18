@@ -10,7 +10,7 @@
 // dafür sind die Rückmeldungen (T53) da.
 import { normalizeRecipe } from './corpus.js';
 import { messwert } from './bilanz.js';
-import { erwarteteGare, mitMindestzeit, vorteigDosis, hatReifenVorteig } from './gaerung.js';
+import { erwarteteGare, mitMindestzeit, vorteigDosis, hatReifenVorteig, gareMinuten } from './gaerung.js';
 import { temperaturBereich, schrittTemperatur, gareOperation } from './temperatur.js';
 
 // vorteigReife: ab so vielen Minuten gilt ein Vorteig als Reife-Vorteig (Poolish, Biga), darunter als Hefe-Ansatz (Dampfl)
@@ -94,9 +94,9 @@ export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modell
     // 2) Gärmodell
     for (const { roh, n } of rezepte) {
       const z = roh.zeiten || {};
-      const T = (z.vorteig ?? 0) + (z.gehen ?? 0) + (z.stueckgare ?? 0);
+      const T = gareMinuten(z);
       const hefe = n.bilanz.bp.hefe;
-      if (model && !hatReifenVorteig(roh) && z.gehen > 0 && hefe > 0 && T > 0) {
+      if (model && !hatReifenVorteig(roh, s.vorteigReife) && z.gehen > 0 && hefe > 0 && T > 0) {
         const gareOp = gareOperation(roh.methode, methods, operations);
         const temp = temperaturBereich(schrittTemperatur('gehen', gareOp, roh), temperaturen)?.mitte ?? null;
         const erwartet = mitMindestzeit(erwarteteGare(hefe, temp, model), gareOp?.zeit?.min); // wie die Engine (T58)
@@ -105,7 +105,7 @@ export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modell
       // Vorteig-Angaben (T57), gleich welche Methode (Hefe-Ansätze laufen seit T60 als direkte Führung): echte Vorteig-Rezepte
       // stehen nicht im Gärmodell-Fit, der Bericht prüft sie unabhängig
       if (model && roh.vorteig?.mehl_g > 0 && roh.vorteig.hefe_g_frisch > 0 && z.vorteig > 0) {
-        const temp = temperaturBereich(roh.temperaturen?.vorteig ?? operations?.vorteig_reifen?.temperatur, temperaturen)?.mitte ?? null;
+        const temp = temperaturBereich(roh.temperaturen?.vorteig, temperaturen)?.mitte ?? null;
         const dosis = vorteigDosis({ hefeG: roh.vorteig.hefe_g_frisch, mehlG: roh.vorteig.mehl_g, dauer: z.vorteig, temp }, model);
         vorteigRezepte.push({ id: roh.id, dauer: z.vorteig, temp, hefeBp: (roh.vorteig.hefe_g_frisch / roh.vorteig.mehl_g) * 100, dosis, art: z.vorteig >= s.vorteigReife ? 'reife' : 'ansatz' });
       }

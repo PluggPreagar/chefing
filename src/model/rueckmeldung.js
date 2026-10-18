@@ -22,11 +22,13 @@ export function baueMeldung({ state, computed, eingabe, appVersion }) {
     if (eintraege.length) zutaten[rolle] = eintraege;
   }
   const g = computed.gaerung;
+  // Manuell gesetzte Mengen (T40): dann sind es nicht die vorgeschlagenen Korpus-Mengen
+  const mengenManuell = Object.entries(computed.rollenBp || {}).filter(([, v]) => v.quelle === 'manuell').map(([r]) => r);
   return {
     v: SCHEMA_VERSION,
     bewertung: eingabe.bewertung,
     kommentar: gekuerzt(String(eingabe.kommentar ?? '').trim(), MAX_KOMMENTAR), // erst trimmen, dann kürzen (wie feedback.php)
-    mengenWieVorgeschlagen: eingabe.mengenWieVorgeschlagen === true,
+    mengenWieVorgeschlagen: eingabe.mengenWieVorgeschlagen === true && mengenManuell.length === 0,
     app: appVersion || 'lokal',
     kontext: {
       archetyp: state.archetyp,
@@ -39,6 +41,7 @@ export function baueMeldung({ state, computed, eingabe, appVersion }) {
       warnungen: (computed.warnungen || []).slice(0, 12).map((w) => gekuerzt(w, 300)),
       korpusN: computed.korpusN ?? null,
       korpusNMethode: computed.korpusNMethode ?? null,
+      mengenManuell,
       rollenBp: Object.fromEntries(Object.entries(computed.rollenBp || {}).map(([r, v]) => [r, Math.round(v.bp * 100) / 100])),
       gaerung: g ? { gare: Math.round(g.gare), erwartet: Math.round(g.erwartet * 10) / 10, hefeBp: Math.round(g.hefeBp * 100) / 100, temp: Math.round(g.temp * 10) / 10, kuehl: !!g.kuehl, berechnet: !!g.berechnet } : null,
     },

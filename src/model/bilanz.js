@@ -54,7 +54,10 @@ export function bilanz(posten, ingredients, referenzRolle = 'struktur') {
 export function messwert(grenze, b) {
   if (grenze.bezug?.groesse) {
     const nenner = b.gramm[grenze.bezug.groesse];
-    return nenner > 0 ? b.gramm[grenze.groesse] / nenner : null;
+    const zaehler = b.gramm[grenze.groesse];
+    // Nenner 0: kein Wert (null), außer es gibt einen Zähler — dann unendlich (Natron ohne jede Säure). Die Anzeige ignoriert beides, die
+    // Kaskaden zählen unendlich als verletzt, damit kein Vorschlag die Säure ganz entfernt.
+    return nenner > 0 ? zaehler / nenner : zaehler > 0 ? Infinity : null;
   }
   return b.bp[grenze.groesse];
 }
@@ -68,7 +71,7 @@ export function grenzenPruefen(b, grenzen) {
   const empfohlen = [];
   for (const g of grenzen || []) {
     const w = messwert(g, b);
-    if (w == null) continue;
+    if (w == null || !Number.isFinite(w)) continue;
     const zuNiedrig = g.min != null && w < g.min;
     const zuHoch = g.max != null && w > g.max;
     if (!zuNiedrig && !zuHoch) continue;
@@ -151,37 +154,77 @@ export function grenzenKaskade(grenze, posten, optionen, ingredients, grenzen, r
   for (const kandidat of optionen) {
     if (aktuell.has(kandidat) || !ingredients[kandidat]) continue;
     const probe = [...posten.filter((p) => p.rolle !== ziel), { rolle: ziel, zutat: kandidat, gramm: rollenGramm }];
-    const v = grenzenPruefen(bilanz(probe, ingredients, referenzRolle), grenzen);
-    if (v.hart.length || v.empfohlen.some((x) => x.id === grenze.id)) continue;
+    const b = bilanz(probe, ingredients, referenzRolle);
+    const v = grenzenPruefen(b, grenzen);
+    if (v.hart.length || v.empfohlen.some((x) => x.id === grenze.id) || messwert(grenze, b) === Infinity) continue;
     return kandidat;
   }
   return null;
 }
 
-// Mengen-Kaskade (T40): reicht kein Tausch der Zutat, wird die MENGE der Zielrolle verschoben, bis die Grenze hält — in 1-%-Schritten
-// um die aktuelle Menge, innerhalb der Korpus-Spanne dieser Rolle (spanne = {min, max} in Bäckerprozent), der kleinste Eingriff
-// gewinnt. Rechnet in Bäckerprozent (Mehl = 100, posten[].gramm = Bäckerprozent der Zeile); die Teigmasse skaliert danach alles
-// gleich mit, die Verhältnisse bleiben. Die Referenzrolle (Mehl) wird nie verschoben; keine neue hart-Grenze darf entstehen.
-// Reine Simulation — Vorschlag, keine Mutation (wie grenzenKaskade).
+// Mengen-Kaskade (T40): reicht kein Tausch der Zutat, wird die MENGE der Zielrolle verschoben, bis die Grenze hält — in Schritten von 1 %
+// der aktuellen Menge, innerhalb der Korpus-Spanne dieser Rolle (spanne = {min, max} in Bäckerprozent), der kleinste Eingriff gewinnt.
+// Der Vorschlag wird auf 0,1 gerundet, und zwar von der Ausgangsmenge weg (Erhöhung auf, Verringerung ab), und mit dem gerundeten Wert
+// simuliert — was angezeigt wird, hält die Grenze auch nach „Übernehmen“. Rechnet in Bäckerprozent (Mehl = 100, posten[].gramm =
+// Bäckerprozent der Zeile); die Teigmasse skaliert danach alles gleich mit. Die Referenzrolle (Mehl) wird nie verschoben, keine neue
+// hart-Grenze darf entstehen, und ein unendliches Verhältnis (Natron ohne Säure) zählt als verletzt. Reine Simulation, keine Mutation.
 export function grenzenMengenKaskade(grenze, posten, spanne, ingredients, grenzen, referenzRolle = 'struktur') {
   const ziel = grenze.kaskade_ziel;
   if (!ziel || ziel === referenzRolle || !spanne || !(spanne.max >= spanne.min)) return null;
   const aktuell = posten.filter((p) => p.rolle === ziel).reduce((a, p) => a + p.gramm, 0);
   if (!(aktuell > 0)) return null;
   const hartVorher = new Set(grenzenPruefen(bilanz(posten, ingredients, referenzRolle), grenzen).hart.map((v) => v.id));
-  const faktoren = [];
+  const schritte = [];
   const kMin = Math.ceil((Math.max(0, spanne.min / aktuell) - 1) * 100 - 1e-9);
   const kMax = Math.floor((spanne.max / aktuell - 1) * 100 + 1e-9);
-  for (let k = kMin; k <= kMax; k++) if (k !== 0) faktoren.push(1 + k / 100); // Schritte von 1 % der aktuellen Menge, ganzzahlig gezählt (keine Rundungsfehler)
-  faktoren.sort((a, b) => Math.abs(a - 1) - Math.abs(b - 1));
-  for (const f of faktoren) {
+  for (let k = kMin; k <= kMax; k++) if (k !== 0) schritte.push(k);
+  schritte.sort((a, b) => Math.abs(a) - Math.abs(b));
+  const gesehen = new Set();
+  for (const k of schritte) {
+    const roh = aktuell * (1 + k / 100);
+    const nach = k > 0 ? Math.ceil(roh * 10 - 1e-9) / 10 : Math.floor(roh * 10 + 1e-9) / 10;
+    if (gesehen.has(nach) || nach < spanne.min - 1e-9 || nach > spanne.max + 1e-9 || nach < 0 || Math.abs(nach - aktuell) < 1e-9) continue;
+    gesehen.add(nach);
+    const f = nach / aktuell;
     const probe = posten.map((p) => (p.rolle === ziel ? { ...p, gramm: p.gramm * f } : p));
-    const v = grenzenPruefen(bilanz(probe, ingredients, referenzRolle), grenzen);
-    if ([...v.hart, ...v.empfohlen].some((x) => x.id === grenze.id)) continue;
+    const b = bilanz(probe, ingredients, referenzRolle);
+    const v = grenzenPruefen(b, grenzen);
+    if ([...v.hart, ...v.empfohlen].some((x) => x.id === grenze.id) || messwert(grenze, b) === Infinity) continue;
     if (v.hart.some((x) => !hartVorher.has(x.id))) continue;
-    return { rolle: ziel, von: aktuell, nach: Math.round(aktuell * f * 10) / 10, faktor: f };
+    return { rolle: ziel, von: aktuell, nach, faktor: f };
   }
   return null;
+}
+
+// Mehrere Mengen-Vorschläge für dieselbe Rolle in dieselbe Richtung (z. B. drei Wasser-Grenzen) zu EINEM zusammenfassen, wenn der
+// weitestgehende Wert alle diese Grenzen zugleich hält und keine neue harte Grenze verletzt (T40). Vorschläge anderer Rollen und
+// gegenläufige oder nicht zusammenfassbare Vorschläge bleiben unverändert und in ihrer Reihenfolge; ein zusammengefasster Vorschlag
+// steht an der Stelle des ersten seiner Gruppe. vorschlaege: [{rolle, von, nach, ausloeser, weitere[], grenzIds[]}].
+export function vorschlaegeZusammenfassen(vorschlaege, posten, ingredients, grenzen, referenzRolle = 'struktur', hartJetzt = new Set()) {
+  const ersatz = new Map(); // rolle → zusammengefasster Vorschlag
+  for (const rolle of new Set(vorschlaege.map((x) => x.rolle))) {
+    const liste = vorschlaege.filter((x) => x.rolle === rolle);
+    if (liste.length < 2) continue;
+    const hoch = liste.every((x) => x.nach > x.von);
+    if (!hoch && !liste.every((x) => x.nach < x.von)) continue;
+    const ziel = (hoch ? Math.max : Math.min)(...liste.map((x) => x.nach));
+    const probe = posten.map((p) => (p.rolle === rolle ? { ...p, gramm: p.gramm * (ziel / liste[0].von) } : p));
+    const b = bilanz(probe, ingredients, referenzRolle);
+    const v = grenzenPruefen(b, grenzen);
+    const ids = new Set(liste.flatMap((x) => x.grenzIds));
+    const unendlich = (grenzen || []).some((g) => ids.has(g.id) && messwert(g, b) === Infinity);
+    if ([...v.hart, ...v.empfohlen].some((x) => ids.has(x.id)) || unendlich || v.hart.some((x) => !hartJetzt.has(x.id))) continue;
+    const erster = liste.find((x) => x.nach === ziel) ?? liste[0];
+    const texte = [...new Set(liste.flatMap((x) => [x.ausloeser, ...x.weitere]))].filter((t) => t !== erster.ausloeser);
+    ersatz.set(rolle, { ...erster, nach: ziel, weitere: texte, grenzIds: [...ids] });
+  }
+  const aus = [];
+  const gesetzt = new Set();
+  for (const x of vorschlaege) {
+    if (!ersatz.has(x.rolle)) { aus.push(x); continue; }
+    if (!gesetzt.has(x.rolle)) { gesetzt.add(x.rolle); aus.push(ersatz.get(x.rolle)); }
+  }
+  return aus;
 }
 
 // Herkunft einer Bilanz-Größe nach Rollen (T41, Funktions-Sicht): welche Rollen liefern wie viel davon? Das Ei liefert Bindung,

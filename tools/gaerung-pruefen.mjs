@@ -10,7 +10,7 @@ import fs from 'fs';
 const wurzel = new URL('../src/', import.meta.url);
 const lies = (p) => JSON.parse(fs.readFileSync(new URL(p, wurzel), 'utf8'));
 const { normalizeRecipe, stats } = await import(new URL('model/corpus.js', wurzel));
-const { erwarteteGare, hefeFuerGare, gaerungModell, hatReifenVorteig } = await import(new URL('model/gaerung.js', wurzel));
+const { erwarteteGare, hefeFuerGare, gaerungModell, hatReifenVorteig, gareMinuten } = await import(new URL('model/gaerung.js', wurzel));
 const { temperaturBereich, gareOperation, schrittTemperatur } = await import(new URL('model/temperatur.js', wurzel));
 const ingredients = lies('data/ingredients.json');
 const arch = lies('data/archetypes.json').hefeteig;
@@ -33,7 +33,7 @@ const zeilen = [];
 for (const r of neu) {
   const n = normalizeRecipe(r, ingredients, { rollen });
   const z = r.zeiten || {};
-  const T = (z.vorteig ?? 0) + (z.gehen ?? 0) + (z.stueckgare ?? 0);
+  const T = gareMinuten(z);
   const temp = temperaturBereich(schrittTemperatur('gehen', gareOperation(r.methode, methods, operations), r), temperaturen)?.mitte ?? null;
   const hefe = n.bilanz.bp.hefe;
   if (!(hefe > 0) || !(T > 0) || hatReifenVorteig(r)) { console.log(`übersprungen (keine Zeit/Hefe oder Vorteig): ${r.id}`); continue; }
@@ -57,7 +57,7 @@ const fHefeM = zeilen.map((r) => faktor(r.hefe, r.hefeModell));
 const fHefeV = zeilen.map((r) => faktor(r.hefe, r.hefeVariante));
 const fHefeD = zeilen.map((r) => faktor(r.hefe, r.hefeDirekt));
 const innerhalb = zeilen.filter((r) => faktor(r.T, r.gareModell) <= m.warn_faktor).length;
-console.log(`\nGärzeit aus Hefe (Modell):        Median-Abweichung ×${fmt(med(fZeit), 2)}, ${innerhalb} von ${zeilen.length} innerhalb ×${m.warn_faktor} (Fit am Korpus: Median ×1,35)`);
+console.log(`\nGärzeit aus Hefe (Modell):        Median-Abweichung ×${fmt(med(fZeit), 2)}, ${innerhalb} von ${zeilen.length} innerhalb ×${m.warn_faktor} (Fit am Korpus: Median ×1,33)`);
 console.log(`Hefe aus Gärzeit (Modell):        Median-Abweichung ×${fmt(med(fHefeM), 2)}`);
 console.log(`Hefe: Median der Variante:        Median-Abweichung ×${fmt(med(fHefeV), 2)}`);
 console.log(`Hefe: Median der direkten Führung: Median-Abweichung ×${fmt(med(fHefeD), 2)}`);

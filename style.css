@@ -176,3 +176,4 @@ code { font-size: .85em; }
   .dim { grid-template-columns: 1fr; gap: .3rem; }
   .bar-row { grid-template-columns: 110px 1fr 2rem; }
 }
+.tab-scroll { overflow-x: auto; max-width: 100%; }

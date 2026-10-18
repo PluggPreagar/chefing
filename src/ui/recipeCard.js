@@ -84,6 +84,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
     for (const z of computed.bilanz) {
       const k = z.korpus;
       if (!(z.gramm > 0) && !(k?.max > 0)) continue; // Größe kommt im Archetyp nicht vor (z. B. Hefe im Rührteig)
+      if (!(z.gramm > 0) && (z.groesse === 'natron' || z.groesse === 'saeure')) continue; // Natron-Balance nur zeigen, wenn Natron oder Säure im Rezept steckt
       bb.append(tr([z.label, `${fmtProzent(z.gramm)} g`, `${fmtProzent(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmtProzent(k.q1)}–${fmtProzent(k.q3)} %` : '—', herkunftText(z.herkunft)]));
     }
     bt.append(bb);
@@ -151,8 +152,7 @@ function mengenVorschlag(m, state, onChange) {
 // Hinweis auf manuell gesetzte Mengen (✎ in der Tabelle) mit Rückweg zu den Korpus-Mengen
 function mengenManuell(computed, state, onChange) {
   const box = el('div', 'note note-info');
-  const teile = computed.zutatenListe.filter((z) => z.bpQuelle === 'manuell').map((z) => `${z.rolleLabel} ${fmt(z.bp)} %`);
-  const einzeln = [...new Set(teile)];
+  const einzeln = Object.entries(computed.rollenBp || {}).filter(([, v]) => v.quelle === 'manuell').map(([rolle, v]) => `${computed.zutatenListe.find((z) => z.rolle === rolle)?.rolleLabel ?? rolle} ${fmt(v.bp)} %`);
   box.append(el('span', null, `✎ Manuell gesetzte Menge: ${einzeln.join(', ') || 'keine wirksam'} — statt der Korpus-Menge.`));
   const btn = document.createElement('button');
   btn.type = 'button';

@@ -36,6 +36,10 @@ export function vorteigDosis({ hefeG, mehlG, dauer, temp }, m) {
 // Hefe-Ansatz (Dampfl, 15–30 Min.), dessen ganze Hefe im Ansatz steckt (T60).
 export const hatReifenVorteig = (rezept, reife = 240) => rezept?.methode === 'hefe_vorteig' || (rezept?.vorteig?.hefe_g_frisch > 0 && rezept?.zeiten?.vorteig >= reife);
 
+// Gare im Sinne der Engine in Minuten: Stockgare plus Stückgare (Operationen mit `gaerung: true`). Der Hefe-Ansatz (`zeiten.vorteig`, 15–30 Min.)
+// zählt nicht mit — Fit, Berichte und Engine rechnen dieselbe Zeit (Prüfung T59).
+export const gareMinuten = (zeiten) => (zeiten?.gehen ?? 0) + (zeiten?.stueckgare ?? 0);
+
 // Summe der Gärzeit aus den Schritten mit `gaerung: true`; Vorteig (`gaerung: 'vorteig'`) macht das Modell unanwendbar.
 export function gaerungsZeit(schritte) {
   let summe = 0;

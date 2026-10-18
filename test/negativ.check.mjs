@@ -43,6 +43,9 @@ const zl=Object.fromEntries(b.faelle.map(x=>[x.id,x]));
 ok(!zl.normal.erkannt && zl.normal.grenzen.length===0 && zl.normal.toleranz.length===0,'Mengen im Korpus-Normalbereich: keine Warnung (Falsch-Negativ bei einem Misserfolg)');
 ok(zl.zuckrig.erkannt && zl.zuckrig.grenzen.map(x=>x.id).join()==='zucker_max' && zl.zuckrig.grenzen[0].strenge==='empfohlen' && near(zl.zuckrig.grenzen[0].wert,60),'60 % Zucker: Grenze zucker_max schlägt an (empfohlen, Wert 60)');
 ok(b.zusammenfassung.erkannt===1 && b.zusammenfassung.misserfolge===2 && b.zusammenfassung.falschNegativ.join()==='normal' && b.zusammenfassung.mengeUrsache.geprueft===2 && b.zusammenfassung.mengeUrsache.erkannt===1,'Zusammenfassung: 1 von 2 erkannt, Falsch-Negativ benannt, Quote der Mengenursachen 1 von 2');
+{const bu=lauf([fall('treffer',zuckerig,{ursache_regeln:['grenze:zucker_max']}),fall('anders',zuckerig,{ursache_regeln:['gaerung']}),fall('ohne',zuckerig),fall('tol',zuckerig,{ursache_regeln:['toleranz:zucker']})]);
+ const u=Object.fromEntries(bu.faelle.map(x=>[x.id,x.ursacheGetroffen]));
+ ok(u.treffer===true && u.anders===false && u.ohne===false && bu.faelle.every(x=>x.erkannt) && bu.zusammenfassung.mengeUrsache.erkannt===4 && bu.zusammenfassung.mengeUrsache.ueberUrsache===1+Number(u.tol),'ursache_regeln: „erkannt über die Ursache“ nur, wenn die kuratierte Regel (grenze:<id>, toleranz:<größe>, gaerung) wirklich angeschlagen hat; alle vier sind erkannt, ohne Eintrag zählt nicht');}
 // Toleranz: gegen die Variante des Falls; ohne Variante nur außerhalb ALLER Varianten
 const suess=[z('struktur','mehl',100,'g'),z('fluessigkeit','wasser',60,'g'),z('suesse','zucker',30,'g'),z('trieb','hefe_frisch',4,'g')];
 b=lauf([fall('v-suess',suess,{variante:'v'}),fall('w-suess',suess,{variante:'w'}),fall('ohne-variante',suess,{variante:null})]);
@@ -89,6 +92,10 @@ ok(es.gesamt===14 && es.geprueft===9 && es.nichtPruefbar.length===5,`prüfbar si
 ok(es.mengeUrsache.geprueft===3 && es.mengeUrsache.erkannt===3 && es.mengeUrsache.nichtPruefbar.length===2,'Befund: alle 3 prüfbaren Misserfolge mit Mengenursache werden erkannt (zu viel Hefe bei langer Gare, Salz 4,4 %, viel Fett); 2 weitere Mengenfälle sind nicht prüfbar (Salz vergessen, selbsttreibendes Mehl)');
 ok(es.falschNegativ.length===2 && es.falschNegativ.includes('freshloaf-nutella-sternbrot-dicht') && es.falschNegativ.includes('freshloaf-brotbackautomat-honig-hoehe-einbruch') && es.prozessOderOffen.find(x=>x.id==='freshloaf-nutella-sternbrot-dicht').ursacheArt==='prozess','Befund: zwei Falsch-Negative, beide ohne Mengenursache (zu kurz geknetet; Ursache offen) — Mengen-Regeln können sie nicht sehen');
 ok(es.kontrollen===1 && es.falschAlarm.length===0,'der Kontrollfall (normale Mengen, Prozessfehler) löst keinen Falsch-Alarm aus');
+const mengenFaelle=echt.faelle.filter(x=>x.ursacheArt==='menge' && x.geprueft);
+const ueber=Object.fromEntries(mengenFaelle.map(x=>[x.id,x.ursacheGetroffen]));
+ok(mengenFaelle.length===3 && es.mengeUrsache.ueberUrsache===Object.values(ueber).filter(Boolean).length && es.mengeUrsache.ueberUrsache===1 && mengenFaelle.every(x=>Array.isArray(alle.find(f=>f.id===x.id).ursache_regeln)) && echt.faelle.filter(x=>x.ursacheGetroffen).every(x=>x.erkannt),`Ehrliche Quote: alle 3 Mengenfälle werden erkannt, aber nur ${es.mengeUrsache.ueberUrsache} über die Ursache, die die Quelle nennt (kuratiert in ursache_regeln) — die anderen aus anderem Grund`);
+ok(ueber['freshloaf-vollkorn-2-25tl-hefe-lange-stockgare-dicht']===true && ueber['freshloaf-vollkorn-5-laibe-35g-hefe-kollaps']===false,'Befund: 2,25 TL Hefe erkannt über das Gärmodell (die Ursache); 5 Laibe nur über das Salz, nicht über die genannte Übergare');
 const lf=echt.faelle.find(x=>x.id==='freshloaf-vollkorn-5-laibe-35g-hefe-kollaps');
 ok(lf.grenzen.some(x=>x.id==='hf_salz_max') && lf.gaerung.gare===120 && lf.gaerung.temp===41 && lf.gaerung.art===null && lf.erkannt,'Fall 5 Laibe: erkannt über das Salz (hf_salz_max); das Gärmodell sieht die Übergare seit dem Temperatur-Deckel (41 °C zählt wie 35 °C, ×2,6 über dem Modell) nicht mehr als „zu_lang“ (Schwelle ×3,5)');
 const l2=echt.faelle.find(x=>x.id==='freshloaf-vollkorn-2-25tl-hefe-lange-stockgare-dicht');
@@ -97,7 +104,7 @@ ok(l2.gaerung.art==='zu_lang' && l2.gaerung.hefeBp>5 && l2.gaerung.gare===900,'F
 // --- Werkzeug ---------------------------------------------------------------------------------------------------------------------------
 const tool=new URL('../tools/negativ.mjs',import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1');
 const text=execFileSync(process.execPath,[tool],{encoding:'utf8'});
-ok(/Misserfolge mit Mengenursache: 3 von 3 erkannt/.test(text) && /FALSCH-NEGATIV/.test(text) && /nicht prüfbar/.test(text) && /Nicht gezählt: pickuplimes/.test(text) && /Falsch-Alarme: 0/.test(text),'Werkzeug: Quote der Mengenursachen, Falsch-Negative, nicht prüfbare und nicht gezählte Fälle');
+ok(new RegExp(`Misserfolge mit Mengenursache: 3 von 3 erkannt, davon ${es.mengeUrsache.ueberUrsache} über die Ursache`).test(text) && /erkannt \(über die genannte Ursache\)/.test(text) && /erkannt \(aus anderem Grund\)/.test(text) && /FALSCH-NEGATIV/.test(text) && /nicht prüfbar/.test(text) && /Nicht gezählt: pickuplimes/.test(text) && /Falsch-Alarme: 0/.test(text),'Werkzeug: Quote der Mengenursachen, Falsch-Negative, nicht prüfbare und nicht gezählte Fälle');
 const json=JSON.parse(execFileSync(process.execPath,[tool,'--json'],{encoding:'utf8'}));
 ok(json.zusammenfassung.geprueft===es.geprueft && json.faelle.length===14,'Werkzeug --json liefert dasselbe wie das Modul');
 

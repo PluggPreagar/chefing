@@ -1603,7 +1603,7 @@
     "methode": "hefe_vorteig",
     "zeiten": {
       "kneten": 15,
-      "vorteig": 30,
+      "vorteig": 750,
       "stueckgare": 60
     },
     "temperaturen": {
@@ -1627,9 +1627,9 @@
       "original": "220 C Ober-/Unterhitze, ca. 35-40 Minuten, mit Deckel"
     },
     "stueckzahl": null,
-    "notizen": "Vorteig 30 min warm, dann ueber Nacht kalt (Dauer nicht in Minuten angegeben, daher vorteig=30). Unklar, ob die 100 ml Wasser im Hauptteig das Hefewasser einschliessen; so uebernommen. Hydration 60 %. Backzeit 35-40 min (Mitte 38). Die verlinkte Form ist eine Toastform mit Deckel.",
-    "qualitaet": 4,
-    "qualitaet_grund": "keine Seitenwertung"
+    "notizen": "Vorteig 30 min warm, dann ueber Nacht kalt (Dauer nicht angegeben: 30 Min. warm plus angenommene 12 Std. kalt, wie bei den anderen Über-Nacht-Vorteigen, daher vorteig=750). Unklar, ob die 100 ml Wasser im Hauptteig das Hefewasser einschliessen; so uebernommen. Hydration 60 %. Backzeit 35-40 min (Mitte 38). Die verlinkte Form ist eine Toastform mit Deckel.",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Mengen angenommen/unsicher −0,5 · Angabe fehlt im Original −0,25"
   },
   {
     "id": "snapcalorie-weisses-sandwichbrot-poolish",

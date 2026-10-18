@@ -92,6 +92,16 @@ function fb_pruefe(array $m): array {
         if ($v !== null && $kontext[$f] === null) return [null, "kontext.$f"];
     }
 
+    // Rollen, deren Menge der Nutzer manuell gesetzt hat (T40); ältere Clients senden das Feld nicht
+    $manuell = $k['mengenManuell'] ?? [];
+    if (!is_array($manuell) || count($manuell) > 20) return [null, 'kontext.mengenManuell'];
+    $kontext['mengenManuell'] = [];
+    foreach ($manuell as $rolle) {
+        $r = fb_schluessel($rolle, 40);
+        if ($r === null) return [null, 'kontext.mengenManuell'];
+        $kontext['mengenManuell'][] = $r;
+    }
+
     $bp = $k['rollenBp'] ?? [];
     if (!is_array($bp) || count($bp) > 20) return [null, 'kontext.rollenBp'];
     $kontext['rollenBp'] = [];

@@ -80,7 +80,9 @@ function clusterTabelle(cluster, n) {
     const m = (g) => (c.bilanz[g] ? `${fmtProzent(c.bilanz[g].median)} %` : '—');
     t.append(tr([clusterLabel(c), String(c.n), `${Math.round(c.anteil * 100)} %`, m('fett'), m('wasser'), m('zucker')]));
   }
-  wrap.append(t);
+  const scroll = el('div', 'tab-scroll'); // auf schmalen Bildschirmen seitlich scrollen statt die Seite zu verbreitern
+  scroll.append(t);
+  wrap.append(scroll);
   return wrap;
 }
 

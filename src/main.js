@@ -7,6 +7,7 @@ import { renderStats } from './ui/stats.js';
 import { renderRueckfragen } from './ui/rueckfragen.js';
 import { renderKandidaten } from './ui/kandidaten.js';
 import { sendeOffene } from './model/rueckmeldung.js';
+import { alsEintraege, presetPatch, archetypPatch } from './model/zustand.js';
 
 async function loadJson(path) {
   const r = await fetch(path);
@@ -37,15 +38,6 @@ for (const key of archetypKeys) {
   }
 }
 
-// Jede Rolle trägt eine Liste von {zutat, anteil} statt einer einzelnen Zutat —
-// so lassen sich Zutaten mischen (z. B. Fett aus Butter + Öl). Ein einfacher
-// Wert (String) wird zu einem Ein-Eintrag-Array, null/undefined zu [].
-function alsEintraege(wert) {
-  if (wert == null) return [];
-  if (Array.isArray(wert)) return wert;
-  return [{ zutat: wert, anteil: 1 }];
-}
-
 const state = {
   archetyp: archetypKeys[0],
   gefaess: null,
@@ -68,9 +60,7 @@ const $ = (id) => document.getElementById(id);
 function waehleArchetyp(key) {
   arch = archetypes[key];
   data.arch = arch;
-  state.archetyp = key;
-  state.mengen = {};
-  state.zutaten = Object.fromEntries(arch.rollen.map((r) => [r.rolle, alsEintraege(r.default)]));
+  Object.assign(state, archetypPatch(arch, key));
   document.querySelectorAll('[data-preset]').forEach((b) => b.remove());
   for (const [vKey, v] of Object.entries(arch.varianten)) {
     const b = document.createElement('button');
@@ -105,15 +95,7 @@ waehleArchetyp(archetypKeys[0]);
 const sessionStart = new Date().toISOString();
 
 function applyPreset(variante) {
-  const v = arch.varianten[variante];
-  state.gefaess = v.gefaess;
-  state.methode = null;
-  state.mengen = {};
-  state.fixiert = { rollen: {}, zutaten: {} }; // neue Zutaten-Grundlage — alte Fixierungen würden sonst sofort kollidieren
-  for (const r of arch.rollen) {
-    const wert = v.bestof[r.rolle] !== undefined ? v.bestof[r.rolle] : r.default;
-    state.zutaten[r.rolle] = alsEintraege(wert);
-  }
+  Object.assign(state, presetPatch(arch, variante)); // neue Grundlage: alte Fixierungen und manuelle Mengen entfallen
 }
 
 function update(patch) {
