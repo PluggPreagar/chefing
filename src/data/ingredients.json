@@ -7,7 +7,9 @@
     "wasseranteil": "0..1 Massenanteil Wasser",
     "zuckeranteil": "0..1 Massenanteil Zucker (Saccharose + Laktose + Fruchtzucker), Default 0 — für die Gesamtbilanz (bilanz.js, DR-020)",
     "funktionen": "optional, Funktionsvektor (T36, Option A „Funktions-Bilanz additiv“): Massenanteile 0..1 für eiweiss (Gesamteiweiß, koaguliert → Gerüst), gluten (Klebereiweiß, Teilmenge von eiweiss), staerke (verkleistert → Bindung), emulgator (Lecithin); triebkraft = Backpulver-Äquivalent je g (Backpulver 1, Natron ~3, braucht Säure). Fehlend = 0. Richtwerte aus Nährwerttabellen, gerundet.",
-    "saeure": "true wenn nennenswert sauer (reagiert mit Backpulver/Natron)",
+    "saeure": "true wenn nennenswert sauer (reagiert mit Backpulver/Natron); gilt genau dann, wenn `saeure_kapazitaet` gesetzt ist (T37, Test in daten-konsistenz)",
+    "saeure_kapazitaet": "g Natron, die 1 g der Zutat neutralisiert (Natron-Äquivalent der Säure). SCHÄTZWERTE aus Backregeln (½ TL Natron ≈ 2,5 g auf 240 ml Buttermilch ≈ 1,0 g je 100 g; 1/4 TL Natron auf 1 EL Zitronensaft ≈ 8 g je 100 g; Joghurt, saure Sahne, Schmand, Quark nach Milchsäure-Gehalt; Kakao, braunen Zucker und Beeren grob), keine Messwerte. Grundlage der Natron-Säure-Balance (Bilanz-Größe `saeure`, Grenze `natron_saeure_max`); zählt auch bei Einlage mit.",
+    "zusammensetzung": "optional (T37): Fertighelfer als Anteile seiner Bestandteile (Summe höchstens 1; Backpulver = Natron + Säureträger + Stärke). `funktionen` bleibt davon abgeleitet: triebkraft(Natron) / triebkraft(Backpulver) = 1 / Natron-Anteil, `funktionen.staerke` = Stärke-Anteil — der Test in daten-konsistenz hält beides zusammen.",
     "cremig_schlagbar": "true wenn sich bei Raumtemperatur Luft einschlagen lässt; gilt genau dann, wenn `aufschlag_temp` gesetzt ist (T56, Test in daten-konsistenz)",
     "aufschlag_temp": "Temperatur-Bereich (Zahl, Spanne oder Name aus temperaturen.json), in dem das feste Fett plastisch ist und sich Luft einschlagen lässt; Butter 18–22 °C, Margarine breiter (T56). Operationen leiten daraus ihre Temperatur ab (`temperatur: {von: …}`).",
     "schmelzpunkt_c": "°C, nur bei festen Fetten",
@@ -129,6 +131,7 @@
     "wasseranteil": 0.02,
     "zuckeranteil": 0.97,
     "saeure": true,
+    "saeure_kapazitaet": 0.004,
     "eigenschaften": ["leicht sauer durch Melasse", "karamelliges Aroma", "etwas feuchter"],
     "umrechnung": { "el": 13, "tl": 4 }
   },
@@ -190,6 +193,7 @@
     "zuckeranteil": 0.04,
     "funktionen": {"eiweiss": 0.033},
     "saeure": true,
+    "saeure_kapazitaet": 0.01,
     "eigenschaften": ["Milchsäure reagiert mit Backpulver/Natron → zusätzliches CO₂", "Säure begrenzt Glutenentwicklung → zartere Krume"],
     "umrechnung": { "ml": 1.03, "el": 15 }
   },
@@ -202,6 +206,7 @@
     "wasseranteil": 0.80,
     "funktionen": {"eiweiss": 0.03},
     "saeure": true,
+    "saeure_kapazitaet": 0.007,
     "eigenschaften": ["sauer + fetthaltig → saftig und zart", "dickflüssig, bringt weniger freies Wasser"],
     "umrechnung": { "ml": 1.0, "el": 15 }
   },
@@ -214,6 +219,7 @@
     "wasseranteil": 0.68,
     "funktionen": {"eiweiss": 0.025},
     "saeure": true,
+    "saeure_kapazitaet": 0.005,
     "eigenschaften": ["sehr fettreich unter den sauren Milchprodukten → sehr saftig", "leicht säuerlich"],
     "umrechnung": { "ml": 1.0, "el": 20 }
   },
@@ -227,6 +233,7 @@
     "zuckeranteil": 0.04,
     "funktionen": {"eiweiss": 0.04},
     "saeure": true,
+    "saeure_kapazitaet": 0.01,
     "eigenschaften": ["sauer, reagiert mit Trieb", "leichter als Schmand"],
     "umrechnung": { "ml": 1.03, "el": 18 }
   },
@@ -239,6 +246,7 @@
     "wasseranteil": 0.82,
     "funktionen": {"eiweiss": 0.12},
     "saeure": true,
+    "saeure_kapazitaet": 0.008,
     "cremig_schlagbar": false,
     "eigenschaften": ["proteinreich", "sauer", "bringt Feuchtigkeit ohne Fett"],
     "umrechnung": { "el": 25 }
@@ -251,6 +259,7 @@
     "fettanteil": 0,
     "wasseranteil": 0,
     "funktionen": {"triebkraft": 1, "staerke": 0.3},
+    "zusammensetzung": { "natron": 0.3, "saeuretraeger": 0.4, "staerke": 0.3 },
     "saeure": false,
     "trieb_typ": "chemisch_doppelt",
     "eigenschaften": ["enthält Base + Säure → braucht keine saure Zutat", "wirkt beim Anfeuchten und beim Erhitzen (doppelt)", "Richtwert ~3 % vom Mehl"],
@@ -263,7 +272,7 @@
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
-    "funktionen": {"triebkraft": 3},
+    "funktionen": {"triebkraft": 3, "natron": 1},
     "saeure": false,
     "trieb_typ": "chemisch_basisch",
     "eigenschaften": ["nur Base → BRAUCHT saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker)", "etwa 3× so stark wie Backpulver", "Überschuss schmeckt seifig"],
@@ -304,6 +313,7 @@
     "fettanteil": 0,
     "wasseranteil": 0,
     "zuckeranteil": 0.95,
+    "zusammensetzung": { "zucker": 0.95, "vanille": 0.05 },
     "saeure": false,
     "eigenschaften": ["Aroma + ein wenig Zucker"],
     "umrechnung": { "pkt": 8, "tl": 4, "el": 12 }
@@ -362,6 +372,7 @@
     "wasseranteil": 0.88,
     "zuckeranteil": 0.09,
     "saeure": true,
+    "saeure_kapazitaet": 0.013,
     "eigenschaften": ["mild sauer", "bringt Fruchtzucker und Aroma"],
     "umrechnung": { "ml": 1, "el": 15, "tl": 5, "stk": 80 }
   },
@@ -384,6 +395,7 @@
     "fettanteil": 0,
     "wasseranteil": 0.9,
     "saeure": true,
+    "saeure_kapazitaet": 0.08,
     "eigenschaften": ["stark sauer → aktiviert Natron, hemmt Gluten", "Aroma vor allem aus Abrieb, nicht aus Saft"],
     "umrechnung": { "ml": 1, "el": 15, "tl": 5, "stk": 40 }
   },
@@ -396,6 +408,7 @@
     "wasseranteil": 0.03,
     "funktionen": {"eiweiss": 0.2, "staerke": 0.1},
     "saeure": true,
+    "saeure_kapazitaet": 0.03,
     "eigenschaften": ["saugt Flüssigkeit wie Mehl → trocknet Teig aus", "leicht sauer (Naturkakao)", "ersetzt anteilig Mehl im dunklen Teig"],
     "umrechnung": { "el": 8, "tl": 3 }
   },
@@ -455,6 +468,7 @@
     "wasseranteil": 0.85,
     "zuckeranteil": 0.1,
     "saeure": true,
+    "saeure_kapazitaet": 0.012,
     "eigenschaften": ["geben beim Backen Wasser ab", "in Mehl gewendet sinken sie weniger"],
     "umrechnung": { "el": 12 }
   }

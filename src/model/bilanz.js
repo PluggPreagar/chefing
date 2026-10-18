@@ -15,16 +15,22 @@ export const GROESSEN = {
   eiweiss: funktion('eiweiss'), gluten: funktion('gluten'), staerke: funktion('staerke'),
   emulgator: funktion('emulgator'), triebkraft: funktion('triebkraft'),
   hefe: funktion('hefe'), salz: anteil('salzanteil'),
+  // Natron-Säure-Balance (T37): freies Natron (ohne das im Backpulver, das seine Säure mitbringt) und die Säure der übrigen
+  // Zutaten in g Natron-Äquivalent (`saeure_kapazitaet`)
+  natron: funktion('natron'), saeure: anteil('saeure_kapazitaet'),
 };
 export const GROESSEN_LABEL = {
   wasser: 'Gesamtwasser', fett: 'Reinfett', zucker: 'Zucker', eiweiss: 'Eiweiß (Gerüst)',
   gluten: 'Klebereiweiß', staerke: 'Stärke', emulgator: 'Emulgator', triebkraft: 'Triebkraft (Backpulver-Äq.)',
   hefe: 'Hefe (Frischhefe-Äq.)', salz: 'Salz',
+  natron: 'Natron (frei)', saeure: 'Säure (Natron-Äq.)',
 };
 
 // Kleine Werte (Triebkraft, Emulgator, Gluten) mit einer Nachkommastelle, sonst ganzzahlig.
 export const fmtProzent = (x) => (x == null ? '—' : x < 10 ? x.toFixed(1).replace('.', ',') : String(Math.round(x)));
 const AUSSERHALB_MATRIX = new Set(['einlage']);
+// Säure aus der Einlage (Beeren, Zitrusstücke) reagiert mit dem Natron, auch wenn die Einlage nicht zur Teigmatrix zählt
+const MIT_EINLAGE = new Set(['saeure']);
 
 // posten: [{rolle, zutat, gramm}] — gleiche Form für generierte Rezepte (engine.js) und
 // Korpus-Rezepte (corpus.js). referenzRolle: Rolle, auf die Bäckerprozent bezogen werden.
@@ -34,10 +40,10 @@ export function bilanz(posten, ingredients, referenzRolle = 'struktur') {
   for (const p of posten) {
     if (!(p.gramm > 0)) continue;
     if (p.rolle === referenzRolle) refGramm += p.gramm;
-    if (AUSSERHALB_MATRIX.has(p.rolle)) continue;
+    const aussen = AUSSERHALB_MATRIX.has(p.rolle);
     const ing = ingredients[p.zutat];
     if (!ing) continue;
-    for (const [g, wert] of Object.entries(GROESSEN)) gramm[g] += p.gramm * wert(ing);
+    for (const [g, wert] of Object.entries(GROESSEN)) if (!aussen || MIT_EINLAGE.has(g)) gramm[g] += p.gramm * wert(ing);
   }
   const bp = Object.fromEntries(Object.entries(gramm).map(([g, v]) => [g, refGramm > 0 ? (v / refGramm) * 100 : null]));
   return { gramm, bp, refGramm };
