@@ -49,7 +49,7 @@ export function compute(state, data, korpusStats) {
   const variante = varianteFuerGefaess(state.gefaess, arch, data.vessels);
   const st = korpusStats[variante] || { n: 0, bp: {}, methoden: {}, backen: {} };
 
-  const evals = evaluateAll(state.zutaten, state.gefaess, data, state.fixiert);
+  const evals = evaluateAll(state.zutaten, state.gefaess, data, state.fixiert, state.zutatTemperaturen);
   const methodKey = state.methode && evals[state.methode] ? state.methode : bestMethod(evals, st.methoden, state.gefaess, data);
   const res = evals[methodKey];
   const method = data.methods[methodKey];
@@ -57,7 +57,7 @@ export function compute(state, data, korpusStats) {
   // Öl-Deckung bleiben auf der ganzen Variante (Gefäß bzw. „was der Korpus überhaupt kennt“).
   const stM = st.proMethode?.[methodKey] ?? null;
   const stRolle = stM ?? st;
-  const props = propsOf(state.zutaten, data.ingredients);
+  const props = propsOf(state.zutaten, data.ingredients, { benannt: data.temperaturen, zutatTemp: state.zutatTemperaturen });
   // Zeit-Fenster (DR-024/T44): Dauer je Schritt aus `zeit` (Methode/Erfahrungsregel können sie festlegen
   // bzw. verschieben), sonst `dauer_min`. Früh berechnet: das Gärmodell (T49) braucht die Gärzeit für die Hefemenge.
   const zeiten = res.schritte.map((s) => zeitFuerSchritt(s.key, s.op, method, props, data.erfahrungsregeln));

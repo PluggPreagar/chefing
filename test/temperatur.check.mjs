@@ -53,7 +53,8 @@ ok(gareOperation('unbekannt',meths,ops).temperatur==='warm' && gareOperation('x'
 
 // --- Daten ---------------------------------------------------------------------------------------------------------------------
 const namen=Object.keys(T).filter(k=>!k.startsWith('_'));
-ok(namen.join()==='kuehlschrank,kuehl,raum,warm,lauwarm,plastisch,teig' && namen.every(k=>T[k].label && T[k].min<T[k].max),'temperaturen.json: sieben benannte Bereiche mit label und min < max (Gare: kühlschrank bis lauwarm; plastisch für Fett, teig für die Teigtemperatur)');
+ok(namen.join()==='kuehlschrank,kuehl,raum,warm,lauwarm,plastisch,teig,unterstellt' && namen.every(k=>T[k].label && T[k].min<T[k].max),'temperaturen.json: acht benannte Bereiche mit label und min < max (Gare: kühlschrank bis lauwarm; plastisch für Fett, teig für die Teigtemperatur, unterstellt für alles ohne Angabe)');
+ok(T.unterstellt.min===-20 && T.unterstellt.max===27 && /ganze Bereich/.test(T._schema.unterstellt),'unterstellt: −20 bis 27 °C, Schema erklärt die Garantie-Regel');
 const reihe=['kuehlschrank','kuehl','raum','warm','lauwarm'].map(k=>T[k]); // plastisch (18–22) und teig (24–26) liegen bewusst in raum und warm
 ok(reihe.every((x,i)=>i===0||(x.min>=reihe[i-1].max-0.0001 || x===T.lauwarm)),'die Bereiche überlappen sich nicht (außer warm/lauwarm bei 30 °C)');
 const specs=[]; // {wo, spec}

@@ -1,4 +1,6 @@
 import { beschreibeGrenze } from './bilanz.js';
+import { aggregatAus, formVon, erfuellt, standardBereich, FORM_LABEL } from './eigenschaften.js';
+import { temperaturBereich } from './temperatur.js';
 // Eine Rolle kann mehrere Zutaten mit relativen Anteilen tragen (z. B. Fett
 // aus Butter + Öl gemischt). propsOf liefert pro Rolle ein geblendetes
 // Eigenschafts-Objekt: Aggregatzustand/Schmelzpunkt/Label folgen der
@@ -11,7 +13,8 @@ const archVon = (data) => data.arch ?? Object.values(data.archetypes).find((a) =
 const alleRollen = (data) => [...(data.arch?.rollen ?? []), ...Object.values(data.archetypes).flatMap((a) => a?.rollen ?? [])];
 const rollenLabelVon = (data, rolle) => alleRollen(data).find((r) => r.rolle === rolle)?.label ?? rolle;
 
-export function blendProps(entries, ingredients) {
+// `temperatur` (Bereich, optional, T62): Aggregat und Form folgen ihr (eigenschaften.js); ohne sie gilt das Aggregat der Zutat.
+export function blendProps(entries, ingredients, temperatur = null) {
   const valid = (entries || []).filter((e) => e?.zutat && ingredients[e.zutat]);
   if (!valid.length) return null;
   const sumAnteile = valid.reduce((a, e) => a + (e.anteil || 1), 0) || 1;
@@ -24,9 +27,11 @@ export function blendProps(entries, ingredients) {
     ...ingredients[e.zutat],
   }));
   const gemischt = valid.length > 1;
+  const aggregat = aggregatAus(temperatur, domIng);
   return {
     key: dominant.zutat,
     ...domIng,
+    ...(temperatur ? { aggregat, form: formVon(domIng, aggregat), temperatur } : {}),
     label: gemischt ? anteile.map((a) => `${a.label} (${Math.round(a.anteilProzent)} %)`).join(' + ') : domIng.label,
     kurzlabel: gemischt ? anteile.map((a) => a.label).join(' + ') : domIng.label,
     gemischt,
@@ -42,10 +47,14 @@ export function blendProps(entries, ingredients) {
   };
 }
 
-export function propsOf(zutaten, ingredients) {
+// ctx = { benannt: temperaturen.json, zutatTemp: { rolle: Temperatur-Angabe } } (T62): ohne Angabe je Rolle gilt der unterstellte
+// Bereich; ohne `benannt` bleiben die Eigenschaften wie in der Zutaten-Datei.
+export function propsOf(zutaten, ingredients, ctx = {}) {
+  const standard = ctx.benannt ? standardBereich(ctx.benannt) : null;
   const out = {};
   for (const [rolle, entries] of Object.entries(zutaten)) {
-    out[rolle] = blendProps(entries, ingredients);
+    const genannt = ctx.zutatTemp?.[rolle] != null ? temperaturBereich(ctx.zutatTemp[rolle], ctx.benannt) : null;
+    out[rolle] = blendProps(entries, ingredients, genannt ?? standard);
   }
   return out;
 }
@@ -56,13 +65,13 @@ export function propsOf(zutaten, ingredients) {
 export function pruefeBedingung(b, props) {
   if (b.rolle?.startsWith('!')) {
     const ausser = b.rolle.slice(1);
-    const treffer = Object.entries(props).some(([r, p]) => r !== ausser && p?.[b.eigenschaft] === b.wert);
-    return { ok: treffer, ist: treffer ? String(b.wert) : 'nirgends' };
+    const treffer = Object.entries(props).some(([r, p]) => r !== ausser && erfuellt(b, p?.[b.eigenschaft]));
+    return { ok: treffer, ist: treffer ? String(b.wert ?? b.mindestens ?? b.hoechstens) : 'nirgends' };
   }
   const ing = props[b.rolle];
   if (!ing) return { ok: false, ist: 'nicht belegt' };
   const ist = ing[b.eigenschaft];
-  return { ok: ist === b.wert, ist: ist === undefined ? 'unbekannt' : String(ist) };
+  return { ok: erfuellt(b, ist), ist: ist == null ? 'unbekannt' : String(ist) };
 }
 
 // Ist eine Rolle für automatische Anpassung gesperrt? Entweder ganz fixiert (T24), oder
@@ -134,12 +143,23 @@ export function checkOperation(op, props, operations, fixiert = {}, data = null)
 // Generisch: eine Vorbereitungs-Operation kann in operations.json deklarieren, welche
 // Eigenschaften sie an welchen Rollen ändert (`wirkt_auf_eigenschaften`), statt den
 // Effekt hier an ihrem Schlüssel festzumachen (DR-002-Risiko, DR-019/T22).
-function nachVorbereitung(prepKey, props, operations) {
+// `temperatur` im Patch (T62): neue Temperatur der Rolle (Angabe wie überall, auch abgeleitet aus einer Zutat-Eigenschaft); Aggregat und
+// Form werden daraus neu bestimmt, danach gelten die übrigen Felder des Patches. Ohne `data` (alter Aufruf) entfällt die Temperatur.
+export function nachVorbereitung(prepKey, props, operations, data = null) {
   const patch = operations[prepKey]?.wirkt_auf_eigenschaften;
   if (!patch) return props;
   const next = { ...props };
   for (const [rolle, changes] of Object.entries(patch)) {
-    if (next[rolle]) next[rolle] = { ...next[rolle], ...changes };
+    if (!next[rolle]) continue;
+    const { temperatur: spec, ...rest } = changes;
+    let neu = next[rolle];
+    const bereich = spec != null && data ? temperaturBereich(spec, data.temperaturen, next) : null;
+    if (bereich) {
+      const ing = data.ingredients[neu.key];
+      const aggregat = aggregatAus(bereich, ing);
+      neu = { ...neu, temperatur: bereich, aggregat, form: formVon(ing, aggregat) };
+    }
+    next[rolle] = { ...neu, ...rest };
   }
   return next;
 }
@@ -165,10 +185,10 @@ function findKaskadeKandidat(zielRolleKey, eigenschaft, wert, data) {
   return { rolle: zielRolleKey, rolleLabel: rolle.label, zutat: key, zutatLabel: data.ingredients[key].label };
 }
 
-export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}) {
+export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}, zutatTemp = null) {
   const method = data.methods[methodKey];
   const vessel = data.vessels[gefaessKey];
-  let props = propsOf(zutaten, data.ingredients);
+  let props = propsOf(zutaten, data.ingredients, { benannt: data.temperaturen, zutatTemp });
   const schritte = [];
   const gruende = [];
   const warnungen = [];
@@ -219,7 +239,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
       startKeys.add(check.vorbereitung);
       vorbereitungKey = check.vorbereitung;
       schritte.push({ key: check.vorbereitung, op: data.operations[check.vorbereitung], eingefuegt: true, nach: [] });
-      props = nachVorbereitung(check.vorbereitung, props, data.operations);
+      props = nachVorbereitung(check.vorbereitung, props, data.operations, data);
       if (status === 'ok') status = 'prep';
       // Nutzer-Vorgabe (2026-09-21, „Purpose not clear"): Zweck zuerst nennen (ein zusätzlicher
       // Schritt wurde eingefügt), Begründung auf eigener Zeile statt hinter einem Doppelpunkt
@@ -260,7 +280,17 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
 }
 
 const AGGREGAT = { fest: 'festes', fluessig: 'flüssiges', pulver: 'pulvriges', stueckig: 'stückiges' };
-const IST = { fest: 'fest', fluessig: 'flüssig', pulver: 'pulvrig', stueckig: 'stückig', true: 'ja', false: 'nein' };
+const IST = { fest: 'fest', fluessig: 'flüssig', pulver: 'pulvrig', stueckig: 'stückig', unbestimmt: 'unbestimmt (Temperatur um den Schmelzpunkt)', ...FORM_LABEL, true: 'ja', false: 'nein' };
+
+// Anforderung als Text: „flüssiges“, „mindestens kleinteiliges“ (Form), sonst „eigenschaft = wert“
+function sollVon(f) {
+  if (f.eigenschaft === 'cremig_schlagbar') return 'cremig schlagbares';
+  if (f.eigenschaft === 'aggregat') return AGGREGAT[f.wert] ?? f.wert;
+  if (f.eigenschaft === 'saeure') return 'saures';
+  if (f.eigenschaft === 'form' && f.mindestens) return `mindestens ${FORM_LABEL[f.mindestens] ?? f.mindestens}es`;
+  if (f.eigenschaft === 'form' && f.hoechstens) return `höchstens ${FORM_LABEL[f.hoechstens] ?? f.hoechstens}es`;
+  return `${f.eigenschaft} = ${f.wert}`;
+}
 
 function beschreibeBedingungen(fehlend, data) {
   const rollenLabel = (key) => rollenLabelVon(data, key);
@@ -272,11 +302,7 @@ function beschreibeBedingungen(fehlend, data) {
       if (f.hinweis) {
         text = f.hinweis;
       } else {
-        const soll =
-          f.eigenschaft === 'cremig_schlagbar' ? 'cremig schlagbares'
-          : f.eigenschaft === 'aggregat' ? AGGREGAT[f.wert] ?? f.wert
-          : f.eigenschaft === 'saeure' ? 'saures'
-          : `${f.eigenschaft} = ${f.wert}`;
+        const soll = sollVon(f);
         text = f.rolle?.startsWith('!')
           ? `${soll} irgendwo außer bei ${rollenLabel(f.rolle.slice(1))} (ist: ${IST[f.ist] ?? f.ist})`
           : `${soll} ${rollenLabel(f.rolle)} (ist: ${IST[f.ist] ?? f.ist})`;
@@ -297,12 +323,7 @@ function beschreibeBedingungen(fehlend, data) {
 function beschreibeAnforderung(b, data) {
   if (b.hinweis) return b.hinweis;
   const rollenLabel = rollenLabelVon(data, b.rolle);
-  const soll =
-    b.eigenschaft === 'cremig_schlagbar' ? 'cremig schlagbares'
-    : b.eigenschaft === 'aggregat' ? AGGREGAT[b.wert] ?? b.wert
-    : b.eigenschaft === 'saeure' ? 'saures'
-    : `${b.eigenschaft} = ${b.wert}`;
-  return `${soll} ${rollenLabel}`;
+  return `${sollVon(b)} ${rollenLabel}`;
 }
 
 // Katalog aller überschreibbaren `hart`-Regeln im Datensatz (DR-019/T29): durchsucht
@@ -333,9 +354,9 @@ export function alleUeberschreibbarenRegeln(data) {
   return katalog;
 }
 
-export function evaluateAll(zutaten, gefaessKey, data, fixiert = {}) {
+export function evaluateAll(zutaten, gefaessKey, data, fixiert = {}, zutatTemp = null) {
   const arch = archVon(data);
-  return Object.fromEntries(arch.methoden.map((m) => [m, resolveMethod(m, zutaten, gefaessKey, data, fixiert)]));
+  return Object.fromEntries(arch.methoden.map((m) => [m, resolveMethod(m, zutaten, gefaessKey, data, fixiert, zutatTemp)]));
 }
 
 export function bestMethod(evals, methodenHaeufigkeit = {}, gefaessKey, data) {

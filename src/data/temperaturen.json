@@ -2,7 +2,8 @@
   "_schema": {
     "format": "Temperatur als Bereich (T52, DR-028): überall, wo eine Temperatur steht (Operation `temperatur`, Rezept `temperaturen`), gilt dieselbe Schreibweise. Eine Zahl ist ein fester Wert (118 = Flugzucker), `{wert, tol}` ein Wert mit Spielraum (`{wert: 92, tol: 5}` = Sieden, 87–97 °C), `{min, max}` eine Spanne, ein Text (`raum`) ein benannter Bereich aus dieser Datei. Intern wird alles zu `{min, max, mitte}` übersetzt (src/model/temperatur.js).",
     "schluessel": "Ein Rezept nennt die Temperatur unter demselben Schlüssel wie die Zeit in `zeiten` (gehen, stueckgare, vorteig); fehlt sie, gilt die `temperatur` der Operation. So bleibt eine Zahl aus dem Rezepttext erhalten, und alles andere ist eine Vorgabe der Methode.",
-    "label": "Anzeigename des benannten Bereichs."
+    "label": "Anzeigename des benannten Bereichs.",
+    "unterstellt": "Bereich für alles, was ein Rezept nicht nennt (T62, DR-032): Zutaten und Raum sind irgendwo zwischen Kühlschrank und warmem Raum. Eine Anforderung gilt nur, wenn der ganze Bereich sie erfüllt; nennt ein Rezept eine abweichende Temperatur, ersetzt sie diesen Bereich."
   },
   "kuehlschrank": { "label": "Kühlschrank", "min": 4, "max": 7 },
   "kuehl": { "label": "kühl", "min": 12, "max": 16 },
@@ -10,5 +11,6 @@
   "warm": { "label": "warm", "min": 26, "max": 30 },
   "lauwarm": { "label": "lauwarm", "min": 30, "max": 35 },
   "plastisch": { "label": "plastisch", "min": 18, "max": 22 },
-  "teig": { "label": "Teig", "min": 24, "max": 26 }
+  "teig": { "label": "Teig", "min": 24, "max": 26 },
+  "unterstellt": { "label": "unterstellt (Kühlschrank bis warmer Raum)", "min": -20, "max": 27 }
 }
