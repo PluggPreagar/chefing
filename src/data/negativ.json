@@ -8,7 +8,7 @@
     "verlaesslichkeit": "1 bis 3; 3 = konkrete Mengen und klare Ursache, 1 = Ursache offen oder nur Vermutung",
     "einheiten": "Mengen wie in der Quelle: g, ml, stk, pkt, tsp (= tl), tbsp (= el), cup (Tassen; Umrechnung in negativ.js TASSE_G, Schätzwerte)",
     "pruefung": "von Hand kuratiert, wenn die Quelle Gare-Zeit und -Temperatur nennt: gare_min (alle Gare-Phasen zusammen), gare_temp (Zahl oder Name aus temperaturen.json)",
-    "auswahl": "Selbstauswahl: wer Fehlschläge meldet oder erfragt, ist nicht repräsentativ; Hefeteig-Fälle fast nur aus einem englischsprachigen Forum, Mengen meist in Tassen; Lücken bei Rührteig mit viel Fett/Zucker, Gugelhupf, Kastenkuchen und Hefezopf mit Gramm-Angaben.",
+    "auswahl": "Selbstauswahl: wer Fehlschläge meldet oder erfragt, ist nicht repräsentativ. T55: Hefeteig-Fälle fast nur aus einem englischsprachigen Forum, Mengen meist in Tassen. T61 (19 Fälle aus Blog-Kommentaren und kleinen Foren, deutsch und englisch): nur 6 haben eine Mengenursache, die meisten Fälle sind Vermutungen (Verlässlichkeit 1); die ergiebigsten Quellen (chefkoch.de, gutefrage.net, Cake Central, Reddit) sind für den Abruf gesperrt, daher fehlen Fälle mit „zu viel Mehl“ oder „zu wenig Milch“ in Gramm; Kontrollfälle stammen aus Rezepten, die die Quelle selbst als normal ausweist.",
     "ursache_regeln": "von Hand kuratiert (nur Fälle mit Mengenursache): welche Regel die Ursache laut Quelle treffen müsste — gaerung | grenze:<id> | toleranz:<größe>. Der Bericht zählt „erkannt über die genannte Ursache“ getrennt von „erkannt aus anderem Grund“."
   },
   "faelle": [
@@ -827,6 +827,1311 @@
       },
       "notiz": "Mengen sind das Basisrezept der Seite, Kommentatoren nannten keine Abweichung (eine Kommentatorin ruhte den Teig über Nacht). Kein Ei (vegan), Bindung fehlt; Wasseranteil des Teigs rund 220 % vom Mehl, im Korpusband. Ursache der Rissbildung daher unklar, kein sicherer Mengenfehler. Rezept selbst bei anderen funktionierend (Kontrollfall). Fünf Beschwerden aus Kommentaren über mehrere Jahre. Auswahlverzerrung: Kommentare bei einem Rezept, Kommentatoren melden überproportional Probleme.",
       "ausgenommen": "Rezept gelingt vielen; die Rissbildung hat keine klare Ursache, und ohne Ei liegt es ohnehin außerhalb des Eier-Korpus"
+    },
+    {
+      "id": "bakingforums-bundt-buttermilch-natron-kollaps",
+      "archetyp": "ruehrteig",
+      "variante": "gugelhupf",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 2,
+      "mengen_vorhanden": true,
+      "symptom": "Napfkuchen sah im Ofen gut aus, fiel aber am Ende der Backzeit bzw. beim Abkühlen zusammen; Geschmack gut",
+      "ursache_laut_quelle": "Ein Antwortender sah ein sehr hohes Verhältnis von Flüssigkeit zu Trockenzutaten, ein anderer vermutete zu kurze Backzeit. Die Fragestellerin gab später 1/2 Tasse Mehl zu, und der Kuchen fiel bei gleicher Backzeit nicht mehr ein; das stützt die Mengen-Ursache.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 1.75,
+          "einheit": "cup",
+          "original": "1 3/4 Tassen Weizenmehl (Type 'all-purpose')"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 8,
+          "einheit": "tbsp",
+          "original": "1 Stick (8 EL) ungesalzene Butter"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "brauner_zucker",
+          "menge": 2,
+          "einheit": "cup",
+          "original": "2 Tassen hellbrauner Zucker"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 2,
+          "einheit": "stk",
+          "original": "2 Eier"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "buttermilch",
+          "menge": 0.75,
+          "einheit": "cup",
+          "original": "3/4 Tasse Buttermilch"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "natron",
+          "menge": 1,
+          "einheit": "tsp",
+          "original": "1 TL Natron"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "zimt",
+          "menge": 1,
+          "einheit": "tsp",
+          "original": "1 TL Zimt (zusätzlich je 1 TL gemahlener Ingwer, Kardamom, Nelken; nicht als Schlüssel vorhanden)"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "salz",
+          "menge": 0.5,
+          "einheit": "tsp",
+          "original": "1/2 TL Salz"
+        }
+      ],
+      "zeiten": {
+        "backen": 60
+      },
+      "temperaturen": {
+        "backen": 163
+      },
+      "ursache_art": "menge",
+      "quelle": {
+        "url": "https://www.baking-forums.com/threads/how-to-prevent-a-bundt-cake-from-collapsing.2123/",
+        "site": "baking-forums.com"
+      },
+      "notiz": "325 F = ca. 163 C. Nass-in-trocken-Methode, Bundform. Weitere Gewürze (Ingwer, Kardamom, Nelken je 1 TL) sind weggelassen, da ohne Schlüssel. Zucker (2 Tassen) ist sehr hoch gegenüber Mehl (1,75 Tassen); die Quelle nennt aber nur das Flüssigkeitsverhältnis. Selbstauswahl: Forenfrage nach Fehlschlag.",
+      "ursache_regeln": [
+        "grenze:wasser_band",
+        "grenze:wasser_max_hart"
+      ]
+    },
+    {
+      "id": "kochkino-gugelhupf-2el-statt-2tl-backpulver",
+      "archetyp": "ruehrteig",
+      "variante": "gugelhupf",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 2,
+      "mengen_vorhanden": true,
+      "symptom": "Teig sehr flüssig, im Ofen merkwürdige Blasen; Kuchen fiel beim Herausnehmen auf etwa die halbe Höhe zusammen; Backpulver war deutlich zu schmecken",
+      "ursache_laut_quelle": "Der Leser nahm 2 EL statt der im Rezept vorgesehenen 2 TL Backpulver (dreifache Menge); ein zweiter Leser nannte genau diese Verwechslung als Ursache. Vermutung eines Mitlesers, aber schlüssig.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 250,
+          "einheit": "g",
+          "original": "250 g Mehl Type 405"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "pflanzenoel",
+          "menge": 60,
+          "einheit": "ml",
+          "original": "60 ml neutrales Pflanzenöl"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 50,
+          "einheit": "g",
+          "original": "50 g zerlassene Butter"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 250,
+          "einheit": "g",
+          "original": "250 g Zucker"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "vanillezucker",
+          "menge": 1,
+          "einheit": "pkt",
+          "original": "1 Päckchen Vanillezucker"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 4,
+          "einheit": "stk",
+          "original": "4 Eier Größe M"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "wasser",
+          "menge": 125,
+          "einheit": "ml",
+          "original": "125 ml Mineralwasser mit Kohlensäure"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "backpulver",
+          "menge": 2,
+          "einheit": "tbsp",
+          "original": "2 EL Backpulver (Rezept sieht 2 TL gestrichen vor)"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "salz",
+          "menge": 0.125,
+          "einheit": "tsp",
+          "original": "1 Prise Salz (Prise = 1/8 TL gerechnet)"
+        }
+      ],
+      "temperaturen": {
+        "backen": 175
+      },
+      "ursache_art": "menge",
+      "quelle": {
+        "url": "https://kochkino.de/klassischer-gugelhupf-i-napfkuchen-rezept/4940",
+        "site": "kochkino.de"
+      },
+      "notiz": "Mengen wie vom Leser ausgeführt (Backpulver verdreifacht); alle anderen Mengen laut Rezept, Leser nannte keine Abweichung. Rezeptangabe Backzeit 30-35 Minuten bei 175 C, Leser nannte keine eigene Zeit. Regel-Soll bei 250 g Mehl: 2 TL. Ein anderer Kommentar derselben Seite (Teig zu flüssig, Backzeit etwa 20 Minuten länger) hat keine genannte Ursache und ist nicht aufgenommen. Selbstauswahl: Kommentar nach Fehlschlag.",
+      "ursache_regeln": [
+        "grenze:triebkraft_max",
+        "grenze:triebkraft_max_hart",
+        "toleranz:triebkraft"
+      ]
+    },
+    {
+      "id": "wwwas-muffins-eierlikoer-125g-mehl-kollaps",
+      "archetyp": "ruehrteig",
+      "variante": "muffin",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Muffins gingen im Ofen gut auf, fielen nach dem Backen zusammen und füllten das Papierförmchen nur noch zu weniger als der Hälfte",
+      "ursache_laut_quelle": "Antwortende vermuteten zu viel Flüssigkeit im Teig bzw. zu wenig Mehl im Verhältnis zu Eiern und Flüssigkeit; empfohlen wurde, das Mehl zu verdoppeln oder weniger Flüssigkeit zu nehmen. Nur Vermutungen, ohne Bestätigung der Fragestellerin; auch Mehlsorte und Eiweißschaum wurden genannt.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 125,
+          "einheit": "g",
+          "original": "125 g Mehl"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 125,
+          "einheit": "g",
+          "original": "125 g Butter"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 125,
+          "einheit": "g",
+          "original": "125 g Zucker"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 4,
+          "einheit": "stk",
+          "original": "4 Eier"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "unbekannt",
+          "menge": 125,
+          "einheit": "ml",
+          "original": "125 ml Eierlikör (unbekannt: kein Schlüssel; enthält Zucker, Alkohol, Eigelb)"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "backpulver",
+          "menge": 0.5,
+          "einheit": "pkt",
+          "original": "1/2 Päckchen Backpulver"
+        },
+        {
+          "rolle": "einlage",
+          "zutat": "schokolade",
+          "menge": 0,
+          "einheit": "g",
+          "original": "Schokostückchen (Menge nicht genannt, erst in späterer Antwort erwähnt)"
+        }
+      ],
+      "zeiten": {
+        "backen": 15
+      },
+      "temperaturen": {
+        "backen": 175
+      },
+      "ursache_art": "menge",
+      "ausgenommen": "Eierlikör hat keinen Zutaten-Schlüssel (unbekannt); Schokolade ohne Mengenangabe; Ursache nur Vermutung von Antwortenden",
+      "quelle": {
+        "url": "https://www.wer-weiss-was.de/t/muffins-fallen-zusammen--2/4733983",
+        "site": "wer-weiss-was.de"
+      },
+      "notiz": "Butter, Eier und Zucker schaumig gerührt, Mehl und Backpulver untergerührt (Fragestellerin). Mengenverhältnis auffällig: 4 Eier und 125 ml Likör auf nur 125 g Mehl. Ein Antwortender schlug eine kleinere Variante vor (2 Eier, 100 g Butter, 150 g Mehl, 100 g Zucker, weniger Likör). Schokostückchen mit Menge 0 eingetragen, weil unbekannt; Fall besser ohne Einlage rechnen."
+    },
+    {
+      "id": "zzul-blutorangen-gugelhupf-kollaps-butter-angeschmolzen",
+      "archetyp": "ruehrteig",
+      "variante": "gugelhupf",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Gugelhupf fiel nach dem Backen zusammen",
+      "ursache_laut_quelle": "Die Leserin vermutete, die Butter sei in der Mikrowelle teilweise geschmolzen statt weich gewesen. Die Autorin nannte außerdem möglicherweise unwirksames Backpulver oder starke Temperaturschwankungen im Ofen. Nur Vermutungen; Mengen laut Rezept, Leserin nannte keine Abweichung.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 300,
+          "einheit": "g",
+          "original": "300 g Weizenmehl"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 200,
+          "einheit": "g",
+          "original": "200 g weiche Butter"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "brauner_zucker",
+          "menge": 200,
+          "einheit": "g",
+          "original": "200 g brauner Zucker"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 4,
+          "einheit": "stk",
+          "original": "4 Eier Größe M"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "buttermilch",
+          "menge": 100,
+          "einheit": "ml",
+          "original": "100 ml Buttermilch"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "orangensaft",
+          "menge": 50,
+          "einheit": "ml",
+          "original": "50 ml Blutorangensaft"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "backpulver",
+          "menge": 2,
+          "einheit": "tsp",
+          "original": "2 TL Backpulver (ca. 8 g)"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "orangenabrieb",
+          "menge": 0.5,
+          "einheit": "stk",
+          "original": "Abrieb einer halben Blutorange"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "salz",
+          "menge": 0.125,
+          "einheit": "tsp",
+          "original": "1 Prise Salz (Prise = 1/8 TL gerechnet)"
+        }
+      ],
+      "zeiten": {
+        "backen": 57
+      },
+      "temperaturen": {
+        "backen": 175
+      },
+      "ursache_art": "prozess",
+      "kontrollfall": true,
+      "quelle": {
+        "url": "https://www.zuckerzimtundliebe.de/2016/01/ein-blutorangen-buttermilch-gugelhupf-rezept/",
+        "site": "zuckerzimtundliebe.de"
+      },
+      "notiz": "Mengen aus dem Rezept der Seite, Backzeit 55-60 Minuten (Mitte 57). Normale Mengen (Backpulver 2 TL auf 300 g Mehl); Kontrollfall mit schwacher Ursachenlage. Selbstauswahl: Kommentar nach Fehlschlag."
+    },
+    {
+      "id": "sweetsandlifestyle-topfengugelhupf-mitte-eingesunken",
+      "archetyp": "ruehrteig",
+      "variante": "gugelhupf",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Kuchen sank in der Mitte etwas ein; Geschmack laut Leserin trotzdem sehr gut",
+      "ursache_laut_quelle": "Die Leserin selbst führte es darauf zurück, dass sie den Kuchen noch warm angeschnitten hatte; Autorin antwortete nicht. Schwache Selbsteinschätzung, Ursache im Prozess; Mengen laut Rezept.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 250,
+          "einheit": "g",
+          "original": "250 g Mehl"
+        },
+        {
+          "rolle": "struktur",
+          "zutat": "speisestaerke",
+          "menge": 25,
+          "einheit": "g",
+          "original": "25 g Speisestärke"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 250,
+          "einheit": "g",
+          "original": "250 g Butter"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "puderzucker",
+          "menge": 230,
+          "einheit": "g",
+          "original": "230 g Staubzucker"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "vanillezucker",
+          "menge": 1,
+          "einheit": "pkt",
+          "original": "1 Päckchen Vanillezucker"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 5,
+          "einheit": "stk",
+          "original": "5 Eier, getrennt"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "quark",
+          "menge": 250,
+          "einheit": "g",
+          "original": "250 g Topfen (Quark)"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "backpulver",
+          "menge": 1,
+          "einheit": "pkt",
+          "original": "1 Päckchen Backpulver"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "zitronenabrieb",
+          "menge": 1,
+          "einheit": "stk",
+          "original": "Abrieb einer Bio-Zitrone"
+        }
+      ],
+      "zeiten": {
+        "backen": 55
+      },
+      "temperaturen": {
+        "backen": 180
+      },
+      "ursache_art": "prozess",
+      "kontrollfall": true,
+      "quelle": {
+        "url": "https://www.sweetsandlifestyle.com/topfengugelhupf/",
+        "site": "sweetsandlifestyle.com"
+      },
+      "notiz": "Eier getrennt, Eischnee wird untergehoben (Souffle-Anteil, kippt leichter). Normale Mengen laut Rezept, Leserin nannte keine Abweichung. Sehr schwacher Kontrollfall: Ursache nur Selbstvermutung, Schaden gering. Selbstauswahl: Kommentar nach Fehlschlag."
+    },
+    {
+      "id": "veggies-vegane-pfannkuchen-natron-1tl-statt-halb",
+      "archetyp": "pfannkuchen",
+      "variante": "eierkuchen",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Natron schmeckte deutlich und unangenehm durch; die Kommentatorin hatte laut eigener Angabe (über den Sohn) 1 TL statt der im Rezept stehenden 1/2 TL",
+      "ursache_laut_quelle": "Natron-Dosis (1 TL statt 1/2 TL auf 200 g Mehl); Säure fehlt im Rezept (Pflanzendrink), die Kommentatorin fragt zudem, wozu Natron nötig ist; die tatsächlich verwendete Menge ist nicht ganz sicher",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 200,
+          "einheit": "g",
+          "original": "200 g Dinkelmehl Type 630"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 500,
+          "einheit": "ml",
+          "original": "500 ml Pflanzendrink (Hafer), als milch gerechnet"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "natron",
+          "menge": 1,
+          "einheit": "tsp",
+          "original": "Rezept 1/2 TL Natron; Kommentatorin berichtet 1 TL"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "salz",
+          "menge": 1,
+          "einheit": "tsp",
+          "original": "1 gestrichener TL Salz"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "wasser",
+          "menge": 1.5,
+          "einheit": "tbsp",
+          "original": "1-2 EL Mineralwasser mit viel Kohlensäure (Mitte gerechnet)"
+        }
+      ],
+      "quelle": {
+        "url": "https://www.veggies.de/veggies-basic-pfannkuchen-vegan/",
+        "site": "veggies.de"
+      },
+      "notiz": "Vegan, kein Ei, kein Ei-Ersatz. Rezept enthält außerdem 0,5 TL Kurkuma (nur Farbe) und wenige Tropfen Öl. Ob die Kommentatorin exakt 1 TL nahm, ist aus dem Kommentar nur indirekt ersichtlich (verlaesslichkeit 1). Testet eine mögliche Natron-Obergrenze ohne Säurepartner. Kommentar vom September 2021; Autorin hat nicht geantwortet.",
+      "ursache_art": "menge",
+      "ursache_regeln": [
+        "grenze:pk_triebkraft_max",
+        "grenze:pk_natron_saeure_max",
+        "toleranz:triebkraft"
+      ]
+    },
+    {
+      "id": "veggies-vegane-pfannkuchen-klebt-ohne-quellzeit",
+      "archetyp": "pfannkuchen",
+      "variante": "eierkuchen",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 2,
+      "mengen_vorhanden": true,
+      "symptom": "Erste Pfannkuchen klebten an der Pfanne und wurden zu Kaiserschmarrn; später gelangen sie, wie vorgesehen",
+      "ursache_laut_quelle": "Die Kommentatorin (Astrid) sieht fehlende Quellzeit des Mehls als Ursache; Abhilfe: Teig 20-30 Minuten ruhen lassen, nochmal rühren, mittlere bis kleine Hitze, sehr wenig Öl",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 200,
+          "einheit": "g",
+          "original": "200 g Dinkelmehl Type 630"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 500,
+          "einheit": "ml",
+          "original": "500 ml Pflanzendrink, als milch gerechnet"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "natron",
+          "menge": 0.5,
+          "einheit": "tsp",
+          "original": "1/2 TL Natron"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "salz",
+          "menge": 1,
+          "einheit": "tsp",
+          "original": "1 gestrichener TL Salz"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "wasser",
+          "menge": 1.5,
+          "einheit": "tbsp",
+          "original": "1-2 EL Mineralwasser mit Kohlensäure (Mitte gerechnet)"
+        }
+      ],
+      "quelle": {
+        "url": "https://www.veggies.de/veggies-basic-pfannkuchen-vegan/",
+        "site": "veggies.de"
+      },
+      "notiz": "Kontrollfall: Astrid backte nach eigener Aussage exakt nach Rezept, die Mengen liegen im Normalbereich. Vegan ohne Ei, ohne Ei-Bindung klebt der Teig leichter. Auf derselben Seite berichten weitere Personen Kleben ohne klare Mengenursache (Vijan, Serena, Maria; vermutet: keine Ruhezeit bzw. Pfanne). Rezept enthält außerdem 0,5 TL Kurkuma (nur Farbe), nicht in der Zutatenliste.",
+      "ursache_art": "prozess",
+      "kontrollfall": true
+    },
+    {
+      "id": "chocolatesandchai-pancakes-verdoppelt-gummiartig",
+      "archetyp": "pfannkuchen",
+      "variante": "pancakes",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Pancakes sehr groß, innen dicht und gummiartig mit zementartigem Mundgefühl und fischigem Beigeschmack; Heidelbeeren wurden in den rohen Teig gelegt",
+      "ursache_laut_quelle": "Autorin: meist Übermischen des Teigs; eine weitere Antwort vermutet nicht mehr frische Eier, ranzige Butter und Luftverlust beim Mischen der doppelten Menge",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 2,
+          "einheit": "cup",
+          "original": "2 Tassen Mehl (Rezept 1 Tasse, verdoppelt)"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 1.5,
+          "einheit": "cup",
+          "original": "1 1/2 Tassen Milch (Rezept 3/4 Tasse, verdoppelt)"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 2,
+          "einheit": "stk",
+          "original": "2 Eier (Rezept 1 Ei, verdoppelt)"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "backpulver",
+          "menge": 4,
+          "einheit": "tsp",
+          "original": "4 TL Backpulver (Rezept 2 TL, verdoppelt)"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 4,
+          "einheit": "tbsp",
+          "original": "4 EL Zucker (Rezept 2 EL, verdoppelt)"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 4,
+          "einheit": "tbsp",
+          "original": "4 EL Butter, geschmolzen (Rezept 2 EL, verdoppelt)"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "vanilleextrakt",
+          "menge": 2,
+          "einheit": "tsp",
+          "original": "2 TL Vanilleextrakt (Rezept 1 TL, verdoppelt)"
+        }
+      ],
+      "quelle": {
+        "url": "https://www.chocolatesandchai.com/fluffy-fluffy-pancakes/comment-page-1/",
+        "site": "chocolatesandchai.com"
+      },
+      "notiz": "Kontrollfall: Mengen sind genau das verdoppelte Rezept (Normalverhältnis 1 Tasse Mehl, 3/4 Tasse Milch, 1 Ei, 2 TL Backpulver). Mengen aus der Kommentatorin-Angabe 'verdoppelt' abgeleitet, Rezeptkarte der Seite. Ursache laut Quelle Prozess/Zutatenfrische. Kommentar August 2017, Antworten 2017 und 2018. Mehrere weitere Kommentare auf der Seite (flach, wässrig) nennen Überrühren oder altes Backpulver ohne eigene Mengen.",
+      "ursache_art": "prozess",
+      "kontrollfall": true
+    },
+    {
+      "id": "chocolatesandchai-pancakes-teig-waessrig-flach",
+      "archetyp": "pfannkuchen",
+      "variante": "pancakes",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Teig war flüssig statt dick und klumpig; mehrere Lesende berichten flache, crêpeartige Pancakes oder mussten Mehl nachgeben",
+      "ursache_laut_quelle": "Autorin: Übermischen oder zu viel Flüssigkeit, in feuchter Küche hilft Kühlen des Teigs; eine Leserin musste nach Rühren mit der Gabel und weniger Milch Mehl zugeben",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 1,
+          "einheit": "cup",
+          "original": "1 Tasse Allzweckmehl, gesiebt"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 0.75,
+          "einheit": "cup",
+          "original": "3/4 Tasse Milch (bis 2 EL mehr bei trockenem Teig)"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 1,
+          "einheit": "stk",
+          "original": "1 großes Ei"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "backpulver",
+          "menge": 2,
+          "einheit": "tsp",
+          "original": "2 TL Backpulver"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 2,
+          "einheit": "tbsp",
+          "original": "2 EL Zucker"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 2,
+          "einheit": "tbsp",
+          "original": "2 EL ungesalzene Butter, geschmolzen"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "vanilleextrakt",
+          "menge": 1,
+          "einheit": "tsp",
+          "original": "1 TL Vanilleextrakt"
+        }
+      ],
+      "quelle": {
+        "url": "https://www.chocolatesandchai.com/fluffy-fluffy-pancakes/comment-page-1/",
+        "site": "chocolatesandchai.com"
+      },
+      "notiz": "Mengen sind die Rezeptkarte; die Kommentierenden (u. a. Jan, Juni 2017; Kathy, November 2017; Arielle, Februar 2016) nennen ihre eigenen Mengen nicht. Das Rezept liegt im Normalbereich, eine Mengenregel dürfte hier nichts finden. Widerspruch der Autorin (Teig mal wässrig, mal dick) im Kommentarverlauf. Ursache offen/strittig.",
+      "ursache_art": "offen"
+    },
+    {
+      "id": "foodcom-fluffy-buttermilk-pancakes-backpulver-salz-zu-stark",
+      "archetyp": "pfannkuchen",
+      "variante": "pancakes",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Erster Versuch: Backpulver und Salz schmeckten zu stark durch, Pancakes verbrannten schnell. Zweiter Versuch genau nach Rezept: Teig sehr dünn, Pancakes gingen kaum auf und waren nicht fluffig",
+      "ursache_laut_quelle": "Rezensent nennt für den ersten Versuch den zu starken Geschmack von Backpulver und Salz; für den dünnen Teig im zweiten Versuch nennt er keine Ursache",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 3,
+          "einheit": "cup",
+          "original": "3 Tassen Allzweckmehl"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "buttermilch",
+          "menge": 3,
+          "einheit": "cup",
+          "original": "3 Tassen Buttermilch"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 0.5,
+          "einheit": "cup",
+          "original": "1/2 Tasse Half-and-half oder Milch"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 3,
+          "einheit": "stk",
+          "original": "3 große Eier"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "backpulver",
+          "menge": 3.25,
+          "einheit": "tsp",
+          "original": "3 1/4 TL Backpulver"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "natron",
+          "menge": 1.5,
+          "einheit": "tsp",
+          "original": "1 1/2 TL Natron"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "salz",
+          "menge": 0.75,
+          "einheit": "tsp",
+          "original": "3/4 TL Salz"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "brauner_zucker",
+          "menge": 5,
+          "einheit": "tbsp",
+          "original": "4-6 EL brauner Zucker (Mitte gerechnet; Versuch 1 mit Ahornsirup statt Sirup)"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 6,
+          "einheit": "tbsp",
+          "original": "6 EL geschmolzene Butter"
+        },
+        {
+          "rolle": "aroma",
+          "zutat": "zimt",
+          "menge": 0.5,
+          "einheit": "tsp",
+          "original": "1/2 TL Zimt (optional)"
+        }
+      ],
+      "quelle": {
+        "url": "https://www.food.com/recipe/extreme-fluffy-buttermilk-pancakes-213834",
+        "site": "food.com"
+      },
+      "notiz": "Großer Ansatz (3 Tassen Mehl), Triebmittel zusammen ca. 4,75 TL auf 3 Tassen Mehl; Flüssigkeit 3,5 Tassen auf 3 Tassen Mehl (hoch, Teig dünn). Rezensent behauptet keinen Mengenfehler, die Dosis ist nur implizit; deshalb verlaesslichkeit 1. Nur die sichtbaren Rezensionen gelesen (ein weiterer Link nicht ausgeklappt). Zucker 4-6 EL als 5 EL gerechnet.",
+      "ursache_art": "offen",
+      "ursache_regeln": [
+        "grenze:pk_triebkraft_max",
+        "grenze:pk_triebkraft_max_hart",
+        "toleranz:triebkraft"
+      ]
+    },
+    {
+      "id": "foodcom-quick-easy-pancakes-zu-duenn-schwedisch",
+      "archetyp": "pfannkuchen",
+      "variante": "pancakes",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Teig dünnflüssig, Pancakes flach und eher wie schwedische Pfannkuchen als wie amerikanische; zwei Rezensenten, einer gab Mehl nach (Menge offen)",
+      "ursache_laut_quelle": "Rezensenten beschreiben nur den zu dünnen Teig; die Einstellerin des Rezepts vermerkt, dass die Pancakes dünner als üblich werden und man für dickere mehr Mehl und Backpulver nehmen kann",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 1,
+          "einheit": "cup",
+          "original": "1 Tasse Mehl"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 1.333,
+          "einheit": "cup",
+          "original": "1 1/3 Tassen Milch"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 1,
+          "einheit": "stk",
+          "original": "1 großes Ei"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "backpulver",
+          "menge": 0.75,
+          "einheit": "tsp",
+          "original": "3/4 TL Backpulver"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 5,
+          "einheit": "tsp",
+          "original": "5 TL Zucker"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "pflanzenoel",
+          "menge": 1.5,
+          "einheit": "tbsp",
+          "original": "1 1/2 EL Pflanzenöl (optional)"
+        }
+      ],
+      "quelle": {
+        "url": "https://www.food.com/recipe/quick-and-easy-pancakes-157549",
+        "site": "food.com"
+      },
+      "notiz": "Mengen sind die Rezeptkarte; die Rezensenten nennen ihre eigenen Mengen nicht, ob exakt nach Rezept gebacken wurde, ist unklar. Verhältnis Milch zu Mehl 1,33 und nur 0,75 TL Backpulver auf 1 Tasse Mehl, beides niedrig/hoch für amerikanische Pancakes. Ursache wird nur als Beschreibung genannt, keine echte Ursachenanalyse. 3 von 23 Rezensionen sichtbar.",
+      "ursache_art": "menge",
+      "ursache_regeln": [
+        "grenze:pk_wasser_band"
+      ]
+    },
+    {
+      "id": "michis-hefestuten-1kg-250g-zucker-fest",
+      "archetyp": "hefeteig",
+      "variante": "hefezopf",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Hefestuten wird sehr fest und schmeckt trocken statt locker-leicht; Gehzeit laut Fragestellerin einige Stunden an einem warmen Ort",
+      "ursache_laut_quelle": "Keine eindeutige Ursache. Antwortende nennen: Zutaten nicht kalt verarbeiten, eventuell zu viel Mehl eingearbeitet (Teig soll elastisch bleiben), Hefe vorab mit etwas Milch, Zucker und Mehl ansetzen, bis zur doppelten Menge gehen lassen. Zucker oder Fett werden nicht beanstandet.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 1000,
+          "einheit": "g",
+          "original": "1 kg Mehl"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 500,
+          "einheit": "ml",
+          "original": "1/2 l Milch"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_frisch",
+          "menge": 42,
+          "einheit": "g",
+          "original": "1 Packung frische Hefe (als 1 Wuerfel = 42 g gerechnet)"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 0.5,
+          "einheit": "tsp",
+          "original": "1/2 TL Salz"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 250,
+          "einheit": "g",
+          "original": "250 g Zucker"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 125,
+          "einheit": "g",
+          "original": "125 g Butter"
+        }
+      ],
+      "ursache_art": "offen",
+      "methode": "hefe_direkt",
+      "quelle": {
+        "url": "https://www.michis-backforum.de/viewtopic.php?p=5873",
+        "site": "michis-backforum.de"
+      },
+      "notiz": "Forenthread von 2005, Mengen vom Fragesteller. Zucker 25 Prozent und Hefe 4,2 Prozent vom Mehl, Salz nur ca. 0,3 Prozent. Hefepaeckchen als Wuerfel angenommen (Annahme). Kein Ei genannt. Keine Zeiten/Temperaturen in Zahlen. Auswahlverzerrung: Forenfrage."
+    },
+    {
+      "id": "foodundco-nusszopf-130ml-milch-steif",
+      "archetyp": "hefeteig",
+      "variante": "hefezopf",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Nusszopf-Teig ging nur schlecht auf und blieb steif (Leserkommentar Januar 2026)",
+      "ursache_laut_quelle": "Der Kommentator selbst sieht zu wenig Flüssigkeit im Teig: er verlangt mindestens 300 ml Flüssigkeit auf 500 g Mehl, das Rezept liegt auch mit Butter und Ei darunter. Die Autorin hat nicht geantwortet.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 500,
+          "einheit": "g",
+          "original": "500 g Mehl"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 130,
+          "einheit": "ml",
+          "original": "130 ml lauwarme Vollmilch"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 100,
+          "einheit": "g",
+          "original": "100 g fluessige Butter"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 110,
+          "einheit": "g",
+          "original": "110 g Zucker (Kommentator gab noch unbezifferte Menge mehr dazu)"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_frisch",
+          "menge": 21,
+          "einheit": "g",
+          "original": "1/2 Wuerfel Hefe"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 1,
+          "einheit": "g",
+          "original": "1 Prise Salz (Schaetzwert)"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 1,
+          "einheit": "stk",
+          "original": "1 Ei Gr. M"
+        }
+      ],
+      "ursache_art": "menge",
+      "methode": "hefe_direkt",
+      "quelle": {
+        "url": "https://www.foodundco.de/nusszopf/",
+        "site": "foodundco.de"
+      },
+      "notiz": "Mengen = Rezept der Seite; der Kommentator erhoehte Zucker (ohne Menge) und machte die Nussfuellung mit Sahne streichfaehiger, Teigmengen sonst nach Rezept (Annahme). Wasseranteil des Teigs nur ca. 37 Prozent vom Mehl (130 ml Milch plus Wasser aus Ei und Butter geschaetzt). Ursache ist Vermutung des Kommentators, daher Verlaesslichkeit 1. Weitere Kommentare dort (Hefe inaktiv) ohne Mengen.",
+      "ursache_regeln": [
+        "grenze:hf_wasser_min_hart",
+        "grenze:hf_wasser_band"
+      ]
+    },
+    {
+      "id": "rezeptwelt-hefezopf-550g-trockenhefe-breit-roh",
+      "archetyp": "hefeteig",
+      "variante": "hefezopf",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Teig ging trotz warmem Platz und feuchtem Tuch nicht auf; der Zopf wurde beim Backen breit statt hoch und blieb innen nicht durchgebacken",
+      "ursache_laut_quelle": "Nur Vermutungen: Trockenhefe nicht vorher aktiviert (mit Milch und Zucker bei 37 Grad ohne Salz und Butter ansetzen), Salz und Butter bremsen die Hefe, suesse Teige gehen schlechter auf. Ein Mitglied backte einen nicht aufgegangenen Teig trotzdem, er ging im Ofen noch auf.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 550,
+          "einheit": "g",
+          "original": "550 g Weizenmehl Type 550"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 300,
+          "einheit": "g",
+          "original": "300 g Milch"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 50,
+          "einheit": "g",
+          "original": "50 g Butter"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 40,
+          "einheit": "g",
+          "original": "Rezept nennt Spanne 20 bis 60 g Zucker, Mitte angesetzt"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_trocken",
+          "menge": 8,
+          "einheit": "g",
+          "original": "2 TL Trockenhefe (8 g), alternativ 1/2 Wuerfel frische Hefe (20 g); Trockenhefe laut Thread verwendet (Annahme)"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 1,
+          "einheit": "tsp",
+          "original": "1 TL Salz"
+        }
+      ],
+      "ursache_art": "offen",
+      "methode": "hefe_direkt",
+      "quelle": {
+        "url": "https://www.rezeptwelt.de/forum/hefezopf-geht-nicht-auf/20039",
+        "site": "rezeptwelt.de"
+      },
+      "notiz": "Thermomix-Rezept. Mengen im Normalbereich (Hefe 1,5 Prozent, Fett 9 Prozent, Salz ca. 1 Prozent, Fluessigkeit 55 Prozent vom Mehl), daher Kontrollfall; Ursache aber nur Vermutung. Ei nur zum Bestreichen, nicht gezaehlt. Keine Gare-Zeiten genannt.",
+      "kontrollfall": true
+    },
+    {
+      "id": "heimbaecker-hefezopf-kuehl-zopf-faellt-nach-backen",
+      "archetyp": "hefeteig",
+      "variante": "hefezopf",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 2,
+      "mengen_vorhanden": true,
+      "symptom": "Zopf wirkt im Ofen prall, faellt nach dem Herausnehmen aber in sich zusammen (Leserkommentar Oktober 2026; Rezept laut Kommentatorin genau befolgt)",
+      "ursache_laut_quelle": "Der Autor vermutete zu kurze Backzeit oder einen etwas kuehleren Ofen (5 Minuten laenger backen, Kerntemperatur ueber 95 Grad). Die Kommentatorin bestaetigte spaeter: der Ofen brauchte laenger zum Aufheizen, als die Anzeige zeigte.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 500,
+          "einheit": "g",
+          "original": "500 g Weizenmehl 550"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 200,
+          "einheit": "g",
+          "original": "200 g Milch"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 100,
+          "einheit": "g",
+          "original": "100 g Ei"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 60,
+          "einheit": "g",
+          "original": "60 g Zucker"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 7,
+          "einheit": "g",
+          "original": "7 g Salz"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_frisch",
+          "menge": 10,
+          "einheit": "g",
+          "original": "10 g Frischhefe"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 125,
+          "einheit": "g",
+          "original": "125 g kalte Butter, spaeter untergeknetet"
+        }
+      ],
+      "ursache_art": "prozess",
+      "methode": "hefe_kalt",
+      "quelle": {
+        "url": "https://heimbaecker.de/hefezopf-mit-uebernachtgare/",
+        "site": "heimbaecker.de"
+      },
+      "notiz": "Mengen = Rezept der Seite (Kommentatorin sagt, sie halte sich genau daran, eigene Mengen nicht genannt). Rezept sieht Stockgare 1 h Raum plus 12 bis 16 h Kuehlschrank, Stueckgare 1,5 bis 2 h, Backen 180 Grad 30 bis 35 min vor; die Kommentatorin nennt eigene Zeiten nicht. Kontrollfall: Mengen normal, Fehler beim Backen. Der Autor erklaert an anderer Stelle, ein fester Teig nach der Kuehlschrankgare sei wegen der erstarrten Butter normal.",
+      "kontrollfall": true
+    },
+    {
+      "id": "grillsport-pizza-caputo-1kg-2g-trockenhefe-hefe-tot",
+      "archetyp": "hefeteig",
+      "variante": "weissbrot",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 3,
+      "mengen_vorhanden": true,
+      "symptom": "Pizzateig mit kalter Fuehrung (24 bis 72 h im Kuehlschrank) ging frueher gut auf und bildete Blasen; zuletzt blieb jede Gare aus, auch die Stueckgare",
+      "ursache_laut_quelle": "Die Hefe war tot: ein Test in warmem Zuckerwasser zeigte keine Reaktion, obwohl das Mindesthaltbarkeitsdatum noch nicht erreicht war. Nach dem Unterkneten von 2 g frischer Hefe funktionierte der Teig wieder.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 1000,
+          "einheit": "g",
+          "original": "1 kg Caputo-Mehl"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "wasser",
+          "menge": 700,
+          "einheit": "g",
+          "original": "700 g Wasser"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 24,
+          "einheit": "g",
+          "original": "24 g Salz"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_trocken",
+          "menge": 2,
+          "einheit": "g",
+          "original": "2 g Trockenhefe"
+        }
+      ],
+      "ursache_art": "prozess",
+      "methode": "hefe_kalt",
+      "quelle": {
+        "url": "https://www.grillsportverein.de/forum/threads/pizzateig-geht-nicht-auf.361827/",
+        "site": "grillsportverein.de"
+      },
+      "notiz": "Kontrollfall: Mengen normal fuer kalte Pizzagare (Hydration 70 Prozent, Salz 2,4 Prozent, Hefe 0,2 Prozent), Ursache war Zutatenqualitaet (inaktive Hefe), Hefeprobe belegt. Gare-Zeit nur als Spanne 24 bis 72 h genannt, Temperatur nicht. Teilnehmer im selben Thread diskutieren zusaetzlich Kuehlschranktemperatur.",
+      "kontrollfall": true
+    },
+    {
+      "id": "grillsport-pizza-1kg-700g-wasser-30g-salz-eiswasser",
+      "archetyp": "hefeteig",
+      "variante": "weissbrot",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Pizzateig ueber Nacht bei Raumtemperatur kaum aufgegangen, nur winzige Blaeschen, Teig labbrig und beim Ausziehen sehr duenn",
+      "ursache_laut_quelle": "Mehrere Vermutungen: Hefe durch Eiswasser geschaedigt oder unwirksam, Hydration 70 Prozent fuer Anfaenger zu hoch (55 bis 65 Prozent einfacher), Salzmenge beeinflusst die Gare (ein Teilnehmer nimmt nur 2 Prozent), Mehl Caputo Nuvola zu anspruchsvoll.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 1000,
+          "einheit": "g",
+          "original": "1 kg Caputo Nuvola"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "wasser",
+          "menge": 700,
+          "einheit": "g",
+          "original": "700 g Wasser, mit Eiswuerfeln gekuehlt"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 30,
+          "einheit": "g",
+          "original": "30 g Salz"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_frisch",
+          "menge": 2,
+          "einheit": "g",
+          "original": "2 g Frischhefe"
+        }
+      ],
+      "ursache_art": "offen",
+      "methode": "hefe_direkt",
+      "quelle": {
+        "url": "https://www.grillsportverein.de/forum/threads/mein-pizzateig-wird-immer-wie-eine-duenne-haut-und-geht-kaum-auf.380085/",
+        "site": "grillsportverein.de"
+      },
+      "notiz": "Salz 3 Prozent vom Mehl, Hydration 70 Prozent, Hefe nur 0,2 Prozent bei Gare ueber Nacht bei Raumtemperatur (Dauer nicht in Stunden genannt). Ursache strittig, daher offen. Der Fragesteller plante beim naechsten Versuch 4 g Hefe, 20 g Salz, 600 g Wasser."
+    },
+    {
+      "id": "grillsport-pizza-1kg-555g-5g-hefe-zieht-sich-zusammen",
+      "archetyp": "hefeteig",
+      "variante": "weissbrot",
+      "ergebnis": "teilweise",
+      "verlaesslichkeit": 1,
+      "mengen_vorhanden": true,
+      "symptom": "Pizzateiglinge ziehen sich beim Ausziehen immer wieder zusammen und reissen; Geschmack gut",
+      "ursache_laut_quelle": "Uneinig: zu niedrige Hydration (Teigausbeute 156, 620 bis 650 g Wasser testen), Stueckgare zu kurz oder zu kalt (2 h statt 4 bis 5 h), Gluten schlecht entwickelt (Thermomix bei niedriger Hydration), Salz mit 1,5 Prozent zu niedrig (2,5 bis 3 Prozent empfohlen).",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 1000,
+          "einheit": "g",
+          "original": "1 kg Tipo 00"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "wasser",
+          "menge": 555,
+          "einheit": "g",
+          "original": "ca. 555 g lauwarmes Wasser"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_frisch",
+          "menge": 5,
+          "einheit": "g",
+          "original": "ca. 5 g Hefe (Art nicht genannt, Frischhefe angenommen)"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 15,
+          "einheit": "g",
+          "original": "15 g Salz"
+        }
+      ],
+      "zeiten": {
+        "bulk_kalt": 1080,
+        "stueckgare": 120
+      },
+      "ursache_art": "offen",
+      "methode": "hefe_kalt",
+      "quelle": {
+        "url": "https://www.grillsportverein.de/forum/threads/probleme-mit-pizzateig.295294/",
+        "site": "grillsportverein.de"
+      },
+      "notiz": "Thread von 2018. Zusaetzlich ein guter Schuss Olivenoel (Menge nicht bezifferbar, nicht erfasst). Kneten im Thermomix und per Hand. Kuehlschrank ca. 18 h, Stueckgare ca. 2 h bei Raumtemperatur, im Rezept vorgesehen waren 4 h. Temperaturen nicht in Grad genannt. Mehrere Ursachen, keine bestaetigt."
+    },
+    {
+      "id": "mariaesschmecktmir-brioche-kasten-innen-teigig",
+      "archetyp": "hefeteig",
+      "variante": "hefezopf",
+      "ergebnis": "misslungen",
+      "verlaesslichkeit": 2,
+      "mengen_vorhanden": true,
+      "symptom": "Brioche im Kasten blieb innen teigig, obwohl der Teig gut aufgegangen war; Nachbacken bei 180 Grad fuer 30 Minuten half in zwei Oefen nicht (Kommentar November 2022, Rezept laut Kommentator genau befolgt)",
+      "ursache_laut_quelle": "Die Autorin sieht Backzeit oder Ofentemperatur als Ursache und empfiehlt, Temperatur und Zeit anzupassen. In einem aehnlichen Kommentar (innen nicht durch, aussen trocken) rät sie zu 5 bis 10 Minuten laengerem Backen und Abdecken in den letzten 15 Minuten.",
+      "zutaten": [
+        {
+          "rolle": "struktur",
+          "zutat": "weizenmehl",
+          "menge": 400,
+          "einheit": "g",
+          "original": "400 g Weizenmehl Type 550"
+        },
+        {
+          "rolle": "fluessigkeit",
+          "zutat": "milch",
+          "menge": 100,
+          "einheit": "ml",
+          "original": "100 ml lauwarme Milch"
+        },
+        {
+          "rolle": "trieb",
+          "zutat": "hefe_frisch",
+          "menge": 21,
+          "einheit": "g",
+          "original": "1/2 Wuerfel frische Hefe"
+        },
+        {
+          "rolle": "suesse",
+          "zutat": "zucker",
+          "menge": 40,
+          "einheit": "g",
+          "original": "40 g Zucker plus 1 Prise zum Hefeansatz"
+        },
+        {
+          "rolle": "salz",
+          "zutat": "salz",
+          "menge": 8,
+          "einheit": "g",
+          "original": "1 gestrichener TL Salz (ca. 8 g)"
+        },
+        {
+          "rolle": "fett",
+          "zutat": "butter",
+          "menge": 150,
+          "einheit": "g",
+          "original": "50 g weiche plus 100 g kalte Butter"
+        },
+        {
+          "rolle": "bindung",
+          "zutat": "ei",
+          "menge": 2,
+          "einheit": "stk",
+          "original": "2 Eier Gr. M"
+        }
+      ],
+      "ursache_art": "prozess",
+      "methode": "hefe_direkt",
+      "quelle": {
+        "url": "https://www.mariaesschmecktmir.com/brioche-rezept/",
+        "site": "mariaesschmecktmir.com"
+      },
+      "notiz": "Kontrollfall: Mengen = Rezept der Seite, Fehler beim Backen. Rezept: Gare 1 bis 2 h warm bis Verdopplung (oder Nachtgare kuehl), Backen 160 Grad Umluft 40 bis 45 min in Kastenform. Zeiten des Kommentators selbst nicht genannt. Fette 38 Prozent vom Mehl, Hefe 5 Prozent. Weitere Kommentare dort: Micha, Teig ging nicht auf, 7 g Trockenhefe statt 1/2 Wuerfel, Autorin nennt Temperatur der Zutaten (ca. 30 Grad) als Ursache.",
+      "kontrollfall": true
     }
   ]
 }

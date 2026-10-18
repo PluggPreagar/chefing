@@ -182,3 +182,16 @@ Zweck: `src/data/tipps.json` (19 Tipps „wenn X passiert, war es Y“, nur Fakt
 | 2026-10-18 | wunderweib.de, heidelberg24.de, leinetal24.de, utopia.de | je 1 (Suche) | Hefeteig, Rührkuchen, Übermischen | Flüssigkeit über 40–45 °C tötet die Hefe; Salz nicht auf die Hefe |
 | 2026-10-18 | antwort.net, ichkoche.at, baketotheroots.de | je 1 (Suche) | Mürbeteig, zu warme Butter | Teig vor dem Ausrollen etwa 1 Std. kühlen |
 | 2026-10-18 | rewe.de, wikibooks.org, berliner-kurier.de | je 1 (Suche) | Pfannkuchen | Ruhezeit 15–20 Min.; Ursache beim Reißen nur Schlussfolgerung |
+
+## 2026-10-18 — Negativ-Korpus erweitert: Misserfolge mit Mengen (T61)
+
+Drei parallele Recherche-Durchläufe (Rührteig, Hefeteig deutsch, Pfannkuchen); 19 Fälle aufgenommen (`src/data/negativ.json`, nur Fakten und eigene Kurzfassung). Einzel-URLs je Fall im Feld `quelle.url`.
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-18 | baking-forums.com, kochkino.de, zuckerzimtundliebe.de, sweetsandlifestyle.com, wer-weiss-was.de | 1–2 | Rührteig-Fälle | Napfkuchen zu viel Flüssigkeit, Backpulver verdreifacht, Gugelhupf-Kontrollfälle, Muffins mit Eierlikör |
+| 2026-10-18 | veggies.de, chocolatesandchai.com, ruhrschmecker.de, emmikochteinfach.de, food.com | je 1–2 | Pfannkuchen-Fälle | vegan mit Natron, Pancakes zu wässrig oder verdoppelt, Backpulver zu stark |
+| 2026-10-18 | michis-backforum.de, foodundco.de, rezeptwelt.de, heimbaecker.de, grillsportverein.de, mariaesschmecktmir.com | je 1 | Hefeteig-Fälle (deutsch) | Nusszopf zu wenig Milch, Pizzateig Hydration und tote Hefe, Hefezopf und Brioche nach Rezept |
+| 2026-10-18 | emmikochteinfach.de, urbia.de, lecker.de, kingarthurbaking.com, mumsnet.com, cookpad.com, recipetineats.com u. a. | je 1 | geprüft, ohne verwertbaren Fall | kein Misserfolg mit Mengen und Ursache oder Kommentare nicht sichtbar |
+
+Nicht abrufbar (403, 429, 404, gesperrt oder Zertifikat): chefkoch.de, gutefrage.net, cakecentral.com (521), rund-ums-baby.de, wunderkessel.de, frag-mutti.de, beautyjunkies.de, discusscooking.com, mannbackt.de, food52.com, reddit.com, seriouseats.com, allrecipes.com, simplyrecipes.com, bbcgoodfood.com, sallysbakingaddiction.com, brotbackforum.iphpbb3.com.

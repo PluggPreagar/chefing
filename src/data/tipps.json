@@ -46,13 +46,13 @@
       "ursache": "Zu viel Backpulver oder Natron: der Teig geht zu schnell auf, das Gerüst trägt die großen Blasen noch nicht",
       "art": "menge",
       "zahlen": { "backpulver_g_je_500g_mehl": "16–17 (ein Päckchen, etwa 1:30)", "natron_g_je_500g_mehl": "ca. 5, nur mit Säure" },
-      "hinweis": "Ein Päckchen entspricht etwa 3,3 % vom Mehl",
+      "hinweis": "Ein Päckchen entspricht etwa 3,3 % vom Mehl; der Korpus-Median liegt bei 3,5–4,0 % (T65: gleiche Skala, Natron zählt dreifach), Hinweis ab Q3 (Kastenkuchen 4,3 %), Warnung ab Korpus-Maximum (6,0 %), Grenzen 8 und 12 %",
       "quellen": [
         { "url": "https://www.kuechenfibel.de/faq/wie-viel-backpulver-fur-500g-mehl", "site": "kuechenfibel.de" },
         { "url": "https://www.lidl.de/c/lidl-rezepte-warum-faellt-mein-kuchen-aus-ruehrteig-nach-dem-backen-ein/s10098163", "site": "lidl.de" }
       ],
       "evidenz": 3,
-      "modell": { "stand": "teilweise", "durch": ["grenze:triebkraft_max", "grenze:triebkraft_max_hart", "grenze:natron_saeure_max"], "luecke": "Die Grenzen (8 und 12 %) sind Korpus-Spannen und liegen weit über dem Richtwert der Ratgeber (3,3 %); ob das Modell bei 6 % schon warnen sollte, ist offen" }
+      "modell": { "stand": "abgedeckt", "durch": ["toleranz:triebkraft", "grenze:triebkraft_max", "grenze:triebkraft_max_hart", "grenze:natron_saeure_max"], "luecke": null }
     },
     {
       "id": "ruehrteig-uebermischen",
@@ -67,7 +67,7 @@
         { "url": "https://utopia.de/ratgeber/haeufiger-teigfehler-das-solltest-du-beim-backen-unbedingt-beachten", "site": "utopia.de" }
       ],
       "evidenz": 3,
-      "modell": { "stand": "luecke", "durch": ["operation:unterheben_kurz"], "luecke": "Rührzeit nach dem Mehl wird nicht erfasst; Kandidat: Zeit-Fenster für die Operationen „unterheben“ (wie bei „kneten“ im Hefeteig) mit Hinweis bei Überschreitung" }
+      "modell": { "stand": "teilweise", "durch": ["operation:unterheben_kurz", "operation:unterheben_abwechselnd", "operation:pc_kurz_verruehren", "operation:glatt_ruehren"], "luecke": "Der Ablauf zeigt an den vier Misch-Schritten den Hinweis Risiko: zu lange gerührt, Gluten; geprüft wird nichts, weil niemand eine Rührzeit angibt — ein Zeit-Fenster bliebe wirkungslos (die angenommene Dauer liegt immer darin); sinnvoll erst mit einer Angabe des Nutzers (T66)" }
     },
     {
       "id": "ruehrteig-zu-viel-fluessigkeit",

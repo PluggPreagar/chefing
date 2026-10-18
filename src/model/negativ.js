@@ -10,7 +10,7 @@ import { temperaturBereich } from './temperatur.js';
 import { toGrams } from './units.js';
 
 // US-Maße der Quellen → Gramm. Schätzwerte (Mehl gelöffelt 120 g, gehäuft/geschöpft wären 140–150 g): die Streuung wird im Bericht genannt.
-export const TASSE_G = { weizenmehl: 120, wasser: 240, milch: 245, butter: 227, zucker: 200, brauner_zucker: 213, pflanzenoel: 218, orangensaft: 240, karotten: 110, schokolade: 170 };
+export const TASSE_G = { weizenmehl: 120, wasser: 240, milch: 245, buttermilch: 245, butter: 227, zucker: 200, brauner_zucker: 213, pflanzenoel: 218, orangensaft: 240, karotten: 110, schokolade: 170 };
 const EINHEIT = { tsp: 'tl', tbsp: 'el' };
 // Zutaten, die ingredients.json nicht kennt, aber für die Bilanz gut genug auf eine bekannte abbilden: [Schlüssel, Mengenfaktor].
 // Näherungen: Instanthefe aus dem Päckchen; Schmalz = reines Fett wie Öl; Honig ≈ Zucker; Eigelb wiegt etwa ein Drittel eines Eis;

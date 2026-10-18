@@ -19,8 +19,8 @@ ok(tipps.every(t=>t.quellen.length>=1 && t.quellen.every(q=>q.url.startsWith('ht
 ok(tipps.every(t=>[t.symptom,t.ursache,t.hinweis||''].every(x=>x.length<=420 && !/["„“]/.test(x))),'Urheberrecht: nur kurze eigene Zusammenfassungen (höchstens 420 Zeichen, keine wörtlichen Zitate in Anführungszeichen)');
 ok(tipps.filter(t=>t.modell.stand==='abgedeckt').every(t=>t.modell.luecke===null && t.modell.durch.length>0) && tipps.filter(t=>t.modell.stand!=='abgedeckt').every(t=>typeof t.modell.luecke==='string' && t.modell.luecke.length>10) && tipps.filter(t=>t.modell.stand==='ausserhalb').every(t=>t.modell.durch.length===0) && tipps.filter(t=>t.modell.stand==='luecke').every(t=>/Kandidat|Kein|nicht/.test(t.modell.luecke)),'Modell-Stand passt zu den Feldern: abgedeckt ohne Lücke, sonst mit Beschreibung, ausserhalb ohne Verweise');
 const zaehl=(f)=>tipps.filter(f).length;
-ok(zaehl(t=>t.modell.stand==='abgedeckt')===5 && zaehl(t=>t.modell.stand==='teilweise')===9 && zaehl(t=>t.modell.stand==='luecke')===2 && zaehl(t=>t.modell.stand==='ausserhalb')===3,'Befund: 5 abgedeckt, 9 teilweise, 2 Lücken, 3 außerhalb (T63 hat die Hefe-Flüssigkeit geschlossen)');
-ok(tipps.filter(t=>t.modell.stand==='luecke').map(t=>t.id).sort().join()==='kuchen-ofen-und-backzeit,ruehrteig-uebermischen','die zwei Lücken: Übermischen (Rührzeit), Ofen und Backzeit');
+ok(zaehl(t=>t.modell.stand==='abgedeckt')===6 && zaehl(t=>t.modell.stand==='teilweise')===9 && zaehl(t=>t.modell.stand==='luecke')===1 && zaehl(t=>t.modell.stand==='ausserhalb')===3,'Befund: 6 abgedeckt, 9 teilweise, 1 Lücke, 3 außerhalb (T63 Hefe-Flüssigkeit, T65 Triebmittel, T64 Rührzeit eingeordnet)');
+ok(tipps.filter(t=>t.modell.stand==='luecke').map(t=>t.id).join()==='kuchen-ofen-und-backzeit','die verbleibende Lücke: Ofen und Backzeit (Ofen, Form und Schiene sind keine Eingaben)');
 
 // --- Verweise ins Modell lösen sich auf ------------------------------------------------------------------------------------------
 const grenzIds=new Set(Object.values(data.grenzen.archetypen).flat().map(g=>g.id));
@@ -53,7 +53,12 @@ const basis=(a,vk)=>{ const v=a.varianten[vk], b={}; for (const r of a.rollen) b
  const viel=rechne({mengen:{trieb:15}});
  ok(tm.some(id=>viel.regelIds.includes(id)),'ruehrteig-faellt-ein-triebmittel: 15 % Backpulver löst die Triebkraft-Grenze aus');
  const mittel=rechne({mengen:{trieb:5}});
- ok(!tm.some(id=>mittel.regelIds.includes(id)),'… aber 5 % (deutlich über dem Richtwert von 3,3 %) bleibt ohne Meldung — die offene Lücke des Tipps, kein Fehler');}
+ ok(!tm.some(id=>mittel.regelIds.includes(id)) && mittel.toleranzHinweise.some(h=>/Triebkraft.*5,0 %.*untypisch/.test(h)),'… 5 % bleibt ohne Grenze, löst aber den Korpus-Hinweis „untypisch“ aus (Kastenkuchen Q1–Q3 2,6–4,3 %)');
+ const sieben=rechne({mengen:{trieb:7}});
+ ok(sieben.warnungen.some(w=>/Triebkraft.*7,0 %.*außerhalb aller/.test(w)) && !tm.some(id=>sieben.regelIds.includes(id)),'… 7 % (über dem Korpus-Maximum 6,0 %) löst die Warnung „außerhalb aller Korpus-Rezepte“ aus, die Grenze 8 % noch nicht: die Meldungen steigern sich Hinweis, Warnung, Grenze, hart');}
+{const mischen=['unterheben_kurz','unterheben_abwechselnd','pc_kurz_verruehren','glatt_ruehren'];
+ const ops=Object.fromEntries([...Object.entries(data.operations).map(([k,v])=>[k,v]),...Object.values(data.methods).flatMap(m=>Array.isArray(m?.sequenz)?m.sequenz.filter(e=>typeof e==='object').map(e=>[e.key,e]):[])]);
+ ok(mischen.every(k=>/(lange|kräftig).*(Gluten|zäh|kompakt)|Gluten/i.test(ops[k]?.risiko||'')) && tipps.find(t=>t.id==='ruehrteig-uebermischen').modell.durch.every(d=>mischen.includes(d.split(':')[1])),'ruehrteig-uebermischen: alle vier Misch-Schritte tragen den Risiko-Text zu langes Rühren (Gluten, zäh); der Ablauf zeigt ihn an');}
 {const {a,ks}=mk('hefeteig'); const v=a.varianten.weissbrot, b=basis(a,'weissbrot');
  const rechne=(extra={})=>compute({archetyp:'hefeteig',gefaess:v.gefaess,methode:'hefe_direkt',fixiert:{rollen:{},zutaten:{}},zutaten:b,...extra},data,ks);
  const t13=tipps.find(t=>t.id==='hefe-zu-trocken').modell.durch.map(d=>d.split(':')[1]);
