@@ -84,7 +84,7 @@ cmd_exported() {
   rm -f "$1"; git add -A "$H" && git commit -q -m "sync: $(basename "$1") an claude.ai übergeben" && echo "✓ protokolliert."
 }
 
-cmd_test() { [ -f test/run.sh ] && sh test/run.sh || echo "(keine test/run.sh)"; }
+cmd_test() { if [ -f test/run.sh ]; then sh test/run.sh || { echo "✗ Tests fehlgeschlagen."; return 1; }; else echo "(keine test/run.sh)"; fi; }
 
 case "${1:-status}" in
   init) cmd_init ;;

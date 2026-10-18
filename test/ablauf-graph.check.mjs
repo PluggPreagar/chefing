@@ -1,5 +1,5 @@
 import fs from 'fs';
-const P=new URL('../src/', import.meta.url).pathname; const J=(n)=>JSON.parse(fs.readFileSync(P+'data/'+n+'.json'));
+const P=new URL('../src/', import.meta.url).href; const J=(n)=>JSON.parse(fs.readFileSync(new URL(P+'data/'+n+'.json')));
 const { normalizeRecipe, stats } = await import(P+'model/corpus.js'); const { compute } = await import(P+'model/engine.js');
 const names=['ingredients','operations','methods','archetypes','vessels','kategorien','verben','erfahrungsregeln','grenzen'];
 const data=Object.fromEntries(names.map(n=>[n,J(n)]));const arch=data.archetypes.ruehrteig;const ks={};
