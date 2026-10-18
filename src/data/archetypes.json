@@ -2,6 +2,7 @@
   "_schema": {
     "rollen": "funktionale Bausteine des Gerichts; referenz = Rolle, auf die Bäckerprozent bezogen werden (100 %); fallback_bp = Schätzwert in Bäckerprozent, wenn der Korpus für die Rolle nichts liefert",
     "optionen": "Zutat-Schlüssel aus ingredients.json, die diese Rolle übernehmen können",
+    "substitution": "(T10, DR-030) wie viel passiert beim Wechsel der Zutat in dieser Rolle, GEMESSEN gegen das Best-of-Preset: frei = kein Wechsel erzeugt eine neue Meldung | empfohlen = mindestens ein Wechsel erzeugt Warnung oder Hinweis | strikt = mindestens ein Wechsel macht das Rezept ungültig. Fehlt das Feld, bietet die Rolle keine Wahl (Pflicht-Rolle mit einer Option). Nach Änderungen an Regeln oder Korpus: node tools/rollen-freiheit.mjs, der Test prüft die Übereinstimmung.",
     "lehrbuch": "Referenzverhältnisse aus der Backliteratur in Bäckerprozent (Mehl = 100) — zum Vergleich mit dem Korpus-Median",
     "varianten": "benannte Presets: Gefäß + Best-of-Auswahl; Mengen kommen aus dem Korpus; kurz = Beschriftung des Preset-Buttons"
   },
@@ -9,14 +10,14 @@
     "label": "Rührteig",
     "beschreibung": "Fett, Zucker, Ei und Mehl in ähnlichen Gewichtsanteilen (Eischwer-Prinzip), gelockert durch eingeschlagene Luft und Backpulver. Rührkuchen, Muffin und Gugelhupf sind derselbe Teig in anderer Methode und Form.",
     "rollen": [
-      { "rolle": "struktur",     "label": "Struktur",     "pflicht": true,  "referenz": true, "fallback_bp": 100, "optionen": ["weizenmehl", "speisestaerke", "haselnuss_gemahlen", "mandeln_gemahlen"], "default": "weizenmehl", "hinweis": "Mehl gibt Gerüst (Gluten + Stärke). Nüsse/Stärke können bis ~25 % ersetzen." },
-      { "rolle": "fett",         "label": "Fett",         "pflicht": true,  "fallback_bp": 90, "optionen": ["butter", "margarine", "pflanzenoel"], "default": "butter", "hinweis": "Entscheidet über die Methode: fest → Creme, flüssig → Rühr-Öl/Muffin." },
-      { "rolle": "suesse",       "label": "Süße",         "pflicht": true,  "fallback_bp": 90, "optionen": ["zucker", "brauner_zucker", "puderzucker"], "default": "zucker" },
+      { "rolle": "struktur",     "label": "Struktur", "substitution": "empfohlen",     "pflicht": true,  "referenz": true, "fallback_bp": 100, "optionen": ["weizenmehl", "speisestaerke", "haselnuss_gemahlen", "mandeln_gemahlen"], "default": "weizenmehl", "hinweis": "Mehl gibt Gerüst (Gluten + Stärke). Nüsse/Stärke können bis ~25 % ersetzen." },
+      { "rolle": "fett",         "label": "Fett", "substitution": "empfohlen",         "pflicht": true,  "fallback_bp": 90, "optionen": ["butter", "margarine", "pflanzenoel"], "default": "butter", "hinweis": "Entscheidet über die Methode: fest → Creme, flüssig → Rühr-Öl/Muffin." },
+      { "rolle": "suesse",       "label": "Süße", "substitution": "frei",         "pflicht": true,  "fallback_bp": 90, "optionen": ["zucker", "brauner_zucker", "puderzucker"], "default": "zucker" },
       { "rolle": "bindung",      "label": "Bindung",      "pflicht": true,  "fallback_bp": 80, "optionen": ["ei"], "default": "ei", "hinweis": "Emulgator + Struktur + Trieb." },
-      { "rolle": "fluessigkeit", "label": "Flüssigkeit",  "pflicht": false, "fallback_bp": 20, "optionen": ["milch", "buttermilch", "saure_sahne", "schmand", "joghurt", "wasser"], "default": "milch", "hinweis": "Reguliert Konsistenz. Saure Varianten reagieren mit dem Trieb und machen die Krume zarter." },
-      { "rolle": "trieb",        "label": "Trieb",        "pflicht": true,  "fallback_bp": 3, "optionen": ["backpulver", "natron"], "default": "backpulver", "hinweis": "Natron nur mit saurer Zutat." },
-      { "rolle": "aroma",        "label": "Aroma",        "pflicht": false, "fallback_bp": 3, "optionen": ["vanillezucker", "vanilleextrakt", "zitronenabrieb", "kakao", "zimt", "rum"], "default": "vanillezucker" },
-      { "rolle": "einlage",      "label": "Einlage",      "pflicht": false, "fallback_bp": 40, "optionen": ["schokolade", "rosinen", "blaubeeren"], "default": null }
+      { "rolle": "fluessigkeit", "label": "Flüssigkeit", "substitution": "empfohlen",  "pflicht": false, "fallback_bp": 20, "optionen": ["milch", "buttermilch", "saure_sahne", "schmand", "joghurt", "wasser"], "default": "milch", "hinweis": "Reguliert Konsistenz. Saure Varianten reagieren mit dem Trieb und machen die Krume zarter." },
+      { "rolle": "trieb",        "label": "Trieb", "substitution": "strikt",        "pflicht": true,  "fallback_bp": 3, "optionen": ["backpulver", "natron"], "default": "backpulver", "hinweis": "Natron nur mit saurer Zutat." },
+      { "rolle": "aroma",        "label": "Aroma", "substitution": "frei",        "pflicht": false, "fallback_bp": 3, "optionen": ["vanillezucker", "vanilleextrakt", "zitronenabrieb", "kakao", "zimt", "rum"], "default": "vanillezucker" },
+      { "rolle": "einlage",      "label": "Einlage", "substitution": "frei",      "pflicht": false, "fallback_bp": 40, "optionen": ["schokolade", "rosinen", "blaubeeren"], "default": null }
     ],
     "lehrbuch": {
       "quelle": "Eischwer-Prinzip / Rührteig-Klassifikation (leicht – mittel – schwer)",
@@ -38,14 +39,14 @@
     "label": "Pfannkuchen",
     "beschreibung": "Flüssiger bis dickflüssiger Teig aus Mehl, Ei und Milch, in der Pfanne portionsweise ausgebacken. Eierkuchen (dünn, ruhen lassen) und Pancakes (dick, Backpulver, kurz rühren) sind derselbe Teig mit anderem Flüssigkeitsanteil und anderer Methode.",
     "rollen": [
-      { "rolle": "struktur",     "label": "Struktur",     "pflicht": true,  "referenz": true, "fallback_bp": 100, "optionen": ["weizenmehl", "speisestaerke"], "default": "weizenmehl", "hinweis": "Mehl gibt Gerüst. Stärke kann bis ~25 % ersetzen, dann wird der Pfannkuchen zerbrechlich." },
+      { "rolle": "struktur",     "label": "Struktur", "substitution": "empfohlen",     "pflicht": true,  "referenz": true, "fallback_bp": 100, "optionen": ["weizenmehl", "speisestaerke"], "default": "weizenmehl", "hinweis": "Mehl gibt Gerüst. Stärke kann bis ~25 % ersetzen, dann wird der Pfannkuchen zerbrechlich." },
       { "rolle": "bindung",      "label": "Bindung",      "pflicht": true,  "fallback_bp": 50,  "optionen": ["ei"], "default": "ei", "hinweis": "Emulgator, Gerüst und Farbe." },
-      { "rolle": "fluessigkeit", "label": "Flüssigkeit",  "pflicht": true,  "fallback_bp": 200, "optionen": ["milch", "wasser", "buttermilch", "joghurt"], "default": "milch", "hinweis": "Bestimmt die Dicke: Eierkuchen etwa doppelt so viel Flüssigkeit wie Mehl, Pancakes nur etwa gleich viel. Saure Varianten reagieren mit dem Trieb." },
-      { "rolle": "fett",         "label": "Fett (im Teig)", "pflicht": false, "fallback_bp": 10, "optionen": ["butter", "margarine", "pflanzenoel"], "default": null, "hinweis": "Macht zarter und löst sich besser aus der Pfanne. Bratfett für die Pfanne zählt nicht dazu." },
-      { "rolle": "suesse",       "label": "Süße",         "pflicht": false, "fallback_bp": 5,   "optionen": ["zucker", "brauner_zucker", "puderzucker"], "default": null },
-      { "rolle": "trieb",        "label": "Trieb",        "pflicht": false, "fallback_bp": 3,   "optionen": ["backpulver", "natron"], "default": null, "hinweis": "Nur für dicke Pancakes. Natron nur mit saurer Zutat." },
-      { "rolle": "aroma",        "label": "Aroma",        "pflicht": false, "fallback_bp": 2,   "optionen": ["salz", "vanillezucker", "vanilleextrakt", "zitronenabrieb", "zimt"], "default": "salz" },
-      { "rolle": "einlage",      "label": "Einlage",      "pflicht": false, "fallback_bp": 30,  "optionen": ["blaubeeren"], "default": null }
+      { "rolle": "fluessigkeit", "label": "Flüssigkeit", "substitution": "empfohlen",  "pflicht": true,  "fallback_bp": 200, "optionen": ["milch", "wasser", "buttermilch", "joghurt"], "default": "milch", "hinweis": "Bestimmt die Dicke: Eierkuchen etwa doppelt so viel Flüssigkeit wie Mehl, Pancakes nur etwa gleich viel. Saure Varianten reagieren mit dem Trieb." },
+      { "rolle": "fett",         "label": "Fett (im Teig)", "substitution": "empfohlen", "pflicht": false, "fallback_bp": 10, "optionen": ["butter", "margarine", "pflanzenoel"], "default": null, "hinweis": "Macht zarter und löst sich besser aus der Pfanne. Bratfett für die Pfanne zählt nicht dazu." },
+      { "rolle": "suesse",       "label": "Süße", "substitution": "empfohlen",         "pflicht": false, "fallback_bp": 5,   "optionen": ["zucker", "brauner_zucker", "puderzucker"], "default": null },
+      { "rolle": "trieb",        "label": "Trieb", "substitution": "strikt",        "pflicht": false, "fallback_bp": 3,   "optionen": ["backpulver", "natron"], "default": null, "hinweis": "Nur für dicke Pancakes. Natron nur mit saurer Zutat." },
+      { "rolle": "aroma",        "label": "Aroma", "substitution": "frei",        "pflicht": false, "fallback_bp": 2,   "optionen": ["salz", "vanillezucker", "vanilleextrakt", "zitronenabrieb", "zimt"], "default": "salz" },
+      { "rolle": "einlage",      "label": "Einlage", "substitution": "frei",      "pflicht": false, "fallback_bp": 30,  "optionen": ["blaubeeren"], "default": null }
     ],
     "lehrbuch": {
       "quelle": "keine Lehrbuch-Referenz hinterlegt — nur Korpus",
@@ -63,14 +64,14 @@
     "beschreibung": "Mehl, Flüssigkeit, Hefe und Salz; die Hefe lockert den Teig über Zeit (Gehen) statt über Backpulver. Weißbrot (mager) und Hefezopf (süß, mit Fett und Ei) sind derselbe Teig mit anderem Anteil an Fett, Zucker und Ei — und in der Regel mit anderer Führung (direkt, mit Vorteig, lange ohne Kneten).",
     "rollen": [
       { "rolle": "struktur",     "label": "Struktur",     "pflicht": true,  "referenz": true, "fallback_bp": 100, "optionen": ["weizenmehl"], "default": "weizenmehl", "hinweis": "Weizenmehl mit genug Klebereiweiß (Type 405–1050) trägt das Gashalten; ohne Gluten (Stärke, Nüsse) geht ein Hefeteig nicht auf." },
-      { "rolle": "fluessigkeit", "label": "Flüssigkeit",  "pflicht": true,  "fallback_bp": 60,  "optionen": ["wasser", "milch"], "default": "wasser", "hinweis": "Lauwarm (~30–35 °C) beschleunigt die Hefe. Milch macht die Krume weicher und bräunt stärker." },
-      { "rolle": "trieb",        "label": "Hefe",         "pflicht": true,  "fallback_bp": 4,   "optionen": ["hefe_frisch", "hefe_trocken"], "default": "hefe_frisch", "hinweis": "Prozente in Frischhefe-Äquivalent: 1 g Trockenhefe zählt wie 3 g Frischhefe. Mehr Hefe → schnellere, aber weniger aromatische Gare." },
+      { "rolle": "fluessigkeit", "label": "Flüssigkeit", "substitution": "empfohlen",  "pflicht": true,  "fallback_bp": 60,  "optionen": ["wasser", "milch"], "default": "wasser", "hinweis": "Lauwarm (~30–35 °C) beschleunigt die Hefe. Milch macht die Krume weicher und bräunt stärker." },
+      { "rolle": "trieb",        "label": "Hefe", "substitution": "frei",         "pflicht": true,  "fallback_bp": 4,   "optionen": ["hefe_frisch", "hefe_trocken"], "default": "hefe_frisch", "hinweis": "Prozente in Frischhefe-Äquivalent: 1 g Trockenhefe zählt wie 3 g Frischhefe. Mehr Hefe → schnellere, aber weniger aromatische Gare." },
       { "rolle": "salz",         "label": "Salz",         "pflicht": true,  "fallback_bp": 2,   "optionen": ["salz"], "default": "salz", "hinweis": "Würzt und strafft das Gluten; zu viel bremst die Hefe." },
-      { "rolle": "fett",         "label": "Fett",         "pflicht": false, "fallback_bp": 10,  "optionen": ["butter", "margarine", "pflanzenoel"], "default": null, "hinweis": "Macht die Krume weich und hält sie länger frisch; im Brot oft 0, im süßen Hefeteig 10–25 %." },
-      { "rolle": "suesse",       "label": "Süße",         "pflicht": false, "fallback_bp": 5,   "optionen": ["zucker", "brauner_zucker"], "default": null, "hinweis": "Nahrung für die Hefe in kleinen Mengen; über ~15 % bremst sie." },
-      { "rolle": "bindung",      "label": "Bindung",      "pflicht": false, "fallback_bp": 20,  "optionen": ["ei"], "default": null, "hinweis": "Im süßen Hefeteig für Farbe, Bindung und weiche Krume." },
-      { "rolle": "aroma",        "label": "Aroma",        "pflicht": false, "fallback_bp": 2,   "optionen": ["vanillezucker", "vanilleextrakt", "zitronenabrieb", "orangenabrieb", "zimt"], "default": null },
-      { "rolle": "einlage",      "label": "Einlage",      "pflicht": false, "fallback_bp": 25,  "optionen": ["rosinen", "schokolade"], "default": null }
+      { "rolle": "fett",         "label": "Fett", "substitution": "empfohlen",         "pflicht": false, "fallback_bp": 10,  "optionen": ["butter", "margarine", "pflanzenoel"], "default": null, "hinweis": "Macht die Krume weich und hält sie länger frisch; im Brot oft 0, im süßen Hefeteig 10–25 %." },
+      { "rolle": "suesse",       "label": "Süße", "substitution": "empfohlen",         "pflicht": false, "fallback_bp": 5,   "optionen": ["zucker", "brauner_zucker"], "default": null, "hinweis": "Nahrung für die Hefe in kleinen Mengen; über ~15 % bremst sie." },
+      { "rolle": "bindung",      "label": "Bindung", "substitution": "empfohlen",      "pflicht": false, "fallback_bp": 20,  "optionen": ["ei"], "default": null, "hinweis": "Im süßen Hefeteig für Farbe, Bindung und weiche Krume." },
+      { "rolle": "aroma",        "label": "Aroma", "substitution": "frei",        "pflicht": false, "fallback_bp": 2,   "optionen": ["vanillezucker", "vanilleextrakt", "zitronenabrieb", "orangenabrieb", "zimt"], "default": null },
+      { "rolle": "einlage",      "label": "Einlage", "substitution": "frei",      "pflicht": false, "fallback_bp": 25,  "optionen": ["rosinen", "schokolade"], "default": null }
     ],
     "lehrbuch": {
       "quelle": "keine Lehrbuch-Referenz hinterlegt — nur Korpus",

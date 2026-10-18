@@ -106,9 +106,16 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
       aktiv: istFixiert,
       onToggle: () => onChange({ fixiert: { ...state.fixiert, rollen: { ...state.fixiert.rollen, [rolle.rolle]: !istFixiert } } }),
     };
-    root.append(dimension(rolle.label, rolle.hinweis, items, pin));
+    root.append(dimension(rolle.label, rolle.hinweis, items, pin, rolle.substitution));
   }
 }
+
+// Substitutions-Freiheit einer Rolle (T10): was passiert beim Wechsel der Zutat — gemessen gegen das Best-of-Preset
+export const SUBSTITUTION = {
+  frei: { text: 'frei austauschbar', titel: 'Kein Wechsel der Zutat in dieser Rolle erzeugt eine neue Meldung.' },
+  empfohlen: { text: 'Wechsel gibt Hinweise', titel: 'Mindestens ein Wechsel erzeugt eine Warnung oder einen Hinweis, macht das Rezept aber nicht ungültig.' },
+  strikt: { text: 'Wechsel kann ungültig machen', titel: 'Mindestens ein Wechsel macht das Rezept ungültig (harte Regel oder harte Grenze).' },
+};
 
 function toggleEntries(entries, key) {
   const exists = entries.some((e) => e.zutat === key);
@@ -128,11 +135,16 @@ function setAnteil(entries, key, anteil) {
   return entries.map((e) => (e.zutat === key ? { ...e, anteil: wert } : e));
 }
 
-function dimension(title, hint, items, pin) {
+function dimension(title, hint, items, pin, substitution) {
   const row = el('div', 'dim');
   const head = el('div', 'dim-head');
   const titleRow = el('div', 'dim-title-row');
   titleRow.append(el('div', 'dim-title', title));
+  if (SUBSTITUTION[substitution]) {
+    const s = el('span', `dim-subst is-${substitution}`, SUBSTITUTION[substitution].text);
+    s.title = SUBSTITUTION[substitution].titel;
+    titleRow.append(s);
+  }
   if (pin) titleRow.append(pinButton(pin));
   head.append(titleRow);
   if (hint) head.append(el('div', 'dim-hint', hint));
