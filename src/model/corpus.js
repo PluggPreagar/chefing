@@ -59,8 +59,15 @@ export function normalizeRecipe(recipe, ingredients, { rollen = ROLLEN, referenz
   };
 }
 
-export function stats(normalized, rollen = ROLLEN) {
+// Ab so vielen Rezepten einer Methode rechnet die Engine deren eigene Mediane statt des Variantenmedians (T48).
+export const MIN_N_METHODE = 5;
+
+export function stats(normalized, rollen = ROLLEN, { proMethode = true } = {}) {
   const n = normalized.length;
+  // Die Methode verschiebt Mengen (Vorteig-Brot braucht weniger Hefe, Creme mehr Fett als Rühr-Öl); der Median
+  // über alle Methoden mischt das. Zellen mit zu wenig Rezepten fehlen hier und fallen auf die Variante zurück.
+  const nachMethode = {};
+  if (proMethode) for (const r of normalized) (nachMethode[r.methode] ??= []).push(r);
   const count = (fn) =>
     normalized.reduce((acc, r) => {
       const k = fn(r);
@@ -98,6 +105,9 @@ export function stats(normalized, rollen = ROLLEN) {
       sauer: r.sauer,
     })),
     unbekannt: normalized.flatMap((r) => r.unbekannt.map((z) => `${r.id}: ${z.zutat} (${z.menge} ${z.einheit})`)),
+    proMethode: Object.fromEntries(
+      Object.entries(nachMethode).filter(([, liste]) => liste.length >= MIN_N_METHODE).map(([m, liste]) => [m, stats(liste, rollen, { proMethode: false })]),
+    ),
   };
 }
 

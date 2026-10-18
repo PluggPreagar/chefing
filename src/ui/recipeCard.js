@@ -16,7 +16,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   meta.append(
     el('span', null, `${computed.vessel.label}`),
     el('span', null, `${Math.round(computed.teigmasse)} g Teig`),
-    el('span', null, `Referenz: ${computed.varianteLabel} (n = ${computed.korpusN})`),
+    el('span', null, `Referenz: ${computed.varianteLabel} (n = ${computed.korpusN}${computed.korpusNMethode ? `; Mengen aus ${computed.korpusNMethode} Rezepten mit „${computed.method.label}“` : ''})`),
   );
   const zt = computed.zeit; // Zeitleiste aus dem Ablauf-Graph (DR-024/T44)
   if (zt?.gesamt) {

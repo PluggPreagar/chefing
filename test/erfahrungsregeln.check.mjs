@@ -12,7 +12,8 @@ for (const [k,v] of Object.entries(arch.varianten)) ks[k]=stats(J('corpus/'+v.ko
 let fail=0; const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++;};
 const E=(w)=>w==null?[]:Array.isArray(w)?w:[{zutat:w,anteil:1}];
 function st(variante, over={}){const v=arch.varianten[variante];const z={};for(const r of arch.rollen)z[r.rolle]=E(v.bestof[r.rolle]!==undefined?v.bestof[r.rolle]:r.default);Object.assign(z,over);return {archetyp:'ruehrteig',gefaess:v.gefaess,methode:null,fixiert:{rollen:{},zutaten:{}},zutaten:z};}
-const median=(r,v='kastenkuchen')=>ks[v].bp[r].median;
+// T48: Mengen kommen aus der Zelle der gewaehlten Methode, wenn es genug Rezepte gibt, sonst aus der Variante
+const median=(r,cc,v='kastenkuchen')=>(ks[v].proMethode[cc.methodKey]??ks[v]).bp[r].median;
 const hat=(c,re)=>c.anpassungen.some((a)=>re.test(a));
 const approx=(a,b)=>Math.abs(a-b)<1e-9;
 
@@ -22,33 +23,39 @@ ok(ids.indexOf('natron_drittel')<ids.indexOf('saeure_reduziert_backpulver'),'Rei
 
 // Grundzustand: Korpus-Median, keine Anpassung
 let c=compute(st('kastenkuchen'),data,ks);
-ok(approx(c.rollenBp.trieb.bp,median('trieb')) && approx(c.rollenBp.fett.bp,median('fett')) && c.anpassungen.length===0,'Basis (Backpulver, Milch, Butter): Korpus-Median, keine Anpassung');
+ok(approx(c.rollenBp.trieb.bp,median('trieb',c)) && approx(c.rollenBp.fett.bp,median('fett',c)) && c.anpassungen.length===0,'Basis (Backpulver, Milch, Butter): Korpus-Median, keine Anpassung');
+
+// T48 im Rührteig: Crememethode (n ≥ 5) hat mehr Fett als der Variantenmedian über Creme und Rühr-Öl; Rühr-Öl (n = 4) fällt zurück
+ok(c.methodKey==='creme' && ks.kastenkuchen.proMethode.creme && !ks.kastenkuchen.proMethode.ruehroel,`Kastenkuchen: Zelle „creme“ vorhanden (n = ${ks.kastenkuchen.proMethode.creme?.n}), „ruehroel“ (n = 4) nicht`);
+ok(Math.abs(median('fett',c)/ks.kastenkuchen.bp.fett.median-1)>0.1 && c.korpusNMethode===ks.kastenkuchen.proMethode.creme.n,`Creme-Fett ${median('fett',c).toFixed(0)} % statt Variantenmedian ${ks.kastenkuchen.bp.fett.median.toFixed(0)} % — die Karte nennt n der Methode`);
+const roel=compute({...st('kastenkuchen'),methode:'ruehroel'},data,ks);
+ok(roel.korpusNMethode===null && approx(roel.rollenBp.fett.bp,ks.kastenkuchen.bp.fett.median),'Rühr-Öl (n = 4 < 5): Variantenmedian');
 
 // natron_drittel: Natron ist ~3× so stark → Menge gedrittelt
 c=compute(st('kastenkuchen',{trieb:E('natron'),fluessigkeit:E('buttermilch')}),data,ks);
-ok(approx(c.rollenBp.trieb.bp,median('trieb')/3) && hat(c,/Natron ist ~3× so stark/),'Natron (mit Buttermilch): Trieb = Median / 3, Begründung sichtbar');
+ok(approx(c.rollenBp.trieb.bp,median('trieb',c)/3) && hat(c,/Natron ist ~3× so stark/),'Natron (mit Buttermilch): Trieb = Median / 3, Begründung sichtbar');
 ok(!hat(c,/zusätzliches CO₂/),'Natron + saure Flüssigkeit: nur die erste passende Regel je Rolle (nicht zusätzlich ×0,85)');
 ok(c.status!=='invalid','Natron mit Buttermilch bleibt gültig');
 
 // saeure_reduziert_backpulver: saure Flüssigkeit liefert CO₂ → Backpulver −15 %
 c=compute(st('kastenkuchen',{fluessigkeit:E('buttermilch')}),data,ks);
-ok(approx(c.rollenBp.trieb.bp,median('trieb')*0.85) && hat(c,/Buttermilch ist sauer und liefert zusätzliches CO₂/),'Backpulver + Buttermilch: −15 %, {fluessigkeit} durch das Label ersetzt');
+ok(approx(c.rollenBp.trieb.bp,median('trieb',c)*0.85) && hat(c,/Buttermilch ist sauer und liefert zusätzliches CO₂/),'Backpulver + Buttermilch: −15 %, {fluessigkeit} durch das Label ersetzt');
 c=compute(st('kastenkuchen',{fluessigkeit:E('joghurt')}),data,ks);
-ok(approx(c.rollenBp.trieb.bp,median('trieb')*0.85),'Backpulver + Joghurt: ebenfalls −15 %');
+ok(approx(c.rollenBp.trieb.bp,median('trieb',c)*0.85),'Backpulver + Joghurt: ebenfalls −15 %');
 c=compute(st('kastenkuchen',{fluessigkeit:[{zutat:'milch',anteil:1},{zutat:'buttermilch',anteil:1}]}),data,ks);
-ok(approx(c.rollenBp.trieb.bp,median('trieb')*0.85),'Mischung Milch + Buttermilch zählt als sauer (ODER-verknüpft)');
+ok(approx(c.rollenBp.trieb.bp,median('trieb',c)*0.85),'Mischung Milch + Buttermilch zählt als sauer (ODER-verknüpft)');
 c=compute(st('kastenkuchen',{fluessigkeit:E('wasser')}),data,ks);
-ok(approx(c.rollenBp.trieb.bp,median('trieb')) && c.anpassungen.length===0,'neutrale Flüssigkeit (Wasser): keine Anpassung');
+ok(approx(c.rollenBp.trieb.bp,median('trieb',c)) && c.anpassungen.length===0,'neutrale Flüssigkeit (Wasser): keine Anpassung');
 
 // oel_korpus_fallback: nur wenn der Korpus der Variante kein Öl-Rezept enthält und der Wert aus dem Korpus stammt
 const ohneOel={...ks,kastenkuchen:{...ks.kastenkuchen,fettTyp:{fest:ks.kastenkuchen.n}}};
 c=compute(st('kastenkuchen',{fett:E('pflanzenoel')}),data,ohneOel);
-ok(approx(c.rollenBp.fett.bp,median('fett')*0.9) && hat(c,/kein Öl-Rezept/),'Öl ohne Öl-Rezept im Korpus: Fett −10 % (82 % → 100 % Fettgehalt)');
+ok(approx(c.rollenBp.fett.bp,median('fett',c)*0.9) && hat(c,/kein Öl-Rezept/),'Öl ohne Öl-Rezept im Korpus: Fett −10 % (82 % → 100 % Fettgehalt)');
 c=compute(st('kastenkuchen',{fett:E('butter')}),data,ohneOel);
-ok(approx(c.rollenBp.fett.bp,median('fett')) && !hat(c,/kein Öl-Rezept/),'Butter: Regel gilt nicht');
+ok(approx(c.rollenBp.fett.bp,median('fett',c)) && !hat(c,/kein Öl-Rezept/),'Butter: Regel gilt nicht');
 ok((ks.kastenkuchen.fettTyp.fluessig||0)>0,'Voraussetzung des nächsten Falls: der echte Kastenkuchen-Korpus enthält Öl-Rezepte');
 c=compute(st('kastenkuchen',{fett:E('pflanzenoel')}),data,ks);
-ok(approx(c.rollenBp.fett.bp,median('fett')) && !hat(c,/kein Öl-Rezept/),'Öl mit Öl-Rezepten im Korpus: keine Pauschal-Korrektur');
+ok(approx(c.rollenBp.fett.bp,median('fett',c)) && !hat(c,/kein Öl-Rezept/),'Öl mit Öl-Rezepten im Korpus: keine Pauschal-Korrektur');
 const leer={...ks,kastenkuchen:{n:0,bp:{},methoden:{},backen:{},fettTyp:{}}};
 c=compute(st('kastenkuchen',{fett:E('pflanzenoel')}),data,leer);
 ok(c.rollenBp.fett.quelle==='schätzung' && approx(c.rollenBp.fett.bp,arch.rollen.find((r)=>r.rolle==='fett').fallback_bp) && !hat(c,/kein Öl-Rezept/),'ohne Korpus: Schätzwert (fallback_bp), `voraussetzung_quelle: korpus` verhindert die Regel');

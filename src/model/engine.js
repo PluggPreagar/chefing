@@ -48,13 +48,17 @@ export function compute(state, data, korpusStats) {
   const methodKey = state.methode && evals[state.methode] ? state.methode : bestMethod(evals, st.methoden, state.gefaess, data);
   const res = evals[methodKey];
   const method = data.methods[methodKey];
+  // Mengen aus den Rezepten dieser Methode, wenn es genug gibt (T48); Backzeit, Toleranz und Öl-Deckung
+  // bleiben auf der ganzen Variante, denn sie beschreiben Gefäß bzw. „was der Korpus überhaupt kennt“.
+  const stM = st.proMethode?.[methodKey] ?? null;
+  const stRolle = stM ?? st;
   const props = propsOf(state.zutaten, data.ingredients);
 
   const bpZiel = {};
   const anpassungen = [];
   for (const r of rollenKeys) {
     if (!state.zutaten[r]?.length) continue;
-    let bp = st.bp?.[r]?.median;
+    let bp = stRolle.bp?.[r]?.median;
     let quelle = 'korpus';
     if (bp == null || bp === 0) { bp = arch.rollen.find((x) => x.rolle === r).fallback_bp; quelle = 'schätzung'; }
     bpZiel[r] = { bp, quelle };
@@ -63,12 +67,6 @@ export function compute(state, data, korpusStats) {
   // Natron-Drittelung, Säure-Reduktion und Öl-Korpus-Fallback sind keine hartcodierten
   // if/else-Zweige mehr, sondern Daten-Regeln in erfahrungsregeln.json (DR-019/T23).
   anpassungen.push(...wendeErfahrungsregelnAn(bpZiel, props, st, data.erfahrungsregeln));
-
-  // Methoden-Faktor (T46): Der Korpus-Median gilt je Variante über alle Methoden; manche Methode braucht
-  // bei einer Rolle deutlich andere Mengen (lange Führung: ein Drittel der Hefe).
-  const faktoren = Object.entries(method.rollen_faktor || {}).filter(([r]) => bpZiel[r]);
-  for (const [r, f] of faktoren) bpZiel[r].bp *= f;
-  if (faktoren.length && method.rollen_begruendung) anpassungen.push(method.rollen_begruendung);
 
   if (bpZiel.struktur && props.struktur && props.struktur.unterkategorie === 'nuss') {
     anpassungen.push('Nüsse als alleinige Struktur: Kuchen wird sehr feucht und bindet schwach.');
@@ -97,7 +95,7 @@ export function compute(state, data, korpusStats) {
         bp: bpZiel[r].bp * anteilAnteil,
         bpQuelle: bpZiel[r].quelle,
         anteilProzent: entries.length > 1 ? Math.round(anteilAnteil * 100) : null,
-        korpus: st.bp?.[r] ?? null,
+        korpus: stRolle.bp?.[r] ?? null,
         ...anzeige,
       };
     });
@@ -121,8 +119,7 @@ export function compute(state, data, korpusStats) {
   const hatGrenzverletzung = verletzt.hart.length + verletzt.empfohlen.length > 0;
   const bilanzZeilen = Object.keys(GROESSEN).map((g) => {
     const korpus = st.bilanz?.[g] ?? null;
-    // Methoden-Faktor (T46) weicht absichtlich vom Variantenmedian ab → kein Korpus-Vergleich für diese Größe.
-    const t = (method.toleranz_aus || []).includes(g) ? null : toleranz(bil.bp[g], korpus);
+    const t = toleranz(bil.bp[g], korpus);
     if (!hatGrenzverletzung && !groessenMitGrenze.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
       const wert = fmtProzent(bil.bp[g]);
       const text = t === 'ausserhalb_spanne'
@@ -225,6 +222,7 @@ export function compute(state, data, korpusStats) {
     variante,
     varianteLabel: arch.varianten[variante]?.label,
     korpusN: st.n,
+    korpusNMethode: stM?.n ?? null,
     methodKey,
     method,
     status: zeitGruende.length ? 'invalid' : status,

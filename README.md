@@ -33,7 +33,7 @@ git config core.hooksPath .githooks
 ## So funktioniert es
 
 - **Archetyp** → **Rollen** (Struktur, Fett, Flüssigkeit, Trieb …): was ein Gericht funktional braucht. Eine Zutat füllt eine Rolle.
-- **Variante** = benanntes Preset: Gefäß, Korpus und „Best-of“-Zutaten. Die Mengen sind der **Median aus dem Korpus** in Bäckerprozent (Mehl = 100), nicht kuratiert.
+- **Variante** = benanntes Preset: Gefäß, Korpus und „Best-of“-Zutaten. Die Mengen sind der **Median aus dem Korpus** in Bäckerprozent (Mehl = 100), nicht kuratiert; hat die gewählte Methode mindestens 5 Rezepte in der Variante, zählen nur deren Rezepte (Vorteig-Brot braucht weniger Hefe als direkt geführtes).
 - **Methode** = geordnete Folge von **Operationen** (als Graph, mit parallelen Strängen). Jede Operation prüft **Voraussetzungen** an den Zutat-Eigenschaften, zum Beispiel „Natron braucht eine saure Zutat“. Die Engine prüft nur generisch, die Regeln stehen in den Daten.
 - **Zeit**: Operationen haben ein Fenster (min/typ/max) mit Hinweis, was außerhalb passiert; Warten ist eine eigene Operation (Gehen, Ruhen, Einlegen). Die Karte zeigt aktive Zeit, Wartezeit und Gesamtzeit.
 - **Gesamtbilanz**: Wasser, Fett, Zucker, Eiweiß, Gluten, Stärke, Triebkraft, Hefe und Salz über alle Zutaten. Dagegen laufen die **Grenzen** (`hart` macht die Kombination ungültig, `empfohlen` warnt) und der Vergleich mit der Korpus-Spanne.

@@ -56,17 +56,28 @@ c=compute({...st('weissbrot'),methode:'hefe_noknead'},data,ks);
 const lang=c.ablauf.find(s=>s.key==='gehen');
 ok(!c.ablauf.some(s=>s.key==='kneten') && lang.dauer===720 && lang.zeit.max===1800 && c.status!=='invalid','Lange Führung: kein Kneten, Gare 12 Std. (Fenster 6 Std.–30 Std.)');
 ok(c.zeit.gesamt>=720+45,`Lange Führung: Gesamtzeit ${c.zeit.gesamt} Min. enthält die lange Gare`);
-// T46: lange Gare braucht weniger Hefe (Methoden-Faktor), die übrigen Methoden bleiben beim Korpus-Median
-const hefeBp=(cc)=>cc.bilanz.find(b=>b.groesse==='hefe').bp;
+// T48: Mengen aus den Rezepten der gewählten Methode, sobald es mindestens MIN_N_METHODE gibt (T46 ersetzt)
+const { MIN_N_METHODE } = await import(P+'model/corpus.js');
+const zelle=(v,m)=>ks[v].proMethode[m];
+const hefeM=(v,m)=>zelle(v,m).bp.trieb.median;
+const hefe=(cc)=>cc.rollenBp.trieb.bp;
 const direkt=compute({...st('weissbrot'),methode:'hefe_direkt'},data,ks);
 const vor=compute({...st('weissbrot'),methode:'hefe_vorteig'},data,ks);
-ok(Math.abs(hefeBp(c)-0.3*hefeBp(direkt))<1e-6 && Math.abs(hefeBp(vor)-hefeBp(direkt))<1e-6,`Lange Führung: Hefe ${hefeBp(c).toFixed(1)} % statt ${hefeBp(direkt).toFixed(1)} % (Faktor 0,3), Vorteig unverändert`);
-ok(c.toleranzHinweise.length===0 && c.bilanz.find(b=>b.groesse==='hefe').toleranz===null,'Lange Führung: kein „untypisch“-Hinweis zur Hefe (Faktor ist gewollt)');
-ok(c.anpassungen.some(a=>a.includes('Drittel der Hefe')) && !direkt.anpassungen.some(a=>a.includes('Drittel der Hefe')),'Lange Führung: Anpassung erklärt (nur dort)');
+ok(MIN_N_METHODE===5 && Object.keys(ks.weissbrot.proMethode).sort().join()==='hefe_direkt,hefe_noknead,hefe_vorteig' && Object.keys(ks.hefezopf.proMethode).sort().join()==='hefe_direkt,hefe_kalt,hefe_vorteig' && Object.values(ks.weissbrot.proMethode).every(s=>Object.keys(s.proMethode).length===0),'stats(): Zellen nur ab 5 Rezepten (Zopf ohne Kneten n = 2 fehlt), Zellen ohne Verschachtelung');
+ok(hefeM('weissbrot','hefe_direkt')>1.5*ks.weissbrot.bp.trieb.median,`Voraussetzung: im Weißbrot weicht die Hefe der direkten Führung (${hefeM('weissbrot','hefe_direkt').toFixed(1)} %) deutlich vom Variantenmedian (${ks.weissbrot.bp.trieb.median.toFixed(1)} %) ab`);
+ok(Math.abs(hefe(direkt)-hefeM('weissbrot','hefe_direkt'))<1e-9 && Math.abs(hefe(vor)-hefeM('weissbrot','hefe_vorteig'))<1e-9 && Math.abs(hefe(c)-hefeM('weissbrot','hefe_noknead'))<1e-9,`Weißbrot: Hefe je Methode aus deren Rezepten (direkt ${hefe(direkt).toFixed(1)} %, Vorteig ${hefe(vor).toFixed(1)} %, ohne Kneten ${hefe(c).toFixed(1)} %)`);
+ok(hefe(c)<0.6*hefe(direkt),'Weißbrot ohne Kneten braucht deutlich weniger Hefe als direkte Führung');
+ok(direkt.korpusNMethode===10 && vor.korpusNMethode===5 && c.korpusNMethode===7 && direkt.korpusN===22,'Ergebnis nennt Variante (n = 22) und Methoden-Rezepte (10 / 5 / 7)');
+const kaltW=compute({...st('weissbrot'),methode:'hefe_kalt'},data,ks);
+ok(kaltW.korpusNMethode===null && Math.abs(hefe(kaltW)-ks.weissbrot.bp.trieb.median)<1e-9,'Methode ohne genug Rezepte (Weißbrot kalt n = 0): Rückfall auf den Variantenmedian');
+const zopfNK=compute({...st('hefezopf'),methode:'hefe_noknead'},data,ks);
+ok(zopfNK.korpusNMethode===null && Math.abs(hefe(zopfNK)-ks.hefezopf.bp.trieb.median)<1e-9,'Zopf ohne Kneten (n = 2 < 5): Rückfall auf die Variante statt eines geratenen Faktors');
+ok(c.anpassungen.length===0 && !c.toleranzHinweise.some(h=>/Hefe/.test(h)),'ohne Kneten: keine Anpassungstexte, kein „untypisch“-Hinweis zur Hefe');
 const gr=data.grenzen.archetypen.hefeteig.find(g=>g.id==='hf_hefe_band');
-ok(hefeBp(c)>=gr.min && !c.warnungen.some(w=>w.includes('Hefe')),`Lange Führung: Hefe ${hefeBp(c).toFixed(1)} % liegt im Band ${gr.min}–${gr.max} %, keine Warnung`);
-ok(Math.abs(c.zutatenListe.find(z=>z.rolle==='trieb').gramm/c.zutatenListe.find(z=>z.rolle==='struktur').gramm*100-hefeBp(c))<1e-6,'Lange Führung: Hefe-Gramm folgen dem Faktor in der Zutatenliste');
-ok(hefeBp(compute({...st('hefezopf'),methode:'hefe_noknead'},data,ks))<0.35*hefeBp(compute(st('hefezopf'),data,ks)),'Hefezopf mit langer Führung: ebenfalls weniger Hefe');
+ok(hefe(c)>=gr.min && !c.warnungen.some(w=>w.includes('Hefe')),`ohne Kneten: Hefe ${hefe(c).toFixed(1)} % liegt im Band ${gr.min}–${gr.max} %, keine Warnung`);
+ok(Math.abs(c.zutatenListe.find(z=>z.rolle==='trieb').gramm/c.zutatenListe.find(z=>z.rolle==='struktur').gramm*100-hefe(c))<1e-6,'ohne Kneten: Hefe-Gramm folgen der Methoden-Statistik in der Zutatenliste');
+ok(c.zutatenListe.find(z=>z.rolle==='trieb').korpus===zelle('weissbrot','hefe_noknead').bp.trieb,'Korpus-Spanne je Rolle in der Karte stammt ebenfalls aus der Methoden-Zelle');
+ok(Math.abs(direkt.backen.minuten-compute({...st('weissbrot'),methode:'hefe_noknead'},data,ks).backen.minuten)<=1,'Backzeit bleibt auf der ganzen Variante (Methode ändert sie nicht)');
 
 // T47: kalte Führung = normal kneten, dann lange kühle Gare (anders als die Führung ohne Kneten)
 c=compute({...st('hefezopf'),methode:'hefe_kalt'},data,ks);
@@ -81,7 +92,7 @@ c=compute(st('weissbrot',{struktur:E('speisestaerke')}),data,ks);
 ok(c.status==='invalid' && c.blockaden.some(b=>b.id==='hefe_braucht_gluten'),'Hefeteig mit Stärke statt Mehl: blockiert (hefe_braucht_gluten)');
 
 // Grenzen wirken: zu viel Zucker bremst die Hefe, zu viel Salz
-c=compute(st('weissbrot',{suesse:E('zucker')}),data,{...ks,weissbrot:{...ks.weissbrot,bp:{...ks.weissbrot.bp,suesse:{median:60,q1:60,q3:60,min:60,max:60}}}});
+c=compute(st('weissbrot',{suesse:E('zucker')}),data,{...ks,weissbrot:{...ks.weissbrot,proMethode:{},bp:{...ks.weissbrot.bp,suesse:{median:60,q1:60,q3:60,min:60,max:60}}}});
 ok(c.bilanz.find(b=>b.groesse==='zucker').bp>45 && c.status==='invalid','Weißbrot mit 60 % Zucker: Hefe wird lahmgelegt (hart)');
 c=compute(st('hefezopf',{trieb:E('hefe_trocken')}),data,ks);
 const g=c.zutatenListe.find(z=>z.rolle==='trieb');
