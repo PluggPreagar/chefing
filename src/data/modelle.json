@@ -6,6 +6,7 @@
     "temp_koeffizient": "Beschleunigung je °C (natürlicher Logarithmus); Q10 = exp(10 · temp_koeffizient) ist der Faktor je 10 °C.",
     "temp_ref": "Bezugstemperatur der ln_konstante in °C.",
     "temp_standard": "Annahme in °C, wenn weder Rezept noch Operation eine Temperatur nennen.",
+    "temp_deckel": "Obergrenze der wirksamen Temperatur in °C (T59): die Hefe ist bei etwa 35 °C am aktivsten und wird darüber langsamer, bei etwa 50 °C stirbt sie; Ofen-Gare mit 45–50 °C rechnet deshalb wie 35 °C. Fachwissen der Hefe-Physiologie, durch zwei Rezepte gestützt (ohne Deckel passt der Fit schlechter: R² 0,77 gegen 0,80).",
     "warn_faktor": "Abweichung (Faktor, nach oben und unten), ab der die Engine warnt; aus dem Korpus gewählt (deckt fast alle Fit-Rezepte).",
     "fit_n": "Anzahl der Rezepte, an denen die Parameter gefittet wurden. Parameter werden nicht automatisch nachgezogen — `node tools/gaerung-fit.mjs` zeigt die Abweichung zum aktuellen Korpus.",
     "validierung": "Rezepte (ids im Korpus), die nicht in den Fit eingehen, und das Ergebnis der Vorhersage gegen sie; `test/gaerung.check.mjs` prüft sie dauerhaft.",
@@ -16,20 +17,27 @@
     "label": "Gärdosis (Hefe × Zeit × Temperatur)",
     "rolle": "trieb",
     "trieb_typ": "biologisch",
-    "ln_konstante": 6.189,
-    "exponent": -0.637,
-    "exponent_alternativen": { "ohne_noknead_raum": -0.16, "erstes_modell_ohne_temperatur": -0.93 },
-    "exponent_hinweis": "Wie stark die Hefemenge die Zeit verkürzt, ist im Korpus nur grob belegt (Exponent −0,64; ohne die Rezepte ohne Kneten bei Raumtemperatur nur −0,16, im ersten Modell ohne Temperatur −0,93): er stützt sich auf wenige Rezepte mit sehr wenig Hefe. Die berechnete Hefemenge ist deshalb ein Richtwert, die Rezepte der Methode gehen vor.",
-    "temp_koeffizient": 0.0921,
+    "ln_konstante": 5.982,
+    "exponent": -0.545,
+    "exponent_alternativen": {
+      "ohne_noknead_raum": -0.12,
+      "erstes_modell_ohne_temperatur": -0.93
+    },
+    "exponent_hinweis": "Wie stark die Hefemenge die Zeit verkürzt, ist im Korpus nur grob belegt (Exponent −0,55, Leave-one-out −0,61 bis −0,50; ohne die Rezepte ohne Kneten bei Raumtemperatur nur −0,12, im ersten Modell ohne Temperatur −0,93): bei sehr wenig Hefe und langer kalter Gare ist die Zeit kürzer als das Modell erwartet. Die berechnete Hefemenge ist deshalb ein Richtwert, die Rezepte der Methode gehen vor.",
+    "temp_koeffizient": 0.0793,
     "temp_ref": 20,
     "temp_standard": 28,
+    "temp_deckel": 35,
     "warn_faktor": 3.5,
-    "fit_n": 42,
+    "fit_n": 48,
     "stand": "2026-10-18",
     "validierung": {
-      "ids": ["brotwein-toastbrot-ueber-nacht-weizentoast", "seasonsandsuppers-overnight-sandwich-bread"],
-      "ergebnis": "Zwei kalte Weißbrote, nicht im Fit (n = 2): Gärzeit aus der Hefe um ×2,8 kürzer und ×1,1 länger als vorhergesagt (Stand T60: ×2,75 und ×1,09) (mit dem früheren Kältefaktor-Modell ×2,8 und ×1,5). Raumtemperatur-Rezepte (n = 7) im Fit-Leave-out: Gärzeit im Median ×3,3 länger als vorhergesagt, 6 von 7 länger — die Temperatur allein erklärt sie nicht (siehe `quelle`)."
+      "ids": [
+        "brotwein-toastbrot-ueber-nacht-weizentoast",
+        "seasonsandsuppers-overnight-sandwich-bread"
+      ],
+      "ergebnis": "Zwei kalte Weißbrote, nicht im Fit (n = 2): Gärzeit aus der Hefe um ×1,85 kürzer und ×1,45 länger als vorhergesagt (Stand T59; zuvor ×2,75 und ×1,09, mit dem Kältefaktor-Modell ×2,8 und ×1,5). Unabhängiger Test T59 (6 neue Rezepte ohne Vorteig, vorhergesagt mit dem Modell vor dem Neu-Fit): Kühlschrank-Gare mit 0,6–0,8 % Hefe ×3,2 bis ×3,3 kürzer als das Modell (11–13 Std. statt 36–43 Std.), mit 2 % Hefe ×1,3 und ×2,5 kürzer; Ofen-Gare bei 45–50 °C ×2,6 und ×5,3 länger als ohne Temperatur-Deckel (Anlass für `temp_deckel`). Reife-Vorteige (n = 10 neue, nicht im Fit): Dosis 0,59–1,14, Median etwa 0,8 der Zeit bis zur Verdopplung — das Modell trägt auch für Vorteige. Raumtemperatur-Rezepte (n = 7) im Fit-Leave-out: Gärzeit im Median ×3,7 länger als vorhergesagt, 6 von 7 länger."
     },
-    "quelle": "Regression an 42 Hefeteig-Korpus-Rezepten ohne echten Vorteig und ohne die zwei Prüf-Rezepte (5 kalt, 7 Raumtemperatur, 30 warm; darunter vier Hefe-Ansätze, die seit T60 als direkte Führung geführt werden): R² 0,81; Abweichung der Zeit im Median ×1,34, bei 90 % der Rezepte höchstens ×2,6, maximal ×3,4 (mit dem früheren Modell mit nur kalt/warm: R² 0,69, Median ×1,5, maximal ×4,6). Exponent −0,64 (−1 hieße Hefe × Zeit konstant), Q10 ≈ 2,5 (je 10 °C kälter dauert die Gare etwa 2,5-mal so lange). Die Temperaturen der Rezepte sind größtenteils Annahmen (Vorgabe der Methode: warm 28 °C, ohne Kneten Raumtemperatur 21 °C, kalte Führung Kühlschrank 5,5 °C); nur 11 von 42 Rezepten nennen sie ausdrücklich. Ohne Kneten bei Raumtemperatur dauert die Gare weiterhin deutlich länger als die Hefedosis erwarten lässt (vermutlich bestimmt hier die Zeit für das Gluten, nicht die Hefe): Der Fit nimmt diese Rezepte mit und wird dadurch flacher in der Hefe; nach unten gilt zusätzlich die Mindestzeit der Gare-Operation (T58, ohne Kneten 6 Std.), nach oben allein das Modell. Richtwert, kein Garantiewert: Mehl und Teigmenge fehlen im Modell."
+    "quelle": "Regression an 48 Hefeteig-Korpus-Rezepten ohne reifenden Vorteig und ohne die zwei Prüf-Rezepte (9 kalt, 7 Raumtemperatur, 32 warm, 2 davon an der Obergrenze 35 °C; darunter vier Hefe-Ansätze, die seit T60 als direkte Führung geführt werden): R² 0,80; Abweichung der Zeit im Median ×1,35, bei 90 % der Rezepte höchstens ×2,6, maximal ×3,9 (also ein Rezept über dem Warn-Faktor; mit dem früheren Modell mit nur kalt/warm: R² 0,69, Median ×1,5, maximal ×4,6). Exponent −0,55 (−1 hieße Hefe × Zeit konstant), Q10 ≈ 2,2 bis zum Deckel von 35 °C (je 10 °C kälter dauert die Gare etwa 2,2-mal so lange). Die Temperaturen der Rezepte sind größtenteils Annahmen (Vorgabe der Methode: warm 28 °C, ohne Kneten Raumtemperatur 21 °C, kalte Führung Kühlschrank 5,5 °C); nur 17 von 48 Rezepten nennen sie ausdrücklich. Grenzen des Modells: (1) bei sehr wenig Hefe und kalter Gare ist die Gare im Korpus kürzer als vorhergesagt (die Hefe vermehrt sich in der langen Gare; Sättigung), (2) ohne Kneten bei Raumtemperatur dauert die Gare länger als die Hefedosis erwartet (die angegebene Zeit ist der Zeitplan „über Nacht“); der Fit nimmt diese Rezepte mit und wird dadurch flacher in der Hefe; nach unten gilt zusätzlich die Mindestzeit der Gare-Operation (T58, ohne Kneten 6 Std.), nach oben allein das Modell. Richtwert, kein Garantiewert: Mehl und Teigmenge fehlen im Modell."
   }
 }

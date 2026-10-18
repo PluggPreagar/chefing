@@ -7,7 +7,9 @@
 export const gaerungModell = (data) => data?.modelle?.gaerung ?? null;
 
 const ln = Math.log;
-const mitTemp = (m, tempC) => tempC ?? m.temp_standard;
+// Wirksame Temperatur: ohne Angabe `temp_standard`, nach oben gedeckelt bei `temp_deckel` (Hefe-Aktivität hat ihr Maximum bei etwa
+// 35 °C und fällt darüber ab; ohne Deckel wären 45–50 °C im Ofen 30-mal zu schnell, T59)
+const mitTemp = (m, tempC) => Math.min(tempC ?? m.temp_standard, m.temp_deckel ?? Infinity);
 
 export function erwarteteGare(hefeBp, tempC, m) {
   return Math.exp(m.ln_konstante + m.exponent * ln(hefeBp) - m.temp_koeffizient * (mitTemp(m, tempC) - m.temp_ref));
@@ -28,6 +30,11 @@ export function vorteigDosis({ hefeG, mehlG, dauer, temp }, m) {
   if (!(hefeG > 0) || !(mehlG > 0) || !(dauer > 0)) return null;
   return dauer / erwarteteGare((hefeG / mehlG) * 100, temp, m);
 }
+
+// Reifender Vorteig (T59): Hefe auf Vorteig und Hauptteig verteilt und der Vorteig reift mindestens `reife` Minuten (Poolish, Biga). Solche
+// Rezepte bleiben aus dem Gärmodell-Fit und der Gärzeit-Prüfung draußen, weil die Hefe nicht aufgeteilt im Korpus steht — im Gegensatz zum
+// Hefe-Ansatz (Dampfl, 15–30 Min.), dessen ganze Hefe im Ansatz steckt (T60).
+export const hatReifenVorteig = (rezept, reife = 240) => rezept?.methode === 'hefe_vorteig' || (rezept?.vorteig?.hefe_g_frisch > 0 && rezept?.zeiten?.vorteig >= reife);
 
 // Summe der Gärzeit aus den Schritten mit `gaerung: true`; Vorteig (`gaerung: 'vorteig'`) macht das Modell unanwendbar.
 export function gaerungsZeit(schritte) {

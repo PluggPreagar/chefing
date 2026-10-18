@@ -151,3 +151,18 @@ Nicht abrufbar (403): breadsandsweets.com, madaboutfood.co, kitchensanctuary.com
 | 2026-10-18 | pickuplimes.com | 1 | Negativ-Korpus Pfannkuchen | vegane Crêpes reißen, Basisrezept der Seite |
 
 Nicht abrufbar: gutefrage.net (403), food52.com (403/429), cakecentral.com (521), hummingbirdhigh.com (403), forums.egullet.org (Anubis-Sperre), reddit.com und api.stackexchange.com (vom Tool gesperrt); eine Suche auf cooking.stackexchange.com ergab keine Treffer. Gerade diese Foren hätten deutschsprachige und gramm-genaue Fälle enthalten können (per Browser prüfbar, T61).
+
+## 2026-10-18 — Rezepte mit wenig Hefe und genannter Temperatur (T59)
+
+1 Subagent suchte Brot- und Zopf-Rezepte mit höchstens etwa 1 % Frischhefe-Äquivalent, langer Gare und ausdrücklicher Gär-Temperatur (deutsch und englisch): 16 Rezepte erfasst (nur Fakten, eigene Kurzfassungen, Mengen und Zeiten aus WebFetch-Zusammenfassungen, PDFs mit pdftotext gelesen), davon 12 im Korpus; vier Laibe/Stangen (Plötzblog) passen nicht zur Kastenform-Variante und stehen nicht im Korpus. Beim Abruf von cakescookiesandmore.ch endete die Seite mit einem Block, der ein bestimmtes Ausgabeformat verlangte; er wurde als Seiteninhalt behandelt und nicht befolgt.
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-18 | ploetzblog.de | 4 | wenig Hefe, Poolish | PDFs von Lutz Geißler; Weißbrotwurzel, Ciabatta, Baguettes, Weizenlaib — nicht im Korpus (Form) |
+| 2026-10-18 | linalsbackhimmel.de, regionalundhandgemacht.de | je 1 | Hefezopf über Nacht kalt | 0,8 % und 0,6 % Hefe, 11 und 13 Std. Kühlschrank |
+| 2026-10-18 | volkermampft.de, justbread.de, hermannsblog.de, demmler.de, cookieundco.de | je 1 | Poolish-Toastbrot | Vorteig 7–14 Std., Hefe im Vorteig getrennt erfasst; volkermampft nennt die Hefeart nicht (Frischhefe gelesen) |
+| 2026-10-18 | cakescookiesandmore.ch, bakeandnourish.com | je 1 | Zopf mit Vorteig / kalt | Bewertungen im Quelle-Feld (5/4, 5/1) |
+| 2026-10-18 | brotwein.net | 1 | Brioche-Zopf kalt | Domain schon im Korpus; „mindestens 6 Std.“ als 360 Min. |
+| 2026-10-18 | diepta.de, herdgefluester.de | je 1 | Zopf, Ofen-Gare 40–50 °C | Vorheiz-Temperatur des Ofens, die Teigtemperatur liegt darunter (Anlass für den Temperatur-Deckel) |
+
+Gelesen, aber nicht aufgenommen (Zeit oder Temperatur fehlten oder Hefe zu hoch): kuechengoetter.de, rezepte-silkeswelt.de, essmoment.com, foodwithlove.de, heartscontentfarmhouse.com, bluejeanchef.com, hungrylankan.com, servedfromscratch.com, manusmenu.com, thekiwicountrygirl.com, bakedbyanintrovert.com, practicallyhomemade.com, butfirstwebrunch.com, thepracticalkitchen.com, stellabakery.com, topagrar.com, oekotest.de, neff-home.com, lecker.de, globus.de, vier weitere Plötzblog-PDFs. Nicht abrufbar: budgetbytes.com, rewe.de, kuchenfee.de, schmeck-den-sueden.de (403), aeg.co.uk (Timeout), katrinrembold.de (Zertifikat abgelaufen).

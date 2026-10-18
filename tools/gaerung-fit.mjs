@@ -12,7 +12,7 @@ const wurzel = new URL('../src/', import.meta.url);
 const lies = (p) => JSON.parse(fs.readFileSync(new URL(p, wurzel), 'utf8'));
 const { normalizeRecipe } = await import(new URL('model/corpus.js', wurzel));
 const { temperaturBereich, gareOperation, schrittTemperatur } = await import(new URL('model/temperatur.js', wurzel));
-const { erwarteteGare } = await import(new URL('model/gaerung.js', wurzel));
+const { erwarteteGare, hatReifenVorteig } = await import(new URL('model/gaerung.js', wurzel));
 const ingredients = lies('data/ingredients.json');
 const arch = lies('data/archetypes.json').hefeteig;
 const methods = lies('data/methods.json');
@@ -24,6 +24,8 @@ const rollen = arch.rollen.map((r) => r.rolle);
 const pruefIds = new Set(gespeichert.validierung?.ids ?? []);
 
 export const TEMP_REF = 20;
+// Obergrenze der wirksamen Temperatur (modelle.json `temp_deckel`): die Fit-Zeilen tragen schon die gedeckelte Temperatur
+const DECKEL = gespeichert.temp_deckel ?? Infinity;
 export const istRaum = (tempC) => tempC >= temperaturen.raum.min && tempC <= temperaturen.raum.max;
 
 export function lesen() {
@@ -32,10 +34,10 @@ export function lesen() {
     const n = normalizeRecipe(r, ingredients, { rollen });
     const z = r.zeiten || {};
     const T = (z.vorteig ?? 0) + (z.gehen ?? 0) + (z.stueckgare ?? 0);
-    if (r.methode === 'hefe_vorteig' || !(z.gehen > 0) || !(n.bilanz.bp.hefe > 0) || !(T > 0)) continue;
+    if (hatReifenVorteig(r) || !(z.gehen > 0) || !(n.bilanz.bp.hefe > 0) || !(T > 0)) continue;
     const b = temperaturBereich(schrittTemperatur('gehen', gareOperation(r.methode, methods, operations), r), temperaturen);
     if (!b) continue;
-    zeilen.push({ id: r.id, methode: r.methode, explizit: r.temperaturen?.gehen != null, temp: b.mitte, hefe: n.bilanz.bp.hefe, T, pruef: pruefIds.has(r.id) });
+    zeilen.push({ id: r.id, methode: r.methode, explizit: r.temperaturen?.gehen != null, temp: Math.min(b.mitte, DECKEL), hefe: n.bilanz.bp.hefe, T, pruef: pruefIds.has(r.id) });
   }
   return zeilen;
 }
@@ -74,9 +76,10 @@ if (process.argv[1]?.endsWith('gaerung-fit.mjs')) {
   const zeilen = alle.filter((r) => !r.pruef);
   const f = fitten(zeilen);
   const raum = zeilen.filter((r) => istRaum(r.temp));
+  const heiss = zeilen.filter((r) => r.temp >= DECKEL).length;
   const kalt = zeilen.filter((r) => r.temp < 10);
   const fmt = (x, d = 2) => x.toFixed(d).replace('.', ',');
-  console.log(`Rezepte im Fit (ohne Vorteig, mit Zeit und Hefe, ohne Prüf-Rezepte): ${f.n} (kalt ${kalt.length}, Raumtemperatur ${raum.length}, warm ${f.n - kalt.length - raum.length}; Temperatur ausdrücklich im Rezept: ${zeilen.filter((r) => r.explizit).length})`);
+  console.log(`Rezepte im Fit (ohne Vorteig, mit Zeit und Hefe, ohne Prüf-Rezepte): ${f.n} (kalt ${kalt.length}, Raumtemperatur ${raum.length}, warm ${f.n - kalt.length - raum.length}, davon ${heiss} an der Temperatur-Obergrenze ${DECKEL} °C; Temperatur ausdrücklich im Rezept: ${zeilen.filter((r) => r.explizit).length})`);
   console.log(`Fit:        ln_konstante ${fmt(f.ln_konstante, 3)}  exponent ${fmt(f.exponent, 3)}  temp_koeffizient ${fmt(f.temp_koeffizient, 4)} je °C (Q10 ${fmt(f.q10)})  R² ${fmt(f.r2)}`);
   console.log(`Abweichung der Zeit (Faktor): Median ${fmt(f.median)}, 80 % ${fmt(f.q80)}, 90 % ${fmt(f.q90)}, max ${fmt(f.max, 1)}`);
   const ohneRaum = zeilen.filter((r) => !istRaum(r.temp));

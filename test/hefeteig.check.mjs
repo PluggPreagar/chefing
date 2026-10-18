@@ -67,9 +67,9 @@ ok(MIN_N_METHODE===1 && Object.keys(ks.weissbrot.proMethode).sort().join()==='he
 ok(hefeM('weissbrot','hefe_direkt')>1.5*ks.weissbrot.bp.trieb.median,`Voraussetzung: im Weißbrot weicht die Hefe der direkten Führung (${hefeM('weissbrot','hefe_direkt').toFixed(1)} %) deutlich vom Variantenmedian (${ks.weissbrot.bp.trieb.median.toFixed(1)} %) ab`);
 ok(Math.abs(hefe(direkt)-hefeM('weissbrot','hefe_direkt'))<1e-9 && Math.abs(hefe(vor)-hefeM('weissbrot','hefe_vorteig'))<1e-9 && Math.abs(hefe(c)-hefeM('weissbrot','hefe_noknead'))<1e-9,`Weißbrot: Hefe je Methode aus deren Rezepten (direkt ${hefe(direkt).toFixed(1)} %, Vorteig ${hefe(vor).toFixed(1)} %, ohne Kneten ${hefe(c).toFixed(1)} %)`);
 ok(hefe(c)<0.6*hefe(direkt),'Weißbrot ohne Kneten braucht deutlich weniger Hefe als direkte Führung');
-ok(direkt.korpusNMethode===10 && vor.korpusNMethode===5 && c.korpusNMethode===7 && direkt.korpusN===24,'Ergebnis nennt Variante (n = 24) und Methoden-Rezepte (10 / 5 / 7)');
+ok(direkt.korpusNMethode===ks.weissbrot.proMethode.hefe_direkt.n && vor.korpusNMethode===ks.weissbrot.proMethode.hefe_vorteig.n && c.korpusNMethode===ks.weissbrot.proMethode.hefe_noknead.n && direkt.korpusN===ks.weissbrot.n && direkt.korpusN>=29,`Ergebnis nennt Variante (n = ${direkt.korpusN}) und Methoden-Rezepte (${direkt.korpusNMethode} / ${vor.korpusNMethode} / ${c.korpusNMethode})`);
 const kaltW=compute({...st('weissbrot'),methode:'hefe_kalt'},data,ks);
-ok(kaltW.korpusNMethode===2 && Math.abs(hefe(kaltW)-hefeM('weissbrot','hefe_kalt'))<1e-9,'Weißbrot kalt (n = 2): die zwei Rezepte zählen (T49: „Daten statt Modell“)');
+ok(kaltW.korpusNMethode===ks.weissbrot.proMethode.hefe_kalt.n && kaltW.korpusNMethode>=2 && Math.abs(hefe(kaltW)-hefeM('weissbrot','hefe_kalt'))<1e-9,`Weißbrot kalt (n = ${kaltW.korpusNMethode}): die Rezepte der Methode zählen (T49: „Daten statt Modell“)`);
 const ksOhneKalt={...ks,weissbrot:{...ks.weissbrot,proMethode:Object.fromEntries(Object.entries(ks.weissbrot.proMethode).filter(([k])=>k!=='hefe_kalt'))}};
 const kaltLeer=compute({...st('weissbrot'),methode:'hefe_kalt'},{...data,modelle:undefined},ksOhneKalt);
 ok(kaltLeer.korpusNMethode===null && Math.abs(hefe(kaltLeer)-ks.weissbrot.bp.trieb.median)<1e-9,'Methode ohne Rezepte und ohne Gärmodell: Rückfall auf den Variantenmedian');

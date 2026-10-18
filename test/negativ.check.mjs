@@ -90,7 +90,7 @@ ok(es.mengeUrsache.geprueft===3 && es.mengeUrsache.erkannt===3 && es.mengeUrsach
 ok(es.falschNegativ.length===2 && es.falschNegativ.includes('freshloaf-nutella-sternbrot-dicht') && es.falschNegativ.includes('freshloaf-brotbackautomat-honig-hoehe-einbruch') && es.prozessOderOffen.find(x=>x.id==='freshloaf-nutella-sternbrot-dicht').ursacheArt==='prozess','Befund: zwei Falsch-Negative, beide ohne Mengenursache (zu kurz geknetet; Ursache offen) — Mengen-Regeln können sie nicht sehen');
 ok(es.kontrollen===1 && es.falschAlarm.length===0,'der Kontrollfall (normale Mengen, Prozessfehler) löst keinen Falsch-Alarm aus');
 const lf=echt.faelle.find(x=>x.id==='freshloaf-vollkorn-5-laibe-35g-hefe-kollaps');
-ok(lf.grenzen.some(x=>x.id==='hf_salz_max') && lf.gaerung.art==='zu_lang' && lf.gaerung.gare===120,'Fall 5 Laibe: Salz über hf_salz_max und Gärmodell „zu_lang“ (Stückgare bei 41 °C)');
+ok(lf.grenzen.some(x=>x.id==='hf_salz_max') && lf.gaerung.gare===120 && lf.gaerung.temp===41 && lf.gaerung.art===null && lf.erkannt,'Fall 5 Laibe: erkannt über das Salz (hf_salz_max); das Gärmodell sieht die Übergare seit dem Temperatur-Deckel (41 °C zählt wie 35 °C, ×2,6 über dem Modell) nicht mehr als „zu_lang“ (Schwelle ×3,5)');
 const l2=echt.faelle.find(x=>x.id==='freshloaf-vollkorn-2-25tl-hefe-lange-stockgare-dicht');
 ok(l2.gaerung.art==='zu_lang' && l2.gaerung.hefeBp>5 && l2.gaerung.gare===900,'Fall 2,25 TL Hefe bei 12–18 Std. Raumtemperatur: Gärmodell „zu_lang“ (Hefe 5,6 %, Mitte 15 Std.)');
 

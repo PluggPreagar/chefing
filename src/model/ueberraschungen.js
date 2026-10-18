@@ -10,7 +10,7 @@
 // dafür sind die Rückmeldungen (T53) da.
 import { normalizeRecipe } from './corpus.js';
 import { messwert } from './bilanz.js';
-import { erwarteteGare, mitMindestzeit, vorteigDosis } from './gaerung.js';
+import { erwarteteGare, mitMindestzeit, vorteigDosis, hatReifenVorteig } from './gaerung.js';
 import { temperaturBereich, schrittTemperatur, gareOperation } from './temperatur.js';
 
 // vorteigReife: ab so vielen Minuten gilt ein Vorteig als Reife-Vorteig (Poolish, Biga), darunter als Hefe-Ansatz (Dampfl)
@@ -96,7 +96,7 @@ export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modell
       const z = roh.zeiten || {};
       const T = (z.vorteig ?? 0) + (z.gehen ?? 0) + (z.stueckgare ?? 0);
       const hefe = n.bilanz.bp.hefe;
-      if (model && roh.methode !== 'hefe_vorteig' && z.gehen > 0 && hefe > 0 && T > 0) {
+      if (model && !hatReifenVorteig(roh) && z.gehen > 0 && hefe > 0 && T > 0) {
         const gareOp = gareOperation(roh.methode, methods, operations);
         const temp = temperaturBereich(schrittTemperatur('gehen', gareOp, roh), temperaturen)?.mitte ?? null;
         const erwartet = mitMindestzeit(erwarteteGare(hefe, temp, model), gareOp?.zeit?.min); // wie die Engine (T58)

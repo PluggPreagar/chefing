@@ -10,7 +10,7 @@ import fs from 'fs';
 const wurzel = new URL('../src/', import.meta.url);
 const lies = (p) => JSON.parse(fs.readFileSync(new URL(p, wurzel), 'utf8'));
 const { normalizeRecipe, stats } = await import(new URL('model/corpus.js', wurzel));
-const { erwarteteGare, hefeFuerGare, gaerungModell } = await import(new URL('model/gaerung.js', wurzel));
+const { erwarteteGare, hefeFuerGare, gaerungModell, hatReifenVorteig } = await import(new URL('model/gaerung.js', wurzel));
 const { temperaturBereich, gareOperation, schrittTemperatur } = await import(new URL('model/temperatur.js', wurzel));
 const ingredients = lies('data/ingredients.json');
 const arch = lies('data/archetypes.json').hefeteig;
@@ -36,7 +36,7 @@ for (const r of neu) {
   const T = (z.vorteig ?? 0) + (z.gehen ?? 0) + (z.stueckgare ?? 0);
   const temp = temperaturBereich(schrittTemperatur('gehen', gareOperation(r.methode, methods, operations), r), temperaturen)?.mitte ?? null;
   const hefe = n.bilanz.bp.hefe;
-  if (!(hefe > 0) || !(T > 0) || r.methode === 'hefe_vorteig') { console.log(`übersprungen (keine Zeit/Hefe oder Vorteig): ${r.id}`); continue; }
+  if (!(hefe > 0) || !(T > 0) || hatReifenVorteig(r)) { console.log(`übersprungen (keine Zeit/Hefe oder Vorteig): ${r.id}`); continue; }
   const st = variantenStats[r.variante];
   const direkt = st.proMethode?.hefe_direkt?.bp?.trieb?.median ?? st.bp.trieb.median;
   zeilen.push({

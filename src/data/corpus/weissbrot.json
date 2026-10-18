@@ -840,8 +840,14 @@
       "gehen": 120,
       "stueckgare": 50
     },
-    "vorteig": { "mehl_g": 100, "fluessigkeit_g": 100, "hefe_g_frisch": 1 },
-    "temperaturen": { "vorteig": "raum" },
+    "vorteig": {
+      "mehl_g": 100,
+      "fluessigkeit_g": 100,
+      "hefe_g_frisch": 1
+    },
+    "temperaturen": {
+      "vorteig": "raum"
+    },
     "ablauf": [
       "Vorteig aus Mehl, Wasser und einer erbsengroßen Menge Hefe anrühren und 12 Stunden bei Raumtemperatur reifen lassen.",
       "Hefe im Wasser lösen, Vorteig, Mehl und Salz zugeben, rühren und gut 5 Minuten von Hand durchwalken.",
@@ -916,8 +922,17 @@
       "gehen": 15,
       "stueckgare": 143
     },
-    "vorteig": { "mehl_g": 270, "fluessigkeit_g": 200, "hefe_g_frisch": 0.3 },
-    "temperaturen": { "vorteig": { "min": 21, "max": 22 } },
+    "vorteig": {
+      "mehl_g": 270,
+      "fluessigkeit_g": 200,
+      "hefe_g_frisch": 0.3
+    },
+    "temperaturen": {
+      "vorteig": {
+        "min": 21,
+        "max": 22
+      }
+    },
     "ablauf": [
       "Hefe im kalten Wasser lösen, mit dem Mehl verrühren und 12-15 Stunden bei 21-22 Grad reifen lassen.",
       "Vorteig mit allen Hauptteig-Zutaten in der Maschine kneten (5 Min. langsam, 12 Min. schneller), bis sich der Teig vom Kessel löst.",
@@ -1006,8 +1021,14 @@
       "gehen": 90,
       "stueckgare": 90
     },
-    "vorteig": { "mehl_g": 100, "fluessigkeit_g": 100, "hefe_g_frisch": 2 },
-    "temperaturen": { "vorteig": "kuehlschrank" },
+    "vorteig": {
+      "mehl_g": 100,
+      "fluessigkeit_g": 100,
+      "hefe_g_frisch": 2
+    },
+    "temperaturen": {
+      "vorteig": "kuehlschrank"
+    },
     "ablauf": [
       "Poolish aus Mehl, Wasser und Hefe ansetzen, 1,5 Stunden bei Raumtemperatur, dann etwa 22 Stunden abgedeckt im Kühlschrank reifen lassen.",
       "Hauptteig-Mehl mit Salz mischen, Poolish und die Milch mit gelöster Hefe und Zucker zugeben, 3 Min. langsam kneten.",
@@ -1074,7 +1095,9 @@
       "gehen": 720,
       "stueckgare": 45
     },
-    "temperaturen": { "gehen": "raum" },
+    "temperaturen": {
+      "gehen": "raum"
+    },
     "ablauf": [
       "Alle Zutaten in einer Schüssel zu einer flüssigen, homogenen Masse verrühren, nicht kneten.",
       "Abgedeckt etwa 12 Stunden (10-16) bei Raumtemperatur gehen lassen, bis der Teig blubberig ist.",
@@ -1140,7 +1163,9 @@
       "gehen": 900,
       "stueckgare": 105
     },
-    "temperaturen": { "gehen": "raum" },
+    "temperaturen": {
+      "gehen": "raum"
+    },
     "ablauf": [
       "Mehl, Salz und Trockenhefe mischen, Wasser zugeben und mit dem Spatel zu einem groben Teig verrühren.",
       "Abgedeckt 12-18 Stunden bei Raumtemperatur gehen lassen.",
@@ -1220,7 +1245,9 @@
       "gehen": 420,
       "stueckgare": 60
     },
-    "temperaturen": { "gehen": "kuehlschrank" },
+    "temperaturen": {
+      "gehen": "kuehlschrank"
+    },
     "ablauf": [
       "Alle Zutaten nur verruehren, kein Kneten.",
       "1 Stunde abgedeckt bei Raumtemperatur stehen lassen.",
@@ -1286,7 +1313,9 @@
       "gehen": 720,
       "stueckgare": 90
     },
-    "temperaturen": { "gehen": "raum" },
+    "temperaturen": {
+      "gehen": "raum"
+    },
     "ablauf": [
       "Mehle, Salz, Hefe und Wasser mit der Hand zu einem zotteligen Teig verruehren, nicht kneten.",
       "12 bis 18 Stunden abgedeckt bei Raumtemperatur gehen lassen (danach bis 2 Tage kuehl moeglich).",
@@ -1494,7 +1523,9 @@
       "gehen": 480,
       "stueckgare": 120
     },
-    "temperaturen": { "gehen": "raum" },
+    "temperaturen": {
+      "gehen": "raum"
+    },
     "ablauf": [
       "Hefe im Wasser verquirlen, Mehl und Salz einruehren, zotteligen Teig bilden, kein Kneten.",
       "45-60 Minuten ruhen lassen, dann den Teig dehnen und falten; nach weiteren 45-60 Minuten ein zweites Mal.",
@@ -1575,8 +1606,14 @@
       "vorteig": 30,
       "stueckgare": 60
     },
-    "temperaturen": { "vorteig": "kuehlschrank" },
-    "vorteig": { "mehl_g": 300, "fluessigkeit_g": 200, "hefe_g_frisch": 6 },
+    "temperaturen": {
+      "vorteig": "kuehlschrank"
+    },
+    "vorteig": {
+      "mehl_g": 300,
+      "fluessigkeit_g": 200,
+      "hefe_g_frisch": 6
+    },
     "ablauf": [
       "Vorteig aus Hefe, Mehl, Wasser, Salz und Zucker ansetzen, 30 Minuten warm gehen lassen, dann ueber Nacht in den Kuehlschrank stellen.",
       "Zweite Portion Hefe in lauwarmem Wasser loesen, mit Vorteig, restlichem Mehl und Butter ca. 15 Minuten in der Maschine kneten.",
@@ -1657,8 +1694,14 @@
       "gehen": 60,
       "stueckgare": 60
     },
-    "vorteig": { "mehl_g": 150, "fluessigkeit_g": 150, "hefe_g_frisch": 0.3 },
-    "temperaturen": { "vorteig": "raum" },
+    "vorteig": {
+      "mehl_g": 150,
+      "fluessigkeit_g": 150,
+      "hefe_g_frisch": 0.3
+    },
+    "temperaturen": {
+      "vorteig": "raum"
+    },
     "ablauf": [
       "Poolish aus Mehl, Wasser und einer Prise Hefe anruehren und 12-16 Stunden bei Raumtemperatur reifen lassen.",
       "Poolish mit Mehl, Wasser, Hefe, Salz, Zucker und Butter 8-10 Minuten kneten.",
@@ -1746,7 +1789,9 @@
       "gehen": 540,
       "stueckgare": 135
     },
-    "temperaturen": { "gehen": "kuehlschrank" },
+    "temperaturen": {
+      "gehen": "kuehlschrank"
+    },
     "ablauf": [
       "Alle Zutaten mischen und in der Maschine ca. 15 Minuten kneten (10 langsam, 5 schnell).",
       "2 Stunden bei Raumtemperatur ruhen lassen, dabei nach 45 und 90 Minuten dehnen und falten.",
@@ -1835,7 +1880,9 @@
       "gehen": 720,
       "stueckgare": 210
     },
-    "temperaturen": { "gehen": "kuehlschrank" },
+    "temperaturen": {
+      "gehen": "kuehlschrank"
+    },
     "ablauf": [
       "Trockenzutaten kurz mischen, Milch, Ei und Oel zugeben, ca. 2 Min. langsam mischen.",
       "Mit dem Knethaken ca. 5 Min. kneten, danach ca. 1 Min. von Hand zu einer Kugel formen.",
@@ -1854,5 +1901,508 @@
     "notizen": "Rezept gibt Mengen fuer 2 Brote (je ca. 700 g Teig, je eine 8,5x4,5-inch-Form), Mengen hier fuer den gesamten Teig. Kuehlzeit 'mindestens 12 Std., bis zu 4 Tage': 720 Min. als Untergrenze angesetzt. Stueckgare 2,5-4 Std. (ca. 3,5 Std. bei 22 C): 210 Min. als Mittelwert, liegt ueber dem Brief-Limit von 2,5 Std. Backzeit 40-45 Min., Mittelwert 43. Kneten: 2 Min. Mischen + 5 Min. Haken + 1 Min. Hand = 8 Min. Milch 425 g (nicht ml) wie im Original. 'Oel oder geschmolzene Butter' als pflanzenoel erfasst. Hefe: 9 g Instant = ca. 27 g Frischhefe-Aequivalent (3,4 % vom Mehl, hoch fuer lange Kuehlzeit). Ei ohne Grammangabe (1 large).",
     "qualitaet": 4,
     "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Zucker −0,5"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "volkermampft-toastbrot-wenig-hefe",
+    "titel": "Leckeres Toastbrot mit wenig Hefe (Poolish, Kochstück, 18 h Kühlschrank)",
+    "quelle": {
+      "url": "https://volkermampft.de/leckeres-toastbrot-rezept-mit-wenig-hefe/",
+      "site": "volkermampft.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 600,
+        "einheit": "g",
+        "original": "100 g Mehl 550 (Vorteig) + 25 g (Kochstück) + 475 g (Hauptteig)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 g Wasser (Vorteig)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 300,
+        "einheit": "ml",
+        "original": "125 g Milch (Kochstück) + 175 g Milch (Hauptteig)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 1,
+        "einheit": "g",
+        "original": "1 g Hefe (Vorteig; Hefeart nicht genannt, als Frischhefe erfasst)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 30,
+        "einheit": "g",
+        "original": "30 g Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 90,
+        "einheit": "g",
+        "original": "40 g Butter (Kochstück) + 50 g Butter (Hauptteig)"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 12,
+        "einheit": "g",
+        "original": "12 g Salz"
+      }
+    ],
+    "methode": "hefe_kalt",
+    "zeiten": {
+      "vorteig": 420,
+      "gehen": 1080,
+      "stueckgare": 150
+    },
+    "temperaturen": {
+      "vorteig": {
+        "min": 22,
+        "max": 24
+      },
+      "gehen": {
+        "min": 3,
+        "max": 4
+      }
+    },
+    "vorteig": {
+      "mehl_g": 100,
+      "fluessigkeit_g": 100,
+      "hefe_g_frisch": 1
+    },
+    "ablauf": [
+      "Vorteig aus Mehl, Wasser und 1 g Hefe 6-8 Stunden bei 22-24 °C reifen lassen.",
+      "Kochstück aus Mehl, Milch und Butter kochen und kalt stellen.",
+      "Alles zum Teig verkneten, rund 1,5 Stunden warm gehen lassen.",
+      "Danach 18 Stunden bei etwa 3-4 °C im Kühlschrank reifen lassen.",
+      "In drei Stücke teilen, in die Form setzen, 2-3 Stunden bis zur Verdopplung gehen lassen und mit Dampf backen."
+    ],
+    "backen": {
+      "tempOU": 220,
+      "tempUmluft": null,
+      "minuten": 45,
+      "original": "20 Min. bei 220 °C mit Dampf, dann 20-30 Min. bei 190 °C (Mitte 25); Betriebsart nicht genannt, als Ober-/Unterhitze erfasst"
+    },
+    "stueckzahl": 1,
+    "notizen": "Gesamthefe nur 1 g (im Vorteig); im Hauptteig steht keine Hefe. Hefeart nicht genannt, als Frischhefe gelesen (wären es 1 g Trockenhefe, läge das Äquivalent bei etwa 0,5 %). Vorteig 6-8 h (Mitte 7 h = 420 min). gehen = nur die 18 h Kühlschrank (3-4 °C), die ca. 1,5 h warme Vorgare davor nicht gezählt. Stückgare 2-3 h (Mitte 150 min) ohne Temperaturangabe. Mengen = Vorteig + Kochstück + Hauptteig addiert. Wasser+Milch 78,5 % (Gesamtwasser), Salz 2,0 %, Hefe-Äquivalent 0,2 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "justbread-sandwich-toast-poolish",
+    "titel": "Sandwich-Toast mit Poolish (6 h Stockgare bei 22-23 °C)",
+    "quelle": {
+      "url": "https://www.justbread.de/sandwich-toast-mit-vorteig/",
+      "site": "justbread.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 660,
+        "einheit": "g",
+        "original": "60 g Weizen 550 (Poolish) + 200 g Weizenvollkorn + 200 g Weizen 815 + 200 g Tipo 00"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 280,
+        "einheit": "ml",
+        "original": "60 g Wasser (Poolish) + 220 g Wasser (Hauptteig)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "buttermilch",
+        "menge": 80,
+        "einheit": "ml",
+        "original": "80 g Buttermilch"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "schmand",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Schmand"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 2.2,
+        "einheit": "g",
+        "original": "0,2 g Frischhefe (Poolish) + 2 g Frischhefe (Hauptteig)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Ei"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 6,
+        "einheit": "g",
+        "original": "6 g Honig"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 12,
+        "einheit": "g",
+        "original": "12 g Salz"
+      }
+    ],
+    "methode": "hefe_noknead",
+    "zeiten": {
+      "vorteig": 840,
+      "gehen": 360,
+      "stueckgare": 75
+    },
+    "temperaturen": {
+      "vorteig": "raum",
+      "gehen": {
+        "min": 22,
+        "max": 23
+      },
+      "stueckgare": "raum"
+    },
+    "vorteig": {
+      "mehl_g": 60,
+      "fluessigkeit_g": 60,
+      "hefe_g_frisch": 0.2
+    },
+    "ablauf": [
+      "Poolish aus Mehl, Wasser und 0,2 g Hefe 12-16 Stunden luftdicht bei Raumtemperatur reifen lassen.",
+      "Poolish mit den übrigen Zutaten (ohne Salz-Fett-Zugaben im Voraus) zum Teig verarbeiten.",
+      "Stockgare ca. 6 Stunden bei 22-23 °C, optional nach 30 und 60 Minuten dehnen und falten.",
+      "In die gebutterte Form legen, 1-1,5 Stunden bei Zimmertemperatur gehen lassen (alternativ 12-16 Stunden kalt bei 6-8 °C).",
+      "Mit Dampf backen, Dampf ablassen, Brot aus der Form nehmen und fertig backen."
+    ],
+    "backen": {
+      "tempOU": 230,
+      "tempUmluft": null,
+      "minuten": 37.5,
+      "original": "10 Min. 230 °C mit Dampf, 15 Min. 220 °C, dann 10-15 Min. ohne Form (Mitte 37,5); Kerntemperatur 96 °C"
+    },
+    "stueckzahl": 1,
+    "notizen": "Variante mit Poolish gelesen (die Seite nennt alternativ Weizensauerteig). 200 g Vollkorn + Weizen 815 + Tipo 00 als weizenmehl zusammengefasst, Vollkornanteil ca. 30 %. Honig als zucker. Optional 20 g Wasser zusätzlich nicht erfasst. Poolish 12-16 h (Mitte 14 h). Stockgare ca. 6 h bei 22-23 °C. Stückgare 1-1,5 h Zimmertemperatur (Mitte 75 min) ohne Gradzahl. Alternative kalte Stückgare 12-16 h bei 6-8 °C nicht erfasst. Wasser (Gesamt) 79,3 %, Salz 1,8 %, Hefe-Äquivalent 0,3 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "hermannsblog-einfaches-toastbrot-poolish",
+    "titel": "Einfaches Toastbrot mit Hefe (Poolish und Mehlkochstück, 1-kg-Form)",
+    "quelle": {
+      "url": "https://hermannsblog.de/index.php/2023/01/05/einfaches-toastbrot-mit-hefe/",
+      "site": "hermannsblog.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 600,
+        "einheit": "g",
+        "original": "490 g Mehl 550 (Hauptteig) + 90 g (Poolish) + 20 g (Kochstück)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 90,
+        "einheit": "ml",
+        "original": "90 g Wasser (Poolish)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 300,
+        "einheit": "ml",
+        "original": "200 g Milch (Hauptteig) + 100 g Milch (Kochstück)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 4.2,
+        "einheit": "g",
+        "original": "4 g Frischhefe (Hauptteig) + 0,2 g (Poolish)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 12,
+        "einheit": "g",
+        "original": "12 g Reissirup (oder Agave/Honig)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 40,
+        "einheit": "g",
+        "original": "40 g kalte Butter"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 12,
+        "einheit": "g",
+        "original": "12 g Salz"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "kneten": 14,
+      "vorteig": 720,
+      "gehen": 165,
+      "stueckgare": 80
+    },
+    "temperaturen": {
+      "vorteig": "raum",
+      "gehen": "raum",
+      "stueckgare": "raum"
+    },
+    "vorteig": {
+      "mehl_g": 90,
+      "fluessigkeit_g": 90,
+      "hefe_g_frisch": 0.2
+    },
+    "ablauf": [
+      "Poolish und Mehlkochstück am Vorabend ansetzen; Poolish über Nacht bei Raumtemperatur mindestens bis zur Verdopplung gehen lassen.",
+      "Alles außer Salz und Butter kneten, bis der Fenstertest klappt, dann Salz und Butter unterarbeiten.",
+      "Stockgare 2,5-3 Stunden bei Raumtemperatur mit zwei Dehnen-und-Falten im 30-Minuten-Takt.",
+      "In vier Stücke teilen, in die gebutterte 1-kg-Form setzen und rund 80 Minuten gehen lassen.",
+      "Mit Dampf bei 220 °C starten, nach 10 Minuten auf 200 °C senken, heiß mit Milch bestreichen."
+    ],
+    "backen": {
+      "tempOU": 220,
+      "tempUmluft": null,
+      "minuten": 45,
+      "original": "220 °C mit Dampf, nach 10 Min. 200 °C, insgesamt 45 Minuten; Betriebsart nicht genannt, als Ober-/Unterhitze erfasst"
+    },
+    "stueckzahl": 1,
+    "notizen": "Rezept 1 der Seite (Rezept 2 mit Salz-Hefe-Wasser nicht aufgenommen). Vorteig-Dauer nur \"über Nacht\" (bis mindestens Verdopplung), als 12 h angesetzt, sinngemäß. Stockgare 2,5-3 h (Mitte 165 min), Stückgare ca. 80 min, beide \"bei Raumtemperatur\" ohne Gradzahl (Autor: warme Fensterbank). Kneten ca. 5 min langsam + 7-10 min (Mitte 14 min gesamt). Mengen aus Poolish, Kochstück und Hauptteig addiert. Wasser+Milch 75,9 % (Gesamtwasser), Salz 2,0 %, Hefe-Äquivalent 0,7 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "demmler-toastbrot-poolish",
+    "titel": "Selbstgemachtes Toastbrot (Poolish über Nacht, 2 h Stückgare)",
+    "quelle": {
+      "url": "https://demmler.de/blog/toastbrot-selbst-gemacht",
+      "site": "demmler.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 485,
+        "einheit": "g",
+        "original": "195 g Mehl Type 00/550 (Poolish) + 290 g Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 195,
+        "einheit": "ml",
+        "original": "195 g Wasser (Poolish)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 140,
+        "einheit": "ml",
+        "original": "140 g Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 8.5,
+        "einheit": "g",
+        "original": "0,5 g frische Hefe (Poolish) + 8 g frische Hefe (alternativ 3,5 g Trockenhefe)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 20,
+        "einheit": "g",
+        "original": "20 g Honig"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g Salz"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "vorteig": 720,
+      "gehen": 15,
+      "stueckgare": 120
+    },
+    "temperaturen": {
+      "vorteig": "raum",
+      "stueckgare": "raum"
+    },
+    "vorteig": {
+      "mehl_g": 195,
+      "fluessigkeit_g": 195,
+      "hefe_g_frisch": 0.5
+    },
+    "ablauf": [
+      "Poolish aus Mehl, Wasser und 0,5 g Hefe am Vortag ansetzen, abgedeckt über Nacht bei Raumtemperatur stehen lassen.",
+      "Mit Mehl, Milch, Honig, Salz und Hefe zum Teig verkneten, 15 Minuten ruhen lassen.",
+      "In vier Stücke teilen, rund formen und oval schleifen, in die Kastenform legen.",
+      "2 Stunden bei Raumtemperatur unter feuchtem Tuch gehen lassen.",
+      "Bei 230 °C mit Schwaden starten, auf 200 °C senken, ca. 20-25 Minuten backen."
+    ],
+    "backen": {
+      "tempOU": 230,
+      "tempUmluft": null,
+      "minuten": 22.5,
+      "original": "230 °C Ober-/Unterhitze, nach Besprühen auf 200 °C, ca. 20-25 Minuten (Mitte 22,5)"
+    },
+    "stueckzahl": 1,
+    "notizen": "Poolish-Dauer nur \"über Nacht\", als 12 h angesetzt (sinngemäß), Temperatur nur \"Raumtemperatur\" ohne Gradzahl. Knetzeit nicht angegeben. Nach dem Kneten 15 min Ruhe. Stückgare 2 h bei Raumtemperatur ohne Gradzahl. Honig als zucker. Wasser+Milch 81,6 %, Salz 2,1 %, Hefe-Äquivalent 1,8 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "cookieundco-softes-sandwichbrot",
+    "titel": "Softes Sandwichbrot / Goldenes Butter-Toastbrot (Poolish, Kochstück)",
+    "quelle": {
+      "url": "https://cookieundco.de/softes-sandwichbrot/",
+      "site": "cookieundco.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 15
+    },
+    "variante": "weissbrot",
+    "gefaess": "brotform_25",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 585,
+        "einheit": "g",
+        "original": "100 g Mehl 550 (Poolish) + 25 g (Kochstück) + 400 g Mehl + 60 g Mehl (Ersatz für Lievito Madre)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 130,
+        "einheit": "ml",
+        "original": "100 g Wasser (Poolish) + 30 g Wasser (Ersatz für Lievito Madre)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 285,
+        "einheit": "ml",
+        "original": "125 g Milch (Kochstück) + 160 g kalte Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 8.5,
+        "einheit": "g",
+        "original": "0,5 g frische Hefe (Poolish) + 3 g frische Hefe + 5 g frische Hefe (Ersatz für Lievito Madre)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g Zucker oder Honig"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g kühle Butter"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 12,
+        "einheit": "g",
+        "original": "12 g Salz"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "kneten": 17,
+      "vorteig": 660,
+      "gehen": 120,
+      "stueckgare": 105
+    },
+    "temperaturen": {
+      "vorteig": {
+        "min": 20,
+        "max": 22
+      },
+      "gehen": {
+        "min": 25,
+        "max": 27
+      },
+      "stueckgare": {
+        "min": 25,
+        "max": 27
+      }
+    },
+    "vorteig": {
+      "mehl_g": 100,
+      "fluessigkeit_g": 100,
+      "hefe_g_frisch": 0.5
+    },
+    "ablauf": [
+      "Poolish aus Mehl, Wasser und 0,5 g Hefe 10-12 Stunden bei 20-22 °C reifen lassen.",
+      "Kochstück aus Milch und Mehl kochen, abkühlen, mindestens 2 Stunden kalt stellen.",
+      "Alles außer Butter, Salz und Restmilch 10 Minuten kneten, dann Salz und Butter portionsweise unterarbeiten.",
+      "Stockgare ca. 2 Stunden bei 25-27 °C mit Falten nach 45 und 90 Minuten.",
+      "In vier Stücke teilen, in die Form setzen, 90-120 Minuten bei 25-27 °C gehen lassen, bei 200 °C ca. 50 Minuten backen."
+    ],
+    "backen": {
+      "tempOU": 200,
+      "tempUmluft": null,
+      "minuten": 50,
+      "original": "ca. 50 Minuten bei 200 °C Ober-/Unterhitze (bei zu starker Bräune abdecken, auf 180 °C)"
+    },
+    "stueckzahl": 1,
+    "notizen": "Statt 90 g Lievito Madre wurde die auf der Seite genannte Alternative erfasst (60 g Mehl + 30 g Wasser + 5 g frische Hefe), damit die Hefe rein aus Backhefe stammt. 5 g Backmalz und die optionalen 20 g Milch nicht erfasst. Poolish 10-12 h (Mitte 11 h = 660 min) bei 20-22 °C. Erfasst ist die warme Variante (Stockgare 2 h und Stückgare 90-120 min bei 25-27 °C); Alternative laut Seite: Stockgare ca. 4 h und Stückgare 3-4 h bei 20-22 °C. Kneten 10 + 5-8 min (ca. 17). Wasser+Milch 82,8 %, Salz 2,1 %, Hefe-Äquivalent 1,5 %.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 5★ (15 Stimmen) +0,5"
   }
 ]

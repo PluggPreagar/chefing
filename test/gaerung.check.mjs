@@ -24,7 +24,7 @@ ok(near(erwarteteGare(4,WARM-10,m)/erwarteteGare(4,WARM,m),Math.exp(10*m.temp_ko
 ok(near(erwarteteGare(4,null,m),erwarteteGare(4,m.temp_standard,m),1e-12) && near(erwarteteGare(4,m.temp_ref,m),Math.exp(m.ln_konstante+m.exponent*Math.log(4)),1e-9),'ohne Temperatur gilt `temp_standard`; bei `temp_ref` entfällt der Temperatur-Term');
 ok(erwarteteGare(4,0,m)>erwarteteGare(4,KALT,m) && !near(erwarteteGare(4,0,m),erwarteteGare(4,null,m),1e-6) && near(hefeFuerGare(erwarteteGare(4,0,m),0,m),4,1e-9),'0 °C ist eine Temperatur, keine fehlende Angabe (länger als im Kühlschrank, nicht der Standard)');
 const ungefaehrKonstant=[1,2,4,8].map(h=>h*erwarteteGare(h,WARM,m)/60);
-ok(Math.max(...ungefaehrKonstant)/Math.min(...ungefaehrKonstant)<2.5,`Hefe × Zeit ist nur schwach von der Hefemenge abhängig, Exponent ${m.exponent} (${ungefaehrKonstant.map(x=>x.toFixed(1)).join(', ')} %·Std. bei 1, 2, 4, 8 %)`);
+ok(Math.max(...ungefaehrKonstant)/Math.min(...ungefaehrKonstant)<3,`Hefe × Zeit ist nur schwach von der Hefemenge abhängig, Exponent ${m.exponent} (${ungefaehrKonstant.map(x=>x.toFixed(1)).join(', ')} %·Std. bei 1, 2, 4, 8 %)`);
 ok(fmtDauer(45)==='45 Min.' && fmtDauer(90)==='1 Std. 30 Min.' && fmtDauer(720)==='12 Std.','fmtDauer');
 let g=gaerungsZeit([{gaerung:true,dauer:60},{gaerung:null,dauer:10},{gaerung:true,dauer:30}]);
 ok(g.summe===90 && !g.vorteig,'gaerungsZeit summiert nur Schritte mit gaerung: true');
@@ -40,7 +40,7 @@ ok(w?.art==='zu_lang' && /übergärt/.test(w.text) && /4,0 % Hefe/.test(w.text) 
 w=pruefeGaerung({hefeBp:0.4,gare:60,temp:WARM},m);
 ok(w?.art==='zu_kurz' && /nicht genug auf/.test(w.text),'0,4 % Hefe bei 1 Std.: zu kurz');
 w=pruefeGaerung({hefeBp:4,gare:720,temp:KALT},m);
-ok(w===null && erwarteteGare(4,KALT,m)>10*60 && erwarteteGare(4,KALT,m)<16*60,`4 % Hefe bei 12 Std. im Kühlschrank ist plausibel (Modell erwartet ${fmtDauer(erwarteteGare(4,KALT,m))}) — dieselbe Zeit warm warnt`);
+ok(w===null && erwarteteGare(4,KALT,m)>8*60 && erwarteteGare(4,KALT,m)<14*60,`4 % Hefe bei 12 Std. im Kühlschrank ist plausibel (Modell erwartet ${fmtDauer(erwarteteGare(4,KALT,m))}) — dieselbe Zeit warm warnt`);
 w=pruefeGaerung({hefeBp:4,gare:720,temp:WARM,tempText:'26–30 °C (warm)'},m);
 ok(/Gare 12 Std\. bei 26–30 °C \(warm\) mit 4,0 % Hefe/.test(w.text),`Meldung nennt die Temperatur: „${w.text.slice(0,60)}…“`);
 ok(pruefeGaerung({hefeBp:0,gare:60,temp:WARM},m)===null && pruefeGaerung({hefeBp:4,gare:0,temp:WARM},m)===null,'ohne Hefe oder Zeit keine Aussage');
@@ -153,8 +153,22 @@ ok(nk.temp===RAUM && nk.gare/nk.erwartet<m.warn_faktor,`Weißbrot ohne Kneten re
  // Korpus: Vorteig-Angaben passen zur Gesamt-Hefe und -Mehl des Rezepts (Quer-Prüfung der Nacherfassung)
  const mitV=korpusAlle.filter(r=>r.vorteig);
  const fehler=[]; for (const r of mitV) { const n=normalizeRecipe(r,data.ingredients,{rollen:data.archetypes.hefeteig.rollen.map(x=>x.rolle)}); if (!(r.vorteig.hefe_g_frisch>0 && r.vorteig.hefe_g_frisch<=n.rollenGramm.trieb+1e-6)) fehler.push(r.id+': Hefe im Vorteig '+r.vorteig.hefe_g_frisch+' g > Gesamt '+n.rollenGramm.trieb.toFixed(1)); if (r.vorteig.mehl_g!=null && !(r.vorteig.mehl_g>0 && r.vorteig.mehl_g<=n.rollenGramm.struktur+1e-6)) fehler.push(r.id+': Mehl im Vorteig > Gesamt'); if (r.vorteig.fluessigkeit_g!=null && !(r.vorteig.fluessigkeit_g>0)) fehler.push(r.id+': Flüssigkeit'); if (!(r.zeiten?.vorteig>0)) fehler.push(r.id+': Vorteig ohne Zeit'); }
- ok(mitV.length>=12 && fehler.length===0 && mitV.every(r=>['hefe_vorteig','hefe_direkt'].includes(r.methode)),`Korpus: ${mitV.length} Rezepte mit Vorteig-Angaben, Hefe und Mehl im Vorteig nie über dem Gesamtwert, jeweils mit Vorteig-Zeit${fehler.length?' — '+fehler.join('; '):''}`);
+ ok(mitV.length>=12 && fehler.length===0 && mitV.every(r=>['hefe_vorteig','hefe_direkt','hefe_kalt','hefe_noknead'].includes(r.methode)),`Korpus: ${mitV.length} Rezepte mit Vorteig-Angaben, Hefe und Mehl im Vorteig nie über dem Gesamtwert, jeweils mit Vorteig-Zeit${fehler.length?' — '+fehler.join('; '):''}`);
  const reife=mitV.filter(r=>r.vorteig.mehl_g && r.zeiten.vorteig>=240).map(r=>{const T=temperaturBereich(r.temperaturen?.vorteig,data.temperaturen)?.mitte??null; return vorteigDosis({hefeG:r.vorteig.hefe_g_frisch,mehlG:r.vorteig.mehl_g,dauer:r.zeiten.vorteig,temp:T},m);});
- ok(reife.length===5 && reife.every(d=>d>1/m.warn_faktor && d<m.warn_faktor),`alle ${reife.length} Reife-Vorteige liegen innerhalb ×${m.warn_faktor} um die Verdopplung (Dosis ${reife.map(d=>d.toFixed(2)).join(', ')}) — Modell gilt ohne Fit auch für sie`);}
+ ok(reife.length>=10 && reife.every(d=>d>1/m.warn_faktor && d<m.warn_faktor),`alle ${reife.length} Reife-Vorteige liegen innerhalb ×${m.warn_faktor} um die Verdopplung (Dosis ${reife.map(d=>d.toFixed(2)).join(', ')}) — Modell gilt ohne Fit auch für sie`);}
+
+// --- Temperatur-Deckel und reifender Vorteig (T59) -----------------------------------------------------------------------------------------
+{const {hatReifenVorteig}=await import(P+'model/gaerung.js');
+ ok(m.temp_deckel===35 && /Hefe-Physiologie/.test(data.modelle._schema.temp_deckel||'') ,'modelle.json: Deckel 35 °C, mit Begründung im Schema');
+ ok(near(erwarteteGare(4,50,m),erwarteteGare(4,35,m),1e-9) && near(erwarteteGare(4,45,m),erwarteteGare(4,35,m),1e-9) && erwarteteGare(4,34,m)>erwarteteGare(4,35,m) && erwarteteGare(4,30,m)>erwarteteGare(4,34,m),'über 35 °C zählt wie 35 °C (Ofen-Gare 45–50 °C), darunter gilt weiter: wärmer = kürzer');
+ ok(near(hefeFuerGare(erwarteteGare(4,50,m),50,m),4,1e-9) && near(hefeFuerGare(erwarteteGare(4,40,m),35,m),4,1e-9),'Umkehrung gilt auch mit Deckel (50 °C und 35 °C geben dieselbe Hefe)');
+ const ohneDeckel={...m,temp_deckel:undefined};
+ ok(erwarteteGare(4,50,ohneDeckel)<erwarteteGare(4,35,ohneDeckel) && near(erwarteteGare(4,null,{...m,temp_standard:40}),erwarteteGare(4,35,m),1e-9),'ohne `temp_deckel` gibt es keine Obergrenze; auch `temp_standard` über dem Deckel wird gedeckelt');
+ ok(pruefeGaerung({hefeBp:4.2,gare:60,temp:50},m)===null && pruefeGaerung({hefeBp:4.2,gare:300,temp:50},m)?.art==='zu_lang','Ofen-Gare bei 50 °C: 1 Std. mit 4,2 % Hefe plausibel, 5 Std. wären übergärt');
+ ok(hatReifenVorteig({methode:'hefe_vorteig'}) && hatReifenVorteig({methode:'hefe_kalt',vorteig:{hefe_g_frisch:1},zeiten:{vorteig:420}}) && !hatReifenVorteig({methode:'hefe_direkt',vorteig:{hefe_g_frisch:21},zeiten:{vorteig:15}}) && !hatReifenVorteig({methode:'hefe_direkt',zeiten:{gehen:60}}) && !hatReifenVorteig({methode:'hefe_kalt',vorteig:{hefe_g_frisch:0},zeiten:{vorteig:900}}) && hatReifenVorteig({methode:'hefe_direkt',vorteig:{hefe_g_frisch:1},zeiten:{vorteig:240}}) && !hatReifenVorteig({methode:'hefe_direkt',vorteig:{hefe_g_frisch:1},zeiten:{vorteig:239}}) && !hatReifenVorteig(null),'hatReifenVorteig: Methode Vorteig oder Vorteig-Hefe mit mindestens 4 Std. Reife; ein Hefe-Ansatz (15 Min.), Vorteig ohne Hefe und kein Vorteig zählen nicht (Grenze genau 240 Min.)');
+ const fitZ=lesen().filter(r=>!r.pruef);
+ ok(!fitZ.some(r=>/volkermampft|justbread|hellwegradio/.test(r.id)) && fitZ.some(r=>/diepta-backherz|herdgefluester/.test(r.id)) && fitZ.length===m.fit_n && Math.max(...fitZ.map(r=>r.temp))<=m.temp_deckel,`Fit-Daten: ${fitZ.length} Rezepte (fit_n = ${m.fit_n}), reifende Vorteige und Rezepte mit Vorteig-Hefe ausgenommen, Ofen-Gare dabei, Temperatur gedeckelt`);
+ const kaltNiedrig=fitZ.filter(r=>r.temp<10 && r.hefe<1);
+ ok(kaltNiedrig.length>=2 && kaltNiedrig.every(r=>{const e=erwarteteGare(r.hefe,r.temp,m);return r.T<e && e/r.T<2.5;}),`kalte Gare mit wenig Hefe (< 1 %, ${kaltNiedrig.length} Rezepte, T59): jetzt innerhalb ×2,5 (vor dem Neu-Fit ×3,2), aber weiter alle kürzer als das Modell (×2,1) — bekannte, verbleibende Neigung der Sättigung bei wenig Hefe`);}
 
 console.log(fail?fail+' FAIL':'ALL PASS');

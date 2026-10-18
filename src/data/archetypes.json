@@ -80,7 +80,7 @@
     "methoden": ["hefe_direkt", "hefe_vorteig", "hefe_kalt", "hefe_noknead"],
     "gefaesse": ["brotform_25", "backblech"],
     "varianten": {
-      "weissbrot": { "label": "Weißbrot (Kastenform)", "kurz": "Weißbrot", "gefaess": "brotform_25", "korpus": "weissbrot", "bestof": { "fluessigkeit": "wasser", "trieb": "hefe_frisch", "salz": "salz", "fett": null, "suesse": null, "bindung": null, "aroma": null, "einlage": null } },
+      "weissbrot": { "label": "Weißbrot (Kastenform)", "kurz": "Weißbrot", "gefaess": "brotform_25", "korpus": "weissbrot", "bestof": { "fluessigkeit": "wasser", "trieb": "hefe_frisch", "salz": "salz", "fett": "butter", "suesse": null, "bindung": null, "aroma": null, "einlage": null } },
       "hefezopf":  { "label": "Hefezopf (Blech)",      "kurz": "Hefezopf",  "gefaess": "backblech",   "korpus": "hefezopf",  "bestof": { "fluessigkeit": "milch",  "trieb": "hefe_frisch", "salz": "salz", "fett": "butter", "suesse": "zucker", "bindung": "ei", "aroma": null, "einlage": null } }
     }
   }

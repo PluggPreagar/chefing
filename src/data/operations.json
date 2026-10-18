@@ -177,7 +177,7 @@
     "auf": ["struktur", "fluessigkeit", "trieb", "salz", "fett", "suesse", "bindung", "aroma"],
     "voraussetzung": [],
     "zeit": {
-      "min": 4, "typ": 10, "max": 20, "ziel": "gluten_entwickelt", "strenge": "empfohlen",
+      "min": 4, "typ": 10, "max": 30, "ziel": "gluten_entwickelt", "strenge": "empfohlen",
       "unter_min": "das Klebergerüst ist noch nicht ausgebildet — der Teig reißt, hält das Gas schlecht und geht flach auf.",
       "ueber_max": "der Teig erwärmt sich und das Gerüst reißt wieder — schmierig und klebrig."
     },

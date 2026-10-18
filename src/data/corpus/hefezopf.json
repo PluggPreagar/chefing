@@ -585,7 +585,9 @@
     "zeiten": {
       "gehen": 120
     },
-    "temperaturen": { "gehen": "raum" },
+    "temperaturen": {
+      "gehen": "raum"
+    },
     "ablauf": [
       "Mehl, Zucker, Salz mischen; Hefe in erwärmter Milch lösen.",
       "Hefemilch, Butter und ein Ei zum Mehl geben und glatt kneten.",
@@ -1146,7 +1148,9 @@
       "gehen": 60,
       "stueckgare": 20
     },
-    "vorteig": { "hefe_g_frisch": 21 },
+    "vorteig": {
+      "hefe_g_frisch": 21
+    },
     "ablauf": [
       "Dampfl aus Germ, Zucker, etwas Mehl und etwas Milch ansetzen, ca. 15 Min. gehen lassen.",
       "Trockene Zutaten mischen, restliche Zutaten und Dampfl zugeben, in der Maschine kneten bis der Teig sich löst.",
@@ -1248,8 +1252,14 @@
       "vorteig": 15,
       "gehen": 90
     },
-    "vorteig": { "mehl_g": 500, "fluessigkeit_g": 100, "hefe_g_frisch": 35 },
-    "temperaturen": { "vorteig": "warm" },
+    "vorteig": {
+      "mehl_g": 500,
+      "fluessigkeit_g": 100,
+      "hefe_g_frisch": 35
+    },
+    "temperaturen": {
+      "vorteig": "warm"
+    },
     "ablauf": [
       "Hefe, 1 TL Zucker und 100 ml Milch in die Mehlmulde rühren, ca. 15 Min. schäumen lassen.",
       "Restmilch, Butter, Eier, Salz, Zucker und Zitronenschale zugeben, ca. 10 Min. kneten.",
@@ -1266,7 +1276,7 @@
     "stueckzahl": null,
     "notizen": "Vorteig enthält das gesamte Mehl. Salz nur 0,5 TL (ca. 0,6 % vom Mehl, unter 1 %), so im Original. Hefe 7 % vom Mehl (hoch, aber im Original). Backzeit-Spanne 20-30 Min., Mittelwert eingetragen. Mandeln/Hagelzucker nur Belag.",
     "qualitaet": 4,
-    "qualitaet_grund": "keine Seitenwertung"
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
   },
   {
     "id": "diamant-zucker-klassischer-hefezopf",
@@ -1337,8 +1347,12 @@
       "gehen": 30,
       "stueckgare": 25
     },
-    "vorteig": { "hefe_g_frisch": 30 },
-    "temperaturen": { "vorteig": "warm" },
+    "vorteig": {
+      "hefe_g_frisch": 30
+    },
+    "temperaturen": {
+      "vorteig": "warm"
+    },
     "ablauf": [
       "Hefe, Zucker, lauwarme Milch und etwas Mehl in der Mehlmulde zum Vorteig verrühren, ca. 20 Min. gehen lassen.",
       "Restmilch, zerlassene Butter, Ei und Salz zugeben und zu glattem Teig kneten, 30 Min. gehen lassen.",
@@ -1425,8 +1439,13 @@
       "gehen": 45,
       "stueckgare": 12
     },
-    "vorteig": { "fluessigkeit_g": 240, "hefe_g_frisch": 42 },
-    "temperaturen": { "vorteig": "warm" },
+    "vorteig": {
+      "fluessigkeit_g": 240,
+      "hefe_g_frisch": 42
+    },
+    "temperaturen": {
+      "vorteig": "warm"
+    },
     "ablauf": [
       "Hefe mit einer Prise Zucker und fast der ganzen Milch in die Mehlmulde rühren, ca. 15 Min. als Vorteig gehen lassen.",
       "Mit Salz, Butter, restlichem Zucker und Zitronenschale zu glattem Teig kneten, ca. 45 Min. gehen lassen.",
@@ -1511,7 +1530,9 @@
     "zeiten": {
       "gehen": 720
     },
-    "temperaturen": { "gehen": "kuehlschrank" },
+    "temperaturen": {
+      "gehen": "kuehlschrank"
+    },
     "ablauf": [
       "Mehl, Hefe, Zucker, Salz mischen; Butter, Orangenschale, kaltes Wasser und Eier unterrühren (nicht kneten).",
       "Abgedeckt über Nacht im Kühlschrank gehen lassen.",
@@ -1612,7 +1633,9 @@
       "gehen": 720,
       "stueckgare": 30
     },
-    "temperaturen": { "gehen": "kuehlschrank" },
+    "temperaturen": {
+      "gehen": "kuehlschrank"
+    },
     "ablauf": [
       "Hefe mit etwas Zucker in lauwarmer Milch anruehren, 5 Minuten stehen lassen.",
       "Mehl, Zucker, Salz, Aromen und Eier mit dem Loeffel verruehren, nicht kneten; Butter in drei Portionen einarbeiten.",
@@ -1684,7 +1707,9 @@
     "zeiten": {
       "stueckgare": 35
     },
-    "temperaturen": { "gehen": "kuehlschrank" },
+    "temperaturen": {
+      "gehen": "kuehlschrank"
+    },
     "ablauf": [
       "Hefe in die Milch broeckeln, Butter, Mehl und Zucker zugeben.",
       "Zu einem Teigkloss verarbeiten (Knetdauer nicht angegeben), abdecken.",
@@ -1771,7 +1796,12 @@
       "kneten": 10,
       "gehen": 720
     },
-    "temperaturen": { "gehen": { "wert": 10, "tol": 3 } },
+    "temperaturen": {
+      "gehen": {
+        "wert": 10,
+        "tol": 3
+      }
+    },
     "ablauf": [
       "Hefe mit 1 EL Zucker in kalter Milch aufloesen, zum Mehl geben, restliche Zutaten zufuegen, Butter zuletzt.",
       "10 Minuten mit Knethaken kneten, zu einer Kugel formen.",
@@ -1859,7 +1889,9 @@
       "gehen": 780,
       "stueckgare": 105
     },
-    "temperaturen": { "gehen": "kuehlschrank" },
+    "temperaturen": {
+      "gehen": "kuehlschrank"
+    },
     "ablauf": [
       "Alle Zutaten ausser Butter 4 Min mischen, 4-6 Min kneten; kalte Butter zugeben und unterkneten.",
       "1 Stunde bei Raumtemperatur ruhen, dann 12-16 Stunden in gebutterter Wanne im Kuehlschrank gehen lassen.",
@@ -1876,7 +1908,7 @@
     "stueckzahl": null,
     "notizen": "Kneten ca. 8-10 Min (maschinell, mit Butter) -> kein echtes No-Knead, aber lange Kuehlgare. gehen = 60 Min Stockgare + 12 h Kuehlschrank (Spanne 12-16 h). Ei: 100 g = 2 Eier M angegeben. Vanillemark/Zitronenschale nur optional, nicht erfasst. Milch in g wie im Original (als ml gefuehrt). Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank.",
     "qualitaet": 4,
-    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "zimtkringel-schweizer-ankezuepfe-butterzopf-xxl",
@@ -1945,7 +1977,9 @@
     "zeiten": {
       "stueckgare": 30
     },
-    "temperaturen": { "gehen": "kuehlschrank" },
+    "temperaturen": {
+      "gehen": "kuehlschrank"
+    },
     "ablauf": [
       "Am Vorabend Milch mit Zucker und Butter erwaermen, Hefe darin aufloesen.",
       "Mit Mehl, Salz und Eiern in der Kuechenmaschine zu einem Teig verarbeiten (Knetzeit nicht angegeben).",
@@ -2041,8 +2075,14 @@
       "gehen": 60,
       "stueckgare": 30
     },
-    "vorteig": { "mehl_g": 330, "fluessigkeit_g": 200, "hefe_g_frisch": 20 },
-    "temperaturen": { "vorteig": "warm" },
+    "vorteig": {
+      "mehl_g": 330,
+      "fluessigkeit_g": 200,
+      "hefe_g_frisch": 20
+    },
+    "temperaturen": {
+      "vorteig": "warm"
+    },
     "ablauf": [
       "Vorteig aus Mehl, Hefe und lauwarmer Milch ansetzen, 30 Minuten warm ruhen lassen.",
       "Restliche Zutaten zugeben, 8-10 Minuten kneten, 60 Minuten gehen lassen.",
@@ -2131,8 +2171,14 @@
       "gehen": 30,
       "stueckgare": 30
     },
-    "vorteig": { "mehl_g": 150, "fluessigkeit_g": 100, "hefe_g_frisch": 1 },
-    "temperaturen": { "vorteig": "kuehlschrank" },
+    "vorteig": {
+      "mehl_g": 150,
+      "fluessigkeit_g": 100,
+      "hefe_g_frisch": 1
+    },
+    "temperaturen": {
+      "vorteig": "kuehlschrank"
+    },
     "ablauf": [
       "Vorteig (Milch, Mehl, Hefe, Salz) kurz kneten, 60-90 Minuten bei Raumtemperatur ruhen, dann 12-24 Stunden in den Kuehlschrank.",
       "Vorteig ca. 90 Minuten vor Gebrauch aus dem Kuehlschrank nehmen.",
@@ -2439,7 +2485,10 @@
       "gehen": 30,
       "stueckgare": 30
     },
-    "vorteig": { "fluessigkeit_g": 200, "hefe_g_frisch": 21 },
+    "vorteig": {
+      "fluessigkeit_g": 200,
+      "hefe_g_frisch": 21
+    },
     "ablauf": [
       "Mehl und Zucker mischen, Butter am Rand verteilen, Hefe in der Mulde mit lauwarmer Milch anruehren (15 Min.).",
       "Ei und Salz zugeben, ca. 5 Min. kneten, Rosinen unterkneten.",
@@ -2613,7 +2662,9 @@
       "gehen": 1440,
       "stueckgare": 30
     },
-    "temperaturen": { "gehen": "kuehlschrank" },
+    "temperaturen": {
+      "gehen": "kuehlschrank"
+    },
     "ablauf": [
       "Milch auf knapp 40 Grad erwaermen, Hefe darin loesen.",
       "Mehl, Butter, Zucker, Salz und Hefemilch 5 Min. kneten, dann Rosinen 5 Min. unterkneten.",
@@ -2632,5 +2683,641 @@
     "notizen": "Hefe wahlweise 1 Packung Trockenhefe oder 1/2 Wuerfel frische; Trockenhefe erfasst. Salz 1/2 TL = 3 g (0,6 % vom Mehl, unter 1 %), steht so im Original. Kein Ei. Rosinen werden in Wasser eingeweicht (Rum nur als Alternative, nicht erfasst). Gehen = 24 Std. gesamt kalt plus 1 Std. Raumtemperatur am zweiten Tag. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank.",
     "qualitaet": 4,
     "qualitaet_grund": "keine Seitenwertung"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "linalsbackhimmel-hefezopf-ueber-nacht",
+    "titel": "Hefezopf über Nacht (Kühlschrank-Gare)",
+    "quelle": {
+      "url": "https://linalsbackhimmel.de/hefezopf-ueber-nacht/",
+      "site": "linalsbackhimmel.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 4,
+        "einheit": "g",
+        "original": "3-5 g frische Hefe (alternativ 1-2 g Trockenhefe)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Ei"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g weiche Butter"
+      }
+    ],
+    "methode": "hefe_kalt",
+    "zeiten": {
+      "kneten": 9,
+      "gehen": 600,
+      "stueckgare": 75
+    },
+    "temperaturen": {
+      "gehen": "kuehlschrank",
+      "stueckgare": "raum"
+    },
+    "ablauf": [
+      "Hefe in lauwarmer Milch lösen, mit Mehl, Zucker, Ei und Salz zu glattem Teig kneten, Butter zuletzt einarbeiten.",
+      "Optional 30-60 Minuten bei Raumtemperatur anziehen lassen.",
+      "Abgedeckt 8-12 Stunden im Kühlschrank reifen lassen.",
+      "Morgens kurz temperieren, in drei Stränge teilen, flechten und 60-90 Minuten bei Raumtemperatur gehen lassen.",
+      "Mit Eigelb-Milch bestreichen und backen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": 160,
+      "minuten": 27.5,
+      "original": "160 °C Umluft, 25-30 Minuten (Mitte 27,5)"
+    },
+    "stueckzahl": 1,
+    "notizen": "Hefe 3-5 g, Mitte 4 g erfasst. Gehen = 8-12 h Kühlschrank (Mitte 10 h = 600 min), die optionale 30-60 min Raumtemperatur davor nicht gezählt. Stückgare 60-90 min \"bei Raumtemperatur\" ohne Gradangabe. Kneten 8-10 min (Mitte). Kühlschrank ohne Gradzahl. Wasser (Milch+Ei) 70,7 %, Salz 0,2 %, Hefe-Äquivalent 0,8 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "regionalundhandgemacht-einfacher-hefezopf",
+    "titel": "Einfacher Hefezopf (3 g Hefe, optional 12 h Kühlschrank)",
+    "quelle": {
+      "url": "https://regionalundhandgemacht.de/brot/einfacher-hefezopf/",
+      "site": "regionalundhandgemacht.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Mehl Type 550"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 260,
+        "einheit": "ml",
+        "original": "260 ml Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 3,
+        "einheit": "g",
+        "original": "3 g Frischhefe"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 40,
+        "einheit": "g",
+        "original": "40 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Vanillezucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 weiche Butter (Einheit nicht angegeben, als g erfasst)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Ei"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "hefe_kalt",
+    "zeiten": {
+      "kneten": 5,
+      "gehen": 720,
+      "stueckgare": 60
+    },
+    "temperaturen": {
+      "gehen": "kuehlschrank",
+      "stueckgare": "raum"
+    },
+    "ablauf": [
+      "Milch mit Butter lauwarm erwärmen, Hefe mit Zucker darin lösen.",
+      "Mit Mehl, Ei und Salz etwa 5 Minuten kneten.",
+      "2 Stunden bei Raumtemperatur ruhen, nach 1 und 2 Stunden dehnen und falten.",
+      "Optional leicht geölt 12 Stunden im Kühlschrank lagern, vor dem Formen 1 Stunde temperieren.",
+      "Flechten, 1 Stunde bei Raumtemperatur gehen lassen, mit Ei bestreichen und backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 35,
+      "original": "180 °C Ober-/Unterhitze, 30-40 Minuten (Mitte 35)"
+    },
+    "stueckzahl": 2,
+    "notizen": "Der Kühlschrank-Schritt (12 h) ist im Original OPTIONAL; ohne ihn bleibt es bei 2 h Raumtemperatur. Hier mit Kühlschrank erfasst: gehen = 12 h Kühlschrank, die 2 h Raumtemperatur davor und 1 h Temperieren danach nicht gezählt. Butter \"50\" ohne Einheit, als g gelesen. Mengen für 2 Zöpfe. Raumtemperatur und Kühlschrank ohne Gradzahl. Wasser (Milch+Ei) 71,4 %, Salz 0,2 %, Hefe-Äquivalent 0,6 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "cakescookiesandmore-zopf-mit-vorteig",
+    "titel": "Zopf mit Vorteig (Vorteig 12-24 h Kühlschrank)",
+    "quelle": {
+      "url": "https://cakescookiesandmore.ch/2020/03/zopf-mit-vorteig-rezept.html",
+      "site": "cakescookiesandmore.ch",
+      "bewertung": 5,
+      "anzahlBewertungen": 4
+    },
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "150 g Weissmehl (Vorteig) + 300 g Weissmehl + 50 g Vollkornmehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 g Wasser (Vorteig)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Milch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 10,
+        "einheit": "g",
+        "original": "2 g frische Hefe (Vorteig) + 8 g frische Hefe"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zucker (Vorteig)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Butter"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 9,
+        "einheit": "g",
+        "original": "2 g Salz (Vorteig) + 7 g Salz"
+      }
+    ],
+    "methode": "hefe_vorteig",
+    "zeiten": {
+      "kneten": 10,
+      "vorteig": 1080,
+      "stueckgare": 45
+    },
+    "temperaturen": {
+      "vorteig": "kuehlschrank"
+    },
+    "vorteig": {
+      "mehl_g": 150,
+      "fluessigkeit_g": 100,
+      "hefe_g_frisch": 2
+    },
+    "ablauf": [
+      "Vorteig aus Mehl, Wasser, Hefe, Salz und Zucker 12-24 Stunden im Kühlschrank reifen lassen (alternativ ca. 6 Stunden bei Raumtemperatur).",
+      "Vorteig 30-60 Minuten temperieren, mit den übrigen Zutaten 5 + 5 Minuten kneten.",
+      "Bei Raumtemperatur bis zur Verdopplung gehen lassen (Dauer nicht genannt).",
+      "Zu dreisträngigem Zopf flechten und 30-60 Minuten abgedeckt gehen lassen.",
+      "Mit Ei bestreichen und 35 Minuten bei 180 °C backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 35,
+      "original": "35 Minuten bei 180 °C; Betriebsart nicht genannt, als Ober-/Unterhitze erfasst"
+    },
+    "stueckzahl": 1,
+    "notizen": "Vorteig 12-24 h im Kühlschrank (Mitte 18 h = 1080 min). Die Seite nennt keine Dauer für die Hauptteig-Gare (nur \"bis zur Verdopplung\"), daher kein gehen-Eintrag. Stückgare 30-60 min (Mitte 45) ohne Temperatur. Der Text erwähnt, die Hefe sei wegen Überreifung des Vorteigs bei Raumtemperatur reduziert worden; die Zutatenliste zeigt die Mengen, wie hier erfasst. 50 g Vollkornmehl unter weizenmehl gezählt. Ei nur zum Bestreichen, nicht erfasst. Wasser+Milch 72,5 %, Salz 1,8 %, Hefe-Äquivalent 2,0 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (4 Stimmen) ±0"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "bakeandnourish-der-beste-hefezopf",
+    "titel": "Der beste Hefezopf (1 h Raumtemperatur, 12-16 h Kühlschrank)",
+    "quelle": {
+      "url": "https://bakeandnourish.com/der-beste-hefezopf/",
+      "site": "bakeandnourish.com",
+      "bewertung": 5,
+      "anzahlBewertungen": 1
+    },
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl Type 550"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Milch"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier (M)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Zucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 7,
+        "einheit": "g",
+        "original": "7 g Salz"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g frische Hefe"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g kalte Butter"
+      }
+    ],
+    "methode": "hefe_kalt",
+    "zeiten": {
+      "kneten": 22,
+      "gehen": 840,
+      "stueckgare": 90
+    },
+    "temperaturen": {
+      "gehen": "kuehlschrank"
+    },
+    "ablauf": [
+      "Mehl, Milch, Eier, Zucker, Salz und Hefe 8-10 Minuten kneten.",
+      "Butter in Stücken zugeben und weitere 10-15 Minuten kneten, bis der Teig sich löst.",
+      "1 Stunde bei Raumtemperatur ruhen, dann 12-16 Stunden im Kühlschrank.",
+      "In 3 oder 6 Stränge teilen, flechten und abgedeckt 1,5 Stunden gehen lassen.",
+      "Mit Eigelb bestreichen und bei 180 °C backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 32.5,
+      "original": "180 °C Ober-/Unterhitze, 30-35 Minuten (Mitte 32,5)"
+    },
+    "stueckzahl": 1,
+    "notizen": "gehen = 12-16 h Kühlschrank (Mitte 14 h = 840 min), die 1 h Raumtemperatur davor nicht gezählt. Kühlschrank ohne Gradzahl. Stückgare 1,5 h ohne Temperatur. Kneten 8-10 + 10-15 min (gesamt ca. 22). Wasser (Milch+Ei) 71,1 %, Salz 1,4 %, Hefe-Äquivalent 2,0 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (1 Stimmen) ±0"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "brotwein-brioche-hefezopf-franzoesisch",
+    "titel": "Brioche-Hefezopf nach französischem Rezept (Kühlschrank über Nacht)",
+    "quelle": {
+      "url": "https://brotwein.net/brioche-hefezopf-nach-original-franzoesischem-rezept-1658",
+      "site": "brotwein.net",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 1000,
+        "einheit": "g",
+        "original": "1 kg Weizenmehl 550"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Zucker"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Milch"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 8,
+        "einheit": "stk",
+        "original": "8 Eier (L)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 20,
+        "einheit": "g",
+        "original": "20 g frische Hefe (Original: 40 g)"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 20,
+        "einheit": "g",
+        "original": "20 g Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 400,
+        "einheit": "g",
+        "original": "400 g Butter, zimmerwarm"
+      }
+    ],
+    "methode": "hefe_kalt",
+    "zeiten": {
+      "kneten": 28,
+      "gehen": 360,
+      "stueckgare": 120
+    },
+    "temperaturen": {
+      "gehen": "kuehlschrank"
+    },
+    "ablauf": [
+      "Mehl, Zucker, Milch, Eier und Hefe 5 Minuten kneten, Salz zugeben, 10 Minuten weiterkneten.",
+      "Butter stückweise einarbeiten (10-15 Minuten).",
+      "Stockgare 2-2,5 Stunden, dann rund wirken.",
+      "Abgedeckt mindestens 6 Stunden bzw. über Nacht im Kühlschrank.",
+      "In drei Stücke teilen, flechten, ca. 2 Stunden bis zur Verdopplung gehen lassen und bei 180 °C backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 40,
+      "original": "180 °C Ober-/Unterhitze, gut 40 Minuten (Autor: 35 Min. waren zu wenig)"
+    },
+    "stueckzahl": 1,
+    "notizen": "gehen = Kühlschrank \"mindestens 6 h oder über Nacht\"; als Untergrenze 6 h = 360 min erfasst (Gesamtdauer laut Seite ca. 13 h, also real eher 8-9 h). Stockgare 2-2,5 h davor und Stückgare 2 h danach ohne Temperaturangabe. Kneten 5 + 10 + 10-15 min (ca. 28). Hefe 20 g statt der im Original genannten 40 g. Eier als 8 Stk erfasst. Wasser (Milch+Ei) 68,0 %, Salz 2,0 %, Hefe-Äquivalent 2,0 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Reinfett −0,5"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "diepta-backherz-hefezopf",
+    "titel": "Hefezopf vom Backherz (Gare im Ofen bei 40-50 °C)",
+    "quelle": {
+      "url": "https://www.diepta.de/news/backherz-hefezopf-das-rezept-vom-backherz-und-tipps-zum-backen-mit-hefe",
+      "site": "diepta.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Weizenmehl Type 550"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Vollmilch"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 21,
+        "einheit": "g",
+        "original": "1/2 Würfel frische Hefe (ca. 21 g) oder 1 Päckchen Trockenhefe"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Honig"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 ganze Eier (+ 1 Eiweiß, nicht erfasst)"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "kneten": 6.5,
+      "gehen": 35,
+      "stueckgare": 15
+    },
+    "temperaturen": {
+      "gehen": {
+        "min": 40,
+        "max": 50
+      },
+      "stueckgare": {
+        "min": 40,
+        "max": 50
+      }
+    },
+    "ablauf": [
+      "Ofen auf 40-50 °C vorwärmen.",
+      "Hefe in warmer Milch lösen, Mehl, Honig, Eier und Salz 5-8 Minuten kneten.",
+      "Abgedeckt 30-40 Minuten im warmen Ofen bis zur Verdopplung gehen lassen.",
+      "Zopf flechten und weitere 15 Minuten abgedeckt im warmen Ofen ruhen.",
+      "Mit Eigelb-Milch bestreichen und bei 180 °C Ober-/Unterhitze ca. 25 Minuten backen."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 25,
+      "original": "180 °C Ober-/Unterhitze bzw. 160 °C Umluft, ca. 25 Minuten"
+    },
+    "stueckzahl": 1,
+    "notizen": "Gruppe 3 (normale Hefe, kurze warme Gare). Gehen 30-40 min (Mitte 35), Gesamtangabe der Seite 45-55 min. Ofentemperatur 40-50 °C wie auf der Seite genannt. Honig als zucker. Das zusätzliche Eiweiß und die Eigelb-Glasur nicht erfasst, kein Fett im Teig. Knetzeit 5-8 min (Mitte 6,5). Wasser (Milch+Ei) 77,4 %, Salz 0,2 %, Hefe-Äquivalent 4,2 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
+  },
+  {
+    "archetyp": "hefeteig",
+    "id": "herdgefluester-hefezopf",
+    "titel": "Hefezopf (Teiggare im auf 50 °C vorgewärmten Ofen)",
+    "quelle": {
+      "url": "https://herdgefluester.de/hefezopf/",
+      "site": "herdgefluester.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 2
+    },
+    "variante": "hefezopf",
+    "gefaess": "backblech",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 500,
+        "einheit": "g",
+        "original": "500 g Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 335,
+        "einheit": "ml",
+        "original": "260 ml Milch + 5 EL Milch (Hefeansatz)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "hefe_frisch",
+        "menge": 21,
+        "einheit": "g",
+        "original": "1/2 Würfel frische Hefe (alternativ 1 Päckchen Trockenhefe)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Zucker"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Butter (in der Milch geschmolzen)"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Salz"
+      }
+    ],
+    "methode": "hefe_direkt",
+    "zeiten": {
+      "gehen": 60,
+      "stueckgare": 20
+    },
+    "temperaturen": {
+      "gehen": 50
+    },
+    "ablauf": [
+      "Backofen auf 50 °C vorheizen und ausschalten.",
+      "Milch mit Butter lauwarm erwärmen, Hefe mit etwas Milch anrühren, alles zu einem Teig verarbeiten.",
+      "Abgedeckt mindestens 1 Stunde im warmen Ofen bis zur Verdopplung gehen lassen.",
+      "Zopf flechten und 15-25 Minuten abgedeckt ruhen lassen.",
+      "Mit Ei bestreichen und bei 200 °C Ober-/Unterhitze ca. 25 Minuten backen."
+    ],
+    "backen": {
+      "tempOU": 200,
+      "tempUmluft": null,
+      "minuten": 25,
+      "original": "200 °C Ober-/Unterhitze, ca. 25 Minuten"
+    },
+    "stueckzahl": 1,
+    "notizen": "Gruppe 3. Ofen auf 50 °C vorgeheizt und dann ausgeschaltet; die reale Teigtemperatur liegt darunter, erfasst ist die genannte 50 °C. Gehen \"mindestens 1 Stunde\" (60 min), Stückgare 15-25 min (Mitte 20) ohne Temperatur. Milch: 260 ml + 5 EL (75 ml) für den Hefeansatz addiert; Knetzeit nicht angegeben. Ei nur zum Bestreichen, nicht erfasst. Wasser (Milch) 79,3 %, Salz 1,2 %, Hefe-Äquivalent 4,2 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (2 Stimmen) ±0 · Angabe fehlt im Original −0,25"
   }
 ]

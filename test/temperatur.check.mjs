@@ -152,7 +152,7 @@ ok(c.gaerung.temp===data.modelle.gaerung.temp_standard && c.gaerung.tempText===n
 // Korpus-Zellen: die Angaben der Rezepte kommen in den Statistiken an
 const kz=ks.weissbrot.proMethode;
 ok(kz.hefe_noknead.gareTemperaturen.filter(t=>t==='raum').length>=4 && kz.hefe_kalt.gareTemperaturen.length===kz.hefe_kalt.n && ks.hefezopf.proMethode.hefe_kalt.gareTemperaturen.length===ks.hefezopf.proMethode.hefe_kalt.n,'Statistik je Methode führt die genannten Gär-Temperaturen: ohne Kneten mehrfach Raumtemperatur, alle kalten Führungen nennen eine');
-ok(kz.hefe_direkt.gareTemperaturen.length===0 && ks.hefezopf.proMethode.hefe_direkt.gareTemperaturen.length===1,'Statistik führt nur ausdrücklich genannte Temperaturen: Weißbrot direkt keine, Hefezopf direkt eine (Zimmertemperatur)');
+ok(kz.hefe_direkt.gareTemperaturen.length===0 && ks.hefezopf.proMethode.hefe_direkt.gareTemperaturen.length===3,'Statistik führt nur ausdrücklich genannte Temperaturen: Weißbrot direkt keine, Hefezopf direkt drei (Zimmertemperatur, zwei Ofen-Gaeren)');
 c=compute(zustand('weissbrot','hefe_noknead'),data,ks);
 ok(c.gaerung.temp===21 && /18–24 °C/.test(c.gaerung.tempText),`Weißbrot ohne Kneten: die Rezepte nennen überwiegend Raumtemperatur → ${c.gaerung.tempText}`);
 
