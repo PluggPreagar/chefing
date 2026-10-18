@@ -7,7 +7,7 @@ export function renderStats(root, korpusStats, data) {
   for (const [variante, v] of Object.entries(arch.varianten)) {
     const st = korpusStats[variante];
     const box = el('section', 'stat-box');
-    box.append(el('h3', null, `${v.label} — ${st?.n ?? 0} Rezepte`));
+    box.append(el('h3', null, `${v.label} — ${st?.n ?? 0} Rezepte${st?.qualitaet ? ` · Qualität (Median) ${st.qualitaet.median.toFixed(1).replace('.', ',')}/5` : ''}`));
     if (!st || !st.n) { box.append(el('p', 'fine', 'Korpus noch leer.')); root.append(box); continue; }
 
     const t = el('table', 'stat-table');
@@ -51,6 +51,11 @@ export function renderStats(root, korpusStats, data) {
         li.append(a);
       } else li.append(el('span', null, q.titel || q.id));
       li.append(el('span', 'q-meta', ` — ${q.site ?? ''}${q.bewertung ? ` · ${q.bewertung}★` : ''}${q.anzahl ? ` (${q.anzahl})` : ''} · ${data.methods[q.methode]?.label ?? q.methode}${q.sauer ? ' · sauer' : ''}`));
+      if (q.qualitaet != null) {
+        const note = el('span', 'q-note', ` · Qualität ${q.qualitaet}/5`);
+        if (q.qualitaetGrund) note.title = q.qualitaetGrund;
+        li.append(note);
+      }
       ul.append(li);
     }
     box.append(ul);

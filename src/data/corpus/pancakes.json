@@ -84,7 +84,9 @@
       "original": "nicht angegeben (gering bis mittel erhitzte Pfanne, wenden bei Blaeschen)"
     },
     "stueckzahl": null,
-    "notizen": "Mehl:Fluessigkeit ca. 1:1,4 (Buttermilch), Butter im Teig und Natron plus Backpulver als Doppeltrieb. Portionszahl und Backzeit fehlen in der Quelle."
+    "notizen": "Mehl:Fluessigkeit ca. 1:1,4 (Buttermilch), Butter im Teig und Natron plus Backpulver als Doppeltrieb. Portionszahl und Backzeit fehlen in der Quelle.",
+    "qualitaet": 3,
+    "qualitaet_grund": "Seite 3,7★ (82 Stimmen) −0,5 · Backzeit fehlt −0,5"
   },
   {
     "id": "gutekueche-amerikanische-buttermilch-pancakes",
@@ -171,7 +173,9 @@
       "original": "nicht angegeben"
     },
     "stueckzahl": 12,
-    "notizen": "Mehl:Buttermilch ca. 1:1,2, relativ viel Butter und Zucker im Teig, Backpulver plus Natron nur in Prisenmenge. Kein Eischnee, Teig wird glatt gerührt."
+    "notizen": "Mehl:Buttermilch ca. 1:1,2, relativ viel Butter und Zucker im Teig, Backpulver plus Natron nur in Prisenmenge. Kein Eischnee, Teig wird glatt gerührt.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,4★ (397 Stimmen) ±0 · Backzeit fehlt −0,5"
   },
   {
     "id": "essen-und-trinken-american-pancakes-grundrezept",
@@ -244,7 +248,9 @@
       "original": "2-4 Minuten pro Seite, mittlere Hitze"
     },
     "stueckzahl": null,
-    "notizen": "Viel Ei (4 auf 200 g Mehl), kein Fett im Teig, kein Zucker ausser Vanillezucker. 1 EL Zitronensaft im Original nicht abbildbar und weggelassen (liefert Saeure zum Backpulver); Seite zeigt nur 1 Bewertung ohne Durchschnitt."
+    "notizen": "Viel Ei (4 auf 200 g Mehl), kein Fett im Teig, kein Zucker ausser Vanillezucker. 1 EL Zitronensaft im Original nicht abbildbar und weggelassen (liefert Saeure zum Backpulver); Seite zeigt nur 1 Bewertung ohne Durchschnitt.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "kuechengoetter-amerikanische-pancakes",
@@ -317,7 +323,9 @@
       "original": "nicht angegeben"
     },
     "stueckzahl": 8,
-    "notizen": "Grundrezept ohne Zucker (Zucker/Vanillezucker/Zitrusschale nur als optionale Suess-Variante, hier nicht erfasst). Mehl:Milch ca. 1:1,6, also eher flüssiger Teig; Seite zeigt keine verwertbare Sternebewertung."
+    "notizen": "Grundrezept ohne Zucker (Zucker/Vanillezucker/Zitrusschale nur als optionale Suess-Variante, hier nicht erfasst). Mehl:Milch ca. 1:1,6, also eher flüssiger Teig; Seite zeigt keine verwertbare Sternebewertung.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5"
   },
   {
     "id": "kribbelbunt-american-pancakes",
@@ -389,7 +397,9 @@
       "original": "ca. 2 Min. pro Seite"
     },
     "stueckzahl": 10,
-    "notizen": "Sehr dicker Teig (Mehl:Milch ca. 1:0,8), kein Fett im Teig. Eischnee nur als optionaler Tipp, nicht im Grundrezept; Blog ohne Einzelbewertung."
+    "notizen": "Sehr dicker Teig (Mehl:Milch ca. 1:0,8), kein Fett im Teig. Eischnee nur als optionaler Tipp, nicht im Grundrezept; Blog ohne Einzelbewertung.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Blog-Quelle −0,5"
   },
   {
     "id": "bbcgoodfood-american-pancakes",
@@ -462,7 +472,9 @@
       "original": "erste Seite 1-2 Min., zweite ca. 1 Min."
     },
     "stueckzahl": null,
-    "notizen": "Englisches Rezept mit Self-raising flour (enthält bereits Triebmittel), hier als weizenmehl erfasst, zusätzliches Backpulver ist dadurch effektiv hoch. Mehl:Milch 1:1, Quelle ist die BBC-Good-Food-Middle-East-Seite ohne Bewertungsanzeige; Portion: 4 Personen."
+    "notizen": "Englisches Rezept mit Self-raising flour (enthält bereits Triebmittel), hier als weizenmehl erfasst, zusätzliches Backpulver ist dadurch effektiv hoch. Mehl:Milch 1:1, Quelle ist die BBC-Good-Food-Middle-East-Seite ohne Bewertungsanzeige; Portion: 4 Personen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "kuechenfibel-einfache-fluffige-pfannkuchen",
@@ -548,7 +560,9 @@
       "original": "erste Seite ca. 2 Min., zweite Seite 1-2 Min."
     },
     "stueckzahl": null,
-    "notizen": "Sehr viel Backpulver (1 EL auf 195 g Mehl) und viel geschmolzene Butter im Teig bei nur einem Ei. Milch-Anteil mit 1:1,5 recht flüssig."
+    "notizen": "Sehr viel Backpulver (1 EL auf 195 g Mehl) und viel geschmolzene Butter im Teig bei nur einem Ei. Milch-Anteil mit 1:1,5 recht flüssig.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "blick-pancakes-buttermilch",
@@ -619,7 +633,9 @@
       "original": "nicht angegeben"
     },
     "stueckzahl": null,
-    "notizen": "Ganz ohne Fett im Teig, nur Buttermilch als Flüssigkeit (1:1) und nur Backpulver. Etwas Vanillepulver ohne Mengenangabe wurde weggelassen."
+    "notizen": "Ganz ohne Fett im Teig, nur Buttermilch als Flüssigkeit (1:1) und nur Backpulver. Etwas Vanillepulver ohne Mengenangabe wurde weggelassen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5"
   },
   {
     "id": "utopia-buttermilch-pancakes",
@@ -683,7 +699,9 @@
       "original": "nicht angegeben"
     },
     "stueckzahl": 12,
-    "notizen": "Minimalistisch: kein Fett im Teig, kein Zucker (nur optional genannt), drei Eier auf 250 g Mehl. Ersatzoptionen (vegan, Dinkel) wurden ignoriert."
+    "notizen": "Minimalistisch: kein Fett im Teig, kein Zucker (nur optional genannt), drei Eier auf 250 g Mehl. Ersatzoptionen (vegan, Dinkel) wurden ignoriert.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5"
   },
   {
     "id": "kevindundon-fluffy-blueberry-pancakes",
@@ -755,7 +773,9 @@
       "original": "ca. 3 Min. erste Seite, 2-3 Min. zweite Seite"
     },
     "stueckzahl": null,
-    "notizen": "Kein Zucker im Teig, dafür viel Einlage (200 g Blaubeeren auf 300 g Mehl) und wenig Backpulver. Butter im Teig ist laut Quelle optional."
+    "notizen": "Kein Zucker im Teig, dafür viel Einlage (200 g Blaubeeren auf 300 g Mehl) und wenig Backpulver. Butter im Teig ist laut Quelle optional.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,67★ (9 Stimmen) ±0"
   },
   {
     "id": "zwilling-buttermilk-pancakes",
@@ -841,7 +861,9 @@
       "original": "nicht angegeben"
     },
     "stueckzahl": null,
-    "notizen": "Viel Buttermilch (1:1,67) mit Natron und Backpulver, Öl statt Butter im Teig. Beeren, Walnüsse und Ahornsirup sind nur Beilage und nicht erfasst."
+    "notizen": "Viel Buttermilch (1:1,67) mit Natron und Backpulver, Öl statt Butter im Teig. Beeren, Walnüsse und Ahornsirup sind nur Beilage und nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5"
   },
   {
     "id": "notquitenigella-light-fluffy-buttermilk-pancakes",
@@ -934,7 +956,9 @@
       "original": "ca. 1 Min. erste Seite, ca. 30 Sek. zweite Seite"
     },
     "stueckzahl": 8,
-    "notizen": "Extrem viel Butter im Teig (80 g auf 150 g Mehl) bei sehr kurzer Backzeit. Zusätzliche 80 g Butter fürs Braten nicht erfasst."
+    "notizen": "Extrem viel Butter im Teig (80 g auf 150 g Mehl) bei sehr kurzer Backzeit. Zusätzliche 80 g Butter fürs Braten nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Reinfett −0,5"
   },
   {
     "id": "emmikochteinfach-american-pancakes",
@@ -1027,7 +1051,9 @@
       "original": "ca. 1-2 Min. erste Seite, ca. 2 Min. zweite Seite"
     },
     "stueckzahl": 14,
-    "notizen": "Gut bewertetes Buttermilch-Rezept mit Natron plus Backpulver und mehr Zucker (70 g, knapp 5 EL). Flüssigkeitsanteil 1:1,67, am oberen Rand."
+    "notizen": "Gut bewertetes Buttermilch-Rezept mit Natron plus Backpulver und mehr Zucker (70 g, knapp 5 EL). Flüssigkeitsanteil 1:1,67, am oberen Rand.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 5★ (74 Stimmen) +0,5"
   },
   {
     "id": "kochbar-blaubeer-pancakes-amerikanisch",
@@ -1113,7 +1139,9 @@
       "original": "nicht angegeben"
     },
     "stueckzahl": null,
-    "notizen": "Sehr dicker Teig (Milch nur 1:0,7), viel Blaubeer-Einlage (300 g), Natron ohne saure Zutat, kein Fett im Teig. Vegane Variante der Seite ignoriert."
+    "notizen": "Sehr dicker Teig (Milch nur 1:0,7), viel Blaubeer-Einlage (300 g), Natron ohne saure Zutat, kein Fett im Teig. Vegane Variante der Seite ignoriert.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,43★ (7 Stimmen) ±0 · Backzeit fehlt −0,5"
   },
   {
     "id": "pursuedtirol-fluffige-pancakes-mit-joghurt",
@@ -1199,6 +1227,8 @@
       "original": "nicht angegeben"
     },
     "stueckzahl": null,
-    "notizen": "Joghurt als Hauptflüssigkeit mit etwas Milch (1:1,2), kein Fett im Teig, nur Backpulver. Sehr hohe Bewertungszahl."
+    "notizen": "Joghurt als Hauptflüssigkeit mit etwas Milch (1:1,2), kein Fett im Teig, nur Backpulver. Sehr hohe Bewertungszahl.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,7★ (6106 Stimmen) +0,5 · Backzeit fehlt −0,5"
   }
 ]

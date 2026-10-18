@@ -77,7 +77,9 @@
       "original": "180 °C Ober-/Unterhitze, 20 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Sehr eihaltig (4 Eier auf 200 g Mehl) und fettreich (150 ml Öl), dafür wenig Milch. Zusätzlich 1 EL Öl für die Form, nicht als Teigzutat erfasst."
+    "notizen": "Sehr eihaltig (4 Eier auf 200 g Mehl) und fettreich (150 ml Öl), dafür wenig Milch. Zusätzlich 1 EL Öl für die Form, nicht als Teigzutat erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,5★ (12234 Stimmen) ±0"
   },
   {
     "id": "gutekueche-muffins-mit-schokostueckchen",
@@ -172,7 +174,9 @@
       "original": "200 °C Ober-/Unterhitze, ca. 15–20 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Weiche Butter wird nicht mit Zucker schaumig geschlagen, sondern zusammen mit Eiern und Milch verquirlt, dann Zucker, dann Mehl – daher ruehroel statt creme. Zusätzlich 1 EL Öl für die Form, nicht erfasst."
+    "notizen": "Weiche Butter wird nicht mit Zucker schaumig geschlagen, sondern zusammen mit Eiern und Milch verquirlt, dann Zucker, dann Mehl – daher ruehroel statt creme. Zusätzlich 1 EL Öl für die Form, nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,5★ (13872 Stimmen) ±0"
   },
   {
     "id": "gutekueche-grundrezept-muffins",
@@ -253,7 +257,9 @@
       "original": "190 °C Ober- und Unterhitze, ca. 20 Min."
     },
     "stueckzahl": 12,
-    "notizen": "Originaltext lässt offen, wann genau die Mehlmischung dazukommt (implizit nach der Ei-Butter-Joghurt-Masse). Einheit Tropfen (Tr) nicht im Schema, als stk erfasst. Wenig Fett (80 g Butter) bei viel Joghurt (250 g)."
+    "notizen": "Originaltext lässt offen, wann genau die Mehlmischung dazukommt (implizit nach der Ei-Butter-Joghurt-Masse). Einheit Tropfen (Tr) nicht im Schema, als stk erfasst. Wenig Fett (80 g Butter) bei viel Joghurt (250 g).",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,3★ (5703 Stimmen) ±0"
   },
   {
     "id": "emmikochteinfach-schokomuffins",
@@ -355,7 +361,9 @@
       "original": "180 °C Ober-/Unterhitze (160 °C Umluft), 25 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Klassische Muffin-Methode mit Schmand als saurer Flüssigkeit; Backpulver in TL und Gramm (11 g) angegeben. Kakao ersetzt keinen Mehlanteil, sondern kommt zusätzlich zu 300 g Mehl."
+    "notizen": "Klassische Muffin-Methode mit Schmand als saurer Flüssigkeit; Backpulver in TL und Gramm (11 g) angegeben. Kakao ersetzt keinen Mehlanteil, sondern kommt zusätzlich zu 300 g Mehl.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 5★ (130 Stimmen) +0,5"
   },
   {
     "id": "familienkost-blaubeermuffins-joghurt",
@@ -450,7 +458,9 @@
       "original": "180 °C Ober-/Unterhitze, 30 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Nur 1 Ei; Natron zusätzlich zum Backpulver reagiert mit dem Joghurt. Hoher Einlage-Anteil (250 g Beeren auf 250 g Mehl), längste Backzeit im Korpus."
+    "notizen": "Nur 1 Ei; Natron zusätzlich zum Backpulver reagiert mit dem Joghurt. Hoher Einlage-Anteil (250 g Beeren auf 250 g Mehl), längste Backzeit im Korpus.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 5★ (32 Stimmen) +0,5"
   },
   {
     "id": "oetker-buttermilch-muffins",
@@ -537,7 +547,9 @@
       "original": "180 °C (Ober-/Unterhitze) oder 160 °C (Umluft), etwa 25 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "All-in-Teig. Im Original werden zusätzlich 2/3 einer Packung Buchstaben-Zuckerstreusel in den Teig gerührt und die Muffins mit Puderzucker-Buttermilch-Guss verziert; Dekor und Guss nicht als Teigzutaten erfasst."
+    "notizen": "All-in-Teig. Im Original werden zusätzlich 2/3 einer Packung Buchstaben-Zuckerstreusel in den Teig gerührt und die Muffins mit Puderzucker-Buttermilch-Guss verziert; Dekor und Guss nicht als Teigzutaten erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,4★ (21 Stimmen) ±0"
   },
   {
     "id": "oetker-muffins-mit-schokostueckchen",
@@ -625,7 +637,9 @@
       "original": "Ober-/Unterhitze etwa 180 °C, Heißluft etwa 160 °C, etwa 25 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Keine zusätzliche Flüssigkeit – Feuchtigkeit kommt nur aus 3 Eiern und 150 g Butter; eher Rührkuchenteig in Muffinform. Butter-Anteil relativ zum Mehl (75 %) am höchsten im Korpus."
+    "notizen": "Keine zusätzliche Flüssigkeit – Feuchtigkeit kommt nur aus 3 Eiern und 150 g Butter; eher Rührkuchenteig in Muffinform. Butter-Anteil relativ zum Mehl (75 %) am höchsten im Korpus.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,1★ (2514 Stimmen) ±0"
   },
   {
     "id": "lecker-klassische-blaubeermuffins",
@@ -719,7 +733,9 @@
       "original": "190 °C (E-Herd), ca. 18 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Sehr mehlreich (350 g) bei wenig Milch und geschmolzener Butter, dazu die höchste Backtemperatur der Gruppe. Klassischer Muffin-Weg mit kurzem Rühren und viel Obst."
+    "notizen": "Sehr mehlreich (350 g) bei wenig Milch und geschmolzener Butter, dazu die höchste Backtemperatur der Gruppe. Klassischer Muffin-Weg mit kurzem Rühren und viel Obst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,4★ (423 Stimmen) ±0"
   },
   {
     "id": "kuechengoetter-saure-sahne-muffins",
@@ -798,7 +814,9 @@
       "original": "Vorheizen 180 °, gebacken Umluft 160 °, ca. 20 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Drei große Eier und saure Sahne als einzige Flüssigkeit, wenig Mehl (200 g): sehr eireicher, weicher Teig. Butter hier schaumig geschlagen statt geschmolzen."
+    "notizen": "Drei große Eier und saure Sahne als einzige Flüssigkeit, wenig Mehl (200 g): sehr eireicher, weicher Teig. Butter hier schaumig geschlagen statt geschmolzen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "homemade-baked-schnelle-schokomuffins",
@@ -884,7 +902,9 @@
       "original": "180 °C Ober-/Unterhitze, 20-25 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Margarine statt Butter und Sprudelwasser als einzige Flüssigkeit, kein Milchprodukt. Sehr kurze Zutatenliste, Schokolade ist mit 120 g für den Teig reichlich."
+    "notizen": "Margarine statt Butter und Sprudelwasser als einzige Flüssigkeit, kein Milchprodukt. Sehr kurze Zutatenliste, Schokolade ist mit 120 g für den Teig reichlich.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 5★ (15 Stimmen) +0,5"
   },
   {
     "id": "essen-und-trinken-rosinenmuffins",
@@ -984,7 +1004,9 @@
       "original": "180 °C (Modus nicht angegeben), ca. 25 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Süß (200 g Zucker) mit Margarine, Joghurt und nur 40 g Rosinen. Eine Messerspitze Natron aus dem Original ist nicht erfasst. Seite hat noch keine Bewertung."
+    "notizen": "Süß (200 g Zucker) mit Margarine, Joghurt und nur 40 g Rosinen. Eine Messerspitze Natron aus dem Original ist nicht erfasst. Seite hat noch keine Bewertung.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "backenmachtgluecklich-rosinen-muffins-joghurt",
@@ -1099,7 +1121,9 @@
       "original": "175 °C Ober-/Unterhitze, 20-22 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Öl-Joghurt-Teig mit Natron und viel Rosinen (120 g), dazu Zitrone und Zimt. Der Einweichsaft/Rum (2 EL) ist nicht erfasst. Nur 3 Bewertungen."
+    "notizen": "Öl-Joghurt-Teig mit Natron und viel Rosinen (120 g), dazu Zitrone und Zimt. Der Einweichsaft/Rum (2 EL) ist nicht erfasst. Nur 3 Bewertungen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (3 Stimmen) ±0"
   },
   {
     "id": "madamecuisine-einfache-schokomuffins",
@@ -1213,7 +1237,9 @@
       "original": "Umluft 220 °C vorheizen, nach 5 Minuten auf 175 °C reduzieren, insgesamt ca. 20 Minuten"
     },
     "stueckzahl": 14,
-    "notizen": "Kakao plus Natron und Öl, saure Sahne und Milch zusammen als Flüssigkeit. Ergibt laut Seite 14 Muffins; Start mit 5 Minuten Hitzeschock bei 220 °C. Rohrzucker als zucker erfasst."
+    "notizen": "Kakao plus Natron und Öl, saure Sahne und Milch zusammen als Flüssigkeit. Ergibt laut Seite 14 Muffins; Start mit 5 Minuten Hitzeschock bei 220 °C. Rohrzucker als zucker erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (5 Stimmen) ±0"
   },
   {
     "id": "heidelberg24-grundrezept-muffins",
@@ -1292,7 +1318,9 @@
       "original": "180 °C Ober-/Unterhitze, 20-25 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Sehr schlankes Basisrezept ohne Einlage, geschmolzene Butter und Milch, wenig Zucker (100 g). Die Stückzahl steht nicht auf der Seite, 12 ergibt sich aus der 12er-Form. Keine Bewertungen (Ratgeberseite)."
+    "notizen": "Sehr schlankes Basisrezept ohne Einlage, geschmolzene Butter und Milch, wenig Zucker (100 g). Die Stückzahl steht nicht auf der Seite, 12 ergibt sich aus der 12er-Form. Keine Bewertungen (Ratgeberseite).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "swissmilk-muffins-mit-schokostueckchen",
@@ -1385,6 +1413,8 @@
       "original": "180 °C Ober-/Unterhitze (Umluft 160 °C), 30-35 Minuten"
     },
     "stueckzahl": 12,
-    "notizen": "Klassische Butterrührung mit wechselweise Mehl und Milch, viel Schokolade (160 g) und 3 TL Backpulver. Mit 30-35 Minuten auffallend lange Backzeit. Schweizer Seite, Milchmenge als 2 dl umgerechnet."
+    "notizen": "Klassische Butterrührung mit wechselweise Mehl und Milch, viel Schokolade (160 g) und 3 TL Backpulver. Mit 30-35 Minuten auffallend lange Backzeit. Schweizer Seite, Milchmenge als 2 dl umgerechnet.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 3,9★ (53 Stimmen) ±0"
   }
 ]

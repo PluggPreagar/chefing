@@ -85,7 +85,9 @@
       "minuten": 60,
       "original": "Ober-/Unterhitze etwa 180 °C, Heißluft etwa 160 °C, etwa 60 Min."
     },
-    "notizen": "Kastenform 25 x 11 cm. Backpulver als 4 gestrichene TL statt Päckchen angegeben. Sehr fettreich (Butter:Mehl 250:300), wenig Flüssigkeit (2 EL Milch)."
+    "notizen": "Kastenform 25 x 11 cm. Backpulver als 4 gestrichene TL statt Päckchen angegeben. Sehr fettreich (Butter:Mehl 250:300), wenig Flüssigkeit (2 EL Milch).",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,2★ (585 Stimmen) ±0"
   },
   {
     "id": "lecker-ruehrteig-kastenkuchen",
@@ -173,7 +175,9 @@
       "minuten": 60,
       "original": "E-Herd: 175 °C / Umluft: 150 °C / Gas: Stufe 2, ca. 60 Minuten"
     },
-    "notizen": "Kastenform 30 cm Länge, 2 3/4 Liter Inhalt. Puderzucker zum Bestäuben nicht als Teigzutat erfasst."
+    "notizen": "Kastenform 30 cm Länge, 2 3/4 Liter Inhalt. Puderzucker zum Bestäuben nicht als Teigzutat erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 3,7★ (43 Stimmen) −0,5"
   },
   {
     "id": "gutekueche-ruehrkuchen",
@@ -239,7 +243,9 @@
       "minuten": 47.5,
       "original": "ca. 45-50 Min. bei 180° C Ober-/Unterhitze"
     },
-    "notizen": "Kastenform ohne Größenangabe. Pound-Cake-Typ: gleiche Teile Mehl/Zucker/Butter (220 g), ohne Backpulver und ohne Flüssigkeit; Staubzucker statt Kristallzucker."
+    "notizen": "Kastenform ohne Größenangabe. Pound-Cake-Typ: gleiche Teile Mehl/Zucker/Butter (220 g), ohne Backpulver und ohne Flüssigkeit; Staubzucker statt Kristallzucker.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,3★ (129 Stimmen) ±0 · Ausreißer bei Triebkraft (Backpulver-Äq.) −0,5"
   },
   {
     "id": "familienkost-ruehrkuchen-grundrezept",
@@ -325,7 +331,9 @@
       "minuten": 55,
       "original": "185°C Ober-/ Unterhitze für 55 Minuten"
     },
-    "notizen": "Rezepttext: 'normale Kastenform'; laut Autorenantwort in den Kommentaren 25 cm lang. Vergleichsweise fett- und zuckerarm (je 125 g auf 250 g Mehl), viel Milch."
+    "notizen": "Rezepttext: 'normale Kastenform'; laut Autorenantwort in den Kommentaren 25 cm lang. Vergleichsweise fett- und zuckerarm (je 125 g auf 250 g Mehl), viel Milch.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 5★ (124 Stimmen) +0,5"
   },
   {
     "id": "zimtliebe-saftiger-ruehrkuchen-mit-oel",
@@ -405,7 +413,9 @@
       "minuten": 52.5,
       "original": "50-55 Minuten, 180 °C Ober-/Unterhitze (160 °C Umluft)"
     },
-    "notizen": "30 cm Kastenform. Öl statt Butter, kein Salz. Optionale Zitronenglasur (250 g Puderzucker, 1-3 EL Zitronensaft) nicht als Teigzutat erfasst. Bewertung auf der Seite als '5 von 7 Bewertungen' angezeigt (interpretiert als 5 Sterne bei 7 Stimmen)."
+    "notizen": "30 cm Kastenform. Öl statt Butter, kein Salz. Optionale Zitronenglasur (250 g Puderzucker, 1-3 EL Zitronensaft) nicht als Teigzutat erfasst. Bewertung auf der Seite als '5 von 7 Bewertungen' angezeigt (interpretiert als 5 Sterne bei 7 Stimmen).",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (7 Stimmen) ±0"
   },
   {
     "id": "herzelieb-schmandkuchen-kastenform",
@@ -514,7 +524,9 @@
       "minuten": 45,
       "original": "180 °C Ober-/Unterhitze, 45 Minuten"
     },
-    "notizen": "25 cm Kastenform. Saure Flüssigkeit (200 g Schmand) plus Milch und Orangensaft; Salz in Gramm angegeben; Mehl Typ 550. Kurze Backzeit (45 Min.) mit Kerntemperatur-Angabe. Keine Sternebewertung auf der Seite gefunden."
+    "notizen": "25 cm Kastenform. Saure Flüssigkeit (200 g Schmand) plus Milch und Orangensaft; Salz in Gramm angegeben; Mehl Typ 550. Kurze Backzeit (45 Min.) mit Kerntemperatur-Angabe. Keine Sternebewertung auf der Seite gefunden.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "lecker-zitronen-joghurt-kuchen",
@@ -602,7 +614,9 @@
       "minuten": 57.5,
       "original": "E-Herd: 175 °C / Umluft: 150 °C / Gas: Stufe 2, 55-60 Minuten"
     },
-    "notizen": "Kastenform 25 cm Länge, 1,5 Liter Inhalt. Saure Flüssigkeit (250 g Joghurt) plus Zitronensaft; nur 2 Eier und 125 g Fett bei 275 g Mehl, dafür hoher Zuckeranteil. Zitronensirup (50 g Zucker, 120 ml Wasser, 3 EL Zitronensaft) zum Tränken nicht als Teigzutat erfasst."
+    "notizen": "Kastenform 25 cm Länge, 1,5 Liter Inhalt. Saure Flüssigkeit (250 g Joghurt) plus Zitronensaft; nur 2 Eier und 125 g Fett bei 275 g Mehl, dafür hoher Zuckeranteil. Zitronensirup (50 g Zucker, 120 ml Wasser, 3 EL Zitronensaft) zum Tränken nicht als Teigzutat erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 3,8★ (21 Stimmen) ±0"
   },
   {
     "id": "essen-und-trinken-double-chocolate-kastenkuchen",
@@ -696,7 +710,9 @@
       "original": "175 °C, Umluft 150 °C, unterste Schiene, 75-80 Min."
     },
     "stueckzahl": 15,
-    "notizen": "Sehr schokoladig: geschmolzene Kuvertüre im Teig plus Schokostücke, dazu saure Sahne als Feuchtigkeitsgeber. Mandelblättchen (50 g, im Teig) sind nicht erfasst; Sahne und Lemon Curd sind nur Beilage."
+    "notizen": "Sehr schokoladig: geschmolzene Kuvertüre im Teig plus Schokostücke, dazu saure Sahne als Feuchtigkeitsgeber. Mandelblättchen (50 g, im Teig) sind nicht erfasst; Sahne und Lemon Curd sind nur Beilage.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "kuechengoetter-ruck-zuck-kuchen",
@@ -768,7 +784,9 @@
       "original": "Vorheizen auf 220 °C, nach dem Einschieben auf 180 °C reduzieren, Mitte, 35-40 Min."
     },
     "stueckzahl": 12,
-    "notizen": "Extrem schlichter Ein-Schüssel-Teig mit viel Öl und halb Mehl, halb Stärke, ohne Milch oder Joghurt; die Krume wird dadurch fein. Kleine Form (20 cm, 1 l), daher kleine Teigmenge; Ofen wird nach dem Einschieben von 220 auf 180 °C gesenkt."
+    "notizen": "Extrem schlichter Ein-Schüssel-Teig mit viel Öl und halb Mehl, halb Stärke, ohne Milch oder Joghurt; die Krume wird dadurch fein. Kleine Form (20 cm, 1 l), daher kleine Teigmenge; Ofen wird nach dem Einschieben von 220 auf 180 °C gesenkt.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "kochbar-saftiger-heidelbeerkuchen-schmand",
@@ -861,7 +879,9 @@
       "original": "180 °C, Umluft 160 °C, unteres Drittel, ca. 60 Min."
     },
     "stueckzahl": 10,
-    "notizen": "Kleiner Teig (nur 2 Eier) mit Schmand als Hauptflüssigkeit und frischen Beeren. Kommentare melden gesunkene Beeren; Tipp: vorher in Mehl wälzen. Puderzuckerglasur und Deko-Beeren sind nicht erfasst."
+    "notizen": "Kleiner Teig (nur 2 Eier) mit Schmand als Hauptflüssigkeit und frischen Beeren. Kommentare melden gesunkene Beeren; Tipp: vorher in Mehl wälzen. Puderzuckerglasur und Deko-Beeren sind nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (6 Stimmen) ±0"
   },
   {
     "id": "eat-saftiger-marmorkuchen-mit-oel",
@@ -954,7 +974,9 @@
       "original": "180 °C Ober-/Unterhitze, mittlere Schiene, ca. 50 Min."
     },
     "stueckzahl": null,
-    "notizen": "Öl und Wasser statt Butter und Milch; Eiweiß wird separat als Schnee untergehoben, das macht die Krume besonders locker. Kakao nur im halben Teig (Marmorierung); Schokoglasur ist nicht erfasst."
+    "notizen": "Öl und Wasser statt Butter und Milch; Eiweiß wird separat als Schnee untergehoben, das macht die Krume besonders locker. Kakao nur im halben Teig (Marmorierung); Schokoglasur ist nicht erfasst.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 4,9★ (84 Stimmen) +0,5"
   },
   {
     "id": "marions-kochbuch-rosinenkuchen-margarine",
@@ -1054,7 +1076,9 @@
       "original": "180 °C (ohne Angabe Ober-/Unterhitze oder Umluft), mittlere Schiene, 55 Min."
     },
     "stueckzahl": null,
-    "notizen": "Klassischer Rosinenkuchen mit Margarine und wenig Flüssigkeit; Rosinen machen 200 g auf 250 g Mehl aus (hoher Einlageanteil). Seite zeigt keine Bewertung."
+    "notizen": "Klassischer Rosinenkuchen mit Margarine und wenig Flüssigkeit; Rosinen machen 200 g auf 250 g Mehl aus (hoher Einlageanteil). Seite zeigt keine Bewertung.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "backenmitleidenschaft-marmor-kastenkuchen-buttermilch",
@@ -1162,7 +1186,9 @@
       "original": "180 °C Ober-/Unterhitze, mittlere Schiene, ca. 45 Min."
     },
     "stueckzahl": null,
-    "notizen": "Buttermilch wird direkt nach den Eiern eingerührt, nicht abwechselnd mit dem Mehl; mit nur 80 g Zucker bei 180 g Butter auffallend wenig süß. Blog ohne Bewertungen, Formgröße nicht genannt."
+    "notizen": "Buttermilch wird direkt nach den Eiern eingerührt, nicht abwechselnd mit dem Mehl; mit nur 80 g Zucker bei 180 g Butter auffallend wenig süß. Blog ohne Bewertungen, Formgröße nicht genannt.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Blog-Quelle −0,5"
   },
   {
     "id": "einfachmalene-zitronenkuchen-joghurt-kastenform",
@@ -1248,7 +1274,9 @@
       "original": "180 °C Ober-/Unterhitze, mindestens 50 Min."
     },
     "stueckzahl": null,
-    "notizen": "Wenig Öl (80 g), dafür viel Joghurt und reichlich Zitronenabrieb; Eier und Zucker werden mit dem Joghurt aufgeschlagen statt Fett cremig zu rühren. Nicht erfasst: Zitronensaft einer Zitrone, Zitronenaroma (4 Tropfen) und Zuckerguss."
+    "notizen": "Wenig Öl (80 g), dafür viel Joghurt und reichlich Zitronenabrieb; Eier und Zucker werden mit dem Joghurt aufgeschlagen statt Fett cremig zu rühren. Nicht erfasst: Zitronensaft einer Zitrone, Zitronenaroma (4 Tropfen) und Zuckerguss.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 4,9★ (230 Stimmen) +0,5"
   },
   {
     "id": "the-inspiring-life-ruehrkuchen-mit-schokostueckchen",
@@ -1341,6 +1369,8 @@
       "original": "180 °C Umluft, 50-60 Min., Stäbchenprobe nach 50 Min."
     },
     "stueckzahl": null,
-    "notizen": "Sehr große Teigmenge (500 g Mehl, 250 g Butter); laut Kommentaren passt sie nur in eine 30-cm-Form (2/3 gefüllt) und die Mitte war teils noch roh. Blog ohne Bewertungen; Schokoglasur nicht erfasst."
+    "notizen": "Sehr große Teigmenge (500 g Mehl, 250 g Butter); laut Kommentaren passt sie nur in eine 30-cm-Form (2/3 gefüllt) und die Mitte war teils noch roh. Blog ohne Bewertungen; Schokoglasur nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Blog-Quelle −0,5"
   }
 ]

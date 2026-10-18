@@ -1,5 +1,6 @@
 import { toGrams, bakersPercent, summarize } from './units.js';
 import { bilanz, GROESSEN } from './bilanz.js';
+import { effektiveQualitaet, istManuell } from './qualitaet.js';
 
 export const ROLLEN = ['struktur', 'fett', 'suesse', 'bindung', 'fluessigkeit', 'trieb', 'aroma', 'einlage'];
 
@@ -105,7 +106,11 @@ export function stats(normalized, rollen = ROLLEN, { proMethode = true } = {}) {
       methode: r.methode,
       fettTyp: r.fettTyp,
       sauer: r.sauer,
+      qualitaet: effektiveQualitaet(r),
+      qualitaetGrund: istManuell(r) ? `manuell gesetzt${r.qualitaet_grund ? ` (Vorschlag ${r.qualitaet}: ${r.qualitaet_grund})` : ''}` : r.qualitaet_grund ?? null,
     })),
+    // Nur zur Anzeige (T50): geht in keine Mengenberechnung ein.
+    qualitaet: summarize(normalized.map((r) => effektiveQualitaet(r))),
     unbekannt: normalized.flatMap((r) => r.unbekannt.map((z) => `${r.id}: ${z.zutat} (${z.menge} ${z.einheit})`)),
     proMethode: Object.fromEntries(
       Object.entries(nachMethode).filter(([, liste]) => liste.length >= MIN_N_METHODE).map(([m, liste]) => [m, stats(liste, rollen, { proMethode: false })]),

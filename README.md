@@ -24,7 +24,7 @@ Tests (Node ≥ 18, keine Abhängigkeiten):
 sh test/run.sh
 ```
 
-Jede Datei `test/*.check.mjs` ist eine eigene Suite (13 Suiten, rund 280 Fälle). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
+Jede Datei `test/*.check.mjs` ist eine eigene Suite (14 Suiten, rund 310 Fälle). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
 
 ```bash
 git config core.hooksPath .githooks
@@ -52,10 +52,12 @@ src/model/                   Engine ohne DOM (testbar)
   bilanz.js                  Gesamtbilanz, Grenzen, Kaskaden-Vorschläge, Korpus-Toleranz
   zeit.js                    Zeit-Fenster und Zeitleiste
   corpus.js, units.js        Korpus laden, normalisieren, Statistik, Einheiten → Gramm
+  qualitaet.js               Qualitätsnote je Korpus-Rezept (Vorschlag, Überschreiben)
   korrelation*.js            Regel-Kandidaten aus dem Korpus
   overrides.js, errorRequests.js   Feedback-Schleife
 src/ui/                      Morphologischer Kasten, Ablaufdiagramm, Rezeptkarte, Statistik, Icons
 src/data/                    alle Fachdaten als JSON (siehe unten)
+tools/                       Pflege-Skripte (Qualitätsnote)
 test/                        headless-Checks, `sh test/run.sh`
 docs/                        TODO.md (+ Archiv), DECISIONS.md, QUELLEN.md
 HANDOFF/                     Abgleich zwischen Planung (claude.ai) und Umsetzung (Laptop)
@@ -97,7 +99,8 @@ Der Archetyp-Umschalter erscheint automatisch, sobald es mehr als einen Archetyp
 - **Breite vor Tiefe**: viele Domains, je Domain höchstens ein Rezept.
 - Jede Web-Recherche wird in [docs/QUELLEN.md](docs/QUELLEN.md) protokolliert, pro Domain.
 - Mengen aus Seiten-Zusammenfassungen sind nicht gegengeprüft; Auffälligkeiten stehen in `notizen` je Rezept.
-- Vor dem Einpflegen prüfen: Zutat-Schlüssel, Rollen, Einheiten, Dubletten (id und URL), Grenzen. Rezepte, die nicht ins Raster passen (Sauerteig, Honig, andere Mehlsorten), lieber weglassen als erfinden.
+- Vor dem Einpflegen prüfen: Zutat-Schlüssel, Rollen, Einheiten, Dubletten (id und URL), Grenzen.
+- **Qualitätsnote 1–5** je Rezept (`qualitaet`, mit Begründung in `qualitaet_grund`): nach neuen Rezepten `node tools/qualitaet.mjs --write` ausführen. Eigene Note: `qualitaet_manuell` im Rezept setzen, das Skript fasst sie nie an. Die Note wird nur angezeigt, Mengen rechnen unabhängig davon (DR-026). Rezepte, die nicht ins Raster passen (Sauerteig, Honig, andere Mehlsorten), lieber weglassen als erfinden.
 
 ## Arbeitsweise
 

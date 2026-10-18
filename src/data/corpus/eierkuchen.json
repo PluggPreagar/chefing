@@ -56,7 +56,9 @@
       "original": "ca. 3 Min. erste Seite, 2–3 Min. zweite Seite"
     },
     "stueckzahl": null,
-    "notizen": "Mehl:Milch genau 1:2, nur Prise Zucker und Salz, kein Fett im Teig. Pro Portion nur eine Kelle (ca. 90 ml), vergleichsweise lange Backzeit je Seite."
+    "notizen": "Mehl:Milch genau 1:2, nur Prise Zucker und Salz, kein Fett im Teig. Pro Portion nur eine Kelle (ca. 90 ml), vergleichsweise lange Backzeit je Seite.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (4 Stimmen) ±0"
   },
   {
     "id": "lecker-crepes-einfacher-grundteig",
@@ -129,7 +131,9 @@
       "original": "je Seite 1–2 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "Mehl:Milch 1:2 mit geschmolzener Butter im Teig und Vanillezucker. Optional 1 EL Cognac (nicht erfasst), Zucker fehlt im Teig."
+    "notizen": "Mehl:Milch 1:2 mit geschmolzener Butter im Teig und Vanillezucker. Optional 1 EL Cognac (nicht erfasst), Zucker fehlt im Teig.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,2★ (102 Stimmen) ±0"
   },
   {
     "id": "kuechengoetter-pfannkuchen-grundrezept",
@@ -187,7 +191,9 @@
       "original": "nicht angegeben"
     },
     "stueckzahl": 8,
-    "notizen": "Sehr schlichtes 1:2-Grundrezept ohne Fett im Teig, viel Ei (4 auf 200 g Mehl). Süße Varianten (Zucker/Vanillezucker/Zitrusschale) sind nur optional genannt und nicht erfasst."
+    "notizen": "Sehr schlichtes 1:2-Grundrezept ohne Fett im Teig, viel Ei (4 auf 200 g Mehl). Süße Varianten (Zucker/Vanillezucker/Zitrusschale) sind nur optional genannt und nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5"
   },
   {
     "id": "oetker-pfannkuchen-eierkuchen",
@@ -260,7 +266,9 @@
       "original": "Unterseite ca. 1–2 Minuten"
     },
     "stueckzahl": 7,
-    "notizen": "Flüssigkeit zu 3/4 Milch und 1/4 Sprudel, Mehl:Flüssigkeit 1:2. Mehr Fett als üblich zum Ausbacken (ca. 80 g Butter oder 8 EL Öl, nicht erfasst)."
+    "notizen": "Flüssigkeit zu 3/4 Milch und 1/4 Sprudel, Mehl:Flüssigkeit 1:2. Mehr Fett als üblich zum Ausbacken (ca. 80 g Butter oder 8 EL Öl, nicht erfasst).",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,1★ (1229 Stimmen) ±0"
   },
   {
     "id": "gutekueche-einfaches-palatschinkenrezept",
@@ -319,7 +327,9 @@
       "original": "nicht angegeben"
     },
     "stueckzahl": null,
-    "notizen": "Mit nur 2 Eiern auf 250 g Mehl sehr eiarm, Mehl:Milch 1:2. Marmelade und Staubzucker nur als Belag genannt, nicht erfasst."
+    "notizen": "Mit nur 2 Eiern auf 250 g Mehl sehr eiarm, Mehl:Milch 1:2. Marmelade und Staubzucker nur als Belag genannt, nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,5★ (45309 Stimmen) ±0 · Backzeit fehlt −0,5"
   },
   {
     "id": "gutekueche-palatschinken-mit-mineralwasser",
@@ -384,7 +394,9 @@
       "original": "nicht angegeben"
     },
     "stueckzahl": null,
-    "notizen": "Flüssigkeit je zur Hälfte Milch und Sprudel, Mehl:Flüssigkeit etwa 1:2. Der Margarine-Anteil (2 EL Rama) dient der Pfanne und ist nicht erfasst."
+    "notizen": "Flüssigkeit je zur Hälfte Milch und Sprudel, Mehl:Flüssigkeit etwa 1:2. Der Margarine-Anteil (2 EL Rama) dient der Pfanne und ist nicht erfasst.",
+    "qualitaet": 3,
+    "qualitaet_grund": "Seite 4,5★ (239 Stimmen) ±0 · Backzeit fehlt −0,5 · Ausreißer bei Zucker −0,5"
   },
   {
     "id": "essen-und-trinken-pfannkuchen-lecker-und-locker",
@@ -463,7 +475,9 @@
       "original": "nicht angegeben"
     },
     "stueckzahl": null,
-    "notizen": "Reichhaltiger Teig: 80 g Butter direkt im Teig, Flüssigkeit 70 % Milch und 30 % Wasser, Mehl:Flüssigkeit 1:2. Alle Zutaten werden gleichzeitig verrührt, nicht schrittweise."
+    "notizen": "Reichhaltiger Teig: 80 g Butter direkt im Teig, Flüssigkeit 70 % Milch und 30 % Wasser, Mehl:Flüssigkeit 1:2. Alle Zutaten werden gleichzeitig verrührt, nicht schrittweise.",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5 · Ausreißer bei Reinfett −0,5"
   },
   {
     "id": "desired-original-crepes",
@@ -535,7 +549,9 @@
       "original": "60 bis 90 Sekunden pro Seite"
     },
     "stueckzahl": null,
-    "notizen": "Klassischer Crêpe-Teig mit Butter im Teig und 4 Eiern auf 250 g Mehl, also eierreich und sehr flüssig (Mehl:Flüssigkeit 1:2). Stückzahl nennt die Seite nicht, nur 8 Portionen."
+    "notizen": "Klassischer Crêpe-Teig mit Butter im Teig und 4 Eiern auf 250 g Mehl, also eierreich und sehr flüssig (Mehl:Flüssigkeit 1:2). Stückzahl nennt die Seite nicht, nur 8 Portionen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "kochbar-buttermilch-pfannkuchen",
@@ -607,7 +623,9 @@
       "original": "nicht angegeben (Gesamtzeit 20 Minuten)"
     },
     "stueckzahl": null,
-    "notizen": "Sehr eierreich (5 Eier auf 250 g Mehl) und die einzige Buttermilch-Variante, mit Wasser verdünnt (Mehl:Flüssigkeit 1:2,5). Rapsöl (5 EL) und Zitronenschale stehen in der Liste, sind aber Bratfett bzw. nur 'etwas' und wurden weggelassen."
+    "notizen": "Sehr eierreich (5 Eier auf 250 g Mehl) und die einzige Buttermilch-Variante, mit Wasser verdünnt (Mehl:Flüssigkeit 1:2,5). Rapsöl (5 EL) und Zitronenschale stehen in der Liste, sind aber Bratfett bzw. nur 'etwas' und wurden weggelassen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (54 Stimmen) +0,5 · Backzeit fehlt −0,5"
   },
   {
     "id": "ddr-rezepte-eierkuchen-grundrezept",
@@ -665,7 +683,9 @@
       "original": "nicht angegeben (beidseitig goldbraun, Gesamtzeit 20 Minuten)"
     },
     "stueckzahl": 9,
-    "notizen": "Sehr eierarm (2 Eier auf 250 g Mehl), kein Zucker und kein Fett im Teig (Mehl:Flüssigkeit 1:2). Flüssigkeit laut Quelle frei wählbar (Milch, Wasser oder halb/halb), hier als reine Milch erfasst; Stückzahl 8 bis 10 als 9."
+    "notizen": "Sehr eierarm (2 Eier auf 250 g Mehl), kein Zucker und kein Fett im Teig (Mehl:Flüssigkeit 1:2). Flüssigkeit laut Quelle frei wählbar (Milch, Wasser oder halb/halb), hier als reine Milch erfasst; Stückzahl 8 bis 10 als 9.",
+    "qualitaet": 3,
+    "qualitaet_grund": "Seite 3,9★ (69 Stimmen) −0,5 · Backzeit fehlt −0,5"
   },
   {
     "id": "foodtempel-duenne-pfannkuchen-mineralwasser-milch",
@@ -744,7 +764,9 @@
       "original": "nicht angegeben (mittlere Hitze bis goldgelb)"
     },
     "stueckzahl": null,
-    "notizen": "Milch und Mineralwasser zu gleichen Teilen (Mehl:Flüssigkeit etwa 1:1,9), dazu wenig Zucker und Vanilleextrakt. Ruhezeit mit 1 Stunde im Kühlschrank vergleichsweise lang; Stückzahl nennt die Seite nicht."
+    "notizen": "Milch und Mineralwasser zu gleichen Teilen (Mehl:Flüssigkeit etwa 1:1,9), dazu wenig Zucker und Vanilleextrakt. Ruhezeit mit 1 Stunde im Kühlschrank vergleichsweise lang; Stückzahl nennt die Seite nicht.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (10 Stimmen) ±0 · Backzeit fehlt −0,5"
   },
   {
     "id": "alltagskitchen-einfaches-grundrezept-pfannkuchen",
@@ -816,7 +838,9 @@
       "original": "ca. 2-3 Minuten pro Seite"
     },
     "stueckzahl": null,
-    "notizen": "Milch und Mineralwasser je 250 ml (Mehl:Flüssigkeit 1:2) plus 2 EL Fett im Teig; Quelle erlaubt Öl oder Butter, hier als Pflanzenöl erfasst. Optionale Orangen-/Zitronenschale weggelassen; nur 2 Bewertungen."
+    "notizen": "Milch und Mineralwasser je 250 ml (Mehl:Flüssigkeit 1:2) plus 2 EL Fett im Teig; Quelle erlaubt Öl oder Butter, hier als Pflanzenöl erfasst. Optionale Orangen-/Zitronenschale weggelassen; nur 2 Bewertungen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,5★ (2 Stimmen) ±0 · Ausreißer bei Zucker −0,5"
   },
   {
     "id": "zwilling-crepes",
@@ -881,7 +905,9 @@
       "original": "ca. 2-3 Minuten pro Seite bei mittlerer Hitze"
     },
     "stueckzahl": null,
-    "notizen": "Fast identisch mit dem desired.de-Teig (4 Eier, 500 ml Milch, 50 g Butter auf 250 g Mehl), aber ohne Zucker und ohne Ruhezeit, da im Mixer gerührt. Seite nennt 8 bis 10 Personen statt Stückzahl."
+    "notizen": "Fast identisch mit dem desired.de-Teig (4 Eier, 500 ml Milch, 50 g Butter auf 250 g Mehl), aber ohne Zucker und ohne Ruhezeit, da im Mixer gerührt. Seite nennt 8 bis 10 Personen statt Stückzahl.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "familienkost-eierkuchen",
@@ -946,7 +972,9 @@
       "original": "erste Seite ca. 30 Sekunden, zweite Seite nicht angegeben"
     },
     "stueckzahl": null,
-    "notizen": "Mit 350 g Mehl und 4 Eiern mittlerer Eigehalt (etwa 2,9 Eier je 250 g), Mineralwasser erst zuletzt eingerührt (Mehl:Flüssigkeit 1:2). 2 EL Zucker sind nur optional und wurden nicht erfasst; sehr gut bewertet (272 Stimmen)."
+    "notizen": "Mit 350 g Mehl und 4 Eiern mittlerer Eigehalt (etwa 2,9 Eier je 250 g), Mineralwasser erst zuletzt eingerührt (Mehl:Flüssigkeit 1:2). 2 EL Zucker sind nur optional und wurden nicht erfasst; sehr gut bewertet (272 Stimmen).",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (272 Stimmen) +0,5 · Backzeit fehlt −0,5"
   },
   {
     "id": "eat-omas-pfannkuchen-mit-mineralwasser",
@@ -1011,7 +1039,9 @@
       "original": "etwa 2 Minuten pro Seite"
     },
     "stueckzahl": 7,
-    "notizen": "Milchfrei: nur Mineralwasser als Flüssigkeit (Mehl:Flüssigkeit 1:2), mit 2 Eiern auf 100 g Mehl sehr eierreich (5 Eier je 250 g). Stückzahl 6 bis 8 als 7 erfasst."
+    "notizen": "Milchfrei: nur Mineralwasser als Flüssigkeit (Mehl:Flüssigkeit 1:2), mit 2 Eiern auf 100 g Mehl sehr eierreich (5 Eier je 250 g). Stückzahl 6 bis 8 als 7 erfasst.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 4,9★ (35 Stimmen) +0,5"
   },
   {
     "id": "berliner-kurier-eierkuchen-selters",
@@ -1083,6 +1113,8 @@
       "original": "erste Seite ca. 2 Minuten, zweite ca. 1 Minute (Mittelwert)"
     },
     "stueckzahl": null,
-    "notizen": "Ohne Ruhezeit direkt aus der Schüssel gebacken, Selters ersetzt einen Teil der Milch (Mehl:Flüssigkeit 1:1,8). Kein Fett im Teig, Vanillezucker als einzige Süße."
+    "notizen": "Ohne Ruhezeit direkt aus der Schüssel gebacken, Selters ersetzt einen Teil der Milch (Mehl:Flüssigkeit 1:1,8). Kein Fett im Teig, Vanillezucker als einzige Süße.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   }
 ]

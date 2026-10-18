@@ -76,7 +76,9 @@
       "original": "150 °C Ober-/Unterhitze (am besten ohne Umluft), mittlere Schiene, 25-30 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "Kein Ei im Teig (Eigelb nur zum Bestreichen, nicht erfasst). Würfel ohne Grammangabe, 1 Würfel = 42 g (8,4 % vom Mehl, obere Grenze). Backtemperatur 150 °C ungewöhnlich niedrig, steht so im Original. Backzeit Mittelwert aus 25-30 min. Salzprise unter 1 %."
+    "notizen": "Kein Ei im Teig (Eigelb nur zum Bestreichen, nicht erfasst). Würfel ohne Grammangabe, 1 Würfel = 42 g (8,4 % vom Mehl, obere Grenze). Backtemperatur 150 °C ungewöhnlich niedrig, steht so im Original. Backzeit Mittelwert aus 25-30 min. Salzprise unter 1 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
   },
   {
     "id": "lecker-hefezopf-wie-von-oma",
@@ -162,7 +164,9 @@
       "original": "200 °C Ober-/Unterhitze bzw. 175 °C Umluft, ca. 25 Minuten (letzte 10 Min. ggf. mit Alufolie abdecken)"
     },
     "stueckzahl": null,
-    "notizen": "Kurze Hefe-Mehl-Milch-Ruhe von 15 Min. vor dem Kneten (kein echter Vorteig). Hefe 21 g als Frischhefe erfasst, Alternative 1 Päckchen Trockenhefe. Salzprise unter 1 %."
+    "notizen": "Kurze Hefe-Mehl-Milch-Ruhe von 15 Min. vor dem Kneten (kein echter Vorteig). Hefe 21 g als Frischhefe erfasst, Alternative 1 Päckchen Trockenhefe. Salzprise unter 1 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "fuersie-hefezopf-mit-sultaninen",
@@ -254,7 +258,9 @@
       "original": "200 °C 15 Minuten, dann 180 °C 25 Minuten (Betriebsart nicht angegeben)"
     },
     "stueckzahl": 20,
-    "notizen": "Würfel ohne Grammangabe, 1 Würfel = 42 g. Betriebsart der Backtemperatur nicht angegeben, daher beide Temperaturfelder null. Backzeit = 15 + 25 min. Vorteig nur ca. 15 Min. Ruhe der Hefe in der Mehlmulde. Stückzahl 20 Portionen laut Seite."
+    "notizen": "Würfel ohne Grammangabe, 1 Würfel = 42 g. Betriebsart der Backtemperatur nicht angegeben, daher beide Temperaturfelder null. Backzeit = 15 + 25 min. Vorteig nur ca. 15 Min. Ruhe der Hefe in der Mehlmulde. Stückzahl 20 Portionen laut Seite.",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25 · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
   },
   {
     "id": "madamecuisine-osterkranz-hefezopf",
@@ -340,7 +346,9 @@
       "original": "180 °C Umluft, ca. 25 Minuten, 2. Schiene von unten"
     },
     "stueckzahl": null,
-    "notizen": "Ei: 1 Ei laut Liste, ca. 2 EL davon zum Bestreichen, voll als 1 stk erfasst. Hefe 1/2 Würfel = 21 g."
+    "notizen": "Ei: 1 Ei laut Liste, ca. 2 EL davon zum Bestreichen, voll als 1 stk erfasst. Hefe 1/2 Würfel = 21 g.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "meinbezirk-osterstriezel",
@@ -425,7 +433,9 @@
       "original": "170 °C ca. 35 Minuten (Betriebsart nicht angegeben)"
     },
     "stueckzahl": null,
-    "notizen": "Nur Eigelb (2 Dotter = 1 stk). Fett im Original 'Butter oder Öl', als pflanzenoel erfasst. Salz '1 gestrichener EL' als 18 g umgerechnet (1 EL = 3 TL x 6 g). Zitronenschale ohne Menge, nicht erfasst. Methode nennt Rosinen, stehen aber nicht in der Zutatenliste, daher keine Einlage. Mengen für 1 kg Mehl (2 Striezel auf dem Blech) wie angegeben. Betriebsart nicht angegeben."
+    "notizen": "Nur Eigelb (2 Dotter = 1 stk). Fett im Original 'Butter oder Öl', als pflanzenoel erfasst. Salz '1 gestrichener EL' als 18 g umgerechnet (1 EL = 3 TL x 6 g). Zitronenschale ohne Menge, nicht erfasst. Methode nennt Rosinen, stehen aber nicht in der Zutatenliste, daher keine Einlage. Mengen für 1 kg Mehl (2 Striezel auf dem Blech) wie angegeben. Betriebsart nicht angegeben.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25"
   },
   {
     "id": "stuttgarter-zeitung-hefezopf-extrem-fluffig",
@@ -510,7 +520,9 @@
       "original": "200 °C bzw. 180 °C Umluft, 25-30 Minuten, 2. Schiene von unten"
     },
     "stueckzahl": null,
-    "notizen": "Würfel ohne Grammangabe, 1 Würfel = 42 g. Rosinen 'nach Belieben' ohne Menge, daher nicht erfasst. Backzeit Mittelwert 25-30 min. Zusätzlich 15 min Ruhe der Teigkugeln."
+    "notizen": "Würfel ohne Grammangabe, 1 Würfel = 42 g. Rosinen 'nach Belieben' ohne Menge, daher nicht erfasst. Backzeit Mittelwert 25-30 min. Zusätzlich 15 min Ruhe der Teigkugeln.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
   },
   {
     "id": "infranken-hefezopf-traditionell",
@@ -594,7 +606,9 @@
       "original": "200 °C Ober-/Unterhitze, ca. 20 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "Nur 2 EL Zucker (ca. 30 g, 6 % vom Mehl) und Milch 60 % am oberen Rand der Spanne, beides so im Original. 2 Eier im Teig (zusätzliches Ei zum Bestreichen nicht erfasst). Zweite Gare ohne Zeitangabe. Seite nennt Gesamtzeit 50 min, nicht stimmig zur Backzeit."
+    "notizen": "Nur 2 EL Zucker (ca. 30 g, 6 % vom Mehl) und Milch 60 % am oberen Rand der Spanne, beides so im Original. 2 Eier im Teig (zusätzliches Ei zum Bestreichen nicht erfasst). Zweite Gare ohne Zeitangabe. Seite nennt Gesamtzeit 50 min, nicht stimmig zur Backzeit.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "eat-osterzopf-mit-trockenhefe",
@@ -686,7 +700,9 @@
       "original": "160 °C Umluft, ca. 30 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "Eiweiß als 0,5 stk gerechnet (Annahme analog Eigelb), daher 1,5 stk. Salz 1/2 TL = 3 g, unter 1 %. Trockenhefe 7 g x 3 = 3,5 % Frischhefe-Äquivalent. Hefe in lauwarmer Milch mit 10-15 Min. Anspringzeit."
+    "notizen": "Eiweiß als 0,5 stk gerechnet (Annahme analog Eigelb), daher 1,5 stk. Salz 1/2 TL = 3 g, unter 1 %. Trockenhefe 7 g x 3 = 3,5 % Frischhefe-Äquivalent. Hefe in lauwarmer Milch mit 10-15 Min. Anspringzeit.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "kuechengoetter-schwaebischer-hefezopf",
@@ -784,7 +800,9 @@
       "original": "Blech in den kalten Ofen (Mitte), auf 180 °C stellen, nicht Umluft, ca. 35 Minuten"
     },
     "stueckzahl": 20,
-    "notizen": "Betriebsart nur indirekt (Seite rät von Umluft ab), daher als Ober-/Unterhitze erfasst. Würfel ohne Grammangabe, 1 Würfel = 42 g. Kalter Ofen als Start. Keine zweite Gare angegeben. Salzprise unter 1 %."
+    "notizen": "Betriebsart nur indirekt (Seite rät von Umluft ab), daher als Ober-/Unterhitze erfasst. Würfel ohne Grammangabe, 1 Würfel = 42 g. Kalter Ofen als Start. Keine zweite Gare angegeben. Salzprise unter 1 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
   },
   {
     "id": "wunder-kueche-hefezopf-margarine",
@@ -862,7 +880,9 @@
       "original": "180 °C Ober-/Unterhitze, mittlere Schiene, ca. 30 Minuten (evtl. 5-10 Minuten länger)"
     },
     "stueckzahl": null,
-    "notizen": "Kein Ei im Teig. Hefe 1/2 Würfel = 21 g (Alternative 1 Päckchen Trockenhefe). Optional 1/4 TL gemahlene Vanille oder 1 TL Vanillezucker nicht erfasst (Mengenwahl offen). Rosinen nur als optionale Zugabe, nicht im Grundrezept. Hefe-Mehl-Ruhe 20 min vor Hauptteig. Kühlgare nur als Option genannt."
+    "notizen": "Kein Ei im Teig. Hefe 1/2 Würfel = 21 g (Alternative 1 Päckchen Trockenhefe). Optional 1/4 TL gemahlene Vanille oder 1 TL Vanillezucker nicht erfasst (Mengenwahl offen). Rosinen nur als optionale Zugabe, nicht im Grundrezept. Hefe-Mehl-Ruhe 20 min vor Hauptteig. Kühlgare nur als Option genannt.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "utopia-hefezopf-mit-rosinen",
@@ -948,7 +968,9 @@
       "original": "180 °C Ober-/Unterhitze, 40-45 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "Kein Ei im Teig. Fett im Original 'Butter oder vegane Margarine', als margarine erfasst. Hefe '0,5 Packung frische Hefe' ohne Gramm, als 21 g (1/2 Würfel) umgerechnet. Milch 'oder pflanzliche Milch', als Milch erfasst. Backzeit Mittelwert 40-45 min. Salz 2 %."
+    "notizen": "Kein Ei im Teig. Fett im Original 'Butter oder vegane Margarine', als margarine erfasst. Hefe '0,5 Packung frische Hefe' ohne Gramm, als 21 g (1/2 Würfel) umgerechnet. Milch 'oder pflanzliche Milch', als Milch erfasst. Backzeit Mittelwert 40-45 min. Salz 2 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "heimwerker-hefezopf-und-hefekranz",
@@ -1048,7 +1070,9 @@
       "original": "E-Herd 200 °C / Umluft 180 °C / Gas Stufe 3-4, ca. 25 Minuten, mittlere Schiene"
     },
     "stueckzahl": null,
-    "notizen": "Von der Seite wurde nur der 'Hefezopf (zum Vergleich)' erfasst, nicht der Osterkranz. Mehl nur 400 g (Mengen für einen Teig wie angegeben). Hefe 1/2 Würfel = 21 g (5,3 % vom Mehl). Salzprise unter 1 %. Kurze Gare nur 15 min nach dem ersten Kneten."
+    "notizen": "Von der Seite wurde nur der 'Hefezopf (zum Vergleich)' erfasst, nicht der Osterkranz. Mehl nur 400 g (Mengen für einen Teig wie angegeben). Hefe 1/2 Würfel = 21 g (5,3 % vom Mehl). Salzprise unter 1 %. Kurze Gare nur 15 min nach dem ersten Kneten.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "dioezese-linz-osterstriezel-dampfl",
@@ -1148,7 +1172,9 @@
       "original": "180 °C Ober-/Unterhitze, bis goldbraun (keine Zeit angegeben)"
     },
     "stueckzahl": 2,
-    "notizen": "Rosinen ohne Mengenangabe im Original, daher nicht erfasst. Dampfl-Mehl (2 TL) und Dampfl-Milch (ein wenig) ohne genaue Menge, nicht gesondert erfasst; 'Vanillezucker 1 EL' wie im Original. Backzeit fehlt. Ergibt zwei Zöpfe."
+    "notizen": "Rosinen ohne Mengenangabe im Original, daher nicht erfasst. Dampfl-Mehl (2 TL) und Dampfl-Milch (ein wenig) ohne genaue Menge, nicht gesondert erfasst; 'Vanillezucker 1 EL' wie im Original. Backzeit fehlt. Ergibt zwei Zöpfe.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5"
   },
   {
     "id": "kidsrezepte-hefezopf-wie-vom-baecker",
@@ -1248,7 +1274,9 @@
       "original": "200 °C Ober-/Unterhitze, 20-30 Minuten (Mittelwert 25 verwendet)"
     },
     "stueckzahl": null,
-    "notizen": "Vorteig enthält das gesamte Mehl. Salz nur 0,5 TL (ca. 0,6 % vom Mehl, unter 1 %), so im Original. Hefe 7 % vom Mehl (hoch, aber im Original). Backzeit-Spanne 20-30 Min., Mittelwert eingetragen. Mandeln/Hagelzucker nur Belag."
+    "notizen": "Vorteig enthält das gesamte Mehl. Salz nur 0,5 TL (ca. 0,6 % vom Mehl, unter 1 %), so im Original. Hefe 7 % vom Mehl (hoch, aber im Original). Backzeit-Spanne 20-30 Min., Mittelwert eingetragen. Mandeln/Hagelzucker nur Belag.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "diamant-zucker-klassischer-hefezopf",
@@ -1333,7 +1361,9 @@
       "original": "180 °C Ober-/Unterhitze (160 °C Umluft), ca. 25-30 Minuten (Mittelwert 28 verwendet)"
     },
     "stueckzahl": null,
-    "notizen": "Vorteig-Mengen nur als 'etwas' angegeben, Gesamtmengen aber vollständig. Rosinen nur als Tipp (nicht erfasst). Backzeit-Spanne, Mittelwert eingetragen. Stückgare 20-30 Min., Mittelwert 25."
+    "notizen": "Vorteig-Mengen nur als 'etwas' angegeben, Gesamtmengen aber vollständig. Rosinen nur als Tipp (nicht erfasst). Backzeit-Spanne, Mittelwert eingetragen. Stückgare 20-30 Min., Mittelwert 25.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "weightwatchers-osterhefezopf",
@@ -1418,7 +1448,9 @@
       "original": "200 °C (Umluft 180 °C), ca. 15-20 Minuten (Mittelwert 18 verwendet)"
     },
     "stueckzahl": null,
-    "notizen": "Kein Ei im Rezept. Milch 240 ml im Teig (250 ml gesamt minus ca. 10 ml zum Bestreichen, so aus Seite abgeleitet). Zitronenschale 1 EL als 3 TL umgerechnet. Hefe 1 Würfel = 8,75 % vom Mehl. Backzeit- und Stückgare-Spannen, Mittelwerte eingetragen. Vorteig enthält das gesamte Mehl. Fettreduziertes Rezept (Halbfettbutter, Magermilch)."
+    "notizen": "Kein Ei im Rezept. Milch 240 ml im Teig (250 ml gesamt minus ca. 10 ml zum Bestreichen, so aus Seite abgeleitet). Zitronenschale 1 EL als 3 TL umgerechnet. Hefe 1 Würfel = 8,75 % vom Mehl. Backzeit- und Stückgare-Spannen, Mittelwerte eingetragen. Vorteig enthält das gesamte Mehl. Fettreduziertes Rezept (Halbfettbutter, Magermilch).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
   },
   {
     "id": "lecker-hoppelhasen-hefezopf-nacht",
@@ -1502,7 +1534,9 @@
       "original": "180 °C Ober-/Unterhitze bzw. 160 °C Umluft, ca. 25 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "ACHTUNG: Orangenschale wurde als zitronenabrieb gemappt (nicht in Zutatenliste). Nussfüllung nicht erfasst. Wasser nur 33 % vom Mehl (unter 35 %), dafür 3 Eier (reichlich Flüssigkeit aus Ei), so im Original. Teig wird nur verrührt, am nächsten Tag kurz durchgeknetet. Gehzeit 720 Min. = 'über Nacht' (Wert aus Seiten-Angabe Wartezeit, nicht im Fließtext explizit). Hefe: Päckchen Trockenhefe (7 g). Orangenschale (nicht in der Zutatenliste, vom Rechercheagenten ergänzt) nicht erfasst; Gehzeit 720 Min. aus der Wartezeit der Seite abgeleitet."
+    "notizen": "ACHTUNG: Orangenschale wurde als zitronenabrieb gemappt (nicht in Zutatenliste). Nussfüllung nicht erfasst. Wasser nur 33 % vom Mehl (unter 35 %), dafür 3 Eier (reichlich Flüssigkeit aus Ei), so im Original. Teig wird nur verrührt, am nächsten Tag kurz durchgeknetet. Gehzeit 720 Min. = 'über Nacht' (Wert aus Seiten-Angabe Wartezeit, nicht im Fließtext explizit). Hefe: Päckchen Trockenhefe (7 g). Orangenschale (nicht in der Zutatenliste, vom Rechercheagenten ergänzt) nicht erfasst; Gehzeit 720 Min. aus der Wartezeit der Seite abgeleitet.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "rita-ehser-oster-hefezopf-ohne-kneten",
@@ -1601,7 +1635,9 @@
       "original": "175 Grad Ober-/Unterhitze, 28 bis 32 Minuten (Mittelwert 30)"
     },
     "stueckzahl": null,
-    "notizen": "Kuehlschrank 12-14 h (Zeitangabe 12 h gewaehlt) plus 90 Min Raumtemperatur vor dem Formen. Milchanteil nur 30 % (dafuer 3 Eier), Salz nur 1 Prise (unter 1 %), beides wie im Original. Zitronenabrieb/Vanilleextrakt je 1 TL. Einziges echtes No-Knead-Rezept der Zopf-Nachrecherche (nur verrührt). Einziges echtes No-Knead-Rezept der Zopf-Nachrecherche (nur verrührt)."
+    "notizen": "Kuehlschrank 12-14 h (Zeitangabe 12 h gewaehlt) plus 90 Min Raumtemperatur vor dem Formen. Milchanteil nur 30 % (dafuer 3 Eier), Salz nur 1 Prise (unter 1 %), beides wie im Original. Zitronenabrieb/Vanilleextrakt je 1 TL. Einziges echtes No-Knead-Rezept der Zopf-Nachrecherche (nur verrührt). Einziges echtes No-Knead-Rezept der Zopf-Nachrecherche (nur verrührt).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "bella-cooks-and-travels-fluffiger-hefezopf",
@@ -1671,7 +1707,9 @@
       "original": "170 Grad Ober-/Unterhitze, 25-30 Minuten (Mittelwert 28)"
     },
     "stueckzahl": null,
-    "notizen": "Kuehlschrankzeit nur als 'ueber Nacht' angegeben (keine Stunden). Kein Salz und kein Ei im Original (Salz-Plausibilitaet daher nicht erfuellt). Knetzeit nicht genannt. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank (Knetzeit steht nicht auf der Seite, geknetet angenommen). Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank (Knetzeit steht nicht auf der Seite, geknetet angenommen)."
+    "notizen": "Kuehlschrankzeit nur als 'ueber Nacht' angegeben (keine Stunden). Kein Salz und kein Ei im Original (Salz-Plausibilitaet daher nicht erfuellt). Knetzeit nicht genannt. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank (Knetzeit steht nicht auf der Seite, geknetet angenommen). Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank (Knetzeit steht nicht auf der Seite, geknetet angenommen).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Mengen angenommen/unsicher −0,5"
   },
   {
     "id": "zimtblume-hefeteig-kuehlschrank-uebernachtgare",
@@ -1756,7 +1794,9 @@
       "original": "180 Grad Ober-/Unterhitze, je nach Groesse etwa 30 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "Allgemeiner Kuehlschrank-Hefeteig, Hefezopf nur als Beispiel genannt (keine Flecht-/Blechangaben). 10 Min Kneten -> kein echtes No-Knead, aber Kuehlgare 12-18 h (720 gewaehlt). Hefe nur 1 %, Salz nur 1 Prise (unter 1 %), wie im Original. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank."
+    "notizen": "Allgemeiner Kuehlschrank-Hefeteig, Hefezopf nur als Beispiel genannt (keine Flecht-/Blechangaben). 10 Min Kneten -> kein echtes No-Knead, aber Kuehlgare 12-18 h (720 gewaehlt). Hefe nur 1 %, Salz nur 1 Prise (unter 1 %), wie im Original. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
   },
   {
     "id": "heimbaecker-hefezopf-mit-uebernachtgare",
@@ -1842,7 +1882,9 @@
       "original": "180 Grad Ober-/Unterhitze, ca. 30-35 Minuten (Mittelwert 33)"
     },
     "stueckzahl": null,
-    "notizen": "Kneten ca. 8-10 Min (maschinell, mit Butter) -> kein echtes No-Knead, aber lange Kuehlgare. gehen = 60 Min Stockgare + 12 h Kuehlschrank (Spanne 12-16 h). Ei: 100 g = 2 Eier M angegeben. Vanillemark/Zitronenschale nur optional, nicht erfasst. Milch in g wie im Original (als ml gefuehrt). Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank."
+    "notizen": "Kneten ca. 8-10 Min (maschinell, mit Butter) -> kein echtes No-Knead, aber lange Kuehlgare. gehen = 60 Min Stockgare + 12 h Kuehlschrank (Spanne 12-16 h). Ei: 100 g = 2 Eier M angegeben. Vanillemark/Zitronenschale nur optional, nicht erfasst. Milch in g wie im Original (als ml gefuehrt). Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
   },
   {
     "id": "zimtkringel-schweizer-ankezuepfe-butterzopf-xxl",
@@ -1926,7 +1968,9 @@
       "original": "200 Grad Ober-/Unterhitze, 35 bis 40 Minuten (Mittelwert 38)"
     },
     "stueckzahl": null,
-    "notizen": "Mengen fuer 2 Zoepfe (1 kg Mehl). Kuehlzeit nur 'ueber Nacht', Knetzeit nicht genannt. Zucker nur 2 TL (sehr wenig, Schweizer Butterzopf). Teig wird halbiert und aus je zwei Straengen geflochten. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank (Knetzeit steht nicht auf der Seite, geknetet angenommen). Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank (Knetzeit steht nicht auf der Seite, geknetet angenommen)."
+    "notizen": "Mengen fuer 2 Zoepfe (1 kg Mehl). Kuehlzeit nur 'ueber Nacht', Knetzeit nicht genannt. Zucker nur 2 TL (sehr wenig, Schweizer Butterzopf). Teig wird halbiert und aus je zwei Straengen geflochten. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank (Knetzeit steht nicht auf der Seite, geknetet angenommen). Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank (Knetzeit steht nicht auf der Seite, geknetet angenommen).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Mengen angenommen/unsicher −0,5"
   },
   {
     "id": "madamedessert-klassischer-hefezopf-wie-vom-baecker",
@@ -2020,7 +2064,9 @@
       "original": "200 Grad Ober-/Unterhitze, etwa 45 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "Zitronenschale nur optional, nicht erfasst. Vorteig 330 g Mehl + 200 ml Milch + 20 g Hefe reift 30 Min. Milch gesamt 300 ml (45 %)."
+    "notizen": "Zitronenschale nur optional, nicht erfasst. Vorteig 330 g Mehl + 200 ml Milch + 20 g Hefe reift 30 Min. Milch gesamt 300 ml (45 %).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "olis-backegge-butterzopf-mit-vorteig",
@@ -2107,7 +2153,9 @@
       "original": "210 Grad (Betriebsart nicht angegeben), mittlere Schiene, 30-35 Minuten (Mittelwert 33)"
     },
     "stueckzahl": null,
-    "notizen": "Variante 'mit Vorteig' des Rezepts, vorteig = 60 Min RT + 12 h Kuehlschrank (Spanne 12-24 h). Mehltyp nur 'Weissmehl' (CH), als Weizenmehl gefuehrt. Zucker 6 g statt 'Malz oder Zucker'. Ei 25 g = 0.5 Stk. Backofen-Betriebsart nicht genannt, als Ober-/Unterhitze eingetragen. Sehr wenig Zucker (Schweizer Butterzopf)."
+    "notizen": "Variante 'mit Vorteig' des Rezepts, vorteig = 60 Min RT + 12 h Kuehlschrank (Spanne 12-24 h). Mehltyp nur 'Weissmehl' (CH), als Weizenmehl gefuehrt. Zucker 6 g statt 'Malz oder Zucker'. Ei 25 g = 0.5 Stk. Backofen-Betriebsart nicht genannt, als Ober-/Unterhitze eingetragen. Sehr wenig Zucker (Schweizer Butterzopf).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "sallys-blog-hefezopf-schokodrops",
@@ -2215,7 +2263,9 @@
       "original": "30-35 Minuten bei 170 Grad O/U (Mitte 32,5 gerundet)"
     },
     "stueckzahl": null,
-    "notizen": "Hefe 0,5 Wuerfel = 21 g. 2 EL Wasser = 30 ml umgerechnet. Nur Eigelb im Teig (0,5 stk). Sehr hoher Schokoanteil (40 % vom Mehl). Mini-Vorteig ist optional und wurde als direkte Methode gewertet. Stueckgare 30-60 Min., Mitte 45."
+    "notizen": "Hefe 0,5 Wuerfel = 21 g. 2 EL Wasser = 30 ml umgerechnet. Nur Eigelb im Teig (0,5 stk). Sehr hoher Schokoanteil (40 % vom Mehl). Mini-Vorteig ist optional und wurde als direkte Methode gewertet. Stueckgare 30-60 Min., Mitte 45.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "katrinsbackblog-schoko-hefezopf",
@@ -2316,7 +2366,9 @@
       "original": "ca. 30 Minuten bei 180 Grad O/U, untere Schiene"
     },
     "stueckzahl": null,
-    "notizen": "Es gibt zwei Varianten (A: 12 Std. kalt, B: warm am selben Tag); erfasst ist B (warm). Zeiten: Gehen 45-60 Min. (60 genommen). Eiweiss zusaetzlich zu 1 Ei als 0,5 stk gerechnet. Trockenhefe-Paeckchen ohne Gramm (7 g angenommen laut Brief). Salz nur 1 Prise (unter 1 % vom Mehl). 10 g Schokotropfen zum Bestreuen nicht erfasst."
+    "notizen": "Es gibt zwei Varianten (A: 12 Std. kalt, B: warm am selben Tag); erfasst ist B (warm). Zeiten: Gehen 45-60 Min. (60 genommen). Eiweiss zusaetzlich zu 1 Ei als 0,5 stk gerechnet. Trockenhefe-Paeckchen ohne Gramm (7 g angenommen laut Brief). Salz nur 1 Prise (unter 1 % vom Mehl). 10 g Schokotropfen zum Bestreuen nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Mengen angenommen/unsicher −0,5"
   },
   {
     "id": "kochp-hefezopf-rosinen",
@@ -2410,7 +2462,9 @@
       "original": "ca. 30 Minuten bei 180 Grad O/U bzw. 160 Grad Umluft"
     },
     "stueckzahl": null,
-    "notizen": "Der 15-Min.-Ansatz in der Mulde ist ein Mini-Vorteig (Hefe + Milch), als hefe_direkt gewertet. Salz nur 1 Prise (unter 1 % vom Mehl). Alternativ Teig ueber Nacht im Kuehlschrank moeglich, hier nicht erfasst."
+    "notizen": "Der 15-Min.-Ansatz in der Mulde ist ein Mini-Vorteig (Hefe + Milch), als hefe_direkt gewertet. Salz nur 1 Prise (unter 1 % vom Mehl). Alternativ Teig ueber Nacht im Kuehlschrank moeglich, hier nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "familienkost-hefezopf-rosinen",
@@ -2495,7 +2549,9 @@
       "original": "40 Minuten bei 180 Grad O/U"
     },
     "stueckzahl": null,
-    "notizen": "Kein Ei im Teig. Knetzeit nicht angegeben. Hefe liegt mit 4,2 % vom Mehl im oberen Bereich, steht so im Original."
+    "notizen": "Kein Ei im Teig. Knetzeit nicht angegeben. Hefe liegt mit 4,2 % vom Mehl im oberen Bereich, steht so im Original.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25"
   },
   {
     "id": "digilotta-hefezopf-rosinen",
@@ -2582,6 +2638,8 @@
       "original": "ca. 35-40 Minuten bei 180 Grad O/U bzw. 160 Grad Umluft (Mitte 37,5 gerundet)"
     },
     "stueckzahl": null,
-    "notizen": "Hefe wahlweise 1 Packung Trockenhefe oder 1/2 Wuerfel frische; Trockenhefe erfasst. Salz 1/2 TL = 3 g (0,6 % vom Mehl, unter 1 %), steht so im Original. Kein Ei. Rosinen werden in Wasser eingeweicht (Rum nur als Alternative, nicht erfasst). Gehen = 24 Std. gesamt kalt plus 1 Std. Raumtemperatur am zweiten Tag. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank."
+    "notizen": "Hefe wahlweise 1 Packung Trockenhefe oder 1/2 Wuerfel frische; Trockenhefe erfasst. Salz 1/2 TL = 3 g (0,6 % vom Mehl, unter 1 %), steht so im Original. Kein Ei. Rosinen werden in Wasser eingeweicht (Rum nur als Alternative, nicht erfasst). Gehen = 24 Std. gesamt kalt plus 1 Std. Raumtemperatur am zweiten Tag. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank. Methode „kalte Führung“: geknetet, dann lange Gare im Kühlschrank.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   }
 ]

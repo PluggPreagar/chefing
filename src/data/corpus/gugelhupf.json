@@ -85,7 +85,9 @@
       "minuten": 60,
       "original": "180 °C Ober-/Unterhitze, ca. 60 Minuten"
     },
-    "notizen": "Formangabe: Gugelhupfform Ø 22 cm. Milch kann laut Rezept durch Sauerrahm ersetzt werden. Für 12 Portionen."
+    "notizen": "Formangabe: Gugelhupfform Ø 22 cm. Milch kann laut Rezept durch Sauerrahm ersetzt werden. Für 12 Portionen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,5★ (15120 Stimmen) ±0"
   },
   {
     "id": "kuechengoetter-gugelhupf-grundrezept",
@@ -166,7 +168,9 @@
       "minuten": 60,
       "original": "175° (Mitte, Umluft 160°), etwa 1 Stunde"
     },
-    "notizen": "Formangabe: 1 Gugelhupfform von 1,5 l Inhalt (kein Durchmesser). Hinweis: 'Den Backofen in den ersten 40 Min. nicht öffnen, damit der Kuchen nicht zusammenfällt und speckig wird.' Sternewert auf der Seite nicht auslesbar, nur Anzahl Bewertungen."
+    "notizen": "Formangabe: 1 Gugelhupfform von 1,5 l Inhalt (kein Durchmesser). Hinweis: 'Den Backofen in den ersten 40 Min. nicht öffnen, damit der Kuchen nicht zusammenfällt und speckig wird.' Sternewert auf der Seite nicht auslesbar, nur Anzahl Bewertungen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "oetker-de-gugelhupf",
@@ -254,7 +258,9 @@
       "minuten": 55,
       "original": "Ober-/Unterhitze etwa 180 °C, Heißluft etwa 160 °C, etwa 55 Min., Einschub unten"
     },
-    "notizen": "Formangabe: Gugelhupfform Ø 22 cm. Teil des Mehls durch Speisestärke ersetzt. Wenig Flüssigkeit (nur 4 EL Milch). Kuchen lässt sich laut Rezept gut einfrieren."
+    "notizen": "Formangabe: Gugelhupfform Ø 22 cm. Teil des Mehls durch Speisestärke ersetzt. Wenig Flüssigkeit (nur 4 EL Milch). Kuchen lässt sich laut Rezept gut einfrieren.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,4★ (284 Stimmen) ±0"
   },
   {
     "id": "oetker-at-klassischer-gugelhupf",
@@ -357,7 +363,9 @@
       "minuten": 45,
       "original": "Ober-/Unterhitze 180 °C, Heißluft 160 °C, etwa 45 Minuten"
     },
-    "notizen": "Formangabe: Gugelhupfform 22 cm Ø. Eier werden getrennt: Dotter in die Buttermasse, Eiklar mit 100 g Zucker zu Schnee geschlagen (Sandmasse-Technik). Zucker aufgeteilt in 50 g Staubzucker + 100 g Kristallzucker. Deutlich weniger Fett und Eier als die anderen Rezepte."
+    "notizen": "Formangabe: Gugelhupfform 22 cm Ø. Eier werden getrennt: Dotter in die Buttermasse, Eiklar mit 100 g Zucker zu Schnee geschlagen (Sandmasse-Technik). Zucker aufgeteilt in 50 g Staubzucker + 100 g Kristallzucker. Deutlich weniger Fett und Eier als die anderen Rezepte.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,6★ (362 Stimmen) ±0"
   },
   {
     "id": "gutekueche-marmorgugelhupf-oel",
@@ -446,7 +454,9 @@
       "minuten": 48,
       "original": "180 °C (Ober-Unterhitze), ca. 45–50 Minuten"
     },
-    "notizen": "Formangabe: Gugelhupfform Ø 26 cm. Öl statt Butter, Wasser als Flüssigkeit. Kakao kommt nur in eine Hälfte des Teigs (Marmor-Variante). Halbe Zitrone liefert sowohl Saft als auch Schale (als ein Eintrag erfasst). Portionsangabe der Seite '4 Portionen' ist unplausibel für 26-cm-Form."
+    "notizen": "Formangabe: Gugelhupfform Ø 26 cm. Öl statt Butter, Wasser als Flüssigkeit. Kakao kommt nur in eine Hälfte des Teigs (Marmor-Variante). Halbe Zitrone liefert sowohl Saft als auch Schale (als ein Eintrag erfasst). Portionsangabe der Seite '4 Portionen' ist unplausibel für 26-cm-Form.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,3★ (5074 Stimmen) ±0"
   },
   {
     "id": "backenmitchristina-marmorgugelhupf",
@@ -528,7 +538,9 @@
       "minuten": 50,
       "original": "180 Grad Heißluft, ca. 50 min"
     },
-    "notizen": "Formangabe: Gugelhupfform Ø 23 cm. Kakao kommt nur in die zweite Hälfte des Teigs (Marmor-Variante). Milch und Backpulver in Gramm angegeben. Form wird mit Butter und Semmelbröseln statt Mehl vorbereitet. Nur Heißluft-Temperatur angegeben."
+    "notizen": "Formangabe: Gugelhupfform Ø 23 cm. Kakao kommt nur in die zweite Hälfte des Teigs (Marmor-Variante). Milch und Backpulver in Gramm angegeben. Form wird mit Butter und Semmelbröseln statt Mehl vorbereitet. Nur Heißluft-Temperatur angegeben.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 4,8★ (199 Stimmen) +0,5"
   },
   {
     "id": "oma-kocht-rum-rosinen-gugelhupf",
@@ -639,7 +651,9 @@
       "minuten": 65,
       "original": "180 °C Ober-/Unterhitze (160 °C Umluft), 60–70 Minuten"
     },
-    "notizen": "Formangabe: Gugelhupfform 24 cm Durchmesser. Rosinen werden in 100 ml Rum eingelegt (Rum wird mit den Rosinen vollständig in den Teig gegeben). Rum-Zuckerguss (Puderzucker, Rum, Wasser) nicht als Teigzutat erfasst. Nur 1 Bewertung auf der Seite."
+    "notizen": "Formangabe: Gugelhupfform 24 cm Durchmesser. Rosinen werden in 100 ml Rum eingelegt (Rum wird mit den Rosinen vollständig in den Teig gegeben). Rum-Zuckerguss (Puderzucker, Rum, Wasser) nicht als Teigzutat erfasst. Nur 1 Bewertung auf der Seite.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (1 Stimmen) ±0"
   },
   {
     "id": "thienemann-grauses-gugelhupf",
@@ -726,7 +740,9 @@
       "original": "170 Grad Heißluft, ca. 50 Min."
     },
     "stueckzahl": null,
-    "notizen": "Kinderbuch-Rezept ohne Bewertungen; Öl und Joghurt etwa gleich viel Flüssigkeit wie Mehl-Anteil, alles ohne Aufschlagen in einem Schritt verrührt, dadurch sehr einfach. Nur 15 g Kakao, also eher mild; Form ausdrücklich Ø 23 cm."
+    "notizen": "Kinderbuch-Rezept ohne Bewertungen; Öl und Joghurt etwa gleich viel Flüssigkeit wie Mehl-Anteil, alles ohne Aufschlagen in einem Schritt verrührt, dadurch sehr einfach. Nur 15 g Kakao, also eher mild; Form ausdrücklich Ø 23 cm.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "orf-sophies-ameisengugelhupf",
@@ -813,7 +829,9 @@
       "original": "180 °C Umluft, ca. 40 Min."
     },
     "stueckzahl": null,
-    "notizen": "Fernseh-Rezept (Österreich), Eiweiß wird separat zu Schnee geschlagen, daher luftiger als der übliche Öl-Teig. Glasur aus Kuvertüre, Honig, Obers und Knusperstreuseln nicht erfasst."
+    "notizen": "Fernseh-Rezept (Österreich), Eiweiß wird separat zu Schnee geschlagen, daher luftiger als der übliche Öl-Teig. Glasur aus Kuvertüre, Honig, Obers und Knusperstreuseln nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "infranken-saftiger-stracciatella-gugelhupf",
@@ -907,7 +925,9 @@
       "original": "175 °C Ober-/Unterhitze, ca. 50 Min."
     },
     "stueckzahl": null,
-    "notizen": "Regionalzeitungs-Rezept ohne Bewertung. Schmand ist die einzige Flüssigkeit, die Schokolade kommt als Raspel in den Teig; relativ wenig Zucker für die Fettmenge."
+    "notizen": "Regionalzeitungs-Rezept ohne Bewertung. Schmand ist die einzige Flüssigkeit, die Schokolade kommt als Raspel in den Teig; relativ wenig Zucker für die Fettmenge.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "austria-info-marmorgugelhupf",
@@ -1008,7 +1028,9 @@
       "original": "ca. 170 °C Heißluft, 50–55 Min."
     },
     "stueckzahl": null,
-    "notizen": "Kakao nur in der dunklen Teig-Hälfte, trotzdem als Teig-Zutat erfasst. Zwei Zuckerarten (Kristall im Eischnee, Staub in der Buttermasse); ein Schuss Rum ohne Mengenangabe weggelassen, Zitronenabrieb-Menge ist eine Annahme."
+    "notizen": "Kakao nur in der dunklen Teig-Hälfte, trotzdem als Teig-Zutat erfasst. Zwei Zuckerarten (Kristall im Eischnee, Staub in der Buttermasse); ein Schuss Rum ohne Mengenangabe weggelassen, Zitronenabrieb-Menge ist eine Annahme.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "kochrezepte-at-gugelhupf-heidelbeeren-joghurt",
@@ -1094,7 +1116,9 @@
       "original": "175 °C (Heizart nicht genannt), ca. 60 Min."
     },
     "stueckzahl": null,
-    "notizen": "Margarine statt Butter und Staubzucker statt Kristallzucker; Eier getrennt, Eischnee lockert den Teig. 50 g Mehl nur zum Wälzen der Beeren, nicht erfasst. Heizart nicht angegeben (175 °C hier als Ober-/Unterhitze eingetragen)."
+    "notizen": "Margarine statt Butter und Staubzucker statt Kristallzucker; Eier getrennt, Eischnee lockert den Teig. 50 g Mehl nur zum Wälzen der Beeren, nicht erfasst. Heizart nicht angegeben (175 °C hier als Ober-/Unterhitze eingetragen).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25"
   },
   {
     "id": "kuchenwunder-omas-napfkuchen-mit-rosinen",
@@ -1188,7 +1212,9 @@
       "original": "175 °C Ober-/Unterhitze, ca. 50–60 Min."
     },
     "stueckzahl": null,
-    "notizen": "Einziges Rezept mit ausdrücklicher 26-cm-Form; Blog-Seite nennt drei Varianten mit unterschiedlicher Mehlmenge (250/200/500 g), hier die Hauptvariante für 26 cm. Mehl-Anteil (250 g auf 250 g Butter und 250 ml Milch) ist ungewöhnlich niedrig, Mengen daher unsicher."
+    "notizen": "Einziges Rezept mit ausdrücklicher 26-cm-Form; Blog-Seite nennt drei Varianten mit unterschiedlicher Mehlmenge (250/200/500 g), hier die Hauptvariante für 26 cm. Mehl-Anteil (250 g auf 250 g Butter und 250 ml Milch) ist ungewöhnlich niedrig, Mengen daher unsicher.",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Mengen angenommen/unsicher −0,5 · Blog-Quelle −0,5 · Ausreißer bei Zucker −0,5"
   },
   {
     "id": "genusskind-heidelbeer-buttermilch-gugelhupf",
@@ -1289,7 +1315,9 @@
       "original": "180 °C Ober-/Unterhitze, ca. 50–60 Min."
     },
     "stueckzahl": null,
-    "notizen": "Viel Buttermilch (250 ml) und nur ein halbes Päckchen Backpulver; Eischnee statt mehr Triebmittel. Zitronensaftmenge ist geschätzt (halbe Zitrone), Glasur mit Streuseln nicht erfasst."
+    "notizen": "Viel Buttermilch (250 ml) und nur ein halbes Päckchen Backpulver; Eischnee statt mehr Triebmittel. Zitronensaftmenge ist geschätzt (halbe Zitrone), Glasur mit Streuseln nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,43★ (7 Stimmen) ±0 · Mengen angenommen/unsicher −0,5"
   },
   {
     "id": "gusto-buttermilch-zitronengugelhupf",
@@ -1376,6 +1404,8 @@
       "original": "175 °C Ober-/Unterhitze, ca. 45 Min."
     },
     "stueckzahl": null,
-    "notizen": "Sehr saure Flüssigkeit: Buttermilch plus 100 ml Zitronensaft, dabei vergleichsweise wenig Mehl (250 g auf 250 g Butter). Zitronenglasur und Schale zur Deko nicht erfasst."
+    "notizen": "Sehr saure Flüssigkeit: Buttermilch plus 100 ml Zitronensaft, dabei vergleichsweise wenig Mehl (250 g auf 250 g Butter). Zitronenglasur und Schale zur Deko nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   }
 ]

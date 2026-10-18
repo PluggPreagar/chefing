@@ -74,7 +74,9 @@
       "original": "190 °C Umluft, nach Erreichen der Temperatur 40 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "Olivenöl als pflanzenoel erfasst. Keine Knetzeit und keine getrennte Stückgare angegeben (Teig geht 45 min, dann Form). Silikonform ohne Größenangabe. Wasser 70 %, Salz 2,4 %, Hefe-Äquivalent 4,2 %."
+    "notizen": "Olivenöl als pflanzenoel erfasst. Keine Knetzeit und keine getrennte Stückgare angegeben (Teig geht 45 min, dann Form). Silikonform ohne Größenangabe. Wasser 70 %, Salz 2,4 %, Hefe-Äquivalent 4,2 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "lecker-toastbrot-selber-backen",
@@ -159,7 +161,9 @@
       "original": "ca. 30 Minuten bei 180 °C Ober-/Unterhitze bzw. 160 °C Umluft"
     },
     "stueckzahl": null,
-    "notizen": "Wasser steht nur im Ablauf, nicht in der Zutatenliste. Knetzeit nicht angegeben. Wasser+Milch 60 %, Salz 2,4 %, Hefe 4,2 %. Kastenform ca. 25 cm."
+    "notizen": "Wasser steht nur im Ablauf, nicht in der Zutatenliste. Knetzeit nicht angegeben. Wasser+Milch 60 %, Salz 2,4 %, Hefe 4,2 %. Kastenform ca. 25 cm.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25"
   },
   {
     "id": "oekotest-toastbrot-grundrezept",
@@ -237,7 +241,9 @@
       "original": "ca. 30 Minuten bei 180 °C bzw. 160 °C Umluft; bei zu starker Bräunung mit Alufolie abdecken"
     },
     "stueckzahl": null,
-    "notizen": "Seite nennt 180/160 °C ohne ausdrücklich Ober-/Unterhitze zu sagen. Knetzeit nicht angegeben. Milch 55 %, Salz 2 %, Hefe 4,2 %."
+    "notizen": "Seite nennt 180/160 °C ohne ausdrücklich Ober-/Unterhitze zu sagen. Knetzeit nicht angegeben. Milch 55 %, Salz 2 %, Hefe 4,2 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25"
   },
   {
     "id": "utopia-weissbrot-klassiker",
@@ -308,7 +314,9 @@
       "original": "ca. 45 Minuten bei 180 °C Umluft"
     },
     "stueckzahl": null,
-    "notizen": "Packungsgröße der Hefe nicht angegeben, 1 Päckchen = 7 g angenommen. 1 EL Salz als 3 TL (18 g) erfasst. Mehltyp nicht genannt, Mehl laut Einleitung Weizenmehl. Kastenformgröße nicht angegeben. Hafermilch zum Bestreichen nicht erfasst. Wasser 70,6 %, Salz 2,1 %, Hefe-Äquivalent 2,5 %."
+    "notizen": "Packungsgröße der Hefe nicht angegeben, 1 Päckchen = 7 g angenommen. 1 EL Salz als 3 TL (18 g) erfasst. Mehltyp nicht genannt, Mehl laut Einleitung Weizenmehl. Kastenformgröße nicht angegeben. Hafermilch zum Bestreichen nicht erfasst. Wasser 70,6 %, Salz 2,1 %, Hefe-Äquivalent 2,5 %.",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Mengen angenommen/unsicher −0,5 · Angabe fehlt im Original −0,25"
   },
   {
     "id": "gutekueche-weissbrot-frische-hefe",
@@ -373,7 +381,9 @@
       "original": "10 Min. bei 210 °C Umluft, dann 40 Min. bei 180 °C Umluft"
     },
     "stueckzahl": null,
-    "notizen": "Außerhalb der Standardspannen, aber so im Original: Wasser nur 48 %, 1 EL Salz = 18 g (3,6 %, als 3 TL erfasst), Hefe 1 Würfel = 8,4 %. Zucker als Prise. Temperatur im Feld ist die erste Phase (210), danach 180 Umluft. Kastenformgröße nicht angegeben. Prise Zucker nicht erfasst (nicht umrechenbar, vernachlässigbar)."
+    "notizen": "Außerhalb der Standardspannen, aber so im Original: Wasser nur 48 %, 1 EL Salz = 18 g (3,6 %, als 3 TL erfasst), Hefe 1 Würfel = 8,4 %. Zucker als Prise. Temperatur im Feld ist die erste Phase (210), danach 180 Umluft. Kastenformgröße nicht angegeben. Prise Zucker nicht erfasst (nicht umrechenbar, vernachlässigbar).",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25 · Ausreißer bei Hefe (Frischhefe-Äq.) −0,5"
   },
   {
     "id": "brot-backen-weissbrot-kastenform",
@@ -452,7 +462,9 @@
       "original": "10 Min. bei 220 °C Ober-/Unterhitze, dann 30 Min. bei 190 °C"
     },
     "stueckzahl": null,
-    "notizen": "Stockgare 1 bis 1,5 h angegeben, 60 min erfasst (Rezeptkarte: Gehzeit gesamt 1 h 30). Hefe wahlweise Trocken (erfasst) oder Frisch. Temperatur im Feld ist die erste Phase (220). Kastenformgröße nicht angegeben. Wasser 60 %, Salz 2 %, Hefe-Äquivalent 4,2 %."
+    "notizen": "Stockgare 1 bis 1,5 h angegeben, 60 min erfasst (Rezeptkarte: Gehzeit gesamt 1 h 30). Hefe wahlweise Trocken (erfasst) oder Frisch. Temperatur im Feld ist die erste Phase (220). Kastenformgröße nicht angegeben. Wasser 60 %, Salz 2 %, Hefe-Äquivalent 4,2 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25"
   },
   {
     "id": "kochbar-weissbrot-kastenbrot",
@@ -529,7 +541,9 @@
       "original": "ca. 35 Minuten bei 200 °C Ober-/Unterhitze"
     },
     "stueckzahl": null,
-    "notizen": "Mehltyp nicht genannt (nur Mehl, in Weißbrot-Rezept als Weizenmehl angenommen). Päckchengröße nicht angegeben, 7 g angenommen. Keine Knetzeit, keine getrennte Stückgare, Formgröße unbekannt. Wasser 62,5 %, Salz 1,5 %, Hefe-Äquivalent 5,3 %."
+    "notizen": "Mehltyp nicht genannt (nur Mehl, in Weißbrot-Rezept als Weizenmehl angenommen). Päckchengröße nicht angegeben, 7 g angenommen. Keine Knetzeit, keine getrennte Stückgare, Formgröße unbekannt. Wasser 62,5 %, Salz 1,5 %, Hefe-Äquivalent 5,3 %.",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Mengen angenommen/unsicher −0,5 · Angabe fehlt im Original −0,25"
   },
   {
     "id": "kuechenlatein-milchbrot-dan-lepard",
@@ -614,7 +628,9 @@
       "original": "180 °C, 40 bis 50 Minuten je nach Formgröße (Ober-/Umluft nicht angegeben)"
     },
     "stueckzahl": null,
-    "notizen": "Zucker ODER Honig im Original, Zucker erfasst. Milch in g (375 g), nicht umgerechnet. 2 TL Trockenhefe = ca. 6 g geschätzt. Backzeit 40-50, Mittelwert 45; Heizart nicht genannt (180 als OU erfasst). Form 25 x 12 x 9,5 cm (oder 2 kleine Formen). Hydration 76 % (hoch, aber so im Original), Salz 1,9 %, Hefe-Äquivalent ca. 2,9 %. Rezept von Dan Lepard, auf kuechenlatein.com wiedergegeben."
+    "notizen": "Zucker ODER Honig im Original, Zucker erfasst. Milch in g (375 g), nicht umgerechnet. 2 TL Trockenhefe = ca. 6 g geschätzt. Backzeit 40-50, Mittelwert 45; Heizart nicht genannt (180 als OU erfasst). Form 25 x 12 x 9,5 cm (oder 2 kleine Formen). Hydration 76 % (hoch, aber so im Original), Salz 1,9 %, Hefe-Äquivalent ca. 2,9 %. Rezept von Dan Lepard, auf kuechenlatein.com wiedergegeben.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Mengen angenommen/unsicher −0,5"
   },
   {
     "id": "eat-toastbrot-selber-backen",
@@ -693,7 +709,9 @@
       "original": "ca. 30 Minuten bei 180 °C Ober-/Unterhitze, mittlere Schiene"
     },
     "stueckzahl": null,
-    "notizen": "Kastenform 30 x 12 cm. Seite nennt Trockenhefe (1 Päckchen, 7 g) als Alternative. Kneten 6-8 min, 7 erfasst. Milch 55 %, Salz 2,2 %, Hefe 4 %."
+    "notizen": "Kastenform 30 x 12 cm. Seite nennt Trockenhefe (1 Päckchen, 7 g) als Alternative. Kneten 6-8 min, 7 erfasst. Milch 55 %, Salz 2,2 %, Hefe 4 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "einfachekochrezepte-sandwichbrot",
@@ -779,7 +797,9 @@
       "original": "ca. 35 Minuten bei 180 °C (Heizart nicht angegeben)"
     },
     "stueckzahl": null,
-    "notizen": "Hefe wahlweise Trocken (erfasst) oder 21 g Frisch. Mehltyp nicht genannt. Heizart nicht genannt (180 als OU erfasst). Kneten 6-8 min, 7 erfasst. Form 23 x 12 cm. Seite erlaubt etwas mehr warmes Wasser je nach Mehl. Flüssigkeit 52 %, Salz 1,6 %, Hefe-Äquivalent 4,4 %."
+    "notizen": "Hefe wahlweise Trocken (erfasst) oder 21 g Frisch. Mehltyp nicht genannt. Heizart nicht genannt (180 als OU erfasst). Kneten 6-8 min, 7 erfasst. Form 23 x 12 cm. Seite erlaubt etwas mehr warmes Wasser je nach Mehl. Flüssigkeit 52 %, Salz 1,6 %, Hefe-Äquivalent 4,4 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "hellwegradio-beginner-weissbrot",
@@ -845,7 +865,9 @@
       "original": "15 Min. bei 240 Grad mit Dampf, dann 210 Grad; Gesamtbackzeit 40-50 Minuten (45 als Mittelwert); Betriebsart nicht genannt, als Ober-/Unterhitze erfasst"
     },
     "stueckzahl": 1,
-    "notizen": "Mengen für 1 Brot (1-kg-Kastenform). Hauptteig nennt 200 g Vorteig = der gesamte Vorteig (100+100+1 g); Mehl/Wasser/Hefe daher aus Vorteig + Hauptteig addiert. Zeit 'gehen' = 4 x 30 Min. (Stockgare inkl. 3 Faltungen). Das PDF stammt von brotdoc/brotfee, dort wird die Variante teils als Batard geformt; die hier gelesene PDF-Fassung backt in der Kastenform. Wasser 65 %, Salz 2 %, Hefe 1,8 % - alles im Rahmen."
+    "notizen": "Mengen für 1 Brot (1-kg-Kastenform). Hauptteig nennt 200 g Vorteig = der gesamte Vorteig (100+100+1 g); Mehl/Wasser/Hefe daher aus Vorteig + Hauptteig addiert. Zeit 'gehen' = 4 x 30 Min. (Stockgare inkl. 3 Faltungen). Das PDF stammt von brotdoc/brotfee, dort wird die Variante teils als Batard geformt; die hier gelesene PDF-Fassung backt in der Kastenform. Wasser 65 %, Salz 2 %, Hefe 1,8 % - alles im Rahmen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "backhausgefluester-kastenweissbrot-1000g",
@@ -918,7 +940,9 @@
       "original": "240 Grad 9 Min. mit Dampf, dann 200 Grad 35 Min., dann 220 Grad ca. 5 Min. bei einen Spalt geöffneter Tür; gesamt ca. 49 Min."
     },
     "stueckzahl": 1,
-    "notizen": "Kastenform 1000 g Nennfüllmenge. Mengen aus Vorteig + Hauptteig addiert (Seite nennt 'ca. 460 g reifer Vorteig', die Summe der Vorteig-Zutaten wäre 470,3 g; Gesamtteigmenge laut Seite 1088,5 g, Summe der Einzelzutaten ca. 1099 g - kleine Abweichung im Original). Betriebsart nicht genannt, als Ober-/Unterhitze erfasst. Vorteig-Zeit 12-15 h (Mitte 13,5 h = 810 Min.), Stückgare 135-150 Min. (Mitte 143). Wasser 60,6 %, Salz 2,0 %, Hefe 1,6 %."
+    "notizen": "Kastenform 1000 g Nennfüllmenge. Mengen aus Vorteig + Hauptteig addiert (Seite nennt 'ca. 460 g reifer Vorteig', die Summe der Vorteig-Zutaten wäre 470,3 g; Gesamtteigmenge laut Seite 1088,5 g, Summe der Einzelzutaten ca. 1099 g - kleine Abweichung im Original). Betriebsart nicht genannt, als Ober-/Unterhitze erfasst. Vorteig-Zeit 12-15 h (Mitte 13,5 h = 810 Min.), Stückgare 135-150 Min. (Mitte 143). Wasser 60,6 %, Salz 2,0 %, Hefe 1,6 %.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "herzelieb-sandwichbrot-poolish",
@@ -1006,7 +1030,9 @@
       "original": "10 Min. bei 240 Grad mit Dampf, dann 180 Grad 20 Min. in der Form, danach 15-20 Min. ohne Form; gesamt 45-50 Min. (Mitte 48)"
     },
     "stueckzahl": 1,
-    "notizen": "Flüssigkeit gesamt 430 ml = 86 % vom Mehl (Wasser 100 ml im Poolish + 330 ml Milch), liegt über der 50-80 %-Spanne, steht aber so im Original. Poolish-Zeit 90 Min. RT + ca. 22 h kühl = 1410 Min.; nur der Vorteig ist kalt geführt, daher gehen_kuehl false. Hefe 1,4 %, Salz 2 %. Der Zusatz 'Prise Liebe' in der Zutatenliste nicht erfasst."
+    "notizen": "Flüssigkeit gesamt 430 ml = 86 % vom Mehl (Wasser 100 ml im Poolish + 330 ml Milch), liegt über der 50-80 %-Spanne, steht aber so im Original. Poolish-Zeit 90 Min. RT + ca. 22 h kühl = 1410 Min.; nur der Vorteig ist kalt geführt, daher gehen_kuehl false. Hefe 1,4 %, Salz 2 %. Der Zusatz 'Prise Liebe' in der Zutatenliste nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "brotaberlecker-no-knead-weizenbrot",
@@ -1070,7 +1096,9 @@
       "original": "230 Grad Ober-/Unterhitze vorheizen, nach dem Einschieben sofort auf 200 Grad; nach ca. 45 Minuten fertig"
     },
     "stueckzahl": 1,
-    "notizen": "Gehzeit 'ungefähr 12 Stunden' (10-16 h toleriert). 1/4 TL Trockenhefe = ca. 0,75 g, Frischhefe-Äquivalent ca. 2,3 g = 0,45 %. Salz 2 TL = 12 g = 2,4 %. Wasser 76 %. Kastenformgröße nicht angegeben."
+    "notizen": "Gehzeit 'ungefähr 12 Stunden' (10-16 h toleriert). 1/4 TL Trockenhefe = ca. 0,75 g, Frischhefe-Äquivalent ca. 2,3 g = 0,45 %. Salz 2 TL = 12 g = 2,4 %. Wasser 76 %. Kastenformgröße nicht angegeben.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25"
   },
   {
     "id": "culineli-weissbrot-ohne-kneten",
@@ -1134,7 +1162,9 @@
       "original": "230 Grad Ober-/Unterhitze, 35-40 Minuten bis goldbraun (Mitte 38)"
     },
     "stueckzahl": 1,
-    "notizen": "Mehl: Mischung aus Weizenbrotmehl und Allzweckmehl (beides Weizen, genaue Typenzahl nicht angegeben, deshalb als weizenmehl erfasst). Gehzeit 12-18 h (Mitte 15 h = 900 Min.), Stückgare 1,5-2 h (Mitte 105 Min.). Hefe 1 TL Trockenhefe = ca. 3 g, Frischhefe-Äquivalent ca. 9 g = 1,9 %. Wasser 76,6 %, Salz ca. 1,9 %. Form 23 x 12 cm (kleiner als 25 cm)."
+    "notizen": "Mehl: Mischung aus Weizenbrotmehl und Allzweckmehl (beides Weizen, genaue Typenzahl nicht angegeben, deshalb als weizenmehl erfasst). Gehzeit 12-18 h (Mitte 15 h = 900 Min.), Stückgare 1,5-2 h (Mitte 105 Min.). Hefe 1 TL Trockenhefe = ca. 3 g, Frischhefe-Äquivalent ca. 9 g = 1,9 %. Wasser 76,6 %, Salz ca. 1,9 %. Form 23 x 12 cm (kleiner als 25 cm).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25"
   },
   {
     "id": "veenaazmanov-no-knead-kastenbrot",
@@ -1212,7 +1242,9 @@
       "original": "400 F / 200 C, Mitte, 40-45 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "Hydration 80 %. Zeiten: gehen = 60 min Raumtemperatur + mind. 6 h Kuehlschrank (bis 24 h); Stueckgare 60-90 min (untere Grenze). Backzeit 40-45 min (Mitte 43). Form laut Seite 9x4 Zoll (ca. 23x10 cm), Ertragsangabe der Seite uneinheitlich. Olivenoel als pflanzenoel erfasst."
+    "notizen": "Hydration 80 %. Zeiten: gehen = 60 min Raumtemperatur + mind. 6 h Kuehlschrank (bis 24 h); Stueckgare 60-90 min (untere Grenze). Backzeit 40-45 min (Mitte 43). Form laut Seite 9x4 Zoll (ca. 23x10 cm), Ertragsangabe der Seite uneinheitlich. Olivenoel als pflanzenoel erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "biggerbolderbaking-no-knead-sandwichbrot",
@@ -1276,7 +1308,9 @@
       "original": "450 F / 230 C, 35-40 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "Mehl = Bread Flour (247 g) + All-Purpose (213 g), beides Weizenmehl, zu 460 g zusammengefasst. Hydration 78 %. Salz in TL angegeben (1,5 TL = 9 g, 2 %). Zeiten: gehen 12-18 h (untere Grenze), Stueckgare 1,5-2 h (untere Grenze), Backzeit 35-40 min (Mitte 38). Kastenform 9x5 Zoll (ca. 23x12,5 cm)."
+    "notizen": "Mehl = Bread Flour (247 g) + All-Purpose (213 g), beides Weizenmehl, zu 460 g zusammengefasst. Hydration 78 %. Salz in TL angegeben (1,5 TL = 9 g, 2 %). Zeiten: gehen 12-18 h (untere Grenze), Stueckgare 1,5-2 h (untere Grenze), Backzeit 35-40 min (Mitte 38). Kastenform 9x5 Zoll (ca. 23x12,5 cm).",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "mamtaskitchen-no-knead-brot-kastenform",
@@ -1345,7 +1379,9 @@
       "original": "200 C, Mitte; Seite nennt nur 10-12 min (offenbar fuer Broetchen), Brotzeit nicht angegeben"
     },
     "stueckzahl": null,
-    "notizen": "Hydration 70 %. Oel als Spanne 1-2 EL, Mittelwert 1,5 EL erfasst. Backzeit fuer Brot nicht verwertbar (Seite nennt Brötchenzeit), daher null. Stueckgare ohne Zeitangabe (bis Verdopplung). Mehl 'strong white flour' = Weizenmehl. Backzeit der Seite (10–12 Min.) gilt offenbar für Brötchen und ist nicht erfasst. Backzeit der Seite (10–12 Min.) gilt offenbar für Brötchen und ist nicht erfasst."
+    "notizen": "Hydration 70 %. Oel als Spanne 1-2 EL, Mittelwert 1,5 EL erfasst. Backzeit fuer Brot nicht verwertbar (Seite nennt Brötchenzeit), daher null. Stueckgare ohne Zeitangabe (bis Verdopplung). Mehl 'strong white flour' = Weizenmehl. Backzeit der Seite (10–12 Min.) gilt offenbar für Brötchen und ist nicht erfasst. Backzeit der Seite (10–12 Min.) gilt offenbar für Brötchen und ist nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5"
   },
   {
     "id": "dovesfarm-white-no-knead-overnight",
@@ -1416,7 +1452,9 @@
       "original": "220 C (200 C Umluft), 40-45 Minuten"
     },
     "stueckzahl": null,
-    "notizen": "Hydration 75 %. Hefe laut Rezept 1 TL (ein Kommentar auf der Seite empfiehlt 7 g, nicht uebernommen). Gehzeit 12-18 h und Stueckgare 1-3 h (jeweils untere Grenze), Backzeit 40-45 min (Mitte 43). Oel 2 EL wird auf den Teig gegeben (Einfetten der Form nicht erfasst). 1-kg-Kastenform."
+    "notizen": "Hydration 75 %. Hefe laut Rezept 1 TL (ein Kommentar auf der Seite empfiehlt 7 g, nicht uebernommen). Gehzeit 12-18 h und Stueckgare 1-3 h (jeweils untere Grenze), Backzeit 40-45 min (Mitte 43). Oel 2 EL wird auf den Teig gegeben (Einfetten der Form nicht erfasst). 1-kg-Kastenform.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "buttermilkbysam-everyday-sandwich-bread-no-knead",
@@ -1480,7 +1518,9 @@
       "original": "425 F (ca. 220 C), 30-35 Minuten, Kerntemperatur ca. 88 C"
     },
     "stueckzahl": null,
-    "notizen": "Hydration 84 % (ueber 80 %, so im Original). Optionaler 1 EL Ahornsirup nicht erfasst. Salz in TL (1,5 TL = 9 g, 2,1 %). Nachtgare bei Raumtemperatur (kein Kuehlschrank). Backzeit 30-35 min (Mitte 33), Temperatur von 425 F umgerechnet. Stueckgare bis ueber den Rand, bis 2 h."
+    "notizen": "Hydration 84 % (ueber 80 %, so im Original). Optionaler 1 EL Ahornsirup nicht erfasst. Salz in TL (1,5 TL = 9 g, 2,1 %). Nachtgare bei Raumtemperatur (kein Kuehlschrank). Backzeit 30-35 min (Mitte 33), Temperatur von 425 F umgerechnet. Stueckgare bis ueber den Rand, bis 2 h.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "staedter-kastenweissbrot-vorteig",
@@ -1558,7 +1598,9 @@
       "original": "220 C Ober-/Unterhitze, ca. 35-40 Minuten, mit Deckel"
     },
     "stueckzahl": null,
-    "notizen": "Vorteig 30 min warm, dann ueber Nacht kalt (Dauer nicht in Minuten angegeben, daher vorteig=30). Unklar, ob die 100 ml Wasser im Hauptteig das Hefewasser einschliessen; so uebernommen. Hydration 60 %. Backzeit 35-40 min (Mitte 38). Die verlinkte Form ist eine Toastform mit Deckel."
+    "notizen": "Vorteig 30 min warm, dann ueber Nacht kalt (Dauer nicht in Minuten angegeben, daher vorteig=30). Unklar, ob die 100 ml Wasser im Hauptteig das Hefewasser einschliessen; so uebernommen. Hydration 60 %. Backzeit 35-40 min (Mitte 38). Die verlinkte Form ist eine Toastform mit Deckel.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   },
   {
     "id": "snapcalorie-weisses-sandwichbrot-poolish",
@@ -1638,6 +1680,8 @@
       "original": "190 C (375 F), 25-30 Minuten, Kerntemperatur ca. 93 C"
     },
     "stueckzahl": null,
-    "notizen": "Hydration 70 %. Hefe im Poolish 'a pinch' = ca. 0,1 g laut Seite (Summe 5,1 g). Zeiten jeweils untere Grenze: Poolish 12-16 h, Kneten 8-10 min (9), Stockgare 1-2 h, Stueckgare 1-1,5 h; Backzeit 25-30 min (Mitte 28). Butter steht in der Zutatenliste, ihr Zeitpunkt im Ablauf ist auf der Seite unklar. Ofenart (OU/Umluft) nicht angegeben."
+    "notizen": "Hydration 70 %. Hefe im Poolish 'a pinch' = ca. 0,1 g laut Seite (Summe 5,1 g). Zeiten jeweils untere Grenze: Poolish 12-16 h, Kneten 8-10 min (9), Stockgare 1-2 h, Stueckgare 1-1,5 h; Backzeit 25-30 min (Mitte 28). Butter steht in der Zutatenliste, ihr Zeitpunkt im Ablauf ist auf der Seite unklar. Ofenart (OU/Umluft) nicht angegeben.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Angabe fehlt im Original −0,25"
   }
 ]
