@@ -1,7 +1,7 @@
 import { fromGrams } from './units.js';
 import { ROLLEN } from './corpus.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } from './rules.js';
-import { bilanz, grenzenPruefen, grenzenKaskade, beschreibeGrenze, toleranz, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+import { bilanz, grenzenPruefen, grenzenKaskade, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 const FALLBACK_BP = { struktur: 100, fett: 90, suesse: 90, bindung: 80, fluessigkeit: 20, trieb: 3, aroma: 3, einlage: 40 };
 
@@ -110,10 +110,10 @@ export function compute(state, data, korpusStats) {
     const korpus = st.bilanz?.[g] ?? null;
     const t = toleranz(bil.bp[g], korpus);
     if (!groessenMitGrenze.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
-      const wert = Math.round(bil.bp[g]);
+      const wert = fmtProzent(bil.bp[g]);
       const text = t === 'ausserhalb_spanne'
-        ? `${GROESSEN_LABEL[g]} ${wert} % vom Mehl liegt außerhalb aller ${korpus.n} Korpus-Rezepte (${Math.round(korpus.min)}–${Math.round(korpus.max)} %) — ungetestete Kombination.`
-        : `${GROESSEN_LABEL[g]} ${wert} % vom Mehl ist untypisch (Korpus Q1–Q3: ${Math.round(korpus.q1)}–${Math.round(korpus.q3)} %).`;
+        ? `${GROESSEN_LABEL[g]} ${wert} % vom Mehl liegt außerhalb aller ${korpus.n} Korpus-Rezepte (${fmtProzent(korpus.min)}–${fmtProzent(korpus.max)} %) — ungetestete Kombination.`
+        : `${GROESSEN_LABEL[g]} ${wert} % vom Mehl ist untypisch (Korpus Q1–Q3: ${fmtProzent(korpus.q1)}–${fmtProzent(korpus.q3)} %).`;
       (t === 'ausserhalb_spanne' ? toleranzWarnungen : toleranzHinweise).push(text);
     }
     return { groesse: g, label: GROESSEN_LABEL[g], gramm: bil.gramm[g], bp: bil.bp[g], korpus, toleranz: t };

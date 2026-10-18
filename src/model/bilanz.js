@@ -5,8 +5,23 @@
 // Die Rolle `einlage` bleibt außen vor: Stückiges (Beeren, Schokostücke) gibt seine Bestandteile
 // beim Backen nur teilweise an den Teig ab — sie gehört nicht zur Teigmatrix.
 
-export const GROESSEN = { wasser: 'wasseranteil', fett: 'fettanteil', zucker: 'zuckeranteil' };
-export const GROESSEN_LABEL = { wasser: 'Gesamtwasser', fett: 'Reinfett', zucker: 'Zucker' };
+// Funktions-Bilanz (T36, Option A): zusätzlich zu Wasser/Fett/Zucker werden die Funktionen aus
+// dem optionalen Funktionsvektor `funktionen` je Zutat summiert. Rollen bleiben unverändert —
+// die Funktionen sind eine zweite, rollenübergreifende Sicht (z. B. Eiweiß aus Mehl + Ei + Milch).
+const anteil = (feld) => (ing) => ing[feld] || 0;
+const funktion = (f) => (ing) => ing.funktionen?.[f] || 0;
+export const GROESSEN = {
+  wasser: anteil('wasseranteil'), fett: anteil('fettanteil'), zucker: anteil('zuckeranteil'),
+  eiweiss: funktion('eiweiss'), gluten: funktion('gluten'), staerke: funktion('staerke'),
+  emulgator: funktion('emulgator'), triebkraft: funktion('triebkraft'),
+};
+export const GROESSEN_LABEL = {
+  wasser: 'Gesamtwasser', fett: 'Reinfett', zucker: 'Zucker', eiweiss: 'Eiweiß (Gerüst)',
+  gluten: 'Klebereiweiß', staerke: 'Stärke', emulgator: 'Emulgator', triebkraft: 'Triebkraft (Backpulver-Äq.)',
+};
+
+// Kleine Werte (Triebkraft, Emulgator, Gluten) mit einer Nachkommastelle, sonst ganzzahlig.
+export const fmtProzent = (x) => (x == null ? '—' : x < 10 ? x.toFixed(1).replace('.', ',') : String(Math.round(x)));
 const AUSSERHALB_MATRIX = new Set(['einlage']);
 
 // posten: [{rolle, zutat, gramm}] — gleiche Form für generierte Rezepte (engine.js) und
@@ -20,7 +35,7 @@ export function bilanz(posten, ingredients, referenzRolle = 'struktur') {
     if (AUSSERHALB_MATRIX.has(p.rolle)) continue;
     const ing = ingredients[p.zutat];
     if (!ing) continue;
-    for (const [g, feld] of Object.entries(GROESSEN)) gramm[g] += p.gramm * (ing[feld] || 0);
+    for (const [g, wert] of Object.entries(GROESSEN)) gramm[g] += p.gramm * wert(ing);
   }
   const bp = Object.fromEntries(Object.entries(gramm).map(([g, v]) => [g, refGramm > 0 ? (v / refGramm) * 100 : null]));
   return { gramm, bp, refGramm };
@@ -36,7 +51,7 @@ function messwert(grenze, b) {
   return b.bp[grenze.groesse];
 }
 
-const fmtWert = (x, faktor) => (faktor ? x.toFixed(2).replace('.', ',') : String(Math.round(x)));
+const fmtWert = (x, faktor) => (faktor ? x.toFixed(2).replace('.', ',') : fmtProzent(x));
 
 // Quantitative Grenzen (T34): prüft die Bilanz gegen grenzen.json. Rückgabe getrennt nach
 // Strenge — `hart` macht die Kombination ungültig, `empfohlen` warnt nur (DR-008).

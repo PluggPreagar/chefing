@@ -1,3 +1,4 @@
+import { fmtProzent } from '../model/bilanz.js';
 import { overrideErfassen, overridesFuer } from '../model/overrides.js';
 
 export function renderRecipe(root, computed, state, data, onChange) {
@@ -58,11 +59,11 @@ export function renderRecipe(root, computed, state, data, onChange) {
     const markierung = { ausserhalb_q: ' ◦', ausserhalb_spanne: ' ⚠' };
     for (const z of computed.bilanz) {
       const k = z.korpus;
-      bb.append(tr([z.label, `${Math.round(z.gramm)} g`, `${fmt(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmt(k.q1)}–${fmt(k.q3)} %` : '—']));
+      bb.append(tr([z.label, `${fmtProzent(z.gramm)} g`, `${fmtProzent(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmtProzent(k.q1)}–${fmtProzent(k.q3)} %` : '—']));
     }
     bt.append(bb);
     root.append(bt);
-    root.append(el('p', 'fine', 'Bilanz = Summe über alle Zutaten ohne Einlage (z. B. Wasser aus Ei, Butter, Milch). ◦ außerhalb Q1–Q3 · ⚠ außerhalb Korpus-Spanne'));
+    root.append(el('p', 'fine', 'Bilanz = Summe über alle Zutaten ohne Einlage (z. B. Wasser aus Ei/Butter/Milch, Eiweiß aus Mehl/Ei/Milch). ◦ außerhalb Q1–Q3 · ⚠ außerhalb Korpus-Spanne'));
   }
 
   const bake = el('div', 'bake');

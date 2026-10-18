@@ -58,7 +58,11 @@
         "groesse": "zucker", "bezug": { "groesse": "wasser" }, "max": 1.0, "strenge": "empfohlen", "kaskade_ziel": "fluessigkeit",
         "hinweis": "Zucker/Wasser = {wert} (Grenze {grenze}) — Zucker löst sich nicht vollständig, Krume wird grob, Kruste zuckrig.",
         "quelle": "High-Ratio-Regel: Gesamtflüssigkeit ≥ Zucker. Korpus-Maximum 0,92."
-      }
+      },
+      {"id": "gluten_min", "groesse": "gluten", "bezug": {"rolle": "struktur"}, "min": 6, "strenge": "empfohlen", "kaskade_ziel": "struktur", "hinweis": "Klebereiweiß nur {wert} % der Struktur (Grenze {grenze} %) — Stärke/Nussmehl liefert kein Eiweißgerüst. In der Praxis höchstens ~25 % der Struktur-Rolle ersetzen (z. B. 350 g Mehl + 50 g Speisestärke).", "quelle": "Ersetzt die hartcodierte Warnung „bildet_gluten = false“ aus rules.js (prüfte nur die dominante Zutat); 6 % ≈ 75 % Weizenmehl (8 % Klebereiweiß) in der Struktur. Korpus 7–8 %."},
+      {"id": "eiweiss_min", "groesse": "eiweiss", "bezug": {"rolle": "struktur"}, "min": 12, "strenge": "empfohlen", "kaskade_ziel": "struktur", "hinweis": "Gesamteiweiß {wert} % vom Mehl (Grenze {grenze} %) — zu wenig koagulierendes Eiweiß, der Kuchen trägt sich nicht und bleibt klitschig.", "quelle": "Physik-Faustwert: Gerüst = Gluten + koaguliertes Ei-/Milcheiweiß (deshalb funktionieren mehlfreie Nusskuchen mit vielen Eiern). Korpus 17–25 %."},
+      {"id": "triebkraft_max", "groesse": "triebkraft", "bezug": {"rolle": "struktur"}, "max": 8, "strenge": "empfohlen", "kaskade_ziel": "trieb", "hinweis": "Triebkraft {wert} % Backpulver-Äquivalent vom Mehl (Grenze {grenze} %) — Teig steigt über, fällt zusammen, schmeckt seifig.", "quelle": "Richtwert 1 Pck. (15 g) je 500 g Mehl = 3 %; Korpus 0–7,5 %. Kein Minimum: Sandmassen ohne Backpulver (Trieb aus Ei/Luft) sind im Korpus."},
+      {"id": "triebkraft_max_hart", "groesse": "triebkraft", "bezug": {"rolle": "struktur"}, "max": 12, "strenge": "hart", "hinweis": "Triebkraft {wert} % Backpulver-Äquivalent vom Mehl (Grenze {grenze} %) — Gasbildung zerreißt das Gerüst, deutlicher Seifengeschmack.", "quelle": "Physik-Faustwert (vierfache Normalmenge)."}
     ]
   }
 }

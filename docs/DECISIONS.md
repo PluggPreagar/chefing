@@ -257,3 +257,10 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **cons:** Graph-Layout ohne echten Layout-Algorithmus (keine Kreuzungsminimierung) — reicht für ≤ 2 parallele Stränge. Kaskade wählt die *erste* passende Option in Deklarationsreihenfolge, nicht die nächstliegende; tauscht nur Zutaten, ändert keine Mengen (T40).
 - **risk:** Bei mehr parallelen Strängen (z. B. Hefeteig mit Vorteig, T06) kann die Spaltendarstellung unübersichtlich werden → dann echtes Layout (z. B. dagre) neu bewerten.
 
+## DR-022 · konzept · Funktionsvektor additiv als Funktions-Bilanz (T36, Option A)
+
+- **descr:** (2026-10-18) Drei Optionen vorgelegt (DR-007): **A** Funktions-Bilanz additiv — Funktionsvektor je Zutat (`funktionen`), summiert wie Wasser/Fett/Zucker, Grenzen darauf, Rollen bleiben Slots; **B** Rolle = Funktion — Rollen als Funktions-Schwellen, Substitution generisch, Umbau von Blendregeln (DR-012), Morphologischem Kasten und Kaskade; **C** Fertighelfer zuerst zerlegen. **Nutzer-Entscheidung: A.** B als T41 zurückgestellt, C bleibt T37 (baut auf A auf).
+- **pro:** Rein additiv, Presets unverändert; physikalisch erklärt, warum mehlfreie Nusskuchen funktionieren (Eiweiß aus Ei statt Gluten) und warum Mehl/Stärke-Mischungen ab ~25 % Stärke kippen; eine hartcodierte Warnung weniger in `rules.js`; Erfahrungsregel „Natron drittel“ durch den Funktionsvektor bestätigt.
+- **cons:** Funktionswerte sind gerundete Nährwert-Richtwerte; Substitution bleibt an Rollen-Optionen gebunden (Ei kann nicht durch Joghurt in „Bindung“ ersetzt werden, bis T41).
+- **risk:** Korpus-Toleranz auf Größen mit kaum Varianz (Klebereiweiß/Stärke: Q1–Q3 fast ein Punkt, weil der Korpus fast nur Weizenmehl enthält) meldet jede Mischung als „untypisch“ — bewusst als Hinweis (nicht Warnung) belassen; verschwindet mit diverserem Korpus (T04).
+

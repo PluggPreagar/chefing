@@ -6,6 +6,7 @@
     "fettanteil": "0..1 Massenanteil Fett",
     "wasseranteil": "0..1 Massenanteil Wasser",
     "zuckeranteil": "0..1 Massenanteil Zucker (Saccharose + Laktose + Fruchtzucker), Default 0 — für die Gesamtbilanz (bilanz.js, DR-020)",
+    "funktionen": "optional, Funktionsvektor (T36, Option A „Funktions-Bilanz additiv“): Massenanteile 0..1 für eiweiss (Gesamteiweiß, koaguliert → Gerüst), gluten (Klebereiweiß, Teilmenge von eiweiss), staerke (verkleistert → Bindung), emulgator (Lecithin); triebkraft = Backpulver-Äquivalent je g (Backpulver 1, Natron ~3, braucht Säure). Fehlend = 0. Richtwerte aus Nährwerttabellen, gerundet.",
     "saeure": "true wenn nennenswert sauer (reagiert mit Backpulver/Natron)",
     "cremig_schlagbar": "true wenn sich bei Raumtemperatur Luft einschlagen lässt",
     "schmelzpunkt_c": "°C, nur bei festen Fetten",
@@ -20,6 +21,7 @@
     "aggregat": "pulver",
     "fettanteil": 0.01,
     "wasseranteil": 0.14,
+    "funktionen": {"eiweiss": 0.1, "gluten": 0.08, "staerke": 0.71},
     "saeure": false,
     "eigenschaften": ["bildet Gluten bei Feuchtigkeit + Bewegung (Körper/Gerüst)", "Stärke verkleistert ab ~60 °C (Bindung)"],
     "umrechnung": { "el": 10, "tl": 3 }
@@ -32,6 +34,7 @@
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0.12,
+    "funktionen": {"staerke": 0.86},
     "saeure": false,
     "eigenschaften": ["glutenfrei — bindet/verdickt, liefert aber kein Eiweißgerüst (keinen Körper)", "macht Krume feiner und mürber"],
     "umrechnung": { "el": 10, "tl": 3 }
@@ -44,6 +47,7 @@
     "aggregat": "pulver",
     "fettanteil": 0.62,
     "wasseranteil": 0.05,
+    "funktionen": {"eiweiss": 0.14, "staerke": 0.05},
     "saeure": false,
     "eigenschaften": ["fettreich, macht Krume feucht", "kein Gluten, kann Teil des Mehls ersetzen"],
     "umrechnung": { "el": 8 }
@@ -56,6 +60,7 @@
     "aggregat": "pulver",
     "fettanteil": 0.53,
     "wasseranteil": 0.05,
+    "funktionen": {"eiweiss": 0.21, "staerke": 0.04},
     "saeure": false,
     "eigenschaften": ["fettreich, macht Krume feucht", "kein Gluten, kann Teil des Mehls ersetzen"],
     "umrechnung": { "el": 8 }
@@ -141,6 +146,7 @@
     "aggregat": "fluessig",
     "fettanteil": 0.10,
     "wasseranteil": 0.75,
+    "funktionen": {"eiweiss": 0.125, "emulgator": 0.03},
     "saeure": false,
     "eigenschaften": ["Emulgator (Lecithin) bindet Fett und Wasser", "Protein stockt ab ~65 °C → Struktur", "eingeschlagene Luft = Trieb"],
     "umrechnung": { "stk": 55 }
@@ -153,6 +159,7 @@
     "fettanteil": 0.035,
     "wasseranteil": 0.88,
     "zuckeranteil": 0.05,
+    "funktionen": {"eiweiss": 0.034},
     "saeure": false,
     "eigenschaften": ["neutral", "reguliert Teigkonsistenz", "Milchzucker fördert Bräunung"],
     "umrechnung": { "ml": 1.03, "el": 15, "tl": 5 }
@@ -176,6 +183,7 @@
     "fettanteil": 0.01,
     "wasseranteil": 0.90,
     "zuckeranteil": 0.04,
+    "funktionen": {"eiweiss": 0.033},
     "saeure": true,
     "eigenschaften": ["Milchsäure reagiert mit Backpulver/Natron → zusätzliches CO₂", "Säure begrenzt Glutenentwicklung → zartere Krume"],
     "umrechnung": { "ml": 1.03, "el": 15 }
@@ -187,6 +195,7 @@
     "aggregat": "fluessig",
     "fettanteil": 0.10,
     "wasseranteil": 0.80,
+    "funktionen": {"eiweiss": 0.03},
     "saeure": true,
     "eigenschaften": ["sauer + fetthaltig → saftig und zart", "dickflüssig, bringt weniger freies Wasser"],
     "umrechnung": { "ml": 1.0, "el": 15 }
@@ -198,6 +207,7 @@
     "aggregat": "fluessig",
     "fettanteil": 0.24,
     "wasseranteil": 0.68,
+    "funktionen": {"eiweiss": 0.025},
     "saeure": true,
     "eigenschaften": ["sehr fettreich unter den sauren Milchprodukten → sehr saftig", "leicht säuerlich"],
     "umrechnung": { "ml": 1.0, "el": 20 }
@@ -210,6 +220,7 @@
     "fettanteil": 0.035,
     "wasseranteil": 0.86,
     "zuckeranteil": 0.04,
+    "funktionen": {"eiweiss": 0.04},
     "saeure": true,
     "eigenschaften": ["sauer, reagiert mit Trieb", "leichter als Schmand"],
     "umrechnung": { "ml": 1.03, "el": 18 }
@@ -221,6 +232,7 @@
     "aggregat": "fest",
     "fettanteil": 0.003,
     "wasseranteil": 0.82,
+    "funktionen": {"eiweiss": 0.12},
     "saeure": true,
     "cremig_schlagbar": false,
     "eigenschaften": ["proteinreich", "sauer", "bringt Feuchtigkeit ohne Fett"],
@@ -233,6 +245,7 @@
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
+    "funktionen": {"triebkraft": 1, "staerke": 0.3},
     "saeure": false,
     "trieb_typ": "chemisch_doppelt",
     "eigenschaften": ["enthält Base + Säure → braucht keine saure Zutat", "wirkt beim Anfeuchten und beim Erhitzen (doppelt)", "Richtwert ~3 % vom Mehl"],
@@ -245,6 +258,7 @@
     "aggregat": "pulver",
     "fettanteil": 0,
     "wasseranteil": 0,
+    "funktionen": {"triebkraft": 3},
     "saeure": false,
     "trieb_typ": "chemisch_basisch",
     "eigenschaften": ["nur Base → BRAUCHT saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker)", "etwa 3× so stark wie Backpulver", "Überschuss schmeckt seifig"],
@@ -347,6 +361,7 @@
     "aggregat": "pulver",
     "fettanteil": 0.11,
     "wasseranteil": 0.03,
+    "funktionen": {"eiweiss": 0.2, "staerke": 0.1},
     "saeure": true,
     "eigenschaften": ["saugt Flüssigkeit wie Mehl → trocknet Teig aus", "leicht sauer (Naturkakao)", "ersetzt anteilig Mehl im dunklen Teig"],
     "umrechnung": { "el": 8, "tl": 3 }
