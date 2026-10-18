@@ -19,8 +19,9 @@ export async function loadCorpus(varianten, base = './src/data/corpus/') {
   return Object.fromEntries(entries);
 }
 
-export function normalizeRecipe(recipe, ingredients) {
-  const rollenGramm = Object.fromEntries(ROLLEN.map((r) => [r, 0]));
+// rollen/referenz kommen aus dem Archetyp (archetypes.json, T06); Default = Rührteig für Tests.
+export function normalizeRecipe(recipe, ingredients, { rollen = ROLLEN, referenz = 'struktur' } = {}) {
+  const rollenGramm = Object.fromEntries(rollen.map((r) => [r, 0]));
   const unbekannt = [];
   let fettTyp = null;
   let sauer = false;
@@ -41,8 +42,8 @@ export function normalizeRecipe(recipe, ingredients) {
     if (ing?.saeure && z.rolle !== 'aroma' && z.rolle !== 'einlage') sauer = true;
   }
 
-  const ref = rollenGramm.struktur || 0;
-  const bp = Object.fromEntries(ROLLEN.map((r) => [r, bakersPercent(rollenGramm[r], ref)]));
+  const ref = rollenGramm[referenz] || 0;
+  const bp = Object.fromEntries(rollen.map((r) => [r, bakersPercent(rollenGramm[r], ref)]));
   const teigmasse = Object.values(rollenGramm).reduce((a, b) => a + b, 0);
 
   return {
@@ -50,7 +51,7 @@ export function normalizeRecipe(recipe, ingredients) {
     rollenGramm,
     bp,
     teigmasse,
-    bilanz: bilanz(posten, ingredients),
+    bilanz: bilanz(posten, ingredients, referenz),
     fettTyp,
     sauer,
     hatEinlage: rollenGramm.einlage > 0,
@@ -58,7 +59,7 @@ export function normalizeRecipe(recipe, ingredients) {
   };
 }
 
-export function stats(normalized) {
+export function stats(normalized, rollen = ROLLEN) {
   const n = normalized.length;
   const count = (fn) =>
     normalized.reduce((acc, r) => {
@@ -69,7 +70,7 @@ export function stats(normalized) {
 
   return {
     n,
-    bp: Object.fromEntries(ROLLEN.map((r) => [r, summarize(normalized.map((x) => x.bp[r]))])),
+    bp: Object.fromEntries(rollen.map((r) => [r, summarize(normalized.map((x) => x.bp[r]))])),
     methoden: count((r) => r.methode),
     fettTyp: count((r) => r.fettTyp),
     fettZutat: count((r) => (r.zutaten || []).find((z) => z.rolle === 'fett')?.zutat),

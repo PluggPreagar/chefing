@@ -1,9 +1,6 @@
 import { fromGrams } from './units.js';
-import { ROLLEN } from './corpus.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } from './rules.js';
 import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
-
-const FALLBACK_BP = { struktur: 100, fett: 90, suesse: 90, bindung: 80, fluessigkeit: 20, trieb: 3, aroma: 3, einlage: 40 };
 
 export function varianteFuerGefaess(gefaessKey, arch, vessels) {
   const fam = vessels[gefaessKey]?.familie;
@@ -36,6 +33,8 @@ function wendeErfahrungsregelnAn(bpZiel, props, st, erfahrungsregeln) {
 
 export function compute(state, data, korpusStats) {
   const arch = data.archetypes[state.archetyp];
+  data = { ...data, arch }; // rules.js liest den aktiven Archetyp aus data.arch (T06)
+  const rollenKeys = arch.rollen.map((r) => r.rolle);
   const vessel = data.vessels[state.gefaess];
   const variante = varianteFuerGefaess(state.gefaess, arch, data.vessels);
   const st = korpusStats[variante] || { n: 0, bp: {}, methoden: {}, backen: {} };
@@ -48,11 +47,11 @@ export function compute(state, data, korpusStats) {
 
   const bpZiel = {};
   const anpassungen = [];
-  for (const r of ROLLEN) {
+  for (const r of rollenKeys) {
     if (!state.zutaten[r]?.length) continue;
     let bp = st.bp?.[r]?.median;
     let quelle = 'korpus';
-    if (bp == null || bp === 0) { bp = FALLBACK_BP[r]; quelle = 'schätzung'; }
+    if (bp == null || bp === 0) { bp = arch.rollen.find((x) => x.rolle === r).fallback_bp; quelle = 'schätzung'; }
     bpZiel[r] = { bp, quelle };
   }
 
@@ -68,7 +67,7 @@ export function compute(state, data, korpusStats) {
   const teigmasse = vessel.teigmasse_g;
   // Eine Rolle kann mehrere Zutaten tragen (z. B. Fett aus Butter + Öl) — die
   // Rollen-Bäckerprozent wird proportional zu den Anteilen auf mehrere Zeilen verteilt.
-  const zutatenListe = ROLLEN.filter((r) => bpZiel[r]).flatMap((r) => {
+  const zutatenListe = rollenKeys.filter((r) => bpZiel[r]).flatMap((r) => {
     const entries = (state.zutaten[r] || []).filter((e) => e?.zutat && data.ingredients[e.zutat]);
     const sumAnteile = entries.reduce((a, e) => a + (e.anteil || 1), 0) || 1;
     const grams = (bpZiel[r].bp / summeBp) * teigmasse;

@@ -16,17 +16,21 @@ async function loadJson(path) {
 const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen] = await Promise.all(
   ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen'].map((n) => loadJson(`./src/data/${n}.json`)),
 );
-const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen };
-const arch = archetypes.ruehrteig;
+const ARCHETYP = 'ruehrteig'; // einziger Einstiegspunkt; Umschalter folgt mit dem zweiten Archetyp (T06)
+const arch = archetypes[ARCHETYP];
+const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, arch };
+const rollenKeys = arch.rollen.map((r) => r.rolle);
+const referenz = arch.rollen.find((r) => r.referenz)?.rolle ?? rollenKeys[0];
+const ersteVariante = Object.keys(arch.varianten)[0];
 
 const raw = await loadCorpus(arch.varianten);
 // Normalisierte Rezeptlisten bleiben erhalten (nicht nur die aggregierten `stats()`) — die
 // Korrelationssuche (DR-019 Punkt 5, T32) braucht die Rezepte einzeln, um Bäckerprozent bedingt
 // auf eine Zutat-Eigenschaft zu vergleichen, nicht nur den Gesamt-Median je Rolle.
 const korpusNormalisiert = Object.fromEntries(
-  Object.entries(raw).map(([k, list]) => [k, list.map((r) => normalizeRecipe(r, ingredients))]),
+  Object.entries(raw).map(([k, list]) => [k, list.map((r) => normalizeRecipe(r, ingredients, { rollen: rollenKeys, referenz }))]),
 );
-const korpusStats = Object.fromEntries(Object.entries(korpusNormalisiert).map(([k, list]) => [k, stats(list)]));
+const korpusStats = Object.fromEntries(Object.entries(korpusNormalisiert).map(([k, list]) => [k, stats(list, rollenKeys)]));
 
 // Jede Rolle trägt eine Liste von {zutat, anteil} statt einer einzelnen Zutat —
 // so lassen sich Zutaten mischen (z. B. Fett aus Butter + Öl). Ein einfacher
@@ -38,8 +42,8 @@ function alsEintraege(wert) {
 }
 
 const state = {
-  archetyp: 'ruehrteig',
-  gefaess: arch.varianten.kastenkuchen.gefaess,
+  archetyp: ARCHETYP,
+  gefaess: arch.varianten[ersteVariante].gefaess,
   methode: null,
   // fixiert.rollen[rolle] = true: ganze Rolle bewusst fixiert (DR-019 Wert-Zustand "gesetzt-fix",
   // T24). fixiert.zutaten[rolle][zutat] = true: nur eine einzelne Zutat innerhalb einer
@@ -49,9 +53,18 @@ const state = {
   fixiert: { rollen: {}, zutaten: {} },
   zutaten: Object.fromEntries(arch.rollen.map((r) => [r.rolle, alsEintraege(r.default)])),
 };
-applyPreset('kastenkuchen');
+applyPreset(ersteVariante);
 
 const $ = (id) => document.getElementById(id);
+
+// Preset-Buttons aus den Varianten des Archetyps (statt fest in index.html).
+for (const [key, v] of Object.entries(arch.varianten)) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.dataset.preset = key;
+  b.textContent = v.kurz ?? v.label;
+  $('toggle-stats').before(b);
+}
 
 // Grenze für die Rückfrage-UI (DR-019/T28): nur Overrides fragen, die VOR diesem Seitenaufruf
 // erfasst wurden — sonst würde ein gerade eben gesetzter Override sofort wieder abgefragt,

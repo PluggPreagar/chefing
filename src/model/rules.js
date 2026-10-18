@@ -5,6 +5,12 @@ import { beschreibeGrenze } from './bilanz.js';
 // anteilsstärksten Zutat (Dominante), boolesche Eigenschaften, die "reicht
 // wenn irgendeine Zutat sie hat" bedeuten (saeure, bildet_gluten,
 // quellfaehig), werden ODER-verknüpft über alle gewählten Zutaten.
+// Aktiver Archetyp: compute() setzt data.arch. Ohne (z. B. Regel-Katalog, T29) zählt der erste
+// Archetyp mit Rollen; Rollen-Labels werden dann über alle Archetypen gesucht (T06).
+const archVon = (data) => data.arch ?? Object.values(data.archetypes).find((a) => a?.rollen);
+const alleRollen = (data) => [...(data.arch?.rollen ?? []), ...Object.values(data.archetypes).flatMap((a) => a?.rollen ?? [])];
+const rollenLabelVon = (data, rolle) => alleRollen(data).find((r) => r.rolle === rolle)?.label ?? rolle;
+
 export function blendProps(entries, ingredients) {
   const valid = (entries || []).filter((e) => e?.zutat && ingredients[e.zutat]);
   if (!valid.length) return null;
@@ -77,7 +83,7 @@ function ermittleFixierung(fixiert, b, props, data) {
   const istGuard = b.rolle?.startsWith('!');
   const rolle = istGuard ? b.wenn?.rolle : b.rolle;
   if (!rolle) return null;
-  const rolleLabel = data.archetypes.ruehrteig.rollen.find((r) => r.rolle === rolle)?.label ?? rolle;
+  const rolleLabel = rollenLabelVon(data, rolle);
   if (fixiert?.rollen?.[rolle]) return { rolleLabel, zutatLabel: null };
 
   const gepinnt = fixiert?.zutaten?.[rolle] || {};
@@ -152,7 +158,7 @@ function brauchtEinlegen(props) {
 // deklarierten Reihenfolge aus archetypes.json), die die geforderte Eigenschaft erfüllt.
 // Reine Berechnung — keine State-Mutation, das Ergebnis ist nur ein Vorschlag (siehe T27).
 function findKaskadeKandidat(zielRolleKey, eigenschaft, wert, data) {
-  const rolle = data.archetypes.ruehrteig.rollen.find((r) => r.rolle === zielRolleKey);
+  const rolle = archVon(data).rollen.find((r) => r.rolle === zielRolleKey);
   if (!rolle) return null;
   const key = rolle.optionen.find((k) => data.ingredients[k]?.[eigenschaft] === wert);
   if (!key) return null;
@@ -257,7 +263,7 @@ const AGGREGAT = { fest: 'festes', fluessig: 'flüssiges', pulver: 'pulvriges', 
 const IST = { fest: 'fest', fluessig: 'flüssig', pulver: 'pulvrig', stueckig: 'stückig', true: 'ja', false: 'nein' };
 
 function beschreibeBedingungen(fehlend, data) {
-  const rollenLabel = (key) => data.archetypes.ruehrteig.rollen.find((r) => r.rolle === key)?.label ?? key;
+  const rollenLabel = (key) => rollenLabelVon(data, key);
   return fehlend
     .map((f) => {
       // "hinweis": optionaler, in der Regel selbst hinterlegter Erklärtext — für Fälle,
@@ -290,7 +296,7 @@ function beschreibeBedingungen(fehlend, data) {
 // Katalog (DR-019/T29), der unabhängig vom aktuell zusammengeklickten Rezept sein muss.
 function beschreibeAnforderung(b, data) {
   if (b.hinweis) return b.hinweis;
-  const rollenLabel = data.archetypes.ruehrteig.rollen.find((r) => r.rolle === b.rolle)?.label ?? b.rolle;
+  const rollenLabel = rollenLabelVon(data, b.rolle);
   const soll =
     b.eigenschaft === 'cremig_schlagbar' ? 'cremig schlagbares'
     : b.eigenschaft === 'aggregat' ? AGGREGAT[b.wert] ?? b.wert
@@ -328,7 +334,7 @@ export function alleUeberschreibbarenRegeln(data) {
 }
 
 export function evaluateAll(zutaten, gefaessKey, data, fixiert = {}) {
-  const arch = data.archetypes.ruehrteig;
+  const arch = archVon(data);
   return Object.fromEntries(arch.methoden.map((m) => [m, resolveMethod(m, zutaten, gefaessKey, data, fixiert)]));
 }
 

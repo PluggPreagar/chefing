@@ -1,9 +1,8 @@
 import { GROESSEN_LABEL, fmtProzent } from '../model/bilanz.js';
-import { ROLLEN } from '../model/corpus.js';
 
 export function renderStats(root, korpusStats, data) {
   root.replaceChildren();
-  const arch = data.archetypes.ruehrteig;
+  const arch = data.arch;
 
   for (const [variante, v] of Object.entries(arch.varianten)) {
     const st = korpusStats[variante];
@@ -13,7 +12,7 @@ export function renderStats(root, korpusStats, data) {
 
     const t = el('table', 'stat-table');
     t.append(tr(['Rolle', 'Median', 'Q1–Q3', 'min–max', 'Lehrbuch „schwer“'], 'th'));
-    for (const r of ROLLEN) {
+    for (const r of arch.rollen.map((x) => x.rolle)) {
       const s = st.bp[r];
       if (!s) continue;
       const lb = arch.lehrbuch.schwer[r] ?? (r === 'trieb' ? arch.lehrbuch.trieb_richtwert : null);

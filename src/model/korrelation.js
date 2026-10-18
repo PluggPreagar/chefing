@@ -4,8 +4,8 @@ import { GROESSEN } from './bilanz.js';
 
 // Ziel-Dimensionen: Rollen-Bäckerprozent UND Bilanz-Größen (T39, Präfix "bilanz:") — so werden
 // auch rollenübergreifende Effekte sichtbar (z. B. saure Flüssigkeit → Gesamtwasser höher).
-const ZIELE = [
-  ...ROLLEN.map((r) => ({ key: r, wert: (rez) => rez.bp[r] })),
+const zieleFuer = (rollen) => [
+  ...rollen.map((r) => ({ key: r, wert: (rez) => rez.bp[r] })),
   ...Object.keys(GROESSEN).map((g) => ({ key: `bilanz:${g}`, wert: (rez) => rez.bilanz?.bp[g] })),
 ];
 
@@ -39,8 +39,10 @@ export function korrelationenSuchen(normalizedRecipes, ingredients, opts = {}) {
   const belastbarN = opts.belastbarN ?? 5; // ab hier gilt der Vergleich als einigermaßen tragfähig
   const minUnterschied = opts.minUnterschied ?? 0.15; // relative Differenz, ab der ein Unterschied auffällt
 
+  const rollen = opts.rollen ?? ROLLEN; // aus dem Archetyp (T06); Default Rührteig
+  const ZIELE = zieleFuer(rollen);
   const kandidaten = [];
-  for (const bRolle of ROLLEN) {
+  for (const bRolle of rollen) {
     for (const eigenschaft of EIGENSCHAFTEN) {
       const werte = new Set();
       for (const rezept of normalizedRecipes) {

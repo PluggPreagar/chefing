@@ -68,12 +68,13 @@ function korrelationsKandidaten(data, korpusNormalisiert, onChange) {
   const entscheidungen = alleEntscheidungen();
   const rollenLabel = (r) => r.startsWith('bilanz:')
     ? GROESSEN_LABEL[r.slice(7)] ?? r
-    : data.archetypes.ruehrteig.rollen.find((x) => x.rolle === r)?.label ?? r;
+    : data.arch.rollen.find((x) => x.rolle === r)?.label ?? r;
 
-  const varianten = Object.keys(data.archetypes.ruehrteig.varianten);
+  const varianten = Object.keys(data.arch.varianten);
+  const rollen = data.arch.rollen.map((x) => x.rolle);
   const alleKandidaten = varianten.flatMap((variante) => {
     const rezepte = korpusNormalisiert?.[variante] || [];
-    return korrelationenSuchen(rezepte, data.ingredients).map((k) => ({ ...k, variante, id: kandidatId(variante, k) }));
+    return korrelationenSuchen(rezepte, data.ingredients, { rollen }).map((k) => ({ ...k, variante, id: kandidatId(variante, k) }));
   });
   const offen = alleKandidaten.filter((k) => !entscheidungen[k.id]);
 
@@ -85,7 +86,7 @@ function korrelationsKandidaten(data, korpusNormalisiert, onChange) {
   for (const k of offen) {
     const zeile = el('div', 'note ' + (k.belastbar ? 'note-kaskade' : 'note-warn'));
     const richtung = k.medianMit > k.medianOhne ? 'höher' : 'niedriger';
-    const text = `${data.archetypes.ruehrteig.varianten[k.variante]?.label ?? k.variante}: wenn „${rollenLabel(k.bRolle)}“ ${k.eigenschaft}=${k.wert}, ist der Bäckerprozent-Median von „${rollenLabel(k.zRolle)}“ ${richtung} (${k.medianOhne.toFixed(0)} % → ${k.medianMit.toFixed(0)} %, Faktor ${k.faktor.toFixed(2)}, n=${k.nMit}/${k.nOhne})`;
+    const text = `${data.arch.varianten[k.variante]?.label ?? k.variante}: wenn „${rollenLabel(k.bRolle)}“ ${k.eigenschaft}=${k.wert}, ist der Bäckerprozent-Median von „${rollenLabel(k.zRolle)}“ ${richtung} (${k.medianOhne.toFixed(0)} % → ${k.medianMit.toFixed(0)} %, Faktor ${k.faktor.toFixed(2)}, n=${k.nMit}/${k.nOhne})`;
     zeile.append(el('span', null, text + (k.belastbar ? '' : ' — vorläufig, kleine Stichprobe')));
     const knoepfe = el('span', 'note-buttons');
     knoepfe.append(
