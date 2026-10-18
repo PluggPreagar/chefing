@@ -2,7 +2,7 @@
 import fs from 'fs';
 const P=new URL('../src/', import.meta.url).href;
 const J=(n)=>JSON.parse(fs.readFileSync(new URL(P+'data/'+n+'.json')));
-const { temperaturBereich, fmtTemperatur, medianBereich, schrittTemperatur, gareOperation } = await import(P+'model/temperatur.js');
+const { temperaturBereich, fmtTemperatur, medianBereich, schrittTemperatur, gareOperation, wassertemperatur } = await import(P+'model/temperatur.js');
 const { normalizeRecipe, stats } = await import(P+'model/corpus.js');
 const { compute } = await import(P+'model/engine.js');
 let fail=0; const ok=(c,m)=>{console.log((c?'PASS ':'FAIL ')+m); if(!c) fail++;};
@@ -53,13 +53,16 @@ ok(gareOperation('unbekannt',meths,ops).temperatur==='warm' && gareOperation('x'
 
 // --- Daten ---------------------------------------------------------------------------------------------------------------------
 const namen=Object.keys(T).filter(k=>!k.startsWith('_'));
-ok(namen.join()==='kuehlschrank,kuehl,raum,warm,lauwarm' && namen.every(k=>T[k].label && T[k].min<T[k].max),'temperaturen.json: fünf benannte Bereiche mit label und min < max');
-const reihe=['kuehlschrank','kuehl','raum','warm','lauwarm'].map(k=>T[k]);
+ok(namen.join()==='kuehlschrank,kuehl,raum,warm,lauwarm,plastisch,teig' && namen.every(k=>T[k].label && T[k].min<T[k].max),'temperaturen.json: sieben benannte Bereiche mit label und min < max (Gare: kühlschrank bis lauwarm; plastisch für Fett, teig für die Teigtemperatur)');
+const reihe=['kuehlschrank','kuehl','raum','warm','lauwarm'].map(k=>T[k]); // plastisch (18–22) und teig (24–26) liegen bewusst in raum und warm
 ok(reihe.every((x,i)=>i===0||(x.min>=reihe[i-1].max-0.0001 || x===T.lauwarm)),'die Bereiche überlappen sich nicht (außer warm/lauwarm bei 30 °C)');
 const specs=[]; // {wo, spec}
-for (const [k,o] of Object.entries(ops)) if(!k.startsWith('_') && o.temperatur!=null) specs.push({wo:`operations/${k}`,spec:o.temperatur});
-for (const [k,mt] of Object.entries(meths)) if(!k.startsWith('_')) for (const s of mt.sequenz||[]) if(typeof s==='object' && s.temperatur!=null) specs.push({wo:`methods/${k}/${s.key}`,spec:s.temperatur});
-ok(specs.length>=5 && specs.every(x=>temperaturBereich(x.spec,T)),`alle ${specs.length} Temperatur-Angaben an Operationen und Methoden lassen sich auflösen (${specs.map(x=>x.wo.split('/').pop()).join(', ')})`);
+const abgeleitet=[];
+for (const [k,o] of Object.entries(ops)) if(!k.startsWith('_') && o.temperatur!=null) (o.temperatur.von?abgeleitet:specs).push({wo:`operations/${k}`,spec:o.temperatur});
+for (const [k,mt] of Object.entries(meths)) if(!k.startsWith('_')) for (const s of mt.sequenz||[]) if(typeof s==='object' && s.temperatur!=null) (s.temperatur.von?abgeleitet:specs).push({wo:`methods/${k}/${s.key}`,spec:s.temperatur});
+ok(specs.length>=5 && specs.every(x=>temperaturBereich(x.spec,T)),`alle ${specs.length} festen Temperatur-Angaben an Operationen und Methoden lassen sich auflösen (${specs.map(x=>x.wo.split('/').pop()).join(', ')})`);
+const kontextAlle={fett:{schmelzpunkt_c:34,aufschlag_temp:'plastisch'}};
+ok(abgeleitet.length===2 && abgeleitet.every(x=>temperaturBereich(x.spec,T,kontextAlle)),`die ${abgeleitet.length} abgeleiteten Angaben (${abgeleitet.map(x=>x.wo.split('/').pop()).join(', ')}) lösen sich mit den Eigenschaften der Zutat auf`);
 ok(!ops._schema.temperatur===false && /temperaturen/.test(ops._schema.temperatur) && !('kuehl' in meths._schema) && !Object.values(meths).some(x=>x&&x.kuehl!==undefined),'Schema dokumentiert `temperatur`; das alte Methoden-Flag `kuehl` ist weg');
 const korpusDateien=fs.readdirSync(new URL(P+'data/corpus/')).filter(f=>f.endsWith('.json'));
 let nRez=0, nTemp=0; const schlecht=[]; const alteFlags=[]; const schluessel=new Set();
@@ -73,6 +76,31 @@ ok(temperaturBereich(zopfZimt.temperaturen.gehen,T).mitte===10 && /10 Grad/.test
 const alleTexte=['src/main.js','src/model/corpus.js','src/model/engine.js','src/model/gaerung.js','src/model/ueberraschungen.js','src/ui/recipeCard.js','tools/gaerung-fit.mjs','tools/gaerung-pruefen.mjs','tools/ueberraschungen.mjs'].map(f=>fs.readFileSync(new URL('../'+f,import.meta.url),'utf8')).join('\n');
 ok(!/gehen_kuehl|kuehlAnteil|kuehl_faktor/.test(alleTexte),'kein Code liest mehr `gehen_kuehl`, `kuehlAnteil` oder `kuehl_faktor`');
 
+// --- abgeleitete Temperatur (T56) --------------------------------------------------------------------------------------------------
+const butter={fett:{schmelzpunkt_c:34,aufschlag_temp:'plastisch'}};
+b=temperaturBereich({von:{rolle:'fett',feld:'schmelzpunkt_c'},faktor:1.05},T,butter);
+ok(near(b.mitte,35.7) && near(b.min,35.7) && near(b.max,35.7) && b.name===null,'Schmelzen = Schmelzpunkt × 1,05: Butter 34 °C → 35,7 °C (Nutzer-Vorgabe „Schmelzpunkt plus etwa 5 %“)');
+b=temperaturBereich({von:{rolle:'fett',feld:'aufschlag_temp'}},T,butter);
+ok(b.min===18 && b.max===22 && b.mitte===20,'abgeleitet ohne Faktor aus einem Namen der Zutat: Aufschlagen bei 18–22 °C (plastisch)');
+b=temperaturBereich({von:{rolle:'fett',feld:'aufschlag_temp'}},T,{fett:{aufschlag_temp:{min:15,max:24}}});
+ok(b.min===15 && b.max===24,'das Zutaten-Feld darf auch eine Spanne sein (Margarine 15–24 °C)');
+b=temperaturBereich({von:{rolle:'fett',feld:'schmelzpunkt_c'},faktor:1,tol:2},T,butter);
+ok(b.min===32 && b.max===36 && b.mitte===34,'Spielraum tol verbreitert den abgeleiteten Bereich (34 ± 2 °C)');
+for (const [spec,kontext,text] of [[{von:{rolle:'fett',feld:'schmelzpunkt_c'}},{fett:{}},'Feld fehlt (Öl hat keinen Schmelzpunkt)'],[{von:{rolle:'fett',feld:'schmelzpunkt_c'}},null,'kein Kontext'],[{von:{rolle:'fett',feld:'schmelzpunkt_c'}},{},'Rolle nicht belegt'],[{von:{rolle:'fett',feld:'schmelzpunkt_c'},faktor:0},butter,'Faktor 0'],[{von:{rolle:'fett',feld:'schmelzpunkt_c'},faktor:-1},butter,'negativer Faktor'],[{von:{rolle:'fett',feld:'schmelzpunkt_c'},faktor:'x'},butter,'Faktor als Text'],[{von:{rolle:'fett',feld:'schmelzpunkt_c'},tol:-1},butter,'negativer Spielraum'],[{von:{rolle:'fett',feld:'schmelzpunkt_c'}},{fett:{schmelzpunkt_c:'heiß'}},'Feld unbekannter Name'],[{von:{rolle:'fett'}},butter,'Feld nicht benannt']]) {
+  if (temperaturBereich(spec,T,kontext)!==null) ok(false,'abgeleitet, aber angenommen: '+text);
+}
+ok(true,'abgeleitet ungültig → null: Feld fehlt, kein Kontext, Rolle nicht belegt, Faktor 0 / negativ / Text, negativer Spielraum, Feld mit unbekanntem Namen, Feld nicht benannt');
+{const pl=temperaturBereich({von:{rolle:'fett',feld:'aufschlag_temp'}},T,butter), sk=temperaturBereich({von:{rolle:'fett',feld:'aufschlag_temp'},faktor:1.1},T,butter), tl=temperaturBereich({von:{rolle:'fett',feld:'aufschlag_temp'},tol:1},T,butter);
+ ok(pl.name==='plastisch' && pl.label==='plastisch' && fmtTemperatur(pl)==='18–22 °C (plastisch)' && sk.name===null && tl.name===null && near(sk.min,19.8) && near(tl.max,23),'unverändert (Faktor 1, kein Spielraum) behält der abgeleitete Bereich den Namen des Zutaten-Feldes; skaliert oder verbreitert nicht');}
+ok(temperaturBereich(35,T,butter).mitte===35 &&temperaturBereich('raum',T,butter).mitte===21,'feste Angaben ignorieren den Kontext');
+ok(wassertemperatur({ziel:25,mehl:21,raum:21,reibung:8})===25 && wassertemperatur({ziel:25,mehl:21,raum:21})===33 && wassertemperatur({ziel:25,mehl:null,raum:21,reibung:8})===null && wassertemperatur({ziel:NaN,mehl:1,raum:1})===null,'Faustformel Wassertemperatur = 3 × Ziel − Mehl − Raum − Reibung (25 °C Ziel, 21 °C Mehl und Raum, 8 K Reibung → 25 °C; ohne Reibung 33 °C; fehlende Zahlen → null)');
+const ing2=J('ingredients');
+const eintr=Object.entries(ing2).filter(([k])=>!k.startsWith('_'));
+const schl=eintr.filter(([,z])=>z.cremig_schlagbar===true).map(([k])=>k).sort();
+const mitTemp=eintr.filter(([,z])=>z.aufschlag_temp!=null).map(([k])=>k).sort();
+ok(schl.join()===mitTemp.join() && schl.join()==='butter,margarine' && eintr.filter(([,z])=>z.aufschlag_temp!=null).every(([,z])=>temperaturBereich(z.aufschlag_temp,T)),'cremig_schlagbar gilt genau für Zutaten mit aufschlag_temp (Butter, Margarine), und der Bereich löst sich auf');
+ok(eintr.filter(([,z])=>z.schmelzpunkt_c!=null).map(([k])=>k).sort().join()==='butter,margarine' && eintr.filter(([,z])=>z.schmelzpunkt_c!=null).every(([,z])=>z.aufschlag_temp!=null && temperaturBereich(z.aufschlag_temp,T).max<z.schmelzpunkt_c),'der Aufschlag-Bereich liegt bei jedem festen Fett unter dem Schmelzpunkt (sonst wäre es flüssig)');
+
 // --- Engine ----------------------------------------------------------------------------------------------------------------------
 const data={...Object.fromEntries(['ingredients','operations','methods','archetypes','vessels','kategorien','verben','erfahrungsregeln','grenzen','modelle','temperaturen'].map(n=>[n,J(n)]))};
 const arch=data.archetypes.hefeteig; const rollen=arch.rollen.map(r=>r.rolle);
@@ -82,7 +110,7 @@ const zustand=(vk,methode)=>{const v=arch.varianten[vk];const z={};for(const r o
 const schritt=(c,key)=>c.ablauf.find(s=>s.key===key);
 let c=compute(zustand('weissbrot','hefe_direkt'),data,ks);
 ok(schritt(c,'gehen').temperatur==='26–30 °C (warm)' && schritt(c,'stueckgare').temperatur==='26–30 °C (warm)' && schritt(c,'hefe_ansetzen').temperatur==='30–35 °C (lauwarm)','Ablauf zeigt die Temperatur der Aktion: Gehen warm, Stückgare warm, Hefe lösen lauwarm');
-ok(schritt(c,'kneten').temperatur===null && schritt(c,'backen').temperatur===null && c.ablauf.filter(s=>s.temperatur).length===3,'Schritte ohne Temperatur-Angabe zeigen keine (Kneten, Backen: Ofen-Zahlen stehen in `backen`)');
+ok(schritt(c,'formen').temperatur===null && schritt(c,'backen').temperatur===null && c.ablauf.filter(s=>s.temperatur).length===4,'Schritte ohne Temperatur-Angabe zeigen keine (Formen, Backen: Ofen-Zahlen stehen in `backen`); Temperatur zeigen Hefe lösen, Kneten (Teig), Gehen, Stückgare');
 c=compute(zustand('weissbrot','hefe_kalt'),data,ks);
 ok(/4–7 °C/.test(schritt(c,'gehen').temperatur) && /warm/.test(schritt(c,'stueckgare').temperatur),'Kalte Führung: Gehen im Kühlschrank, Stückgare danach warm');
 ok(c.gaerung.temp===5.5 && c.gaerung.fenster && c.gaerung.fenster[0]<c.gaerung.erwartet && c.gaerung.erwartet<c.gaerung.fenster[1],`Gärmodell: Erwartung bei der Mitte (5,5 °C) und ein Fenster aus der Breite des Bereichs (${Math.round(c.gaerung.fenster[0])}–${Math.round(c.gaerung.fenster[1])} Min. um ${Math.round(c.gaerung.erwartet)} Min.): wärmer = kürzer`);
@@ -90,7 +118,26 @@ ok(c.gaerung.temp===5.5 && c.gaerung.fenster && c.gaerung.fenster[0]<c.gaerung.e
  const ksR=Object.fromEntries(Object.entries(ruehr.varianten).map(([k,x])=>[k,stats(J('corpus/'+x.korpus).map(r=>normalizeRecipe(r,data.ingredients,{rollen:rr})),rr)]));
  const z={}; for (const r of ruehr.rollen) z[r.rolle]=E(v.bestof[r.rolle]!==undefined?v.bestof[r.rolle]:r.default);
  const cr=compute({archetyp:'ruehrteig',gefaess:v.gefaess,methode:null,fixiert:{rollen:{},zutaten:{}},zutaten:z},data,ksR);
- ok(cr.ablauf.every(s=>s.temperatur===null) && cr.gaerung===null,'Rührteig: keine Temperaturen im Ablauf, kein Gärmodell');}
+ ok(cr.ablauf.filter(s=>s.temperatur).map(s=>s.key).join()==='aufschlagen' && cr.gaerung===null,'Rührteig (Crememethode): nur „Aufschlagen“ nennt eine Temperatur (aus der Butter abgeleitet), kein Gärmodell');}
+
+c=compute(zustand('weissbrot','hefe_direkt'),data,ks);
+ok(schritt(c,'kneten').temperatur==='24–26 °C (Teig) · Wasser etwa 25 °C','Kneten: Teig 24–26 °C, Wasser etwa 25 °C (Faustformel mit 21 °C Mehl und Raum, 8 K Reibung)');
+ok(ops.kneten.reibung_k===8 && ops.kneten.temperatur==='teig','Daten: Kneten trägt Teigtemperatur und Reibung in operations.json');
+{const ruehr=data.archetypes.ruehrteig; const rr=ruehr.rollen.map(r=>r.rolle);
+ const ksR=Object.fromEntries(Object.entries(ruehr.varianten).map(([k,x])=>[k,stats(J('corpus/'+x.korpus).map(r=>normalizeRecipe(r,data.ingredients,{rollen:rr})),rr)]));
+ const v=ruehr.varianten.kastenkuchen; const base={}; for (const r of ruehr.rollen) base[r.rolle]=E(v.bestof[r.rolle]!==undefined?v.bestof[r.rolle]:r.default);
+ const rechne=(over,methode=null)=>compute({archetyp:'ruehrteig',gefaess:v.gefaess,methode,fixiert:{rollen:{},zutaten:{}},zutaten:{...base,...over}},data,ksR);
+ let cr=rechne({});
+ ok(cr.ablauf.find(s=>s.key==='aufschlagen').temperatur==='18–22 °C (plastisch)','Crememethode mit Butter: Aufschlagen bei 18–22 °C (plastisch), aus der Zutat abgeleitet');
+ cr=rechne({fett:E('margarine')});
+ ok(cr.ablauf.find(s=>s.key==='aufschlagen').temperatur==='15–24 °C','mit Margarine: Aufschlagen bei 15–24 °C (breiterer plastischer Bereich)');
+ cr=rechne({fett:E('butter')},'ruehroel');
+ const sch=cr.ablauf.find(s=>s.key==='schmelzen');
+ ok(sch && sch.temperatur==='35,7 °C','Rühr-Öl-Methode mit Butter: eingefügtes „Schmelzen“ bei 35,7 °C (Schmelzpunkt 34 °C × 1,05)');
+ cr=rechne({fett:E('margarine')},'ruehroel');
+ ok(cr.ablauf.find(s=>s.key==='schmelzen').temperatur==='37,8 °C','mit Margarine (Schmelzpunkt 36 °C): 37,8 °C');
+ cr=rechne({fett:E('pflanzenoel')},'ruehroel');
+ ok(!cr.ablauf.some(s=>s.key==='schmelzen') && cr.ablauf.every(s=>s.temperatur===null),'mit Öl: kein Schmelzen und keine abgeleitete Temperatur (Öl hat weder Schmelzpunkt noch Aufschlag-Bereich)');}
 
 // Mehrheit der Rezepte nennt eine eigene Temperatur → deren Median; sonst die Vorgabe der Operation
 const zelle=(vk,methode,liste)=>({...ks,[vk]:{...ks[vk],proMethode:{...ks[vk].proMethode,[methode]:{...ks[vk].proMethode[methode],gareTemperaturen:liste}}}});

@@ -8,5 +8,7 @@
   "kuehl": { "label": "kühl", "min": 12, "max": 16 },
   "raum": { "label": "Raumtemperatur", "min": 18, "max": 24 },
   "warm": { "label": "warm", "min": 26, "max": 30 },
-  "lauwarm": { "label": "lauwarm", "min": 30, "max": 35 }
+  "lauwarm": { "label": "lauwarm", "min": 30, "max": 35 },
+  "plastisch": { "label": "plastisch", "min": 18, "max": 22 },
+  "teig": { "label": "Teig", "min": 24, "max": 26 }
 }

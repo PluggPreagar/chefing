@@ -8,7 +8,8 @@
     "zuckeranteil": "0..1 Massenanteil Zucker (Saccharose + Laktose + Fruchtzucker), Default 0 — für die Gesamtbilanz (bilanz.js, DR-020)",
     "funktionen": "optional, Funktionsvektor (T36, Option A „Funktions-Bilanz additiv“): Massenanteile 0..1 für eiweiss (Gesamteiweiß, koaguliert → Gerüst), gluten (Klebereiweiß, Teilmenge von eiweiss), staerke (verkleistert → Bindung), emulgator (Lecithin); triebkraft = Backpulver-Äquivalent je g (Backpulver 1, Natron ~3, braucht Säure). Fehlend = 0. Richtwerte aus Nährwerttabellen, gerundet.",
     "saeure": "true wenn nennenswert sauer (reagiert mit Backpulver/Natron)",
-    "cremig_schlagbar": "true wenn sich bei Raumtemperatur Luft einschlagen lässt",
+    "cremig_schlagbar": "true wenn sich bei Raumtemperatur Luft einschlagen lässt; gilt genau dann, wenn `aufschlag_temp` gesetzt ist (T56, Test in daten-konsistenz)",
+    "aufschlag_temp": "Temperatur-Bereich (Zahl, Spanne oder Name aus temperaturen.json), in dem das feste Fett plastisch ist und sich Luft einschlagen lässt; Butter 18–22 °C, Margarine breiter (T56). Operationen leiten daraus ihre Temperatur ab (`temperatur: {von: …}`).",
     "schmelzpunkt_c": "°C, nur bei festen Fetten",
     "trieb_typ": "chemisch_doppelt | chemisch_basisch | keiner",
     "salzanteil": "0..1 Massenanteil Salz, Default 0 — Bilanz-Größe `salz` (T45)",
@@ -76,6 +77,7 @@
     "wasseranteil": 0.16,
     "saeure": false,
     "cremig_schlagbar": true,
+    "aufschlag_temp": "plastisch",
     "schmelzpunkt_c": 34,
     "eigenschaften": ["bei 18–22 °C plastisch → Luft einschlagbar", "Aroma (Buttersäureester)", "schmilzt ab ~32 °C"],
     "umrechnung": { "el": 12, "tl": 4 }
@@ -89,6 +91,7 @@
     "wasseranteil": 0.18,
     "saeure": false,
     "cremig_schlagbar": true,
+    "aufschlag_temp": { "min": 15, "max": 24 },
     "schmelzpunkt_c": 36,
     "eigenschaften": ["plastisch über größeren Temperaturbereich als Butter", "geschmacksneutraler"],
     "umrechnung": { "el": 12, "tl": 4 }

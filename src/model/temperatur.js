@@ -1,11 +1,23 @@
 // Temperatur als Bereich (T52, DR-028): eine Schreibweise für feste Werte, Spannen und benannte Bereiche.
-// Zahl = fester Wert · {wert, tol} = Wert mit Spielraum · {min, max} = Spanne · Text = Name aus temperaturen.json.
+// Zahl = fester Wert · {wert, tol} = Wert mit Spielraum · {min, max} = Spanne · Text = Name aus temperaturen.json ·
+// {von: {rolle, feld}, faktor?, tol?} = abgeleitet aus einer Eigenschaft der gewählten Zutat (T56): z. B. Schmelzen bei
+// Schmelzpunkt × 1,05; das Feld der Zutat darf selbst Zahl, Spanne oder Name sein. `kontext` = Eigenschaften je Rolle (rules.js propsOf).
 // Intern immer {min, max, mitte, name, label}; das Modell rechnet mit `mitte`, die Breite zeigt die Unsicherheit.
 
 const zahl = (x) => typeof x === 'number' && Number.isFinite(x);
 
-export function temperaturBereich(spec, benannt = {}) {
+export function temperaturBereich(spec, benannt = {}, kontext = null) {
   if (spec == null) return null;
+  if (typeof spec === 'object' && spec.von) {
+    const b = temperaturBereich(kontext?.[spec.von.rolle]?.[spec.von.feld], benannt);
+    const faktor = spec.faktor ?? 1;
+    const tol = spec.tol ?? 0;
+    if (!b || !zahl(faktor) || faktor <= 0 || !zahl(tol) || tol < 0) return null;
+    const min = b.min * faktor - tol;
+    const max = b.max * faktor + tol;
+    const unveraendert = faktor === 1 && tol === 0; // dann bleibt der Name des Zutaten-Feldes erhalten
+    return { min, max, mitte: (min + max) / 2, name: unveraendert ? b.name : null, label: unveraendert ? b.label : null };
+  }
   let min;
   let max;
   let name = null;
@@ -30,7 +42,11 @@ export function temperaturBereich(spec, benannt = {}) {
   return { min, max, mitte: (min + max) / 2, name, label };
 }
 
-const grad = (x) => String(Math.round(x * 10) / 10).replace('.', ',');
+// Faustformel Teigtemperatur (T56): Wassertemperatur, mit der der Teig die Zieltemperatur erreicht
+// = 3 × Ziel − Mehl − Raum − Reibungswärme (alles in °C bzw. Kelvin); null bei fehlenden Zahlen.
+export const wassertemperatur = ({ ziel, mehl, raum, reibung = 0 }) => ([ziel, mehl, raum, reibung].every(zahl) ? 3 * ziel - mehl - raum - reibung : null);
+
+export const grad = (x) => String(Math.round(x * 10) / 10).replace('.', ',');
 
 // "118 °C", "87–97 °C", "4–7 °C (Kühlschrank)"
 export function fmtTemperatur(b) {

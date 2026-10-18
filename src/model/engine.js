@@ -2,7 +2,7 @@ import { fromGrams } from './units.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } from './rules.js';
 import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
-import { temperaturBereich, medianBereich, fmtTemperatur } from './temperatur.js';
+import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
 import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, beschreibeGrenze, toleranz, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 export function varianteFuerGefaess(gefaessKey, arch, vessels) {
@@ -245,7 +245,7 @@ export function compute(state, data, korpusStats) {
     dauer: s.key === 'backen' ? minuten : zeiten[i].dauer,
     zeit: zeiten[i].fenster,
     // Temperatur der Aktion (T52): die Gare zeigt die Temperatur, mit der das Gärmodell rechnet
-    temperatur: (s === gareSchritt ? gareTempText : fmtTemperatur(temperaturBereich(s.op.temperatur, data.temperaturen))) || null,
+    temperatur: (s === gareSchritt ? gareTempText : schrittTemperaturText(s.op, data, props)) || null,
   }));
 
   // Alle Regeln, die dem Nutzer etwas gesagt haben (Grenzen, Voraussetzungen, Zeit-Fenster, Gärmodell, eingefügte
@@ -294,6 +294,16 @@ export function compute(state, data, korpusStats) {
     vessel,
     lehrbuch: arch.lehrbuch,
   };
+}
+
+// Temperatur-Text einer Aktion (T56): Bereich der Operation, auch abgeleitet aus der gewählten Zutat; beim Kneten zusätzlich
+// die Wassertemperatur nach der Faustformel (Mehl und Raum als Raumtemperatur angenommen, Reibung aus `reibung_k`).
+function schrittTemperaturText(op, data, props) {
+  const b = temperaturBereich(op.temperatur, data.temperaturen, props);
+  if (!b) return '';
+  const raum = temperaturBereich('raum', data.temperaturen)?.mitte;
+  const wasser = op.reibung_k != null && raum != null ? wassertemperatur({ ziel: b.mitte, mehl: raum, raum, reibung: op.reibung_k }) : null;
+  return fmtTemperatur(b) + (wasser != null ? ' · Wasser etwa ' + grad(Math.round(wasser)) + ' °C' : '');
 }
 
 function konkretisiere(label, props) {

@@ -21,6 +21,7 @@
         "verb": "mischen",
         "intensitaet": "kraeftig",
         "variante": "kräftig aufschlagen (cremig)",
+        "temperatur": { "von": { "rolle": "fett", "feld": "aufschlag_temp" } },
         "auf": ["fett", "suesse"],
         "voraussetzung": [
           { "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart", "id": "fett_muss_fest_fuer_aufschlagen" },

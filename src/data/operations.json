@@ -2,7 +2,8 @@
   "_schema": {
     "gaerung": "optional (T49): true = diese Wartezeit zählt zur Gärzeit des Gärmodells (modelle.json: Hefe × Zeit × Temperatur); \"vorteig\" = Vorteig-Reifung, das Modell ist dann nicht anwendbar (Hefe im Vorteig nicht aufgeteilt).",
     "typ": "vorbereitung | mischen | erhitzen | warten (passiv: zählt zur Wartezeit, nicht zur aktiven Zeit, DR-024)",
-    "temperatur": "optional (T52, DR-028): Temperatur der Operation als Bereich — Zahl (fester Wert), {wert, tol}, {min, max} oder Name aus temperaturen.json (z. B. \"raum\"). Eine Aktion ist Warten (Dauer) plus Temperatur; ein Rezept überschreibt sie unter `temperaturen`. Das Gärmodell rechnet mit der Mitte des Bereichs der Gare (`gaerung: true`).",
+    "temperatur": "optional (T52, DR-028): Temperatur der Operation als Bereich — Zahl (fester Wert), {wert, tol}, {min, max} oder Name aus temperaturen.json (z. B. \"raum\"). Eine Aktion ist Warten (Dauer) plus Temperatur; ein Rezept überschreibt sie unter `temperaturen`. Das Gärmodell rechnet mit der Mitte des Bereichs der Gare (`gaerung: true`). Abgeleitet (T56): `{von: {rolle, feld}, faktor, tol}` nimmt das Feld der gewählten Zutat (z. B. `schmelzpunkt_c` mal 1,05 für Schmelzen, `aufschlag_temp` für Aufschlagen).",
+    "reibung_k": "optional (T56): Temperaturanstieg des Teigs durch das Kneten in Kelvin (Annahme: Maschine, 10 Minuten ≈ 8 K); damit nennt der Ablauf die Wassertemperatur nach der Faustformel 3 × Teigtemperatur − Mehl − Raum − Reibung (Mehl und Raum als Raumtemperatur angenommen).",
     "zeit": "optional (DR-024/T44): Zeit-Fenster {min, typ, max, ziel, unter_min, ueber_max, strenge} in Minuten. ziel = Effekt, der im Fenster eintritt (z. B. gluten_entspannt, gequollen, volumen_verdoppelt); typ = Standardwert; unter_min/ueber_max = Hinweistext, wenn der Wert außerhalb liegt; strenge empfohlen (Default, Warnung) | hart (ungültig). Eine Methode kann den Wert per `zeiten` festlegen, eine Erfahrungsregel das Fenster per `zeit_op` + `faktor` verschieben. Ohne `zeit` gilt `dauer_min`.",
     "verb": "Essentielles Verb aus verben.json — Icon-Basis fürs Ablaufdiagramm. Für verb=mischen bestimmt `intensitaet` das konkrete Icon (vorbereiten/mischen/schlagen); für verb=erhitzen ist `intensitaet` bisher nur Dokumentation (ein Icon für alle Stufen, siehe verben.json).",
     "intensitaet": "bei verb=mischen: passiv (Einlegen/Quellen-Icon) | sanft (Mischen-Icon) | kraeftig (Schlagen-Icon). Bei verb=erhitzen: mittel (Garen/Backen) — sanft/stark vorgesehen, noch ungenutzt.",
@@ -34,6 +35,7 @@
   },
   "schmelzen": {
     "label": "Schmelzen",
+    "temperatur": { "von": { "rolle": "fett", "feld": "schmelzpunkt_c" }, "faktor": 1.05 },
     "typ": "vorbereitung",
     "verb": "erhitzen",
     "variante": "Schmelzen",
@@ -168,6 +170,8 @@
   "kneten": {
     "label": "Teig kneten",
     "typ": "mischen",
+    "temperatur": "teig",
+    "reibung_k": 8,
     "verb": "kneten",
     "variante": "kneten (Maschine oder Hand)",
     "auf": ["struktur", "fluessigkeit", "trieb", "salz", "fett", "suesse", "bindung", "aroma"],
