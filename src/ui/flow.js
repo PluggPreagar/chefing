@@ -64,8 +64,9 @@ export function stromModell(steps, orte = {}, vessel = null) {
   return { zeilen, gesamt: Math.max(0, ...ende), mitNeben: zeilen.some((z) => z.strom === 'neben') };
 }
 
-// Aufgeklappter Schritt (ein Schlüssel): bleibt über Neuberechnungen erhalten, solange es ihn gibt
-let offen = null;
+// Aufgeklappter Schritt (ein Schlüssel): bleibt über Neuberechnungen erhalten, solange es ihn gibt.
+// undefined = noch nichts gewählt (erster Schritt offen), null = bewusst zugeklappt (reiner Ablauf).
+let offen;
 let letzte = null;
 const QUER = '(min-width: 601px)';
 const farbe = (o) => (o ? `var(--ort-${o.farbe})` : 'transparent');
@@ -79,11 +80,14 @@ export function renderFlow(root, computed, data = {}) {
   const quer = mq ? mq.matches : true;
   const steps = computed.ablauf;
   const M = stromModell(steps, data.orte, computed.vessel);
-  if (!steps.some((s) => s.key === offen)) offen = steps[0]?.key ?? null;
+  if (offen !== null && !steps.some((s) => s.key === offen)) offen = steps[0]?.key ?? null;
+  const setze = (key) => { offen = key; renderFlow(...letzte); };
   const ctx = {
     computed, quer,
     namen: { ...(data.kategorien || {}), ...(data.verben || {}) },
-    waehle: (key) => { if (key !== offen) { offen = key; renderFlow(...letzte); } },
+    // Klick auf den offenen Schritt klappt zu; Hover wechselt nur, wenn schon etwas offen ist (öffnet nie von selbst wieder)
+    klick: (key) => setze(key === offen ? null : key),
+    hover: (key) => { if (offen != null && key !== offen) setze(key); },
   };
 
   root.className = `strom ${quer ? 'ist-quer' : 'ist-hoch'}${M.mitNeben ? ' mit-neben' : ''}`;
@@ -92,7 +96,7 @@ export function renderFlow(root, computed, data = {}) {
     band.append(zeile(z, steps[z.i], ctx));
     if (!quer && steps[z.i].key === offen) band.append(detailZeile(z, steps[z.i], steps, ctx));
   }
-  const fuss = el('div', 'strom-fuss', `Zeit ${quer ? '→' : '↓'} · gesamt ${fmtZeit(computed.zeit?.gesamt ?? M.gesamt)} · Schritt antippen für Wirkung und Risiko`);
+  const fuss = el('div', 'strom-fuss', `Zeit ${quer ? '→' : '↓'} · gesamt ${fmtZeit(computed.zeit?.gesamt ?? M.gesamt)} · Schritt antippen für Wirkung und Risiko, nochmal antippen blendet sie aus`);
   root.replaceChildren(band, fuss);
   if (quer) {
     const z = M.zeilen.find((x) => steps[x.i].key === offen);
@@ -181,8 +185,8 @@ function knopf(s, ctx, groesse = 'gross') {
   b.setAttribute('aria-expanded', String(s.key === offen));
   b.title = s.label;
   b.insertAdjacentHTML('beforeend', iconHtml(hauptIcon(s), groesse === 'klein' ? 22 : 28));
-  b.addEventListener('click', () => ctx.waehle(s.key));
-  if (ctx.quer) b.addEventListener('mouseenter', () => ctx.waehle(s.key));
+  b.addEventListener('click', () => ctx.klick(s.key));
+  if (ctx.quer) b.addEventListener('mouseenter', () => ctx.hover(s.key));
   return b;
 }
 
