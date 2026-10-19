@@ -9,6 +9,7 @@
   },
   "eier_getrennt": {
     "label": "Eier getrennt",
+    "kurz": "Eischnee",
     "hinweis": "Eiweiß getrennt steif schlagen und zuletzt unterheben: lockert zusätzlich zu Backpulver oder ersetzt es.",
     "rolle": "bindung",
     "rest": "eigelb",

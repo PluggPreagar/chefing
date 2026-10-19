@@ -1,6 +1,6 @@
 import { loadCorpus, normalizeRecipe, stats } from './model/corpus.js';
 import { compute } from './model/engine.js';
-import { renderMorphbox } from './ui/morphbox.js';
+import { renderMorphbox, renderTechnikSchalter } from './ui/morphbox.js';
 import { renderFlow } from './ui/flow.js';
 import { renderRecipe } from './ui/recipeCard.js';
 import { renderStats } from './ui/stats.js';
@@ -109,6 +109,7 @@ function render() {
   const computed = compute(state, data, korpusStats);
   renderRueckfragen($('rueckfragen'), sessionStart, render);
   renderMorphbox($('morphbox'), state, data, computed, korpusStats, update);
+  renderTechnikSchalter($('ablauf-techniken'), state, data, computed, update);
   renderFlow($('flow'), computed, data);
   renderRecipe($('recipe'), computed, state, data, update);
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));

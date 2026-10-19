@@ -45,7 +45,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
   );
 
   // Optionale Techniken (DR-041): Schalter, wenn mindestens eine Methode des Archetyps sie kennt
-  const technikKeys = [...new Set(arch.methoden.flatMap((m) => data.methods[m].techniken || []))].filter((k) => data.techniken?.[k]);
+  const technikKeys = technikKeysVon(arch, data);
   const gelockert = new Set();
   for (const k of technikKeys) {
     const t = data.techniken[k];
@@ -132,6 +132,28 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
     };
     root.append(dimension(rolle.label, rolle.hinweis, items, pin, rolle.substitution));
   }
+}
+
+const technikKeysVon = (arch, data) => [...new Set(arch.methoden.flatMap((m) => data.methods[m].techniken || []))].filter((k) => data.techniken?.[k]);
+
+// Derselbe Technik-Schalter als Kurzform im Kopf des Ablaufs (Nutzer: Schalter lag weit weg vom Ablauf, den er ändert)
+export function renderTechnikSchalter(root, state, data, computed, onChange) {
+  const arch = data.archetypes[state.archetyp];
+  root.replaceChildren();
+  for (const k of technikKeysVon(arch, data)) {
+    if (technikStufe(arch, computed.variante, k) === 'aus') continue;
+    const t = data.techniken[k];
+    const an = !!state.techniken?.[k];
+    const methode = data.methods[computed.methodKey];
+    const passt = (methode.techniken || []).includes(k);
+    const b = el('button', `technik-schalter${an ? ' is-an' : ''}${passt ? '' : ' passt-nicht'}`, `${t.kurz ?? t.label}: ${an ? 'an' : 'aus'}`);
+    b.type = 'button';
+    b.setAttribute('aria-pressed', String(an));
+    b.title = passt ? t.hinweis : `${t.label} passt nicht zur ${methode.label}`;
+    b.addEventListener('click', () => onChange(technikPatch(state, arch, t, k, !an)));
+    root.append(b);
+  }
+  root.hidden = !root.children.length;
 }
 
 // Substitutions-Freiheit einer Rolle (T10): was passiert beim Wechsel der Zutat — gemessen gegen das Best-of-Preset

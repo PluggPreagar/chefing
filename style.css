@@ -46,6 +46,13 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 1rem; min-width: 0; }
 .panel-wide { grid-column: 1 / -1; }
 .ablauf { margin: 0 1.5rem 1rem; }
+.ablauf-kopf { display: flex; align-items: center; gap: .5rem .75rem; flex-wrap: wrap; margin-bottom: .5rem; }
+.ablauf-kopf h2 { margin: 0; }
+.ablauf-techniken { display: flex; gap: .4rem; flex-wrap: wrap; }
+.technik-schalter { font: inherit; font-size: .82rem; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: .2rem .75rem; cursor: pointer; }
+.technik-schalter:hover { border-color: var(--muted); }
+.technik-schalter.is-an { border-color: var(--sel); background: var(--sel-bg); font-weight: 600; }
+.technik-schalter.passt-nicht { border-style: dashed; color: var(--muted); }
 #rueckfragen { margin: 0 1.5rem 1rem; border-color: var(--warn); }
 .rueckfrage { padding: .5rem 0; border-top: 1px solid var(--line); }
 .rueckfrage:first-child { padding-top: 0; border-top: 0; }
