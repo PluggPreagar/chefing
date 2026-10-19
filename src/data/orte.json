@@ -1,15 +1,17 @@
 {
   "_schema": {
-    "zweck": "Arbeitsplätze = Swimlanes im Ablaufdiagramm (DR-038). Reihenfolge der Schlüssel = Reihenfolge der Zeilen von oben nach unten: Nebenplätze (Topf, Tasse, Schälchen, zweite Schüssel) über der Hauptschüssel, danach der Weg des Teigs (Fläche, Gefäß, Kühlschrank, Ofen).",
-    "label": "Zeilen-Titel. Fehlt er (gefaess), steht dort das gewählte Gefäß (Kastenform, Blech, Pfanne)."
+    "zweck": "Arbeitsplätze im Ablaufdiagramm (DR-038, DR-039). Der Hauptstrom ist der Weg des Teigs (Schüssel, Kühlschrank, Fläche, Gefäß, Ofen); Nebenplätze (`neben: true`) bilden kurze Seitenströme, die in ihren Zielschritt münden (Hefe in der Tasse, Butter im Topf).",
+    "label": "Name im Diagramm. Fehlt er (gefaess), steht dort das gewählte Gefäß (Kastenform, Blech, Pfanne).",
+    "icon": "Icon-Schlüssel aus icons.js; `icon_familie` wählt beim Gefäß das Icon nach der Gefäß-Familie (vessels.json).",
+    "farbe": "Farbe des Stroms (style.css --ort-<farbe>); ohne Angabe misch (Schüsseln, Topf, Tasse)."
   },
-  "topf": { "label": "Topf" },
-  "tasse": { "label": "Tasse" },
-  "schaelchen": { "label": "Schälchen" },
-  "schuessel_2": { "label": "Schüssel 2" },
-  "schuessel": { "label": "Schüssel" },
-  "kuehlschrank": { "label": "Kühlschrank" },
-  "flaeche": { "label": "Arbeitsfläche" },
-  "gefaess": {},
-  "ofen": { "label": "Ofen" }
+  "topf": { "label": "Topf", "icon": "ort_topf", "neben": true },
+  "tasse": { "label": "Tasse", "icon": "ort_tasse", "neben": true },
+  "schaelchen": { "label": "Schälchen", "icon": "ort_schaelchen", "neben": true },
+  "schuessel_2": { "label": "Schüssel 2", "icon": "ort_schuessel", "neben": true },
+  "schuessel": { "label": "Schüssel", "icon": "ort_schuessel" },
+  "kuehlschrank": { "label": "Kühlschrank", "icon": "ort_kuehlschrank", "farbe": "kuehl" },
+  "flaeche": { "label": "Arbeitsfläche", "icon": "ort_flaeche", "farbe": "flaeche" },
+  "gefaess": { "icon": "ort_form", "icon_familie": { "muffinform": "ort_muffinform", "blech": "ort_blech", "pfanne": "ort_pfanne" }, "farbe": "gefaess" },
+  "ofen": { "label": "Ofen", "icon": "ort_ofen", "farbe": "ofen" }
 }

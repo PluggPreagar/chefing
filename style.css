@@ -17,6 +17,7 @@
   --fix: #2f5f8f;
   --fix-bg: #e4edf6;
   --zutat: #2f6f5e;
+  --ort-misch: #9a6b12; --ort-kuehl: #2f5f8f; --ort-flaeche: #7d6c58; --ort-gefaess: #2f6f5e; --ort-ofen: #b3502c;
   --r: 10px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color: var(--ink);
@@ -25,6 +26,7 @@
   :root {
     --bg: #1c1a17; --panel: #262320; --ink: #eee8df; --muted: #a79d91; --line: #3a352f;
     --sel-bg: #1f3a33; --best-bg: #3a2f17; --bad-bg: #3d211d; --warn-bg: #3a3018; --info-bg: #22293a; --fix-bg: #1c2c3a; --zutat: #7fc4ae;
+    --ort-misch: #e0b45a; --ort-kuehl: #7fa8d6; --ort-flaeche: #b9a78f; --ort-gefaess: #6fcfb0; --ort-ofen: #ee9466;
   }
 }
 * { box-sizing: border-box; }
@@ -44,10 +46,6 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 1rem; min-width: 0; }
 .panel-wide { grid-column: 1 / -1; }
 .ablauf { margin: 0 1.5rem 1rem; }
-.flow-wrap { display: flex; align-items: flex-start; }
-.flow-wrap .flow-scroll { flex: 1; min-width: 0; }
-#flow-bahnen { flex: none; display: block; }
-.flow-details summary { cursor: pointer; color: var(--muted); font-size: .9rem; margin-top: .5rem; }
 #rueckfragen { margin: 0 1.5rem 1rem; border-color: var(--warn); }
 .rueckfrage { padding: .5rem 0; border-top: 1px solid var(--line); }
 .rueckfrage:first-child { padding-top: 0; border-top: 0; }
@@ -98,30 +96,72 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .opt-anteil-label { font-size: .68rem; color: var(--muted); margin-top: .2rem; }
 .opt-anteil { width: 4.8em; font: inherit; font-size: .8rem; border: 1px solid var(--line); border-radius: 4px; padding: .15rem .4rem; background: var(--panel); color: var(--ink); margin-left: .3rem; }
 
-.flow-scroll { overflow-x: auto; padding-bottom: .5rem; }
-#flow { display: block; } /* Höhe aus SVG-Attribut — wächst mit parallelen Schritten (T38) */
-.flow-node rect { fill: var(--panel); stroke: var(--ink); stroke-width: 1.5; }
-.flow-node.typ-vorbereitung rect { stroke: var(--muted); }
-.flow-node.typ-erhitzen rect { fill: var(--warn-bg); stroke: var(--warn); }
-.flow-node.typ-warten rect { stroke: var(--muted); stroke-dasharray: 2 4; }
-.flow-node.is-inserted rect { stroke: var(--prep); stroke-dasharray: 5 4; }
-.flow-label { font-size: 11px; fill: var(--ink); }
-.flow-lane { fill: var(--bg); }
-.flow-lane-label { font-size: 12px; font-weight: 600; fill: var(--muted); }
-.flow-aktion { font-size: 12px; font-weight: 600; fill: var(--ink); }
-.flow-zutat { font-size: 11px; fill: var(--zutat); }
-.flow-edge.is-transfer { stroke: var(--zutat); }
-.flow-typ { font-size: 10px; fill: var(--muted); }
-.flow-edge { stroke: var(--muted); stroke-width: 1.5; }
-.flow-arrow { fill: var(--muted); }
-.steps { margin: .75rem 0 0; padding: 0; list-style: none; display: grid; gap: .5rem; }
-.step { border-left: 3px solid var(--line); padding: .25rem .75rem; }
-.step.typ-erhitzen { border-left-color: var(--warn); }
-.step.typ-warten { border-left-style: dotted; border-left-color: var(--muted); }
-.step.is-inserted { border-left-color: var(--prep); }
-.step-title { font-weight: 600; font-size: .92rem; }
-.step-why { color: var(--muted); font-size: .85rem; }
-.step-risk { color: var(--warn); font-size: .82rem; margin-top: .15rem; }
+/* Ablauf als Strom + Zufluss (DR-039): hochkant (A3, Handy) = Zeit nach unten, quer (A2) = Zeit nach rechts */
+.strom { --neben-b: 0px; }
+.strom.mit-neben { --neben-b: 36px; }
+.strom-band { display: flex; flex-direction: column; }
+.strom-zeile { display: grid; grid-template-columns: 48px 48px var(--neben-b) minmax(0, 1fr); grid-template-areas: "ort haupt neben inhalt"; align-items: center; min-height: 64px; }
+.z-ort { grid-area: ort; display: flex; justify-content: center; }
+.z-haupt, .z-neben { position: relative; align-self: stretch; display: flex; align-items: center; justify-content: center; }
+.z-haupt { grid-area: haupt; }
+.z-neben { grid-area: neben; }
+.z-inhalt { grid-area: inhalt; display: flex; flex-direction: column; gap: 4px; padding: 8px 0; min-width: 0; }
+.bar { position: absolute; left: calc(50% - 4px); width: 8px; top: 0; bottom: 0; background: var(--haupt); opacity: .55; }
+.bar-start { top: 50%; border-radius: 4px 4px 0 0; }
+.bar-ende { bottom: 50%; }
+.bar-neben { left: calc(50% - 2px); width: 4px; background: var(--farbe); }
+.bar-neben.bar-start { border-radius: 2px 2px 0 0; }
+/* Seitenstrom mündet: vom Nebenstrom nach unten, dann nach links in den Hauptstrom */
+.bogen { position: absolute; top: 0; height: 50%; left: -20px; width: calc(50% + 22px); box-sizing: border-box; border: 0 solid var(--neben); border-right-width: 4px; border-bottom-width: 4px; border-bottom-right-radius: 12px; opacity: .55; }
+.strom-knopf { position: relative; z-index: 1; flex: none; width: 52px; height: 52px; padding: 0; border: 0; border-radius: 50%; background: var(--bg); color: var(--farbe); display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; }
+.strom-knopf.klein { width: 40px; height: 40px; }
+.strom-knopf.typ-warten { outline: 1.5px dashed var(--muted); outline-offset: -3px; }
+.strom-knopf.is-inserted { outline: 1.5px dashed var(--prep); outline-offset: -3px; }
+.strom-knopf[aria-expanded="true"] { box-shadow: 0 0 0 2px var(--ink); }
+.strom-knopf:focus-visible { box-shadow: 0 0 0 3px var(--fix); outline: none; }
+.zufluss { display: flex; align-items: center; }
+/* Pfeil vom Zufluss-Schritt in den Hauptstrom (endet am Balken) */
+.pfeil { position: relative; flex: none; box-sizing: border-box; height: 0; width: calc(26px + var(--neben-b)); margin-left: calc(-20px - var(--neben-b)); border-top: 1.5px solid var(--muted); }
+.pfeil::before { content: ""; position: absolute; left: -1px; top: -5px; border: 4.5px solid transparent; border-right: 6px solid var(--muted); border-left: 0; }
+.linie { flex: none; width: 10px; height: 0; border-top: 1.5px solid var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 2px 4px; }
+.zu-rechts { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.chip { min-width: 40px; max-width: 80px; display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--zutat); }
+.chip span, .ort-marke span { font-size: 10px; line-height: 1.15; color: var(--muted); text-align: center; overflow-wrap: break-word; }
+.ort-marke { display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--farbe); }
+.ist-neben .z-inhalt .ort-marke { flex-direction: row; gap: 4px; align-self: flex-start; }
+.z-label { font-size: 11px; line-height: 1.3; color: var(--muted); }
+.z-label b { color: var(--ink); font-weight: 600; }
+.ist-details .z-inhalt { padding: 0 0 10px 6px; }
+.strom-karte { background: var(--bg); border-radius: 12px; padding: 12px 14px; font-size: 13px; line-height: 1.45; display: grid; gap: 3px; }
+.k-titel { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; color: var(--farbe); }
+.k-titel b { font-size: 14px; }
+.k-meta { color: var(--muted); font-size: 12px; }
+.k-zutaten { color: var(--zutat); font-size: 12px; }
+.k-schritt { color: var(--muted); font-size: 12px; }
+.k-was { color: var(--muted); }
+.k-risiko .k-was { color: var(--warn); }
+.strom-fuss { font-size: 11px; color: var(--muted); margin: 6px 0 0 48px; }
+
+.ist-quer .strom-band { flex-direction: row; overflow-x: auto; padding-bottom: .5rem; }
+.ist-quer .strom-zeile { flex: none; width: 128px; min-height: 0; grid-template-columns: none; grid-template-rows: minmax(120px, auto) var(--neben-b) 52px 56px; grid-template-areas: "inhalt" "neben" "haupt" "ort"; align-items: stretch; }
+.ist-quer .z-ort { align-items: flex-start; padding-top: 6px; }
+.ist-quer .z-inhalt { flex-direction: column-reverse; justify-content: flex-start; align-items: center; text-align: center; padding: 0 4px 8px; }
+.ist-quer .bar { left: 0; right: 0; width: auto; top: calc(50% - 4px); bottom: auto; height: 8px; }
+.ist-quer .bar-start { left: 50%; border-radius: 4px 0 0 4px; }
+.ist-quer .bar-ende { right: 50%; }
+.ist-quer .bar-neben { top: calc(50% - 2px); height: 4px; }
+.ist-quer .bar-neben.bar-start { border-radius: 2px 0 0 2px; }
+.ist-quer .bogen { top: calc(50% - 2px); left: 0; height: calc(50% + 24px); width: calc(50% + 2px); border-bottom-width: 0; border-top-width: 4px; border-bottom-right-radius: 0; border-top-right-radius: 12px; }
+.ist-quer .zufluss { flex-direction: column-reverse; }
+.ist-quer .pfeil { width: 0; height: calc(22px + var(--neben-b)); margin: 0 0 calc(-22px - var(--neben-b)); border-top: 0; border-left: 1.5px solid var(--muted); }
+.ist-quer .pfeil::before { left: -5.5px; top: auto; bottom: -1px; border: 4.5px solid transparent; border-top: 6px solid var(--muted); border-bottom: 0; }
+.ist-quer .linie { width: 0; height: 10px; border-top: 0; border-left: 1.5px solid var(--muted); }
+.ist-quer .chips { justify-content: center; }
+.ist-quer .zu-rechts { flex: none; flex-direction: column-reverse; align-items: center; }
+.ist-quer .ist-neben .z-inhalt .ort-marke { align-self: center; }
+.ist-quer .strom-fuss { margin-left: 0; }
+.ist-quer .strom-karte { margin-top: .75rem; }
 
 .status { font-weight: 700; padding: .5rem .75rem; border-radius: 8px; margin-bottom: .5rem; }
 .status-ok { background: var(--sel-bg); color: var(--sel); }

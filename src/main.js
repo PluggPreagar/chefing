@@ -107,7 +107,7 @@ function render() {
   const computed = compute(state, data, korpusStats);
   renderRueckfragen($('rueckfragen'), sessionStart, render);
   renderMorphbox($('morphbox'), state, data, computed, korpusStats, update);
-  renderFlow($('flow'), $('flow-details'), computed, data, $('flow-bahnen'));
+  renderFlow($('flow'), computed, data);
   renderRecipe($('recipe'), computed, state, data, update);
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }

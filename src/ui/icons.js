@@ -99,7 +99,25 @@ const sternPunkte = (n, R, r) => Array.from({ length: n * 2 }, (_, i) => {
   return `${(12 + rad * Math.cos(w)).toFixed(2)},${(12 + rad * Math.sin(w)).toFixed(2)}`;
 }).join(' ');
 
+// Arbeitsplätze (orte.json, DR-039): reine Umriss-Linien wie im Entwurf „Strom + Zufluss“
+const ortIcon = (...ds) => ds.map((d) => ({ tag: 'path', attrs: { d, fill: 'none', stroke: F, 'stroke-width': 1.75, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } }));
+const ICONS_ORT = {
+  ort_schuessel: ortIcon('M3 11h18a9 9 0 0 1-18 0z', 'M8 21h8'),
+  ort_topf: ortIcon('M4 9h16v8a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3z', 'M2 9h20', 'M9 6h6'),
+  ort_tasse: ortIcon('M5 8h11v7a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4z', 'M16 10h2a2 2 0 0 1 0 4h-2'),
+  ort_schaelchen: ortIcon('M4 12h16a8 6 0 0 1-16 0z'),
+  ort_kuehlschrank: ortIcon('M6 2.5h12v19H6z', 'M6 10h12', 'M9 6v2', 'M9 13v3'),
+  ort_flaeche: ortIcon('M2 17h20', 'M6 17c0-3 2.5-5 6-5s6 2 6 5'),
+  ort_form: ortIcon('M2.5 9h19l-2 10.5h-15z', 'M5 12.5h14'),
+  ort_muffinform: ortIcon('M3 10h18l-1.5 8h-15z', 'M8 10v8', 'M12 10v8', 'M16 10v8'),
+  ort_blech: ortIcon('M2.5 14h19l-1.5 3.5h-16z', 'M7 11.5c0-1.5 1.5-2.5 3-2.5s3 1 3 2.5'),
+  ort_pfanne: ortIcon('M2 11h14v2a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5z', 'M16 12h6'),
+  ort_ofen: ortIcon('M4 3.5h16v17H4z', 'M4 8h16', 'M8 11.5h8v5.5H8z'),
+};
+
 export const ICONS = {
+  ...ICONS_ORT,
+
   // --- Dauer (5/10/15/30/45/60 Min.) --------------------------------------
   ...ICONS_DAUER,
 
