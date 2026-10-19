@@ -126,6 +126,9 @@ export function stromModell(steps, orte = {}, vessel = null) {
       z.neu = neu[z.i];
       z.modus = z.strom === 'haupt' && neu[z.i].length ? 'zu' : 'auf';
       z.strang = z.strom === 'neben' ? straenge.find((s) => s.schritte.includes(z.i)) : null;
+      // Behälterwechsel im Strang (Topf → Schüssel 2, Tasse → Schüssel 2): Name und Icon zeigen
+      const vorher = z.strang?.schritte[z.strang.schritte.indexOf(z.i) - 1];
+      z.neuerOrt = z.strom === 'neben' && (vorher == null || steps[vorher].ort !== steps[z.i].ort);
       z.zufluss = strangNachZiel.get(z.i) ?? null;
     } else if (z.art === 'leer') {
       const g = z.grund.find((i) => !neben(i));
@@ -262,7 +265,7 @@ function zeile(z, ctx) {
     label.append(el('b', null, s.passiv ? s.handgriff ?? s.aktion : s.aktion ?? s.label));
     const m = meta(s, ctx.computed);
     if (m) label.append(el('br'), document.createTextNode(m));
-    if (z.strom === 'neben' && z.strang?.schritte[0] === z.i) inhalt.append(ortMarke(z.ort));
+    if (z.neuerOrt) inhalt.append(ortMarke(z.ort));
     if (z.modus === 'zu') {
       const zu = el('div', 'zufluss');
       const rechts = el('div', 'zu-rechts');
