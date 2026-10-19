@@ -9,6 +9,7 @@
   "tasse": { "label": "Tasse", "icon": "ort_tasse", "neben": true },
   "schaelchen": { "label": "Schälchen", "icon": "ort_schaelchen", "neben": true },
   "schuessel_2": { "label": "Schüssel 2", "icon": "ort_schuessel", "neben": true },
+  "schuessel_3": { "label": "Schüssel 3", "icon": "ort_schuessel", "neben": true },
   "schuessel": { "label": "Schüssel", "icon": "ort_schuessel" },
   "kuehlschrank": { "label": "Kühlschrank", "icon": "ort_kuehlschrank", "farbe": "kuehl" },
   "flaeche": { "label": "Arbeitsfläche", "icon": "ort_flaeche", "farbe": "flaeche" },

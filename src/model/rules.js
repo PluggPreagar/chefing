@@ -230,9 +230,12 @@ export function mitTechniken(method, techniken = {}, data = {}) {
 }
 
 function technikAnwenden(m, t, operations) {
-  const { trennen, schlagen, unterheben } = t.schritte;
   const keyVon = (e) => (typeof e === 'object' ? e.key : e);
   const opVon = (e) => (typeof e === 'object' ? e : operations[e] && { ...operations[e], key: e });
+  // Ein Technik-Schritt weicht aus, wenn die Methode seinen Arbeitsplatz schon belegt (Pancakes: Schüssel 2 → Schüssel 3)
+  const belegt = new Set(m.sequenz.map((e) => m.orte?.[keyVon(e)] ?? opVon(e)?.ort).filter(Boolean));
+  const ausweichen = (s) => (s.ort_ausweich && belegt.has(s.ort) ? { ...s, ort: s.ort_ausweich } : s);
+  const [trennen, schlagen, unterheben] = [t.schritte.trennen, t.schritte.schlagen, t.schritte.unterheben].map(ausweichen);
   const nach = { ...(m.nach || {}) };
   const istStart = (k) => Array.isArray(nach[k]) && nach[k].length === 0;
   const seq = m.sequenz.map((e) => {

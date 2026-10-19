@@ -5,6 +5,7 @@
     "rest": "Teil, der in den bisherigen Schritten der Rolle bleibt (Eigelb); ein Schritt kann seinen Namen dafür unter `teil_label` angeben.",
     "lockert": "Rollen, die mit der Technik nicht mehr Pflicht sind (Eischnee kann das Backpulver ersetzen).",
     "vor": "Schlagen und Unterheben kommen vor den ersten dieser Schritte (zuletzt in den Teig, dann sofort in Form oder Pfanne).",
+    "ort_ausweich": "Arbeitsplatz eines Technik-Schritts, wenn die Methode seinen `ort` schon selbst nutzt (Pancakes: Nasses in Schüssel 2 → Eischnee in Schüssel 3; Eischnee wird in einer Schüssel mit Fett nicht steif).",
     "schritte": "trennen: neuer Startschritt vor dem ersten Schritt der Rolle; schlagen: verarbeitet den getrennten Teil, nach dem Schritt vor `vor` (frisch); unterheben: führt ihn zurück in den Teig."
   },
   "eier_getrennt": {
@@ -35,7 +36,7 @@
       "schlagen": {
         "key": "eischnee_schlagen",
         "label": "Eiweiß zu Schnee schlagen",
-        "aktion": "Schnee schlagen", "ort": "schuessel_2",
+        "aktion": "Schnee schlagen", "ort": "schuessel_2", "ort_ausweich": "schuessel_3",
         "typ": "mischen",
         "verb": "mischen",
         "intensitaet": "kraeftig",

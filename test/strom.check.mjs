@@ -134,6 +134,7 @@ ok(c.status !== 'invalid' && c.anpassungen.some((a) => /allein aus dem Eischnee/
 ok(c.ablauf.find((s) => s.key === 'eier_zucker_schaumig')?.label === 'Eigelb + Zucker schaumig schlagen' && c.ablauf.some((s) => s.key === 'eischnee_unterheben'), 'Rühr-Öl + Eier getrennt: Eigelb + Zucker schaumig, Eischnee zuletzt');
 ({ c, M } = rechne('pfannkuchen', 'pancakes', 'pancake_kurz', {}, G));
 ok(akt('pc_nass_verquirlen').neu.some((x) => x.label === 'Eigelb') && M.plan.start[iVon('eischnee_unterheben')] < M.plan.start[iVon('ausbacken')], 'Pancakes + Eier getrennt: Eigelb ins Nasse, Eischnee zuletzt');
+ok(akt('pc_nass_verquirlen').ort.key === 'schuessel_2' && akt('eischnee_schlagen').ort.label === 'Schüssel 3' && rechne('pfannkuchen', 'eierkuchen', 'pfannkuchen_glatt', {}, G).c.ablauf.find((s) => s.key === 'eischnee_schlagen').ort === 'schuessel_2', 'Eischnee weicht in Schüssel 3 aus, wenn Schüssel 2 schon das Nasse hat (Pancakes); beim Eierkuchen bleibt er in Schüssel 2');
 ({ c, M } = rechne('ruehrteig', 'kastenkuchen', 'muffin', {}, G));
 ok(!c.ablauf.some((s) => s.key === 'ei_trennen') && c.warnungen.some((w) => /passt nicht zur Methode „Muffin-Methode“/.test(w)), 'Muffin-Methode: Technik passt nicht, wird übergangen und gemeldet');
 
