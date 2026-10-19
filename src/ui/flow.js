@@ -100,7 +100,8 @@ export function stromModell(steps, orte = {}, vessel = null) {
   }
   // Spuren vergeben (Intervalle über Zeilen, erste freie Spur)
   const belegt = [];
-  for (const st of [...straenge].sort((a, b) => a.von - b.von)) {
+  // Wer früher mündet, liegt innen: so kreuzt kein Bogen eine noch laufende Spur (die läuft länger und liegt außen)
+  for (const st of [...straenge].sort((a, b) => a.bis - b.bis || a.von - b.von)) {
     let k = 0;
     while ((belegt[k] || []).some(([v, b]) => !(st.bis < v || st.von > b))) k++;
     (belegt[k] ||= []).push([st.von, st.bis]);
@@ -187,7 +188,7 @@ export function renderFlow(root, computed, data = {}) {
   root.className = `strom ${quer ? 'ist-quer' : 'ist-hoch'}`;
   const n = M.spuren;
   root.style.setProperty('--neben-b', `${n * LANE}px`);
-  root.style.setProperty('--raster', quer ? `minmax(120px, auto) ${'36px '.repeat(n)}52px 60px` : `52px 48px ${'36px '.repeat(n)}minmax(0, 1fr)`);
+  root.style.setProperty('--raster', quer ? `minmax(120px, 1fr) ${'36px '.repeat(n)}52px 68px` : `52px 48px ${'36px '.repeat(n)}minmax(0, 1fr)`);
   const band = el('div', 'strom-band');
   M.zeilen.forEach((z) => {
     band.append(zeile(z, ctx));
@@ -244,8 +245,9 @@ function zeile(z, ctx) {
     const sp = z.spuren.find((x) => x.spur === k);
     if (sp) {
       zelle.style.setProperty('--farbe', farbe(sp.ort));
-      zelle.append(balken(sp, ` bar-neben${sp.aktiv ? '' : ' ist-wartend'}${sp.start ? ' bar-start' : ''}${sp.mündet ? ' bar-ende' : ''}`));
+      // In der Mündungszeile zeichnet nur der Bogen (kein Balken-Stummel unter der Ecke)
       if (sp.mündet) zelle.append(bogen(sp, k, ctx));
+      else zelle.append(balken(sp, ` bar-neben${sp.aktiv ? '' : ' ist-wartend'}${sp.start ? ' bar-start' : ''}`));
       if (z.art === 'aktion' && z.strang?.spur === k) zelle.append(knopf(z, s, ctx, 'klein'));
       for (const u of z.uhren.filter((x) => x.spur === k)) zelle.append(uhr(z, u.i, ctx, 'klein'));
     }

@@ -70,6 +70,14 @@ for (const [ak, arch] of Object.entries(data.archetypes)) {
     if (haupt.some((r, k) => k && r.haupt.dicke < haupt[k - 1].haupt.dicke)) probleme.push(`${tag}: Hauptstrom wird dünner`);
     if (M.zeilen.some((r) => [r.haupt, ...r.spuren].filter(Boolean).some((x) => x.dicke < 2 || x.dicke > 12))) probleme.push(`${tag}: Dicke außerhalb 2–12`);
     if (M.zeilen.some((r) => r.art === 'leer' && r.haupt?.aktiv)) probleme.push(`${tag}: leere Zeile mit durchgezogenem Hauptstrom`);
+    // Keine Kreuzungen: ein Bogen kreuzt keine noch laufende innere Spur, ein Abzweig keine Spur dazwischen
+    for (const r of M.zeilen) {
+      for (const sp of r.spuren.filter((x) => x.mündet)) if (r.spuren.some((x) => x.spur < sp.spur && !x.mündet)) probleme.push(`${tag}: Bogen kreuzt eine laufende Spur`);
+      for (const sp of r.spuren.filter((x) => x.quelle != null)) {
+        const [a, b] = [Math.min(sp.quelle, sp.spur), Math.max(sp.quelle, sp.spur)];
+        if (r.spuren.some((x) => x.spur > a && x.spur < b)) probleme.push(`${tag}: Abzweig kreuzt eine Spur`);
+      }
+    }
     if (aktionen.some((r) => r.modus === 'zu' && !r.neu.length)) probleme.push(`${tag}: Zufluss ohne Zutaten`);
     const belegt = Object.entries(z).filter(([, e]) => e.length).length;
     const chipsAlle = aktionen.flatMap((r) => r.neu);

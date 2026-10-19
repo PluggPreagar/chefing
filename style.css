@@ -110,10 +110,12 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .bar-start { top: 50%; }
 .bar-ende { bottom: 50%; }
 /* Strang mündet: von der Spur nach unten, dann nach links über die Spuren dazwischen bis zur Mitte des Hauptstroms */
-.bogen { position: absolute; top: 0; height: 50%; left: calc(-24px - var(--weg)); width: calc(50% + 24px + var(--weg) + var(--dicke) / 2); box-sizing: border-box; border: 0 solid var(--c); border-right-width: var(--dicke); border-bottom-width: var(--dicke); border-bottom-right-radius: 12px; opacity: .6; }
+.bogen { position: absolute; top: 0; height: calc(50% - 8px); left: calc(-24px - var(--weg)); width: calc(50% + 24px + var(--weg) + var(--dicke) / 2); box-sizing: border-box; border: 0 solid var(--c); border-right-width: var(--dicke); border-bottom-width: var(--dicke); border-bottom-right-radius: 12px; opacity: .6; }
 /* zweiter Abfluss (Ei trennen → Eiweiß): Querverbindung zur Spur des späteren Strangs */
 .abzweig { position: absolute; top: calc(50% - var(--dicke) / 2); left: 50%; width: var(--weg); height: var(--dicke); background: var(--ziel); opacity: .6; }
 .abzweig.nach-innen { left: auto; right: 50%; }
+/* Kreuzungen vermeiden: der Bogen biegt 8px vor der Mitte ab (dort läuft der Zufluss-Pfeil), Spuren lassen dem Pfeil eine Lücke */
+.modus-zu .z-spur .bar { -webkit-mask: linear-gradient(to bottom, #000 calc(50% - 6px), transparent calc(50% - 6px) calc(50% + 6px), #000 calc(50% + 6px)); mask: linear-gradient(to bottom, #000 calc(50% - 6px), transparent calc(50% - 6px) calc(50% + 6px), #000 calc(50% + 6px)); }
 .strom-knopf, .strom-uhr { position: relative; z-index: 1; flex: none; padding: 0; border: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; color: var(--farbe); }
 .strom-knopf { width: 48px; height: 48px; background: var(--bg); }
 .strom-knopf.klein { width: 34px; height: 34px; }
@@ -126,9 +128,9 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .strom-start::after { content: ""; flex: 1; border-top: 1px dashed var(--muted); }
 .ist-vorlauf .z-label b { color: var(--muted); }
 .ist-leer .z-label b { font-weight: 400; font-style: italic; color: var(--muted); }
-.zufluss { display: flex; align-items: center; }
+.zufluss { position: relative; display: flex; align-items: center; }
 /* Pfeil vom Zufluss-Schritt in den Hauptstrom (endet am Balken, über die Spuren hinweg) */
-.pfeil { position: relative; flex: none; box-sizing: border-box; height: 0; width: calc(26px + var(--neben-b)); margin-left: calc(-26px - var(--neben-b)); border-top: 1.5px solid var(--muted); }
+.pfeil { position: absolute; right: 100%; top: 50%; box-sizing: border-box; height: 0; width: calc(24px + var(--neben-b)); border-top: 1.5px solid var(--muted); }
 .pfeil::before { content: ""; position: absolute; left: -1px; top: -5px; border: 4.5px solid transparent; border-right: 6px solid var(--muted); border-left: 0; }
 .linie { flex: none; width: 10px; height: 0; border-top: 1.5px solid var(--muted); }
 .zu-rechts { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
@@ -158,13 +160,14 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .ist-quer .bar.ist-wartend { background: repeating-linear-gradient(to right, var(--c) 0 6px, transparent 6px 11px); }
 .ist-quer .bar-start { left: 50%; }
 .ist-quer .bar-ende { right: 50%; }
-.ist-quer .bogen { top: calc(50% - var(--dicke) / 2); left: 0; height: calc(50% + 26px + var(--weg) + var(--dicke) / 2); width: calc(50% + var(--dicke) / 2); border-bottom-width: 0; border-top-width: var(--dicke); border-bottom-right-radius: 0; border-top-right-radius: 12px; }
+.ist-quer .bogen { top: calc(50% - var(--dicke) / 2); left: 0; height: calc(50% + 26px + var(--weg) + var(--dicke) / 2); width: calc(50% - 8px + var(--dicke) / 2); border-bottom-width: 0; border-top-width: var(--dicke); border-bottom-right-radius: 0; border-top-right-radius: 12px; }
 .ist-quer .abzweig { top: auto; bottom: 50%; left: calc(50% - var(--dicke) / 2); width: var(--dicke); height: var(--weg); }
 .ist-quer .abzweig.nach-innen { bottom: auto; top: 50%; right: auto; }
+.ist-quer .modus-zu .z-spur .bar { -webkit-mask: linear-gradient(to right, #000 calc(50% - 6px), transparent calc(50% - 6px) calc(50% + 6px), #000 calc(50% + 6px)); mask: linear-gradient(to right, #000 calc(50% - 6px), transparent calc(50% - 6px) calc(50% + 6px), #000 calc(50% + 6px)); }
 .ist-quer .strom-start { flex-direction: column; margin: 0 4px; writing-mode: vertical-rl; }
 .ist-quer .strom-start::after { border-top: 0; border-left: 1px dashed var(--muted); }
 .ist-quer .zufluss { flex-direction: column-reverse; }
-.ist-quer .pfeil { width: 0; height: calc(26px + var(--neben-b)); margin: 0 0 calc(-26px - var(--neben-b)); border-top: 0; border-left: 1.5px solid var(--muted); }
+.ist-quer .pfeil { right: auto; top: 100%; left: 50%; width: 0; height: calc(30px + var(--neben-b)); border-top: 0; border-left: 1.5px solid var(--muted); }
 .ist-quer .pfeil::before { left: -5.5px; top: auto; bottom: -1px; border: 4.5px solid transparent; border-top: 6px solid var(--muted); border-bottom: 0; }
 .ist-quer .linie { width: 0; height: 10px; border-top: 0; border-left: 1.5px solid var(--muted); }
 .ist-quer .chips { justify-content: center; }
