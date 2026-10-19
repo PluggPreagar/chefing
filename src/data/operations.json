@@ -15,10 +15,13 @@
     "wirkt_auf_eigenschaften": "optional: {rolle: {eigenschaft: wert, ...}, ...} — wird angewendet, wenn diese Operation automatisch als vorbereitung_falls_nicht eingefügt wurde; beschreibt, wie sich die Eigenschaften der Rolle dadurch ändern (z. B. Schmelzen macht festes Fett flüssig). Ein Feld `temperatur` setzt die neue Temperatur der Rolle (Angabe wie überall, auch abgeleitet aus einer Zutat-Eigenschaft); Aggregat und Form folgen daraus (T62).",
     "wirkung": "physikalisch/chemisch, was passiert",
     "risiko": "typischer Fehler",
-    "zusatzverben": "optional, Liste weiterer Verb-Schlüssel — werden im Ablaufdiagramm als zusätzliche Icons neben dem Haupt-Icon gezeigt, ohne eigene Voraussetzungsprüfung (reine Anzeige)."
+    "zusatzverben": "optional, Liste weiterer Verb-Schlüssel — werden im Ablaufdiagramm als zusätzliche Icons neben dem Haupt-Icon gezeigt, ohne eigene Voraussetzungsprüfung (reine Anzeige).",
+    "aktion": "Kurzes Tätigkeitswort fürs Ablaufdiagramm (Swimlanes, DR-038), z. B. Kneten; Zutaten und Zeit zeigt das Diagramm daneben.",
+    "ort": "Arbeitsplatz aus orte.json (Swimlane im Ablaufdiagramm, DR-038): wo die Aktion passiert. \"gefaess\" = das gewählte Gefäß (Form, Blech, Pfanne). Eine Methode kann ihn je Schritt per `orte` überschreiben."
   },
   "einlegen": {
     "label": "Einlegen",
+    "aktion": "Einlegen", "ort": "schaelchen",
     "typ": "warten",
     "verb": "mischen",
     "intensitaet": "passiv",
@@ -35,6 +38,7 @@
   },
   "schmelzen": {
     "label": "Schmelzen",
+    "aktion": "Schmelzen", "ort": "topf",
     "temperatur": { "von": { "rolle": "fett", "feld": "schmelzpunkt_c" }, "faktor": 1.05 },
     "typ": "vorbereitung",
     "verb": "erhitzen",
@@ -48,6 +52,7 @@
   },
   "verquirlen": {
     "label": "Flüssiges verquirlen",
+    "aktion": "Verquirlen", "ort": "schuessel",
     "typ": "mischen",
     "verb": "mischen",
     "intensitaet": "kraeftig",
@@ -60,6 +65,7 @@
   },
   "unterheben_abwechselnd": {
     "label": "Trockenes abwechselnd mit Flüssigkeit unterrühren",
+    "aktion": "Unterrühren", "ort": "schuessel",
     "typ": "mischen",
     "verb": "mischen",
     "intensitaet": "sanft",
@@ -74,6 +80,7 @@
   },
   "einlage_unterheben": {
     "label": "Einlage unterheben",
+    "aktion": "Unterheben", "ort": "schuessel",
     "typ": "mischen",
     "verb": "mischen",
     "intensitaet": "sanft",
@@ -85,6 +92,7 @@
   },
   "fuellen": {
     "label": "In Form füllen",
+    "aktion": "Einfüllen", "ort": "gefaess",
     "typ": "vorbereitung",
     "verb": "formen",
     "variante": "in Form füllen",
@@ -95,6 +103,7 @@
   },
   "backen": {
     "label": "Backen",
+    "aktion": "Backen", "ort": "ofen",
     "typ": "erhitzen",
     "verb": "erhitzen",
     "intensitaet": "mittel",
@@ -117,6 +126,7 @@
   },
   "ruhen": {
     "label": "Teig ruhen lassen",
+    "aktion": "Ruhen", "ort": "schuessel",
     "typ": "warten",
     "verb": "mischen",
     "intensitaet": "passiv",
@@ -134,6 +144,7 @@
   },
   "ausbacken": {
     "label": "In der Pfanne ausbacken",
+    "aktion": "Ausbacken", "ort": "gefaess",
     "typ": "erhitzen",
     "verb": "erhitzen",
     "intensitaet": "mittel",
@@ -157,6 +168,7 @@
   },
   "hefe_ansetzen": {
     "label": "Hefe in lauwarmer Flüssigkeit lösen",
+    "aktion": "Lösen", "ort": "tasse",
     "typ": "vorbereitung",
     "temperatur": "lauwarm",
     "verb": "vorbereiten",
@@ -169,6 +181,7 @@
   },
   "kneten": {
     "label": "Teig kneten",
+    "aktion": "Kneten", "ort": "schuessel",
     "typ": "mischen",
     "temperatur": "teig",
     "reibung_k": 8,
@@ -187,6 +200,7 @@
   },
   "gehen": {
     "label": "Teig gehen lassen (Stockgare)",
+    "aktion": "Gehen", "ort": "schuessel",
     "typ": "warten",
     "gaerung": true,
     "temperatur": "warm",
@@ -211,6 +225,7 @@
   },
   "formen": {
     "label": "Teig formen",
+    "aktion": "Formen", "ort": "flaeche",
     "typ": "vorbereitung",
     "verb": "formen",
     "variante": "formen (Laib, Zopf, Kranz)",
@@ -222,6 +237,7 @@
   },
   "stueckgare": {
     "label": "Geformten Teig nochmal gehen lassen",
+    "aktion": "Stückgare", "ort": "gefaess",
     "typ": "warten",
     "gaerung": true,
     "temperatur": "warm",
@@ -241,6 +257,7 @@
   },
   "vorteig_ansetzen": {
     "label": "Vorteig ansetzen",
+    "aktion": "Ansetzen", "ort": "schuessel_2",
     "typ": "mischen",
     "verb": "mischen",
     "intensitaet": "sanft",
@@ -252,6 +269,7 @@
   },
   "vorteig_reifen": {
     "label": "Vorteig reifen lassen",
+    "aktion": "Reifen", "ort": "schuessel_2",
     "typ": "warten",
     "gaerung": "vorteig",
     "verb": "mischen",

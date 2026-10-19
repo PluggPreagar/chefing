@@ -54,7 +54,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
     tbody.append(row);
   }
   table.append(tbody);
-  root.append(table);
+  root.append(seitlich(table));
   if (computed.zutatenListe.some((z) => z.bpQuelle === 'schätzung')) {
     root.append(el('p', 'fine', '* keine Korpus-Daten für diese Rolle — Schätzwert'));
   }
@@ -88,7 +88,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
       bb.append(tr([z.label, `${fmtProzent(z.gramm)} g`, `${fmtProzent(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmtProzent(k.q1)}–${fmtProzent(k.q3)} %` : '—', herkunftText(z.herkunft)]));
     }
     bt.append(bb);
-    root.append(bt);
+    root.append(seitlich(bt));
     root.append(el('p', 'fine', 'Bilanz = Summe über alle Zutaten ohne Einlage (z. B. Wasser aus Ei/Butter/Milch, Eiweiß aus Mehl/Ei/Milch). Herkunft: welche Rolle wie viel liefert (ab 5 %). ◦ außerhalb Q1–Q3 · ⚠ außerhalb Korpus-Spanne · ? keine Vergleichsbasis im Korpus'));
   }
 
@@ -209,6 +209,13 @@ function tr(cells, tag = 'td') {
 }
 
 function fmt(x) { return x == null ? '—' : String(Math.round(x)); }
+
+// Tabellen scrollen auf schmalen Bildschirmen seitlich statt die Seite zu verbreitern (wie stats.js)
+function seitlich(table) {
+  const d = el('div', 'tab-scroll');
+  d.append(table);
+  return d;
+}
 
 function el(tag, cls, text) {
   const e = document.createElement(tag);

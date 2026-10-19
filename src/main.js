@@ -15,12 +15,12 @@ async function loadJson(path) {
   return r.json();
 }
 
-const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen] = await Promise.all(
-  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen', 'modelle', 'temperaturen'].map((n) => loadJson(`./src/data/${n}.json`)),
+const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte] = await Promise.all(
+  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen', 'modelle', 'temperaturen', 'orte'].map((n) => loadJson(`./src/data/${n}.json`)),
 );
 const archetypKeys = Object.keys(archetypes).filter((k) => !k.startsWith('_'));
 let arch = archetypes[archetypKeys[0]]; // aktiver Archetyp; waehleArchetyp() setzt ihn zusammen mit data.arch und state.archetyp
-const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, arch };
+const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, arch };
 
 // Normalisierte Rezeptlisten bleiben erhalten (nicht nur die aggregierten `stats()`) — die
 // Korrelationssuche (DR-019 Punkt 5, T32) braucht die Rezepte einzeln, um Bäckerprozent bedingt
@@ -107,7 +107,7 @@ function render() {
   const computed = compute(state, data, korpusStats);
   renderRueckfragen($('rueckfragen'), sessionStart, render);
   renderMorphbox($('morphbox'), state, data, computed, korpusStats, update);
-  renderFlow($('flow'), $('flow-details'), computed, data);
+  renderFlow($('flow'), $('flow-details'), computed, data, $('flow-bahnen'));
   renderRecipe($('recipe'), computed, state, data, update);
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }

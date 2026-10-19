@@ -1,0 +1,15 @@
+{
+  "_schema": {
+    "zweck": "Arbeitsplätze = Swimlanes im Ablaufdiagramm (DR-038). Reihenfolge der Schlüssel = Reihenfolge der Zeilen von oben nach unten: Nebenplätze (Topf, Tasse, Schälchen, zweite Schüssel) über der Hauptschüssel, danach der Weg des Teigs (Fläche, Gefäß, Kühlschrank, Ofen).",
+    "label": "Zeilen-Titel. Fehlt er (gefaess), steht dort das gewählte Gefäß (Kastenform, Blech, Pfanne)."
+  },
+  "topf": { "label": "Topf" },
+  "tasse": { "label": "Tasse" },
+  "schaelchen": { "label": "Schälchen" },
+  "schuessel_2": { "label": "Schüssel 2" },
+  "schuessel": { "label": "Schüssel" },
+  "kuehlschrank": { "label": "Kühlschrank" },
+  "flaeche": { "label": "Arbeitsfläche" },
+  "gefaess": {},
+  "ofen": { "label": "Ofen" }
+}

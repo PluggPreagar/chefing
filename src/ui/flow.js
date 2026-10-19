@@ -2,7 +2,7 @@ import { iconGroup, iconHtml } from './icons.js';
 import { fmtZeit } from '../model/zeit.js';
 
 const NS = 'http://www.w3.org/2000/svg';
-const W = 168, H = 76, GAP = 44, PAD = 16, ICON = 15, ICON_GAP = 3, ROW_GAP = 46;
+const W = 150, H = 74, GAP = 30, PAD = 8, ICON = 14, LABEL_W = 96, LANE_H = 88, TOP = 24;
 
 // verb=mischen wird je nach Intensität als anderes Icon dargestellt
 // (passiv=Einlegen/Ruhen, sanft=Mischen-S, kraeftig=Schlagen), statt drei
@@ -22,25 +22,52 @@ function iconKeysFor(s) {
   return [...s.zutatKategorien, hauptIcon, ...zusatz].filter(Boolean);
 }
 
-export function renderFlow(svg, details, computed, data = {}) {
+const vorgaengerVon = (s, i, steps) => s.nach ?? (i > 0 ? [steps[i - 1].nr] : []);
+const ohneKlammer = (t) => String(t).replace(/\s*\(.*?\)/g, '').trim();
+
+// Swimlanes (DR-038): Zeile = Arbeitsplatz (`ort`, Reihenfolge aus orte.json), Spalte = Zeit-Slot
+// gleicher Breite. Spalte = frühester Slot nach allen Vorgängern, der im eigenen Arbeitsplatz frei ist.
+export function swimlaneLayout(steps, orte = {}, vessel = null) {
+  const reihenfolge = Object.keys(orte).filter((k) => !k.startsWith('_'));
+  const genutzt = [...new Set(steps.map((s) => s.ort ?? 'schuessel'))];
+  const bahnen = [...reihenfolge.filter((k) => genutzt.includes(k)), ...genutzt.filter((k) => !reihenfolge.includes(k))]
+    .map((key) => ({ key, label: orte[key]?.label ?? (key === 'gefaess' && vessel ? ohneKlammer(vessel.label) : key) }));
+  const bahn = steps.map((s) => bahnen.findIndex((b) => b.key === (s.ort ?? 'schuessel')));
+  const spalte = [], start = [], ende = [];
+  const belegt = new Set();
+  steps.forEach((s, i) => {
+    const vor = vorgaengerVon(s, i, steps);
+    let c = Math.max(-1, ...vor.map((n) => spalte[n - 1] ?? -1)) + 1;
+    while (belegt.has(`${bahn[i]}|${c}`)) c++;
+    belegt.add(`${bahn[i]}|${c}`);
+    spalte[i] = c;
+    start[i] = Math.max(0, ...vor.map((n) => ende[n - 1] ?? 0));
+    ende[i] = start[i] + (s.dauer ?? 0);
+  });
+  // Zutaten erscheinen dort, wo sie in den Ablauf kommen — danach tragen die Pfeile sie weiter
+  const gesehen = new Set();
+  const neu = steps.map((s) => (s.zutaten || []).filter((z) => !gesehen.has(z.rolle) && gesehen.add(z.rolle)).map((z) => ohneKlammer(z.label)));
+  return { bahnen, bahn, spalte, start, neu, spalten: Math.max(0, ...spalte) + 1 };
+}
+
+// `bahnenSvg` (optional): eigene, nicht scrollende Spalte für die Zeilen-Titel — am Handy scrollt nur die Zeitachse
+export function renderFlow(svg, details, computed, data = {}, bahnenSvg = null) {
   const namen = { ...(data.kategorien || {}), ...(data.verben || {}) };
   const steps = computed.ablauf;
-  // Ablauf als Graph (T38): Spalte = `ebene` (längster Pfad vom Start), Schritte gleicher Ebene
-  // untereinander — sie sind voneinander unabhängig (Reihenfolge frei). Ein rein linearer Ablauf
-  // ergibt eine Zeile, identisch zur bisherigen Darstellung.
-  const ebeneVon = (s, i) => s.ebene ?? i;
-  const zeile = [];
-  const proEbene = {};
-  steps.forEach((s, i) => { const e = ebeneVon(s, i); zeile[i] = proEbene[e] = (proEbene[e] ?? -1) + 1; });
-  const spalten = Math.max(...steps.map(ebeneVon)) + 1;
-  const zeilen = Math.max(...Object.values(proEbene)) + 1;
-  const pos = steps.map((s, i) => ({ x: PAD + ebeneVon(s, i) * (W + GAP), y: PAD + zeile[i] * (H + ROW_GAP) }));
-  const total = PAD * 2 + spalten * W + (spalten - 1) * GAP;
-  const hoehe = PAD * 2 + zeilen * H + (zeilen - 1) * ROW_GAP + 24;
-  svg.setAttribute('viewBox', `0 0 ${total} ${hoehe}`);
-  svg.setAttribute('width', total);
-  svg.setAttribute('height', hoehe);
-  svg.replaceChildren();
+  const L = swimlaneLayout(steps, data.orte, computed.vessel);
+  const links = bahnenSvg ? GAP / 2 : LABEL_W;
+  const boxX = (c) => links + c * (W + GAP);
+  const boxY = (b) => TOP + b * LANE_H + (LANE_H - H) / 2;
+  const total = links + L.spalten * (W + GAP);
+  const hoehe = TOP + L.bahnen.length * LANE_H + PAD;
+  const leeren = (el, breite) => {
+    el.setAttribute('viewBox', `0 0 ${breite} ${hoehe}`);
+    el.setAttribute('width', breite);
+    el.setAttribute('height', hoehe);
+    el.replaceChildren();
+  };
+  leeren(svg, total);
+  if (bahnenSvg) leeren(bahnenSvg, LABEL_W);
 
   const defs = node('defs');
   const marker = node('marker', { id: 'arrow', viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: 'auto-start-reverse' });
@@ -48,39 +75,48 @@ export function renderFlow(svg, details, computed, data = {}) {
   defs.append(marker);
   svg.append(defs);
 
+  L.bahnen.forEach((b, i) => {
+    const y = TOP + i * LANE_H;
+    if (i % 2) svg.append(node('rect', { x: 0, y, width: total, height: LANE_H, class: 'flow-lane' }));
+    if (i % 2 && bahnenSvg) bahnenSvg.append(node('rect', { x: 0, y, width: LABEL_W, height: LANE_H, class: 'flow-lane' }));
+    const z = zeilen(b.label, 12, 2);
+    z.forEach((t, k) => (bahnenSvg ?? svg).append(text(t, { x: PAD, y: y + LANE_H / 2 + (k - (z.length - 1) / 2) * 15, class: 'flow-lane-label', 'dominant-baseline': 'middle' })));
+  });
+  // Zeit-Slots: Startzeit des frühesten Schritts der Spalte
+  for (let c = 0; c < L.spalten; c++) {
+    const t = Math.min(...steps.map((s, i) => (L.spalte[i] === c ? L.start[i] : Infinity)));
+    svg.append(text(t ? `ab ${fmtZeit(t)}` : 'Start', { x: boxX(c), y: TOP - 8, class: 'flow-typ' }));
+  }
+
+  // Kanten zuerst, damit die Kästen darüber liegen; Wechsel des Arbeitsplatzes = Übergabe, geknickt in der Lücke vor dem Ziel
   steps.forEach((s, i) => {
-    const { x, y } = pos[i];
-    const g = node('g', { class: `flow-node typ-${s.typ}${s.eingefuegt ? ' is-inserted' : ''}`, 'data-step': i });
-    g.append(node('rect', { x, y, width: W, height: H, rx: 10 }));
-    // Ein Schritt = Kombination aus Zutat-Icon(s) + Verb-Icon, als Reihe zentriert
-    const iconKeys = iconKeysFor(s);
-    const rowW = iconKeys.length * ICON + Math.max(0, iconKeys.length - 1) * ICON_GAP;
-    let ix = x + W / 2 - rowW / 2;
-    for (const key of iconKeys) {
-      g.append(iconGroup(key, { x: ix, y: y + 8, size: ICON, title: namen[key]?.label }));
-      ix += ICON + ICON_GAP;
-    }
-    const label = node('text', { x: x + W / 2, y: y + H / 2 + 10, class: 'flow-label', 'text-anchor': 'middle', 'dominant-baseline': 'middle' });
-    wrap(label, `${s.nr}. ${s.label}`, 24, x + W / 2);
-    g.append(label);
-    const typ = node('text', { x: x + W / 2, y: y + H + 16, class: 'flow-typ', 'text-anchor': 'middle' });
-    typ.textContent = s.eingefuegt ? 'eingefügte Vorbereitung' : s.typ;
-    g.append(typ);
-    const t = node('title');
-    t.textContent = s.wirkung;
-    g.append(t);
-    svg.append(g);
-    // Kanten von jedem Vorgänger (T38); ohne `nach`-Daten linear zum vorigen Schritt.
-    const vorgaenger = s.nach ?? (i > 0 ? [steps[i - 1].nr] : []);
-    for (const nr of vorgaenger) {
-      const v = pos[nr - 1];
-      if (!v) continue;
-      const x1 = v.x + W, y1 = v.y + H / 2, x2 = x - 2, y2 = y + H / 2;
-      const mx = (x1 + x2) / 2;
+    const x2 = boxX(L.spalte[i]) - 2, y2 = boxY(L.bahn[i]) + H / 2;
+    for (const nr of vorgaengerVon(s, i, steps)) {
+      const v = nr - 1;
+      if (L.spalte[v] == null) continue;
+      const x1 = boxX(L.spalte[v]) + W, y1 = boxY(L.bahn[v]) + H / 2;
+      const xm = x2 - GAP / 2 + 2;
       svg.append(y1 === y2
         ? node('line', { x1, y1, x2, y2, class: 'flow-edge', 'marker-end': 'url(#arrow)' })
-        : node('path', { d: `M ${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`, fill: 'none', class: 'flow-edge', 'marker-end': 'url(#arrow)' }));
+        : node('path', { d: `M ${x1} ${y1} H ${xm} V ${y2} H ${x2}`, fill: 'none', class: 'flow-edge is-transfer', 'marker-end': 'url(#arrow)' }));
     }
+  });
+
+  steps.forEach((s, i) => {
+    const x = boxX(L.spalte[i]), y = boxY(L.bahn[i]);
+    const g = node('g', { class: `flow-node typ-${s.typ}${s.eingefuegt ? ' is-inserted' : ''}`, 'data-step': i });
+    g.append(node('rect', { x, y, width: W, height: H, rx: 8 }));
+    const haupt = iconKeysFor(s).filter((k) => !(s.zutatKategorien || []).includes(k))[0];
+    if (haupt) g.append(iconGroup(haupt, { x: x + 7, y: y + 7, size: ICON, title: namen[haupt]?.label }));
+    g.append(text(s.aktion ?? s.label, { x: x + ICON + 12, y: y + 15, class: 'flow-aktion', 'dominant-baseline': 'middle' }));
+    zeilen(L.neu[i].join(', '), 24, 2).forEach((z, k) => g.append(text(z, { x: x + 7, y: y + 33 + k * 14, class: 'flow-zutat', 'dominant-baseline': 'middle' })));
+    const temp = s.key === 'backen' && computed.backen?.tempOU ? `${computed.backen.tempOU} °C O/U` : s.temperatur && ohneKlammer(s.temperatur);
+    const meta = [s.dauer ? fmtZeit(s.dauer) : null, temp].filter(Boolean).join(' · ');
+    if (meta) g.append(text(zeilen(meta, 26, 1)[0], { x: x + 7, y: y + H - 9, class: 'flow-typ', 'dominant-baseline': 'middle' }));
+    const t = node('title');
+    t.textContent = `${s.nr}. ${s.label}${s.eingefuegt ? ' (eingefügte Vorbereitung)' : ''}\n${s.wirkung}`;
+    g.append(t);
+    svg.append(g);
   });
 
   details.replaceChildren();
@@ -124,23 +160,24 @@ function parallelText(s, steps) {
   return andere.length ? ` · Reihenfolge frei (parallel zu ${andere.join(', ')})` : '';
 }
 
-function wrap(textEl, str, maxChars, cx) {
-  const words = str.split(' ');
+// Wortweise auf höchstens `max` Zeilen umbrechen; was nicht passt, endet mit „…“ (voller Text im Tooltip)
+export function zeilen(str, maxChars, max) {
   const lines = [];
   let cur = '';
-  for (const w of words) {
+  for (const w of String(str).split(' ').filter(Boolean)) {
     if ((cur + ' ' + w).trim().length > maxChars && cur) { lines.push(cur); cur = w; } else cur = (cur + ' ' + w).trim();
   }
   if (cur) lines.push(cur);
-  const shown = lines.slice(0, 3);
-  if (lines.length > 3) shown[2] = shown[2].replace(/\s*\S*$/, '…');
-  const lh = 14;
-  const startDy = -((shown.length - 1) * lh) / 2;
-  shown.forEach((line, i) => {
-    const t = node('tspan', { x: cx, dy: i === 0 ? startDy : lh });
-    t.textContent = line;
-    textEl.append(t);
-  });
+  const shown = lines.slice(0, max);
+  const l = shown[max - 1];
+  if (lines.length > max) shown[max - 1] = (l.includes(' ') ? l.replace(/\s+\S*$/, '') : l) + ' …';
+  return shown;
+}
+
+function text(str, attrs) {
+  const t = node('text', attrs);
+  t.textContent = str;
+  return t;
 }
 
 function node(tag, attrs = {}) {

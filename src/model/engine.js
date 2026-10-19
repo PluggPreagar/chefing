@@ -277,6 +277,10 @@ export function compute(state, data, korpusStats) {
     variante: s.op.variante,
     // Ein Schritt ist Zutat + Behandlung: welche belegten Rollen wirkt diese Operation auf?
     zutatKategorien: [...new Set((s.op.auf || []).map((r) => props[r]?.kategorie).filter(Boolean))],
+    // Swimlane-Ansicht (DR-038): Arbeitsplatz, kurzes Tätigkeitswort, gewählte Zutaten je Rolle
+    ort: method.orte?.[s.key] ?? s.op.ort ?? 'schuessel',
+    aktion: s.op.aktion ?? s.op.label,
+    zutaten: (s.op.auf || []).filter((r) => props[r]).map((r) => ({ rolle: r, label: props[r].kurzlabel })),
     eingefuegt: s.eingefuegt,
     wirkung: s.op.wirkung,
     risiko: s.op.risiko ?? null,
@@ -285,6 +289,10 @@ export function compute(state, data, korpusStats) {
     // Temperatur der Aktion (T52): die Gare zeigt die Temperatur, mit der das Gärmodell rechnet
     temperatur: (s === gareSchritt ? gareTempText : schrittTemperaturText(s.op, data, props)) || null,
   }));
+  // Rollen, die keine Operation nennt (Backpulver, Salz, Aroma), kommen mit dem Mehl in den Teig (DR-038)
+  const imAblauf = new Set(ablauf.flatMap((s) => s.zutaten.map((z) => z.rolle)));
+  const mitMehl = ablauf.find((s) => s.zutaten.some((z) => z.rolle === 'struktur'));
+  for (const r of Object.keys(props)) if (props[r] && !imAblauf.has(r)) mitMehl?.zutaten.push({ rolle: r, label: props[r].kurzlabel });
 
   // Alle Regeln, die dem Nutzer etwas gesagt haben (Grenzen, Voraussetzungen, Zeit-Fenster, Gärmodell, eingefügte
   // Vorbereitung, Korpus-Toleranz) — jede ist eine Vorhersage; Rückmeldungen („hat es geklappt?“, T53) etikettieren sie.

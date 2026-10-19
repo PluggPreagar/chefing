@@ -16,6 +16,7 @@
   --prep: #7a5cc2;
   --fix: #2f5f8f;
   --fix-bg: #e4edf6;
+  --zutat: #2f6f5e;
   --r: 10px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color: var(--ink);
@@ -23,7 +24,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --bg: #1c1a17; --panel: #262320; --ink: #eee8df; --muted: #a79d91; --line: #3a352f;
-    --sel-bg: #1f3a33; --best-bg: #3a2f17; --bad-bg: #3d211d; --warn-bg: #3a3018; --info-bg: #22293a; --fix-bg: #1c2c3a;
+    --sel-bg: #1f3a33; --best-bg: #3a2f17; --bad-bg: #3d211d; --warn-bg: #3a3018; --info-bg: #22293a; --fix-bg: #1c2c3a; --zutat: #7fc4ae;
   }
 }
 * { box-sizing: border-box; }
@@ -42,6 +43,11 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .layout { display: grid; gap: 1rem; padding: 0 1.5rem 1.5rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 1rem; min-width: 0; }
 .panel-wide { grid-column: 1 / -1; }
+.ablauf { margin: 0 1.5rem 1rem; }
+.flow-wrap { display: flex; align-items: flex-start; }
+.flow-wrap .flow-scroll { flex: 1; min-width: 0; }
+#flow-bahnen { flex: none; display: block; }
+.flow-details summary { cursor: pointer; color: var(--muted); font-size: .9rem; margin-top: .5rem; }
 #rueckfragen { margin: 0 1.5rem 1rem; border-color: var(--warn); }
 .rueckfrage { padding: .5rem 0; border-top: 1px solid var(--line); }
 .rueckfrage:first-child { padding-top: 0; border-top: 0; }
@@ -100,6 +106,11 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .flow-node.typ-warten rect { stroke: var(--muted); stroke-dasharray: 2 4; }
 .flow-node.is-inserted rect { stroke: var(--prep); stroke-dasharray: 5 4; }
 .flow-label { font-size: 11px; fill: var(--ink); }
+.flow-lane { fill: var(--bg); }
+.flow-lane-label { font-size: 12px; font-weight: 600; fill: var(--muted); }
+.flow-aktion { font-size: 12px; font-weight: 600; fill: var(--ink); }
+.flow-zutat { font-size: 11px; fill: var(--zutat); }
+.flow-edge.is-transfer { stroke: var(--zutat); }
 .flow-typ { font-size: 10px; fill: var(--muted); }
 .flow-edge { stroke: var(--muted); stroke-width: 1.5; }
 .flow-arrow { fill: var(--muted); }
@@ -173,6 +184,7 @@ code { font-size: .85em; }
 
 @media (max-width: 600px) {
   .top, .layout, .foot { padding-left: 1rem; padding-right: 1rem; }
+  .ablauf { margin: 0 1rem 1rem; }
   .dim { grid-template-columns: 1fr; gap: .3rem; }
   .bar-row { grid-template-columns: 110px 1fr 2rem; }
 }
