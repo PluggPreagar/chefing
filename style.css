@@ -96,36 +96,43 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .opt-anteil-label { font-size: .68rem; color: var(--muted); margin-top: .2rem; }
 .opt-anteil { width: 4.8em; font: inherit; font-size: .8rem; border: 1px solid var(--line); border-radius: 4px; padding: .15rem .4rem; background: var(--panel); color: var(--ink); margin-left: .3rem; }
 
-/* Ablauf als Strom + Zufluss (DR-039): hochkant (A3, Handy) = Zeit nach unten, quer (A2) = Zeit nach rechts */
-.strom { --neben-b: 0px; }
-.strom.mit-neben { --neben-b: 36px; }
+/* Ablauf in Slots (DR-039, DR-043): je Zeile eine Aktion oder keine; hochkant (Handy) Zeit nach unten, quer Zeit nach rechts.
+   Linie: Farbe = Behälter, Dicke = Menge (--dicke), durchgezogen = in Arbeit, gestrichelt (.ist-wartend) = wartet */
 .strom-band { display: flex; flex-direction: column; }
-.strom-zeile { display: grid; grid-template-columns: 48px 48px var(--neben-b) minmax(0, 1fr); grid-template-areas: "ort haupt neben inhalt"; align-items: center; min-height: 64px; }
-.z-ort { grid-area: ort; display: flex; justify-content: center; }
-.z-haupt, .z-neben { position: relative; align-self: stretch; display: flex; align-items: center; justify-content: center; }
-.z-haupt { grid-area: haupt; }
-.z-neben { grid-area: neben; }
-.z-inhalt { grid-area: inhalt; display: flex; flex-direction: column; gap: 4px; padding: 8px 0; min-width: 0; }
-.bar { position: absolute; left: calc(50% - 4px); width: 8px; top: 0; bottom: 0; background: var(--haupt); opacity: .55; }
-.bar-start { top: 50%; border-radius: 4px 4px 0 0; }
+.strom-zeile { display: grid; grid-template-columns: var(--raster); align-items: center; min-height: 60px; }
+.strom-zeile > * { min-width: 0; }
+.z-ort { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.z-zeit { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.z-haupt, .z-spur { position: relative; align-self: stretch; display: flex; align-items: center; justify-content: center; }
+.z-inhalt { display: flex; flex-direction: column; gap: 4px; padding: 8px 0 8px 6px; min-width: 0; }
+.bar { position: absolute; left: calc(50% - var(--dicke) / 2); width: var(--dicke); top: 0; bottom: 0; background: var(--c); opacity: .6; }
+.bar.ist-wartend { background: repeating-linear-gradient(to bottom, var(--c) 0 6px, transparent 6px 11px); }
+.bar-start { top: 50%; }
 .bar-ende { bottom: 50%; }
-.bar-neben { left: calc(50% - 2px); width: 4px; background: var(--farbe); }
-.bar-neben.bar-start { border-radius: 2px 2px 0 0; }
-/* Seitenstrom mündet: vom Nebenstrom nach unten, dann nach links in den Hauptstrom */
-.bogen { position: absolute; top: 0; height: 50%; left: -20px; width: calc(50% + 22px); box-sizing: border-box; border: 0 solid var(--neben); border-right-width: 4px; border-bottom-width: 4px; border-bottom-right-radius: 12px; opacity: .55; }
-.strom-knopf { position: relative; z-index: 1; flex: none; width: 52px; height: 52px; padding: 0; border: 0; border-radius: 50%; background: var(--bg); color: var(--farbe); display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; }
-.strom-knopf.klein { width: 40px; height: 40px; }
-.strom-knopf.typ-warten { outline: 1.5px dashed var(--muted); outline-offset: -3px; }
+/* Strang mündet: von der Spur nach unten, dann nach links über die Spuren dazwischen bis zur Mitte des Hauptstroms */
+.bogen { position: absolute; top: 0; height: 50%; left: calc(-24px - var(--weg)); width: calc(50% + 24px + var(--weg) + var(--dicke) / 2); box-sizing: border-box; border: 0 solid var(--c); border-right-width: var(--dicke); border-bottom-width: var(--dicke); border-bottom-right-radius: 12px; opacity: .6; }
+/* zweiter Abfluss (Ei trennen → Eiweiß): Querverbindung zur Spur des späteren Strangs */
+.abzweig { position: absolute; top: calc(50% - var(--dicke) / 2); left: 50%; width: var(--weg); height: var(--dicke); background: var(--ziel); opacity: .6; }
+.abzweig.nach-innen { left: auto; right: 50%; }
+.strom-knopf, .strom-uhr { position: relative; z-index: 1; flex: none; padding: 0; border: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font: inherit; color: var(--farbe); }
+.strom-knopf { width: 48px; height: 48px; background: var(--bg); }
+.strom-knopf.klein { width: 34px; height: 34px; }
 .strom-knopf.is-inserted { outline: 1.5px dashed var(--prep); outline-offset: -3px; }
-.strom-knopf[aria-expanded="true"] { box-shadow: 0 0 0 2px var(--ink); }
-.strom-knopf:focus-visible { box-shadow: 0 0 0 3px var(--fix); outline: none; }
+.strom-uhr { width: 34px; height: 34px; background: var(--panel); border: 1.5px dashed var(--farbe); }
+.strom-uhr.klein { width: 28px; height: 28px; }
+.strom-knopf[aria-expanded="true"], .strom-uhr[aria-expanded="true"] { box-shadow: 0 0 0 2px var(--ink); }
+.strom-knopf:focus-visible, .strom-uhr:focus-visible { box-shadow: 0 0 0 3px var(--fix); outline: none; }
+.strom-start { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); margin: 4px 0; }
+.strom-start::after { content: ""; flex: 1; border-top: 1px dashed var(--muted); }
+.ist-vorlauf .z-label b { color: var(--muted); }
+.ist-leer .z-label b { font-weight: 400; font-style: italic; color: var(--muted); }
 .zufluss { display: flex; align-items: center; }
-/* Pfeil vom Zufluss-Schritt in den Hauptstrom (endet am Balken) */
-.pfeil { position: relative; flex: none; box-sizing: border-box; height: 0; width: calc(26px + var(--neben-b)); margin-left: calc(-20px - var(--neben-b)); border-top: 1.5px solid var(--muted); }
+/* Pfeil vom Zufluss-Schritt in den Hauptstrom (endet am Balken, über die Spuren hinweg) */
+.pfeil { position: relative; flex: none; box-sizing: border-box; height: 0; width: calc(26px + var(--neben-b)); margin-left: calc(-26px - var(--neben-b)); border-top: 1.5px solid var(--muted); }
 .pfeil::before { content: ""; position: absolute; left: -1px; top: -5px; border: 4.5px solid transparent; border-right: 6px solid var(--muted); border-left: 0; }
 .linie { flex: none; width: 10px; height: 0; border-top: 1.5px solid var(--muted); }
-.chips { display: flex; flex-wrap: wrap; gap: 2px 4px; }
 .zu-rechts { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.chips { display: flex; flex-wrap: wrap; gap: 2px 4px; }
 .chip { min-width: 40px; max-width: 80px; display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--zutat); }
 .chip span, .ort-marke span { font-size: 10px; line-height: 1.15; color: var(--muted); text-align: center; overflow-wrap: break-word; }
 .ort-marke { display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--farbe); }
@@ -141,20 +148,23 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .k-schritt { color: var(--muted); font-size: 12px; }
 .k-was { color: var(--muted); }
 .k-risiko .k-was { color: var(--warn); }
-.strom-fuss { font-size: 11px; color: var(--muted); margin: 6px 0 0 48px; }
+.strom-fuss { font-size: 11px; color: var(--muted); margin: 6px 0 0 52px; }
 
 .ist-quer .strom-band { flex-direction: row; overflow-x: auto; padding-bottom: .5rem; }
-.ist-quer .strom-zeile { flex: none; width: 128px; min-height: 0; grid-template-columns: none; grid-template-rows: minmax(120px, auto) var(--neben-b) 52px 56px; grid-template-areas: "inhalt" "neben" "haupt" "ort"; align-items: stretch; }
-.ist-quer .z-ort { align-items: flex-start; padding-top: 6px; }
+.ist-quer .strom-zeile { flex: none; width: 128px; min-height: 0; grid-template-columns: none; grid-template-rows: var(--raster); align-items: stretch; }
+.ist-quer .z-ort { justify-content: flex-start; padding-top: 6px; }
 .ist-quer .z-inhalt { flex-direction: column-reverse; justify-content: flex-start; align-items: center; text-align: center; padding: 0 4px 8px; }
-.ist-quer .bar { left: 0; right: 0; width: auto; top: calc(50% - 4px); bottom: auto; height: 8px; }
-.ist-quer .bar-start { left: 50%; border-radius: 4px 0 0 4px; }
+.ist-quer .bar { left: 0; right: 0; width: auto; top: calc(50% - var(--dicke) / 2); bottom: auto; height: var(--dicke); }
+.ist-quer .bar.ist-wartend { background: repeating-linear-gradient(to right, var(--c) 0 6px, transparent 6px 11px); }
+.ist-quer .bar-start { left: 50%; }
 .ist-quer .bar-ende { right: 50%; }
-.ist-quer .bar-neben { top: calc(50% - 2px); height: 4px; }
-.ist-quer .bar-neben.bar-start { border-radius: 2px 0 0 2px; }
-.ist-quer .bogen { top: calc(50% - 2px); left: 0; height: calc(50% + 24px); width: calc(50% + 2px); border-bottom-width: 0; border-top-width: 4px; border-bottom-right-radius: 0; border-top-right-radius: 12px; }
+.ist-quer .bogen { top: calc(50% - var(--dicke) / 2); left: 0; height: calc(50% + 26px + var(--weg) + var(--dicke) / 2); width: calc(50% + var(--dicke) / 2); border-bottom-width: 0; border-top-width: var(--dicke); border-bottom-right-radius: 0; border-top-right-radius: 12px; }
+.ist-quer .abzweig { top: auto; bottom: 50%; left: calc(50% - var(--dicke) / 2); width: var(--dicke); height: var(--weg); }
+.ist-quer .abzweig.nach-innen { bottom: auto; top: 50%; right: auto; }
+.ist-quer .strom-start { flex-direction: column; margin: 0 4px; writing-mode: vertical-rl; }
+.ist-quer .strom-start::after { border-top: 0; border-left: 1px dashed var(--muted); }
 .ist-quer .zufluss { flex-direction: column-reverse; }
-.ist-quer .pfeil { width: 0; height: calc(22px + var(--neben-b)); margin: 0 0 calc(-22px - var(--neben-b)); border-top: 0; border-left: 1.5px solid var(--muted); }
+.ist-quer .pfeil { width: 0; height: calc(26px + var(--neben-b)); margin: 0 0 calc(-26px - var(--neben-b)); border-top: 0; border-left: 1.5px solid var(--muted); }
 .ist-quer .pfeil::before { left: -5.5px; top: auto; bottom: -1px; border: 4.5px solid transparent; border-top: 6px solid var(--muted); border-bottom: 0; }
 .ist-quer .linie { width: 0; height: 10px; border-top: 0; border-left: 1.5px solid var(--muted); }
 .ist-quer .chips { justify-content: center; }

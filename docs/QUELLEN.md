@@ -195,3 +195,14 @@ Drei parallele Recherche-Durchläufe (Rührteig, Hefeteig deutsch, Pfannkuchen);
 | 2026-10-18 | emmikochteinfach.de, urbia.de, lecker.de, kingarthurbaking.com, mumsnet.com, cookpad.com, recipetineats.com u. a. | je 1 | geprüft, ohne verwertbaren Fall | kein Misserfolg mit Mengen und Ursache oder Kommentare nicht sichtbar |
 
 Nicht abrufbar (403, 429, 404, gesperrt oder Zertifikat): chefkoch.de, gutefrage.net, cakecentral.com (521), rund-ums-baby.de, wunderkessel.de, frag-mutti.de, beautyjunkies.de, discusscooking.com, mannbackt.de, food52.com, reddit.com, seriouseats.com, allrecipes.com, simplyrecipes.com, bbcgoodfood.com, sallysbakingaddiction.com, brotbackforum.iphpbb3.com.
+
+## 2026-10-19 — Eischnee als Trieb (T72, Option 2B, DR-041)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-19 | silverspoon.co.uk, thetakeout.com, gypsyplate.com | je 1 | Faustregel Eischnee ↔ Backpulver | 2 Eiweiß ≈ 1 TL Backpulver (bzw. 1:1), ohne Beleg, Blog-Faustregel |
+| 2026-10-19 | utopia.de, oekotest.de | je 1 | Backpulver-Ersatz | Eischnee ersetzt Backpulver nur in eihaltigen Teigen; umgekehrt 1 Ei ≈ 1 TL Backpulver; keine Messung |
+| 2026-10-19 | exploratorium.edu, preparedfoods.com, khymos.org | je 1 | Schaumvolumen | Eiweiß 6–8-faches Volumen; Verlust beim Unterheben/Backen nirgends beziffert |
+| 2026-10-19 | innograin.uva.es, libretexts.org | je 1 | Schaumfehler | Fett und Überrühren kosten Luft, qualitativ |
+| 2026-10-19 | backtraum, backenmitchristina.at, lecker.de, smittenkitchen.com | je 1 | Rezeptmuster | Biskuit ohne Backpulver ≈ 3–4 Eier je 100 g Mehl; Sandkuchen/Pound Cake ohne chemischen Trieb |
+| 2026-10-19 | rewe.de, cftri.res.in, laws-lois.justice.gc.ca | je 1 | Backpulver-Gasausbeute | 1 Pck. je 500 g Mehl ≈ 3 %; mindestens 12 % (US) bzw. 10 % (CA) CO₂ nach Gewicht |

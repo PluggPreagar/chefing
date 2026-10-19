@@ -13,7 +13,19 @@ export function presetPatch(arch, variante) {
   const v = arch.varianten[variante];
   const zutaten = {};
   for (const r of arch.rollen) zutaten[r.rolle] = alsEintraege(v.bestof[r.rolle] !== undefined ? v.bestof[r.rolle] : r.default);
-  return { gefaess: v.gefaess, methode: null, mengen: {}, fixiert: { rollen: {}, zutaten: {} }, zutaten };
+  return { gefaess: v.gefaess, methode: null, mengen: {}, fixiert: { rollen: {}, zutaten: {} }, zutaten, techniken: {} };
+}
+
+// Technik ein-/ausschalten (DR-041). Beim Ausschalten bekommt eine Pflicht-Rolle, die nur die Technik leer
+// erlaubt hat (Rührteig ohne Backpulver, Trieb aus Eischnee), wieder ihre Standard-Zutat.
+export function technikPatch(state, arch, technik, key, an) {
+  const patch = { techniken: { ...state.techniken, [key]: an } };
+  if (an) return patch;
+  const zutaten = { ...state.zutaten };
+  for (const r of arch.rollen) {
+    if (r.pflicht && (technik?.lockert || []).includes(r.rolle) && !zutaten[r.rolle]?.length) zutaten[r.rolle] = alsEintraege(r.default);
+  }
+  return { ...patch, zutaten };
 }
 
 // Patch für einen Archetyp-Wechsel: Standard-Zutaten, Mengen leer (das Preset folgt danach)

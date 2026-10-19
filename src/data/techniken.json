@@ -1,0 +1,65 @@
+{
+  "_schema": {
+    "zweck": "Optionale Techniken, die eine Methode ergänzen statt eine eigene Methode zu sein (DR-041). Eine Methode nennt unter `techniken`, welche zu ihr passen; im Kasten schaltet der Nutzer sie ein (state.techniken). Die Engine baut die Schritte dann um (rules.js `mitTechniken`).",
+    "rolle": "Rolle, deren Zutat die Technik teilt (Ei → Eigelb + Eiweiß, Teile unter `teile` der Zutat in ingredients.json).",
+    "rest": "Teil, der in den bisherigen Schritten der Rolle bleibt (Eigelb); ein Schritt kann seinen Namen dafür unter `teil_label` angeben.",
+    "lockert": "Rollen, die mit der Technik nicht mehr Pflicht sind (Eischnee kann das Backpulver ersetzen).",
+    "vor": "Schlagen und Unterheben kommen vor den ersten dieser Schritte (zuletzt in den Teig, dann sofort in Form oder Pfanne).",
+    "schritte": "trennen: neuer Startschritt vor dem ersten Schritt der Rolle; schlagen: verarbeitet den getrennten Teil, nach dem Schritt vor `vor` (frisch); unterheben: führt ihn zurück in den Teig."
+  },
+  "eier_getrennt": {
+    "label": "Eier getrennt",
+    "hinweis": "Eiweiß getrennt steif schlagen und zuletzt unterheben: lockert zusätzlich zu Backpulver oder ersetzt es.",
+    "rolle": "bindung",
+    "rest": "eigelb",
+    "lockert": ["trieb"],
+    "vor": ["einlage_unterheben", "fuellen", "ausbacken"],
+    "schritte": {
+      "trennen": {
+        "key": "ei_trennen",
+        "label": "Eier trennen",
+        "aktion": "Trennen", "ort": "tasse",
+        "typ": "vorbereitung",
+        "verb": "trennen",
+        "variante": "Eigelb und Eiweiß trennen",
+        "auf": ["bindung"],
+        "teilt": ["eigelb", "eiweiss"],
+        "voraussetzung": [
+          { "rolle": "bindung", "eigenschaft": "kategorie", "wert": "ei", "strenge": "hart", "hinweis": "ein Ei als Bindung — nur ein Ei lässt sich in Eigelb und Eiweiß trennen" }
+        ],
+        "wirkung": "Das Eigelb bringt Lecithin und Fett und bindet den Teig; das Eiweiß lässt sich nur ohne Fett zu Schnee schlagen und wird zum zusätzlichen Trieb.",
+        "risiko": "Eine Spur Eigelb im Eiweiß → der Schnee wird nicht steif. Jedes Ei erst über einer Tasse trennen, dann zum übrigen Eiweiß geben.",
+        "dauer_min": 2
+      },
+      "schlagen": {
+        "key": "eischnee_schlagen",
+        "label": "Eiweiß zu Schnee schlagen",
+        "aktion": "Schnee schlagen", "ort": "schuessel_2",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "kraeftig",
+        "variante": "steif schlagen",
+        "auf": ["bindung"],
+        "teil": "eiweiss",
+        "voraussetzung": [],
+        "wirkung": "Beim Schlagen entfalten sich die Eiweiß-Proteine und legen sich um feine Luftbläschen; ein Teil des Zuckers oder eine Prise Salz macht den Schaum stabiler.",
+        "risiko": "Fett oder Eigelb in der Schüssel → wird nicht steif. Zu lange geschlagen → flockig, lässt sich schlecht unterheben. Erst kurz vor dem Unterheben schlagen, sonst fällt er zusammen.",
+        "dauer_min": 4
+      },
+      "unterheben": {
+        "key": "eischnee_unterheben",
+        "label": "Eischnee locker unterheben",
+        "aktion": "Unterheben", "ort": "schuessel",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "sanft",
+        "variante": "in Portionen unterheben",
+        "auf": [],
+        "voraussetzung": [],
+        "wirkung": "Erst ein Drittel des Schnees unterrühren (macht den Teig weicher), den Rest locker unterheben: die Luft bleibt im Teig, er wird leicht. Danach sofort backen.",
+        "risiko": "Zu kräftig gerührt → die Luft entweicht, das Gebäck wird fest und flach.",
+        "dauer_min": 2
+      }
+    }
+  }
+}

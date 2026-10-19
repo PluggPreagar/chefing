@@ -197,6 +197,14 @@ export const ICONS = {
   ei: [
     { tag: 'ellipse', attrs: { cx: 12, cy: 13.5, rx: 6, ry: 7.8, fill: F } },
   ],
+  // Teile des Eis (DR-040): Eigelb = Schale + Punkt, Eiweiß = Ei ohne Punkt — zusammen wieder das ganze Ei
+  eigelb: [
+    { tag: 'ellipse', attrs: { cx: 12, cy: 13.5, rx: 6, ry: 7.8, fill: 'none', stroke: F, 'stroke-width': 1.5 } },
+    { tag: 'circle', attrs: { cx: 12, cy: 14.5, r: 3.2, fill: F }, keepFill: true },
+  ],
+  eiweiss: [
+    { tag: 'path', attrs: { d: 'M6 13.5a6 7.8 0 1 0 12 0a6 7.8 0 1 0-12 0ZM8.8 14.5a3.2 3.2 0 1 0 6.4 0a3.2 3.2 0 1 0-6.4 0Z', fill: F, 'fill-rule': 'evenodd' } },
+  ],
 
   // --- Verben -----------------------------------------------------------
   schneiden: [
@@ -252,6 +260,11 @@ export const ICONS = {
   ],
   formen: [
     { tag: 'polygon', attrs: { points: '5,6 19,6 16,21 8,21', fill: F } },
+  ],
+  trennen: [
+    // Aufgebrochene Eierschale: obere Hälfte gekippt abgehoben, Bruchkante als Zickzack (DR-040)
+    { tag: 'path', attrs: { d: 'M6.5 9a5.5 6 0 0 1 11 0l-1.8 1.2-1.8-1.2-1.8 1.2-1.8-1.2-1.8 1.2Z', fill: F, transform: 'rotate(-15 12 7)' } },
+    { tag: 'path', attrs: { d: 'M6 14l2-1.5 2 1.5 2-1.5 2 1.5 2-1.5 2 1.5a6 6 0 0 1-12 0Z', fill: F } },
   ],
   kneten: [
     // Teigklumpen mit Druckpfeil von oben — Kneten = durchdrücken

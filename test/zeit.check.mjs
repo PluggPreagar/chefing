@@ -25,8 +25,9 @@ ok([...c.warnungen,...c.gruende].length===0,'Standardwert liegt im Fenster → k
 // Parallele Schritte zählen nicht doppelt, Backen geht mit der berechneten Backzeit ein
 c=compute(st('ruehrteig','gugelhupf'),data,ks);
 const summe=c.ablauf.reduce((a,s)=>a+(s.dauer??0),0);
-ok(c.zeit.gesamt<summe && c.zeit.gesamt>=schritt(c,'backen').dauer+30,`Gugelhupf: gesamt ${c.zeit.gesamt} < Summe ${Math.round(summe)} (Einlegen parallel), Backen ${schritt(c,'backen').dauer} Min. enthalten`);
-ok(schritt(c,'einlegen').typ==='warten' && c.zeit.warten===30,'Einlegen ist Warten (30 Min.)');
+// DR-043: Einlegen ist 1′ Handgriff + 30′ Wirkzeit und rückt in den Vorlauf; Backen ist 1′ Einschieben + Wirkzeit im Ofen
+ok(c.zeit.gesamt<summe && c.zeit.gesamt>=schritt(c,'backen').dauer && c.zeit.gesamt+c.zeit.vorlauf>=schritt(c,'backen').dauer+30,`Gugelhupf: gesamt ${c.zeit.gesamt} ab Start + Vorlauf ${c.zeit.vorlauf} < Summe ${Math.round(summe)} (Einlegen im Vorlauf), Backen ${schritt(c,'backen').dauer} Min. enthalten`);
+ok(schritt(c,'einlegen').typ==='warten' && schritt(c,'einlegen').aktiv===1 && schritt(c,'einlegen').wirk===30 && c.zeit.warten===30+schritt(c,'backen').dauer && schritt(c,'backen').aktiv===1,'Einlegen = 1′ Handgriff + 30′ Wirkzeit, Backen = 1′ Einschieben + Ofenzeit (beides Wartezeit)');
 ok(zeitleiste([{typ:'mischen',dauer:5,nach:[]},{typ:'warten',dauer:60,nach:[1]},{typ:'mischen',dauer:3,nach:[]},{typ:'erhitzen',dauer:20,nach:[2,3]}]).gesamt===85,'zeitleiste: längster Pfad 5 + 60 + 20 = 85, der parallele Zweig (3) zählt nicht');
 ok(zeitleiste([{typ:'mischen',dauer:5,nach:[]},{typ:'mischen',dauer:5,nach:[]},{typ:'erhitzen',dauer:10,nach:[1,2]}]).gesamt===20,'zeitleiste: parallele aktive Schritte macht eine Person nacheinander → Gesamtzeit nie unter der aktiven Zeit (20, nicht 15)');
 c=compute(st('pfannkuchen','pancakes'),data,ks);

@@ -209,8 +209,54 @@ function findKaskadeKandidat(zielRolleKey, eigenschaft, wert, data) {
   return { rolle: zielRolleKey, rolleLabel: rolle.label, zutat: key, zutatLabel: data.ingredients[key].label };
 }
 
-export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}, zutatTemp = null) {
-  const method = data.methods[methodKey];
+// Optionale Techniken (DR-041, techniken.json): eine eingeschaltete Technik, die zur Methode passt, baut deren
+// Schritte um. Eier getrennt: die Schritte der Rolle bekommen nur noch den Rest-Teil (Eigelb), Trennen kommt als
+// Startschritt davor, Schlagen + Unterheben vor den ersten `vor`-Schritt; Vorgänger-Kanten werden mitgezogen.
+// Stufe einer Technik je Variante (DR-042): typisch | moeglich (Standard) | aus
+export const technikStufe = (arch, variante, key) => arch?.varianten?.[variante]?.techniken?.[key] ?? 'moeglich';
+
+// Nur eingeschaltete Techniken, die in dieser Variante nicht „aus“ sind
+export function wirksameTechniken(techniken, arch, variante) {
+  return Object.fromEntries(Object.entries(techniken || {}).filter(([k, an]) => an && technikStufe(arch, variante, k) !== 'aus'));
+}
+
+export function mitTechniken(method, techniken = {}, data = {}) {
+  let m = method;
+  for (const key of method.techniken || []) {
+    const t = data.techniken?.[key];
+    if (techniken?.[key] && t) m = technikAnwenden(m, t, data.operations || {});
+  }
+  return m;
+}
+
+function technikAnwenden(m, t, operations) {
+  const { trennen, schlagen, unterheben } = t.schritte;
+  const keyVon = (e) => (typeof e === 'object' ? e.key : e);
+  const opVon = (e) => (typeof e === 'object' ? e : operations[e] && { ...operations[e], key: e });
+  const nach = { ...(m.nach || {}) };
+  const istStart = (k) => Array.isArray(nach[k]) && nach[k].length === 0;
+  const seq = m.sequenz.map((e) => {
+    const op = opVon(e);
+    if (!op?.auf?.includes(t.rolle)) return e;
+    return { ...op, teil: t.rest, label: op.teil_label?.[t.rest] ?? op.label };
+  });
+  const erster = seq.findIndex((e) => typeof e === 'object' && e.teil === t.rest);
+  const vorIdx = seq.findIndex((e) => t.vor.includes(keyVon(e)));
+  if (erster < 0 || vorIdx < 0 || vorIdx <= erster) return m;
+  const vorher = seq.slice(0, erster).map(keyVon).filter((k) => !istStart(k)).pop();
+  const ersterKey = keyVon(seq[erster]);
+  nach[trennen.key] = [];
+  nach[ersterKey] = [...(nach[ersterKey]?.length ? nach[ersterKey] : vorher ? [vorher] : []), trennen.key];
+  const davor = keyVon(seq[vorIdx - 1]);
+  for (const [k, v] of Object.entries(nach)) if (v.includes(davor)) nach[k] = v.map((x) => (x === davor ? unterheben.key : x));
+  nach[schlagen.key] = [trennen.key, davor];
+  nach[unterheben.key] = [davor, schlagen.key];
+  const sequenz = [...seq.slice(0, erster), trennen, ...seq.slice(erster, vorIdx), schlagen, unterheben, ...seq.slice(vorIdx)];
+  return { ...m, sequenz, nach };
+}
+
+export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}, zutatTemp = null, techniken = {}) {
+  const method = mitTechniken(data.methods[methodKey], techniken, data);
   const vessel = data.vessels[gefaessKey];
   let props = propsOf(zutaten, data.ingredients, { benannt: data.temperaturen, zutatTemp });
   const schritte = [];
@@ -404,9 +450,9 @@ export function alleUeberschreibbarenRegeln(data) {
   return katalog;
 }
 
-export function evaluateAll(zutaten, gefaessKey, data, fixiert = {}, zutatTemp = null) {
+export function evaluateAll(zutaten, gefaessKey, data, fixiert = {}, zutatTemp = null, techniken = {}) {
   const arch = archVon(data);
-  return Object.fromEntries(arch.methoden.map((m) => [m, resolveMethod(m, zutaten, gefaessKey, data, fixiert, zutatTemp)]));
+  return Object.fromEntries(arch.methoden.map((m) => [m, resolveMethod(m, zutaten, gefaessKey, data, fixiert, zutatTemp, techniken)]));
 }
 
 export function bestMethod(evals, methodenHaeufigkeit = {}, gefaessKey, data) {

@@ -1,6 +1,6 @@
-import { evaluateAll } from '../model/rules.js';
+import { evaluateAll, technikStufe, wirksameTechniken } from '../model/rules.js';
 import { haeufigste } from '../model/corpus.js';
-import { gefaessPatch } from '../model/zustand.js';
+import { gefaessPatch, technikPatch } from '../model/zustand.js';
 import { iconHtml } from './icons.js';
 
 const STATUS_ICON = { ok: '✓', prep: '~', invalid: '✗' };
@@ -44,7 +44,30 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
       ]),
   );
 
+  // Optionale Techniken (DR-041): Schalter, wenn mindestens eine Methode des Archetyps sie kennt
+  const technikKeys = [...new Set(arch.methoden.flatMap((m) => data.methods[m].techniken || []))].filter((k) => data.techniken?.[k]);
+  const gelockert = new Set();
+  for (const k of technikKeys) {
+    const t = data.techniken[k];
+    const stufe = technikStufe(arch, computed.variante, k);
+    if (stufe === 'aus') continue; // Variante sieht die Technik nicht vor (Muffins): kein Schalter
+    const an = !!state.techniken?.[k];
+    const passend = arch.methoden.filter((m) => (data.methods[m].techniken || []).includes(k));
+    const passt = passend.includes(computed.methodKey);
+    if (an && passt) (t.lockert || []).forEach((r) => gelockert.add(r));
+    root.append(dimension(t.label, t.hinweis, [
+      option({ label: 'Nein', sub: 'Eier ganz', selected: !an, bestof: stufe !== 'typisch', onClick: () => onChange(technikPatch(state, arch, t, k, false)) }),
+      option({
+        label: 'Ja', sub: passt ? 'Eischnee als Trieb' : `nicht bei ${data.methods[computed.methodKey].label}`,
+        selected: an, status: passt ? null : 'invalid', bestof: stufe === 'typisch',
+        title: `Passt zu: ${passend.map((m) => data.methods[m].label).join(', ')}`,
+        onClick: () => onChange(technikPatch(state, arch, t, k, true)),
+      }),
+    ]));
+  }
+
   for (const rolle of arch.rollen) {
+    const pflicht = rolle.pflicht && !gelockert.has(rolle.rolle);
     const entries = state.zutaten[rolle.rolle] || [];
     const mehrfach = entries.length > 1;
     const istFixiert = !!state.fixiert?.rollen?.[rolle.rolle];
@@ -58,9 +81,9 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
       // — wie schon vorher — blockiert sein, wenn er die letzte Zutat einer Pflicht-Rolle entfernen würde.
       const naechsteSelect = [{ zutat: key, anteil: 1 }];
       const naechsteAdd = toggleEntries(entries, key);
-      const addWuerdeLeeren = !!eintrag && rolle.pflicht && naechsteAdd.length === 0;
+      const addWuerdeLeeren = !!eintrag && pflicht && naechsteAdd.length === 0;
       const hyp = { ...state.zutaten, [rolle.rolle]: naechsteSelect };
-      const ev = evaluateAll(hyp, state.gefaess, data, state.fixiert);
+      const ev = evaluateAll(hyp, state.gefaess, data, state.fixiert, null, wirksameTechniken(state.techniken, arch, computed.variante));
       const irgendwasGeht = Object.values(ev).some((e) => e.status !== 'invalid');
       const grund = irgendwasGeht ? null : Object.values(ev)[0]?.gruende[0];
       // Pin je Zutat (T31), Alternative zum Rollen-Pin (T24): nur sinnvoll bei einer bereits
@@ -94,7 +117,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
         pin: zutatPin,
       });
     });
-    if (!rolle.pflicht) {
+    if (!pflicht) {
       items.unshift(option({
         label: '— keine —',
         sub: '',

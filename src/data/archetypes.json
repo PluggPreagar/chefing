@@ -4,7 +4,7 @@
     "optionen": "Zutat-Schlüssel aus ingredients.json, die diese Rolle übernehmen können",
     "substitution": "(T10, DR-030) wie viel passiert beim Wechsel der Zutat in dieser Rolle, GEMESSEN gegen das Best-of-Preset: frei = kein Wechsel erzeugt eine neue Meldung | empfohlen = mindestens ein Wechsel erzeugt Warnung oder Hinweis | strikt = mindestens ein Wechsel macht das Rezept ungültig. Fehlt das Feld, bietet die Rolle keine Wahl (Pflicht-Rolle mit einer Option). Nach Änderungen an Regeln oder Korpus: node tools/rollen-freiheit.mjs, der Test prüft die Übereinstimmung.",
     "lehrbuch": "Referenzverhältnisse aus der Backliteratur in Bäckerprozent (Mehl = 100) — zum Vergleich mit dem Korpus-Median",
-    "varianten": "benannte Presets: Gefäß + Best-of-Auswahl; Mengen kommen aus dem Korpus; kurz = Beschriftung des Preset-Buttons"
+    "varianten": "benannte Presets: Gefäß + Best-of-Auswahl; Mengen kommen aus dem Korpus; kurz = Beschriftung des Preset-Buttons; techniken (DR-042) = Stufe je Technik aus techniken.json: typisch (Best-of beim Schalter) | moeglich (Standard ohne Angabe, Best-of bleibt ‚Nein‘) | aus (Schalter erscheint nicht, Technik wird nicht angewendet); gilt nur, wenn die Methode die Technik kennt"
   },
   "ruehrteig": {
     "label": "Rührteig",
@@ -30,9 +30,9 @@
     "methoden": ["creme", "ruehroel", "muffin", "allinone"],
     "gefaesse": ["kastenform_25", "kastenform_30", "gugelhupfform_22", "gugelhupfform_26", "muffinform_12"],
     "varianten": {
-      "kastenkuchen": { "label": "Rührkuchen (Kastenform)", "kurz": "Rührkuchen", "gefaess": "kastenform_25",    "korpus": "kastenkuchen", "bestof": { "fett": "butter",      "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": null } },
-      "muffin":       { "label": "Muffins",                  "kurz": "Muffins", "gefaess": "muffinform_12",    "korpus": "muffin",       "bestof": { "fett": "pflanzenoel", "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": "schokolade" } },
-      "gugelhupf":    { "label": "Gugelhupf",                "kurz": "Gugelhupf", "gefaess": "gugelhupfform_22", "korpus": "gugelhupf",    "bestof": { "fett": "butter",      "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": "rosinen" } }
+      "kastenkuchen": { "label": "Rührkuchen (Kastenform)", "techniken": { "eier_getrennt": "moeglich" }, "kurz": "Rührkuchen", "gefaess": "kastenform_25",    "korpus": "kastenkuchen", "bestof": { "fett": "butter",      "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": null } },
+      "muffin":       { "label": "Muffins", "techniken": { "eier_getrennt": "aus" },                  "kurz": "Muffins", "gefaess": "muffinform_12",    "korpus": "muffin",       "bestof": { "fett": "pflanzenoel", "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": "schokolade" } },
+      "gugelhupf":    { "label": "Gugelhupf", "techniken": { "eier_getrennt": "typisch" },                "kurz": "Gugelhupf", "gefaess": "gugelhupfform_22", "korpus": "gugelhupf",    "bestof": { "fett": "butter",      "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": "rosinen" } }
     }
   },
   "pfannkuchen": {
@@ -55,8 +55,8 @@
     "methoden": ["pfannkuchen_glatt", "pancake_kurz"],
     "gefaesse": ["pfanne_24", "pfanne_pancake"],
     "varianten": {
-      "eierkuchen": { "label": "Eierkuchen (dünn)",  "kurz": "Eierkuchen", "gefaess": "pfanne_24",      "korpus": "eierkuchen", "bestof": { "fluessigkeit": "milch", "aroma": "salz", "einlage": null } },
-      "pancakes":   { "label": "Pancakes (dick)",    "kurz": "Pancakes",   "gefaess": "pfanne_pancake", "korpus": "pancakes",   "bestof": { "fett": "butter", "fluessigkeit": "milch", "suesse": "zucker", "trieb": "backpulver", "aroma": "salz", "einlage": null } }
+      "eierkuchen": { "label": "Eierkuchen (dünn)", "techniken": { "eier_getrennt": "moeglich" },  "kurz": "Eierkuchen", "gefaess": "pfanne_24",      "korpus": "eierkuchen", "bestof": { "fluessigkeit": "milch", "aroma": "salz", "einlage": null } },
+      "pancakes":   { "label": "Pancakes (dick)", "techniken": { "eier_getrennt": "typisch" },    "kurz": "Pancakes",   "gefaess": "pfanne_pancake", "korpus": "pancakes",   "bestof": { "fett": "butter", "fluessigkeit": "milch", "suesse": "zucker", "trieb": "backpulver", "aroma": "salz", "einlage": null } }
     }
   },
   "hefeteig": {

@@ -1,5 +1,5 @@
 import { fromGrams } from './units.js';
-import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt } from './rules.js';
+import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt, wirksameTechniken } from './rules.js';
 import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
@@ -49,10 +49,27 @@ export function compute(state, data, korpusStats) {
   const variante = varianteFuerGefaess(state.gefaess, arch, data.vessels);
   const st = korpusStats[variante] || { n: 0, bp: {}, methoden: {}, backen: {} };
 
-  const evals = evaluateAll(state.zutaten, state.gefaess, data, state.fixiert, state.zutatTemperaturen);
+  const techniken = wirksameTechniken(state.techniken, arch, variante);
+  const evals = evaluateAll(state.zutaten, state.gefaess, data, state.fixiert, state.zutatTemperaturen, techniken);
   const methodKey = state.methode && evals[state.methode] ? state.methode : bestMethod(evals, st.methoden, state.gefaess, data);
   const res = evals[methodKey];
   const method = data.methods[methodKey];
+  // Eingeschaltete Techniken (DR-041): passt eine nicht zur Methode, wird sie übergangen und gemeldet;
+  // lockert sie eine Rolle (Eischnee → Trieb), sagt die Engine, was das für den Trieb heißt (2A: ohne Faktor)
+  const technikWarnungen = [];
+  const technikHinweise = [];
+  const technikIds = []; // Rückmeldungen (T53) sollen wissen, dass mit getrennten Eiern gebacken wurde
+  for (const [k, an] of Object.entries(state.techniken || {})) {
+    const t = data.techniken?.[k];
+    if (!an || !t) continue;
+    if (!techniken[k]) { technikWarnungen.push(`${t.label} ist bei ${arch.varianten[variante]?.label ?? 'dieser Variante'} nicht vorgesehen — hier ohne getrennte Eier gerechnet.`); continue; }
+    if (!(method.techniken || []).includes(k)) { technikWarnungen.push(`${t.label} passt nicht zur Methode „${method.label}“ — hier ohne getrennte Eier gerechnet.`); continue; }
+    technikIds.push(`technik:${k}`);
+    const leer = (t.lockert || []).filter((r) => !state.zutaten[r]?.length);
+    technikHinweise.push(leer.length
+      ? `${t.label}: der Trieb kommt allein aus dem Eischnee — kräftig steif schlagen, vorsichtig unterheben und sofort backen. Das trägt nur eierreiche Teige (etwa 2 Eier und mehr auf 100 g Mehl).`
+      : `${t.label}: der Eischnee lockert zusätzlich zum ${arch.rollen.find((r) => r.rolle === t.lockert[0])?.label ?? 'Trieb'}; wer ihn dafür verringert, muss den Schnee besonders vorsichtig unterheben.`);
+  }
   // Mengen aus den Rezepten dieser Methode, wenn es welche gibt (T48); Backzeit, Toleranz-Vergleich und
   // Öl-Deckung bleiben auf der ganzen Variante (Gefäß bzw. „was der Korpus überhaupt kennt“).
   const stM = st.proMethode?.[methodKey] ?? null;
@@ -263,6 +280,7 @@ export function compute(state, data, korpusStats) {
   // Plausibilität (Stufe 1): passen Gärzeit und Hefemenge zusammen? (nach der Berechnung oben trivial erfüllt)
   const gaerPruefung = gaerungAktiv ? pruefeGaerung({ hefeBp: bpZiel[modell.rolle].bp, gare: gare.summe, temp: gareTemp?.mitte, tempText: gareTempText, mindest: gareMindest }, modell) : null;
   if (gaerPruefung) zeitWarnungen.push(gaerPruefung.text);
+  const grammVon = (r) => zutatenListe.filter((z) => z.rolle === r).reduce((a, z) => a + (z.gramm || 0), 0); // Linienstärke im Ablauf (DR-043)
   const ablauf = res.schritte.map((s, i) => ({
     nr: i + 1,
     nach: (s.nach || []).map((k) => nrVon[k]).filter(Boolean),
@@ -280,7 +298,17 @@ export function compute(state, data, korpusStats) {
     // Swimlane-Ansicht (DR-038): Arbeitsplatz, kurzes Tätigkeitswort, gewählte Zutaten je Rolle
     ort: method.orte?.[s.key] ?? s.op.ort ?? 'schuessel',
     aktion: s.op.aktion ?? s.op.label,
-    zutaten: (s.op.auf || []).filter((r) => props[r]).map((r) => ({ rolle: r, label: props[r].kurzlabel, kategorie: props[r].kategorie })),
+    // `teil` (DR-040): nur ein Teil der Zutat (Eigelb) — eigene Rolle `bindung:eigelb`, damit er als eigener Zufluss erscheint
+    zutaten: (s.op.auf || []).filter((r) => props[r]).map((r) => {
+      const t = s.op.teil && props[r].teile?.[s.op.teil];
+      const g = grammVon(r);
+      return t ? { rolle: `${r}:${s.op.teil}`, label: t.label, kategorie: props[r].kategorie, icon: t.icon, teil: true, gramm: g * (t.anteil ?? 0.5) }
+        : { rolle: r, label: props[r].kurzlabel, kategorie: props[r].kategorie, gramm: g, geteilt: !!s.op.teilt };
+    }),
+    // Hand- und Wirkzeit (DR-043): passiv = Hände frei während der Dauer (Warten, Backen); Handgriff davor aus aktiv_min
+    passiv: s.op.typ === 'warten' || s.op.koch === 'passiv',
+    aktivMin: s.op.aktiv_min ?? 0,
+    handgriff: s.op.handgriff ?? s.op.aktion ?? s.op.label,
     eingefuegt: s.eingefuegt,
     wirkung: s.op.wirkung,
     risiko: s.op.risiko ?? null,
@@ -289,10 +317,14 @@ export function compute(state, data, korpusStats) {
     // Temperatur der Aktion (T52): die Gare zeigt die Temperatur, mit der das Gärmodell rechnet
     temperatur: (s === gareSchritt ? gareTempText : schrittTemperaturText(s.op, data, props)) || null,
   }));
+  for (const s of ablauf) {
+    s.aktiv = s.passiv ? s.aktivMin : s.dauer ?? 0;
+    s.wirk = s.passiv ? s.dauer ?? 0 : 0;
+  }
   // Rollen, die keine Operation nennt (Backpulver, Salz, Aroma), kommen mit dem Mehl in den Teig (DR-038)
   const imAblauf = new Set(ablauf.flatMap((s) => s.zutaten.map((z) => z.rolle)));
   const mitMehl = ablauf.find((s) => s.zutaten.some((z) => z.rolle === 'struktur'));
-  for (const r of Object.keys(props)) if (props[r] && !imAblauf.has(r)) mitMehl?.zutaten.push({ rolle: r, label: props[r].kurzlabel, kategorie: props[r].kategorie });
+  for (const r of Object.keys(props)) if (props[r] && !imAblauf.has(r)) mitMehl?.zutaten.push({ rolle: r, label: props[r].kurzlabel, kategorie: props[r].kategorie, gramm: grammVon(r) });
 
   // Alle Regeln, die dem Nutzer etwas gesagt haben (Grenzen, Voraussetzungen, Zeit-Fenster, Gärmodell, eingefügte
   // Vorbereitung, Korpus-Toleranz) — jede ist eine Vorhersage; Rückmeldungen („hat es geklappt?“, T53) etikettieren sie.
@@ -304,6 +336,7 @@ export function compute(state, data, korpusStats) {
     ...res.schritte.filter((s) => s.eingefuegt).map((s) => `prep:${s.key}`),
     ...zeiten.flatMap((z, i) => (z.hinweis ? [`zeit:${res.schritte[i].key}`] : [])),
     ...(gaerPruefung ? ['gaerung_modell'] : []),
+    ...technikIds,
     ...(modellGilt && !stM ? ['gaerung_berechnet'] : []),
   ])];
 
@@ -317,7 +350,7 @@ export function compute(state, data, korpusStats) {
     method,
     status: zeitGruende.length ? 'invalid' : status,
     gruende: [...res.gruende, ...gebuendelt.hart, ...zeitGruende],
-    warnungen: [...res.warnungen, ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
+    warnungen: [...res.warnungen, ...technikWarnungen, ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
     zeit: zeitleiste(ablauf),
     gaerung: gaerungAktiv ? gaerungErgebnis({ gare: gare.summe, hefeBp: bpZiel[modell.rolle].bp, gareTemp, gareTempText, mindest: gareMindest, berechnet: !stM, pruefung: gaerPruefung }, modell) : null,
     toleranzHinweise,
@@ -331,7 +364,7 @@ export function compute(state, data, korpusStats) {
     // Override-fähige Blockaden (DR-019 Punkt 4, T25): welche hart-Bedingungen der Nutzer
     // bewusst überschreiben kann. Die Erfassung selbst passiert in der UI (`recipeCard.js`).
     blockaden,
-    anpassungen,
+    anpassungen: [...technikHinweise, ...anpassungen],
     evals,
     zutatenListe,
     rollenBp: bpZiel,

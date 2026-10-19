@@ -15,12 +15,12 @@ async function loadJson(path) {
   return r.json();
 }
 
-const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte] = await Promise.all(
-  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen', 'modelle', 'temperaturen', 'orte'].map((n) => loadJson(`./src/data/${n}.json`)),
+const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken] = await Promise.all(
+  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen', 'modelle', 'temperaturen', 'orte', 'techniken'].map((n) => loadJson(`./src/data/${n}.json`)),
 );
 const archetypKeys = Object.keys(archetypes).filter((k) => !k.startsWith('_'));
 let arch = archetypes[archetypKeys[0]]; // aktiver Archetyp; waehleArchetyp() setzt ihn zusammen mit data.arch und state.archetyp
-const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, arch };
+const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, arch };
 
 // Normalisierte Rezeptlisten bleiben erhalten (nicht nur die aggregierten `stats()`) — die
 // Korrelationssuche (DR-019 Punkt 5, T32) braucht die Rezepte einzeln, um Bäckerprozent bedingt
@@ -51,6 +51,8 @@ const state = {
   // mengen[rolle] = Bäckerprozent, vom Nutzer aus einem Mengen-Vorschlag übernommen (T40); gilt bis Preset-/Archetyp-Wechsel
   mengen: {},
   zutaten: {},
+  // techniken[key] = true: optionale Technik eingeschaltet (DR-041, z. B. Eier getrennt); Preset-Wechsel setzt zurück
+  techniken: {},
 };
 
 const $ = (id) => document.getElementById(id);

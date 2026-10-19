@@ -16,12 +16,19 @@
     "wirkung": "physikalisch/chemisch, was passiert",
     "risiko": "typischer Fehler",
     "zusatzverben": "optional, Liste weiterer Verb-Schlüssel — werden im Ablaufdiagramm als zusätzliche Icons neben dem Haupt-Icon gezeigt, ohne eigene Voraussetzungsprüfung (reine Anzeige).",
+    "koch": "optional (DR-043): passiv = die Hände sind während der Dauer frei (Backen im Ofen); ohne Angabe ist nur typ warten passiv. Die Dauer eines passiven Schritts ist Wirkzeit (gestrichelt im Ablauf), aktive Schritte sind ganz Handzeit.",
+    "aktiv_min": "optional (DR-043): Handgriff vor der Wirkzeit eines passiven Schritts in Minuten (Einlegen 1, Einschieben 1); ohne Angabe 0 — der Schritt hat dann keinen Knopf im Ablauf.",
+    "handgriff": "optional (DR-043): Name des Handgriffs, wenn er anders heißt als die Wirkzeit (Backen → Einschieben); sonst gilt aktion.",
+    "teilt": "optional (DR-040): Teile, in die die Operation die Zutat ihrer Rolle zerlegt (Ei trennen → eigelb, eiweiss, siehe techniken.json; Namen und Icons unter `teile` der Zutat in ingredients.json). Mengen und Bilanz rechnen weiter mit der ganzen Zutat.",
+    "teil": "optional (DR-040): diese Operation verarbeitet nur einen Teil der Zutat ihrer Rolle (z. B. eigelb); der Ablauf zeigt ihn als eigene Zutat mit eigenem Icon.",
+    "teil_label": "optional (DR-041): Name des Schritts, wenn er nur einen Teil der Zutat verarbeitet ({\"eigelb\": \"Eigelb einzeln einrühren\"}).",
     "aktion": "Kurzes Tätigkeitswort fürs Ablaufdiagramm (Swimlanes, DR-038), z. B. Kneten; Zutaten und Zeit zeigt das Diagramm daneben.",
     "ort": "Arbeitsplatz aus orte.json (Swimlane im Ablaufdiagramm, DR-038): wo die Aktion passiert. \"gefaess\" = das gewählte Gefäß (Form, Blech, Pfanne). Eine Methode kann ihn je Schritt per `orte` überschreiben."
   },
   "einlegen": {
     "label": "Einlegen",
     "aktion": "Einlegen", "ort": "schaelchen",
+    "aktiv_min": 1,
     "typ": "warten",
     "verb": "mischen",
     "intensitaet": "passiv",
@@ -104,6 +111,7 @@
   "backen": {
     "label": "Backen",
     "aktion": "Backen", "ort": "ofen",
+    "koch": "passiv", "aktiv_min": 1, "handgriff": "Einschieben",
     "typ": "erhitzen",
     "verb": "erhitzen",
     "intensitaet": "mittel",
