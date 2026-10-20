@@ -380,3 +380,13 @@ Nur Suchtreffer (Volumen der Formen): backformen.com, birkmann.de, combi.de, myt
 | 2026-10-20 | antwort.net, t-online.de, rewe.de, utopia.de, djaco.bildung.hessen.de | je 1 (Suchtreffer) | Küchenquellen | Senf als Hilfsemulgator/Stabilisator neben dem Eigelb-Lecithin; Schleimstoffe dort nicht genannt |
 
 Ergebnis: Effekt belegt (Mucilage), Menge im fertigen Senf nicht beziffert → Hinweis statt Grenze.
+
+## 2026-10-20 — Butter weich werden lassen (T94, DR-063, Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | americastestkitchen.com, cooksillustrated.com | 2 (Suchtreffer) | Butter weich | in Esslöffel-Stücken etwa 20 Min., ganzes Stück etwa 1 Std. bei Raumtemperatur |
+| 2026-10-20 | tastingtable.com, jessicagavin.com, insanelygoodrecipes.com | je 1 (Suchtreffer) | Butter weich | Würfel etwa 15 Min. bzw. 5–15 Min.; Mikrowelle schmilzt leicht an |
+| 2026-10-20 | kuechenfibel.de, vinmec.com | je 1 (Suchtreffer) | Butter weich | mehr Oberfläche (Würfel, reiben) beschleunigt; keine genaue Minutenangabe |
+
+Ergebnis: Würfel schneiden + 20 Min. warten als Richtwert; gefrorene Butter nicht abgedeckt.

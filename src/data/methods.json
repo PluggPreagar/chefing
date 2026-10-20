@@ -22,7 +22,7 @@
     "sequenz": [
       "einlegen",
       {
-        "key": "aufschlagen", "anforderung": { "art": "cremig_aufschlagen", "basis": "handruehrgeraet" },
+        "key": "aufschlagen", "anforderung": { "art": "cremig_aufschlagen", "basis": "handruehrgeraet" }, "vorbereitung_falls_nicht": "temperieren",
         "phase": "fett", "luft": true,
         "label": "Fett + Zucker aufschlagen",
         "aktion": "Aufschlagen", "ort": "schuessel",

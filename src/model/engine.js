@@ -335,6 +335,7 @@ export function compute(state, data, korpusStats) {
     wirkung: s.op.wirkung,
     risiko: s.op.risiko ?? null,
     skizze: s.op.skizze ?? null, // Erklär-Skizze (DR-055, ui/skizzen.js)
+    wegklick: s.eingefuegt ? s.op.wegklick ?? null : null, // T94: Vorbereitung, die der Nutzer schon erledigt haben kann
     dauer: s.key === 'backen' ? minuten : zeiten[i].dauer,
     zeit: zeiten[i].fenster,
     // Temperatur der Aktion (T52): die Gare zeigt die Temperatur, mit der das Gärmodell rechnet
@@ -405,7 +406,7 @@ export function compute(state, data, korpusStats) {
     ...verletzt.empfohlen.map((v) => v.id),
     ...blockaden.map((b) => b.id),
     ...toleranzIds,
-    ...res.schritte.filter((s) => s.eingefuegt).map((s) => `prep:${s.key}`),
+    ...res.schritte.filter((s) => s.eingefuegt && !s.op.wegklick).map((s) => `prep:${s.key}`), // wegklickbare Vorbereitung (T94) ist eine Entscheidung, keine Regel-Aussage
     ...zeiten.flatMap((z, i) => (z.hinweis ? [`zeit:${res.schritte[i].key}`] : [])),
     ...(gaerPruefung ? ['gaerung_modell'] : []),
     ...technikIds,
@@ -431,6 +432,8 @@ export function compute(state, data, korpusStats) {
     warnungen: [...res.warnungen, ...technikWarnungen, ...emulsionsWarnungen.map((w) => w.text), ...trieb.warnungen.map((w) => w.text), ...werkzeugWarnungen.map((w) => w.text), ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
     zeit: zeitleiste(ablauf),
     trieb: { zeile: trieb.zeile, quellen: trieb.quellen },
+    // eingefügte Vorbereitungen mit Knopf „ist schon erledigt“ (T94, DR-063)
+    vorbereitungen: (res.vorbereitungen || []).map((v) => ({ ...v, label: ablauf.find((s) => s.key === v.key)?.label ?? v.key, dauer: ablauf.find((s) => s.key === v.key)?.dauer ?? null })),
     // Technik-Stufe je Technik, gemessen am Korpus der Variante, wenn er genug Rezepte hat (T83, DR-051)
     technikStufen: Object.fromEntries(Object.keys(data.techniken || {}).filter((k) => !k.startsWith('_')).map((k) => [k, technikStufe(arch, variante, k, st.techniken?.[k] ?? { n: st.n, anteil: 0 })])),
     gas: gas?.zeile ? { gesamt: gas.gesamt, anteile: gas.anteile, zeile: gas.zeile } : null,
@@ -475,6 +478,7 @@ function konkretisiere(label, props) {
   const n = (r) => props[r]?.kurzlabel?.replace(/\s*\(.*?\)/, '') ?? null;
   return label
     .replace('Fett + Zucker', `${n('fett') ?? 'Fett'} + ${n('suesse') ?? 'Zucker'}`)
+    .replace(/^Fett weich/, `${n('fett') ?? 'Fett'} weich`)
     .replace('Eier + Zucker', `Eier + ${n('suesse') ?? 'Zucker'}`)
     .replace('Trockenes abwechselnd mit Flüssigkeit', `Mehl abwechselnd mit ${n('fluessigkeit') ?? 'Flüssigkeit'}`)
     .replace('Einlage', n('einlage') ?? 'Einlage')

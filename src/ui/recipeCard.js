@@ -21,7 +21,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   );
   const zt = computed.zeit; // Zeitleiste aus dem Ablauf-Graph (DR-024/T44)
   if (zt?.gesamt) {
-    meta.append(el('span', null, `Zeit ca. ${fmtZeit(zt.gesamt)} (aktiv ${fmtZeit(zt.aktiv)}${zt.warten ? `, warten ${fmtZeit(zt.warten)}` : ''})`));
+    meta.append(el('span', null, `Zeit ca. ${fmtZeit(zt.gesamt)} (aktiv ${fmtZeit(zt.aktiv)}${zt.warten ? `, warten ${fmtZeit(zt.warten)}` : ''})${zt.vorlauf ? `, davor ${fmtZeit(zt.vorlauf)} Vorlauf` : ''}`));
   }
   root.append(meta);
   if (computed.trieb?.zeile) root.append(el('p', 'trieb-zeile', computed.trieb.zeile)); // Triebquellen (T80, DR-049)
@@ -38,6 +38,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   // Rezeptur ist auch ohne Override schon vollständig sichtbar (s. u.). Speichert nur, dass der
   // Nutzer diese `hart`-Regel bewusst für falsch/zu streng hält, für die Rückfrage in T28.
   for (const b of computed.blockaden || []) root.append(blockadeOverride(b, state, data, onChange));
+  for (const v of computed.vorbereitungen || []) root.append(vorbereitungMitKnopf(v, state, data, onChange)); // T94
   for (const w of computed.warnungen) root.append(el('p', 'note note-warn', w));
   for (const a of computed.anpassungen) root.append(el('p', 'note note-info', a));
   for (const h of computed.toleranzHinweise || []) root.append(el('p', 'note note-info', h));
@@ -220,6 +221,18 @@ function seitlich(table) {
   return d;
 }
 
+// Eingefügte Vorbereitung mit Entscheidung (T94, DR-063): warten oder „ist schon erledigt“ — der Knopf setzt die Temperatur der Rolle
+function vorbereitungMitKnopf(v, state, data, onChange) {
+  const p = el('p', 'note note-info vorbereitung');
+  const rolle = v.wegklick.rolle;
+  const zutat = data.ingredients[state.zutaten[rolle]?.[0]?.zutat]?.label?.replace(/\s*\(.*?\)/, '') ?? 'Fett';
+  p.append(el('span', null, `${v.label}${v.dauer ? ` (${fmtZeit(v.dauer)})` : ''} eingefügt: ${v.op} braucht weiches Fett (18–22 °C). `));
+  const b = el('button', 'kaskade-btn', `${zutat} ${v.wegklick.label}`);
+  b.type = 'button';
+  b.addEventListener('click', () => onChange({ zutatTemperaturen: { ...(state.zutatTemperaturen || {}), [rolle]: v.wegklick.temperatur } }));
+  p.append(b);
+  return p;
+}
 function el(tag, cls, text) {
   const e = document.createElement(tag);
   if (cls) e.className = cls;

@@ -17,6 +17,7 @@
     "schmelzpunkt_c": "°C, nur bei festen Fetten; Aggregat und Form folgen daraus und der Temperatur der Zutat (T62: ganz darunter fest, ganz darüber flüssig, dazwischen unbestimmt)",
     "form": "optional: block | stueckig | broeselig | kleinteilig | fluessig (geordnet, grob → fein; Anforderungen sagen „mindestens kleinteilig“). Ohne Angabe aus dem Aggregat: fest = block, stueckig, pulver = kleinteilig, fluessig. Frischhefe ist bröselig, Abrieb kleinteilig (T62)",
     "trieb_typ": "chemisch_doppelt | chemisch_basisch | keiner",
+    "temperierbar": "optional (T94): true = festes Fett, das bei Raumtemperatur weich wird (Butter, Margarine) — Voraussetzung für den Schritt „weich werden lassen“",
     "triebquelle": "optional (T80): Schlüssel in triebquellen.json — woher und wann diese Zutat Gas bringt",
     "salzanteil": "0..1 Massenanteil Salz, Default 0 — Bilanz-Größe `salz` (T45)",
     "aequivalent_faktor": "optional (T45): 1 g dieser Zutat zählt in den Rollen-Bäckerprozent wie N g der Referenz-Zutat der Rolle (Trockenhefe 3, weil 1 g ≈ 3 g Frischhefe). Gramm, Einheiten und Bilanz bleiben echte Gramm; nur die Rollen-Gramm werden umgerechnet, damit Frisch- und Trockenhefe-Rezepte im Korpus vergleichbar sind.",
@@ -75,6 +76,7 @@
     "umrechnung": { "el": 8 }
   },
   "butter": {
+    "temperierbar": true,
     "label": "Butter (zimmerwarm)",
     "kategorie": "fett",
     "unterkategorie": "fett",
@@ -89,6 +91,7 @@
     "umrechnung": { "el": 12, "tl": 4 }
   },
   "margarine": {
+    "temperierbar": true,
     "label": "Margarine",
     "kategorie": "fett",
     "unterkategorie": "fett",

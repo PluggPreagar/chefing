@@ -39,7 +39,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
             selected: state.methode === m,
             bestof: m === bestMethode,
             status: e.status,
-            title: ([...e.gruende, ...e.warnungen].join('\n') || data.methods[m].kurz) + (state.methode === m ? '\nNochmal klicken: zurück zu Auto' : ''),
+            title: ([...e.gruende, ...e.warnungen, ...(e.vorbereitungen || []).map((v) => v.text)].join('\n') || data.methods[m].kurz) + (state.methode === m ? '\nNochmal klicken: zurück zu Auto' : ''),
             onClick: () => onChange({ methode: state.methode === m ? null : m }), // Klick auf die gewählte Methode wählt sie ab (T81)
           });
         }),

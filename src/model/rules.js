@@ -139,6 +139,8 @@ export function checkOperation(op, props, operations, fixiert = {}, data = null)
     if ((b.strenge || 'hart') === 'frei') continue; // legitime Variante — kein Hinweis
     // Im Zweifel Warnung (T62): ist die Eigenschaft aus der Temperatur nicht sicher gegeben (`unbestimmt`), wird nichts verboten und
     // keine Vorbereitung eingefügt — es bleibt ein Hinweis mit der Temperatur.
+    // nur Vorbereitungen, die man wegklicken kann (T94), werden bei Zweifel eingefügt; Schmelzen bleibt bei der Warnung (T62)
+    if (r.ist === 'unbestimmt' && operations?.[op.vorbereitung_falls_nicht]?.wegklick) { fehlend.push({ ...b, ist: r.ist, strenge: b.strenge || 'hart', unsicher: true, temperatur: props[b.rolle]?.temperatur ?? null }); continue; }
     if (r.ist === 'unbestimmt') {
       empfehlungen.push({ ...b, ist: r.ist, strenge: 'empfohlen', unsicher: true, temperatur: props[b.rolle]?.temperatur ?? null, ...(r.hoechstens !== undefined ? { hoechstens: r.hoechstens } : {}), ...(r.mindestens !== undefined ? { mindestens: r.mindestens } : {}) });
       continue;
@@ -161,6 +163,8 @@ export function checkOperation(op, props, operations, fixiert = {}, data = null)
     const prep = checkOperation(operations[prepKey], props, operations, fixiert, data);
     if (prep.ok) return { ok: true, fehlend, empfehlungen, vorbereitung: prepKey };
   }
+  // nur unsichere Punkte und keine Vorbereitung möglich: wie bisher eine Warnung, kein Verbot (T62)
+  if (fehlend.every((f) => f.unsicher)) return { ok: true, fehlend: [], empfehlungen: [...empfehlungen, ...fehlend.map((f) => ({ ...f, strenge: 'empfohlen' }))], vorbereitung: null };
   return { ok: false, fehlend, empfehlungen, vorbereitung: null };
 }
 
@@ -272,6 +276,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
   const schritte = [];
   const gruende = [];
   const warnungen = [];
+  const vorbereitungen = []; // eingefügte Schritte, die der Nutzer wegklicken kann (T94)
   const kaskaden = [];
   const blockaden = [];
   let status = 'ok';
@@ -324,7 +329,10 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
       // Nutzer-Vorgabe (2026-09-21, „Purpose not clear"): Zweck zuerst nennen (ein zusätzlicher
       // Schritt wurde eingefügt), Begründung auf eigener Zeile statt hinter einem Doppelpunkt
       // im selben Satz — Titel-Tooltips (siehe morphbox.js) stellen \n als Zeilenumbruch dar.
-      warnungen.push(`Zusätzlich notwendiger Schritt „${data.operations[check.vorbereitung].label}“ wurde eingefügt.\n${op.label} braucht ${beschreibeBedingungen(check.fehlend, data)}.`);
+      const prepOp = data.operations[check.vorbereitung];
+      const prepText = `Zusätzlich notwendiger Schritt „${prepOp.label}“ wurde eingefügt.\n${op.label} braucht ${beschreibeBedingungen(check.fehlend, data)}.`;
+      if (prepOp.wegklick) vorbereitungen.push({ key: check.vorbereitung, op: op.label, text: prepText, wegklick: prepOp.wegklick });
+      else warnungen.push(prepText);
     } else if (!check.ok) {
       status = 'invalid';
       gruende.push(`„${op.label}“ ist nicht möglich: braucht ${beschreibeBedingungen(check.fehlend, data)}. ${op.wirkung}`);
@@ -345,7 +353,9 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
         if (!f.id || blockaden.some((b) => b.id === f.id)) continue;
         blockaden.push({ id: f.id, ausloeser: op.label, text: beschreibeBedingungen([f], data) });
       }
-    } else if (check.empfehlungen?.length) {
+    }
+    // Empfehlungen auch dann melden, wenn eine Vorbereitung eingefügt wurde (T94: sonst gingen sie verloren)
+    if (check.ok && check.empfehlungen?.length) {
       const normal = check.empfehlungen.filter((e) => !e.unsicher);
       const unsicher = check.empfehlungen.filter((e) => e.unsicher);
       if (normal.length) warnungen.push(`${op.label}: ${beschreibeBedingungen(normal, data)} empfohlen, aber nicht zwingend — Ergebnis kann etwas abweichen.`);
@@ -359,7 +369,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
     warnungen.push(`${method.label} ist für ${vessel.label} untypisch — ${method.warum}`);
   }
 
-  return { methodKey, status, schritte, gruende, warnungen, kaskaden, blockaden };
+  return { methodKey, status, schritte, gruende, warnungen, vorbereitungen, kaskaden, blockaden };
 }
 
 const AGGREGAT = { fest: 'festes', fluessig: 'flüssiges', pulver: 'pulvriges', stueckig: 'stückiges' };
@@ -470,7 +480,9 @@ export function bestMethod(evals, methodenHaeufigkeit = {}, gefaessKey, data) {
   const rank = (k) => {
     const e = evals[k];
     const geeignet = (data.methods[k].geeignet_fuer || []).includes(vessel?.familie) ? 1 : 0;
-    const statusScore = e.status === 'ok' ? 2 : e.status === 'prep' ? 1 : -10;
+    // eine Vorbereitung, die man wegklicken kann (Butter weich werden lassen, T94), zählt wie „ok“ — sonst verlöre die Crememethode gegen All-in-one
+    const nurWegklick = e.status === 'prep' && !e.warnungen.some((w) => w.startsWith('Zusätzlich notwendiger Schritt')) && (e.vorbereitungen || []).length > 0;
+    const statusScore = e.status === 'ok' || nurWegklick ? 2 : e.status === 'prep' ? 1 : -10;
     return statusScore * 100 + geeignet * 10 + (methodenHaeufigkeit[k] || 0);
   };
   return Object.keys(evals).sort((a, b) => rank(b) - rank(a))[0];
