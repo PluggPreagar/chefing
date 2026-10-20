@@ -370,3 +370,13 @@ Ergebnis: Faktoren von Hand ×4 (Luft schlagen, cremig aufschlagen) und ×1,5 (k
 | 2026-10-20 | thesugarcoatedcottage.com, rasamalaysia.com | je 1 | Backzeit | 403, nichts gelesen |
 
 Nur Suchtreffer (Volumen der Formen): backformen.com, birkmann.de, combi.de, mytime.de, Wilton-Formtabellen.
+
+## 2026-10-20 — Senf als Emulgator (T89, DR-062, Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | agris.fao.org | 1 (Suchtreffer) | Studie | Wu et al. 2015 (Food Hydrocolloids): wasserlösliche Gelbsenf-Mucilage, 1–2 % ohne Phasentrennung nach 21 Tagen, höchste Oberflächenaktivität gegen Gummi arabicum und Pektin |
+| 2026-10-20 | search.napstic.cn, cifst.ca | je 1 (Suchtreffer) | Studien | vegane Mayonnaise 2024 (IJFST): 0,2–1 % Gelbsenf-Gummi, keine Trennung nach 90 Tagen; Folien Guelph/AAFC |
+| 2026-10-20 | antwort.net, t-online.de, rewe.de, utopia.de, djaco.bildung.hessen.de | je 1 (Suchtreffer) | Küchenquellen | Senf als Hilfsemulgator/Stabilisator neben dem Eigelb-Lecithin; Schleimstoffe dort nicht genannt |
+
+Ergebnis: Effekt belegt (Mucilage), Menge im fertigen Senf nicht beziffert → Hinweis statt Grenze.

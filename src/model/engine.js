@@ -343,6 +343,8 @@ export function compute(state, data, korpusStats) {
   // Ausstattung (T92, DR-060): Schritt mit Anforderung → schnellstes vorhandenes Werkzeug, Dauer im Verhältnis zum Basis-Werkzeug;
   // ein Schritt, der ein bestimmtes Werkzeug verlangt (Pürierstab-Methode), meldet, wenn es fehlt
   const werkzeugHinweise = [];
+  // typische Hilfszutat fehlt (T89): Hinweise aus dem Archetyp, z. B. Mayonnaise ohne Senf
+  const archetypHinweise = (arch.hinweise || []).filter((h) => h.wenn_fehlt && !(state.zutaten[h.wenn_fehlt.rolle] || []).some((e) => e.zutat === h.wenn_fehlt.zutat));
   const werkzeugWarnungen = [];
   ablauf.forEach((s, i) => {
     const op = res.schritte[i].op;
@@ -411,6 +413,7 @@ export function compute(state, data, korpusStats) {
     ...trieb.warnungen.map((w) => w.id),
     ...werkzeugIds,
     ...werkzeugWarnungen.map((w) => w.id),
+    ...archetypHinweise.map((h) => `archetyp:${h.id}`),
     ...(modellGilt && !stM ? ['gaerung_berechnet'] : []),
   ])];
 
@@ -443,7 +446,7 @@ export function compute(state, data, korpusStats) {
     // Override-fähige Blockaden (DR-019 Punkt 4, T25): welche hart-Bedingungen der Nutzer
     // bewusst überschreiben kann. Die Erfassung selbst passiert in der UI (`recipeCard.js`).
     blockaden,
-    anpassungen: [...technikHinweise, ...emulsionsHinweise, ...werkzeugHinweise, ...anpassungen],
+    anpassungen: [...technikHinweise, ...emulsionsHinweise, ...werkzeugHinweise, ...archetypHinweise.map((h) => h.text), ...anpassungen],
     evals,
     zutatenListe,
     rollenBp: bpZiel,

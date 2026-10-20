@@ -6,6 +6,7 @@
     "lehrbuch": "Referenzverhältnisse aus der Backliteratur in Bäckerprozent (Mehl = 100) — zum Vergleich mit dem Korpus-Median",
     "methode_label": "optional (T80): Name der Dimension Methode im Kasten (Rührteig: Basis = welche Masse zuerst Luft bekommt); methode_hinweis = Erklärung darunter",
     "menge_je_zutat": "optional (T78): Menge der Rolle aus den Korpus-Rezepten mit derselben Zutat (ab 3 Rezepten), z. B. Eigelb gegen ganzes Ei bei der Mayonnaise",
+    "hinweise": "optional (T89, DR-062): [{id, wenn_fehlt: {rolle, zutat}, text}] — Hinweis im Rezept, wenn die Rolle diese Zutat nicht enthält (typische Hilfszutat fehlt)",
     "varianten": "benannte Presets: Gefäß + Best-of-Auswahl; Mengen kommen aus dem Korpus; kurz = Beschriftung des Preset-Buttons; techniken (DR-042) = Stufe je Technik aus techniken.json: typisch (Best-of beim Schalter) | moeglich (Standard ohne Angabe, Best-of bleibt ‚Nein‘) | aus (Schalter erscheint nicht, Technik wird nicht angewendet); gilt nur, wenn die Methode die Technik kennt"
   },
   "ruehrteig": {
@@ -94,6 +95,9 @@
     "label": "Mayonnaise",
     "beschreibung": "Öl-in-Wasser-Emulsion: Öltröpfchen in wenig Wasserphase (Eigelb, Zitronensaft oder Essig), gehalten vom Lecithin des Eigelbs. Das Lecithin eines Eigelbs reicht für sehr viel Öl; begrenzt wird die Menge durch das Wasser, das es verteilt. Zeigt die Kombinatorik außerhalb des Backens.",
     "bezug_label": "Öl",
+    "hinweise": [
+      { "id": "senf_fehlt", "wenn_fehlt": { "rolle": "aroma", "zutat": "senf" }, "text": "Ohne Senf fehlt der Hilfsemulgator: die Schleimstoffe der Senfsaat stabilisieren die Emulsion zusätzlich zum Lecithin. Alle Rezepte im Korpus nehmen Senf — ohne ihn besonders langsam beginnen." }
+    ],
     "rollen": [
       {
         "rolle": "fett",

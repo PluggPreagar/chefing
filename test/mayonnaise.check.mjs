@@ -49,6 +49,12 @@ ok(inSpanne(zeile(stabGelb)) && inSpanne(zeile(stabEi)) && zeile(stabGelb).korpu
 const fett=(c)=>c.zutatenListe.find(z=>z.rolle==='fluessigkeit').korpus;
 ok(JSON.stringify(fett(stabGelb))===JSON.stringify(fett(stabEi)),'Rollen ohne menge_je_zutat: Spanne unverändert aus der Methoden-Zelle');
 
+// T89/DR-062: Senf ist Hilfsemulgator — ohne ihn ein Hinweis, die Bilanz zählt ihn mit
+const ohneSenf=rechne(null,{aroma:E('salz')});
+ok(ohneSenf.anpassungen.some(a=>/Hilfsemulgator/.test(a)) && ohneSenf.regelIds.includes('archetyp:senf_fehlt'),'ohne Senf: Hinweis „Hilfsemulgator fehlt“ mit Regel-Id');
+ok(!rechne(null).anpassungen.some(a=>/Hilfsemulgator/.test(a)) && !rechne(null,{aroma:[{zutat:'senf',anteil:1},{zutat:'salz',anteil:1}]}).anpassungen.some(a=>/Hilfsemulgator/.test(a)),'mit Senf (auch gemischt mit Salz): kein Hinweis');
+const emul=(c)=>c.bilanz.find(z=>z.groesse==='emulgator')?.gramm;
+ok(emul(rechne(null))>emul(ohneSenf),'Bilanz Emulgator zählt den Senf mit (klein gegen das Eigelb)');
 // T88/DR-058: natives Olivenöl kann mit dem Pürierstab bitter werden — Hinweis (keine Warnung), nur bei Werkzeug + Zutat
 const bitter=(c)=>c.anpassungen.some(a=>/bitter/.test(a));
 const oliv=rechne('mayo_stab',{fett:E('olivenoel')});

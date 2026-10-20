@@ -610,3 +610,11 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** mehr Formen ohne neue Korpora; ehrliche Backzeit; künftige Springform-Rezepte zählen von selbst.
 - **cons:** Mengen sind Kastenkuchen-Mediane; nur 1 Rezept je neuer Form im Korpus.
 - **risk:** Gering. vessels.json, archetypes.json (Gefäß-Liste), methods.json (`geeignet_fuer`), corpus.js (`backenListe`), engine.js, Korpus kastenkuchen.json (+2), Tests gefaesse (neu), erfahrungsregeln (n). Rückgängig: ein Commit.
+
+## DR-062 · daten · Senf als Hilfsemulgator: Hinweis statt Grenze
+
+- **descr:** (2026-10-20, Nutzer: „T89“) Belege: Schleimstoffe (Mucilage) der Gelbsenfsaat stabilisieren Emulsionen wirksam (Food Hydrocolloids 2015: besser als Gummi arabicum; vegane Mayonnaise 2024: 0,2–1 % ohne Trennung nach 90 Tagen); Küchenquellen nennen Senf „Hilfsemulgator/Stabilisator“ neben dem Eigelb-Lecithin. Die Bilanz zählt Senf schon mit (`funktionen.emulgator` 0,02, Schätzwert) — gegen das Eigelb nur etwa 3 %, denn Senf wirkt über einen anderen Mechanismus (Stabilisieren statt Umhüllen). Alle 16 Rezepte im Korpus nehmen Senf. **Entscheidung:** keine Grenze, die Bilanz bleibt; neues Archetyp-Feld `hinweise` [{id, wenn_fehlt: {rolle, zutat}, text}] — Mayonnaise ohne Senf zeigt „Ohne Senf fehlt der Hilfsemulgator … besonders langsam beginnen“, Regel-Id `archetyp:senf_fehlt`. Senf-Eigenschaft mit Beleg ergänzt.
+- **Optionen:** A Grenze (Emulgator-Minimum mit Senf) · B Hinweis, wenn Senf fehlt (gewählt) · C nichts.
+- **pro:** belegter Effekt sichtbar, ohne eine Zahl zu behaupten; das Feld `hinweise` taugt für weitere typische Hilfszutaten.
+- **cons:** die Mucilage-Menge im fertigen Senf ist nicht beziffert; Studien vor allem aus einer Forschungsgruppe.
+- **risk:** Gering. archetypes.json (`hinweise`), ingredients.json (Senf), engine.js, Test mayonnaise. Rückgängig: ein Commit.
