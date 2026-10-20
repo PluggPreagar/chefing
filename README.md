@@ -89,6 +89,7 @@ dev/                         Skizzen und Vorschauen, nicht Teil der App
 | `tipps.json` | Ursache-Wirkungs-Tipps aus Backratgebern (T61): Symptom, Ursache, Zahlen, Quellen und ob das Modell die Ursache kennt (Test `tipps`) |
 | `orte.json` | Arbeitsplätze (Tasse, Schüssel, Form, Ofen …) mit Icon und Farbe; Hauptstrom = Weg des Teigs, `neben` = Seitenstrom (Tasse, Topf, Schälchen, Schüssel 2); jede Operation nennt ihren `ort` (DR-038, DR-039) |
 | `techniken.json` | optionale Techniken, die eine Methode ergänzen (Eier getrennt: Trennen, Eischnee, Unterheben; lockert den Trieb); Schalter im Kasten (DR-041) |
+| `triebquellen.json` | woher das Volumen kommt (Luft aus Butter-Creme/Ei-Schaum/Eischnee, CO₂ aus Backpulver/Natron/Hefe, Mineralwasser, Dampf), wann, und wie lange es hält; Zeile „Volumen aus …“ und Haltezeit-Warnung (DR-049) |
 | `modelle.json` | Rechenmodelle mit Parametern, Quelle und Validierung (Gärmodell: Hefe × Zeit × Temperatur) |
 | `temperaturen.json` | benannte Temperatur-Bereiche (Kühlschrank, kühl, Raum, warm, lauwarm, plastisch für Fett, Teig für die Teigtemperatur); Temperaturen stehen überall als Zahl, Wert ± Spielraum, Spanne oder Name (`temperatur` an Operationen, `temperaturen` im Rezept) |
 | `kategorien.json`, `verben.json` | Icon-Kategorien und Verben |

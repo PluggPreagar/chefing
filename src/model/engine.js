@@ -2,6 +2,7 @@ import { fromGrams } from './units.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt, wirksameTechniken } from './rules.js';
 import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
 import { emulsionsVerlauf } from './emulsion.js';
+import { triebQuellen } from './trieb.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
 import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, basisLuecke, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
@@ -52,7 +53,8 @@ export function compute(state, data, korpusStats) {
 
   const techniken = wirksameTechniken(state.techniken, arch, variante);
   const evals = evaluateAll(state.zutaten, state.gefaess, data, state.fixiert, state.zutatTemperaturen, techniken);
-  const methodKey = state.methode && evals[state.methode] ? state.methode : bestMethod(evals, st.methoden, state.gefaess, data);
+  const autoMethodKey = bestMethod(evals, st.methoden, state.gefaess, data); // was „Auto“ wählen würde, auch bei manueller Wahl (T81)
+  const methodKey = state.methode && evals[state.methode] ? state.methode : autoMethodKey;
   const res = evals[methodKey];
   const method = data.methods[methodKey];
   // Eingeschaltete Techniken (DR-041): passt eine nicht zur Methode, wird sie übergangen und gemeldet;
@@ -333,6 +335,8 @@ export function compute(state, data, korpusStats) {
   const imAblauf = new Set(ablauf.flatMap((s) => s.zutaten.map((z) => z.rolle)));
   const mitMehl = ablauf.find((s) => s.zutaten.some((z) => z.rolle === 'struktur'));
   for (const r of Object.keys(props)) if (props[r] && !imAblauf.has(r)) mitMehl?.zutaten.push({ rolle: r, label: props[r].kurzlabel, kategorie: props[r].kategorie, gramm: grammVon(r) });
+  // Triebquellen (T80, DR-049): Zeile „Volumen aus …“ und Warnung, wenn ein Gas bis zum Erhitzen nicht hält
+  const trieb = triebQuellen(ablauf, res.schritte.map((s) => s.op), props, data.triebquellen);
 
   // Alle Regeln, die dem Nutzer etwas gesagt haben (Grenzen, Voraussetzungen, Zeit-Fenster, Gärmodell, eingefügte
   // Vorbereitung, Korpus-Toleranz) — jede ist eine Vorhersage; Rückmeldungen („hat es geklappt?“, T53) etikettieren sie.
@@ -346,6 +350,7 @@ export function compute(state, data, korpusStats) {
     ...(gaerPruefung ? ['gaerung_modell'] : []),
     ...technikIds,
     ...emulsionsWarnungen.map((w) => w.id),
+    ...trieb.warnungen.map((w) => w.id),
     ...(modellGilt && !stM ? ['gaerung_berechnet'] : []),
   ])];
 
@@ -356,11 +361,13 @@ export function compute(state, data, korpusStats) {
     korpusN: st.n,
     korpusNMethode: stM?.n ?? null,
     methodKey,
+    autoMethodKey,
     method,
     status: zeitGruende.length ? 'invalid' : status,
     gruende: [...res.gruende, ...gebuendelt.hart, ...zeitGruende],
-    warnungen: [...res.warnungen, ...technikWarnungen, ...emulsionsWarnungen.map((w) => w.text), ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
+    warnungen: [...res.warnungen, ...technikWarnungen, ...emulsionsWarnungen.map((w) => w.text), ...trieb.warnungen.map((w) => w.text), ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
     zeit: zeitleiste(ablauf),
+    trieb: { zeile: trieb.zeile, quellen: trieb.quellen },
     gaerung: gaerungAktiv ? gaerungErgebnis({ gare: gare.summe, hefeBp: bpZiel[modell.rolle].bp, gareTemp, gareTempText, mindest: gareMindest, berechnet: !stM, pruefung: gaerPruefung }, modell) : null,
     toleranzHinweise,
     bilanz: bilanzZeilen,

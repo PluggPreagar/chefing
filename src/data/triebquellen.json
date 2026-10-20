@@ -1,0 +1,19 @@
+{
+  "_schema": {
+    "zweck": "Woher das Volumen kommt (T80, DR-049). Eine Triebquelle bringt Gas als Zutat mit (Mineralwasser), bildet es aus einer Zutat (Backpulver, Natron + Säure, Hefe) oder die Methode schlägt Luft ein (Butter-Creme, Ei-Schaum, Eischnee). Im Ofen dehnen Dampf und Wärme alle Bläschen weiter aus.",
+    "herkunft": "zutat (Gas aus der Zutat) | methode (eingeschlagene Luft)",
+    "wann": "Zeitpunkt in Worten, erscheint in der Zeile „Volumen aus …“ im Rezept",
+    "haelt_min": "optional: Richtwert in Minuten, wie lange das Gas im fertigen Teig bleibt; dauert es länger vom Mischen bis zum Erhitzen, warnt der Ablauf („zügig backen“). Fehlt das Feld, gibt es keine Grenze (Butter-Creme hält, Hefe braucht die Wartezeit).",
+    "tipp": "optional: was gegen die Warnung hilft",
+    "zuordnung": "Zutaten nennen ihre Quelle in ingredients.json `triebquelle`; Schritte mit `phase` + `luft: true` (DR-047) sind luft_fett bzw. luft_wasser; ein Technik-Schritt nennt sie unter `triebquelle` (Eischnee).",
+    "quellen_log": "Richtwerte siehe docs/QUELLEN.md, 2026-10-20 (T80)"
+  },
+  "luft_fett": { "label": "Luft in der Butter-Creme", "herkunft": "methode", "wann": "beim Aufschlagen" },
+  "luft_wasser": { "label": "Luft im Ei-Schaum", "herkunft": "methode", "wann": "beim Aufschlagen", "haelt_min": 10, "tipp": "Den Schaum zuletzt fertig haben und sofort backen." },
+  "eischnee": { "label": "Luft im Eischnee", "herkunft": "methode", "wann": "beim Unterheben", "haelt_min": 10, "tipp": "Eischnee erst kurz vor dem Backen schlagen und unterheben." },
+  "mineralwasser": { "label": "Kohlensäure aus Mineralwasser", "herkunft": "zutat", "wann": "sofort, entweicht beim Stehen", "haelt_min": 10, "tipp": "Erst nach dem Ruhen unterrühren, kurz vor dem Ausbacken." },
+  "natron": { "label": "CO₂ aus Natron + Säure", "herkunft": "zutat", "wann": "sofort, sobald es feucht wird", "haelt_min": 15, "tipp": "Direkt nach dem Mischen backen." },
+  "backpulver": { "label": "CO₂ aus Backpulver", "herkunft": "zutat", "wann": "beim Anrühren + beim Erhitzen ab etwa 60 °C", "haelt_min": 180 },
+  "hefe": { "label": "CO₂ aus Hefe", "herkunft": "zutat", "wann": "in der Gare" },
+  "dampf": { "label": "Dampf", "herkunft": "zutat", "wann": "beim Erhitzen; dehnt alle Bläschen aus" }
+}

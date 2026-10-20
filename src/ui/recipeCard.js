@@ -24,6 +24,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
     meta.append(el('span', null, `Zeit ca. ${fmtZeit(zt.gesamt)} (aktiv ${fmtZeit(zt.aktiv)}${zt.warten ? `, warten ${fmtZeit(zt.warten)}` : ''})`));
   }
   root.append(meta);
+  if (computed.trieb?.zeile) root.append(el('p', 'trieb-zeile', computed.trieb.zeile)); // Triebquellen (T80, DR-049)
 
   for (const g of computed.gruende) root.append(el('p', 'note note-bad', g));
   // Kaskaden-Vorschlag (DR-019/T27): zeigt den in T26 berechneten Ersatzkandidaten mit

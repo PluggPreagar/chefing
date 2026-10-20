@@ -17,6 +17,7 @@
     "schmelzpunkt_c": "°C, nur bei festen Fetten; Aggregat und Form folgen daraus und der Temperatur der Zutat (T62: ganz darunter fest, ganz darüber flüssig, dazwischen unbestimmt)",
     "form": "optional: block | stueckig | broeselig | kleinteilig | fluessig (geordnet, grob → fein; Anforderungen sagen „mindestens kleinteilig“). Ohne Angabe aus dem Aggregat: fest = block, stueckig, pulver = kleinteilig, fluessig. Frischhefe ist bröselig, Abrieb kleinteilig (T62)",
     "trieb_typ": "chemisch_doppelt | chemisch_basisch | keiner",
+    "triebquelle": "optional (T80): Schlüssel in triebquellen.json — woher und wann diese Zutat Gas bringt",
     "salzanteil": "0..1 Massenanteil Salz, Default 0 — Bilanz-Größe `salz` (T45)",
     "aequivalent_faktor": "optional (T45): 1 g dieser Zutat zählt in den Rollen-Bäckerprozent wie N g der Referenz-Zutat der Rolle (Trockenhefe 3, weil 1 g ≈ 3 g Frischhefe). Gramm, Einheiten und Bilanz bleiben echte Gramm; nur die Rollen-Gramm werden umgerechnet, damit Frisch- und Trockenhefe-Rezepte im Korpus vergleichbar sind.",
     "umrechnung": "Gramm pro Einheit: stk, tl, el, pkt, prise, ml"
@@ -187,6 +188,18 @@
     "eigenschaften": ["neutral", "kein Eigengeschmack"],
     "umrechnung": { "ml": 1, "el": 15, "tl": 5 }
   },
+  "mineralwasser": {
+    "triebquelle": "mineralwasser",
+    "label": "Mineralwasser (sprudelnd)",
+    "kategorie": "fluessigkeit",
+    "unterkategorie": "fluessigkeit",
+    "aggregat": "fluessig",
+    "fettanteil": 0,
+    "wasseranteil": 1,
+    "saeure": false,
+    "eigenschaften": ["bringt Kohlensäure mit: lockert sofort, entweicht beim Stehen"],
+    "umrechnung": { "ml": 1, "el": 15, "tl": 5 }
+  },
   "buttermilch": {
     "label": "Buttermilch",
     "kategorie": "fluessigkeit",
@@ -257,6 +270,7 @@
     "umrechnung": { "el": 25 }
   },
   "backpulver": {
+    "triebquelle": "backpulver",
     "label": "Backpulver",
     "kategorie": "pulver",
     "unterkategorie": "trieb",
@@ -271,6 +285,7 @@
     "umrechnung": { "pkt": 15, "tl": 3.5, "el": 10 }
   },
   "natron": {
+    "triebquelle": "natron",
     "label": "Natron",
     "kategorie": "pulver",
     "unterkategorie": "trieb",
@@ -284,6 +299,7 @@
     "umrechnung": { "tl": 5, "pkt": 5 }
   },
   "hefe_frisch": {
+    "triebquelle": "hefe",
     "label": "Frischhefe (Würfel 42 g)",
     "kultur_max_c": 42,
     "kategorie": "pulver",
@@ -299,6 +315,7 @@
     "umrechnung": { "stk": 42 }
   },
   "hefe_trocken": {
+    "triebquelle": "hefe",
     "label": "Trockenhefe (Päckchen 7 g)",
     "kultur_max_c": 42,
     "kategorie": "pulver",

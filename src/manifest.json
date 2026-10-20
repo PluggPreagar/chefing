@@ -17,6 +17,7 @@
  "src/model/rueckmeldung.js",
  "src/model/rules.js",
  "src/model/temperatur.js",
+ "src/model/trieb.js",
  "src/model/ueberraschungen.js",
  "src/model/units.js",
  "src/model/zeit.js",

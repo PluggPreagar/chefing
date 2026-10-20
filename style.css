@@ -78,8 +78,8 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .legend { margin: 0 0 .75rem; color: var(--muted); font-size: .85rem; display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
 .sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; border: 2px solid var(--line); vertical-align: middle; }
 .sw-sel { border-color: var(--sel); background: var(--sel-bg); }
-.sw-best { border-color: var(--best); background: var(--best-bg); }
-.sw-inv { border-color: var(--bad); background: var(--bad-bg); }
+.sw-best { width: auto; height: auto; border: 0; border-radius: 999px; padding: 0 .35rem; font-size: .6rem; background: var(--best); color: #fff; }
+.sw-inv { border-style: dashed; opacity: .6; }
 
 .dim { display: grid; grid-template-columns: 130px 1fr; gap: .75rem; padding: .6rem 0; border-top: 1px solid var(--line); }
 .dim:first-child { border-top: 0; }
@@ -102,11 +102,12 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .icon { flex: none; vertical-align: middle; }
 .icon-wrap { display: inline-flex; }
 .opt-sub { font-size: .72rem; color: var(--muted); }
-.opt.is-bestof { border-style: dashed; border-color: var(--best); }
-.opt.is-selected { border-style: solid; border-color: var(--sel); background: var(--sel-bg); }
-.opt.is-selected.is-bestof { box-shadow: inset 0 0 0 1px var(--best); }
-.opt.is-invalid { border-color: var(--bad); background: var(--bad-bg); opacity: .8; }
-.opt.is-prep { border-color: var(--prep); }
+/* T81: nur „gewählt" füllt den Knopf; Best of, Vorbereitung, unmöglich sind Abzeichen/Text, damit eine Einfach-Auswahl nicht wie Mehrfachauswahl aussieht */
+.opt.is-selected { border-color: var(--sel); background: var(--sel-bg); }
+.opt.is-invalid { border-style: dashed; opacity: .6; }
+.opt.is-invalid .opt-sub { color: var(--bad); }
+.opt.is-prep .opt-sub { color: var(--prep); }
+.opt.ist-mischbar.is-selected .opt-label::after { content: '✓'; margin-left: .2rem; color: var(--sel); }
 .opt-badge { position: absolute; top: -8px; right: 6px; font-size: .6rem; padding: 0 .35rem; background: var(--best); color: #fff; border-radius: 999px; letter-spacing: .03em; }
 .opt-pin { position: absolute; top: -8px; left: 6px; font-size: .7rem; line-height: 1; padding: 1px 4px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); cursor: pointer; opacity: 0; filter: grayscale(1); transition: opacity .12s; }
 .opt:hover .opt-pin, .opt-pin:focus-visible, .opt-pin.is-active { opacity: 1; }
@@ -202,6 +203,7 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .status-prep { background: var(--info-bg); color: var(--prep); }
 .status-invalid { background: var(--bad-bg); color: var(--bad); }
 .meta { display: flex; flex-wrap: wrap; gap: .25rem 1rem; color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }
+.trieb-zeile { color: var(--muted); font-size: .85rem; margin: -.25rem 0 .5rem; }
 .note { margin: .35rem 0; padding: .45rem .65rem; border-radius: 6px; font-size: .88rem; }
 .note-bad { background: var(--bad-bg); color: var(--bad); }
 .note-warn { background: var(--warn-bg); color: var(--warn); display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap; }

@@ -26,9 +26,10 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
   );
 
   root.append(
-    dimension('Methode', 'Auto wählt die bewährteste gültige Methode. Manuell zeigt, warum eine Kombination (nicht) geht.',
+    dimension(arch.methode_label ?? 'Methode', arch.methode_hinweis ?? 'Auto wählt die bewährteste gültige Methode. Manuell zeigt, warum eine Kombination (nicht) geht.',
       [
-        option({ label: 'Auto', sub: `→ ${data.methods[computed.methodKey].label}`, selected: state.methode == null, onClick: () => onChange({ methode: null }) }),
+        // „Auto → …“ nennt immer die Auto-Wahl, auch wenn von Hand eine andere Methode gewählt ist (T81)
+        option({ label: 'Auto', sub: `→ ${data.methods[computed.autoMethodKey ?? computed.methodKey].label}`, selected: state.methode == null, onClick: () => onChange({ methode: null }) }),
         ...arch.methoden.map((m) => {
           const e = computed.evals[m];
           return option({
@@ -37,8 +38,8 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
             selected: state.methode === m,
             bestof: m === bestMethode,
             status: e.status,
-            title: [...e.gruende, ...e.warnungen].join('\n') || data.methods[m].kurz,
-            onClick: () => onChange({ methode: m }),
+            title: ([...e.gruende, ...e.warnungen].join('\n') || data.methods[m].kurz) + (state.methode === m ? '\nNochmal klicken: zurück zu Auto' : ''),
+            onClick: () => onChange({ methode: state.methode === m ? null : m }), // Klick auf die gewählte Methode wählt sie ab (T81)
           });
         }),
       ]),
@@ -116,6 +117,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
         onClick: () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: naechsteSelect } }),
         onAdd: addWuerdeLeeren ? null : () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: naechsteAdd } }),
         pin: zutatPin,
+        mischbar: true,
       });
     });
     if (!pflicht) {
@@ -123,6 +125,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
         label: '— keine —',
         sub: '',
         selected: entries.length === 0,
+        mischbar: true,
         bestof: bestof[rolle.rolle] === null,
         onClick: () => onChange({ zutaten: { ...state.zutaten, [rolle.rolle]: [] } }),
       }));
@@ -199,16 +202,21 @@ function dimension(title, hint, items, pin, substitution, gruppe = false) {
   if (hint) head.append(el('div', 'dim-hint', hint));
   row.append(head);
   const opts = el('div', `dim-options${gruppe ? ' knopfgruppe' : ''}`);
-  if (gruppe) opts.setAttribute('role', 'group');
+  // Einfach-Auswahl (Gefäß, Methode, Ja/Nein) als Radiogruppe, mischbare Zutaten als Gruppe von Umschaltern (T81)
+  opts.setAttribute('role', items.every((i) => i.getAttribute('role') === 'radio') ? 'radiogroup' : 'group');
+  opts.setAttribute('aria-label', title);
   opts.append(...items);
   row.append(opts);
   return row;
 }
 
-function option({ label, iconKey, iconTitle, sub, selected, bestof, status, title, anteil, onAnteilChange, onClick, onAdd, pin }) {
+// mischbar: Zutat einer Rolle, die mit Shift-Klick/Long-Press mehrfach gewählt werden kann (Häkchen statt Radiopunkt, T81)
+function option({ label, iconKey, iconTitle, sub, selected, bestof, status, title, anteil, onAnteilChange, onClick, onAdd, pin, mischbar = false }) {
   const b = document.createElement('button');
   b.type = 'button';
-  b.className = 'opt';
+  b.className = mischbar ? 'opt ist-mischbar' : 'opt';
+  if (mischbar) b.setAttribute('aria-pressed', String(!!selected));
+  else { b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', String(!!selected)); }
   if (selected) b.classList.add('is-selected');
   if (bestof) b.classList.add('is-bestof');
   if (status === 'invalid') b.classList.add('is-invalid');

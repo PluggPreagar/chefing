@@ -229,3 +229,19 @@ seriouseats.com war für den Abruf gesperrt.
 | 2026-10-20 | backenmitchristina.at, rezepte.lidl.de, oetker.de, gutekueche.at, kuechengoetter.de, essen-und-trinken.de u. a. | je 1 | geprüft, nicht aufgenommen | nur Eiweiß, Butter vor dem Mehl oder Butter mit Zucker schaumig (Crememethode) |
 
 chefkoch.de (blockiert) und edeka.de (403) nicht abrufbar.
+
+## 2026-10-20 — Haltezeit der Triebquellen (T80, DR-049)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | kingarthurbaking.com | 1 | Haltezeit Backpulver | Test: Kuchenteig ruht bis zu einigen Stunden ohne Qualitätsverlust; 10 Std. gekühlt merklich flacher |
+| 2026-10-20 | tastingtable.com | 2 | Haltezeit Natron/Backpulver | Natron-Teig sofort backen; doppelt wirkendes Backpulver verträgt Warten (2. Stoß im Ofen) |
+| 2026-10-20 | foodrepublic.com | 1 | Haltezeit Teig | Kuchenteig im Kühlschrank aufbewahren, Grenzen |
+| 2026-10-20 | bakinglikeachef.com | 1 | Haltezeit Teig | Teig mit Eischnee nicht stehen lassen |
+| 2026-10-20 | williams-sonoma.com | 3 | Eischnee-Teige | Rezepte: nach dem Unterheben sofort backen (keine Minutenangabe) |
+| 2026-10-20 | berliner-kurier.de | 1 | Mineralwasser im Pfannkuchenteig | mind. 20 Min. ruhen; Mineralwasser weglassen, wenn Backpulver drin ist |
+| 2026-10-20 | utopia.de | 1 | Mineralwasser im Pfannkuchenteig | Mineralwasser erst nach dem Ruhen unterrühren |
+| 2026-10-20 | lecker.de | 1 | Mineralwasser im Pfannkuchenteig | Mineralwasser zuletzt, kurz vor dem Ausbacken |
+| 2026-10-20 | leinetal24.de | 1 | Mineralwasser im Pfannkuchenteig | sofort ausbacken möglich; Kohlensäure lockert |
+
+Ergebnis: keine Messwerte in Minuten für Eischnee und Mineralwasser, nur „sofort“/„kurz vor dem Ausbacken“ → Richtwerte 10 Min. (Eischnee, Ei-Schaum, Mineralwasser), 15 Min. (Natron + Säure), 180 Min. (Backpulver) als Heuristik in `triebquellen.json`.
