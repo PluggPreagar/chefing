@@ -311,3 +311,15 @@ Alle neuen Einträge mit `auswahl: "gezielt"` (zählen nicht für Häufigkeiten)
 | 2026-10-20 | rewe.de, thekitchn.com, deliciousmagazine.co.uk, rezepte.lidl.de, blick.ch, srf.ch, simplyscience.ch, foodnetwork.co.uk | je 1 | Mayonnaise | gesperrt (403), nicht gefunden (404), unlesbar oder falsche Weiterleitung |
 
 Ergebnis: 16 Rezepte (8 von Hand, 8 Pürierstab). Wasser je Öl 10–62 % (Median 27 %); Pürierstab-Rezepte nehmen oft ganzes Ei und weniger Öl.
+
+## 2026-10-20 — Handgriffe Pürierstab und Unterheben (DR-055, Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | zwilling.com | 1 | Pürierstab-Mayonnaise | Stab auf Eigelb und Senf, dann Öl; am Boden mixen, bis es cremig wird, dann langsam hochziehen |
+| 2026-10-20 | utopia.de, lecker.de | je 1 | Pürierstab-Mayonnaise | erst hochziehen, wenn unten eine homogene Masse ist; sehr langsam von unten nach oben, hoher schmaler Becher |
+| 2026-10-20 | manuall.de | 2 | Bosch-Bedienungsanleitungen | Mixer langsam anheben und senken |
+| 2026-10-20 | maritimegardening.substack.com, thehealthyfoodie.com, amara.org (Food Lab, Transkript) | je 1 (Suchtreffer) | Öl absetzen lassen | 1–2 Min. warten, bis das Öl oben schwimmt; am Boden halten, bis eine weiße Wolke entsteht, dann kippen/hochziehen |
+| 2026-10-20 | rewe.de, lecker.de | 2 / 2 (Suchtreffer) | Eischnee unterheben | ein Drittel lockert, Rest mit dem Spatel von unten nach oben; nur kurz |
+
+Ergebnis: „am Boden halten bis cremig, dann hochziehen“ mehrfach belegt; „Öl absetzen lassen“ nur in englischen Quellen.

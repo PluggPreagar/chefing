@@ -52,6 +52,7 @@
       },
       "unterheben": {
         "key": "eischnee_unterheben",
+        "skizze": "unterheben",
         "label": "Eischnee locker unterheben",
         "aktion": "Unterheben", "ort": "schuessel",
         "typ": "mischen",

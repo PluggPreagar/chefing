@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skizze Mayo-Ablauf</title>
+<style>
+  :root { --ink:#2b2620; --muted:#7a6f62; --bg:#fbf8f3; --karte:#f3eee6; --misch:#b9a26f; --glas:#6f8fb9; --oel:#d9b23a; --wasser:#8fb6c9; --emul:#efe6c8; --linie:#d9d0c2; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --ink:#ece6dc; --muted:#a99f92; --bg:#1d1a17; --karte:#2a2622; --linie:#4a443d; --emul:#5b5340; } }
+  :root[data-theme="dark"] { --ink:#ece6dc; --muted:#a99f92; --bg:#1d1a17; --karte:#2a2622; --linie:#4a443d; --emul:#5b5340; }
+  body { margin:0; padding:16px; background:var(--bg); color:var(--ink); font:14px/1.45 system-ui, sans-serif; }
+  h1 { font-size:18px; margin:0 0 4px; } p.sub { color:var(--muted); margin:0 0 16px; }
+  .reihe { display:flex; flex-wrap:wrap; gap:16px; }
+  .panel { background:var(--karte); border-radius:10px; padding:12px; flex:1 1 300px; max-width:420px; }
+  .panel h2 { font-size:15px; margin:0 0 2px; } .panel .was { color:var(--muted); font-size:12.5px; margin:0 0 8px; }
+  svg { width:100%; height:auto; display:block; }
+  svg text { fill:var(--ink); font:12px system-ui, sans-serif; } svg .m { fill:var(--muted); font-size:11px; }
+  ul { margin:8px 0 0; padding-left:18px; font-size:12.5px; } li { margin:2px 0; }
+</style>
+</head>
+<body>
+<h1>Ablauf Mayonnaise · Pürierstab</h1>
+<p class="sub">Hochkant wie auf dem Handy: Zeit nach unten, je Slot eine Aktion. Farbe = Behälter, Dicke = Menge, gestrichelt = wartet.</p>
+<div class="reihe">
+
+<div class="panel">
+  <h2>A · heute</h2>
+  <p class="was">Alle vier Zutaten fließen in Schritt 1 ein; Pürieren ist ein normaler Knoten.</p>
+  <svg viewBox="0 -16 300 346" role="img" aria-label="Skizze A">
+    <text x="8" y="40" class="m">0′</text><text x="8" y="150" class="m">1′</text><text x="8" y="255" class="m">2′</text><text x="8" y="318" class="m">3′</text>
+    <line x1="34" y1="0" x2="34" y2="330" stroke="var(--linie)"/>
+    <!-- Zuflüsse -->
+    <g transform="translate(150,14)"><circle r="6" fill="#c9a227"/><text x="-14" y="-10" class="m">Eigelb</text></g>
+    <g transform="translate(185,14)"><circle r="6" fill="var(--wasser)"/></g>
+    <g transform="translate(215,14)"><circle r="6" fill="#7aa35a"/></g>
+    <g transform="translate(250,14)"><circle r="6" fill="var(--oel)"/><text x="-12" y="-10" class="m">Öl</text></g>
+    <path d="M150 20 Q150 40 90 48 M185 20 Q185 42 92 50 M215 20 Q215 44 94 52 M250 20 Q250 46 96 54" stroke="var(--linie)" fill="none" stroke-width="2"/>
+    <!-- Hauptlinie -->
+    <rect x="80" y="50" width="12" height="200" fill="var(--misch)"/>
+    <rect x="80" y="250" width="12" height="70" fill="var(--glas)"/>
+    <circle cx="86" cy="55" r="15" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/><text x="108" y="52">Einfüllen</text><text x="108" y="66" class="m">Mixbecher · 1 Min.</text>
+    <circle cx="86" cy="160" r="15" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/><text x="108" y="157">Pürieren</text><text x="108" y="171" class="m">Mixbecher · 1 Min.</text>
+    <circle cx="86" cy="262" r="15" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/><text x="108" y="259">Abfüllen</text><text x="108" y="273" class="m">Glas · 1 Min.</text>
+  </svg>
+  <ul><li>🟢 stimmt mit den Daten</li><li>🔴 zeigt nicht, dass das Öl obenauf wartet und erst am Messer einzieht</li></ul>
+</div>
+
+<div class="panel">
+  <h2>B · Öl als eigene Schicht</h2>
+  <p class="was">Wasserphase (Eigelb, Zitrone, Senf) ist die Hauptlinie; das Öl liegt als gestrichelte Schicht daneben und zieht beim Pürieren keilförmig ein.</p>
+  <svg viewBox="0 -16 300 346" role="img" aria-label="Skizze B">
+    <text x="8" y="40" class="m">0′</text><text x="8" y="150" class="m">1′</text><text x="8" y="255" class="m">2′</text><text x="8" y="318" class="m">3′</text>
+    <line x1="34" y1="0" x2="34" y2="330" stroke="var(--linie)"/>
+    <g transform="translate(150,14)"><circle r="6" fill="#c9a227"/><text x="-14" y="-10" class="m">Eigelb</text></g>
+    <g transform="translate(180,14)"><circle r="6" fill="var(--wasser)"/></g>
+    <g transform="translate(208,14)"><circle r="6" fill="#7aa35a"/></g>
+    <path d="M150 20 Q150 40 88 48 M180 20 Q180 42 89 50 M208 20 Q208 44 90 52" stroke="var(--linie)" fill="none" stroke-width="2"/>
+    <!-- Öl-Schicht: wartet obenauf (gestrichelt), dann Keil ins Pürieren -->
+    <g transform="translate(262,14)"><circle r="6" fill="var(--oel)"/><text x="-12" y="-10" class="m">Öl</text></g>
+    <line x1="262" y1="22" x2="262" y2="140" stroke="var(--oel)" stroke-width="10" stroke-dasharray="6 5"/>
+    <text x="178" y="96" class="m">liegt obenauf</text>
+    <path d="M257 140 L267 140 L92 205 L92 175 Z" fill="var(--oel)" opacity=".75"/>
+    <text x="110" y="128" class="m">zieht nach und nach ein</text>
+    <!-- Hauptlinie: dünn (Wasserphase), wächst im Pürier-Slot, dann Glas -->
+    <rect x="84" y="50" width="4" height="110" fill="var(--misch)"/>
+    <path d="M84 160 L88 160 L92 205 L80 205 Z" fill="var(--misch)"/>
+    <rect x="80" y="205" width="12" height="45" fill="var(--misch)"/>
+    <rect x="80" y="250" width="12" height="70" fill="var(--glas)"/>
+    <circle cx="86" cy="55" r="15" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/><text x="108" y="52">Einfüllen</text><text x="108" y="66" class="m">Mixbecher · Öl obenauf</text>
+    <circle cx="86" cy="165" r="15" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/><text x="108" y="235">Pürieren · Stab am Boden,</text><text x="108" y="249" class="m">langsam hoch · am Messer portionsweise</text>
+    <circle cx="86" cy="262" r="15" fill="var(--bg)" stroke="var(--ink)" stroke-width="2"/><text x="108" y="273">Abfüllen</text><text x="108" y="287" class="m">Glas · 1 Min.</text>
+  </svg>
+  <ul><li>🟢🟢 Physik sichtbar: Öl in Wasser, Zufluss am Messer</li><li>🟢 gleiche Regeln wie Eischnee-Zufluss (Seitenstrang mündet)</li><li>🔴 Öl-Schicht im selben Becher braucht einen „Schicht“-Strang statt eigenem Behälter</li></ul>
+</div>
+
+<div class="panel">
+  <h2>C · Schnitt durch den Mixbecher</h2>
+  <p class="was">Zusatz zu A oder B: in den Details zum Pürieren vier Mini-Bilder, wie die Emulsion von unten nach oben wächst.</p>
+  <svg viewBox="0 0 300 214" role="img" aria-label="Skizze C">
+    <g>
+      <!-- Becher 1: Schichten -->
+      <g transform="translate(10,20)">
+        <rect x="0" y="0" width="56" height="130" rx="6" fill="none" stroke="var(--ink)" stroke-width="2"/>
+        <rect x="2" y="30" width="52" height="70" fill="var(--oel)" opacity=".8"/>
+        <rect x="2" y="100" width="52" height="28" fill="var(--wasser)"/>
+        <text x="-2" y="150" class="m">1 Schichten</text>
+      </g>
+      <!-- Becher 2: Stab am Boden -->
+      <g transform="translate(82,20)">
+        <rect x="0" y="0" width="56" height="130" rx="6" fill="none" stroke="var(--ink)" stroke-width="2"/>
+        <rect x="2" y="30" width="52" height="58" fill="var(--oel)" opacity=".8"/>
+        <rect x="2" y="88" width="52" height="40" fill="var(--emul)"/>
+        <rect x="25" y="-12" width="6" height="128" fill="var(--muted)"/><rect x="18" y="112" width="20" height="6" fill="var(--muted)"/>
+        <text x="-2" y="150" class="m">2 Stab unten</text>
+      </g>
+      <!-- Becher 3: hochziehen -->
+      <g transform="translate(154,20)">
+        <rect x="0" y="0" width="56" height="130" rx="6" fill="none" stroke="var(--ink)" stroke-width="2"/>
+        <rect x="2" y="30" width="52" height="22" fill="var(--oel)" opacity=".8"/>
+        <rect x="2" y="52" width="52" height="76" fill="var(--emul)"/>
+        <rect x="25" y="-12" width="6" height="90" fill="var(--muted)"/><rect x="18" y="74" width="20" height="6" fill="var(--muted)"/>
+        <path d="M44 100 L44 66 M39 72 L44 64 L49 72" stroke="var(--ink)" fill="none" stroke-width="2"/>
+        <text x="-2" y="150" class="m">3 hochziehen</text>
+      </g>
+      <!-- Becher 4: fertig -->
+      <g transform="translate(226,20)">
+        <rect x="0" y="0" width="56" height="130" rx="6" fill="none" stroke="var(--ink)" stroke-width="2"/>
+        <rect x="2" y="36" width="52" height="92" fill="var(--emul)"/>
+        <text x="4" y="150" class="m">4 fertig</text>
+      </g>
+      <text x="10" y="192" class="m">gelb = Öl · blau = Wasserphase</text><text x="10" y="207" class="m">creme = Emulsion (Öl in Wasser)</text>
+    </g>
+  </svg>
+  <ul><li>🟢🟢 erklärt „am Messer portionsweise“ ohne Text</li><li>🔴 eigenes Bild je Methode, kein allgemeines Schema</li></ul>
+</div>
+
+</div>
+</body>
+</html>

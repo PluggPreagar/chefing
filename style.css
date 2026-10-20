@@ -18,6 +18,7 @@
   --fix-bg: #e4edf6;
   --zutat: #2f6f5e;
   --ort-misch: #9a6b12; --ort-kuehl: #2f5f8f; --ort-flaeche: #7d6c58; --ort-gefaess: #2f6f5e; --ort-ofen: #b3502c;
+  --skz-oel: #e2b93b; --skz-wasser: #8fb6c9; --skz-emul: #f3ead0; --skz-teig: #d8b98a; --skz-teig-hell: #e8d4b0;
   --r: 10px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color: var(--ink);
@@ -27,6 +28,7 @@
     --bg: #1c1a17; --panel: #262320; --ink: #eee8df; --muted: #a79d91; --line: #3a352f;
     --sel-bg: #1f3a33; --best-bg: #3a2f17; --bad-bg: #3d211d; --warn-bg: #3a3018; --info-bg: #22293a; --fix-bg: #1c2c3a; --zutat: #7fc4ae;
     --ort-misch: #e0b45a; --ort-kuehl: #7fa8d6; --ort-flaeche: #b9a78f; --ort-gefaess: #6fcfb0; --ort-ofen: #ee9466;
+    --skz-oel: #c99a1c; --skz-wasser: #4f7f96; --skz-emul: #6a6150; --skz-teig: #8a6d45; --skz-teig-hell: #a8895c;
   }
 }
 * { box-sizing: border-box; }
@@ -171,6 +173,11 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .k-was { color: var(--muted); }
 .k-risiko .k-was { color: var(--warn); }
 .k-emulsion, .k-gas { font-size: 12px; }
+.k-skizze { margin: .4rem 0 .2rem; }
+.k-skizze figcaption { font-size: 12px; font-weight: 600; }
+.k-skizze .skz { width: 100%; max-width: 320px; height: auto; display: block; }
+.k-skizze .skz-t { font-size: 9px; fill: var(--muted); }
+.k-skizze .skz-legende { font-size: 11px; color: var(--muted); margin: .1rem 0 0; }
 .k-emulsion.ist-problem { color: var(--warn); }
 .strom-fuss { font-size: 11px; color: var(--muted); margin: 6px 0 0 52px; }
 

@@ -31,5 +31,6 @@
  "src/ui/recipeCard.js",
  "src/ui/rueckfragen.js",
  "src/ui/rueckmeldung.js",
+ "src/ui/skizzen.js",
  "src/ui/stats.js"
 ]

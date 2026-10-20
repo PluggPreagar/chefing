@@ -1,5 +1,6 @@
 import { iconHtml } from './icons.js';
 import { fmtZeit, planeAblauf } from '../model/zeit.js';
+import { skizzeHtml } from './skizzen.js';
 
 // verb=mischen wird je nach Intensität als anderes Icon dargestellt
 // (passiv=Einlegen/Ruhen, sanft=Mischen-S, kraeftig=Schlagen), statt drei
@@ -340,6 +341,7 @@ function karte(z, s, ctx) {
     e.append(el('span', 'k-was', 'Emulsion '), document.createTextNode(s.emulsion.text));
     k.append(e);
   }
+  if (s.skizze) k.insertAdjacentHTML('beforeend', skizzeHtml(s.skizze)); // Erklär-Skizze für besondere Handgriffe (DR-055)
   if (s.gas > 0 && !ortInfo.neben) { // T82: Gas-Budget der Hauptmasse; Nebenschüsseln zählen erst ab dem Zusammenführen
     const g = el('div', 'k-gas');
     g.append(el('span', 'k-was', 'Gas im Teig '), document.createTextNode(`≈ ${s.gas} ml je 100 g Teig${s.typ === 'erhitzen' ? ' beim Erhitzen' : ''} (Schätzung)`));

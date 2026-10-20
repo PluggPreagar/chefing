@@ -327,6 +327,7 @@ export function compute(state, data, korpusStats) {
     eingefuegt: s.eingefuegt,
     wirkung: s.op.wirkung,
     risiko: s.op.risiko ?? null,
+    skizze: s.op.skizze ?? null, // Erklär-Skizze (DR-055, ui/skizzen.js)
     dauer: s.key === 'backen' ? minuten : zeiten[i].dauer,
     zeit: zeiten[i].fenster,
     // Temperatur der Aktion (T52): die Gare zeigt die Temperatur, mit der das Gärmodell rechnet
