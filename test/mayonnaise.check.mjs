@@ -16,7 +16,7 @@ const v=arch.varianten.mayonnaise;
 const st=(methode,over={},mengen={})=>{const z={}; for(const r of arch.rollen) z[r.rolle]=E(v.bestof[r.rolle]??r.default); Object.assign(z,over); return {archetyp:'mayonnaise',gefaess:v.gefaess,methode,fixiert:{rollen:{},zutaten:{}},zutaten:z,techniken:{},mengen};};
 const rechne=(...a)=>compute(st(...a),{...data,arch},ks);
 
-ok(norm.length>=12 && ks.mayonnaise.methoden.mayo_hand>=4 && ks.mayonnaise.methoden.mayo_stab>=4,`Korpus: ${norm.length} Rezepte, von Hand ${ks.mayonnaise.methoden.mayo_hand}, Pürierstab ${ks.mayonnaise.methoden.mayo_stab}`);
+ok(norm.length>=12 && ks.mayonnaise.methoden.mayo_hand>=4 && ks.mayonnaise.methoden.mayo_stab>=4 && ks.mayonnaise.methoden.mayo_stab_einlaufen===3,`Korpus: ${norm.length} Rezepte, von Hand ${ks.mayonnaise.methoden.mayo_hand}, Pürierstab ${ks.mayonnaise.methoden.mayo_stab}, Öl einlaufen ${ks.mayonnaise.methoden.mayo_stab_einlaufen}`);
 const verletzt=norm.filter(r=>{const x=grenzenPruefen(r.bilanz,data.grenzen.archetypen.mayonnaise);return x.hart.length+x.empfohlen.length;}).map(r=>r.id);
 ok(!verletzt.length,'jedes Korpus-Rezept liegt in den Wasser-Grenzen'+(verletzt.length?': '+verletzt.join(', '):''));
 
@@ -29,6 +29,9 @@ ok(em(hand,'oel_tropfen').text==='Fett in Wasser, portionsweise' && em(hand,'oel
 const stab=rechne('mayo_stab');
 ok(/am Messer portionsweise/.test(em(stab,'puerieren').text) && !stab.regelIds.some(r=>r.startsWith('emulsion:')) && !stab.anpassungen.some(a=>/schmales, hohes/.test(a)),'Pürierstab im Mixbecher: auf einmal, am Messer portionsweise, keine Warnung (DR-053)');
 ok(stab.ablauf.at(-1).ort==='gefaess' && hand.ablauf.at(-1).key==='abfuellen','beide Methoden enden im Glas');
+// T86: Pürierstab mit Öl im Strahl — Öl kommt erst beim Pürieren dazu
+const ein=rechne('mayo_stab_einlaufen');
+ok(ein.ablauf.map(s=>s.key).join()==='mayo_becher,puerieren_einlaufen,abfuellen' && em(ein,'puerieren_einlaufen').text==='Fett in Wasser, im dünnen Strahl' && !ein.ablauf[0].zutaten.some(z=>z.rolle==='fett') && !ein.regelIds.some(r=>r.startsWith('emulsion:')),'Öl einlaufen: Wasserphase einfüllen → pürieren mit Öl im Strahl → abfüllen, keine Warnung');
 
 c=rechne(null,{fluessigkeit:[]},{bindung:4});
 ok(c.status==='invalid' && c.gruende.some(g=>/Lecithin zu verteilen/.test(g)),'zu wenig Wasser (ohne Säure, wenig Eigelb) → bricht: harte Grenze');

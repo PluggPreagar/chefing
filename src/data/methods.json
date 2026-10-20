@@ -654,5 +654,71 @@
       "glas"
     ],
     "warum": "Schnell: die hohe Scherung am Messer erlaubt alles auf einmal, wenn das Gefäß schmal und hoch ist (DR-053)."
+  },
+  "mayo_stab_einlaufen": {
+    "label": "Pürierstab, Öl einlaufen",
+    "kurz": "Eigelb, Säure, Senf in den Mixbecher → pürieren und das Öl im dünnen Strahl einlaufen lassen → abfüllen",
+    "sequenz": [
+      {
+        "key": "mayo_becher",
+        "phase": "wasser",
+        "label": "Eigelb, Säure und Senf in den Mixbecher",
+        "aktion": "Einfüllen",
+        "ort": "mixbecher",
+        "typ": "vorbereitung",
+        "verb": "vorbereiten",
+        "variante": "einfüllen",
+        "auf": [
+          "bindung",
+          "fluessigkeit",
+          "aroma"
+        ],
+        "voraussetzung": [],
+        "wirkung": "Die Wasserphase mit dem Lecithin liegt unten am Messer.",
+        "risiko": "Kalte Zutaten emulgieren schlecht — alles vorher auf Raumtemperatur bringen.",
+        "dauer_min": 0.5
+      },
+      {
+        "key": "puerieren_einlaufen",
+        "werkzeug": "puerierstab",
+        "emulsion": {
+          "gibt": "fett",
+          "zugabe": "strahl"
+        },
+        "label": "Pürieren und das Öl im dünnen Strahl einlaufen lassen",
+        "aktion": "Pürieren",
+        "ort": "mixbecher",
+        "typ": "mischen",
+        "verb": "schlagen",
+        "intensitaet": "kraeftig",
+        "variante": "pürieren, Öl im Strahl",
+        "auf": [
+          "fett"
+        ],
+        "voraussetzung": [],
+        "wirkung": "Der Stab läuft am Boden, das Öl kommt von oben im dünnen Strahl dazu und wird sofort am Messer verteilt; ist die Masse gebunden, den Stab langsam hochziehen.",
+        "risiko": "Öl zu schnell zugegossen → die Emulsion bildet sich nicht, die Masse bleibt flüssig. Braucht beide Hände oder eine zweite Person.",
+        "dauer_min": 2
+      },
+      {
+        "key": "abfuellen",
+        "label": "In das Glas füllen",
+        "aktion": "Abfüllen",
+        "ort": "gefaess",
+        "typ": "vorbereitung",
+        "verb": "formen",
+        "variante": "abfüllen",
+        "auf": [],
+        "voraussetzung": [],
+        "wirkung": "Fertige Mayonnaise ins saubere Glas füllen und kühl stellen.",
+        "dauer_min": 1
+      }
+    ],
+    "textur": "fest, glänzend",
+    "triebquelle": "keine (Emulsion)",
+    "geeignet_fuer": [
+      "glas"
+    ],
+    "warum": "Mittelweg zwischen von Hand und alles auf einmal: der Pürierstab verteilt, das Öl kommt dosiert dazu. So beschreiben es 3 der 8 Pürierstab-Rezepte im Korpus."
   }
 }

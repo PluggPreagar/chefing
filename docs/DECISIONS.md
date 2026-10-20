@@ -562,3 +562,11 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** Reihenfolge und Physik im Ablauf sichtbar; Skizzen sind Daten-Verweise, weitere lassen sich ergänzen; keine Bilddateien.
 - **cons:** Skizzen sind von Hand gezeichnet und je Handgriff eigen; Öl-Absetzen nur aus englischen Quellen.
 - **risk:** Gering. methods.json (mayo_stab neu geschnitten, `skizze` an oel_tropfen), techniken.json (`skizze` an eischnee_unterheben), engine.js (`skizze` im Ablauf), flow.js (Details), skizzen.js (neu), style.css, Test skizzen. Rückgängig: ein Commit.
+
+## DR-056 · daten · Mayonnaise: dritte Methode „Pürierstab, Öl einlaufen“
+
+- **descr:** (2026-10-20, Nutzer: „T86“) 3 der 8 Pürierstab-Rezepte im Korpus gießen das Öl erst während des Pürierens im dünnen Strahl dazu (oekotest.de, gutekueche.at, kochbar.de 238279), statt es vorher obenauf zu schichten. Neue Methode `mayo_stab_einlaufen`: Wasserphase in den Mixbecher → pürieren und das Öl im dünnen Strahl einlaufen lassen (`werkzeug: puerierstab`, `emulsion: {gibt: fett, zugabe: strahl}`) → abfüllen. Die drei Rezepte sind umgestellt; Korpus jetzt 8 von Hand, 5 Pürierstab (alles auf einmal), 3 Öl einlaufen. Die Substitutions-Freiheit der Rollen bleibt gleich (gemessen).
+- **Optionen:** A Rezepte bei „Pürierstab“ lassen (Mengen mischen zwei Abläufe) · B eigene Methode (gewählt).
+- **pro:** Ablauf und Mengen je Methode passen zu den Rezepten; der Kasten zeigt alle drei gängigen Wege.
+- **cons:** dritte Methode im Kasten; Zelle mit nur 3 Rezepten.
+- **risk:** Gering. methods.json, archetypes.json (Methoden-Liste), Korpus mayonnaise.json (3 × methode), Test mayonnaise. Rückgängig: ein Commit.

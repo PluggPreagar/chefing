@@ -627,7 +627,7 @@
         "original": "etwas Salz"
       }
     ],
-    "methode": "mayo_stab",
+    "methode": "mayo_stab_einlaufen",
     "ablauf": [
       "Ei mit Senf, Salz und Zitronensaft in ein hohes Gefäß geben und kurz anmixen.",
       "Öl in sehr dünnem Strahl zulaufen lassen, dabei weiter pürieren und den Stab auf und ab bewegen.",
@@ -689,7 +689,7 @@
         "original": "0.5 TL Salz"
       }
     ],
-    "methode": "mayo_stab",
+    "methode": "mayo_stab_einlaufen",
     "ablauf": [
       "Eigelb mit Salz, Zitronensaft und Senf in einem hohen Gefäß verrühren.",
       "Pürierstab auf den Boden setzen und das Öl tropfenweise bzw. im dünnen Strahl zumixen.",
@@ -869,7 +869,7 @@
         "original": "200 ml Öl"
       }
     ],
-    "methode": "mayo_stab",
+    "methode": "mayo_stab_einlaufen",
     "ablauf": [
       "Ganze Eier, Senf, Zitronensaft und Gewürze in den Mixbecher geben.",
       "Mit dem Stabmixer mixen und dabei das Öl langsam einlaufen lassen.",
