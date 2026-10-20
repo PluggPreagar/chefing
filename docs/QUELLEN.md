@@ -347,3 +347,13 @@ Ergebnis: Hinweis „kann bitter werden“ beim Pürierstab, keine Warnung; kein
 | 2026-10-20 | ichkoche.at, einfachkochen.de | je 1 | Kaiserschmarrn | Mengen nicht geladen bzw. Protein-Variante, nicht aufgenommen |
 
 Breit gesucht („Kaiserschmarrn Rezept“), nicht nach Eischnee: 9 von 11 aufgenommenen Rezepten trennen die Eier.
+
+## 2026-10-20 — Zeit von Hand gegen Gerät (T92, DR-060, Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | kita.de, lecker.de, rewe.de, bosch-home.com, kuechenfibel.de | je 1 (Suchtreffer) | Eischnee von Hand | Handrührgerät 3–4 Min., Schneebesen etwa 15 Min.; von Hand braucht Ausdauer |
+| 2026-10-20 | cooksillustrated.com, kitchenaid.com, masterclass.com, crazyforcrust.com, mybakingaddiction.com | je 1 (Suchtreffer) | Butter + Zucker cremig | Maschine 2–5 Min., von Hand 10–20 Min. (Cook's Illustrated: 20 gegen 3); von Hand weniger luftig |
+| 2026-10-20 | rewe.de, oma-kocht.de, kuechenfibel.de, rezepte-silkeswelt.de, alleantworten.de | je 1 (Suchtreffer) | Hefeteig kneten | Maschine mind. 5, von Hand mind. 8 Min.; Richtwert Maschine 8–10, Hand 10–15 Min. |
+
+Ergebnis: Faktoren von Hand ×4 (Luft schlagen, cremig aufschlagen) und ×1,5 (kneten) als Richtwerte.

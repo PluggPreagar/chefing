@@ -341,6 +341,11 @@ function karte(z, s, ctx) {
     e.append(el('span', 'k-was', 'Emulsion '), document.createTextNode(s.emulsion.text));
     k.append(e);
   }
+  if (s.werkzeugWahl) { // T92: welches Werkzeug die Ausstattung hergibt
+    const wz = el('div', 'k-gas');
+    wz.append(el('span', 'k-was', 'Werkzeug '), document.createTextNode(s.werkzeugWahl.label + (s.werkzeugWahl.faktor > 1 ? ` (etwa ${String(s.werkzeugWahl.faktor).replace('.', ',')}× so lange wie mit ${s.werkzeugWahl.basisLabel})` : '')));
+    k.append(wz);
+  }
   if (s.skizze) k.insertAdjacentHTML('beforeend', skizzeHtml(s.skizze)); // Erklär-Skizze für besondere Handgriffe (DR-055)
   if (s.gas > 0 && !ortInfo.neben) { // T82: Gas-Budget der Hauptmasse; Nebenschüsseln zählen erst ab dem Zusammenführen
     const g = el('div', 'k-gas');

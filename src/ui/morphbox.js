@@ -1,6 +1,7 @@
 import { evaluateAll, technikStufe, wirksameTechniken } from '../model/rules.js';
 import { haeufigste } from '../model/corpus.js';
 import { gefaessPatch, technikPatch } from '../model/zustand.js';
+import { standardAusstattung, waehlbareWerkzeuge } from '../model/ausstattung.js';
 import { iconHtml } from './icons.js';
 
 const STATUS_ICON = { ok: '✓', prep: '~', invalid: '✗' };
@@ -44,6 +45,16 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
         }),
       ]),
   );
+
+  // Ausstattung (T92, DR-060): einmal wählen, was die Küche hat; Schneebesen und Hände gehen immer (nur länger)
+  if (data.werkzeuge) {
+    const aus = { ...standardAusstattung(data.werkzeuge), ...(state.ausstattung || {}) };
+    root.append(dimension('Ausstattung', 'Was deine Küche hat. Schneebesen und Hände gehen immer — von Hand dauert es nur länger.',
+      waehlbareWerkzeuge(data.werkzeuge).map(([k, w]) => option({
+        label: w.label, sub: aus[k] ? 'vorhanden' : 'nicht vorhanden', selected: !!aus[k], mischbar: true,
+        onClick: () => onChange({ ausstattung: { ...aus, [k]: !aus[k] } }),
+      })), null, null, true));
+  }
 
   // Optionale Techniken (DR-041): Schalter, wenn mindestens eine Methode des Archetyps sie kennt
   const technikKeys = technikKeysVon(arch, data);

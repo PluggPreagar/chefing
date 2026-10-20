@@ -91,7 +91,7 @@ dev/                         Skizzen und Vorschauen, nicht Teil der App
 | `orte.json` | Arbeitsplätze (Tasse, Schüssel, Form, Ofen …) mit Icon und Farbe; Hauptstrom = Weg des Teigs, `neben` = Seitenstrom (Tasse, Topf, Schälchen, Schüssel 2); jede Operation nennt ihren `ort` (DR-038, DR-039) |
 | `techniken.json` | optionale Techniken, die eine Methode ergänzen (Eier getrennt: Trennen, Eischnee, Unterheben; lockert den Trieb); Schalter im Kasten (DR-041) |
 | `triebquellen.json` | woher das Volumen kommt (Luft aus Butter-Creme/Ei-Schaum/Eischnee, CO₂ aus Backpulver/Natron/Hefe, Mineralwasser, Dampf), wann, und wie lange es hält; Zeile „Volumen aus …“ und Haltezeit-Warnung (DR-049); Zahlen fürs Gas-Budget je 100 g Teig (Schätzung ohne Dampf, DR-050) |
-| `werkzeuge.json` | Werkzeuge eines Schritts und was sie an der Emulsions-Regel ändern (Pürierstab: „auf einmal“ im schmalen, hohen Gefäß richtig, im Schaum ein Fehler; DR-053) |
+| `werkzeuge.json` | Werkzeuge und Anforderungen (Luft schlagen, cremig aufschlagen, kneten): was jedes Werkzeug kann und wie viel länger es von Hand dauert; Ausstattung im Kasten, Standard = Alltags-Küche (DR-060); Pürierstab-Regeln der Emulsion (DR-053, DR-058) |
 | `modelle.json` | Rechenmodelle mit Parametern, Quelle und Validierung (Gärmodell: Hefe × Zeit × Temperatur) |
 | `temperaturen.json` | benannte Temperatur-Bereiche (Kühlschrank, kühl, Raum, warm, lauwarm, plastisch für Fett, Teig für die Teigtemperatur); Temperaturen stehen überall als Zahl, Wert ± Spielraum, Spanne oder Name (`temperatur` an Operationen, `temperaturen` im Rezept) |
 | `kategorien.json`, `verben.json` | Icon-Kategorien und Verben |

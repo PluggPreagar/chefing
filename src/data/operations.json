@@ -192,6 +192,7 @@
     "dauer_min": 2
   },
   "kneten": {
+    "anforderung": { "art": "kneten", "basis": "kuechenmaschine" },
     "label": "Teig kneten",
     "aktion": "Kneten", "ort": "schuessel",
     "typ": "mischen",

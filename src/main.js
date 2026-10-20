@@ -54,6 +54,8 @@ const state = {
   zutaten: {},
   // techniken[key] = true: optionale Technik eingeschaltet (DR-041, z. B. Eier getrennt); Preset-Wechsel setzt zurück
   techniken: {},
+  // ausstattung[werkzeug] = true/false (T92): was die Küche hat; null = Standard (Alltags-Küche); bleibt bei Preset-Wechsel
+  ausstattung: null,
 };
 
 const $ = (id) => document.getElementById(id);
@@ -144,7 +146,7 @@ $('toggle-stats').addEventListener('click', () => {
 // Fehler melden (DR-044): die Meldung nennt, was gerade eingestellt und berechnet war
 initFehlerMelden($('fehler-melden'), () => ({
   archetyp: state.archetyp, variante: letztes?.variante, gefaess: state.gefaess, methode: letztes?.methodKey, methode_gewaehlt: state.methode,
-  zutaten: state.zutaten, mengen: state.mengen, techniken: state.techniken, fixiert: state.fixiert,
+  zutaten: state.zutaten, mengen: state.mengen, techniken: state.techniken, ausstattung: state.ausstattung, fixiert: state.fixiert,
   status: letztes?.status, regeln: letztes?.regelIds, zeit: letztes?.zeit,
   ablauf: letztes?.ablauf.map((s) => `${s.nr}. ${s.key} (${s.aktiv}+${s.wirk} Min.)`),
 }));

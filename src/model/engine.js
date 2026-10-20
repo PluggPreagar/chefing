@@ -1,8 +1,9 @@
 import { fromGrams } from './units.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt, wirksameTechniken, technikStufe } from './rules.js';
-import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
+import { zeitFuerSchritt, zeitleiste, zeitMeldung, fmtZeit } from './zeit.js';
 import { emulsionsVerlauf } from './emulsion.js';
 import { triebQuellen, gasBudget } from './trieb.js';
+import { werkzeugWahl, vorhanden } from './ausstattung.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
 import { bilanz, grenzenPruefen, grenzenFuer, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, basisLuecke, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
@@ -335,6 +336,26 @@ export function compute(state, data, korpusStats) {
     // Temperatur der Aktion (T52): die Gare zeigt die Temperatur, mit der das Gärmodell rechnet
     temperatur: (s === gareSchritt ? gareTempText : schrittTemperaturText(s.op, data, props)) || null,
   }));
+  // Ausstattung (T92, DR-060): Schritt mit Anforderung → schnellstes vorhandenes Werkzeug, Dauer im Verhältnis zum Basis-Werkzeug;
+  // ein Schritt, der ein bestimmtes Werkzeug verlangt (Pürierstab-Methode), meldet, wenn es fehlt
+  const werkzeugHinweise = [];
+  const werkzeugWarnungen = [];
+  ablauf.forEach((s, i) => {
+    const op = res.schritte[i].op;
+    if (op.anforderung && data.werkzeuge) {
+      const wahl = werkzeugWahl(op.anforderung, data.werkzeuge, state.ausstattung);
+      if (wahl) {
+        s.werkzeugWahl = wahl;
+        if (wahl.faktor !== 1 && s.dauer != null) {
+          s.dauer = Math.round(s.dauer * wahl.faktor * 2) / 2;
+          if (wahl.faktor > 1) werkzeugHinweise.push(`${s.label}: mit ${wahl.label} statt ${wahl.basisLabel} etwa ${String(wahl.faktor).replace('.', ',')}× so lange (≈ ${fmtZeit(s.dauer)}).`);
+        }
+      }
+    }
+    if (op.werkzeug && data.werkzeuge?.[op.werkzeug] && !vorhanden(data.werkzeuge, state.ausstattung, op.werkzeug)) {
+      werkzeugWarnungen.push({ id: `ausstattung:${op.werkzeug}`, text: `${s.label} braucht einen ${data.werkzeuge[op.werkzeug].label}, der nicht in der Ausstattung ist — eine andere Methode wählen.` });
+    }
+  });
   for (const s of ablauf) {
     s.aktiv = s.passiv ? s.aktivMin : s.dauer ?? 0;
     s.wirk = s.passiv ? s.dauer ?? 0 : 0;
@@ -385,6 +406,7 @@ export function compute(state, data, korpusStats) {
     ...emulsionsWarnungen.map((w) => w.id),
     ...trieb.warnungen.map((w) => w.id),
     ...werkzeugIds,
+    ...werkzeugWarnungen.map((w) => w.id),
     ...(modellGilt && !stM ? ['gaerung_berechnet'] : []),
   ])];
 
@@ -399,7 +421,7 @@ export function compute(state, data, korpusStats) {
     method,
     status: zeitGruende.length ? 'invalid' : status,
     gruende: [...res.gruende, ...gebuendelt.hart, ...zeitGruende],
-    warnungen: [...res.warnungen, ...technikWarnungen, ...emulsionsWarnungen.map((w) => w.text), ...trieb.warnungen.map((w) => w.text), ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
+    warnungen: [...res.warnungen, ...technikWarnungen, ...emulsionsWarnungen.map((w) => w.text), ...trieb.warnungen.map((w) => w.text), ...werkzeugWarnungen.map((w) => w.text), ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
     zeit: zeitleiste(ablauf),
     trieb: { zeile: trieb.zeile, quellen: trieb.quellen },
     // Technik-Stufe je Technik, gemessen am Korpus der Variante, wenn er genug Rezepte hat (T83, DR-051)
@@ -417,7 +439,7 @@ export function compute(state, data, korpusStats) {
     // Override-fähige Blockaden (DR-019 Punkt 4, T25): welche hart-Bedingungen der Nutzer
     // bewusst überschreiben kann. Die Erfassung selbst passiert in der UI (`recipeCard.js`).
     blockaden,
-    anpassungen: [...technikHinweise, ...emulsionsHinweise, ...anpassungen],
+    anpassungen: [...technikHinweise, ...emulsionsHinweise, ...werkzeugHinweise, ...anpassungen],
     evals,
     zutatenListe,
     rollenBp: bpZiel,

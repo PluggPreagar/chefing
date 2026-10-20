@@ -5,7 +5,11 @@
     "gefaess_form": "Form des Arbeitsplatzes (orte.json `form`), die das Werkzeug braucht; fehlt sie, gibt es einen Hinweis statt der Freigabe",
     "zerstoert_luft": "true: das Werkzeug zerschlägt eine luftige Basis (Schaum, aufgeschlagene Creme) — dort ist es ein Fehler",
     "quelle": "Nutzer 2026-10-20 (T78/T84): Mayonnaise mit dem Pürierstab im schmalen, hohen Gefäß, alles auf einmal, Stab am Boden ansetzen und langsam hochziehen.",
-    "zutat_hinweise": "optional (T88, DR-058): [{rolle, zutat, id, text}] — Hinweis im Rezept, wenn ein Schritt mit diesem Werkzeug vorkommt und die Rolle diese Zutat enthält (auch als Teil einer Mischung)."
+    "zutat_hinweise": "optional (T88, DR-058): [{rolle, zutat, id, text}] — Hinweis im Rezept, wenn ein Schritt mit diesem Werkzeug vorkommt und die Rolle diese Zutat enthält (auch als Teil einer Mischung).",
+    "anforderungen": "T92, DR-060: was ein Schritt braucht. Ein Schritt nennt `anforderung: {art, basis}` — basis = Werkzeug, für das seine Dauer gilt.",
+    "kann": "je Werkzeug: {art: faktor} — welche Anforderung es erfüllt und mit welchem Faktor auf die Handzeit (1 = wie das Basis-Werkzeug). Die Engine nimmt das schnellste vorhandene Werkzeug.",
+    "immer": "true: gehört zu jeder Küche (Schneebesen, Hände) und lässt sich nicht abwählen",
+    "standard": "true: in der Standard-Ausstattung (Alltags-Küche, Nutzer 2026-10-20: Pürierstab gehört dazu)"
   },
   "puerierstab": {
     "label": "Pürierstab",
@@ -23,6 +27,55 @@
         "text": "Natives Olivenöl kann mit dem Pürierstab bitter werden: die sehr feinen Tröpfchen geben Polyphenole an die Wasserphase ab (bei Standmixer oder Küchenmaschine stärker als beim Stab). Abhilfe: mit neutralem Öl mischen, raffiniertes Olivenöl nehmen oder das Olivenöl zuletzt von Hand unterrühren.",
         "quelle": "americastestkitchen.com (Küchenmaschine deutlich bitter, von Hand nicht), nigella.com (Stab milder als Becher-Mixer), tastingtable.com, chowhound.com; Gegenhinweis: Eigelb-Eiweiß dämpft Bitterkeit (Preprint researchsquare.com) — daher Hinweis, keine Warnung. QUELLEN.md 2026-10-20."
       }
-    ]
+    ],
+    "standard": true
+  },
+  "anforderungen": {
+    "luft_schlagen": {
+      "label": "Luft einschlagen (Eischnee, Ei-Schaum)"
+    },
+    "cremig_aufschlagen": {
+      "label": "Fett und Zucker cremig aufschlagen"
+    },
+    "kneten": {
+      "label": "Teig kneten, bis das Gluten entwickelt ist"
+    }
+  },
+  "schneebesen": {
+    "label": "Schneebesen",
+    "immer": true,
+    "kann": {
+      "luft_schlagen": 4,
+      "cremig_aufschlagen": 4
+    },
+    "quelle": "Eischnee: Handrührgerät 3–4 Min., Schneebesen etwa 15 Min. (kita.de-Ratgeber, lecker.de, bosch-home.com); Butter + Zucker: Maschine 3–5 Min., von Hand 10–20 Min. (cooksillustrated.com 20 gegen 3, kitchenaid.com, masterclass.com) — Faktor 4, Richtwert."
+  },
+  "haende": {
+    "label": "Hände",
+    "immer": true,
+    "kann": {
+      "kneten": 1.5
+    },
+    "quelle": "Hefeteig: Maschine mindestens 5, von Hand mindestens 8 Min. (rewe.de); Richtwert Maschine 8–10, Hand 10–15 Min. — Faktor 1,5."
+  },
+  "handruehrgeraet": {
+    "label": "Handrührgerät",
+    "standard": true,
+    "kann": {
+      "luft_schlagen": 1,
+      "cremig_aufschlagen": 1,
+      "kneten": 1
+    },
+    "quelle": "Basis der Schritt-Dauern; Knethaken kneten wie die Maschine (Annahme)."
+  },
+  "kuechenmaschine": {
+    "label": "Küchenmaschine",
+    "standard": false,
+    "kann": {
+      "luft_schlagen": 1,
+      "cremig_aufschlagen": 1,
+      "kneten": 1
+    },
+    "quelle": "Stufe 1 nur Zeit: wie das Handrührgerät; „Hände frei“ kommt mit Stufe 2."
   }
 }

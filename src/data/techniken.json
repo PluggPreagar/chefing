@@ -36,6 +36,7 @@
       },
       "schlagen": {
         "key": "eischnee_schlagen",
+        "anforderung": { "art": "luft_schlagen", "basis": "handruehrgeraet" },
         "triebquelle": "eischnee",
         "label": "Eiweiß zu Schnee schlagen",
         "aktion": "Schnee schlagen", "ort": "schuessel_2", "ort_ausweich": "schuessel_3",
