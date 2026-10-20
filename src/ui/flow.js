@@ -23,6 +23,10 @@ export function fmtSlot(min) {
   return m < 0 ? `−${t}` : t;
 }
 
+// Titel eines Slots ohne Aktion: was der Koch hat (freie Hände), nicht was die Zeile ist (Fehlermeldung 20261020-160203:
+// „was meint leer?“); die zweite Zeile nennt, was in der Zeit wirkt (Backen · 180 °C)
+export const slotTitel = (z) => (z.nebenher ? 'läuft nebenher' : `Hände frei · ${fmtZeit(z.t1 - z.t0)}`);
+
 // Strom + Zufluss in Slots (DR-039, DR-043, Regeln R1–R7):
 // R1 je Zeile genau eine Aktion des Kochs (Knopf) oder keine (leer: nur Wirkzeit, Uhr).
 // R2 Schritt = Handzeit + Wirkzeit, R3 Knopf nur bei Handzeit, R4 gestrichelt = die Masse wird gerade nicht bearbeitet,
@@ -277,7 +281,7 @@ function zeile(z, ctx) {
       inhalt.append(label);
     }
   } else {
-    label.append(el('b', null, z.nebenher ? 'nebenher' : `leer · ${fmtZeit(z.t1 - z.t0)} warten`));
+    label.append(el('b', null, slotTitel(z)));
     const namen = z.grund.map((i) => [steps[i].aktion, warteMeta(steps[i], ctx.computed)].filter(Boolean).join(' · '));
     label.append(el('br'), document.createTextNode(namen.join(', ')));
     inhalt.append(label);

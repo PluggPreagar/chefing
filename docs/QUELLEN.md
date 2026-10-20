@@ -206,3 +206,26 @@ Nicht abrufbar (403, 429, 404, gesperrt oder Zertifikat): chefkoch.de, gutefrage
 | 2026-10-19 | innograin.uva.es, libretexts.org | je 1 | Schaumfehler | Fett und Überrühren kosten Luft, qualitativ |
 | 2026-10-19 | backtraum, backenmitchristina.at, lecker.de, smittenkitchen.com | je 1 | Rezeptmuster | Biskuit ohne Backpulver ≈ 3–4 Eier je 100 g Mehl; Sandkuchen/Pound Cake ohne chemischen Trieb |
 | 2026-10-19 | rewe.de, cftri.res.in, laws-lois.justice.gc.ca | je 1 | Backpulver-Gasausbeute | 1 Pck. je 500 g Mehl ≈ 3 %; mindestens 12 % (US) bzw. 10 % (CA) CO₂ nach Gewicht |
+
+## 2026-10-20 — Reihenfolge beim Schaumigschlagen, Emulsionen bis Mayonnaise (Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | bakeinfo.co.nz, kingarthurbaking.com, sallysbakingaddiction.com | je 1 | Crememethode | Luftzellen im plastischen Fett, ~21 °C ideal (16–22 °C je Quelle), Wasser-in-Fett-Emulsion, Gerinnen durch kalte Eier/zu schnell/zu viel Flüssigkeit, Rettung mit 1–2 EL Mehl |
+| 2026-10-20 | nicoletcollege.pressbooks.pub | 1 (Snippet) | Lecithin | Eigelb-Lecithin als Emulgator |
+| 2026-10-20 | yumda.com, fsh-landeck.tsn.at, kuechengoetter.de, joyofbaking.com, foodnetwork.com, drivemehungry.com | je 1 | Ei+Zucker zuerst | Luft aus dem Eischaum, warm aufschlagen ~40–45 °C (Zucker löst sich), Butter zuletzt geschmolzen und nicht heiß, vorher mit etwas Masse temperieren, Zwei-Kessel-Methode bei fettreicher Sandmasse |
+| 2026-10-20 | rewe.de, lecker.de | je 1 | Rühr-Öl | Öl nach dem Schaum langsam einlaufen lassen (ohne Begründung) |
+| 2026-10-20 | oetker.ch, utopia.de | je 1 | Wasser im Eigelb-Schaum | heißes Wasser zum Eigelb, je schaumiger desto luftiger (ohne Begründung) |
+| 2026-10-20 | en.wikibooks.org, en.wikipedia.org, app.ckbk.com, finekettleoffish.substack.com, marxfood.com | je 1 | Mayonnaise | Öl-in-Wasser, Lecithin + Proteine um die Tröpfchen, ≥ 70–80 % Öl, Teil des Wassers zurückhalten, erst tropfenweise dann im Strahl, bricht bei zu wenig Wasser/zu schnell, Rettung mit Wasser oder neuem Eigelb; Öl je Eigelb strittig (240 ml bis viele Liter, Wasser:Öl 1:3–1:19 begrenzt) |
+
+seriouseats.com war für den Abruf gesperrt.
+
+## 2026-10-20 — Korpus Kastenkuchen: Sandkuchen als Schaummasse (DR-046)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | lecker.de, rezeptschachtel.de, orf.at (PDF), unsereheimat.de | je 1 | Korpus Kastenkuchen, Methode schaummasse | Sandkuchen: Eier + Zucker (warm) aufgeschlagen, Mehl + Stärke, flüssige Butter zuletzt |
+| 2026-10-20 | ichkoche.de | 1 | geprüft, nicht aufgenommen | Methode passt, aber keine Mengen |
+| 2026-10-20 | backenmitchristina.at, rezepte.lidl.de, oetker.de, gutekueche.at, kuechengoetter.de, essen-und-trinken.de u. a. | je 1 | geprüft, nicht aufgenommen | nur Eiweiß, Butter vor dem Mehl oder Butter mit Zucker schaumig (Crememethode) |
+
+chefkoch.de (blockiert) und edeka.de (403) nicht abrufbar.

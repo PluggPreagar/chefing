@@ -4,7 +4,7 @@ const P = new URL('../src/', import.meta.url).href;
 const J = (n) => JSON.parse(fs.readFileSync(new URL(P + 'data/' + n + '.json')));
 const { normalizeRecipe, stats } = await import(P + 'model/corpus.js');
 const { compute } = await import(P + 'model/engine.js');
-const { stromModell, fmtSlot } = await import(P + 'ui/flow.js');
+const { stromModell, fmtSlot, slotTitel } = await import(P + 'ui/flow.js');
 const { ICONS } = await import(P + 'ui/icons.js');
 const names = ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen', 'orte', 'techniken', 'temperaturen', 'modelle'];
 const data = Object.fromEntries(names.map((n) => [n, J(n)]));
@@ -98,6 +98,8 @@ ok(akt('einlegen').t0 < 0 && Math.abs(M.plan.fertig[iVon('einlegen')] - M.plan.s
 ok(akt('hefe_ansetzen').t0 === 0 && akt('hefe_ansetzen').strom === 'neben' && akt('kneten').zufluss?.ort.key === 'tasse' && akt('kneten').modus === 'zu', 'Hefe lösen (Tasse) mündet ins Kneten, Kneten ist Zufluss');
 ok(M.spuren === 2 && akt('einlegen').strang.spur !== akt('hefe_ansetzen').strang.spur && akt('kneten').spuren.some((s) => s.ort.key === 'schaelchen' && !s.aktiv), 'Zwei Seitenstränge gleichzeitig (Schälchen, Tasse) in eigenen Spuren; beim Kneten warten die Rosinen gestrichelt');
 ok(!akt('gehen') && leer('gehen') && leer('stueckgare') && leer('backen') && akt('backen') && c.ablauf[iVon('backen')].handgriff === 'Einschieben', 'Gehen, Gare, Backen als leere Slots mit Uhr; Backen hat den Handgriff „Einschieben“');
+// Fehlermeldung 20261020-160203 „was meint leer?“: der Slot sagt, dass die Hände frei sind, nicht „leer“
+ok(slotTitel(leer('gehen')) === 'Hände frei · 1 Std.' && !/leer/.test(slotTitel(leer('backen'))) && slotTitel({ nebenher: true, t0: 0, t1: 5 }) === 'läuft nebenher', 'Slot ohne Aktion heißt „Hände frei · 1 Std.“ (Fehlermeldung „was meint leer?“)');
 ok(leer('stueckgare').haupt.ort.label === 'Backblech' && leer('backen').haupt.ort.key === 'ofen' && leer('gehen').haupt.ort.key === 'schuessel' && !leer('gehen').haupt.aktiv, 'Wartezeit im Behälter: Gehen in der Schüssel, Gare auf dem Blech, Backen im Ofen, gestrichelt');
 ok(akt('einlage_unterheben').haupt.dicke > akt('kneten').haupt.dicke && akt('hefe_ansetzen').spuren.find((s) => s.ort.key === 'tasse').dicke < akt('kneten').haupt.dicke, 'Dicke = Menge: mit Rosinen dicker, Hefe-Milch dünner als der Teig');
 ok(c.zeit.aktiv === Math.round(M.aktiv) && c.zeit.aktiv < 30 && c.zeit.vorlauf === Math.round(M.vorlauf), `Hände ${c.zeit.aktiv} Min., Vorlauf ${c.zeit.vorlauf} Min., gesamt ${c.zeit.gesamt} Min. ab Start`);
@@ -112,6 +114,13 @@ ok(leer('gehen').haupt.ort.key === 'kuehlschrank', 'Kalte Führung: der Teig war
 ok(M.spuren === 0 && akt('aufschlagen').modus === 'zu' && akt('fuellen').ort.key === 'gefaess', 'Crememethode ohne Einlage: ein Strom ohne Seitenstrang');
 ({ c, M } = rechne('pfannkuchen', 'eierkuchen', 'pfannkuchen_glatt'));
 ok(akt('ausbacken').ort.icon === 'ort_pfanne' && akt('ausbacken').haupt.aktiv && !M.zeilen.some((r) => r.haupt?.ort.key === 'ofen') && leer('ruhen'), 'Eierkuchen: Ruhen als leerer Slot, Ausbacken aktiv in der Pfanne, kein Ofen');
+
+// Reihenfolge Ei+Zucker zuerst, Butter zuletzt (DR-046) und Öl in dünnem Strahl beim Rühr-Öl
+({ c, M } = rechne('ruehrteig', 'kastenkuchen', 'schaummasse'));
+ok(c.korpusNMethode === 4 && c.ablauf.map((s) => s.key).join() === 'ei_zucker_warm,mehl_unterheben,schmelzen,butter_zuletzt,fuellen,backen' && M.plan.start[iVon('butter_zuletzt')] > M.plan.start[iVon('mehl_unterheben')] && c.ablauf.find((s) => s.key === 'ei_zucker_warm').temperatur, 'Schaummasse: Ei + Zucker warm (38–45 °C), Mehl, geschmolzene Butter zuletzt; Mengen aus 4 Sandkuchen-Rezepten');
+ok(rechne('ruehrteig', 'kastenkuchen', 'schaummasse', { trieb: [] }).c.status !== 'invalid' && data.methods.schaummasse.lockert.includes('trieb'), 'Schaummasse ohne Backpulver gültig: der Trieb kommt aus dem Eischaum');
+({ c, M } = rechne('ruehrteig', 'kastenkuchen', 'ruehroel', { fett: E('pflanzenoel') }));
+ok(c.ablauf.some((s) => s.key === 'oel_einlaufen') && !c.ablauf.some((s) => s.key === 'verquirlen') && /dünnem Strahl/.test(c.ablauf.find((s) => s.key === 'oel_einlaufen').wirkung), 'Rühr-Öl: eigener Schritt „Öl langsam einlaufen lassen“ (Öl in Wasser, wie Mayonnaise)');
 
 // Eier getrennt als Technik (DR-040, DR-041): Trennen in der Tasse mit zwei Abflüssen — Eigelb in den Hauptstrom, Eiweiß in Schüssel 2
 const G = { eier_getrennt: true };

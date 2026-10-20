@@ -66,6 +66,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
     ]));
   }
 
+  for (const r of data.methods[computed.methodKey]?.lockert || []) gelockert.add(r); // Schaummasse: Trieb aus dem Eischaum (DR-046)
   for (const rolle of arch.rollen) {
     const pflicht = rolle.pflicht && !gelockert.has(rolle.rolle);
     const entries = state.zutaten[rolle.rolle] || [];

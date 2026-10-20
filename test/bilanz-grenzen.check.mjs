@@ -22,7 +22,9 @@ c=compute(st('muffin',{struktur:E('speisestaerke')}),data,ks); show('Muffin Stä
 const mix=(a,b)=>[{zutat:'weizenmehl',anteil:a},{zutat:'speisestaerke',anteil:b}];
 const korpusMeldung=(cc)=>[...cc.toleranzHinweise,...cc.warnungen.filter(w=>/Korpus-Rezepte/.test(w))];
 ok(korpusMeldung(compute(st('kastenkuchen',{struktur:mix(15,1)}),data,ks)).filter(t=>/Klebereiweiß|Stärke/.test(t)).length===0,'T43: Kastenkuchen mit 15 : 1 Mehl : Stärke (Klebereiweiß −6 %) ohne Klebereiweiß-/Stärke-Meldung');
-{const m=korpusMeldung(compute(st('kastenkuchen',{struktur:mix(7,1)}),data,ks)); ok(m.some(t=>/Klebereiweiß/.test(t)) && !m.some(t=>/außerhalb aller/.test(t)),'T48: 7 : 1 (Klebereiweiß −12 %) → nur ein Hinweis „untypisch“, keine Warnung „ungetestet“');}
+// Seit den Sandkuchen-Rezepten (Schaummasse, Mehl : Stärke bis 1 : 1, DR-046) ist 7 : 1 im Kastenkuchen typisch; erst viel Stärke fällt auf
+ok(korpusMeldung(compute(st('kastenkuchen',{struktur:mix(7,1)}),data,ks)).filter(t=>/Klebereiweiß/.test(t)).length===0,'Kastenkuchen 7 : 1 Mehl : Stärke: typisch, seit Sandkuchen im Korpus (DR-046)');
+{const cc=compute(st('kastenkuchen',{struktur:mix(1,4)}),data,ks); ok([...korpusMeldung(cc),...cc.warnungen,...cc.gruende].some(t=>/Klebereiweiß|Stärke/.test(t)),'Kastenkuchen 1 : 4 Mehl : Stärke meldet Klebereiweiß/Stärke weiterhin');}
 ok(korpusMeldung(compute(st('muffin',{struktur:mix(1,1)}),data,ks)).some(t=>/Klebereiweiß/.test(t)),'T43: Muffin mit 1 : 1 Mehl : Stärke meldet Klebereiweiß weiterhin');
 // Synthetic Grenzen-Test
 const { grenzenPruefen, bilanz, toleranz } = await import(P+'model/bilanz.js');

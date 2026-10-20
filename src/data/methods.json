@@ -3,6 +3,7 @@
     "sequenz": "geordnete Liste; Einträge sind entweder ein String (Operations-Schlüssel aus operations.json, für mehrfach genutzte Operationen) oder ein Objekt (Operation inline definiert, für methodenspezifische Einzelfälle — gleiche Feldstruktur wie ein operations.json-Eintrag, plus `key` als Bezeichner). Die Engine prüft Voraussetzungen in beiden Fällen gleich.",
     "optional": "Operationen (per Schlüssel), die nur ausgeführt werden, wenn die zugehörige Rolle belegt ist (z. B. einlage)",
     "nach": "optional: Abhängigkeiten je Schritt {key: [Vorgänger-keys]} (T38, Ablauf als Graph). Nur physikalisch erzwungene Reihenfolgen eintragen. [] = Startschritt ohne Vorgänger (frei parallel). Fehlt ein key, gilt der letzte vorhandene Schritt als Vorgänger, der nicht selbst Startschritt ist (lineares Standardverhalten). Nicht vorhandene Vorgänger (übersprungene optionale Schritte) werden ignoriert.",
+    "lockert": "optional (DR-046): Rollen, die mit dieser Methode keine Pflicht sind (Schaummasse: der Trieb kommt aus dem Eischaum, Backpulver darf fehlen).",
     "techniken": "optional (DR-041): Techniken aus techniken.json, die zu dieser Methode passen (Eier getrennt); eingeschaltet baut die Engine die Schritte um.",
     "orte": "optional (DR-038): {opKey: ort} legt den Arbeitsplatz (orte.json) eines Schritts für diese Methode fest, wenn er vom `ort` der Operation abweicht (Muffin: Flüssiges in einer zweiten Schüssel).",
     "zeiten": "optional (DR-024/T44): {opKey: minuten} legt den Wert einer Operation mit Zeit-Fenster fest (z. B. {\"gehen\": 720} für die lange kalte Führung). Liegt er außerhalb des Fensters, meldet die Engine den unter_min-/ueber_max-Text der Operation. Mischformen (kurz kneten, lange ruhen) sind eigene Methoden, keine ODER-Logik.",
@@ -31,7 +32,7 @@
           { "rolle": "fett", "eigenschaft": "cremig_schlagbar", "wert": true, "strenge": "hart", "id": "fett_muss_cremig_fuer_aufschlagen" }
         ],
         "wirkung": "Zuckerkristalle reißen Luftbläschen in das plastische Fett. Diese Luft ist der erste Trieb und macht die Krume fein und gleichmäßig. Masse wird hell und voluminös.",
-        "risiko": "Fett zu kalt (bröselig) oder zu warm (ölig) → keine Luft. Ideal 18–22 °C, 3–5 Minuten.",
+        "risiko": "Fett zu kalt (bröselig) oder zu warm (ölig, ab etwa 24 °C) → keine Luft. Ideal 18–22 °C (manche Quellen starten bei 16 °C, weil das Schlagen die Butter erwärmt), 3–5 Minuten auf mittlerer Stufe — zu schnell zerstört die Luftzellen.",
         "dauer_min": 4
       },
       {
@@ -46,8 +47,8 @@
         "variante": "einzeln einrühren",
         "auf": ["bindung"],
         "voraussetzung": [],
-        "wirkung": "Ei-Lecithin emulgiert Wasser (Ei) in Fett. Einzeln zugeben hält die Emulsion stabil.",
-        "risiko": "Alle Eier auf einmal → Emulsion bricht, Masse gerinnt/wird flockig.",
+        "wirkung": "Ei-Lecithin emulgiert Wasser (Ei) in Fett: das Fett bleibt die durchgehende Phase (Wasser in Fett), das Eigelb-Fett umhüllt die eingeschlagenen Luftzellen. Einzeln zugeben hält die Emulsion stabil, weil die umhüllten Zellen nur begrenzt Flüssigkeit aufnehmen.",
+        "risiko": "Alle Eier auf einmal, kalte Eier oder zu viel Flüssigkeit → Emulsion bricht, Masse gerinnt/wird flockig, die Krume wird grob. Rettung: 1–2 EL vom Mehl einrühren; Eier vorher auf Zimmertemperatur bringen.",
         "dauer_min": 2
       },
       "unterheben_abwechselnd",
@@ -126,7 +127,21 @@
         "wirkung": "Eiprotein hält Luft, Zucker stabilisiert den Schaum. Ersetzt teilweise die Luft, die bei Öl-Teigen nicht ins Fett geschlagen werden kann.",
         "dauer_min": 3
       },
-      "verquirlen",
+      {
+        "key": "oel_einlaufen",
+        "label": "Öl langsam einlaufen lassen",
+        "aktion": "Einlaufen", "ort": "schuessel",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "kraeftig",
+        "variante": "in dünnem Strahl einlaufen lassen",
+        "auf": ["fett"],
+        "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fluessig", "strenge": "hart", "id": "fett_muss_fluessig_fuer_verquirlen" }],
+        "vorbereitung_falls_nicht": "schmelzen",
+        "wirkung": "Bei laufendem Rührgerät das Fett in dünnem Strahl in den Eischaum: es verteilt sich in feinen Tröpfchen, das Wasser des Eis bleibt die durchgehende Phase (Öl in Wasser, wie bei einer Mayonnaise), der Schaum bleibt stehen. Die Rezepte nennen nur die Regel, die Begründung kommt aus der Emulsionsphysik (QUELLEN.md 2026-10-20).",
+        "risiko": "Öl zu schnell oder auf einmal → große Tropfen, der Schaum fällt zusammen, der Kuchen wird dicht.",
+        "dauer_min": 2
+      },
       "unterheben_abwechselnd",
       "einlage_unterheben",
       "fuellen",
@@ -139,6 +154,70 @@
     "triebquelle": "Eischaum + Backpulver",
     "geeignet_fuer": ["kastenform", "gugelhupfform", "springform", "muffinform"],
     "warum": "Die Öl-Antwort auf die Crememethode: Da Öl keine Luft hält, wird die Luft über Eier + Zucker eingeschlagen."
+  },
+  "schaummasse": {
+    "label": "Schaummasse, Butter zuletzt",
+    "kurz": "Eier + Zucker warm aufschlagen → Mehl unterheben → flüssige Butter zuletzt",
+    "sequenz": [
+      "einlegen",
+      {
+        "key": "ei_zucker_warm",
+        "label": "Eier + Zucker warm aufschlagen",
+        "teil_label": { "eigelb": "Eigelb + Zucker warm aufschlagen" },
+        "aktion": "Aufschlagen", "ort": "schuessel",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "kraeftig",
+        "variante": "warm, dann kalt aufschlagen",
+        "temperatur": { "min": 38, "max": 45 },
+        "auf": ["bindung", "suesse"],
+        "voraussetzung": [],
+        "wirkung": "Über dem warmen Wasserbad auf etwa 40 °C aufschlagen: der Zucker löst sich, die Eiproteine entfalten sich, der Schaum erreicht sein größtes Volumen; danach kalt weiterschlagen, bis die Masse abgekühlt und dick ist. Die Luft dieses Schaums ist der Trieb (Wasser ist die durchgehende Phase).",
+        "risiko": "Über etwa 60 °C stockt das Ei; zu kurz geschlagen → der Schaum trägt Mehl und Butter nicht.",
+        "dauer_min": 10
+      },
+      {
+        "key": "mehl_unterheben",
+        "label": "Mehl locker unterheben",
+        "aktion": "Unterheben", "ort": "schuessel",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "sanft",
+        "zusatzverben": ["sieben"],
+        "variante": "in Portionen unterheben",
+        "auf": ["struktur", "trieb"],
+        "voraussetzung": [],
+        "wirkung": "Gesiebtes Mehl (oft mit Stärke) in Portionen mit dem Teigschaber unterheben, nicht rühren: das Mehl bindet, der Schaum bleibt stehen.",
+        "risiko": "Gerührt statt gehoben → der Schaum fällt, die Krume wird fest und flach.",
+        "dauer_min": 2
+      },
+      {
+        "key": "butter_zuletzt",
+        "label": "Flüssige Butter zuletzt unterheben",
+        "aktion": "Unterheben", "ort": "schuessel",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "sanft",
+        "variante": "temperiert unterheben",
+        "auf": ["fett"],
+        "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fluessig", "strenge": "hart", "id": "fett_muss_fluessig_fuer_butter_zuletzt" }],
+        "vorbereitung_falls_nicht": "schmelzen",
+        "wirkung": "Die zerlassene, nur noch lauwarme Butter erst mit etwas Masse verrühren (temperieren), dann zügig unterheben: so verteilt sie sich, ohne den Schaum zu zerstören.",
+        "risiko": "Heiße Butter oder alles auf einmal → das Fett verdrängt die Eiproteine von den Luftbläschen, der Schaum fällt; kalte Butter wird wieder fest und drückt die Masse zusammen.",
+        "dauer_min": 2
+      },
+      "einlage_unterheben",
+      "fuellen",
+      "backen"
+    ],
+    "techniken": ["eier_getrennt"],
+    "lockert": ["trieb"],
+    "optional": ["einlegen", "einlage_unterheben"],
+    "nach": {"einlegen": [], "einlage_unterheben": ["butter_zuletzt", "einlegen"]},
+    "textur": "fein, locker, eher trocken (Sandkuchen-Art)",
+    "triebquelle": "Eischaum (warm aufgeschlagen); wenig oder kein Backpulver",
+    "geeignet_fuer": ["kastenform", "gugelhupfform", "springform"],
+    "warum": "Umgekehrte Reihenfolge zur Crememethode: die Luft kommt aus dem Eischaum, nicht aus dem Fett; die Butter kommt flüssig zuletzt und darf den Schaum nicht zerstören (Wiener Masse, Sandmasse). Auch mit Öl möglich."
   },
   "allinone": {
     "label": "All-in-one",

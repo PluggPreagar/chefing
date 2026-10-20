@@ -27,7 +27,7 @@
       "trieb_richtwert": 3,
       "kommentar": "Je höher Fett- und Zuckeranteil, desto dichter und saftiger. Muffins liegen bewusst unter 'leicht' beim Fett und weit darüber bei der Flüssigkeit."
     },
-    "methoden": ["creme", "ruehroel", "muffin", "allinone"],
+    "methoden": ["creme", "ruehroel", "schaummasse", "muffin", "allinone"],
     "gefaesse": ["kastenform_25", "kastenform_30", "gugelhupfform_22", "gugelhupfform_26", "muffinform_12"],
     "varianten": {
       "kastenkuchen": { "label": "Rührkuchen (Kastenform)", "techniken": { "eier_getrennt": "moeglich" }, "kurz": "Rührkuchen", "gefaess": "kastenform_25",    "korpus": "kastenkuchen", "bestof": { "fett": "butter",      "fluessigkeit": "milch",  "trieb": "backpulver", "aroma": "vanillezucker", "einlage": null } },

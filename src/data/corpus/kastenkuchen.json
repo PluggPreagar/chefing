@@ -245,7 +245,7 @@
     },
     "notizen": "Kastenform ohne Größenangabe. Pound-Cake-Typ: gleiche Teile Mehl/Zucker/Butter (220 g), ohne Backpulver und ohne Flüssigkeit; Staubzucker statt Kristallzucker.",
     "qualitaet": 4,
-    "qualitaet_grund": "Seite 4,3★ (129 Stimmen) ±0 · Ausreißer bei Triebkraft (Backpulver-Äq.) −0,5"
+    "qualitaet_grund": "Seite 4,3★ (129 Stimmen) ±0"
   },
   {
     "id": "familienkost-ruehrkuchen-grundrezept",
@@ -1372,5 +1372,364 @@
     "notizen": "Sehr große Teigmenge (500 g Mehl, 250 g Butter); laut Kommentaren passt sie nur in eine 30-cm-Form (2/3 gefüllt) und die Mitte war teils noch roh. Blog ohne Bewertungen; Schokoglasur nicht erfasst.",
     "qualitaet": 4,
     "qualitaet_grund": "keine Seitenwertung · Blog-Quelle −0,5"
+  },
+  {
+    "id": "lecker-sandkuchen-mit-ganzen-eiern",
+    "titel": "Sandkuchen mit ganzen Eiern",
+    "quelle": {
+      "url": "https://www.lecker.de/sandkuchen-mit-ganzen-eiern-28399.html",
+      "site": "lecker.de",
+      "bewertung": 3.6,
+      "anzahlBewertungen": 9
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_30",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 7,
+        "einheit": "stk",
+        "original": "6 Eier + 4 Eigelb (Gr. M)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "geriebene Zitronenschale"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 180,
+        "einheit": "g",
+        "original": "180 g Mehl"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "speisestaerke",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g Speisestärke"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Butter oder Margarine"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "kakao",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Kakaopulver (Marmorteil)"
+      }
+    ],
+    "methode": "schaummasse",
+    "ablauf": [
+      "Eier, Eigelbe, Zucker, Salz und Zitronenschale über dem heißen Wasserbad aufschlagen, dann kalt weiterschlagen",
+      "Mehl und Stärke darübersieben und unterheben",
+      "Fett schmelzen und flüssig unterziehen",
+      "Ein Drittel mit Kakao färben, beide Teige in die Form und marmorieren",
+      "Backen, nach etwa 15 Min. oben einschneiden; in der Form ruhen lassen, stürzen"
+    ],
+    "backen": {
+      "tempOU": 175,
+      "tempUmluft": 155,
+      "minuten": 55,
+      "original": "E-Herd 175 °C, Gas Stufe 2, 50–60 Min."
+    },
+    "notizen": "Kastenform 30 cm (2 l). Die Seite nennt 10 Eier, davon 4 getrennt; nur die Eigelbe kommen in den Teig, wofür das Eiweiß gedacht ist, sagt die Seite nicht. Hier als ≈ 7 Eier (Masse: 6 ganze + 4 Eigelb) eingetragen. Kein Backpulver: Trieb allein aus dem warm aufgeschlagenen Eischaum. Sahne/Likör zum Servieren nicht aufgenommen. Umluft aus E-Herd −20 °C abgeleitet.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 3,6★ (9 Stimmen) ±0"
+  },
+  {
+    "id": "rezeptschachtel-sandkuchen",
+    "titel": "Sandkuchen Rezept",
+    "quelle": {
+      "url": "https://www.rezeptschachtel.de/sandkuchen_rezept.html",
+      "site": "rezeptschachtel.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_30",
+    "zutaten": [
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pck. Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 0.5,
+        "einheit": "stk",
+        "original": "Schale einer halben Zitrone"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 flüssige Butter (ohne Einheit)"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Mehl"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "speisestaerke",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Speisestärke"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Backpulver"
+      }
+    ],
+    "methode": "schaummasse",
+    "ablauf": [
+      "Eier mit Zucker und Aromen über dem warmen Wasserbad lauwarm schlagen, dann kalt schlagen (zusammen mindestens 8–10 Min.)",
+      "Butter schmelzen, nur flüssig, nicht heiß",
+      "Mehl, Stärke und Backpulver darübersieben und mit dem Holzlöffel unterheben",
+      "Flüssige Butter zuletzt einarbeiten",
+      "Form höchstens zu drei Vierteln füllen und backen"
+    ],
+    "backen": {
+      "tempOU": 190,
+      "tempUmluft": 175,
+      "minuten": 40,
+      "original": "Ober-/Unterhitze 190 °C, Umluft 175 °C, etwa 40 Min."
+    },
+    "notizen": "Kastenform 30 cm. Butter „150“ ohne Einheit, als Gramm gelesen. Wenig Backpulver (1 TL), Trieb überwiegend aus dem Eischaum. Puderzucker zum Bestäuben nicht aufgenommen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
+  },
+  {
+    "id": "orf-schmeckt-perfekt-zitronensandkuchen",
+    "titel": "Zitronensandkuchen mit Heidelbeeren",
+    "quelle": {
+      "url": "https://extra.orf.at/rezepte/schmeckt-perfekt/rezept-zitronensandkuchen-heidelbeeren100.pdf",
+      "site": "orf.at",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_unbekannt",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier (Gr. L; 220 g)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 22,
+        "einheit": "g",
+        "original": "22 g Abrieb von Bio-Zitronen"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 10,
+        "einheit": "g",
+        "original": "10 g echter Vanillezucker"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "puderzucker",
+        "menge": 210,
+        "einheit": "g",
+        "original": "210 g Staubzucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "Prise Salz"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "speisestaerke",
+        "menge": 110,
+        "einheit": "g",
+        "original": "110 g Stärkemehl"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 110,
+        "einheit": "g",
+        "original": "110 g Mehl (Type 480)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 4,
+        "einheit": "g",
+        "original": "4 g Backpulver"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 210,
+        "einheit": "g",
+        "original": "210 g flüssige Butter (45 °C)"
+      }
+    ],
+    "methode": "schaummasse",
+    "ablauf": [
+      "Form buttern und bemehlen; Mehl, Stärke und Backpulver sieben",
+      "Eier mit Zucker, Vanille, Zitrone und Salz schaumig schlagen",
+      "Mehlmischung unterheben",
+      "Flüssige Butter (45 °C) zuletzt einarbeiten",
+      "Kurz heiß anbacken, Oberfläche längs einritzen, Hitze senken und fertig backen"
+    ],
+    "backen": {
+      "tempOU": 170,
+      "tempUmluft": 150,
+      "minuten": 45,
+      "original": "Heißluft 180 °C für 5–10 Min., dann 150 °C, zusammen 40–50 Min."
+    },
+    "notizen": "Österreichisch (Eveline Wild). Kastenform ohne Größe. Eier Gr. L mit 220 g angegeben. Nicht warm aufgeschlagen, nur schaumig; Butter mit genauer Temperatur 45 °C. Backen in zwei Stufen, hier die Hauptstufe 150 °C Heißluft (O/U ≈ +20 °C). Heidelbeer-Obers als Belag nicht aufgenommen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
+  },
+  {
+    "id": "unsereheimat-sandkuchen",
+    "titel": "Sandkuchen",
+    "quelle": {
+      "url": "https://www.unsereheimat.de/rezept/sandkuchen/",
+      "site": "unsereheimat.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_unbekannt",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 5,
+        "einheit": "stk",
+        "original": "5 Eier"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 0.5,
+        "einheit": "stk",
+        "original": "Schale einer halben unbehandelten Zitrone"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Msp. Salz"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Weizenmehl"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "speisestaerke",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Speisestärke"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 170,
+        "einheit": "g",
+        "original": "170 g Butter"
+      }
+    ],
+    "methode": "schaummasse",
+    "ablauf": [
+      "Form mit Backpapier auslegen",
+      "Eier, Zucker, Vanillemark, Zitronenschale und Salz über dem heißen Wasserbad warm schlagen, dann kalt schlagen",
+      "Mehl und Stärke sieben und unterheben",
+      "Geschmolzene Butter warm, nicht heiß, zuletzt unterziehen",
+      "Einfüllen und backen, Stäbchenprobe"
+    ],
+    "backen": {
+      "tempOU": 190,
+      "tempUmluft": 170,
+      "minuten": 42,
+      "original": "Ober-/Unterhitze 190 °C, Umluft 170 °C, 40–45 Min."
+    },
+    "notizen": "Marke von EDEKA Südwest. Kastenform ohne Größe. Kein Backpulver: Trieb allein aus dem Eischaum. ½ Vanilleschote nicht als Zutat aufgenommen (kein Schlüssel); „1 Msp. Salz“ als Prise.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung"
   }
 ]

@@ -20,7 +20,9 @@
       "quellen": [
         { "url": "https://www.kuechenfibel.de/faq/was-tun-wenn-die-butter-flockt", "site": "kuechenfibel.de" },
         { "url": "https://www.kingarthurbaking.com/blog/2022/01/25/do-eggs-used-in-baking-really-need-to-be-at-room-temperature", "site": "kingarthurbaking.com" },
-        { "url": "https://www.chowhound.com/1985654/why-cake-batter-curdled-temperature-mistake", "site": "chowhound.com" }
+        { "url": "https://www.chowhound.com/1985654/why-cake-batter-curdled-temperature-mistake", "site": "chowhound.com" },
+        { "url": "https://www.kingarthurbaking.com/blog/2021/08/11/preventing-curdled-cake-batter-emulsions", "site": "kingarthurbaking.com" },
+        { "url": "https://www.bakeinfo.co.nz/facts/flour-based-products/cakes/creaming-method", "site": "bakeinfo.co.nz" }
       ],
       "evidenz": 3,
       "modell": { "stand": "teilweise", "durch": ["eigenschaft:cremig_schlagbar", "operation:eier_einzeln"], "luecke": "Butter-Temperatur ist seit T62 abgedeckt; Eier haben keine Temperatur-Eigenschaft, und „Eier zu schnell“ ist ein Prozessfehler ohne Prüfung" }
