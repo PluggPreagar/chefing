@@ -170,7 +170,7 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .k-schritt { color: var(--muted); font-size: 12px; }
 .k-was { color: var(--muted); }
 .k-risiko .k-was { color: var(--warn); }
-.k-emulsion { font-size: 12px; }
+.k-emulsion, .k-gas { font-size: 12px; }
 .k-emulsion.ist-problem { color: var(--warn); }
 .strom-fuss { font-size: 11px; color: var(--muted); margin: 6px 0 0 52px; }
 

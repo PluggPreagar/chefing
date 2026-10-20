@@ -2,7 +2,7 @@ import { fromGrams } from './units.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt, wirksameTechniken } from './rules.js';
 import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
 import { emulsionsVerlauf } from './emulsion.js';
-import { triebQuellen } from './trieb.js';
+import { triebQuellen, gasBudget } from './trieb.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
 import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, basisLuecke, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
@@ -71,7 +71,7 @@ export function compute(state, data, korpusStats) {
     const leer = (t.lockert || []).filter((r) => !state.zutaten[r]?.length);
     technikHinweise.push(leer.length
       ? `${t.label}: der Trieb kommt allein aus dem Eischnee — kräftig steif schlagen, vorsichtig unterheben und sofort backen. Das trägt nur eierreiche Teige (etwa 2 Eier und mehr auf 100 g Mehl).`
-      : `${t.label}: der Eischnee lockert zusätzlich zum ${arch.rollen.find((r) => r.rolle === t.lockert[0])?.label ?? 'Trieb'}; wer ihn dafür verringert, muss den Schnee besonders vorsichtig unterheben.`);
+      : `${t.label}: der Eischnee lockert zusätzlich zum ${data.ingredients[state.zutaten[t.lockert[0]][0].zutat]?.label ?? 'Trieb'} und ersetzt es nicht — Rezepte mit getrennten Eiern nehmen kaum weniger (Median 2,7 statt 3,0 g Backpulver je 100 g Mehl). Der Schnee bringt mehr Luftbläschen, in die das CO₂ beim Backen wandert.`);
   }
   // Mengen aus den Rezepten dieser Methode, wenn es welche gibt (T48); Backzeit, Toleranz-Vergleich und
   // Öl-Deckung bleiben auf der ganzen Variante (Gefäß bzw. „was der Korpus überhaupt kennt“).
@@ -337,6 +337,15 @@ export function compute(state, data, korpusStats) {
   for (const r of Object.keys(props)) if (props[r] && !imAblauf.has(r)) mitMehl?.zutaten.push({ rolle: r, label: props[r].kurzlabel, kategorie: props[r].kategorie, gramm: grammVon(r) });
   // Triebquellen (T80, DR-049): Zeile „Volumen aus …“ und Warnung, wenn ein Gas bis zum Erhitzen nicht hält
   const trieb = triebQuellen(ablauf, res.schritte.map((s) => s.op), props, data.triebquellen);
+  // Gas-Budget (T82, DR-050): Gas je 100 g Teig je Schritt bis zum Erhitzen, Schätzung ohne Dampf
+  const gas = gasBudget(ablauf, res.schritte.map((s) => s.op), props, data.triebquellen, { gramm: grammVon, teigmasse });
+  gas?.proSchritt.forEach((g, i) => { ablauf[i].gas = g; });
+  // T72 (A): wenig oder kein Backpulver haben nur eierreiche Teige ohne Milch (Sandkuchen, Soufflé-Pancakes, Kaiserschmarrn)
+  const mehl = grammVon('struktur');
+  const eierJe100 = mehl && props.bindung?.umrechnung?.stk ? (grammVon('bindung') / props.bindung.umrechnung.stk / mehl) * 100 : 0;
+  if (technikIds.includes('technik:eier_getrennt') && eierJe100 >= 2.5 && grammVon('fluessigkeit') < 0.2 * mehl && state.zutaten.trieb?.length) {
+    technikHinweise.push(`Eierreicher Teig ohne viel Milch (${fmtProzent(eierJe100)} Eier je 100 g Mehl) mit Eischnee: solche Rezepte kommen mit wenig oder ganz ohne Backpulver aus (Sandkuchen, Soufflé-Pancakes, Kaiserschmarrn).`);
+  }
 
   // Alle Regeln, die dem Nutzer etwas gesagt haben (Grenzen, Voraussetzungen, Zeit-Fenster, Gärmodell, eingefügte
   // Vorbereitung, Korpus-Toleranz) — jede ist eine Vorhersage; Rückmeldungen („hat es geklappt?“, T53) etikettieren sie.
@@ -368,6 +377,7 @@ export function compute(state, data, korpusStats) {
     warnungen: [...res.warnungen, ...technikWarnungen, ...emulsionsWarnungen.map((w) => w.text), ...trieb.warnungen.map((w) => w.text), ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
     zeit: zeitleiste(ablauf),
     trieb: { zeile: trieb.zeile, quellen: trieb.quellen },
+    gas: gas ? { gesamt: gas.gesamt, anteile: gas.anteile, zeile: gas.zeile } : null,
     gaerung: gaerungAktiv ? gaerungErgebnis({ gare: gare.summe, hefeBp: bpZiel[modell.rolle].bp, gareTemp, gareTempText, mindest: gareMindest, berechnet: !stM, pruefung: gaerPruefung }, modell) : null,
     toleranzHinweise,
     bilanz: bilanzZeilen,

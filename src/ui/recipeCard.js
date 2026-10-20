@@ -25,6 +25,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   }
   root.append(meta);
   if (computed.trieb?.zeile) root.append(el('p', 'trieb-zeile', computed.trieb.zeile)); // Triebquellen (T80, DR-049)
+  if (computed.gas?.zeile) root.append(el('p', 'trieb-zeile', computed.gas.zeile)); // Gas-Budget (T82, DR-050)
 
   for (const g of computed.gruende) root.append(el('p', 'note note-bad', g));
   // Kaskaden-Vorschlag (DR-019/T27): zeigt den in T26 berechneten Ersatzkandidaten mit

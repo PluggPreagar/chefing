@@ -245,3 +245,40 @@ chefkoch.de (blockiert) und edeka.de (403) nicht abrufbar.
 | 2026-10-20 | leinetal24.de | 1 | Mineralwasser im Pfannkuchenteig | sofort ausbacken möglich; Kohlensäure lockert |
 
 Ergebnis: keine Messwerte in Minuten für Eischnee und Mineralwasser, nur „sofort“/„kurz vor dem Ausbacken“ → Richtwerte 10 Min. (Eischnee, Ei-Schaum, Mineralwasser), 15 Min. (Natron + Säure), 180 Min. (Backpulver) als Heuristik in `triebquellen.json`.
+
+## 2026-10-20 — Rezepte mit getrennten Eiern: Backpulver mit/ohne Eischnee (T72 + T82, Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | gutekueche.de | 2 | Rührkuchen getrennt | Marmorkuchen (6 g BP/100 g Mehl), Rührteig-Grundrezept (3,0) |
+| 2026-10-20 | gutekueche.at | 1 | Gugelhupf | ausgeschlossen: ohne Fett (Biskuit) |
+| 2026-10-20 | lieblingszwei.de, makeitsweet.de, einfach-lecker.com, fackelmann.de | je 1 | Marmorkuchen getrennt | 6,0 / 2,7 / 3,2 / 2,7 g BP je 100 g Mehl |
+| 2026-10-20 | f-pieper.de | 1 | Rührteig ganz vs. getrennt, Teekuchen | gleiche Backpulvermenge (3,0) in beiden Varianten |
+| 2026-10-20 | diamant-zucker.de, essen-und-trinken.de, backen-mit-spass.de | je 1 | Feiner Rührkuchen, Sandkuchen getrennt | 0,8 / 0,4 / 0 g BP je 100 g Mehl+Stärke, ohne Milch |
+| 2026-10-20 | smittenkitchen.com, bakeomaniac.com | je 1 | Pound Cake / Butter Cake getrennt (EN) | 1,5 / 1,6 |
+| 2026-10-20 | einfachkochen.de, sheepysbakery.de, kuechengoetter.de | 1 / 2 / 1 | Vergleich ganze Eier, Pancakes | 3,0 / 5,0 / 1,6; Pancakes getrennt 5,0 |
+| 2026-10-20 | eat.de | 2 | Pfannkuchen ganz, Kaiserschmarrn getrennt | 3,1 / 2,3 |
+| 2026-10-20 | topfgartenwelt.com, bakedbybabsi.at, thefoodiebunch.com, bakerbettie.com | je 1 | Pfannkuchen/Pancakes mit Eischnee | 2,5 (30 Min. Ruhe nach dem Unterheben) / 2,0 / 4,3 / 0 (Soufflé) |
+| 2026-10-20 | crumbs-crust.de, glatzkoch.de | je 1 | Kaiserschmarrn mit Eischnee | 0 („klassisch ohne Backpulver“) / 10,0 |
+| 2026-10-20 | ichkoche.at, tirol.at | 2 / 1 | Kaiserschmarrn, Marmorgugelhupf | ohne verwertbare Mengen, nicht genutzt |
+| 2026-10-20 | allrecipes.com | 1 | US-Pancakes ganze Eier | Abruf fehlgeschlagen |
+
+Ergebnis (22 Rezepte, Umrechnung 1 Pck. = 15 g, 1 TL = 4 g): Rührkuchen mit getrennten Eiern Median **2,7 g** Backpulver je 100 g Mehl (0–6,0, n = 13) gegen **3,0 g** mit ganzen Eiern — Trennen allein senkt das Backpulver kaum. Wenig oder kein Backpulver haben eierreiche Teige ohne Milch (Sandkuchen, Pound Cake, 1:1:1) sowie Soufflé-Pancakes und klassischer Kaiserschmarrn (ab etwa 2,5 Eiern je 100 g Mehl). Eischnee kommt in 18 von 21 Rezepten zuletzt. Muster: Backpulver sinkt mit **Eiern je Mehl** und fehlender Milch, nicht mit dem Trennen.
+
+## 2026-10-20 — Zahlen für den Teig-Zustand: Gas, Luft, Verlust, Ofen (T72 + T82, Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | lebensmittelverband.de | 2 (PDF) | Richtlinie Backtriebmittel | Backpulver je 500 g Mehl frisch 2,35–3,0 g wirksames CO₂, zum MHD mind. 2,0 g |
+| 2026-10-20 | en.wikipedia.org | 2 | Baking powder, Sodium bicarbonate | MCP ~2/3 Gas in 2 Min., Rest über 60 °C; Neutralisationswerte; NaHCO₃ zerfällt ab ~50 °C, ohne Säure nur halbe Menge CO₂ |
+| 2026-10-20 | pmc.ncbi.nlm.nih.gov | 1 | Studie Pound Cake, SAPP-Sorten | SAPP-Nummer ≈ % CO₂ beim Mischen (10/28/40); Luftzellen sind Keime, CO₂ wandert hinein; bestes Volumen bei 2,75 % Backpulver vom Mehl |
+| 2026-10-20 | bakerpedia.com | 2 | SALP, Teig-Dichte | SALP ab 40–43 °C, 60–70 % im Ofen; Dichte Pound 0,80, Rührkuchen 0,70, Biskuit 0,50, Angel Food 0,30 |
+| 2026-10-20 | asbe.org | 1 | Biskuit warm/kalt | warm (43 °C) Dichte 0,4–0,6, kalt 0,6–0,9; Krume am Ende 95 °C |
+| 2026-10-20 | ahperformance.com | 1 (PDF) | Reaktionsrate Säureträger | MCP 60–70 % beim Mischen |
+| 2026-10-20 | kingarthurbaking.com, craftybaking.com, joyofbaking.com | je 1 | Vollei-Schaum | Eier + Zucker bis zur Bandprobe ≈ 3-faches Volumen; warm 43–49 °C |
+| 2026-10-20 | mro.massey.ac.nz, mspace.lib.umanitoba.ca | je 1 | Eiweiß-Schaum (Thesen) | keine verwertbaren Zahlen (bzw. Scan unlesbar) |
+| 2026-10-20 | bakingbusiness.com, bakersjournal.com, ingredion.com, localfood.ces.ncsu.edu | je 1–2 | Reaktionsraten, Biskuit-Dichte | Abruf gesperrt/fehlgeschlagen; Werte nur aus Suchtreffer-Auszügen (SAPP 21–43 % beim Mischen; Dichte steigt beim Unterheben 0,4–0,5 → 0,5–0,65) |
+
+Nur aus Suchtreffer-Auszügen, nicht geöffnet (vor Nutzung prüfen): lirias.kuleuven.be, image-ppubs.uspto.gov (3 Patente: Creme-Dichte 0,94 → 0,77 in 15 Min., Eischnee bis Dichte 0,1, Stückgare ≈ 200 ml CO₂ je 100 g Teig), thefreshloaf.com, slaw.ca (Eiweiß stockt 61–65 / 80–84 °C, Eigelb 65–70 °C), selters.de und test.de (Mineralwasser 7–8 g/l CO₂ klassisch, 4–5,5 medium), annex.exploratorium.edu, americastestkitchen.com, kvcv.be, britannica.com, app.ckbk.com, thecakeblog.com, thetakeout.com, koreascience.kr, scribd.com.
+
+Ergebnis: belegt sind Gasmengen (Backpulver, Natron, Mineralwasser), Luft je Methode als Teig-Dichte und die Stock-Temperaturen. **Nicht gefunden:** Zerfallszeiten von Eischnee und Ei-Schaum, CO₂-Verlust im ruhenden Teig, Verlust beim Unterheben in % (nur indirekt 20–30 % über die Dichte), Anteil von Dampf am Kuchenvolumen, ein gemessener Vergleich Eischnee ↔ Backpulver. Die Temperatur „2. Stoß ab etwa 60 °C“ gilt für MCP; SAPP (übliches deutsches Backpulver) wirkt „überwiegend bei Backtemperatur“, SALP ab 40–43 °C.

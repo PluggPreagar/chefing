@@ -134,7 +134,7 @@ ok(akt('glatt_ruehren').neu.some((x) => x.label === 'Eigelb' && x.icon === 'eige
 ({ c, M } = rechne('ruehrteig', 'kastenkuchen', 'creme', {}, G));
 ok(c.status !== 'invalid' && c.ablauf.find((s) => s.key === 'eier_einzeln').label === 'Eigelb einzeln einrühren' && akt('eier_einzeln').zufluss?.ort.key === 'tasse', 'Crememethode + Eier getrennt: Trennen mündet ins Einrühren („Eigelb einzeln einrühren“)');
 ok(M.plan.start[iVon('eischnee_schlagen')] >= M.plan.aktivEnde[iVon('unterheben_abwechselnd')] - 0.01 && M.plan.start[iVon('eischnee_unterheben')] < M.plan.start[iVon('fuellen')], 'Eischnee erst nach dem Unterrühren (frisch), vor dem Einfüllen');
-ok(c.regelIds.includes('technik:eier_getrennt') && c.anpassungen.some((a) => /lockert zusätzlich zum Trieb/.test(a)), 'Mit Backpulver: Hinweis „lockert zusätzlich“, Regel-Id für Rückmeldungen');
+ok(c.regelIds.includes('technik:eier_getrennt') && c.anpassungen.some((a) => /lockert zusätzlich zum Backpulver/.test(a)), 'Mit Backpulver: Hinweis „lockert zusätzlich“, Regel-Id für Rückmeldungen');
 ({ c, M } = rechne('ruehrteig', 'gugelhupf', 'creme', { einlage: E('rosinen') }, G));
 ok(c.ablauf.find((s) => s.key === 'einlage_unterheben').nach.includes(c.ablauf.find((s) => s.key === 'eischnee_unterheben').nr) && M.plan.start[iVon('einlage_unterheben')] >= M.plan.aktivEnde[iVon('eischnee_unterheben')] - 0.01, 'Einlage kommt nach dem Eischnee (Kante mitgezogen)');
 ({ c, M } = rechne('ruehrteig', 'kastenkuchen', 'creme', { trieb: [] }, G));

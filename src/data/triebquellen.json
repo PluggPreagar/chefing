@@ -1,19 +1,29 @@
 {
   "_schema": {
-    "zweck": "Woher das Volumen kommt (T80, DR-049). Eine Triebquelle bringt Gas als Zutat mit (Mineralwasser), bildet es aus einer Zutat (Backpulver, Natron + Säure, Hefe) oder die Methode schlägt Luft ein (Butter-Creme, Ei-Schaum, Eischnee). Im Ofen dehnen Dampf und Wärme alle Bläschen weiter aus.",
+    "zweck": "Woher das Volumen kommt (T80, DR-049). Eine Triebquelle bringt Gas als Zutat mit (Mineralwasser), bildet es aus einer Zutat (Backpulver, Natron + Säure, Hefe) oder die Methode schlägt Luft ein (Butter-Creme, Ei-Schaum, Eischnee). Beim Erhitzen dehnen Dampf und Wärme alle Bläschen weiter aus.",
     "herkunft": "zutat (Gas aus der Zutat) | methode (eingeschlagene Luft)",
     "wann": "Zeitpunkt in Worten, erscheint in der Zeile „Volumen aus …“ im Rezept",
-    "haelt_min": "optional: Richtwert in Minuten, wie lange das Gas im fertigen Teig bleibt; dauert es länger vom Mischen bis zum Erhitzen, warnt der Ablauf („zügig backen“). Fehlt das Feld, gibt es keine Grenze (Butter-Creme hält, Hefe braucht die Wartezeit).",
+    "haelt_min": "optional: Richtwert in Minuten, wie lange das Gas im fertigen Teig bleibt; dauert es länger vom Mischen bis zum Erhitzen, warnt der Ablauf („zügig backen“). Im Gas-Budget (T82) gilt der Wert als Halbwertszeit (Annahme). Fehlt das Feld, gibt es keine Grenze (Butter-Creme hält, Hefe braucht die Wartezeit).",
     "tipp": "optional: was gegen die Warnung hilft",
     "zuordnung": "Zutaten nennen ihre Quelle in ingredients.json `triebquelle`; Schritte mit `phase` + `luft: true` (DR-047) sind luft_fett bzw. luft_wasser; ein Technik-Schritt nennt sie unter `triebquelle` (Eischnee).",
-    "quellen_log": "Richtwerte siehe docs/QUELLEN.md, 2026-10-20 (T80)"
+    "dichte": "Gas-Budget (T82): Teig-Dichte in g/ml am Ende des Mischens, wenn die Methode diese Luft einschlägt; ein Schritt kann sie mit `dichte` überschreiben. Luft je Teig = 1/dichte − 1/dichte_ohne_luft.",
+    "aufschlag": "Gas-Budget: Volumen-Faktor des Schaums (Eiweiß 6–8-fach); verlust_unterheben = Anteil der Luft, der beim Unterheben verloren geht.",
+    "co2_g_je_g": "Gas-Budget: wirksames CO₂ in g je g Zutat; anteil_mischen = Anteil, der schon beim Anrühren frei wird (Rest beim Erhitzen); rest_nach_ruehren = Anteil, der das Einrühren übersteht (Annahme).",
+    "ml_je_100g_teig": "Gas-Budget: CO₂ am Ende der Gare je 100 g Teig (Hefe)",
+    "quellen_log": "Zahlen und Richtwerte siehe docs/QUELLEN.md, 2026-10-20 (T80, T72 + T82)"
   },
-  "luft_fett": { "label": "Luft in der Butter-Creme", "herkunft": "methode", "wann": "beim Aufschlagen" },
-  "luft_wasser": { "label": "Luft im Ei-Schaum", "herkunft": "methode", "wann": "beim Aufschlagen", "haelt_min": 10, "tipp": "Den Schaum zuletzt fertig haben und sofort backen." },
-  "eischnee": { "label": "Luft im Eischnee", "herkunft": "methode", "wann": "beim Unterheben", "haelt_min": 10, "tipp": "Eischnee erst kurz vor dem Backen schlagen und unterheben." },
-  "mineralwasser": { "label": "Kohlensäure aus Mineralwasser", "herkunft": "zutat", "wann": "sofort, entweicht beim Stehen", "haelt_min": 10, "tipp": "Erst nach dem Ruhen unterrühren, kurz vor dem Ausbacken." },
-  "natron": { "label": "CO₂ aus Natron + Säure", "herkunft": "zutat", "wann": "sofort, sobald es feucht wird", "haelt_min": 15, "tipp": "Direkt nach dem Mischen backen." },
-  "backpulver": { "label": "CO₂ aus Backpulver", "herkunft": "zutat", "wann": "beim Anrühren + beim Erhitzen ab etwa 60 °C", "haelt_min": 180 },
-  "hefe": { "label": "CO₂ aus Hefe", "herkunft": "zutat", "wann": "in der Gare" },
+  "_modell": {
+    "dichte_ohne_luft": 1.2,
+    "ml_je_g_co2": 547,
+    "ausdehnung_erhitzen": 1.27,
+    "hinweis": "Annahmen (T82, DR-050): Teig ohne Luft ≈ 1,2 g/ml; 1 g CO₂ ≈ 547 ml bei 20 °C; Gas dehnt sich von 20 auf 100 °C um ×1,27 (Gasgesetz); Dampf ist nicht eingerechnet (für Kuchen keine Zahl gefunden)."
+  },
+  "luft_fett": { "label": "Luft in der Butter-Creme", "kurz": "Luft (Creme)", "herkunft": "methode", "wann": "beim Aufschlagen", "dichte": 0.75 },
+  "luft_wasser": { "label": "Luft im Ei-Schaum", "kurz": "Luft (Ei-Schaum)", "herkunft": "methode", "wann": "beim Aufschlagen", "dichte": 0.75, "haelt_min": 10, "tipp": "Den Schaum zuletzt fertig haben und sofort backen." },
+  "eischnee": { "label": "Luft im Eischnee", "kurz": "Luft (Eischnee)", "herkunft": "methode", "wann": "beim Unterheben", "aufschlag": 7, "verlust_unterheben": 0.25, "haelt_min": 10, "tipp": "Eischnee erst kurz vor dem Backen schlagen und unterheben." },
+  "mineralwasser": { "label": "Kohlensäure aus Mineralwasser", "kurz": "CO₂ (Mineralwasser)", "herkunft": "zutat", "wann": "sofort, entweicht beim Stehen", "co2_g_je_g": 0.0075, "anteil_mischen": 1, "rest_nach_ruehren": 0.5, "haelt_min": 10, "tipp": "Erst nach dem Ruhen unterrühren, kurz vor dem Ausbacken." },
+  "natron": { "label": "CO₂ aus Natron + Säure", "kurz": "CO₂ (Natron)", "herkunft": "zutat", "wann": "sofort, sobald es feucht wird", "co2_g_je_g": 0.52, "anteil_mischen": 1, "haelt_min": 15, "tipp": "Direkt nach dem Mischen backen." },
+  "backpulver": { "label": "CO₂ aus Backpulver", "kurz": "CO₂ (Backpulver)", "herkunft": "zutat", "wann": "ein Teil beim Anrühren, der größere beim Erhitzen", "co2_g_je_g": 0.17, "anteil_mischen": 0.3, "haelt_min": 180 },
+  "hefe": { "label": "CO₂ aus Hefe", "kurz": "CO₂ (Hefe)", "herkunft": "zutat", "wann": "in der Gare", "ml_je_100g_teig": 200 },
   "dampf": { "label": "Dampf", "herkunft": "zutat", "wann": "beim Erhitzen; dehnt alle Bläschen aus" }
 }

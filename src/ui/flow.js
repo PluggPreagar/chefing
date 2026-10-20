@@ -51,6 +51,7 @@ export function stromModell(steps, orte = {}, vessel = null) {
     label: orte[k]?.label ?? (k === 'gefaess' && vessel ? ohneKlammer(vessel.label) : k),
     icon: (k === 'gefaess' && orte[k]?.icon_familie?.[vessel?.familie]) || orte[k]?.icon || null,
     farbe: orte[k]?.farbe ?? 'misch',
+    neben: !!orte[k]?.neben,
   });
 
   // Zeilen in Zeitfolge: Aktionen (Handzeit > 0) und leere Slots dazwischen; Vorlauf vor der Startlinie
@@ -338,6 +339,11 @@ function karte(z, s, ctx) {
     const e = el('div', `k-emulsion${s.emulsion.problem ? ' ist-problem' : ''}`);
     e.append(el('span', 'k-was', 'Emulsion '), document.createTextNode(s.emulsion.text));
     k.append(e);
+  }
+  if (s.gas > 0 && !ortInfo.neben) { // T82: Gas-Budget der Hauptmasse; Nebenschüsseln zählen erst ab dem Zusammenführen
+    const g = el('div', 'k-gas');
+    g.append(el('span', 'k-was', 'Gas im Teig '), document.createTextNode(`≈ ${s.gas} ml je 100 g Teig${s.typ === 'erhitzen' ? ' beim Erhitzen' : ''} (Schätzung)`));
+    k.append(g);
   }
   const w = el('div', 'k-wirkung');
   w.append(el('span', 'k-was', 'Wirkung '), document.createTextNode(s.wirkung ?? ''));
