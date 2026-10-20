@@ -334,6 +334,11 @@ function karte(z, s, ctx) {
   const n = z.art === 'aktion' ? z.neu : [];
   if (n.length) k.append(el('div', 'k-zutaten', n.map((x) => x.label).join(', ')));
   k.append(el('div', 'k-schritt', `${s.nr}. ${s.label}${dauerText(s)}${s.eingefuegt ? ' · automatisch eingefügt' : ''}${parallelText(s, steps)}`));
+  if (s.emulsion) { // DR-047: welche Phase durchgehend ist und wie die andere dazukommt
+    const e = el('div', `k-emulsion${s.emulsion.problem ? ' ist-problem' : ''}`);
+    e.append(el('span', 'k-was', 'Emulsion '), document.createTextNode(s.emulsion.text));
+    k.append(e);
+  }
   const w = el('div', 'k-wirkung');
   w.append(el('span', 'k-was', 'Wirkung '), document.createTextNode(s.wirkung ?? ''));
   k.append(w);

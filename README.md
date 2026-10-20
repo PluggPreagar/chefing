@@ -24,7 +24,7 @@ Tests (Node ≥ 18, keine Abhängigkeiten):
 sh test/run.sh
 ```
 
-Jede Datei `test/*.check.mjs` ist eine eigene Suite (33 Suiten, rund 1030 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph, Ablauf-Strom sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
+Jede Datei `test/*.check.mjs` ist eine eigene Suite (34 Suiten, rund 1040 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph, Ablauf-Strom sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
 
 ```bash
 git config core.hooksPath .githooks

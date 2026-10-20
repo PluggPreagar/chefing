@@ -3,6 +3,8 @@
     "sequenz": "geordnete Liste; Einträge sind entweder ein String (Operations-Schlüssel aus operations.json, für mehrfach genutzte Operationen) oder ein Objekt (Operation inline definiert, für methodenspezifische Einzelfälle — gleiche Feldstruktur wie ein operations.json-Eintrag, plus `key` als Bezeichner). Die Engine prüft Voraussetzungen in beiden Fällen gleich.",
     "optional": "Operationen (per Schlüssel), die nur ausgeführt werden, wenn die zugehörige Rolle belegt ist (z. B. einlage)",
     "nach": "optional: Abhängigkeiten je Schritt {key: [Vorgänger-keys]} (T38, Ablauf als Graph). Nur physikalisch erzwungene Reihenfolgen eintragen. [] = Startschritt ohne Vorgänger (frei parallel). Fehlt ein key, gilt der letzte vorhandene Schritt als Vorgänger, der nicht selbst Startschritt ist (lineares Standardverhalten). Nicht vorhandene Vorgänger (übersprungene optionale Schritte) werden ignoriert.",
+    "phase": "Schritt-Feld (DR-047, T77): diese Aktion legt die Basis einer Emulsion an — fett (Butter + Zucker aufgeschlagen) oder wasser (Eischaum, verquirlte Flüssigkeit); `luft: true` = die Basis hält eingeschlagene Luft.",
+    "emulsion": "Schritt-Feld (DR-047, T77): {gibt: fett|wasser, zugabe: portionsweise|strahl|auf_einmal} — welche Phase die Aktion in die Basis gibt und wie. In eine luftige Basis der anderen Phase nur portionsweise oder im Strahl (sonst Warnung).",
     "lockert": "optional (DR-046): Rollen, die mit dieser Methode keine Pflicht sind (Schaummasse: der Trieb kommt aus dem Eischaum, Backpulver darf fehlen).",
     "techniken": "optional (DR-041): Techniken aus techniken.json, die zu dieser Methode passen (Eier getrennt); eingeschaltet baut die Engine die Schritte um.",
     "orte": "optional (DR-038): {opKey: ort} legt den Arbeitsplatz (orte.json) eines Schritts für diese Methode fest, wenn er vom `ort` der Operation abweicht (Muffin: Flüssiges in einer zweiten Schüssel).",
@@ -19,6 +21,7 @@
       "einlegen",
       {
         "key": "aufschlagen",
+        "phase": "fett", "luft": true,
         "label": "Fett + Zucker aufschlagen",
         "aktion": "Aufschlagen", "ort": "schuessel",
         "typ": "mischen",
@@ -37,6 +40,7 @@
       },
       {
         "key": "eier_einzeln",
+        "emulsion": { "gibt": "wasser", "zugabe": "portionsweise" },
         "label": "Eier einzeln einrühren",
         "teil_label": { "eigelb": "Eigelb einzeln einrühren" },
         "aktion": "Einrühren", "ort": "schuessel",
@@ -115,6 +119,7 @@
       "einlegen",
       {
         "key": "eier_zucker_schaumig",
+        "phase": "wasser", "luft": true,
         "label": "Eier + Zucker schaumig schlagen",
         "teil_label": { "eigelb": "Eigelb + Zucker schaumig schlagen" },
         "aktion": "Aufschlagen", "ort": "schuessel",
@@ -129,6 +134,7 @@
       },
       {
         "key": "oel_einlaufen",
+        "emulsion": { "gibt": "fett", "zugabe": "strahl" },
         "label": "Öl langsam einlaufen lassen",
         "aktion": "Einlaufen", "ort": "schuessel",
         "typ": "mischen",
@@ -162,6 +168,7 @@
       "einlegen",
       {
         "key": "ei_zucker_warm",
+        "phase": "wasser", "luft": true,
         "label": "Eier + Zucker warm aufschlagen",
         "teil_label": { "eigelb": "Eigelb + Zucker warm aufschlagen" },
         "aktion": "Aufschlagen", "ort": "schuessel",
@@ -193,6 +200,7 @@
       },
       {
         "key": "butter_zuletzt",
+        "emulsion": { "gibt": "fett", "zugabe": "portionsweise" },
         "label": "Flüssige Butter zuletzt unterheben",
         "aktion": "Unterheben", "ort": "schuessel",
         "typ": "mischen",

@@ -1,6 +1,7 @@
 import { fromGrams } from './units.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt, wirksameTechniken } from './rules.js';
 import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
+import { emulsionsVerlauf } from './emulsion.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
 import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, basisLuecke, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
@@ -321,6 +322,13 @@ export function compute(state, data, korpusStats) {
     s.aktiv = s.passiv ? s.aktivMin : s.dauer ?? 0;
     s.wirk = s.passiv ? s.dauer ?? 0 : 0;
   }
+  // Emulsion (DR-047): Basis und Zugabe je Schritt; falsche Zugabe in eine luftige Basis wird gemeldet
+  const emulsion = emulsionsVerlauf(res.schritte.map((s, i) => ({ op: s.op, label: ablauf[i].label })));
+  const emulsionsWarnungen = [];
+  emulsion.forEach((e, i) => {
+    ablauf[i].emulsion = e;
+    if (e?.problem) emulsionsWarnungen.push({ id: `emulsion:${ablauf[i].key}`, text: e.problem });
+  });
   // Rollen, die keine Operation nennt (Backpulver, Salz, Aroma), kommen mit dem Mehl in den Teig (DR-038)
   const imAblauf = new Set(ablauf.flatMap((s) => s.zutaten.map((z) => z.rolle)));
   const mitMehl = ablauf.find((s) => s.zutaten.some((z) => z.rolle === 'struktur'));
@@ -337,6 +345,7 @@ export function compute(state, data, korpusStats) {
     ...zeiten.flatMap((z, i) => (z.hinweis ? [`zeit:${res.schritte[i].key}`] : [])),
     ...(gaerPruefung ? ['gaerung_modell'] : []),
     ...technikIds,
+    ...emulsionsWarnungen.map((w) => w.id),
     ...(modellGilt && !stM ? ['gaerung_berechnet'] : []),
   ])];
 
@@ -350,7 +359,7 @@ export function compute(state, data, korpusStats) {
     method,
     status: zeitGruende.length ? 'invalid' : status,
     gruende: [...res.gruende, ...gebuendelt.hart, ...zeitGruende],
-    warnungen: [...res.warnungen, ...technikWarnungen, ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
+    warnungen: [...res.warnungen, ...technikWarnungen, ...emulsionsWarnungen.map((w) => w.text), ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
     zeit: zeitleiste(ablauf),
     gaerung: gaerungAktiv ? gaerungErgebnis({ gare: gare.summe, hefeBp: bpZiel[modell.rolle].bp, gareTemp, gareTempText, mindest: gareMindest, berechnet: !stM, pruefung: gaerPruefung }, modell) : null,
     toleranzHinweise,

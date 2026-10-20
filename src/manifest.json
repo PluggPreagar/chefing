@@ -3,6 +3,7 @@
  "src/model/bilanz.js",
  "src/model/corpus.js",
  "src/model/eigenschaften.js",
+ "src/model/emulsion.js",
  "src/model/engine.js",
  "src/model/errorRequests.js",
  "src/model/gaerung.js",
