@@ -99,8 +99,9 @@ export function compute(state, data, korpusStats) {
     if (bp == null || bp === 0) { bp = arch.rollen.find((x) => x.rolle === r).fallback_bp; quelle = 'schätzung'; }
     // Rolle mit `menge_je_zutat` (T78, Mayonnaise: Eigelb vs. ganzes Ei): Median der Rezepte mit derselben Zutat, ab 3 Rezepten
     const jeZutat = arch.rollen.find((x) => x.rolle === r).menge_je_zutat && st.bpJeZutat?.[r]?.[state.zutaten[r][0].zutat];
-    if (jeZutat?.n >= 3 && jeZutat.median > 0) { bp = jeZutat.median; quelle = 'korpus'; }
-    bpZiel[r] = { bp, quelle };
+    const zelle = jeZutat?.n >= 3 && jeZutat.median > 0 ? jeZutat : null; // Menge und Spanne aus derselben Zelle (T87)
+    if (zelle) { bp = zelle.median; quelle = 'korpus'; }
+    bpZiel[r] = { bp, quelle, korpus: zelle };
   }
 
   // Natron-Drittelung, Säure-Reduktion und Öl-Korpus-Fallback sind keine hartcodierten
@@ -127,7 +128,7 @@ export function compute(state, data, korpusStats) {
 
   // Manuell gesetzte Mengen (T40, Bäckerprozent je Rolle, aus „Übernehmen“ bei einem Mengen-Vorschlag): gelten zuletzt
   for (const [r, bp] of Object.entries(state.mengen || {})) {
-    if (bpZiel[r] && Number.isFinite(bp) && bp >= 0) bpZiel[r] = { bp, quelle: 'manuell' };
+    if (bpZiel[r] && Number.isFinite(bp) && bp >= 0) bpZiel[r] = { bp, quelle: 'manuell', korpus: bpZiel[r].korpus };
   }
   const gaerungAktiv = modellGilt && bpZiel[modell.rolle].bp > 0; // manuell 0 % Hefe: kein Modell (ln 0)
 
@@ -139,6 +140,7 @@ export function compute(state, data, korpusStats) {
   const teigmasse = vessel.teigmasse_g;
   // Eine Rolle kann mehrere Zutaten tragen (z. B. Fett aus Butter + Öl) — die
   // Rollen-Bäckerprozent wird proportional zu den Anteilen auf mehrere Zeilen verteilt.
+  const korpusDerRolle = (r) => bpZiel[r]?.korpus ?? stRolle.bp?.[r] ?? null; // Korpus-Spanne der Rolle, bei `menge_je_zutat` die Zelle der Zutat
   const zutatenListe = rollenKeys.filter((r) => bpZiel[r]).flatMap((r) => {
     const entries = (state.zutaten[r] || []).filter((e) => e?.zutat && data.ingredients[e.zutat]);
     const sumAnteile = entries.reduce((a, e) => a + (e.anteil || 1), 0) || 1;
@@ -158,7 +160,7 @@ export function compute(state, data, korpusStats) {
         bp: bpZiel[r].bp * anteilAnteil,
         bpQuelle: bpZiel[r].quelle,
         anteilProzent: entries.length > 1 ? Math.round(anteilAnteil * 100) : null,
-        korpus: stRolle.bp?.[r] ?? null,
+        korpus: korpusDerRolle(r),
         ...anzeige,
       };
     });
@@ -229,7 +231,7 @@ export function compute(state, data, korpusStats) {
     const kandidat = grenzenKaskade(g, zutatenListe, rolle?.optionen || [], data.ingredients, grenzen, referenzRolle);
     if (!kandidat) {
       // Kein Tausch reicht (T40): Menge der Zielrolle innerhalb der Korpus-Spanne verschieben
-      const sp = stRolle.bp?.[g.kaskade_ziel];
+      const sp = korpusDerRolle(g.kaskade_ziel);
       const m = grenzenMengenKaskade(g, bpPosten, sp ? { min: sp.min, max: sp.max } : null, data.ingredients, grenzen, referenzRolle);
       if (m) {
         const text = beschreibeGrenze(g);

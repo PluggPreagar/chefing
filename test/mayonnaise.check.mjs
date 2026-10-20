@@ -42,6 +42,12 @@ ok(c.status!=='invalid','ganzes Ei mit wenig Öl (Pürierstab-Rezepte) bleibt g�
 const stk=(c)=>c.zutatenListe.find(z=>z.rolle==='bindung').menge;
 const stabGelb=rechne('mayo_stab'), stabEi=rechne('mayo_stab',{bindung:E('ei')});
 ok(stk(stabGelb)<=2 && stk(stabEi)<=2,`Pürierstab: ${stk(stabGelb)} Eigelb bzw. ${stk(stabEi)} Ei je Glas (nicht 3 Eigelb aus den Vollei-Rezepten)`);
+// T87: die Korpus-Spanne der Zeile kommt aus derselben Zelle wie die Menge — der Wert liegt in Q1–Q3
+const zeile=(c)=>c.zutatenListe.find(z=>z.rolle==='bindung');
+const inSpanne=(z)=>z.korpus && z.bp>=z.korpus.q1-0.01 && z.bp<=z.korpus.q3+0.01;
+ok(inSpanne(zeile(stabGelb)) && inSpanne(zeile(stabEi)) && zeile(stabGelb).korpus.q3<zeile(stabEi).korpus.q1,`Emulgator-Spanne je Zutat: Eigelb ${zeile(stabGelb).korpus.q1.toFixed(0)}–${zeile(stabGelb).korpus.q3.toFixed(0)} %, Ei ${zeile(stabEi).korpus.q1.toFixed(0)}–${zeile(stabEi).korpus.q3.toFixed(0)} % (Menge liegt jeweils darin)`);
+const fett=(c)=>c.zutatenListe.find(z=>z.rolle==='fluessigkeit').korpus;
+ok(JSON.stringify(fett(stabGelb))===JSON.stringify(fett(stabEi)),'Rollen ohne menge_je_zutat: Spanne unverändert aus der Methoden-Zelle');
 
 console.log(fail?`${fail} FAILED`:'ALL PASS');
 process.exit(fail?1:0);

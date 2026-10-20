@@ -137,7 +137,7 @@ export function stats(normalized, rollen = ROLLEN, { proMethode = true, gewichte
         const top = (r.posten || []).filter((p) => p.rolle === ro).sort((a, b) => b.gramm - a.gramm)[0]?.zutat;
         if (top) (nach[top] ??= []).push(r.bp[ro]);
       }
-      return [ro, Object.fromEntries(Object.entries(nach).map(([z, w]) => [z, { n: w.length, median: summarize(w)?.median ?? null }]))];
+      return [ro, Object.fromEntries(Object.entries(nach).map(([z, w]) => [z, summarize(w) ?? { n: 0, median: null }]))]; // n, min, q1, median, q3, max (T87)
     })),
     // Technik-Stufe gemessen (T83): Anteil der nicht gezielt gesuchten Rezepte mit der Technik; Trieb mit/ohne Technik aus allen
     techniken: Object.fromEntries(technikKeys.map((k) => {

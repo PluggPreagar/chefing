@@ -570,3 +570,11 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** Ablauf und Mengen je Methode passen zu den Rezepten; der Kasten zeigt alle drei gängigen Wege.
 - **cons:** dritte Methode im Kasten; Zelle mit nur 3 Rezepten.
 - **risk:** Gering. methods.json, archetypes.json (Methoden-Liste), Korpus mayonnaise.json (3 × methode), Test mayonnaise. Rückgängig: ein Commit.
+
+## DR-057 · daten · Korpus-Spanne aus derselben Zelle wie die Menge (Menge je Zutat)
+
+- **descr:** (2026-10-20, Nutzer: „T87“) Bei Rollen mit `menge_je_zutat` (DR-054, Emulgator der Mayonnaise) kam die Menge aus den Rezepten mit derselben Zutat, die Korpus-Spalte (Q1–Q3) und die Spanne für Mengen-Vorschläge aber aus der ganzen Methoden-Zelle (Eigelb und ganzes Ei gemischt: 17 % Eigelb gegen „24–60 %“). Jetzt liefert `bpJeZutat` (corpus.js) die volle Verteilung (n, min, Q1, Median, Q3, max); die Engine merkt sich die Zelle an der Rolle (`bpZiel[r].korpus`, auch bei manuell gesetzter Menge) und nutzt sie für die Zeile im Rezept und die Mengen-Kaskade. Mayonnaise: Eigelb 14–17 %, ganzes Ei 26–60 % vom Öl. Rollen ohne das Feld bleiben unverändert.
+- **Optionen:** A nur die Anzeige anpassen · B Anzeige und Mengen-Spanne aus derselben Zelle (gewählt).
+- **pro:** Zeile in sich stimmig; keine scheinbare Abweichung; Vorschläge bleiben in der Spanne der gewählten Zutat.
+- **cons:** keine.
+- **risk:** Gering. corpus.js, engine.js (`korpusDerRolle`), Test mayonnaise. Rückgängig: ein Commit.
