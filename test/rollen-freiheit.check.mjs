@@ -30,7 +30,7 @@ ok(mess.ruehrteig.struktur.stufe==='empfohlen' && mess.ruehrteig.struktur.belege
 ok(['ruehrteig','pfannkuchen','hefeteig'].every(ak=>mess[ak].fluessigkeit.stufe==='empfohlen') && mess.pfannkuchen.fett.stufe==='empfohlen' && mess.ruehrteig.fett.stufe==='empfohlen','Flüssigkeit und Fett: empfohlen (anderer Wechsel erzeugt Hinweise)');
 ok(mess.hefeteig.trieb.stufe==='frei' && mess.hefeteig.fett.stufe==='empfohlen' && mess.hefeteig.fett.belege.some(b=>/hefezopf: keine/.test(b)),'Hefeteig: Frisch- und Trockenhefe sind austauschbar (frei); Fett weglassen im Zopf gibt Hinweise');
 ok(['bindung'].every(r=>mess.ruehrteig[r].stufe===null && mess.pfannkuchen[r].stufe===null) && mess.hefeteig.struktur.stufe===null && mess.hefeteig.salz.stufe===null,'Rollen mit nur einer Option (Ei, Weizenmehl im Hefeteig, Salz) bieten keine Wahl: keine Markierung');
-ok(mess.pfannkuchen.einlage.stufe==='frei' && data.archetypes.pfannkuchen.rollen.find(r=>r.rolle==='einlage').optionen.length===1,'optionale Rolle mit einer Option zählt „keine“ als Wahl (Pfannkuchen-Einlage: Blaubeeren oder keine)');
+ok(mess.pfannkuchen.einlage.stufe==='frei','optionale Rolle zählt „keine“ als Wahl (Pfannkuchen-Einlage: Blaubeeren, Rosinen oder keine — seit T90 zwei Optionen)');
 ok(Object.values(mess).every(m=>Object.values(m).every(x=>x.belege.length<=3 && (x.stufe==='frei'||x.stufe===null)===(x.belege.length===0))),'Belege: höchstens 3 je Rolle, nur wenn die Rolle nicht frei ist');
 
 // --- Anzeige ------------------------------------------------------------------------------------------------------------------------------

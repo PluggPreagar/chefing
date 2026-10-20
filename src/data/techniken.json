@@ -16,7 +16,7 @@
     "rolle": "bindung",
     "rest": "eigelb",
     "lockert": ["trieb"],
-    "vor": ["einlage_unterheben", "fuellen", "ausbacken"],
+    "vor": ["einlage_unterheben", "fuellen", "ausbacken", "anbacken"],
     "schritte": {
       "trennen": {
         "key": "ei_trennen",

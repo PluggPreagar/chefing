@@ -49,18 +49,20 @@
       { "rolle": "fett",         "label": "Fett (im Teig)", "substitution": "empfohlen", "pflicht": false, "fallback_bp": 10, "optionen": ["butter", "margarine", "pflanzenoel"], "default": null, "hinweis": "Macht zarter und löst sich besser aus der Pfanne. Bratfett für die Pfanne zählt nicht dazu." },
       { "rolle": "suesse",       "label": "Süße", "substitution": "empfohlen",         "pflicht": false, "fallback_bp": 5,   "optionen": ["zucker", "brauner_zucker", "puderzucker"], "default": null },
       { "rolle": "trieb",        "label": "Trieb", "substitution": "strikt",        "pflicht": false, "fallback_bp": 3,   "optionen": ["backpulver", "natron"], "default": null, "hinweis": "Nur für dicke Pancakes. Natron nur mit saurer Zutat." },
-      { "rolle": "aroma",        "label": "Aroma", "substitution": "frei",        "pflicht": false, "fallback_bp": 2,   "optionen": ["salz", "vanillezucker", "vanilleextrakt", "zitronenabrieb", "zimt"], "default": "salz" },
-      { "rolle": "einlage",      "label": "Einlage", "substitution": "frei",      "pflicht": false, "fallback_bp": 30,  "optionen": ["blaubeeren"], "default": null }
+      { "rolle": "aroma",        "label": "Aroma", "substitution": "frei",        "pflicht": false, "fallback_bp": 2,   "optionen": ["vanillezucker", "vanilleextrakt", "zitronenabrieb", "zimt"], "default": null },
+      { "rolle": "salz",         "label": "Salz", "pflicht": true, "fallback_bp": 1, "optionen": ["salz"], "default": "salz", "hinweis": "Eine Prise hebt den Geschmack. Eigene Rolle (T90), damit Vanillezucker in der Aroma-Rolle die Salzmenge nicht verfälscht." },
+      { "rolle": "einlage",      "label": "Einlage", "substitution": "frei",      "pflicht": false, "fallback_bp": 30,  "optionen": ["blaubeeren", "rosinen"], "default": null }
     ],
     "lehrbuch": {
       "quelle": "keine Lehrbuch-Referenz hinterlegt — nur Korpus",
       "schwer": {}
     },
-    "methoden": ["pfannkuchen_glatt", "pancake_kurz"],
-    "gefaesse": ["pfanne_24", "pfanne_pancake"],
+    "methoden": ["pfannkuchen_glatt", "pancake_kurz", "schmarrn"],
+    "gefaesse": ["pfanne_24", "pfanne_pancake", "pfanne_28_ofenfest"],
     "varianten": {
-      "eierkuchen": { "label": "Eierkuchen (dünn)", "techniken": { "eier_getrennt": "moeglich" },  "kurz": "Eierkuchen", "gefaess": "pfanne_24",      "korpus": "eierkuchen", "bestof": { "fluessigkeit": "milch", "aroma": "salz", "einlage": null } },
-      "pancakes":   { "label": "Pancakes (dick)", "techniken": { "eier_getrennt": "typisch" },    "kurz": "Pancakes",   "gefaess": "pfanne_pancake", "korpus": "pancakes",   "bestof": { "fett": "butter", "fluessigkeit": "milch", "suesse": "zucker", "trieb": "backpulver", "aroma": "salz", "einlage": null } }
+      "eierkuchen": { "label": "Eierkuchen (dünn)", "techniken": { "eier_getrennt": "moeglich" },  "kurz": "Eierkuchen", "gefaess": "pfanne_24",      "korpus": "eierkuchen", "bestof": { "fluessigkeit": "milch", "aroma": null, "einlage": null } },
+      "pancakes":   { "label": "Pancakes (dick)", "techniken": { "eier_getrennt": "typisch" },    "kurz": "Pancakes",   "gefaess": "pfanne_pancake", "korpus": "pancakes",   "bestof": { "fett": "butter", "fluessigkeit": "milch", "suesse": "zucker", "trieb": "backpulver", "aroma": null, "einlage": null } },
+      "kaiserschmarrn": { "label": "Kaiserschmarrn", "techniken": { "eier_getrennt": "typisch" }, "kurz": "Kaiserschmarrn", "gefaess": "pfanne_28_ofenfest", "korpus": "kaiserschmarrn", "bestof": { "fluessigkeit": "milch", "suesse": "zucker", "aroma": "vanillezucker", "einlage": "rosinen" } }
     }
   },
   "hefeteig": {

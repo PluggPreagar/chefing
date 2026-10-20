@@ -720,5 +720,113 @@
       "glas"
     ],
     "warum": "Mittelweg zwischen von Hand und alles auf einmal: der Pürierstab verteilt, das Öl kommt dosiert dazu. So beschreiben es 3 der 8 Pürierstab-Rezepte im Korpus."
+  },
+  "schmarrn": {
+    "label": "Schmarrn (anbacken, zerreißen)",
+    "kurz": "Dicken Teig glatt rühren → in Butter anbacken → wenden und zerreißen → mit Zucker karamellisieren",
+    "sequenz": [
+      "einlegen",
+      {
+        "key": "kschm_teig",
+        "label": "Teig glatt rühren",
+        "teil_label": {
+          "eigelb": "Eigelb, Milch und Mehl glatt rühren"
+        },
+        "aktion": "Glatt rühren",
+        "ort": "schuessel",
+        "typ": "mischen",
+        "verb": "mischen",
+        "intensitaet": "sanft",
+        "variante": "glatt rühren",
+        "auf": [
+          "struktur",
+          "bindung",
+          "fluessigkeit",
+          "suesse",
+          "fett",
+          "aroma",
+          "trieb"
+        ],
+        "voraussetzung": [],
+        "wirkung": "Dickflüssiger, eierreicher Teig: Mehl mit der Milch glatt rühren, dann Ei bzw. Eigelb, Zucker und Salz. Mehr Ei und weniger Flüssigkeit als beim Eierkuchen — der Teig soll in der Pfanne fingerdick stocken.",
+        "risiko": "Zu dünn → er wird ein Eierkuchen und reißt beim Zerteilen nicht in lockere Stücke.",
+        "dauer_min": 2
+      },
+      "einlage_unterheben",
+      {
+        "key": "anbacken",
+        "label": "In Butter anbacken, bis die Unterseite goldbraun ist",
+        "aktion": "Anbacken",
+        "ort": "gefaess",
+        "typ": "erhitzen",
+        "verb": "erhitzen",
+        "intensitaet": "mittel",
+        "variante": "fingerdick anbacken",
+        "auf": [],
+        "voraussetzung": [
+          {
+            "wenn": {
+              "rolle": "trieb",
+              "eigenschaft": "trieb_typ",
+              "wert": "chemisch_basisch"
+            },
+            "rolle": "!trieb",
+            "eigenschaft": "saeure",
+            "wert": true,
+            "strenge": "hart",
+            "hinweis": "eine saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker) — Natron ist nur Base, ohne Säure entsteht kein CO₂ und der Teig schmeckt seifig",
+            "kaskade_ziel": "fluessigkeit",
+            "id": "natron_braucht_saeure"
+          }
+        ],
+        "wirkung": "Den Teig fingerdick in die heiße Butter gießen: bei mittlerer Hitze stockt und bräunt die Unterseite, oben bleibt er weich. Dicke Schmarren werden oft im Ofen fertig gegart.",
+        "risiko": "Zu heiß → außen dunkel, innen roh.",
+        "dauer_min": 4
+      },
+      {
+        "key": "zerreissen",
+        "label": "Wenden, in Stücke reißen und fertig backen",
+        "aktion": "Zerreißen",
+        "ort": "gefaess",
+        "typ": "erhitzen",
+        "verb": "schneiden",
+        "intensitaet": "mittel",
+        "variante": "mit zwei Pfannenwendern zerreißen",
+        "auf": [],
+        "voraussetzung": [],
+        "wirkung": "Die Stücke bekommen rundum Bratfläche und garen durch; mit Eischnee bleiben sie innen locker.",
+        "risiko": "Zu früh zerrissen → innen noch flüssig.",
+        "dauer_min": 3
+      },
+      {
+        "key": "karamellisieren",
+        "label": "Mit Zucker und etwas Butter karamellisieren",
+        "aktion": "Karamellisieren",
+        "ort": "gefaess",
+        "typ": "erhitzen",
+        "verb": "erhitzen",
+        "intensitaet": "kraeftig",
+        "variante": "karamellisieren",
+        "auf": [],
+        "voraussetzung": [],
+        "wirkung": "Zucker und ein Stück Butter schmelzen an den Stücken und karamellisieren; zum Schluss mit Puderzucker bestäuben (beides nicht in den Mengen).",
+        "risiko": "Zu lange → der Zucker wird bitter.",
+        "dauer_min": 2
+      }
+    ],
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "optional": [
+      "einlegen",
+      "einlage_unterheben"
+    ],
+    "nach": {},
+    "textur": "außen karamellisiert, innen locker, in Stücken",
+    "triebquelle": "Eischnee oder Backpulver, Dampf aus dem eierreichen Teig",
+    "geeignet_fuer": [
+      "pfanne"
+    ],
+    "warum": "Dicker Teig, der in der Pfanne stockt und erst danach zerrissen wird: viel Bratfläche, innen weich."
   }
 }

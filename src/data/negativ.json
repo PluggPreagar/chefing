@@ -809,7 +809,7 @@
           "original": "25 g Zucker"
         },
         {
-          "rolle": "aroma",
+          "rolle": "salz",
           "zutat": "salz",
           "menge": 0.25,
           "einheit": "tsp",
@@ -1283,7 +1283,7 @@
           "original": "Rezept 1/2 TL Natron; Kommentatorin berichtet 1 TL"
         },
         {
-          "rolle": "aroma",
+          "rolle": "salz",
           "zutat": "salz",
           "menge": 1,
           "einheit": "tsp",
@@ -1341,7 +1341,7 @@
           "original": "1/2 TL Natron"
         },
         {
-          "rolle": "aroma",
+          "rolle": "salz",
           "zutat": "salz",
           "menge": 1,
           "einheit": "tsp",
@@ -1551,7 +1551,7 @@
           "original": "1 1/2 TL Natron"
         },
         {
-          "rolle": "aroma",
+          "rolle": "salz",
           "zutat": "salz",
           "menge": 0.75,
           "einheit": "tsp",

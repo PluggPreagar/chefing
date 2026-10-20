@@ -131,5 +131,25 @@
     "korpus_ids": [
       "glas_500"
     ]
+  },
+  "pfanne_28_ofenfest": {
+    "label": "Pfanne 28 cm, ofenfest (Kaiserschmarrn)",
+    "familie": "pfanne",
+    "teigmasse_g": 600,
+    "stueck": 1,
+    "geometrie": "großer Boden, Teig fingerdick: stockt von unten, oben noch weich; dicke Schmarren im Ofen fertig",
+    "basis": {
+      "hitze": "mittlere Hitze",
+      "minuten": 9,
+      "minuten_label": "Min. gesamt"
+    },
+    "hinweise": [
+      "Butter in der Pfanne schäumen lassen, Teig fingerdick eingießen",
+      "Erst zerreißen, wenn die Unterseite goldbraun ist",
+      "Zucker zum Karamellisieren und Puderzucker zum Bestäuben extra"
+    ],
+    "korpus_ids": [
+      "pfanne_28_ofenfest"
+    ]
   }
 }

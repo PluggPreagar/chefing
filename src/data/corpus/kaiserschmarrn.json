@@ -1,0 +1,919 @@
+[
+  {
+    "id": "crumbs-crust-kaiserschmarrn-grundrezept",
+    "titel": "Kaiserschmarrn (Grundrezept)",
+    "quelle": {
+      "url": "https://www.crumbs-crust.de/grundrezepte/kaiserschmarrn-rezept",
+      "site": "crumbs-crust.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "kaiserschmarrn",
+    "gefaess": "pfanne_28_ofenfest",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 95,
+        "einheit": "g",
+        "original": "95 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier (Größe M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 150,
+        "einheit": "ml",
+        "original": "150 g Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Vanillezucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 großzügige Prise Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 35,
+        "einheit": "g",
+        "original": "30-40 g Rosinen"
+      }
+    ],
+    "methode": "schmarrn",
+    "ablauf": [
+      "Rosinen mindestens 30 Minuten in Saft quellen lassen, Ofen auf 180 °C vorheizen.",
+      "Eiweiß mit Zucker und Vanillezucker steif schlagen.",
+      "Eigelb mit Salz verrühren, Milch und Mehl einarbeiten, Schnee in zwei Portionen unterziehen.",
+      "In Butter in der ofenfesten Pfanne kurz anbraten, dann im Ofen goldbraun backen.",
+      "Zerpflücken und mit Butter und Zucker in der Pfanne karamellisieren."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 16.5,
+      "original": "ca. 2 Min. Pfanne (mittel-hoch), 10-15 Min. Ofen 180 °C O/U, ca. 2 Min. Karamellisieren"
+    },
+    "stueckzahl": null,
+    "notizen": "Für 2 Personen als Hauptgericht. Milch in Gramm angegeben (150 g ≈ 150 ml). Rosinen 30-40 g → Mittelwert 35 g; Einweichen in 3 EL Apfel- oder Orangensaft. Zucker und Vanillezucker gehen in den Eischnee. 3-4 EL Butter nur für Pfanne und Karamell, nicht im Teig. Zum Karamellisieren 2-3 EL Zucker, wahlweise mit ½ TL Zimt und ¼ TL Kardamom; Puderzucker zum Bestäuben. Ofenzeit 10-15 Min. → Mittelwert.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung",
+    "techniken": [
+      "eier_getrennt"
+    ]
+  },
+  {
+    "id": "eat-kaiserschmarrn-ohne-rosinen",
+    "titel": "Klassischer Kaiserschmarrn ohne Rosinen",
+    "quelle": {
+      "url": "https://eat.de/rezept/kaiserschmarrn-ohne-rosinen/",
+      "site": "eat.de",
+      "bewertung": 4.6,
+      "anzahlBewertungen": 74
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "kaiserschmarrn",
+    "gefaess": "pfanne_28_ofenfest",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 175,
+        "einheit": "g",
+        "original": "175 g Weizenmehl Typ 405"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 220,
+        "einheit": "ml",
+        "original": "220 ml Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Vanillezucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "Prise Salz"
+      }
+    ],
+    "methode": "schmarrn",
+    "ablauf": [
+      "Eier trennen, Eiweiß mit Zucker, Vanillezucker und Salz zu Schnee schlagen.",
+      "Eigelb mit Milch, Mehl und Backpulver verrühren, Schnee zuletzt unterziehen.",
+      "Teig 1-1,5 cm hoch in Butterschmalz bei mittlerer Hitze goldbraun anbacken.",
+      "Grob teilen, mit Puderzucker bestreuen und wenden.",
+      "Klein zerreißen und den Zucker karamellisieren lassen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 5,
+      "original": "nur Pfanne, mittlere Hitze: ca. 5 Min. (ggf. 1-2 Min. länger) erste Seite, Rest unbeziffert"
+    },
+    "stueckzahl": null,
+    "notizen": "2 Portionen. Zucker, Vanillezucker und Salz kommen in den Eischnee. Butterschmalz zum Anbraten und Puderzucker zum Karamellisieren/Bestreuen ohne Mengen. Minuten nur für die erste Seite beziffert (Mindestwert). Profi-Variante: ofenfeste Pfanne, 2-3 Min. Herd, dann 3-4 Min. bei 200 °C Grill, nach dem Zerreißen ca. 1 Min. Karamell im Ofen.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,6★ (74 Stimmen) ±0 · Ausreißer bei Triebkraft (Backpulver-Äq.) −0,5",
+    "techniken": [
+      "eier_getrennt"
+    ]
+  },
+  {
+    "id": "lecker-klassischer-kaiserschmarrn",
+    "titel": "Klassischer Kaiserschmarrn",
+    "quelle": {
+      "url": "https://www.lecker.de/kaiserschmarrn-46629.html",
+      "site": "lecker.de",
+      "bewertung": 4.5,
+      "anzahlBewertungen": 215
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "kaiserschmarrn",
+    "gefaess": "pfanne_28_ofenfest",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier (Gr. M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 125,
+        "einheit": "ml",
+        "original": "125 ml Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 ½ EL Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pck. Vanillezucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Rosinen"
+      }
+    ],
+    "methode": "schmarrn",
+    "ablauf": [
+      "Eigelb mit Vanillezucker, Salz und einem Teil der Milch verquirlen, Mehl und Rest-Milch im Wechsel einrühren.",
+      "Eiweiß steif schlagen, dabei Zucker einrieseln lassen, unterheben.",
+      "In wenig Butter eingießen, Rosinen aufstreuen, bei schwacher Hitze goldgelb backen.",
+      "Butter in die Mitte geben, vierteln, wenden und fertig backen.",
+      "Zerreißen, mit Zucker bei mittlerer bis hoher Hitze karamellisieren, mit Puderzucker bestäuben."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nur Pfanne, schwache Hitze zum Backen, mittel-hoch zum Karamellisieren; keine Minuten angegeben"
+    },
+    "stueckzahl": null,
+    "notizen": "Keine Portionsangabe. Von 1 ½ EL Zucker geht 1 EL in den Eischnee, ½ EL zum Karamellisieren. Butter (½ EL zum Erhitzen, 2 EL nach dem ersten Backen) nur in der Pfanne. 1 EL Puderzucker zum Bestäuben. Sehr eireich: 3 Eier auf 60 g Mehl. Backzeit fehlt.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,5★ (215 Stimmen) ±0 · Backzeit fehlt −0,5",
+    "techniken": [
+      "eier_getrennt"
+    ]
+  },
+  {
+    "id": "essen-und-trinken-kaiserschmarrn-original",
+    "titel": "Kaiserschmarrn: das Originalrezept",
+    "quelle": {
+      "url": "https://www.essen-und-trinken.de/rezepte/kaiserschmarrn-rezept-13360656.html",
+      "site": "essen-und-trinken.de",
+      "bewertung": 2.9,
+      "anzahlBewertungen": 80
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "kaiserschmarrn",
+    "gefaess": "pfanne_28_ofenfest",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 80,
+        "einheit": "g",
+        "original": "80 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Bio-Ei"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 125,
+        "einheit": "ml",
+        "original": "125 ml Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 30,
+        "einheit": "g",
+        "original": "30 g Zucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "schmarrn",
+    "ablauf": [
+      "Eier trennen, Eigelb mit Milch und Mehl glatt rühren.",
+      "Eiweiß mit Salz anschlagen, Zucker einrieseln lassen, cremigen Schnee unterziehen.",
+      "Butter in der ofenfesten Pfanne schmelzen, Teig eingießen und 2 Min. bei mittlerer Hitze stocken lassen.",
+      "Im Ofen bei 180 °C fertig backen.",
+      "Mit dem Holzspatel zerteilen, mit Puderzucker bestäuben."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 11,
+      "original": "2 Min. Pfanne (mittel), 8-10 Min. Ofen 180 °C O/U bzw. 160 °C Umluft, zweite Schiene von unten"
+    },
+    "stueckzahl": null,
+    "notizen": "2 Portionen. Zucker und Salz gehen in den Eischnee. 30 g Butter nur in die Pfanne. Kein Karamellisieren, nur Puderzucker. Ofenzeit 8-10 Min. → Mittelwert. Bewertung 2,9 (80 Stimmen) laut Seitendaten.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 2,9★ (80 Stimmen) −0,5",
+    "techniken": [
+      "eier_getrennt"
+    ]
+  },
+  {
+    "id": "oetker-at-kaiserschmarrn",
+    "titel": "Kaiserschmarrn",
+    "quelle": {
+      "url": "https://www.oetker.at/rezepte/r/kaiserschmarrn",
+      "site": "oetker.at",
+      "bewertung": 4.6,
+      "anzahlBewertungen": 261
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "kaiserschmarrn",
+    "gefaess": "pfanne_28_ofenfest",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 180,
+        "einheit": "g",
+        "original": "180 g glattes Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Dotter (Größe M) / 4 Eiklar (Größe M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 280,
+        "einheit": "ml",
+        "original": "280 ml Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 20,
+        "einheit": "g",
+        "original": "20 g Zucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pck. Bourbon Vanille Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 0.5,
+        "einheit": "pkt",
+        "original": "½ Pck. Geriebene Zitronenschale"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 30,
+        "einheit": "g",
+        "original": "30 g Rosinen"
+      }
+    ],
+    "methode": "schmarrn",
+    "ablauf": [
+      "Mehl sieben, mit Salz, Vanillezucker, Zitronenschale, Dottern und Milch glatt rühren.",
+      "Eiklar mit Zucker steif schlagen und unterheben.",
+      "In heißer Butter eingießen, Rosinen aufstreuen und unten stocken lassen.",
+      "Im Ofen backen, nach ca. 5 Min. halbieren, wenden, fertig backen.",
+      "Zerreißen, Butter und Zucker darüber, ca. 1 Min. im Ofen karamellisieren."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 11,
+      "original": "Pfanne 22-24 cm bis Unterseite stockt (unbeziffert), ca. 10 Min. Ofen 180 °C O/U bzw. 160 °C Heißluft, ca. 1 Min. Karamell im Ofen"
+    },
+    "stueckzahl": null,
+    "notizen": "Etwa 4 Portionen. 4 Dotter + 4 Eiklar = 4 Eier. Zucker geht in den Eischnee. 20 g Butter für die Pfanne; zum Karamellisieren 20 g Butter + 20 g Zucker; Staubzucker zum Bestreuen. Pfannenzeit vor dem Ofen nicht beziffert (Minuten ohne diese).",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,6★ (261 Stimmen) ±0",
+    "techniken": [
+      "eier_getrennt"
+    ]
+  },
+  {
+    "id": "gutekueche-kaiserschmarrn",
+    "titel": "Kaiserschmarrn",
+    "quelle": {
+      "url": "https://www.gutekueche.at/kaiserschmarrn-rezept-24354",
+      "site": "gutekueche.at",
+      "bewertung": 4.5,
+      "anzahlBewertungen": 2586
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "kaiserschmarrn",
+    "gefaess": "pfanne_28_ofenfest",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Weizenmehl (glatt, W480)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Stk Eier (Größe M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 300,
+        "einheit": "ml",
+        "original": "300 ml Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 3,
+        "einheit": "el",
+        "original": "3 EL Rosinen"
+      }
+    ],
+    "methode": "schmarrn",
+    "ablauf": [
+      "Mehl, Zucker, Milch und Salz zu dickem Teig verrühren, kurz rasten lassen.",
+      "Ganze Eier einrühren.",
+      "Ca. 2 cm hoch in Butter eingießen, Rosinen aufstreuen, zugedeckt goldgelb backen.",
+      "Vierteln, wenden, zugedeckt fertig backen.",
+      "Zerreißen, mit Butter und Zucker kurz karamellisieren, mit Staubzucker bestreuen."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 10,
+      "original": "nur Pfanne, mittlere Hitze mit Deckel: 4-6 Min. + 3-4 Min. nach Wenden, 1-2 Min. Karamell"
+    },
+    "stueckzahl": null,
+    "notizen": "4 Portionen. Eier nicht getrennt (Eischnee nur als Tipp). 4 EL Butter zum Anbraten; Topping 1 EL Butter + 1 EL Zucker zum Karamellisieren, 1 EL Staubzucker. Zeitspannen → Mittelwerte (5 + 3,5 + 1,5).",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,5★ (2586 Stimmen) ±0",
+    "techniken": []
+  },
+  {
+    "id": "gutekueche-oesterreichischer-kaiserschmarrn",
+    "titel": "Österreichischer Kaiserschmarrn",
+    "quelle": {
+      "url": "https://www.gutekueche.at/oesterreichischer-kaiserschmarrn-rezept-4326",
+      "site": "gutekueche.at",
+      "bewertung": 4.5,
+      "anzahlBewertungen": 3199
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "kaiserschmarrn",
+    "gefaess": "pfanne_28_ofenfest",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Weizenmehl (glatt, W480)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Stk Eier (Größe M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 30,
+        "einheit": "g",
+        "original": "30 g Kristallzucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pk Vanillezucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Rosinen"
+      }
+    ],
+    "methode": "schmarrn",
+    "ablauf": [
+      "Rosinen mindestens 30 Min. einweichen, Eiweiß mit Salz zu festem Schnee schlagen.",
+      "Dotter mit Zucker und Vanillezucker verrühren, Milch und Mehl zu flüssigem Teig einarbeiten.",
+      "Schnee und abgetropfte Rosinen unterziehen.",
+      "Ca. 2 cm hoch in Butter backen, vierteln, wenden, andere Seite bräunen.",
+      "Zerpflücken, mit etwas Zucker kurz karamellisieren, mit Staubzucker servieren."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 8,
+      "original": "nur Pfanne, mittlere Hitze: 4-5 Min. + 3-4 Min. nach Wenden, Karamell unbeziffert"
+    },
+    "stueckzahl": null,
+    "notizen": "3 Portionen. Rosinen in Wasser oder Rum einweichen (Rum weggelassen). 2 EL Butter für die Pfanne. Zucker zum Karamellisieren und Staubzucker ohne Menge. Zeitspannen → Mittelwerte (4,5 + 3,5).",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,5★ (3199 Stimmen) ±0",
+    "techniken": [
+      "eier_getrennt"
+    ]
+  },
+  {
+    "id": "gusto-original-kaiserschmarrn",
+    "titel": "Original Kaiserschmarrn",
+    "quelle": {
+      "url": "https://www.gusto.at/rezepte/kaiserschmarren",
+      "site": "gusto.at",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "kaiserschmarrn",
+    "gefaess": "pfanne_28_ofenfest",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Mehl (glatt)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Ei"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 20,
+        "einheit": "g",
+        "original": "40 g Kristallzucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 0.5,
+        "einheit": "pkt",
+        "original": "0.5 Pkg. Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 0.5,
+        "einheit": "stk",
+        "original": "Schale von 1/2 Zitrone"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 20,
+        "einheit": "g",
+        "original": "20 g Rosinen"
+      }
+    ],
+    "methode": "schmarrn",
+    "ablauf": [
+      "Ofen auf 180 °C vorheizen, Eier trennen.",
+      "Milch, Mehl, Vanillezucker, Zitrusschale und Salz glatt rühren.",
+      "Eiklar mit der Hälfte des Zuckers cremig schlagen, mit den Dottern unter den Teig ziehen.",
+      "In heißem Butterschmalz eingießen, Rosinen darauf, kurz anbacken, dann im Ofen fertig backen.",
+      "Wenden, zerreißen, Rest-Zucker am Pfannenrand karamellisieren, mit Rum ablöschen, durchschwenken."
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": null,
+      "minuten": 9.5,
+      "original": "ca. 30 Sek. Pfanne (mäßige Hitze), 8-10 Min. Ofen 180 °C mittlere Schiene, Karamell unbeziffert"
+    },
+    "stueckzahl": null,
+    "notizen": "2 Portionen, Pfanne 24 cm mit hitzefestem Griff. Von 40 g Kristallzucker kommen 20 g in den Eischnee, 20 g zum Karamellisieren. Zusätzlich Schale von ½ Orange (kein Schlüssel). 2 EL Rum zum Ablöschen weggelassen. 20 g Butterschmalz nur zum Backen. Staubzucker zum Bestreuen. Keine Bewertungszahl sichtbar.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung",
+    "techniken": [
+      "eier_getrennt"
+    ]
+  },
+  {
+    "id": "bergwelten-kaiserschmarrn-kala-alm",
+    "titel": "Kaiserschmarrn ohne Rosinen von der Kala-Alm",
+    "quelle": {
+      "url": "https://www.bergwelten.com/a/kaiserschmarrn-ohne-rosinen-von-der-kala-alm",
+      "site": "bergwelten.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "kaiserschmarrn",
+    "gefaess": "pfanne_28_ofenfest",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g glattes Mehl (Typ 700)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "1/4 l Milch"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 Stamperl Rum oder 1 TL Vanillezucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "schmarrn",
+    "ablauf": [
+      "Milch, Mehl, Salz, Zucker und Vanillezucker glatt rühren, etwas dicker als Palatschinkenteig.",
+      "Ganze Eier nur kurz mit dem Kochlöffel unterziehen, nicht mixen.",
+      "Höchstens 3-4 cm hoch in heißes Öl gießen und bei geringer Hitze backen, bis er sich wenden lässt.",
+      "Wenden, Butter darunter, zugedeckt weiterbacken.",
+      "Zerstoßen, Butter dazu, Hitze hoch, zuckern und karamellisieren."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 13,
+      "original": "nur Pfanne, geringe Hitze: ca. 7 Min. + 5-7 Min. zugedeckt nach Wenden, Karamell bei höherer Hitze unbeziffert"
+    },
+    "stueckzahl": null,
+    "notizen": "2 Personen, Hüttenrezept. Eier nicht getrennt, nur kurz eingerührt. Rum als Alternative zum Vanillezucker weggelassen. Öl und Butter zum Backen sowie Zucker zum Karamellisieren ohne Mengen. Zeit 5-7 Min. → Mittelwert. Beilage Zwetschkenröster oder Preiselbeeren.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung",
+    "techniken": []
+  },
+  {
+    "id": "emmikochteinfach-kaiserschmarrn",
+    "titel": "Kaiserschmarrn",
+    "quelle": {
+      "url": "https://emmikochteinfach.de/kaiserschmarrn/",
+      "site": "emmikochteinfach.de",
+      "bewertung": 4.99,
+      "anzahlBewertungen": 581
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "kaiserschmarrn",
+    "gefaess": "pfanne_28_ofenfest",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 125,
+        "einheit": "g",
+        "original": "125 g Mehl (Type 405)"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier, Größe M"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 300,
+        "einheit": "ml",
+        "original": "300 ml Vollmilch"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "mineralwasser",
+        "menge": 75,
+        "einheit": "ml",
+        "original": "75 ml Mineralwasser"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 60,
+        "einheit": "g",
+        "original": "60 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Bourbon Vanillezucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 40,
+        "einheit": "g",
+        "original": "40 g Rosinen"
+      }
+    ],
+    "methode": "schmarrn",
+    "ablauf": [
+      "Rosinen in Saft einlegen, Eiweiß sehr steif schlagen und kalt stellen.",
+      "Eigelb mit Zucker, Vanillezucker und Salz cremig rühren, Mehl und Milch im Wechsel einarbeiten.",
+      "Sprudelwasser kurz einrühren, Schnee unterheben.",
+      "In Butter bei mittlerer Hitze unten goldbraun backen, vierteln, wenden, zweite Seite backen.",
+      "In Stücke reißen, kurz weiterbraten, mit Puderzucker bestäuben."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 10,
+      "original": "nur Pfanne 32 cm, mittlere Hitze: ca. 5 Min. + ca. 5 Min. nach Wenden, kurz nach dem Zerreißen"
+    },
+    "stueckzahl": null,
+    "notizen": "4 Portionen. 40 g Butter nur zum Braten. Rosinen in 2 EL Obstsaft eingelegt. Kein Karamellisieren, nur Puderzucker. Für 26-28-cm-Pfanne empfiehlt die Quelle 2-3 Durchgänge.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 4,99★ (581 Stimmen) +0,5",
+    "techniken": [
+      "eier_getrennt"
+    ]
+  },
+  {
+    "id": "oetker-de-kaiserschmarrn",
+    "titel": "Kaiserschmarrn",
+    "quelle": {
+      "url": "https://www.oetker.de/rezepte/r/kaiserschmarrn",
+      "site": "oetker.de",
+      "bewertung": 4.3,
+      "anzahlBewertungen": 102
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "kaiserschmarrn",
+    "gefaess": "pfanne_28_ofenfest",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Weizenmehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eiweiß / 4 Eigelb (Größe M)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 g Schlagsahne oder 200 ml Milch"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pck. Vanillin-Zucker"
+      },
+      {
+        "rolle": "salz",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Pr. Salz"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "rosinen",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g Rosinen"
+      }
+    ],
+    "methode": "schmarrn",
+    "ablauf": [
+      "Eiweiß sehr steif schlagen.",
+      "Eigelb mit Mehl, Salz, Vanillin-Zucker und Milch glatt rühren.",
+      "Schnee und Rosinen unterziehen.",
+      "Hälfte des Teigs in heißem Fett bei mittlerer Hitze unten hellgelb backen, vierteln, wenden, goldbraun backen.",
+      "Zerpflücken, mit Puderzucker bestäuben, zweite Hälfte ebenso."
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nur Pfanne 28 cm, mittlere Hitze, in zwei Durchgängen; keine Minuten (nur ca. 40 Min. Gesamtzeit)"
+    },
+    "stueckzahl": null,
+    "notizen": "Etwa 2 Portionen. Kein Zucker im Teig außer Vanillin-Zucker. Schlagsahne als gleichwertige Alternative zur Milch weggelassen. Ca. 50 g Butterschmalz oder 4 EL Öl zum Braten. Kein Karamellisieren, nur Puderzucker. Backzeit fehlt.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,3★ (102 Stimmen) ±0 · Backzeit fehlt −0,5",
+    "techniken": [
+      "eier_getrennt"
+    ]
+  }
+]

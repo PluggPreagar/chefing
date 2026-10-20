@@ -20,6 +20,10 @@ export function fromGrams(zutatKey, ing, grams) {
     const pkt = grams / u.pkt;
     return { menge: Math.round(grams), einheit: 'g', hinweis: `≈ ${fmtFrac(pkt)} Pck.` };
   }
+  if (u.prise && grams < 3 * u.prise) { // Salz: „≈ 0 TL“ hilft nicht, Prisen schon (T90)
+    const n = Math.max(1, Math.round(grams / u.prise));
+    return { menge: Math.round(grams * 10) / 10, einheit: 'g', hinweis: `≈ ${n} Prise${n > 1 ? 'n' : ''}` };
+  }
   if (u.tl && grams < 25) {
     return { menge: Math.round(grams), einheit: 'g', hinweis: `≈ ${fmtFrac(grams / u.tl)} TL` };
   }

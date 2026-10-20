@@ -334,3 +334,16 @@ Ergebnis: „am Boden halten bis cremig, dann hochziehen“ mehrfach belegt; „
 | 2026-10-20 | researchsquare.com | 1 (nur Titel) | Gegenhinweis | Preprint: Eiweiß dämpft Bitterkeit und Schärfe von nativem Olivenöl |
 
 Ergebnis: Hinweis „kann bitter werden“ beim Pürierstab, keine Warnung; keine deutsche Quelle gefunden.
+
+## 2026-10-20 — Korpus Kaiserschmarrn (T90, DR-059)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | crumbs-crust.de, eat.de, lecker.de, essen-und-trinken.de | je 1 | Korpus Kaiserschmarrn | getrennte Eier; crumbs-crust ohne Backpulver, im Ofen fertig |
+| 2026-10-20 | oetker.at, oetker.de, gusto.at, emmikochteinfach.de | je 1 | Korpus Kaiserschmarrn | getrennte Eier; oetker.at und gusto.at mit Ofen |
+| 2026-10-20 | gutekueche.at | 2 | Korpus Kaiserschmarrn | einmal ganze Eier, einmal getrennt |
+| 2026-10-20 | bergwelten.com | 1 | Korpus Kaiserschmarrn | Kala-Alm, ganze Eier |
+| 2026-10-20 | glatzkoch.de | 1 | Kaiserschmarrn (zurückgehalten) | 460 % Wasser vom Mehl und 1 Päckchen Backpulver → harte Grenze, nicht im Korpus |
+| 2026-10-20 | ichkoche.at, einfachkochen.de | je 1 | Kaiserschmarrn | Mengen nicht geladen bzw. Protein-Variante, nicht aufgenommen |
+
+Breit gesucht („Kaiserschmarrn Rezept“), nicht nach Eischnee: 9 von 11 aufgenommenen Rezepten trennen die Eier.
