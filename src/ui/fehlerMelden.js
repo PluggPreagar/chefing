@@ -284,7 +284,17 @@ function herunterladen() {
 }
 
 // knopf: Element, das das Panel öffnet; holeKontext: liefert den App-Zustand für die Meldung
+// Fehlt der Knopf (ältere index.html aus dem Browser-Cache, DR-037), legt das Modul ihn selbst in die Kopfzeile.
 export function initFehlerMelden(knopf, holeKontext) {
   kontext = holeKontext;
-  knopf?.addEventListener('click', oeffnen);
+  if (!knopf) {
+    knopf = document.createElement('button');
+    knopf.type = 'button';
+    knopf.id = 'fehler-melden';
+    knopf.className = 'ghost';
+    knopf.title = 'Fehler melden: Beschreibung, gewählte Elemente und App-Zustand als ZIP herunterladen, zum Verschicken per Mail';
+    knopf.textContent = '⚑ Fehler melden';
+    document.querySelector('nav.presets')?.append(knopf);
+  }
+  knopf.addEventListener('click', oeffnen);
 }
