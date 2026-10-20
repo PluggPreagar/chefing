@@ -52,6 +52,7 @@ export function compute(state, data, korpusStats) {
   const st = korpusStats[variante] || { n: 0, bp: {}, methoden: {}, backen: {} };
 
   const techniken = wirksameTechniken(state.techniken, arch, variante);
+  const bezugLabel = arch.bezug_label ?? 'Mehl';
   const evals = evaluateAll(state.zutaten, state.gefaess, data, state.fixiert, state.zutatTemperaturen, techniken);
   const autoMethodKey = bestMethod(evals, st.methoden, state.gefaess, data); // was „Auto“ wählen würde, auch bei manueller Wahl (T81)
   const methodKey = state.methode && evals[state.methode] ? state.methode : autoMethodKey;
@@ -96,6 +97,9 @@ export function compute(state, data, korpusStats) {
     // Die Methoden-Zelle kennt die Rolle nicht (Median 0, z. B. Fett im Brot ohne Kneten): erst der Median der Variante, dann der Schätzwert
     if ((bp == null || bp === 0) && stRolle !== st && st.bp?.[r]?.median > 0) bp = st.bp[r].median;
     if (bp == null || bp === 0) { bp = arch.rollen.find((x) => x.rolle === r).fallback_bp; quelle = 'schätzung'; }
+    // Rolle mit `menge_je_zutat` (T78, Mayonnaise: Eigelb vs. ganzes Ei): Median der Rezepte mit derselben Zutat, ab 3 Rezepten
+    const jeZutat = arch.rollen.find((x) => x.rolle === r).menge_je_zutat && st.bpJeZutat?.[r]?.[state.zutaten[r][0].zutat];
+    if (jeZutat?.n >= 3 && jeZutat.median > 0) { bp = jeZutat.median; quelle = 'korpus'; }
     bpZiel[r] = { bp, quelle };
   }
 
@@ -188,7 +192,7 @@ export function compute(state, data, korpusStats) {
     const luecke = (t === 'ausserhalb_q' || t === 'ausserhalb_spanne') ? basisLuecke(g, { posten: bpPosten, ingredients: data.ingredients, st, rollen: arch.rollen }) : null;
     if (luecke) {
       if (!hatGrenzverletzung && !groessenMitGrenze.has(g) && !OHNE_TOLERANZ.has(g)) {
-        toleranzHinweise.push(`${GROESSEN_LABEL[g]} ${fmtProzent(bil.bp[g])} % vom Mehl: keine Vergleichsbasis im Korpus (${luecke}) — die Abweichung sagt hier wenig.`);
+        toleranzHinweise.push(`${GROESSEN_LABEL[g]} ${fmtProzent(bil.bp[g])} % vom ${bezugLabel}: keine Vergleichsbasis im Korpus (${luecke}) — die Abweichung sagt hier wenig.`);
         toleranzIds.push(`basis:${g}`);
       }
       t = 'keine_basis';
@@ -196,8 +200,8 @@ export function compute(state, data, korpusStats) {
     if (!hatGrenzverletzung && !groessenMitGrenze.has(g) && !OHNE_TOLERANZ.has(g) && (t === 'ausserhalb_q' || t === 'ausserhalb_spanne')) {
       const wert = fmtProzent(bil.bp[g]);
       const text = t === 'ausserhalb_spanne'
-        ? `${GROESSEN_LABEL[g]} ${wert} % vom Mehl liegt außerhalb aller ${korpus.n} Korpus-Rezepte (${fmtProzent(korpus.min)}–${fmtProzent(korpus.max)} %) — ungetestete Kombination.`
-        : `${GROESSEN_LABEL[g]} ${wert} % vom Mehl ist untypisch (Korpus Q1–Q3: ${fmtProzent(korpus.q1)}–${fmtProzent(korpus.q3)} %).`;
+        ? `${GROESSEN_LABEL[g]} ${wert} % vom ${bezugLabel} liegt außerhalb aller ${korpus.n} Korpus-Rezepte (${fmtProzent(korpus.min)}–${fmtProzent(korpus.max)} %) — ungetestete Kombination.`
+        : `${GROESSEN_LABEL[g]} ${wert} % vom ${bezugLabel} ist untypisch (Korpus Q1–Q3: ${fmtProzent(korpus.q1)}–${fmtProzent(korpus.q3)} %).`;
       (t === 'ausserhalb_spanne' ? toleranzWarnungen : toleranzHinweise).push(text);
       toleranzIds.push(`toleranz:${g}`);
     }
@@ -256,14 +260,16 @@ export function compute(state, data, korpusStats) {
   const kb = st.backen || {};
   const ausKorpus = st.n >= 3 && kb.minuten?.median != null;
   // Gefäße ohne Ofen (Pfanne, T06) haben keine Temperaturen, nur `hitze` (Text) und Minuten je Einheit.
-  const ofen = vessel.basis.tempOU != null;
-  const minutenLabel = vessel.basis.minuten_label ?? 'Min.';
-  const tempOU = !ofen ? null : ausKorpus && kb.tempOU?.median != null ? round5(kb.tempOU.median) : vessel.basis.tempOU;
-  const tempUmluft = !ofen ? null : ausKorpus && kb.tempUmluft?.median != null ? round5(kb.tempUmluft.median) : ausKorpus ? tempOU - 20 : vessel.basis.tempUmluft;
-  let minuten = ausKorpus ? Math.round(kb.minuten.median) : vessel.basis.minuten;
+  // Gefäße ohne Hitze (Glas für Mayonnaise, T78): `basis: null` — kein Backen, nur die Hinweise des Gefäßs
+  const basis = vessel.basis ?? {};
+  const ofen = basis.tempOU != null;
+  const minutenLabel = basis.minuten_label ?? 'Min.';
+  const tempOU = !ofen ? null : ausKorpus && kb.tempOU?.median != null ? round5(kb.tempOU.median) : basis.tempOU;
+  const tempUmluft = !ofen ? null : ausKorpus && kb.tempUmluft?.median != null ? round5(kb.tempUmluft.median) : ausKorpus ? tempOU - 20 : basis.tempUmluft;
+  let minuten = ausKorpus ? Math.round(kb.minuten.median) : basis.minuten;
   const backHinweise = [...(vessel.hinweise || [])];
   if (ausKorpus) {
-    const referenz = ofen ? `${vessel.basis.tempOU} °C / ${vessel.basis.minuten} Min.` : `${vessel.basis.minuten} ${minutenLabel}`;
+    const referenz = ofen ? `${basis.tempOU} °C / ${basis.minuten} Min.` : `${basis.minuten} ${minutenLabel}`;
     backHinweise.unshift(`Median aus ${st.n} Rezepten (Spanne ${Math.round(kb.minuten.min)}–${Math.round(kb.minuten.max)} ${minutenLabel}); Gefäß-Referenz wäre ${referenz}.`);
   }
   if (ofen && (props.fett?.aggregat === 'fluessig' || res.schritte.some((s) => s.key === 'schmelzen'))) {
@@ -386,7 +392,7 @@ export function compute(state, data, korpusStats) {
     trieb: { zeile: trieb.zeile, quellen: trieb.quellen },
     // Technik-Stufe je Technik, gemessen am Korpus der Variante, wenn er genug Rezepte hat (T83, DR-051)
     technikStufen: Object.fromEntries(Object.keys(data.techniken || {}).filter((k) => !k.startsWith('_')).map((k) => [k, technikStufe(arch, variante, k, st.techniken?.[k] ?? { n: st.n, anteil: 0 })])),
-    gas: gas ? { gesamt: gas.gesamt, anteile: gas.anteile, zeile: gas.zeile } : null,
+    gas: gas?.zeile ? { gesamt: gas.gesamt, anteile: gas.anteile, zeile: gas.zeile } : null,
     gaerung: gaerungAktiv ? gaerungErgebnis({ gare: gare.summe, hefeBp: bpZiel[modell.rolle].bp, gareTemp, gareTempText, mindest: gareMindest, berechnet: !stM, pruefung: gaerPruefung }, modell) : null,
     toleranzHinweise,
     bilanz: bilanzZeilen,
@@ -404,7 +410,9 @@ export function compute(state, data, korpusStats) {
     zutatenListe,
     rollenBp: bpZiel,
     teigmasse,
-    backen: { tempOU, tempUmluft, minuten, minutenLabel, hitze: vessel.basis.hitze ?? null, hinweise: backHinweise },
+    backen: { tempOU, tempUmluft, minuten, minutenLabel, hitze: basis.hitze ?? null, ohneHitze: !vessel.basis, hinweise: backHinweise },
+    // Bezugsgröße der Prozente (T78): Mehl beim Backen, Öl bei der Mayonnaise
+    bezugLabel,
     archetypLabel: arch.label,
     ablauf,
     vessel,

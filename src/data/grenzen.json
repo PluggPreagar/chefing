@@ -93,6 +93,11 @@
       {"id": "hf_fett_max", "groesse": "fett", "bezug": {"rolle": "struktur"}, "max": 42, "strenge": "empfohlen", "kaskade_ziel": "fett", "hinweis": "Reinfett {wert} % vom Mehl (Grenze {grenze} %) — Fett umhüllt das Gluten, der Teig geht schlecht auf und wird schwer.", "quelle": "Faustwert (Brioche geht bis ~50 %), am Korpus kalibriert (2026-10-18, T59): Obergrenze von 35 auf 42 angehoben, weil ein französischer Brioche-Zopf mit 400 g Butter auf 1 kg Mehl (38,7 %) im Korpus steht; sonst höchstens 25 %."},
       {"id": "hf_fett_max_hart", "groesse": "fett", "bezug": {"rolle": "struktur"}, "max": 70, "strenge": "hart", "kaskade_ziel": "fett", "hinweis": "Reinfett {wert} % vom Mehl (Grenze {grenze} %) — Fett schwimmt auf, das Gerüst trägt nicht.", "quelle": "Physik-Faustwert."},
       {"id": "hf_gluten_min", "groesse": "gluten", "bezug": {"rolle": "struktur"}, "min": 6, "strenge": "empfohlen", "kaskade_ziel": "struktur", "hinweis": "Klebereiweiß nur {wert} % der Struktur (Grenze {grenze} %) — das Gerüst hält das Hefegas nicht, der Teig geht flach auf.", "quelle": "Faustwert: Weizenmehl liefert ~8 %."}
+    ],
+    "mayonnaise": [
+      {"id": "mayo_wasser_min_hart", "groesse": "wasser", "bezug": {"rolle": "fett"}, "min": 5, "strenge": "hart", "kaskade_ziel": "fluessigkeit", "hinweis": "Wasser nur {wert} % vom Öl (Grenze {grenze} %) — zu wenig Wasser, um das Lecithin zu verteilen: die Emulsion bricht, obwohl Emulgator genug da ist.", "quelle": "Nutzer 2026-10-20 (das Lecithin eines Eis reicht für etwa 20 l, das Wasser verteilt es) und QUELLEN.md 2026-10-20 (Wasser : Öl bis etwa 1 : 19 ≈ 5 %)."},
+      {"id": "mayo_wasser_min", "groesse": "wasser", "bezug": {"rolle": "fett"}, "min": 8, "strenge": "empfohlen", "kaskade_ziel": "fluessigkeit", "hinweis": "Wasser {wert} % vom Öl (Grenze {grenze} %) — sehr fest, nahe am Brechen: einen Teelöffel Wasser oder Zitronensaft einrühren.", "quelle": "Korpus-Minimum 10 % (n = 16, T78), Abstand zur harten Grenze."},
+      {"id": "mayo_wasser_max", "groesse": "wasser", "bezug": {"rolle": "fett"}, "max": 70, "strenge": "empfohlen", "hinweis": "Wasser {wert} % vom Öl (Grenze {grenze} %) — viel Wasserphase: die Mayonnaise bleibt weich, eher eine Soße.", "quelle": "Korpus-Maximum 62 % (ganzes Ei mit wenig Öl, Pürierstab; n = 16, T78)."}
     ]
   }
 }

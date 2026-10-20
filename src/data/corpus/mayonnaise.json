@@ -1,0 +1,1023 @@
+[
+  {
+    "id": "lecker-klassische-mayonnaise",
+    "titel": "Klassische Mayonnaise",
+    "quelle": {
+      "url": "https://www.lecker.de/mayonnaise-rezept-zum-selbermachen-50444.html",
+      "site": "lecker.de",
+      "bewertung": 3.7,
+      "anzahlBewertungen": 66
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "eigelb",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 sehr frische Eigelb (Gr. M)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL mittelscharfer Senf"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "ca. ¼ l neutrales Öl (z. B. Sonnenblumenöl)"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 1.5,
+        "einheit": "el",
+        "original": "1-2 EL Zitronensaft"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "wasser",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL lauwarmes Wasser (Tipp)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "Salz"
+      }
+    ],
+    "methode": "mayo_hand",
+    "ablauf": [
+      "Eigelb und Senf mit dem Handrührgerät (oder Schneebesen) kurz verschlagen.",
+      "Etwa ein Fünftel des Öls tropfenweise einarbeiten, bis eine glatte Creme entsteht.",
+      "Übriges Öl im dünnen Strahl unter ständigem Schlagen zugeben, bis die Masse dick ist.",
+      "Zitronensaft einrühren, abschmecken, zum Schluss einen Löffel lauwarmes Wasser unterrühren."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Alle Zutaten sollen Raumtemperatur haben, sonst gerinnt die Masse. Rettung: 1 EL geronnene Masse mit 1 frischen Eigelb verrühren, Rest nach und nach einarbeiten. Wasser ist ein Stabilitäts-Tipp der Seite. Zitronensaft 1-2 EL als Mitte 1,5 EL erfasst; Salzmenge nicht angegeben (1 Prise angenommen). Pfeffer und 1 Prise Zucker weggelassen. Schneebesen statt Rührgerät laut Seite für bessere Konsistenzkontrolle. Verhältnis ca. 125 ml Öl je Eigelb; kein Maximum genannt. Die Seite nennt zusätzlich eine Stabmixer-Kurzvariante (1 Eigelb, 100 ml Öl), hier nicht als eigener Eintrag.",
+    "qualitaet": 2,
+    "qualitaet_grund": "Seite 3,7★ (66 Stimmen) −0,5 · Backzeit fehlt −0,5 · Mengen angenommen/unsicher −0,5 · Angabe fehlt im Original −0,25",
+    "techniken": []
+  },
+  {
+    "id": "gutekueche-at-selbstgemachte-mayonnaise",
+    "titel": "Selbstgemachte Mayonnaise",
+    "quelle": {
+      "url": "https://www.gutekueche.at/selbstgemachte-mayonnaise-rezept-39383",
+      "site": "gutekueche.at",
+      "bewertung": 4.7,
+      "anzahlBewertungen": 50
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "eigelb",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Stk. frische, große Bio-Eier (getrennt, nur Eigelb)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml neutrales Öl (z. B. Sonnenblumenöl)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL mittelscharfer Senf (z. B. Dijon)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "mayo_hand",
+    "ablauf": [
+      "Eier trennen, Eigelb in eine Rührschüssel geben.",
+      "Senf zufügen und mit dem Schneebesen gut verschlagen.",
+      "Öl nach und nach unter Schlagen einlaufen lassen, bis die Masse cremig ist.",
+      "Würzen und nochmals gründlich durchrühren."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Keine Säure in der Zutatenliste, obwohl der Ablauf Zitronensaft erwähnt (Fehler der Quelle, nicht ergänzt). Zucker und weißer Pfeffer (je 1 Prise) weggelassen. Keine Angabe zur Raumtemperatur, nur sehr frische Eier. Für größere Mengen empfiehlt die Seite Küchenmaschine oder Stabmixer. Ca. 125 ml Öl je Eigelb, kein Maximum. Kein Rettungstipp.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,7★ (50 Stimmen) ±0 · Backzeit fehlt −0,5",
+    "techniken": []
+  },
+  {
+    "id": "essen-und-trinken-mayonnaise-handruehrer",
+    "titel": "Mayonnaise",
+    "quelle": {
+      "url": "https://www.essen-und-trinken.de/rezepte/46692-rzpt-mayonnaise",
+      "site": "essen-und-trinken.de",
+      "bewertung": null,
+      "anzahlBewertungen": 70
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "eigelb",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Bio-Eigelb"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml Öl"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "Salz"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Dijon-Senf"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zitronensaft"
+      }
+    ],
+    "methode": "mayo_hand",
+    "ablauf": [
+      "Zimmerwarmes Eigelb mit den Quirlen des Handrührers etwa 3 Minuten schaumig schlagen.",
+      "Kurz (ca. 2 Minuten) stehen lassen.",
+      "Öl auf höchster Stufe erst tropfenweise, dann im dünnen Strahl einschlagen, bis die Masse cremig ist.",
+      "Erst danach mit Senf, Zitronensaft und Salz würzen."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Eigelb soll zimmerwarm sein. Senf und Säure kommen erst am Ende dazu (nicht in die Ausgangsmasse). Cayennepfeffer weggelassen; Salzmenge nicht angegeben (1 Prise angenommen). Öl-Sorte nicht genannt, als neutrales Öl erfasst. Sehr eigelbreich: ca. 67 ml Öl je Eigelb. Sternwert nicht ablesbar, nur Anzahl Bewertungen (70). Kein Rettungstipp. Zutaten laut Seite auf Raumtemperatur.",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5 · Mengen angenommen/unsicher −0,5 · Angabe fehlt im Original −0,25",
+    "techniken": []
+  },
+  {
+    "id": "gutekueche-de-selbstgemachte-mayonnaise-olivenoel",
+    "titel": "Selbstgemachte Mayonnaise",
+    "quelle": {
+      "url": "https://www.gutekueche.de/selbstgemachte-mayonnaise-rezept-5854",
+      "site": "gutekueche.de",
+      "bewertung": 4.8,
+      "anzahlBewertungen": 12
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_500",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "eigelb",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Stk Eigelb"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "essig",
+        "menge": 3,
+        "einheit": "el",
+        "original": "3 EL Essig"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Senf, körnig"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "olivenoel",
+        "menge": 400,
+        "einheit": "ml",
+        "original": "400 ml Olivenöl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 2,
+        "einheit": "el",
+        "original": "0.5 Stk Zitrone"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "mayo_hand",
+    "ablauf": [
+      "Eigelb mit Essig und Senf schaumig schlagen.",
+      "Unter ständigem Rühren die Hälfte des Öls tropfenweise zugeben.",
+      "Restliches Öl langsam einlaufen lassen.",
+      "Mit dem Saft einer halben Zitrone, Salz und Pfeffer abschmecken."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Reines Olivenöl, kein Mischöl. Werkzeug nicht genannt (nur 'schlagen'), als Handmethode erfasst. Säure kommt hier schon zu Beginn (Essig) in die Eigelbmasse. Halbe Zitrone als ca. 2 EL Saft geschätzt. Pfeffer weggelassen. Keine Angabe zu Raumtemperatur, kein Rettungstipp. Ca. 133 ml Öl je Eigelb, kein Maximum.",
+    "qualitaet": 3,
+    "qualitaet_grund": "Seite 4,8★ (12 Stimmen) ±0 · Backzeit fehlt −0,5 · Mengen angenommen/unsicher −0,5",
+    "techniken": []
+  },
+  {
+    "id": "essen-und-trinken-mayonnaise-schneebesen",
+    "titel": "Mayonnaise (Kochschule)",
+    "quelle": {
+      "url": "https://www.essen-und-trinken.de/kochschule/mayonnaise-1033341.html",
+      "site": "essen-und-trinken.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "eigelb",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eigelb"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Senf"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "Salz"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "etwas Zitronensaft"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 300,
+        "einheit": "ml",
+        "original": "300 ml Öl"
+      }
+    ],
+    "methode": "mayo_hand",
+    "ablauf": [
+      "Eigelb, Senf, Salz und Zitronensaft mit dem Schneebesen glatt rühren.",
+      "Öl in kleinen Portionen nach und nach einschlagen.",
+      "Weiterschlagen, bis die Mayonnaise cremig und fest ist."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "'Etwas Zitronensaft' als ca. 1 TL angenommen; Salzmenge nicht angegeben (1 Prise angenommen). Öl-Sorte nicht genannt. Nur sehr frische Eier verwenden, rasch verbrauchen. Keine Angabe zu Raumtemperatur, kein Rettungstipp. 150 ml Öl je Eigelb, kein Maximum.",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5 · Mengen angenommen/unsicher −0,5 · Angabe fehlt im Original −0,25",
+    "techniken": []
+  },
+  {
+    "id": "fuersie-mayonnaise-selber-machen",
+    "titel": "Mayonnaise selber machen",
+    "quelle": {
+      "url": "https://www.fuersie.de/kochen/rezeptideen/artikel/rezept-mayonnaise-selber-machen",
+      "site": "fuersie.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "eigelb",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL mittelscharfer Senf"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 250,
+        "einheit": "ml",
+        "original": "250 ml Sonnenblumenöl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Zitronensaft"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "Salz"
+      }
+    ],
+    "methode": "mayo_hand",
+    "ablauf": [
+      "Eier trennen, Eigelb mit Senf verrühren.",
+      "Öl erst tropfenweise mit dem Schneebesen einrühren, bis die Masse glatt ist.",
+      "Dann im dünnen Strahl unter ständigem Schlagen zugeben, bis sie dick wird.",
+      "Zum Schluss mit Zitronensaft und Salz abschmecken."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Zutatenliste nennt '2 Eier', verwendet wird nur das Eigelb. Zutaten sollen Raumtemperatur haben, aber nicht zu warm sein (sonst fällt die Mayo schnell zusammen). Pfeffer und 1 Prise Zucker weggelassen; Salzmenge nicht angegeben. Gekühlt 2-3 Tage haltbar. Kein Rettungstipp. 125 ml Öl je Eigelb.",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5 · Angabe fehlt im Original −0,25",
+    "techniken": []
+  },
+  {
+    "id": "wikibooks-mayonnaise",
+    "titel": "Mayonnaise (Kochbuch)",
+    "quelle": {
+      "url": "https://de.wikibooks.org/wiki/Kochbuch/_Mayonnaise",
+      "site": "de.wikibooks.org",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "eigelb",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Eigelb"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1.5,
+        "einheit": "tl",
+        "original": "1 - 2 TL Senf"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "etwas Salz"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "essig",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Essig oder Zitronensaft"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 125,
+        "einheit": "ml",
+        "original": "1/8 Liter Salatöl (nach Wunsch auch mehr)"
+      }
+    ],
+    "methode": "mayo_hand",
+    "ablauf": [
+      "Alles außer dem Öl in ein hohes Rührgefäß geben und mit dem Handrührgerät ca. 30 Sekunden auf höchster Stufe glatt mixen.",
+      "Weiterrühren und das Öl in drei bis vier Portionen oder als gleichmäßigen Strahl zugeben.",
+      "Rühren, bis alles Öl gebunden ist (insgesamt etwa eine Minute)."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Handrührgerät, aber ohne tropfenweise Phase: Öl in Portionen, die Seite behauptet, so gerinne nichts. Ausbeute laut Seite 170 g. 1 TL Zucker weggelassen. Säure wahlweise Essig oder Zitronensaft (als Essig erfasst); Senf 1-2 TL als 1,5 TL. Mehr Öl ausdrücklich möglich ('nach Wunsch auch mehr'), kein Maximum. Aufhellen mit etwas Gurkenwasser oder Wasser möglich. Keine Raumtemperatur-Angabe, kein Rettungstipp.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5",
+    "techniken": []
+  },
+  {
+    "id": "jamieoliver-my-beautiful-mayo",
+    "titel": "My beautiful mayo",
+    "quelle": {
+      "url": "https://www.jamieoliver.com/recipes/eggs/my-beautiful-mayo/",
+      "site": "jamieoliver.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_500",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "eigelb",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 free-range egg yolks"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 heaped teaspoon Dijon mustard"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 500,
+        "einheit": "ml",
+        "original": "500ml mixed oils"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "essig",
+        "menge": 1.5,
+        "einheit": "el",
+        "original": "1-2 tablespoons white wine vinegar"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 2,
+        "einheit": "el",
+        "original": "½ lemon"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "sea salt"
+      }
+    ],
+    "methode": "mayo_hand",
+    "ablauf": [
+      "Eigelb verschlagen, dann den Senf einrühren.",
+      "Etwa die Hälfte des Öls langsam unter Schlagen zugeben (3-5 Minuten), bis die Masse dick ist.",
+      "1 EL Essig einschlagen, das lockert und hellt die Mayo auf.",
+      "Restliches Öl nach und nach einarbeiten, mit Salz, Zitrone und ggf. mehr Essig abschmecken."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Mischöl aus milden Ölen (Raps-, Pflanzen- oder mildes Olivenöl), als pflanzenoel erfasst. Sehr ölreich: 250 ml Öl je Eigelb, Essig als Verdünner in der Mitte. Essig 1-2 EL als 1,5 EL; halbe Zitrone als ca. 2 EL Saft geschätzt; Salzmenge nicht angegeben. Ausbeute 500 ml. Keine Raumtemperatur-Angabe, kein Rettungstipp. Bis 1 Woche im Kühlschrank.",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5 · Mengen angenommen/unsicher −0,5 · Angabe fehlt im Original −0,25",
+    "techniken": []
+  },
+  {
+    "id": "utopia-mayonnaise-schnell-rezept",
+    "titel": "Mayonnaise selber machen: Schnell-Rezept mit klassischen Zutaten",
+    "quelle": {
+      "url": "https://utopia.de/ratgeber/mayonnaise-selber-machen-schnell-rezept-mit-klassischen-zutaten_82338/",
+      "site": "utopia.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "eigelb",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml Rapsöl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 EL Zitronensaft (halbe Zitrone)"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Dijon-Senf"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 2,
+        "einheit": "prise",
+        "original": "Salz"
+      }
+    ],
+    "methode": "mayo_stab",
+    "ablauf": [
+      "Eier trennen; Eigelb, Senf, Zitronensaft und Salz in ein hohes, schmales Gefäß geben.",
+      "So viel Öl zugießen, dass die Zutaten bedeckt sind.",
+      "Pürierstab am Boden halten und mixen, bis die Masse einheitlich ist.",
+      "Stab langsam hochziehen und dabei das restliche Öl zugeben."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Zutatenliste nennt '2 Eier', verwendet wird nur das Eigelb. Salz laut Ablauf 2 Prisen. Alle Zutaten müssen Raumtemperatur haben. Bei ausreichend schmalem Gefäß darf das ganze Öl auf einmal hinein; Stab erst hochziehen, wenn unten eine cremige Basis steht. Pfeffer und optionale Kräuter weggelassen. Alternativ von Hand (tropfenweise) möglich. 100 ml Öl je Eigelb, kein Rettungstipp.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5",
+    "techniken": []
+  },
+  {
+    "id": "oekotest-mayonnaise-selber-machen",
+    "titel": "Mayonnaise selber machen",
+    "quelle": {
+      "url": "https://www.oekotest.de/essen-trinken/mayonnaise-selber-machen-so-geht-s-viel-einfacher-als-gedacht_13968_1.html",
+      "site": "oekotest.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Ei (frisch)"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 ml Pflanzenöl"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL mittelscharfer Senf"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 Spritzer Zitronensaft oder Zitronenabrieb"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "etwas Salz"
+      }
+    ],
+    "methode": "mayo_stab",
+    "ablauf": [
+      "Ei mit Senf, Salz und Zitronensaft in ein hohes Gefäß geben und kurz anmixen.",
+      "Öl in sehr dünnem Strahl zulaufen lassen, dabei weiter pürieren und den Stab auf und ab bewegen.",
+      "Mixen, bis die gewünschte Festigkeit erreicht ist, dann abschmecken."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Stabmixer, aber Öl wird nachträglich im dünnen Strahl zugegeben (nicht alles auf einmal). Ei soll Raumtemperatur haben. 'Spritzer' als ca. 1 TL erfasst; Salzmenge nicht angegeben; Pfeffer weggelassen. Nicht nur Olivenöl nehmen (bitter), höchstens halb Olivenöl, halb neutral. Zu dick: Schuss Wasser zugeben und kurz aufmixen. 100 ml Öl je Ei, kein Rettungstipp.",
+    "qualitaet": 3,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5 · Angabe fehlt im Original −0,25 · Ausreißer bei Gesamtwasser −0,5",
+    "techniken": []
+  },
+  {
+    "id": "gutekueche-at-mayonnaise-selbst-gemacht",
+    "titel": "Mayonnaise selbst gemacht",
+    "quelle": {
+      "url": "https://www.gutekueche.at/mayonnaise-selbst-gemacht-rezept-24249",
+      "site": "gutekueche.at",
+      "bewertung": 4.6,
+      "anzahlBewertungen": 1431
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "fett",
+        "zutat": "olivenoel",
+        "menge": 220,
+        "einheit": "ml",
+        "original": "220 ml Olivenöl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "eigelb",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Stk Eier"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Senf"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zitronensaft"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "0.5 TL Salz"
+      }
+    ],
+    "methode": "mayo_stab",
+    "ablauf": [
+      "Eigelb mit Salz, Zitronensaft und Senf in einem hohen Gefäß verrühren.",
+      "Pürierstab auf den Boden setzen und das Öl tropfenweise bzw. im dünnen Strahl zumixen.",
+      "Stab dabei langsam von unten nach oben führen, bis eine dicke Emulsion entsteht.",
+      "Mit Salz und Zitronensaft nachwürzen."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Liste nennt '1 Stk Eier', der Ablauf verwendet nur das Eigelb. Reines Olivenöl; neutrales Öl (Sonnenblume/Raps) als Alternative, ein Kommentar warnt vor Bitterkeit. Stabmixer mit nachträglicher Ölzugabe (nicht alles auf einmal). Zutaten idealerweise Raumtemperatur, kalte Zutaten destabilisieren. Zu fest: 1 TL warmes Wasser oder Zitronensaft. Kein Rettungstipp für geronnene Mayo. Viel Öl je Eigelb: 220 ml.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,6★ (1431 Stimmen) ±0 · Backzeit fehlt −0,5",
+    "techniken": []
+  },
+  {
+    "id": "essen-und-trinken-blitz-mayonnaise",
+    "titel": "Blitz-Mayonnaise",
+    "quelle": {
+      "url": "https://www.essen-und-trinken.de/kochschule/80439-rtkl-video-kochschule-blitz-mayonnaise",
+      "site": "essen-und-trinken.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml Öl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Ei"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Senf"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "Einige Spritzer Zitronensaft"
+      }
+    ],
+    "methode": "mayo_stab",
+    "ablauf": [
+      "Öl in einen hohen Rührbecher gießen.",
+      "Ei, Senf, Salz und Zitronensaft dazugeben.",
+      "Mit dem Pürierstab cremig mixen; fertig, wenn die Mayo am Löffel haften bleibt."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Alles auf einmal im Becher, Öl zuerst. 'Einige Spritzer' als ca. 2 TL erfasst. Pfeffer weggelassen. Nur frische Eier, rasch verbrauchen, kleine Mengen machen. Keine Raumtemperatur-Angabe, kein Rettungstipp. 200 ml Öl je Ei.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung · Backzeit fehlt −0,5",
+    "techniken": []
+  },
+  {
+    "id": "kochbar-mayonnaise-stabmixer-ei",
+    "titel": "Mayonnaise",
+    "quelle": {
+      "url": "https://www.kochbar.de/rezept/450226/Mayonnaise.html",
+      "site": "kochbar.de",
+      "bewertung": 4.86,
+      "anzahlBewertungen": 7
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 Stk. Hühnerei"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 ml Sonnenblumenöl"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL (gestrichen) Senf mittelscharf"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "etwas Salz"
+      }
+    ],
+    "methode": "mayo_stab",
+    "ablauf": [
+      "Ei, dann Öl, dann Senf in einen hohen Mixbecher geben.",
+      "Stabmixer auf den Boden setzen und einschalten.",
+      "Langsam nach oben ziehen, bis die Masse cremig ist; mit Salz und Pfeffer würzen."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Keine Säure im Rezept (weder Essig noch Zitrone). Alles auf einmal im Becher. Salzmenge nicht angegeben; Pfeffer und optionaler Knoblauch weggelassen. Keine Raumtemperatur-Angabe, kein Rettungstipp. 100 ml Öl je Ei.",
+    "qualitaet": 3,
+    "qualitaet_grund": "Seite 4,86★ (7 Stimmen) ±0 · Backzeit fehlt −0,5 · Angabe fehlt im Original −0,25 · Ausreißer bei Gesamtwasser −0,5",
+    "techniken": []
+  },
+  {
+    "id": "kochbar-mayonaise-mit-stabmixer",
+    "titel": "Mayonaise mit Stabmixer (Zauberstab)",
+    "quelle": {
+      "url": "https://www.kochbar.de/rezept/238279/Mayonaise-mit-Stabmixer-Zauberstab.html",
+      "site": "kochbar.de",
+      "bewertung": 4.92,
+      "anzahlBewertungen": 13
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier Freiland"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Senf mittelscharf"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "Salz"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zitronensaft"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml Öl"
+      }
+    ],
+    "methode": "mayo_stab",
+    "ablauf": [
+      "Ganze Eier, Senf, Zitronensaft und Gewürze in den Mixbecher geben.",
+      "Mit dem Stabmixer mixen und dabei das Öl langsam einlaufen lassen.",
+      "Nach Wunsch mit Knoblauch oder Kräutern abwandeln."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Zwei ganze Eier, Öl wird während des Mixens langsam zugegossen (nicht alles auf einmal). Zutaten sollen Raumtemperatur haben. Weißer Pfeffer weggelassen; Salzmenge nicht angegeben. Öl-Sorte nicht genannt. Kein Rettungstipp. 100 ml Öl je Ei.",
+    "qualitaet": 3,
+    "qualitaet_grund": "Seite 4,92★ (13 Stimmen) ±0 · Backzeit fehlt −0,5 · Angabe fehlt im Original −0,25 · Ausreißer bei Gesamtwasser −0,5",
+    "techniken": []
+  },
+  {
+    "id": "inspiredtaste-failproof-homemade-mayonnaise",
+    "titel": "Failproof Homemade Mayonnaise",
+    "quelle": {
+      "url": "https://www.inspiredtaste.net/25943/homemade-mayonnaise-recipe/",
+      "site": "inspiredtaste.net",
+      "bewertung": 4.9,
+      "anzahlBewertungen": 824
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 large egg"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "essig",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 tablespoon white wine vinegar or red wine vinegar"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 tablespoon Dijon mustard"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.25,
+        "einheit": "tl",
+        "original": "¼ teaspoon fine sea salt"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 240,
+        "einheit": "ml",
+        "original": "1 cup (240 ml) safflower oil or vegetable oil"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 teaspoon fresh lemon juice (optional)"
+      }
+    ],
+    "methode": "mayo_stab",
+    "ablauf": [
+      "Ei, Essig, Senf, Salz und ggf. Zitronensaft in ein hohes, schmales Glas geben, Öl obenauf gießen.",
+      "Stab auf den Boden drücken und auf hoher Stufe mixen, ohne ihn zu bewegen.",
+      "Sobald sich unten eine dicke Schicht bildet, Stab langsam heben und senken, bis alles gebunden ist (20-30 Sekunden)."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Seite beschreibt vier Methoden (Küchenmaschine im Video, Standmixer, Stabmixer, Schneebesen); erfasst ist die Stabmixer-Variante mit allem auf einmal. Rettung: 1 Eigelb + 1 TL Wasser in sauberem Gefäß, geronnene Masse nach und nach einarbeiten. Zu dünn: vorsichtig etwas Öl nach, Warnung dass zu viel Öl spaltet. Zu dick: kaltes Wasser teelöffelweise. Keine Raumtemperatur-Angabe. Ausbeute ca. 1 cup. 240 ml Öl je Ei.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,9★ (824 Stimmen) +0,5 · Backzeit fehlt −0,5",
+    "techniken": []
+  },
+  {
+    "id": "downshiftology-easy-homemade-mayonnaise",
+    "titel": "Easy Homemade Mayonnaise",
+    "quelle": {
+      "url": "https://downshiftology.com/recipes/how-to-make-homemade-mayonnaise/",
+      "site": "downshiftology.com",
+      "bewertung": 4.81,
+      "anzahlBewertungen": 609
+    },
+    "archetyp": "mayonnaise",
+    "variante": "mayonnaise",
+    "gefaess": "glas_250",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 1,
+        "einheit": "stk",
+        "original": "1 whole egg"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "zitronensaft",
+        "menge": 1.5,
+        "einheit": "tl",
+        "original": "½ tbsp lemon juice"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "essig",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 tsp white wine vinegar"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "senf",
+        "menge": 0.25,
+        "einheit": "tl",
+        "original": "¼ tsp Dijon mustard"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.25,
+        "einheit": "tl",
+        "original": "¼ tsp sea salt"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 240,
+        "einheit": "ml",
+        "original": "1 cup avocado oil, or light-flavored olive oil"
+      }
+    ],
+    "methode": "mayo_stab",
+    "ablauf": [
+      "Ei, Zitronensaft, Essig, Senf und Salz in den Becher des Stabmixers geben, Öl obenauf gießen und kurz absetzen lassen.",
+      "Stab fest auf den Boden drücken und 10-15 Sekunden auf hoher Stufe mixen, ohne ihn zu bewegen.",
+      "Sobald es andickt, Stab auf und ab führen, bis alles verbunden ist."
+    ],
+    "backen": null,
+    "stueckzahl": null,
+    "notizen": "Öl: Avocadoöl oder mildes Olivenöl, als pflanzenoel erfasst; kein natives Olivenöl extra. Alles auf einmal im Originalbecher; ein breiteres Gefäß lässt die Emulsion scheitern, Küchenmaschine/Standmixer funktionieren mit diesem Rezept laut Seite nicht. Rettung: 1 EL kochendes Wasser zugeben und nochmals mixen (wird dünner) oder ein weiteres Eigelb (wird fester). Keine Raumtemperatur-Angabe. 240 ml Öl je Ei.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,81★ (609 Stimmen) +0,5 · Backzeit fehlt −0,5",
+    "techniken": []
+  }
+]

@@ -481,5 +481,157 @@
     "triebquelle": "wenig Hefe, sehr lange Gare",
     "geeignet_fuer": ["brotform", "blech"],
     "warum": "Zeit statt Arbeit: kaum Handarbeit, viel Aroma, aber ein ganzer Tag Vorlauf. Nur mit Mehl, das genug Gluten bildet."
+  },
+  "mayo_hand": {
+    "label": "Von Hand (Schneebesen)",
+    "kurz": "Eigelb + Säure + Senf verrühren → Öl tropfenweise → Rest im dünnen Strahl",
+    "sequenz": [
+      {
+        "key": "mayo_basis",
+        "phase": "wasser",
+        "label": "Eigelb, Säure und Senf verrühren",
+        "aktion": "Verrühren",
+        "ort": "schuessel",
+        "typ": "mischen",
+        "verb": "schlagen",
+        "intensitaet": "kraeftig",
+        "variante": "glatt verrühren",
+        "auf": [
+          "bindung",
+          "fluessigkeit",
+          "aroma"
+        ],
+        "voraussetzung": [],
+        "wirkung": "Die Wasserphase mit dem Lecithin entsteht: in sie wird das Öl verteilt (Öl in Wasser).",
+        "risiko": "Kalte Zutaten emulgieren schlecht — alles vorher auf Raumtemperatur bringen.",
+        "dauer_min": 1
+      },
+      {
+        "key": "oel_tropfen",
+        "emulsion": {
+          "gibt": "fett",
+          "zugabe": "portionsweise"
+        },
+        "label": "Öl tropfenweise einschlagen",
+        "aktion": "Tropfen",
+        "ort": "schuessel",
+        "typ": "mischen",
+        "verb": "schlagen",
+        "intensitaet": "kraeftig",
+        "variante": "tropfenweise",
+        "auf": [
+          "fett"
+        ],
+        "voraussetzung": [],
+        "wirkung": "Die ersten Tropfen werden fein zerteilt und vom Lecithin umhüllt; erst wenn die Masse bindet (dicklich, glänzend), trägt sie mehr Öl.",
+        "risiko": "Am Anfang zu schnell → die Emulsion bildet sich nicht, die Masse bleibt flüssig.",
+        "dauer_min": 3
+      },
+      {
+        "key": "oel_strahl_mayo",
+        "emulsion": {
+          "gibt": "fett",
+          "zugabe": "strahl"
+        },
+        "label": "Restliches Öl im dünnen Strahl",
+        "aktion": "Einlaufen",
+        "ort": "schuessel",
+        "typ": "mischen",
+        "verb": "schlagen",
+        "intensitaet": "kraeftig",
+        "variante": "im dünnen Strahl",
+        "auf": [
+          "fett"
+        ],
+        "voraussetzung": [],
+        "wirkung": "Die gebundene Emulsion nimmt das übrige Öl auf und wird fest.",
+        "risiko": "Zu fest → einige Tropfen Wasser einrühren, das Wasser verteilt das Lecithin wieder. Gebrochen → neues Eigelb ansetzen und die gebrochene Masse langsam einrühren.",
+        "dauer_min": 4
+      },
+      {
+        "key": "abfuellen",
+        "label": "In das Glas füllen",
+        "aktion": "Abfüllen",
+        "ort": "gefaess",
+        "typ": "vorbereitung",
+        "verb": "formen",
+        "variante": "abfüllen",
+        "auf": [],
+        "voraussetzung": [],
+        "wirkung": "Fertige Mayonnaise ins saubere Glas füllen und kühl stellen.",
+        "dauer_min": 1
+      }
+    ],
+    "textur": "fest, glänzend",
+    "triebquelle": "keine (Emulsion)",
+    "geeignet_fuer": [
+      "glas"
+    ],
+    "warum": "Klassisch: die Emulsion wächst langsam, jede Portion Öl wird erst verteilt, bevor die nächste kommt."
+  },
+  "mayo_stab": {
+    "label": "Pürierstab (Mixbecher)",
+    "kurz": "Alles in den Mixbecher, Öl obenauf → Stab am Boden ansetzen und langsam hochziehen",
+    "sequenz": [
+      {
+        "key": "mayo_becher",
+        "phase": "wasser",
+        "label": "Alle Zutaten in den Mixbecher, Öl obenauf",
+        "aktion": "Einfüllen",
+        "ort": "mixbecher",
+        "typ": "vorbereitung",
+        "verb": "vorbereiten",
+        "variante": "einschichten",
+        "auf": [
+          "bindung",
+          "fluessigkeit",
+          "aroma",
+          "fett"
+        ],
+        "voraussetzung": [],
+        "wirkung": "Eigelb und Säure liegen unten am Messer, das Öl schwimmt obenauf.",
+        "risiko": "Kalte Zutaten emulgieren schlecht — alles vorher auf Raumtemperatur bringen.",
+        "dauer_min": 1
+      },
+      {
+        "key": "puerieren",
+        "werkzeug": "puerierstab",
+        "emulsion": {
+          "gibt": "fett",
+          "zugabe": "auf_einmal"
+        },
+        "label": "Stab am Boden ansetzen, pürieren, langsam hochziehen",
+        "aktion": "Pürieren",
+        "ort": "mixbecher",
+        "typ": "mischen",
+        "verb": "schlagen",
+        "intensitaet": "kraeftig",
+        "variante": "pürieren",
+        "auf": [],
+        "voraussetzung": [],
+        "wirkung": "Am Messer entsteht die Emulsion mit sehr hoher Scherung und zieht das Öl von oben nach und nach ein.",
+        "risiko": "Im weiten Gefäß oder zu früh hochgezogen → das Messer erreicht das Öl nicht gleichmäßig, die Emulsion bildet sich nicht.",
+        "dauer_min": 1
+      },
+      {
+        "key": "abfuellen",
+        "label": "In das Glas füllen",
+        "aktion": "Abfüllen",
+        "ort": "gefaess",
+        "typ": "vorbereitung",
+        "verb": "formen",
+        "variante": "abfüllen",
+        "auf": [],
+        "voraussetzung": [],
+        "wirkung": "Fertige Mayonnaise ins saubere Glas füllen und kühl stellen.",
+        "dauer_min": 1
+      }
+    ],
+    "textur": "fest, glänzend",
+    "triebquelle": "keine (Emulsion)",
+    "geeignet_fuer": [
+      "glas"
+    ],
+    "warum": "Schnell: die hohe Scherung am Messer erlaubt alles auf einmal, wenn das Gefäß schmal und hoch ist (DR-053)."
   }
 }

@@ -2,13 +2,14 @@
 
 Kochen als Kombinatorik: Zutaten nach Eigenschaften wählen, Methode und Ablauf folgen aus der Physik, die Mengen aus einem Korpus echter Rezepte. Statische Web-App ohne Build und ohne Framework (ES-Module, Vanilla JS).
 
-Aktuell drei **Archetypen** mit sieben Varianten:
+Aktuell vier **Archetypen** mit acht Varianten:
 
 | Archetyp | Varianten | Korpus |
 |---|---|---|
-| Rührteig | Rührkuchen (Kastenform), Muffins, Gugelhupf | 45 Rezepte |
-| Pfannkuchen | Eierkuchen (dünn), Pancakes (dick) | 31 Rezepte |
+| Rührteig | Rührkuchen (Kastenform), Muffins, Gugelhupf | 57 Rezepte |
+| Pfannkuchen | Eierkuchen (dünn), Pancakes (dick) | 36 Rezepte |
 | Hefeteig | Weißbrot (Kastenform), Hefezopf (Blech) | 65 Rezepte |
+| Mayonnaise | Mayonnaise (von Hand oder Pürierstab, Emulsion ohne Hitze) | 16 Rezepte |
 
 ## Starten
 
@@ -24,7 +25,7 @@ Tests (Node ≥ 18, keine Abhängigkeiten):
 sh test/run.sh
 ```
 
-Jede Datei `test/*.check.mjs` ist eine eigene Suite (34 Suiten, rund 1040 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph, Ablauf-Strom sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
+Jede Datei `test/*.check.mjs` ist eine eigene Suite (39 Suiten, rund 1040 Fälle; die PHP-Tests brauchen PHP ab 8.1, `PHP_BIN` kann den Pfad vorgeben, sonst werden sie übersprungen). Sie decken Regeln und Strenge-Stufen (`regeln`), Erfahrungsregeln, Einheiten und Statistik, die Feedback-Schleife, Bilanz und Grenzen, Zeit, Ablauf-Graph, Ablauf-Strom sowie je Archetyp Korpus und Presets ab. Vor jedem Push müssen alle grün sein; ein Hook erzwingt das, einmalig aktivieren mit:
 
 ```bash
 git config core.hooksPath .githooks

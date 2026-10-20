@@ -14,7 +14,7 @@ ok(ohneKat.length===0,`jede der ${zutaten.length} Zutaten hat eine Kategorie aus
 const ohneIcon=katKeys.filter(k=>!Array.isArray(ICONS[k]) || !ICONS[k].length);
 ok(ohneIcon.length===0,`jede Kategorie hat ein Icon in icons.js (${katKeys.length} Kategorien)${ohneIcon.length?' — fehlt: '+ohneIcon.join(', '):''}`);
 const gewuerze=zutaten.filter(([,z])=>z.kategorie==='gewuerz').map(([k])=>k).sort();
-ok(gewuerze.join()==='orangenabrieb,vanillearoma,vanilleextrakt,vanillezucker,zimt,zitronenabrieb','Gewürze haben ihre eigene Kategorie (T21): Zimt, Vanille in vier Formen, Zitrus-Abrieb');
+ok(gewuerze.join()==='orangenabrieb,senf,vanillearoma,vanilleextrakt,vanillezucker,zimt,zitronenabrieb','Gewürze haben ihre eigene Kategorie (T21): Zimt, Vanille in vier Formen, Zitrus-Abrieb, Senf (T78)');
 ok(zutaten.filter(([,z])=>z.kategorie==='pulver').every(([k])=>['backpulver','natron','hefe_frisch','hefe_trocken','kakao','rum'].includes(k)),'„Pulver“ bleibt für Triebmittel, Hefe, Kakao und Rum');
 const form=(k)=>JSON.stringify(ICONS[k]);
 ok(form('gewuerz')!==form('pulver') && ICONS.gewuerz.length===1 && ICONS.gewuerz[0].tag==='polygon' && ICONS.gewuerz[0].attrs.points.split(' ').length===16 && !ICONS.gewuerz[0].attrs.points.includes('NaN'),'Gewürz-Icon: achtzackiger Stern (16 Punkte), nicht das Pulver-Icon');

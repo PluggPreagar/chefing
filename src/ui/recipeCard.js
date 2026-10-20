@@ -16,7 +16,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   const meta = el('div', 'meta');
   meta.append(
     el('span', null, `${computed.vessel.label}`),
-    el('span', null, `${Math.round(computed.teigmasse)} g Teig`),
+    el('span', null, `${Math.round(computed.teigmasse)} g ${computed.bezugLabel && computed.bezugLabel !== 'Mehl' ? 'gesamt' : 'Teig'}`),
     el('span', null, `Referenz: ${computed.varianteLabel} (n = ${computed.korpusN}${computed.korpusNMethode ? `; Mengen aus ${computed.korpusNMethode === 1 ? '1 Rezept' : `${computed.korpusNMethode} Rezepten`} mit „${computed.method.label}“` : ''})`),
   );
   const zt = computed.zeit; // Zeitleiste aus dem Ablauf-Graph (DR-024/T44)
@@ -44,7 +44,8 @@ export function renderRecipe(root, computed, state, data, onChange) {
 
   const table = el('table', 'zutaten');
   const thead = el('thead');
-  thead.append(tr(['Rolle', 'Zutat', 'Menge', 'Bäcker-%', 'Korpus (Q1–Q3)'], 'th'));
+  const bezug = computed.bezugLabel ?? 'Mehl';
+  thead.append(tr(['Rolle', 'Zutat', 'Menge', bezug === 'Mehl' ? 'Bäcker-%' : `% vom ${bezug}`, 'Korpus (Q1–Q3)'], 'th'));
   table.append(thead);
   const tbody = el('tbody');
   for (const z of computed.zutatenListe) {
@@ -79,7 +80,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   if (computed.bilanz?.length) {
     const bt = el('table', 'zutaten bilanz');
     const bh = el('thead');
-    bh.append(tr(['Bilanz', 'Gramm', '% vom Mehl', 'Korpus (Q1–Q3)', 'Herkunft (Rolle)'], 'th'));
+    bh.append(tr(['Bilanz', 'Gramm', `% vom ${bezug}`, 'Korpus (Q1–Q3)', 'Herkunft (Rolle)'], 'th'));
     bt.append(bh);
     const bb = el('tbody');
     const markierung = { ausserhalb_q: ' ◦', ausserhalb_spanne: ' ⚠', keine_basis: ' ?' };
@@ -96,7 +97,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
 
   const bake = el('div', 'bake');
   const b = computed.backen;
-  bake.append(
+  if (!b.ohneHitze) bake.append( // ohne Hitze (Mayonnaise, T78): nur die Hinweise
     el('div', 'bake-main', b.tempOU != null
       ? `${b.tempOU} °C Ober-/Unterhitze · ${b.tempUmluft} °C Umluft · ${b.minuten} ${b.minutenLabel}`
       : `${b.hitze} · ${b.minuten} ${b.minutenLabel}`),

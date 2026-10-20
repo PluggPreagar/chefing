@@ -44,7 +44,7 @@ const probleme = [];
 let n = 0;
 for (const [ak, arch] of Object.entries(data.archetypes)) {
   if (ak.startsWith('_')) continue;
-  for (const vk of Object.keys(arch.varianten)) for (const m of arch.methoden) for (const over of [{}, { einlage: E('rosinen') }]) for (const tech of [{}, { eier_getrennt: true }]) {
+  for (const vk of Object.keys(arch.varianten)) for (const m of arch.methoden) for (const over of [{}, ...(arch.rollen.some((r) => r.rolle === 'einlage') ? [{ einlage: E('rosinen') }] : [])]) for (const tech of [{}, { eier_getrennt: true }]) {
     if (tech.eier_getrennt && !(data.methods[m].techniken || []).includes('eier_getrennt')) continue;
     const { c, M, z } = rechne(ak, vk, m, over, tech);
     const tag = `${ak}/${vk}/${m}${over.einlage ? '+Rosinen' : ''}${tech.eier_getrennt ? '+getrennt' : ''}`;
@@ -156,7 +156,7 @@ ok(JSON.stringify(wirksameTechniken(G, data.archetypes.ruehrteig, 'muffin')) ===
 ({ c, M } = rechne('ruehrteig', 'muffin', 'creme', { fett: E('butter') }, G));
 ok(!c.ablauf.some((s) => s.key === 'ei_trennen') && c.warnungen.some((w) => /bei Muffins nicht vorgesehen/.test(w)), 'Muffins (Stufe aus): Technik wird auch mit Crememethode nicht angewendet, mit Hinweis');
 const schalterJeArchetyp = Object.entries(data.archetypes).filter(([k]) => !k.startsWith('_')).map(([k, a]) => [k, a.methoden.some((m) => (data.methods[m].techniken || []).includes('eier_getrennt'))]);
-ok(JSON.stringify(schalterJeArchetyp) === '[["ruehrteig",true],["pfannkuchen",true],["hefeteig",false]]', 'Hefeteig kennt keine Methode mit getrennten Eiern: dort gibt es keinen Schalter');
+ok(JSON.stringify(schalterJeArchetyp) === '[["ruehrteig",true],["pfannkuchen",true],["hefeteig",false],["mayonnaise",false]]', 'Hefeteig kennt keine Methode mit getrennten Eiern: dort gibt es keinen Schalter');
 ok(rechne('ruehrteig', 'kastenkuchen', null).c.methodKey === 'creme' && !rechne('ruehrteig', 'kastenkuchen', null).c.ablauf.some((s) => s.key === 'ei_trennen'), 'Ohne Schalter: unveränderte Crememethode');
 
 // Zustand: Ausschalten gibt einer Pflicht-Rolle, die nur die Technik leer erlaubte, ihre Standard-Zutat zurück

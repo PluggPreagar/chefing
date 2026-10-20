@@ -31,7 +31,7 @@ ok(reich.anpassungen.some(a=>/Eierreicher Teig/.test(a)),'viele Eier, keine Milc
 
 const hz=rechne('hefeteig','hefezopf');
 ok(anteil(hz,'hefe')>=240 && anteil(hz,'hefe')<=260,`Hefezopf: CO₂ aus Hefe ≈ 200 ml × 1,27 (${anteil(hz,'hefe')})`);
-ok(rechne('pfannkuchen','eierkuchen').gas.zeile===null,'Eierkuchen ohne Trieb und Eischnee: keine Gas-Zeile');
+ok(rechne('pfannkuchen','eierkuchen').gas===null,'Eierkuchen ohne Trieb und Eischnee: keine Gas-Zeile');
 const mw=rechne('pfannkuchen','eierkuchen',{fluessigkeit:E('mineralwasser')});
 ok(anteil(mw,'mineralwasser')>0 && mw.ablauf.some(s=>s.gas>0),'Eierkuchen mit Mineralwasser: Gas je Schritt im Ablauf');
 

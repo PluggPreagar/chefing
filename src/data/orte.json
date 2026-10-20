@@ -15,6 +15,6 @@
   "schuessel": { "label": "Schüssel", "icon": "ort_schuessel" },
   "kuehlschrank": { "label": "Kühlschrank", "icon": "ort_kuehlschrank", "farbe": "kuehl" },
   "flaeche": { "label": "Arbeitsfläche", "icon": "ort_flaeche", "farbe": "flaeche" },
-  "gefaess": { "icon": "ort_form", "icon_familie": { "muffinform": "ort_muffinform", "blech": "ort_blech", "pfanne": "ort_pfanne" }, "farbe": "gefaess" },
+  "gefaess": { "icon": "ort_form", "icon_familie": { "muffinform": "ort_muffinform", "blech": "ort_blech", "pfanne": "ort_pfanne", "glas": "ort_tasse" }, "farbe": "gefaess" },
   "ofen": { "label": "Ofen", "icon": "ort_ofen", "farbe": "ofen" }
 }

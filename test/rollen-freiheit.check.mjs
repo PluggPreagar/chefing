@@ -19,7 +19,7 @@ const abw=[]; let nRollen=0, nMarkiert=0;
 for (const [ak,a] of Object.entries(data.archetypes)) { if (ak.startsWith('_')) continue;
   for (const r of a.rollen) { nRollen++; const g=mess[ak][r.rolle].stufe; if ((r.substitution??null)!==g) abw.push(`${ak}/${r.rolle}: Daten ${r.substitution??'—'}, Messung ${g??'—'}`); if (r.substitution) nMarkiert++; } }
 ok(abw.length===0,`archetypes.json trägt für alle ${nRollen} Rollen genau die gemessene Substitutions-Freiheit${abw.length?' — '+abw.join('; '):''} (node tools/rollen-freiheit.mjs, dann archetypes.json nachtragen)`);
-ok(Object.values(data.archetypes).filter(a=>Array.isArray(a?.rollen)).every(a=>a.rollen.every(r=>r.substitution===undefined||['frei','empfohlen','strikt'].includes(r.substitution))) && nMarkiert===21,'nur die Werte frei / empfohlen / strikt; 21 von 25 Rollen tragen eine Markierung');
+ok(Object.values(data.archetypes).filter(a=>Array.isArray(a?.rollen)).every(a=>a.rollen.every(r=>r.substitution===undefined||['frei','empfohlen','strikt'].includes(r.substitution))) && nMarkiert===25,'nur die Werte frei / empfohlen / strikt; 25 von 29 Rollen tragen eine Markierung');
 ok(/GEMESSEN/.test(data.archetypes._schema.substitution) && /tools\/rollen-freiheit\.mjs/.test(data.archetypes._schema.substitution),'Schema erklärt das Feld und nennt das Werkzeug');
 
 // --- gemessene Befunde --------------------------------------------------------------------------------------------------------------

@@ -8,7 +8,7 @@ export function toGrams(ing, menge, einheit) {
 }
 
 export function fromGrams(zutatKey, ing, grams) {
-  if (zutatKey === 'ei') {
+  if (zutatKey === 'ei' || zutatKey === 'eigelb') { // Eier und Eigelb zählt man in Stück (T78)
     const stk = Math.max(1, Math.round(grams / (ing.umrechnung?.stk ?? 55)));
     return { menge: stk, einheit: 'Stk', hinweis: `≈ ${Math.round(grams)} g` };
   }

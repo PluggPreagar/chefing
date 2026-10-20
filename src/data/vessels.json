@@ -103,5 +103,33 @@
     "basis": { "hitze": "mittlere bis niedrige Hitze", "minuten": 2, "minuten_label": "Min. je Seite" },
     "hinweise": ["Gewendet wird, sobald Blasen aufsteigen und platzen", "Nur einmal wenden, nicht plattdrücken", "Fertige Pancakes im Ofen bei ~80 °C warmhalten"],
     "korpus_ids": ["pfanne_pancake"]
+  },
+  "glas_250": {
+    "label": "Glas 250 ml",
+    "familie": "glas",
+    "teigmasse_g": 250,
+    "basis": null,
+    "geometrie": "ohne Hitze: die Mayonnaise wird nur gerührt bzw. püriert und abgefüllt",
+    "hinweise": [
+      "Alle Zutaten vorher auf Raumtemperatur bringen — kaltes Eigelb oder kaltes Öl emulgiert schlecht",
+      "Rohes Eigelb: gekühlt aufbewahren und bald verbrauchen"
+    ],
+    "korpus_ids": [
+      "glas_250"
+    ]
+  },
+  "glas_500": {
+    "label": "Glas 500 ml",
+    "familie": "glas",
+    "teigmasse_g": 500,
+    "basis": null,
+    "geometrie": "ohne Hitze: die Mayonnaise wird nur gerührt bzw. püriert und abgefüllt",
+    "hinweise": [
+      "Alle Zutaten vorher auf Raumtemperatur bringen — kaltes Eigelb oder kaltes Öl emulgiert schlecht",
+      "Rohes Eigelb: gekühlt aufbewahren und bald verbrauchen"
+    ],
+    "korpus_ids": [
+      "glas_500"
+    ]
   }
 }

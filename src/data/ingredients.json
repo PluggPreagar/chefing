@@ -498,5 +498,83 @@
     "saeure_kapazitaet": 0.012,
     "eigenschaften": ["geben beim Backen Wasser ab", "in Mehl gewendet sinken sie weniger"],
     "umrechnung": { "el": 12 }
+  },
+  "eigelb": {
+    "label": "Eigelb (Gr. M)",
+    "kategorie": "ei",
+    "unterkategorie": "ei",
+    "aggregat": "fluessig",
+    "fettanteil": 0.27,
+    "wasseranteil": 0.52,
+    "funktionen": {
+      "eiweiss": 0.16,
+      "emulgator": 0.09
+    },
+    "saeure": false,
+    "eigenschaften": [
+      "Lecithin: Emulgator, umhüllt Öltröpfchen (Öl-in-Wasser)",
+      "das Lecithin eines Eigelbs reicht für sehr viel Öl — begrenzt wird die Menge durch das Wasser, das es verteilt"
+    ],
+    "umrechnung": {
+      "stk": 19
+    }
+  },
+  "olivenoel": {
+    "label": "Olivenöl",
+    "kategorie": "fett",
+    "unterkategorie": "fett",
+    "aggregat": "fluessig",
+    "fettanteil": 1,
+    "wasseranteil": 0,
+    "saeure": false,
+    "cremig_schlagbar": false,
+    "eigenschaften": [
+      "kräftiger Eigengeschmack",
+      "oft mit neutralem Öl gemischt"
+    ],
+    "umrechnung": {
+      "ml": 0.91,
+      "el": 9,
+      "tl": 4
+    }
+  },
+  "essig": {
+    "label": "Essig",
+    "kategorie": "fluessigkeit",
+    "unterkategorie": "fluessigkeit",
+    "aggregat": "fluessig",
+    "fettanteil": 0,
+    "wasseranteil": 0.94,
+    "saeure": true,
+    "saeure_kapazitaet": 0.07,
+    "eigenschaften": [
+      "sauer (etwa 5 % Essigsäure)",
+      "Wasserphase der Emulsion"
+    ],
+    "umrechnung": {
+      "ml": 1,
+      "el": 15,
+      "tl": 5
+    }
+  },
+  "senf": {
+    "label": "Senf (mittelscharf)",
+    "kategorie": "gewuerz",
+    "unterkategorie": "aroma",
+    "aggregat": "fest",
+    "fettanteil": 0.05,
+    "wasseranteil": 0.75,
+    "funktionen": {
+      "emulgator": 0.02
+    },
+    "saeure": false,
+    "eigenschaften": [
+      "Schleimstoffe der Senfsaat helfen beim Emulgieren",
+      "würzt"
+    ],
+    "umrechnung": {
+      "tl": 5,
+      "el": 15
+    }
   }
 }

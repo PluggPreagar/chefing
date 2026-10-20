@@ -13,7 +13,7 @@ const zutaten=Object.entries(ing).filter(([k])=>!k.startsWith('_'));
 // --- Daten ---------------------------------------------------------------------------------------------------------------------
 const saure=zutaten.filter(([,z])=>z.saeure===true).map(([k])=>k).sort();
 const mitKap=zutaten.filter(([,z])=>z.saeure_kapazitaet!=null).map(([k])=>k).sort();
-ok(saure.join()===mitKap.join() && saure.length===10,`saeure ist genau dann wahr, wenn saeure_kapazitaet gesetzt ist (${saure.length} Zutaten: ${saure.join(', ')})`);
+ok(saure.join()===mitKap.join() && saure.length===11,`saeure ist genau dann wahr, wenn saeure_kapazitaet gesetzt ist (${saure.length} Zutaten: ${saure.join(', ')})`);
 ok(mitKap.every(k=>ing[k].saeure_kapazitaet>0 && ing[k].saeure_kapazitaet<=0.1),'Säure-Kapazität in g Natron je g Zutat: zwischen 0 und 0,1 (Zitronensaft ist mit 0,08 die stärkste)');
 ok(ing.zitronensaft.saeure_kapazitaet>ing.joghurt.saeure_kapazitaet*5 && ing.buttermilch.saeure_kapazitaet>=ing.schmand.saeure_kapazitaet && ing.joghurt.saeure_kapazitaet>ing.brauner_zucker.saeure_kapazitaet,'Reihenfolge plausibel: Zitronensaft ≫ Milchprodukte ≫ brauner Zucker');
 ok(near(ing.buttermilch.saeure_kapazitaet*240*1.03/2.5,1,0.15),'Eichpunkt aus der Backregel: ½ TL Natron (2,5 g) neutralisiert etwa 240 ml Buttermilch');

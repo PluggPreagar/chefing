@@ -5,6 +5,7 @@
     "substitution": "(T10, DR-030) wie viel passiert beim Wechsel der Zutat in dieser Rolle, GEMESSEN gegen das Best-of-Preset: frei = kein Wechsel erzeugt eine neue Meldung | empfohlen = mindestens ein Wechsel erzeugt Warnung oder Hinweis | strikt = mindestens ein Wechsel macht das Rezept ungültig. Fehlt das Feld, bietet die Rolle keine Wahl (Pflicht-Rolle mit einer Option). Nach Änderungen an Regeln oder Korpus: node tools/rollen-freiheit.mjs, der Test prüft die Übereinstimmung.",
     "lehrbuch": "Referenzverhältnisse aus der Backliteratur in Bäckerprozent (Mehl = 100) — zum Vergleich mit dem Korpus-Median",
     "methode_label": "optional (T80): Name der Dimension Methode im Kasten (Rührteig: Basis = welche Masse zuerst Luft bekommt); methode_hinweis = Erklärung darunter",
+    "menge_je_zutat": "optional (T78): Menge der Rolle aus den Korpus-Rezepten mit derselben Zutat (ab 3 Rezepten), z. B. Eigelb gegen ganzes Ei bei der Mayonnaise",
     "varianten": "benannte Presets: Gefäß + Best-of-Auswahl; Mengen kommen aus dem Korpus; kurz = Beschriftung des Preset-Buttons; techniken (DR-042) = Stufe je Technik aus techniken.json: typisch (Best-of beim Schalter) | moeglich (Standard ohne Angabe, Best-of bleibt ‚Nein‘) | aus (Schalter erscheint nicht, Technik wird nicht angewendet); gilt nur, wenn die Methode die Technik kennt"
   },
   "ruehrteig": {
@@ -85,6 +86,94 @@
     "varianten": {
       "weissbrot": { "label": "Weißbrot (Kastenform)", "kurz": "Weißbrot", "gefaess": "brotform_25", "korpus": "weissbrot", "bestof": { "fluessigkeit": "wasser", "trieb": "hefe_frisch", "salz": "salz", "fett": "butter", "suesse": null, "bindung": null, "aroma": null, "einlage": null } },
       "hefezopf":  { "label": "Hefezopf (Blech)",      "kurz": "Hefezopf",  "gefaess": "backblech",   "korpus": "hefezopf",  "bestof": { "fluessigkeit": "milch",  "trieb": "hefe_frisch", "salz": "salz", "fett": "butter", "suesse": "zucker", "bindung": "ei", "aroma": null, "einlage": null } }
+    }
+  },
+  "mayonnaise": {
+    "label": "Mayonnaise",
+    "beschreibung": "Öl-in-Wasser-Emulsion: Öltröpfchen in wenig Wasserphase (Eigelb, Zitronensaft oder Essig), gehalten vom Lecithin des Eigelbs. Das Lecithin eines Eigelbs reicht für sehr viel Öl; begrenzt wird die Menge durch das Wasser, das es verteilt. Zeigt die Kombinatorik außerhalb des Backens.",
+    "bezug_label": "Öl",
+    "rollen": [
+      {
+        "rolle": "fett",
+        "substitution": "frei",
+        "label": "Öl",
+        "pflicht": true,
+        "referenz": true,
+        "fallback_bp": 100,
+        "optionen": [
+          "pflanzenoel",
+          "olivenoel"
+        ],
+        "default": "pflanzenoel",
+        "hinweis": "Bildet die Tröpfchen. Neutrales Öl schmeckt am wenigsten vor; Olivenöl oft gemischt."
+      },
+      {
+        "rolle": "bindung",
+        "menge_je_zutat": true,
+        "substitution": "empfohlen",
+        "label": "Emulgator",
+        "pflicht": true,
+        "fallback_bp": 9,
+        "optionen": [
+          "eigelb",
+          "ei"
+        ],
+        "default": "eigelb",
+        "hinweis": "Das Lecithin umhüllt die Öltröpfchen. Ganzes Ei geht vor allem mit dem Pürierstab."
+      },
+      {
+        "rolle": "fluessigkeit",
+        "substitution": "frei",
+        "label": "Wasserphase",
+        "pflicht": true,
+        "fallback_bp": 6,
+        "optionen": [
+          "zitronensaft",
+          "essig",
+          "wasser"
+        ],
+        "default": "zitronensaft",
+        "hinweis": "Verteilt das Lecithin; ohne genug Wasser bricht die Emulsion, obwohl Emulgator genug da ist."
+      },
+      {
+        "rolle": "aroma",
+        "substitution": "empfohlen",
+        "label": "Aroma",
+        "pflicht": false,
+        "fallback_bp": 3,
+        "optionen": [
+          "senf",
+          "salz"
+        ],
+        "default": "senf",
+        "hinweis": "Senf würzt und hilft beim Emulgieren."
+      }
+    ],
+    "lehrbuch": {
+      "quelle": "keine Lehrbuch-Referenz hinterlegt — nur Korpus",
+      "schwer": {}
+    },
+    "methoden": [
+      "mayo_hand",
+      "mayo_stab"
+    ],
+    "gefaesse": [
+      "glas_250",
+      "glas_500"
+    ],
+    "varianten": {
+      "mayonnaise": {
+        "label": "Mayonnaise",
+        "kurz": "Mayonnaise",
+        "gefaess": "glas_250",
+        "korpus": "mayonnaise",
+        "bestof": {
+          "fett": "pflanzenoel",
+          "bindung": "eigelb",
+          "fluessigkeit": "zitronensaft",
+          "aroma": "senf"
+        }
+      }
     }
   }
 }

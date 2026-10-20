@@ -296,3 +296,18 @@ Ergebnis: belegt sind Gasmengen (Backpulver, Natron, Mineralwasser), Luft je Met
 | 2026-10-20 | essen-und-trinken.de, diamant-zucker.de, einfach-lecker.com, bakerbettie.com | 1 / 4 / 2 / 1 | Korpus Kastenkuchen/Pancakes | erst zurückgehalten (Grenzen), mit Ausnahmen aus DR-052 aufgenommen (T85) |
 
 Alle neuen Einträge mit `auswahl: "gezielt"` (zählen nicht für Häufigkeiten).
+
+## 2026-10-20 — Korpus Mayonnaise (T78, DR-054)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | lecker.de | 2 | Korpus Mayonnaise | klassisch von Hand; zweite Seite = gleiches Rezept, nicht doppelt aufgenommen |
+| 2026-10-20 | essen-und-trinken.de | 3 | Korpus Mayonnaise | Handrührer, Schneebesen, Blitz-Mayonnaise mit Pürierstab |
+| 2026-10-20 | gutekueche.at, gutekueche.de | 2 / 1 | Korpus Mayonnaise | von Hand und Pürierstab, Olivenöl |
+| 2026-10-20 | utopia.de, oekotest.de, kochbar.de | 1 / 1 / 2 | Korpus Mayonnaise | Pürierstab, teils ganzes Ei, teils Öl während des Pürierens |
+| 2026-10-20 | de.wikibooks.org, fuersie.de, jamieoliver.com | je 1 | Korpus Mayonnaise | von Hand |
+| 2026-10-20 | inspiredtaste.net, downshiftology.com | je 1 | Korpus Mayonnaise | Pürierstab mit ganzem Ei, alles auf einmal |
+| 2026-10-20 | kuechengoetter.de | 1 | Mayonnaise | Video ohne Mengen, nicht aufgenommen |
+| 2026-10-20 | rewe.de, thekitchn.com, deliciousmagazine.co.uk, rezepte.lidl.de, blick.ch, srf.ch, simplyscience.ch, foodnetwork.co.uk | je 1 | Mayonnaise | gesperrt (403), nicht gefunden (404), unlesbar oder falsche Weiterleitung |
+
+Ergebnis: 16 Rezepte (8 von Hand, 8 Pürierstab). Wasser je Öl 10–62 % (Median 27 %); Pürierstab-Rezepte nehmen oft ganzes Ei und weniger Öl.
