@@ -133,7 +133,7 @@
     "stueckzahl": null,
     "notizen": "Mehl:Milch 1:2 mit geschmolzener Butter im Teig und Vanillezucker. Optional 1 EL Cognac (nicht erfasst), Zucker fehlt im Teig.",
     "qualitaet": 4,
-    "qualitaet_grund": "Seite 4,2★ (102 Stimmen) ±0"
+    "qualitaet_grund": "Seite 4,2★ (102 Stimmen) ±0 · Ausreißer bei Reinfett −0,5"
   },
   {
     "id": "kuechengoetter-pfannkuchen-grundrezept",
@@ -551,7 +551,7 @@
     "stueckzahl": null,
     "notizen": "Klassischer Crêpe-Teig mit Butter im Teig und 4 Eiern auf 250 g Mehl, also eierreich und sehr flüssig (Mehl:Flüssigkeit 1:2). Stückzahl nennt die Seite nicht, nur 8 Portionen.",
     "qualitaet": 4,
-    "qualitaet_grund": "keine Seitenwertung"
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Reinfett −0,5"
   },
   {
     "id": "kochbar-buttermilch-pfannkuchen",
@@ -625,7 +625,7 @@
     "stueckzahl": null,
     "notizen": "Sehr eierreich (5 Eier auf 250 g Mehl) und die einzige Buttermilch-Variante, mit Wasser verdünnt (Mehl:Flüssigkeit 1:2,5). Rapsöl (5 EL) und Zitronenschale stehen in der Liste, sind aber Bratfett bzw. nur 'etwas' und wurden weggelassen.",
     "qualitaet": 4,
-    "qualitaet_grund": "Seite 5★ (54 Stimmen) +0,5 · Backzeit fehlt −0,5"
+    "qualitaet_grund": "Seite 5★ (54 Stimmen) +0,5 · Backzeit fehlt −0,5 · Ausreißer bei Gesamtwasser −0,5"
   },
   {
     "id": "ddr-rezepte-eierkuchen-grundrezept",
@@ -907,7 +907,7 @@
     "stueckzahl": null,
     "notizen": "Fast identisch mit dem desired.de-Teig (4 Eier, 500 ml Milch, 50 g Butter auf 250 g Mehl), aber ohne Zucker und ohne Ruhezeit, da im Mixer gerührt. Seite nennt 8 bis 10 Personen statt Stückzahl.",
     "qualitaet": 4,
-    "qualitaet_grund": "keine Seitenwertung"
+    "qualitaet_grund": "keine Seitenwertung · Ausreißer bei Reinfett −0,5"
   },
   {
     "id": "familienkost-eierkuchen",
@@ -1116,5 +1116,84 @@
     "notizen": "Ohne Ruhezeit direkt aus der Schüssel gebacken, Selters ersetzt einen Teil der Milch (Mehl:Flüssigkeit 1:1,8). Kein Fett im Teig, Vanillezucker als einzige Süße.",
     "qualitaet": 4,
     "qualitaet_grund": "keine Seitenwertung"
+  },
+  {
+    "id": "topfgartenwelt-fluffige-pfannkuchen-eischnee",
+    "titel": "Grundrezept Fluffige Pfannkuchen mit Eischnee",
+    "quelle": {
+      "url": "https://topfgartenwelt.com/fluffige-pfannkuchen-eischnee-pankcakes",
+      "site": "topfgartenwelt.com",
+      "bewertung": 4.77,
+      "anzahlBewertungen": 42
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "eierkuchen",
+    "gefaess": "pfanne_24",
+    "zutaten": [
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 500,
+        "einheit": "ml",
+        "original": "500 ml Milch"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 300,
+        "einheit": "g",
+        "original": "300 g Mehl Type 700 / Type 550"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 0.5,
+        "einheit": "pkt",
+        "original": "½ Packung Backpulver"
+      }
+    ],
+    "methode": "pfannkuchen_glatt",
+    "ablauf": [
+      "Eiweiß mit dem Zucker steif schlagen und beiseitestellen",
+      "Eigelbe hell aufschlagen, Milch, Mehl, Backpulver und Salz einrühren",
+      "Eischnee vorsichtig unterheben, Teig 30 Min. ruhen lassen",
+      "Pfanne leicht ölen und gut erhitzen, Boden höchstens 1–1,5 cm hoch bedecken",
+      "Mit Deckel stocken lassen, wenden, zweite Seite kurz backen"
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht je Seite angegeben (Kochzeit-Angabe 3 Min., mittlere Hitze, mit Deckel)"
+    },
+    "stueckzahl": null,
+    "notizen": "Mehl:Flüssigkeit 1:1,67, daher eierkuchen, obwohl die Seite sie fluffig/dick (bis 1,5 cm) backt. 30 Min. Ruhezeit erst NACH dem Unterheben des Eischnees. Mehl Type 700 glatt (AT) bzw. 550. Eigröße nicht genannt, alle getrennt. Zucker geht komplett in den Eischnee. Rezeptkarte 12 Portionen, Text 5–6 Personen; Stückzahl fehlt.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,77★ (42 Stimmen) +0,5 · Backzeit fehlt −0,5 · Ausreißer bei Triebkraft (Backpulver-Äq.) −0,5",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
   }
 ]

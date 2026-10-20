@@ -1,5 +1,5 @@
 import { fromGrams } from './units.js';
-import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt, wirksameTechniken } from './rules.js';
+import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt, wirksameTechniken, technikStufe } from './rules.js';
 import { zeitFuerSchritt, zeitleiste, zeitMeldung } from './zeit.js';
 import { emulsionsVerlauf } from './emulsion.js';
 import { triebQuellen, gasBudget } from './trieb.js';
@@ -69,9 +69,14 @@ export function compute(state, data, korpusStats) {
     if (!(method.techniken || []).includes(k)) { technikWarnungen.push(`${t.label} passt nicht zur Methode „${method.label}“ — hier ohne getrennte Eier gerechnet.`); continue; }
     technikIds.push(`technik:${k}`);
     const leer = (t.lockert || []).filter((r) => !state.zutaten[r]?.length);
+    // Belege (T83): Trieb mit/ohne Technik im Korpus der Variante; sonst die Rezept-Recherche (QUELLEN.md 2026-10-20)
+    const tr = st.techniken?.[k]?.trieb;
+    const beleg = tr?.mit?.n >= 3 && tr?.ohne?.n >= 3
+      ? `${arch.varianten[variante]?.label ?? variante} im Korpus: mit Eischnee ${fmtProzent(tr.mit.median)} g, ohne ${fmtProzent(tr.ohne.median)} g je 100 g Mehl, n = ${tr.mit.n} / ${tr.ohne.n}; über alle Rezepte mit getrennten Eiern 2,7 statt 3,0 g`
+      : 'Rezepte mit getrennten Eiern: 2,7 statt 3,0 g je 100 g Mehl';
     technikHinweise.push(leer.length
       ? `${t.label}: der Trieb kommt allein aus dem Eischnee — kräftig steif schlagen, vorsichtig unterheben und sofort backen. Das trägt nur eierreiche Teige (etwa 2 Eier und mehr auf 100 g Mehl).`
-      : `${t.label}: der Eischnee lockert zusätzlich zum ${data.ingredients[state.zutaten[t.lockert[0]][0].zutat]?.label ?? 'Trieb'} und ersetzt es nicht — Rezepte mit getrennten Eiern nehmen kaum weniger (Median 2,7 statt 3,0 g Backpulver je 100 g Mehl). Der Schnee bringt mehr Luftbläschen, in die das CO₂ beim Backen wandert.`);
+      : `${t.label}: der Eischnee lockert zusätzlich zum ${data.ingredients[state.zutaten[t.lockert[0]][0].zutat]?.label ?? 'Trieb'} und ersetzt es nicht — Backpulver bleibt in Rezepten mit Eischnee ähnlich (${beleg}). Der Schnee bringt mehr Luftbläschen, in die das CO₂ beim Backen wandert.`);
   }
   // Mengen aus den Rezepten dieser Methode, wenn es welche gibt (T48); Backzeit, Toleranz-Vergleich und
   // Öl-Deckung bleiben auf der ganzen Variante (Gefäß bzw. „was der Korpus überhaupt kennt“).
@@ -377,6 +382,8 @@ export function compute(state, data, korpusStats) {
     warnungen: [...res.warnungen, ...technikWarnungen, ...emulsionsWarnungen.map((w) => w.text), ...trieb.warnungen.map((w) => w.text), ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
     zeit: zeitleiste(ablauf),
     trieb: { zeile: trieb.zeile, quellen: trieb.quellen },
+    // Technik-Stufe je Technik, gemessen am Korpus der Variante, wenn er genug Rezepte hat (T83, DR-051)
+    technikStufen: Object.fromEntries(Object.keys(data.techniken || {}).filter((k) => !k.startsWith('_')).map((k) => [k, technikStufe(arch, variante, k, st.techniken?.[k] ?? { n: st.n, anteil: 0 })])),
     gas: gas ? { gesamt: gas.gesamt, anteile: gas.anteile, zeile: gas.zeile } : null,
     gaerung: gaerungAktiv ? gaerungErgebnis({ gare: gare.summe, hefeBp: bpZiel[modell.rolle].bp, gareTemp, gareTempText, mindest: gareMindest, berechnet: !stM, pruefung: gaerPruefung }, modell) : null,
     toleranzHinweise,

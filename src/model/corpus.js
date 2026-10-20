@@ -123,10 +123,23 @@ export function stats(normalized, rollen = ROLLEN, { proMethode = true, gewichte
     }, {});
 
   const count1 = (fn) => normalized.reduce((acc, r) => { for (const k of fn(r)) acc[k] = (acc[k] || 0) + 1; return acc; }, {}); // je Rezept mehrere Schlüssel
+  // Gezielt gesuchte Rezepte (`auswahl: gezielt`, T83: „mit getrennten Eiern“) zählen für Mengen, nicht für Häufigkeiten
+  const ungezielt = normalized.filter((r) => r.auswahl !== 'gezielt');
+  const technikKeys = [...new Set(normalized.flatMap((r) => r.techniken || []))];
   return {
     n,
     bp: Object.fromEntries(rollen.map((r) => [r, summarizeQ(normalized, (x) => x.bp[r], gewichtet)])),
-    methoden: count((r) => r.methode),
+    methoden: ungezielt.reduce((acc, r) => ((acc[r.methode] = (acc[r.methode] || 0) + 1), acc), {}),
+    // Technik-Stufe gemessen (T83): Anteil der nicht gezielt gesuchten Rezepte mit der Technik; Trieb mit/ohne Technik aus allen
+    techniken: Object.fromEntries(technikKeys.map((k) => {
+      const mit = normalized.filter((r) => (r.techniken || []).includes(k));
+      const ohne = normalized.filter((r) => !(r.techniken || []).includes(k));
+      return [k, {
+        n: ungezielt.length,
+        anteil: ungezielt.length ? ungezielt.filter((r) => (r.techniken || []).includes(k)).length / ungezielt.length : null,
+        trieb: { mit: { n: mit.length, ...summarize(mit.map((r) => r.bp.trieb ?? 0)) }, ohne: { n: ohne.length, ...summarize(ohne.map((r) => r.bp.trieb ?? 0)) } },
+      }];
+    })),
     fettTyp: count((r) => r.fettTyp),
     fettZutat: count((r) => (r.zutaten || []).find((z) => z.rolle === 'fett')?.zutat),
     fluessigkeitZutat: count((r) => (r.zutaten || []).find((z) => z.rolle === 'fluessigkeit')?.zutat ?? '—'),

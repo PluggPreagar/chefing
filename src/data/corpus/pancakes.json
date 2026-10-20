@@ -1230,5 +1230,246 @@
     "notizen": "Joghurt als Hauptflüssigkeit mit etwas Milch (1:1,2), kein Fett im Teig, nur Backpulver. Sehr hohe Bewertungszahl.",
     "qualitaet": 4,
     "qualitaet_grund": "Seite 4,7★ (6106 Stimmen) +0,5 · Backzeit fehlt −0,5"
+  },
+  {
+    "id": "sheepysbakery-fluffige-pancakes",
+    "titel": "Fluffige Pancakes",
+    "quelle": {
+      "url": "https://sheepysbakery.de/pancakes/",
+      "site": "sheepysbakery.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 2
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Mehl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 150,
+        "einheit": "ml",
+        "original": "150 ml Milch"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 TL Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 0.5,
+        "einheit": "pkt",
+        "original": "1/2 Packung Backpulver"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Eier trennen, Eiweiß mit Salz steif schlagen",
+      "Eigelbe mit Mehl, Backpulver, Zucker und Milch glatt rühren",
+      "Eischnee unterheben",
+      "Je ca. 3 EL Teig in die gebutterte Pfanne geben, bei mittlerer Hitze beidseitig backen"
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 1.75,
+      "original": "ca. 1,5–2 Min. pro Seite, mittlere Hitze"
+    },
+    "stueckzahl": 10,
+    "notizen": "Eigröße nicht genannt, beide getrennt. Mehl:Flüssigkeit 1:1. ½ Pck. Backpulver plus Eischnee als Doppeltrieb. Ahornsirup und Obst zum Servieren nicht erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (2 Stimmen) ±0",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
+  },
+  {
+    "id": "bakedbybabsi-fluffige-pancakes",
+    "titel": "Fluffige Pancakes",
+    "quelle": {
+      "url": "https://bakedbybabsi.at/fluffige-pancakes/",
+      "site": "bakedbybabsi.at",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 200,
+        "einheit": "ml",
+        "original": "200 ml Milch"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Mehl"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 Eier"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 EL Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 TL Backpulver"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Milch, Mehl, Backpulver, Eigelbe und Salz zu glattem Teig rühren",
+      "Eiweiß separat steif schlagen, dabei den Zucker einstreuen",
+      "Schnee behutsam unterheben, nicht zu lange rühren",
+      "Je 2–3 EL Teig bei mittlerer Hitze in wenig Fett backen, nach ca. 1 Min. wenden"
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 1,
+      "original": "ca. 1 Min. bis zum Wenden, mittlere Stufe"
+    },
+    "stueckzahl": null,
+    "notizen": "Eigröße nicht genannt, beide getrennt. Zucker geht komplett in den Eischnee. Mehl:Flüssigkeit 1:1. Zeit für die zweite Seite nicht genannt. Stückzahl fehlt.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
+  },
+  {
+    "id": "thefoodiebunch-fluffy-pancakes-whipped-egg-whites",
+    "titel": "Fluffy Pancakes with Whipped Egg Whites",
+    "quelle": {
+      "url": "https://thefoodiebunch.com/breakfast-recipes/best-fluffy-pancake-recipe/",
+      "site": "thefoodiebunch.com",
+      "bewertung": 5,
+      "anzahlBewertungen": 1
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 190,
+        "einheit": "g",
+        "original": "1 ½ cups all-purpose flour"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 tablespoons granulated sugar"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.5,
+        "einheit": "tl",
+        "original": "½ teaspoon salt"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 2,
+        "einheit": "tl",
+        "original": "2 teaspoons baking powder"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 2,
+        "einheit": "stk",
+        "original": "2 large eggs separated"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 240,
+        "einheit": "ml",
+        "original": "1 cup whole milk"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 tablespoons neutral oil"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Mehl, Zucker, Backpulver und Salz mischen, Mulde formen",
+      "Eigelbe, Milch und Öl in die Mulde geben und knapp verrühren",
+      "Eiweiß bei mittlerer Stufe zu lockeren Spitzen schlagen, in zwei Portionen unterheben",
+      "Sofort je ca. 1/3 Cup Teig in die gefettete Pfanne geben, bei mittlerer bis höherer Hitze beidseitig goldbraun backen"
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": 2,
+      "original": "erste Seite 2–3 Min., zweite Seite 1–2 Min., mittlere bis mittelhohe Hitze"
+    },
+    "stueckzahl": null,
+    "notizen": "Englische Quelle nur in US-Cups: 1 cup Mehl ≈ 125 g (1½ cups ≈ 190 g), 1 cup Milch ≈ 240 ml; Zucker, Salz, Backpulver, Öl als EL/TL übernommen. Eier 'large', beide getrennt. Mehl:Flüssigkeit ≈ 1:1,3. Kein Ruhen, sofort backen. 4 Portionen, Stückzahl nicht genannt.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (1 Stimmen) ±0",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
   }
 ]

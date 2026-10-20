@@ -212,8 +212,15 @@ function findKaskadeKandidat(zielRolleKey, eigenschaft, wert, data) {
 // Optionale Techniken (DR-041, techniken.json): eine eingeschaltete Technik, die zur Methode passt, baut deren
 // Schritte um. Eier getrennt: die Schritte der Rolle bekommen nur noch den Rest-Teil (Eigelb), Trennen kommt als
 // Startschritt davor, Schlagen + Unterheben vor den ersten `vor`-Schritt; Vorgänger-Kanten werden mitgezogen.
-// Stufe einer Technik je Variante (DR-042): typisch | moeglich (Standard) | aus
-export const technikStufe = (arch, variante, key) => arch?.varianten?.[variante]?.techniken?.[key] ?? 'moeglich';
+// Stufe einer Technik je Variante (DR-042): typisch | moeglich (Standard) | aus. Gemessen (T83, DR-051): kennt der Korpus der
+// Variante genug nicht gezielt gesuchte Rezepte, entscheidet deren Anteil mit der Technik; „aus“ aus den Daten bleibt „aus“.
+export const TECHNIK_MIN_N = 10;
+export const TECHNIK_TYPISCH_AB = 0.3;
+export function technikStufe(arch, variante, key, gemessen = null) {
+  const gesetzt = arch?.varianten?.[variante]?.techniken?.[key] ?? 'moeglich';
+  if (gesetzt === 'aus' || !(gemessen?.n >= TECHNIK_MIN_N) || gemessen.anteil == null) return gesetzt;
+  return gemessen.anteil >= TECHNIK_TYPISCH_AB ? 'typisch' : 'moeglich';
+}
 
 // Nur eingeschaltete Techniken, die in dieser Variante nicht „aus“ sind
 export function wirksameTechniken(techniken, arch, variante) {

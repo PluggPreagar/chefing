@@ -50,7 +50,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
   const gelockert = new Set();
   for (const k of technikKeys) {
     const t = data.techniken[k];
-    const stufe = technikStufe(arch, computed.variante, k);
+    const stufe = computed.technikStufen?.[k] ?? technikStufe(arch, computed.variante, k); // gemessen am Korpus (T83)
     if (stufe === 'aus') continue; // Variante sieht die Technik nicht vor (Muffins): kein Schalter
     const an = !!state.techniken?.[k];
     const passend = arch.methoden.filter((m) => (data.methods[m].techniken || []).includes(k));

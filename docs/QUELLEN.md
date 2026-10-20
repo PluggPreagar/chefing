@@ -282,3 +282,17 @@ Ergebnis (22 Rezepte, Umrechnung 1 Pck. = 15 g, 1 TL = 4 g): Rührkuchen mit get
 Nur aus Suchtreffer-Auszügen, nicht geöffnet (vor Nutzung prüfen): lirias.kuleuven.be, image-ppubs.uspto.gov (3 Patente: Creme-Dichte 0,94 → 0,77 in 15 Min., Eischnee bis Dichte 0,1, Stückgare ≈ 200 ml CO₂ je 100 g Teig), thefreshloaf.com, slaw.ca (Eiweiß stockt 61–65 / 80–84 °C, Eigelb 65–70 °C), selters.de und test.de (Mineralwasser 7–8 g/l CO₂ klassisch, 4–5,5 medium), annex.exploratorium.edu, americastestkitchen.com, kvcv.be, britannica.com, app.ckbk.com, thecakeblog.com, thetakeout.com, koreascience.kr, scribd.com.
 
 Ergebnis: belegt sind Gasmengen (Backpulver, Natron, Mineralwasser), Luft je Methode als Teig-Dichte und die Stock-Temperaturen. **Nicht gefunden:** Zerfallszeiten von Eischnee und Ei-Schaum, CO₂-Verlust im ruhenden Teig, Verlust beim Unterheben in % (nur indirekt 20–30 % über die Dichte), Anteil von Dampf am Kuchenvolumen, ein gemessener Vergleich Eischnee ↔ Backpulver. Die Temperatur „2. Stoß ab etwa 60 °C“ gilt für MCP; SAPP (übliches deutsches Backpulver) wirkt „überwiegend bei Backtemperatur“, SALP ab 40–43 °C.
+
+## 2026-10-20 — Korpus: Rezepte mit getrennten Eiern (T83, DR-051)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | backen-mit-spass.de | 1 | Korpus Kastenkuchen | Sandkuchen, getrennte Eier, ohne Backpulver |
+| 2026-10-20 | smittenkitchen.com | 1 | Korpus Kastenkuchen | Lighter airy pound cake (Grammangaben der Seite) |
+| 2026-10-20 | gutekueche.de | 2 | Korpus Gugelhupf | Saftiger Marmorkuchen (Kranzform); Rührteig-Grundrezept ohne Kastenform → nicht aufgenommen |
+| 2026-10-20 | lieblingszwei.de, fackelmann.de | je 1 | Korpus Gugelhupf | Marmorkuchen getrennt |
+| 2026-10-20 | sheepysbakery.de, bakedbybabsi.at, thefoodiebunch.com | 1 / 1 / 2 | Korpus Pancakes | fluffige Pancakes mit Eischnee |
+| 2026-10-20 | topfgartenwelt.com | 1 | Korpus Eierkuchen | Pfannkuchen mit Eischnee, 30 Min. Ruhe nach dem Unterheben |
+| 2026-10-20 | essen-und-trinken.de, diamant-zucker.de, einfach-lecker.com, bakerbettie.com | 1 / 4 / 2 / 1 | Korpus (zurückgehalten) | verletzen empfohlene Grenzen, siehe T85 |
+
+Alle neuen Einträge mit `auswahl: "gezielt"` (zählen nicht für Häufigkeiten).

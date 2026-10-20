@@ -961,6 +961,9 @@
       }
     ],
     "methode": "ruehroel",
+    "techniken": [
+      "eier_getrennt"
+    ],
     "ablauf": [
       "Eier trennen, Eiweiß steif schlagen.",
       "Eigelb mit Zucker, Salz, Vanillezucker, Öl und Wasser schaumig schlagen.",
@@ -1731,5 +1734,177 @@
     "notizen": "Marke von EDEKA Südwest. Kastenform ohne Größe. Kein Backpulver: Trieb allein aus dem Eischaum. ½ Vanilleschote nicht als Zutat aufgenommen (kein Schlüssel); „1 Msp. Salz“ als Prise.",
     "qualitaet": 4,
     "qualitaet_grund": "keine Seitenwertung"
+  },
+  {
+    "id": "backen-mit-spass-sandkuchen",
+    "titel": "Sandkuchen",
+    "quelle": {
+      "url": "https://www.backen-mit-spass.de/kuchen/464-sandkuchen",
+      "site": "backen-mit-spass.de",
+      "bewertung": 4.7,
+      "anzahlBewertungen": 215
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_25",
+    "zutaten": [
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Butter (oder Margarine)"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 Eier"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Weizenmehl"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "speisestaerke",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g Speisestärke"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Eier trennen; weiche Butter mit Salz aufschlagen, Zucker langsam einstreuen",
+      "Eigelbe einzeln jeweils gut eine Minute einschlagen",
+      "Mehl und Stärke mischen und nur kurz einrühren",
+      "Eiweiß steif schlagen und behutsam unterheben, in die gefettete, bemehlte Form füllen",
+      "Backen bis der Holzspieß sauber bleibt, kurz ruhen lassen, stürzen, auskühlen, mit Puderzucker bestäuben"
+    ],
+    "backen": {
+      "tempOU": 160,
+      "tempUmluft": 140,
+      "minuten": 60,
+      "original": "Ober-/Unterhitze 160 °C, ca. 60 Min."
+    },
+    "stueckzahl": 12,
+    "notizen": "Kastenform mindestens 25 cm, bei großen Eiern 30 cm empfohlen (dann ca. 17 Stück). Eigröße nicht genannt, alle getrennt. Kein Backpulver: Trieb allein aus Eischnee und aufgeschlagener Butter. Puderzucker zum Bestäuben nicht als Teigzutat erfasst. Umluft −20 °C abgeleitet.",
+    "qualitaet": 5,
+    "qualitaet_grund": "Seite 4,7★ (215 Stimmen) +0,5",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
+  },
+  {
+    "id": "smittenkitchen-lighter-airy-pound-cake",
+    "titel": "Lighter, Airy Pound Cake",
+    "quelle": {
+      "url": "https://smittenkitchen.com/2009/08/lighter-airy-pound-cake/",
+      "site": "smittenkitchen.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "kastenform_unbekannt",
+    "zutaten": [
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 226,
+        "einheit": "g",
+        "original": "1/2 pound (226 grams) butter"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 200,
+        "einheit": "g",
+        "original": "1 1/2 cups (200 grams) all-purpose flour"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 3,
+        "einheit": "g",
+        "original": "1/2 teaspoon (3 grams) baking powder"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "Salt"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 4,
+        "einheit": "stk",
+        "original": "4 large eggs, separated"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 186,
+        "einheit": "g",
+        "original": "3/4 cup plus 2 tablespoons (186 grams) sugar"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "rum",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 tablespoon Cognac"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 1.5,
+        "einheit": "tl",
+        "original": "1 1/2 teaspoons grated lemon zest"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Mehl mit Backpulver und Salz mehrfach sieben",
+      "Eiweiß weich schlagen, 100 g Zucker löffelweise einschlagen, beiseitestellen",
+      "Butter luftig aufschlagen, restlichen Zucker, dann Eigelbe, Cognac und Abrieb einarbeiten",
+      "Mehl nach und nach unterheben, danach den Eischnee bis der Teig glatt ist",
+      "In die gefettete, bemehlte Kastenform füllen, backen; 10 Min. in der Form ruhen lassen"
+    ],
+    "backen": {
+      "tempOU": 175,
+      "tempUmluft": 155,
+      "minuten": 40,
+      "original": "350 °F, 35–45 Min."
+    },
+    "stueckzahl": null,
+    "notizen": "Englische Quelle, Grammangaben von der Seite übernommen (Salz: Prise). Kastenform ohne Maß, laut Autorin eher 9×5 Zoll (≈ 23×13 cm). Eier 'large', alle getrennt; Eiweiß mit 100 g des Zuckers zu weichem Baiser. Cognac als rum eingetragen (Seite nennt Rum als Ersatz). 350 °F ≈ 175 °C als Ober-/Unterhitze, Umluft −20 °C abgeleitet.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
   }
 ]

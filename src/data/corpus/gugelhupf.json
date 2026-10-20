@@ -347,6 +347,9 @@
       }
     ],
     "methode": "creme",
+    "techniken": [
+      "eier_getrennt"
+    ],
     "ablauf": [
       "Butter mit Staubzucker, Vanillin Zucker, Zitronenschale und Salz cremig rühren",
       "Dotter einzeln einrühren",
@@ -815,6 +818,9 @@
       }
     ],
     "methode": "ruehroel",
+    "techniken": [
+      "eier_getrennt"
+    ],
     "ablauf": [
       "Eier trennen, Eiweiß mit der Hälfte des Zuckers zu steifem Schnee schlagen.",
       "Dotter mit restlichem Zucker und Joghurt verrühren, Öl und Orangenabrieb zugeben.",
@@ -1014,6 +1020,9 @@
       }
     ],
     "methode": "creme",
+    "techniken": [
+      "eier_getrennt"
+    ],
     "ablauf": [
       "Butter mit Staubzucker, Vanillezucker, Zitronenschale und Dottern cremig rühren.",
       "Eiweiß mit dem Kristallzucker steif schlagen.",
@@ -1103,6 +1112,9 @@
       }
     ],
     "methode": "creme",
+    "techniken": [
+      "eier_getrennt"
+    ],
     "ablauf": [
       "Heidelbeeren in etwas Mehl wälzen, Form fetten und bemehlen.",
       "Margarine mit Staubzucker und Vanillezucker schaumig rühren, Dotter einzeln einrühren.",
@@ -1214,7 +1226,7 @@
     "stueckzahl": null,
     "notizen": "Einziges Rezept mit ausdrücklicher 26-cm-Form; Blog-Seite nennt drei Varianten mit unterschiedlicher Mehlmenge (250/200/500 g), hier die Hauptvariante für 26 cm. Mehl-Anteil (250 g auf 250 g Butter und 250 ml Milch) ist ungewöhnlich niedrig, Mengen daher unsicher.",
     "qualitaet": 3,
-    "qualitaet_grund": "keine Seitenwertung · Mengen angenommen/unsicher −0,5 · Blog-Quelle −0,5 · Ausreißer bei Zucker −0,5"
+    "qualitaet_grund": "keine Seitenwertung · Mengen angenommen/unsicher −0,5 · Blog-Quelle −0,5"
   },
   {
     "id": "genusskind-heidelbeer-buttermilch-gugelhupf",
@@ -1301,6 +1313,9 @@
       }
     ],
     "methode": "creme",
+    "techniken": [
+      "eier_getrennt"
+    ],
     "ablauf": [
       "Eiweiß mit Salz steif schlagen.",
       "Butter mit Zucker und Vanille schaumig rühren, Dotter nacheinander einrühren, Buttermilch und Zitronensaft zugeben.",
@@ -1407,5 +1422,319 @@
     "notizen": "Sehr saure Flüssigkeit: Buttermilch plus 100 ml Zitronensaft, dabei vergleichsweise wenig Mehl (250 g auf 250 g Butter). Zitronenglasur und Schale zur Deko nicht erfasst.",
     "qualitaet": 4,
     "qualitaet_grund": "keine Seitenwertung"
+  },
+  {
+    "id": "gutekueche-saftiger-marmorkuchen",
+    "titel": "Saftiger Marmorkuchen",
+    "quelle": {
+      "url": "https://www.gutekueche.de/saftiger-marmorkuchen-rezept-7012",
+      "site": "gutekueche.de",
+      "bewertung": 4.51,
+      "anzahlBewertungen": 854
+    },
+    "archetyp": "ruehrteig",
+    "variante": "gugelhupf",
+    "gefaess": "gugelhupfform_unbekannt",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 6,
+        "einheit": "stk",
+        "original": "6 Stk Eier"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Zucker"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pk Backpulver"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "pflanzenoel",
+        "menge": 1,
+        "einheit": "el",
+        "original": "1 Schuss Öl"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 70,
+        "einheit": "ml",
+        "original": "70 ml Milch"
+      },
+      {
+        "rolle": "einlage",
+        "zutat": "schokolade",
+        "menge": 100,
+        "einheit": "g",
+        "original": "100 g Schokolade"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Pk Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Butter, weich"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Eier trennen, Eiweiß sehr steif schlagen und kühl stellen",
+      "Eigelbe schaumig rühren, Zucker, Vanillezucker, Butter, Milch und Öl einarbeiten und nochmals aufschlagen",
+      "Mehl mit Backpulver abwechselnd mit dem Eischnee kurz unterheben",
+      "Teig halbieren, geschmolzene Schokolade unter eine Hälfte ziehen",
+      "Beide Teige schichtweise in die gefettete Form, mit Stäbchen durchziehen, backen, stürzen"
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 60,
+      "original": "Ober-/Unterhitze 180 °C, mittlere Schiene, ca. 60 Min."
+    },
+    "stueckzahl": 12,
+    "notizen": "Kranzkuchenform ohne Größe, daher gugelhupfform_unbekannt. Eigröße nicht genannt, alle getrennt. Reihenfolge abweichend: erst Eigelbe aufschlagen, dann Zucker und Butter. '1 Schuss Öl' als ≈ 1 EL angenommen. Schokolade wird geschmolzen in den dunklen Teil gerührt (nicht als Stücke); Alternative laut Seite 2–3 EL Kakao. Umluft −20 °C abgeleitet.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 4,51★ (854 Stimmen) ±0 · Mengen angenommen/unsicher −0,5",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
+  },
+  {
+    "id": "lieblingszwei-marmorkuchen-gugelhupfform",
+    "titel": "Marmorkuchen aus der Gugelhupfform",
+    "quelle": {
+      "url": "https://lieblingszwei.de/marmorkuchen-aus-der-gugelhupfform/",
+      "site": "lieblingszwei.de",
+      "bewertung": 5,
+      "anzahlBewertungen": 1
+    },
+    "archetyp": "ruehrteig",
+    "variante": "gugelhupf",
+    "gefaess": "gugelhupfform_unbekannt",
+    "zutaten": [
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 175,
+        "einheit": "g",
+        "original": "175 g Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 175,
+        "einheit": "g",
+        "original": "175 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Vanillezucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 5,
+        "einheit": "stk",
+        "original": "5 Eier"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 ml Milch"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "kakao",
+        "menge": 25,
+        "einheit": "g",
+        "original": "25 g Backkakao"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Päckchen Backpulver"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Eier trennen, Eiweiß zu Schnee schlagen",
+      "Butter, Zucker, Eigelbe und Vanillezucker verrühren, Milch zugeben",
+      "Mehl mit Backpulver nur kurz einrühren, Eischnee zuletzt vorsichtig unterheben",
+      "Hälfte in die gefettete Form, Rest mit Kakao glatt rühren und daraufgeben",
+      "Spiralig mit der Gabel durchziehen und backen, Stäbchenprobe"
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 45,
+      "original": "Umluft 160 °C, ca. 45 Min. (Kopfzeile: Backzeit 50 Min.)"
+    },
+    "stueckzahl": null,
+    "notizen": "Gugelhupfform ohne Größe. Eigröße nicht genannt, alle getrennt. Nur Umluft angegeben, Ober-/Unterhitze +20 °C abgeleitet. Backzeit im Text 45 Min., in der Kopfzeile 50 Min.",
+    "qualitaet": 4,
+    "qualitaet_grund": "Seite 5★ (1 Stimmen) ±0",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
+  },
+  {
+    "id": "fackelmann-marmorkuchen",
+    "titel": "Marmorkuchen",
+    "quelle": {
+      "url": "https://www.fackelmann.de/inspiration/rezepte/marmorkuchen",
+      "site": "fackelmann.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "ruehrteig",
+    "variante": "gugelhupf",
+    "gefaess": "gugelhupfform_22",
+    "zutaten": [
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g weiche Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 280,
+        "einheit": "g",
+        "original": "280 g Zucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanillezucker",
+        "menge": 1,
+        "einheit": "pkt",
+        "original": "1 Tüte Vanillezucker"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "rum",
+        "menge": 2,
+        "einheit": "el",
+        "original": "2 Esslöffel Rum"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "zitronenabrieb",
+        "menge": 0.5,
+        "einheit": "g",
+        "original": "1 Msp. geriebene Zitronenschale"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 6,
+        "einheit": "stk",
+        "original": "6 mittelgroße Eier"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Msp. Salz"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 280,
+        "einheit": "g",
+        "original": "280 g Weizenmehl (Type 405)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 0.5,
+        "einheit": "pkt",
+        "original": "0.5 Tüte Backpulver"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "100 ml lauwarme Milch"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "kakao",
+        "menge": 20,
+        "einheit": "g",
+        "original": "20 g Backkakao"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Form fetten, Ofen vorheizen; Butter mit 160 g Zucker, Vanillezucker, Rum und Abrieb cremig rühren",
+      "Eigelbe einzeln einarbeiten; Mehl-Backpulver-Mischung abwechselnd mit warmer Milch zugeben",
+      "Eiweiß mit Salz anschlagen, restliche 120 g Zucker einrieseln lassen, steif schlagen und unterheben",
+      "Hälfte einfüllen, Rest mit gesiebtem Kakao dunkel färben, obenauf geben und marmorieren",
+      "Backen (Stäbchenprobe), in der Form auskühlen lassen, stürzen, mit Puderzucker bestäuben"
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 60,
+      "original": "Ober-/Unterhitze 180 °C, Umluft 160 °C, ca. 60 Min."
+    },
+    "stueckzahl": 12,
+    "notizen": "Gugelhupfform Ø 22 cm. 6 mittelgroße Eier (≈ M), alle getrennt; Eiweiß mit 120 g des Zuckers zu Baiser. '1 Msp.' Zitronenschale als ≈ 0,5 g, '1 Msp.' Salz als Prise eingetragen. Puderzucker zum Bestäuben nicht als Teigzutat erfasst.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
   }
 ]
