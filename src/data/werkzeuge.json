@@ -1,0 +1,18 @@
+{
+  "_schema": {
+    "zweck": "Werkzeuge eines Schritts (T84, DR-053): ein Schritt nennt sein Werkzeug unter `werkzeug`; das Emulsions-Modell (emulsion.js) wertet aus, was das Werkzeug an den Regeln ändert.",
+    "auf_einmal": "true: die Zugabe „auf einmal“ ist mit diesem Werkzeug richtig — die Emulsion entsteht am Messer und zieht die andere Phase nach und nach ein (dort also portionsweise)",
+    "gefaess_form": "Form des Arbeitsplatzes (orte.json `form`), die das Werkzeug braucht; fehlt sie, gibt es einen Hinweis statt der Freigabe",
+    "zerstoert_luft": "true: das Werkzeug zerschlägt eine luftige Basis (Schaum, aufgeschlagene Creme) — dort ist es ein Fehler",
+    "quelle": "Nutzer 2026-10-20 (T78/T84): Mayonnaise mit dem Pürierstab im schmalen, hohen Gefäß, alles auf einmal, Stab am Boden ansetzen und langsam hochziehen."
+  },
+  "puerierstab": {
+    "label": "Pürierstab",
+    "auf_einmal": true,
+    "gefaess_form": "schmal_hoch",
+    "zerstoert_luft": true,
+    "text": "am Messer portionsweise (Pürierstab: Stab am Boden ansetzen, langsam hochziehen)",
+    "hinweis_gefaess": "Pürierstab in einem weiten Gefäß: der Stab erreicht das Öl nicht gleichmäßig — ein schmales, hohes Gefäß (Mixbecher) nehmen.",
+    "hinweis_luft": "der Pürierstab zerschlägt den Schaum — hier mit Schneebesen oder Rührgerät arbeiten."
+  }
+}

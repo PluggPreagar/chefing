@@ -3,8 +3,10 @@
     "zweck": "Arbeitsplätze im Ablaufdiagramm (DR-038, DR-039). Der Hauptstrom ist der Weg des Teigs (Schüssel, Kühlschrank, Fläche, Gefäß, Ofen); Nebenplätze (`neben: true`) bilden kurze Seitenströme, die in ihren Zielschritt münden (Hefe in der Tasse, Butter im Topf).",
     "label": "Name im Diagramm. Fehlt er (gefaess), steht dort das gewählte Gefäß (Kastenform, Blech, Pfanne).",
     "icon": "Icon-Schlüssel aus icons.js; `icon_familie` wählt beim Gefäß das Icon nach der Gefäß-Familie (vessels.json).",
-    "farbe": "Farbe des Stroms (style.css --ort-<farbe>); ohne Angabe misch (Schüsseln, Topf, Tasse)."
+    "farbe": "Farbe des Stroms (style.css --ort-<farbe>); ohne Angabe misch (Schüsseln, Topf, Tasse).",
+    "form": "optional (T84): Form des Gefäßs, die ein Werkzeug braucht (werkzeuge.json `gefaess_form`), z. B. schmal_hoch für den Pürierstab."
   },
+  "mixbecher": { "label": "Mixbecher", "icon": "ort_tasse", "form": "schmal_hoch" },
   "topf": { "label": "Topf", "icon": "ort_topf", "neben": true },
   "tasse": { "label": "Tasse", "icon": "ort_tasse", "neben": true },
   "schaelchen": { "label": "Schälchen", "icon": "ort_schaelchen", "neben": true },

@@ -67,5 +67,27 @@ const z = Object.fromEntries(arch.rollen.map((r) => [r.rolle, E(arch.varianten.k
 const ck = compute({ archetyp: 'ruehrteig', gefaess: arch.varianten.kastenkuchen.gefaess, methode: 'creme', fixiert: { rollen: {}, zutaten: {} }, zutaten: z }, { ...kaputt, arch }, ksVon.ruehrteig);
 ok(ck.regelIds.includes('emulsion:eier_einzeln') && ck.warnungen.some((w) => /gerinnt/.test(w)), 'Eier auf einmal in die Butter-Zucker-Creme → Warnung „gerinnt“ mit Regel-Id');
 
+// T84/DR-053: Pürierstab — „auf einmal“ ist im schmalen, hohen Gefäß richtig, im weiten Gefäß ein Hinweis, im Schaum ein Fehler
+const wz = { werkzeuge: J('werkzeuge'), orte: data.orte };
+const mayo = (ort, basis = { phase: 'wasser' }) => emulsionsVerlauf([
+  { op: basis, label: 'Eigelb + Wasser', ort },
+  { op: { emulsion: { gibt: 'fett', zugabe: 'auf_einmal' }, werkzeug: 'puerierstab' }, label: 'Öl dazu, pürieren', ort },
+], wz)[1];
+let p = mayo('mixbecher');
+ok(!p.problem && !p.hinweis && /am Messer portionsweise/.test(p.text), 'Pürierstab im Mixbecher: Öl auf einmal ohne Warnung, Text „am Messer portionsweise“');
+p = mayo('schuessel');
+ok(!p.problem && /schmales, hohes Gefäß/.test(p.hinweis), 'Pürierstab in der Schüssel: Hinweis aufs schmale, hohe Gefäß');
+p = mayo('mixbecher', { phase: 'wasser', luft: true });
+ok(/zerschlägt den Schaum/.test(p.problem), 'Pürierstab in luftiger Basis: Fehler „zerschlägt den Schaum“');
+p = emulsionsVerlauf([{ op: { phase: 'wasser', luft: true }, label: 'Schaum' }, { op: { emulsion: { gibt: 'fett', zugabe: 'auf_einmal' } }, label: 'Öl' }], wz)[1];
+ok(/Schaum fällt/.test(p.problem), 'ohne Werkzeug bleibt die Regel aus DR-047');
+ok(J('orte').mixbecher?.form === J('werkzeuge').puerierstab.gefaess_form, 'Mixbecher hat die Form, die der Pürierstab braucht');
+const stab = JSON.parse(JSON.stringify(data));
+stab.werkzeuge = J('werkzeuge');
+stab.methods.ruehroel.sequenz.find((s) => s.key === 'oel_einlaufen').werkzeug = 'puerierstab';
+const zr = { ...z, fett: E('pflanzenoel') };
+const cs = compute({ archetyp: 'ruehrteig', gefaess: arch.varianten.kastenkuchen.gefaess, methode: 'ruehroel', fixiert: { rollen: {}, zutaten: {} }, zutaten: zr }, { ...stab, arch: stab.archetypes.ruehrteig }, ksVon.ruehrteig);
+ok(cs.regelIds.includes('emulsion:oel_einlaufen') && cs.warnungen.some((w) => /zerschlägt den Schaum/.test(w)) && cs.anpassungen.some((a) => /schmales, hohes Gefäß/.test(a)), 'Engine: Pürierstab im Eischaum der Rühr-Öl-Methode → Warnung mit Regel-Id, Gefäß-Hinweis im Rezept');
+
 console.log(fail ? `${fail} FAIL` : 'ALL PASS');
 process.exit(fail ? 1 : 0);

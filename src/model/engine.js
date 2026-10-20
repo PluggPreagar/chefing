@@ -331,8 +331,9 @@ export function compute(state, data, korpusStats) {
     s.wirk = s.passiv ? s.dauer ?? 0 : 0;
   }
   // Emulsion (DR-047): Basis und Zugabe je Schritt; falsche Zugabe in eine luftige Basis wird gemeldet
-  const emulsion = emulsionsVerlauf(res.schritte.map((s, i) => ({ op: s.op, label: ablauf[i].label })));
+  const emulsion = emulsionsVerlauf(res.schritte.map((s, i) => ({ op: s.op, label: ablauf[i].label, ort: ablauf[i].ort })), { werkzeuge: data.werkzeuge, orte: data.orte });
   const emulsionsWarnungen = [];
+  const emulsionsHinweise = emulsion.filter((e) => e?.hinweis).map((e) => e.hinweis); // Werkzeug ohne passendes Gefäß (T84)
   emulsion.forEach((e, i) => {
     ablauf[i].emulsion = e;
     if (e?.problem) emulsionsWarnungen.push({ id: `emulsion:${ablauf[i].key}`, text: e.problem });
@@ -398,7 +399,7 @@ export function compute(state, data, korpusStats) {
     // Override-fähige Blockaden (DR-019 Punkt 4, T25): welche hart-Bedingungen der Nutzer
     // bewusst überschreiben kann. Die Erfassung selbst passiert in der UI (`recipeCard.js`).
     blockaden,
-    anpassungen: [...technikHinweise, ...anpassungen],
+    anpassungen: [...technikHinweise, ...emulsionsHinweise, ...anpassungen],
     evals,
     zutatenListe,
     rollenBp: bpZiel,

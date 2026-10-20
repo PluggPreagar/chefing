@@ -538,3 +538,11 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** Warnungen bleiben für normale Teige scharf; die Physik-Begründung steht an der Grenze; echte Rezepte stehen im Korpus.
 - **cons:** Mit Eischnee warnt die App bei Stärke-Teigen und viel Zucker nicht mehr — die Ausnahme ist an je ein bis zwei Rezepte gebunden.
 - **risk:** Gering. grenzen.json (`ausser` an 4 Grenzen), bilanz.js (`grenzeGilt`, `grenzenFuer`), engine.js, negativ.js, ueberraschungen.js, Tests pfannkuchen, hefeteig, technikstufe, erfahrungsregeln (n). Rückgängig: ein Commit.
+
+## DR-053 · konzept · Werkzeug im Emulsions-Modell: Pürierstab erlaubt „auf einmal“
+
+- **descr:** (2026-10-20, Nutzer: „T84“, Mayonnaise-Angaben aus T78) Ein Schritt kann sein Werkzeug nennen (`werkzeug`, Daten in `src/data/werkzeuge.json`). `emulsionsVerlauf` (emulsion.js) wertet es aus: mit dem **Pürierstab** ist die Zugabe „auf einmal“ richtig — die Emulsion entsteht am Messer und zieht die andere Phase nach und nach ein; der Text lautet dann „auf einmal, am Messer portionsweise“, keine Warnung. Der Pürierstab braucht ein **schmales, hohes Gefäß** (`gefaess_form: schmal_hoch`; neuer Arbeitsplatz `mixbecher` in orte.json mit `form`): steht der Schritt an einem anderen Platz, kommt ein Hinweis ins Rezept. In einer **luftigen Basis** (Schaum, aufgeschlagene Creme) ist er ein Fehler („zerschlägt den Schaum“, Regel-Id `emulsion:<schritt>`). Ohne Werkzeug gilt die Regel aus DR-047 unverändert. Noch nutzt keine mitgelieferte Methode den Pürierstab; sichtbar wird die Regel mit der Mayonnaise (T78).
+- **Optionen:** A nur Freigabe „auf einmal“ beim Pürierstab · B Freigabe + Gefäß-Hinweis + Fehler im Schaum (gewählt).
+- **pro:** bildet eine gängige, schnellere Methode richtig ab; das Werkzeug ist Daten, weitere (Schneebesen, Rührgerät) lassen sich ergänzen.
+- **cons:** Die Gefäß-Form hängt am Arbeitsplatz, nicht am gewählten Gefäß des Nutzers; ohne Methode mit Pürierstab nur durch Tests belegt.
+- **risk:** Gering. werkzeuge.json (neu), orte.json (`mixbecher`, `form`), emulsion.js, engine.js (Ort und Daten an das Modell, Hinweis ins Rezept), main.js, Test emulsion. Rückgängig: ein Commit.
