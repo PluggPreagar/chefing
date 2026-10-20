@@ -4,7 +4,7 @@
 // gelungene Kontrollfälle mit Warnung sind Falsch-Alarme. Der Korpus enthält nur Erfolge — das hier ist die einzige Gegenprobe
 // vor den Nutzer-Rückmeldungen (T53); n ist klein und die Auswahl verzerrt (Selbstauswahl der Fragenden).
 import { normalizeRecipe, stats } from './corpus.js';
-import { grenzenPruefen, toleranz, basisLuecke, GROESSEN } from './bilanz.js';
+import { grenzenPruefen, grenzenFuer, toleranz, basisLuecke, GROESSEN } from './bilanz.js';
 import { erwarteteGare, pruefeGaerung } from './gaerung.js';
 import { temperaturBereich } from './temperatur.js';
 import { toGrams } from './units.js';
@@ -83,7 +83,7 @@ export function negativPruefen({ faelle, archetypes, ingredients, grenzen, model
       continue;
     }
     const n = normalizeRecipe({ zutaten }, ingredients, { rollen, referenz });
-    const verletzt = grenzenPruefen(n.bilanz, grenzen?.archetypen?.[f.archetyp] || []);
+    const verletzt = grenzenPruefen(n.bilanz, grenzenFuer(grenzen?.archetypen?.[f.archetyp], { methode: f.methode, techniken: f.techniken || [] }));
     zeile.grenzen = [...verletzt.hart.map((v) => ({ id: v.id, strenge: 'hart', wert: v.wert })), ...verletzt.empfohlen.map((v) => ({ id: v.id, strenge: 'empfohlen', wert: v.wert }))];
     // Korpus-Toleranz: gegen die Variante des Falls, ohne Variante gegen alle — ein Befund zählt nur, wenn er außerhalb jeder
     // verglichenen Variante liegt (ein süßer Hefeteig ist gegen das Weißbrot immer „untypisch“, gegen den Zopf nicht)

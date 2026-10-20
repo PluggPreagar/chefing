@@ -66,6 +66,11 @@ const fmtWert = (x, faktor) => (faktor ? x.toFixed(2).replace('.', ',') : fmtPro
 
 // Quantitative Grenzen (T34): prüft die Bilanz gegen grenzen.json. Rückgabe getrennt nach
 // Strenge — `hart` macht die Kombination ungültig, `empfohlen` warnt nur (DR-008).
+// Ausnahmen einer Grenze (T85, DR-052): `ausser: {techniken, methoden}` — die Grenze gilt nicht, wenn das Rezept eine davon nutzt
+export const grenzeGilt = (g, { methode = null, techniken = [] } = {}) =>
+  !g.ausser || !((g.ausser.methoden || []).includes(methode) || (g.ausser.techniken || []).some((t) => techniken.includes(t)));
+export const grenzenFuer = (grenzen, kontext) => (grenzen || []).filter((g) => grenzeGilt(g, kontext));
+
 export function grenzenPruefen(b, grenzen) {
   const hart = [];
   const empfohlen = [];

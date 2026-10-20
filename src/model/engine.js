@@ -5,7 +5,7 @@ import { emulsionsVerlauf } from './emulsion.js';
 import { triebQuellen, gasBudget } from './trieb.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
-import { bilanz, grenzenPruefen, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, basisLuecke, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+import { bilanz, grenzenPruefen, grenzenFuer, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, basisLuecke, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 // Größen, die aus geschätzten Kapazitäten folgen (Natron-Säure-Balance, T37): ihre Grenze trägt die Aussage, kein Vergleich mit den Korpus-Quartilen
 const OHNE_TOLERANZ = new Set(['natron', 'saeure']);
@@ -167,7 +167,8 @@ export function compute(state, data, korpusStats) {
   const referenzRolle = arch.rollen.find((r) => r.referenz)?.rolle ?? 'struktur';
   const bil = bilanz(zutatenListe, data.ingredients, referenzRolle);
   const bpPosten = zutatenListe.map((z) => ({ rolle: z.rolle, zutat: z.zutat, gramm: z.bp }));
-  const grenzen = data.grenzen?.archetypen?.[state.archetyp] || [];
+  // Grenzen mit Ausnahmen (T85): mit Eischnee oder Schaummasse gelten manche nicht (Ei-Schaum trägt das Gerüst, Zucker im Baiser)
+  const grenzen = grenzenFuer(data.grenzen?.archetypen?.[state.archetyp], { methode: methodKey, techniken: technikIds.map((t) => t.replace('technik:', '')) });
   const verletzt = grenzenPruefen(bil, grenzen);
   const groessenMitGrenze = new Set(
     [...verletzt.hart, ...verletzt.empfohlen].map((v) => grenzen.find((g) => g.id === v.id)?.groesse),

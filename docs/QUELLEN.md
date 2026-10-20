@@ -293,6 +293,6 @@ Ergebnis: belegt sind Gasmengen (Backpulver, Natron, Mineralwasser), Luft je Met
 | 2026-10-20 | lieblingszwei.de, fackelmann.de | je 1 | Korpus Gugelhupf | Marmorkuchen getrennt |
 | 2026-10-20 | sheepysbakery.de, bakedbybabsi.at, thefoodiebunch.com | 1 / 1 / 2 | Korpus Pancakes | fluffige Pancakes mit Eischnee |
 | 2026-10-20 | topfgartenwelt.com | 1 | Korpus Eierkuchen | Pfannkuchen mit Eischnee, 30 Min. Ruhe nach dem Unterheben |
-| 2026-10-20 | essen-und-trinken.de, diamant-zucker.de, einfach-lecker.com, bakerbettie.com | 1 / 4 / 2 / 1 | Korpus (zurückgehalten) | verletzen empfohlene Grenzen, siehe T85 |
+| 2026-10-20 | essen-und-trinken.de, diamant-zucker.de, einfach-lecker.com, bakerbettie.com | 1 / 4 / 2 / 1 | Korpus Kastenkuchen/Pancakes | erst zurückgehalten (Grenzen), mit Ausnahmen aus DR-052 aufgenommen (T85) |
 
 Alle neuen Einträge mit `auswahl: "gezielt"` (zählen nicht für Häufigkeiten).

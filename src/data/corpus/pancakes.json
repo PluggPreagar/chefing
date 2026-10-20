@@ -1471,5 +1471,84 @@
       "eier_getrennt"
     ],
     "auswahl": "gezielt"
+  },
+  {
+    "id": "bakerbettie-souffle-pancakes-ohne-backpulver",
+    "titel": "Light and Fluffy Soufflé Pancakes",
+    "quelle": {
+      "url": "https://bakerbettie.com/pancake-recipe-without-baking-powder/",
+      "site": "bakerbettie.com",
+      "bewertung": 4.6,
+      "anzahlBewertungen": 597
+    },
+    "archetyp": "pfannkuchen",
+    "variante": "pancakes",
+    "gefaess": "pfanne_pancake",
+    "zutaten": [
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 large eggs, separated"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 120,
+        "einheit": "g",
+        "original": "120 g (1 cup) all-purpose flour"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 0.25,
+        "einheit": "tl",
+        "original": "¼ teaspoon kosher salt"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 150,
+        "einheit": "g",
+        "original": "150 g (⅔ cup) whole milk"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanilleextrakt",
+        "menge": 1,
+        "einheit": "tl",
+        "original": "1 teaspoon vanilla extract"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 50,
+        "einheit": "g",
+        "original": "50 g (¼ cup) granulated sugar"
+      }
+    ],
+    "methode": "pancake_kurz",
+    "ablauf": [
+      "Eier zimmerwarm werden lassen und trennen",
+      "Mehl, Salz, Milch, Eigelbe und Vanille glatt verrühren",
+      "Eiweiß mit dem Zucker zu glänzend-steifem Baiser schlagen",
+      "Baiser in drei Etappen unterheben, bis keine Schlieren bleiben",
+      "Sofort portionsweise bei mittlerer Hitze backen, wenden wenn Blasen platzen und die Unterseite hell gebräunt ist"
+    ],
+    "backen": {
+      "tempOU": null,
+      "tempUmluft": null,
+      "minuten": null,
+      "original": "nicht je Seite angegeben (Kochzeit gesamt ca. 10 Min., mittlere Hitze)"
+    },
+    "stueckzahl": 8,
+    "notizen": "Englische Quelle mit Grammangaben (Milch 150 g ≈ 146 ml). Eier 'large', alle getrennt; Eiweiß mit dem gesamten Zucker zu Baiser. Kein Backpulver: Trieb allein aus dem Eischnee. Vanilleextrakt laut Seite optional. Mehl:Flüssigkeit 1:1,25. Nicht vorab zubereiten, Schnee fällt sonst zusammen.",
+    "qualitaet": 3,
+    "qualitaet_grund": "Seite 4,6★ (597 Stimmen) ±0 · Backzeit fehlt −0,5 · Ausreißer bei Zucker −0,5",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
   }
 ]

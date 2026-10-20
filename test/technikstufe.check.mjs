@@ -31,5 +31,18 @@ ok(s.methoden.creme===10 && !s.methoden.schaummasse,'gezielte Rezepte zählen ni
 ok(s.techniken.eier_getrennt.trieb.mit.median===1 && s.techniken.eier_getrennt.trieb.ohne.median===3,'Trieb mit/ohne Technik aus allen Rezepten (1 g gegen 3 g)');
 ok(s.n===15,'n zählt alle Rezepte');
 
+// T85/DR-052: Grenzen mit Ausnahmen — mit Eischnee oder Schaummasse gelten Gerüst- und Zucker-Grenzen nicht
+const { grenzenFuer } = await import(P+'model/bilanz.js');
+const G=J('grenzen').archetypen;
+const ids=(liste)=>liste.map(g=>g.id);
+const ohne=ids(grenzenFuer(G.ruehrteig,{methode:'creme',techniken:[]}));
+const mit=ids(grenzenFuer(G.ruehrteig,{methode:'creme',techniken:['eier_getrennt']}));
+const schaum=ids(grenzenFuer(G.ruehrteig,{methode:'schaummasse',techniken:[]}));
+ok(['gluten_min','eiweiss_min','zucker_wasser_max'].every(id=>ohne.includes(id)),'ohne Eischnee: Gerüst- und Zucker-Grenzen gelten');
+ok(!mit.includes('gluten_min') && !mit.includes('eiweiss_min') && !mit.includes('zucker_wasser_max'),'mit Eischnee: gluten_min, eiweiss_min, zucker_wasser_max gelten nicht');
+ok(!schaum.includes('gluten_min') && schaum.includes('zucker_wasser_max'),'Schaummasse: Gerüst-Grenze gilt nicht, Zucker/Wasser schon');
+ok(mit.includes('wasser_min_hart'),'harte Grenzen ohne Ausnahme gelten weiter');
+ok(!ids(grenzenFuer(G.pfannkuchen,{methode:'pancake_kurz',techniken:['eier_getrennt']})).includes('pk_zucker_max'),'Soufflé-Pancakes: pk_zucker_max gilt mit Eischnee nicht');
+
 console.log(fail?`${fail} FAILED`:'ALL PASS');
 process.exit(fail?1:0);

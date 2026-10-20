@@ -530,3 +530,11 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** Stufe aus Daten statt Annahme; die Suche verzerrt die Häufigkeiten nicht; Belege zum Backpulver je Variante.
 - **cons:** Zellen mit Eischnee sind klein (n = 3); die Pancake-Stufe kippt allein durch den bestehenden Korpus.
 - **risk:** Gering. corpus.js (`techniken`, Methoden-Zählung ohne gezielte), rules.js (`technikStufe` mit Messung), engine.js (`technikStufen`, Hinweis), morphbox.js, 4 Korpus-Dateien, Tests technikstufe und erfahrungsregeln (n). Rückgängig: ein Commit.
+
+## DR-052 · daten · Grenzen mit Ausnahmen: Ei-Schaum trägt das Gerüst, Zucker im Baiser
+
+- **descr:** (2026-10-20, Nutzer: „T85 B“) Eine Grenze in grenzen.json kann `ausser: {techniken, methoden}` tragen: sie gilt dann nicht, wenn das Rezept eine dieser Techniken oder Methoden nutzt. `grenzenFuer` (bilanz.js) filtert die Grenzen mit dem Kontext {Methode, wirksame Techniken} — in der Engine, im Negativ-Abgleich, in der Überraschungs-Suche und in den Korpus-Tests. Gesetzt: `gluten_min` und `eiweiss_min` außer mit Eischnee oder Schaummasse (das koagulierte Ei-Schaum-Gerüst trägt; Sandkuchen nur mit Stärke und getrennten Eiern funktioniert), `zucker_wasser_max` außer mit Eischnee (ein Teil des Zuckers wird ins Eiweiß bzw. mit der Butter aufgeschlagen), `pk_zucker_max` außer mit Eischnee (Soufflé-Pancakes: Zucker im Baiser, milde Hitze). Harte Grenzen haben keine Ausnahme. Damit kommen die 4 zurückgehaltenen Rezepte aus T83 in den Korpus (3 Kastenkuchen, 1 Pancakes; jetzt 158 Rezepte). Backpulver mit/ohne Eischnee je 100 g Mehl: Kastenkuchen 1,1 / 2,8 (n = 6 / 18), Pancakes 2,7 / 3,2 (n = 4 / 15), Gugelhupf 5,0 / 3,9.
+- **Optionen:** A Grenzen am Korpus lockern (verworfen: schwächt Warnungen für normale Teige) · B Grenzen an Bedingungen knüpfen (gewählt) · C Rezepte draußen lassen.
+- **pro:** Warnungen bleiben für normale Teige scharf; die Physik-Begründung steht an der Grenze; echte Rezepte stehen im Korpus.
+- **cons:** Mit Eischnee warnt die App bei Stärke-Teigen und viel Zucker nicht mehr — die Ausnahme ist an je ein bis zwei Rezepte gebunden.
+- **risk:** Gering. grenzen.json (`ausser` an 4 Grenzen), bilanz.js (`grenzeGilt`, `grenzenFuer`), engine.js, negativ.js, ueberraschungen.js, Tests pfannkuchen, hefeteig, technikstufe, erfahrungsregeln (n). Rückgängig: ein Commit.

@@ -9,7 +9,7 @@
 // Der Korpus enthält nur Erfolge (Überlebenden-Auswahl): der Bericht zeigt Muster, nie „sollte klappen, tat es nicht“ —
 // dafür sind die Rückmeldungen (T53) da.
 import { normalizeRecipe } from './corpus.js';
-import { messwert } from './bilanz.js';
+import { messwert, grenzeGilt } from './bilanz.js';
 import { erwarteteGare, mitMindestzeit, vorteigDosis, hatReifenVorteig, gareMinuten } from './gaerung.js';
 import { temperaturBereich, schrittTemperatur, gareOperation } from './temperatur.js';
 
@@ -71,6 +71,7 @@ export function ueberraschungenSuchen({ archetypes, ingredients, grenzen, modell
         const bound = g[art];
         if (bound == null || bound === 0) continue;
         const werte = rezepte
+          .filter(({ roh }) => grenzeGilt(g, { methode: roh.methode, techniken: roh.techniken || [] })) // Ausnahmen (T85)
           .map(({ roh, n }) => ({ id: roh.id, wert: messwert(g, n.bilanz) }))
           .filter((x) => x.wert != null && Number.isFinite(x.wert))
           .map((x) => ({ ...x, reserve: art === 'max' ? (bound - x.wert) / Math.abs(bound) : (x.wert - bound) / Math.abs(bound) }))

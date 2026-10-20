@@ -3,7 +3,7 @@ const P=new URL('../src/', import.meta.url).href;
 const J=(n)=>JSON.parse(fs.readFileSync(new URL(P+'data/'+n+'.json')));
 const { normalizeRecipe, stats } = await import(P+'model/corpus.js');
 const { compute, varianteFuerGefaess } = await import(P+'model/engine.js');
-const { grenzenPruefen } = await import(P+'model/bilanz.js');
+const { grenzenPruefen, grenzenFuer } = await import(P+'model/bilanz.js');
 const names=['ingredients','operations','methods','archetypes','vessels','kategorien','verben','erfahrungsregeln','grenzen'];
 const data=Object.fromEntries(names.map(n=>[n,J(n)]));
 const arch=data.archetypes.pfannkuchen;
@@ -17,7 +17,7 @@ function st(vk, over={}){const v=arch.varianten[vk];const z={};for(const r of ar
 // Korpus: jede Quelle liegt innerhalb der eigenen Grenzen (sonst wären die Grenzen falsch kalibriert)
 const grenzen=data.grenzen.archetypen.pfannkuchen;
 for (const [k,list] of Object.entries(norm)) {
-  const verletzt=list.map(r=>{const v=grenzenPruefen(r.bilanz,grenzen);return [r.id,[...v.hart,...v.empfohlen].map(x=>x.id)];}).filter(([,ids])=>ids.length);
+  const verletzt=list.map(r=>{const v=grenzenPruefen(r.bilanz,grenzenFuer(grenzen,{methode:r.methode,techniken:r.techniken||[]}));return [r.id,[...v.hart,...v.empfohlen].map(x=>x.id)];}).filter(([,ids])=>ids.length);
   ok(list.length>=6 && verletzt.length===0,`Korpus ${k}: ${list.length} Rezepte, alle innerhalb der Grenzen${verletzt.length?' — '+JSON.stringify(verletzt):''}`);
   ok(list.every(r=>r.unbekannt.length===0),`Korpus ${k}: keine unbekannten Zutaten/Einheiten`);
 }
