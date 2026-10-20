@@ -343,6 +343,14 @@ export function compute(state, data, korpusStats) {
   const emulsion = emulsionsVerlauf(res.schritte.map((s, i) => ({ op: s.op, label: ablauf[i].label, ort: ablauf[i].ort })), { werkzeuge: data.werkzeuge, orte: data.orte });
   const emulsionsWarnungen = [];
   const emulsionsHinweise = emulsion.filter((e) => e?.hinweis).map((e) => e.hinweis); // Werkzeug ohne passendes Gefäß (T84)
+  // Werkzeug × Zutat (T88): z. B. Pürierstab + natives Olivenöl → kann bitter werden
+  const werkzeugIds = [];
+  for (const wk of new Set(res.schritte.map((s) => s.op.werkzeug).filter(Boolean))) {
+    for (const h of data.werkzeuge?.[wk]?.zutat_hinweise || []) {
+      const drin = (props[h.rolle]?.anteile || []).some((a) => a.zutat === h.zutat);
+      if (drin) { emulsionsHinweise.push(h.text); werkzeugIds.push(`werkzeug:${wk}:${h.id}`); }
+    }
+  }
   emulsion.forEach((e, i) => {
     ablauf[i].emulsion = e;
     if (e?.problem) emulsionsWarnungen.push({ id: `emulsion:${ablauf[i].key}`, text: e.problem });
@@ -376,6 +384,7 @@ export function compute(state, data, korpusStats) {
     ...technikIds,
     ...emulsionsWarnungen.map((w) => w.id),
     ...trieb.warnungen.map((w) => w.id),
+    ...werkzeugIds,
     ...(modellGilt && !stM ? ['gaerung_berechnet'] : []),
   ])];
 

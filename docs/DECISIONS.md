@@ -578,3 +578,11 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** Zeile in sich stimmig; keine scheinbare Abweichung; Vorschläge bleiben in der Spanne der gewählten Zutat.
 - **cons:** keine.
 - **risk:** Gering. corpus.js, engine.js (`korpusDerRolle`), Test mayonnaise. Rückgängig: ein Commit.
+
+## DR-058 · daten · Werkzeug × Zutat: Olivenöl mit dem Pürierstab kann bitter werden
+
+- **descr:** (2026-10-20, Nutzer: „T88“, Recherche QUELLEN.md) Belegt (englische Quellen): sehr feine Tröpfchen setzen die Polyphenole von nativem Olivenöl in die Wasserphase frei, die Emulsion schmeckt bitter; America's Test Kitchen fand eine Küchenmaschinen-Mayonnaise deutlich bitter, die von Hand geschlagene aus derselben Flasche nicht; nach nigella.com ist der Pürierstab milder als Becher-Mixer oder Küchenmaschine. Gegenhinweis: ein Preprint (researchsquare.com) berichtet, dass Eigelb-Eiweiß Bitterkeit und Schärfe von nativem Olivenöl dämpft. Deshalb **Hinweis, keine Warnung**, mit „kann“. Umsetzung als Daten: `werkzeuge.json` `zutat_hinweise` [{rolle, zutat, id, text}] — kommt ein Schritt mit dem Werkzeug vor und enthält die Rolle die Zutat (auch als Teil einer Mischung), erscheint der Text im Rezept, Regel-Id `werkzeug:<werkzeug>:<id>` für Rückmeldungen. Gesetzt: Pürierstab × Olivenöl („mit neutralem Öl mischen, raffiniertes Olivenöl nehmen oder zuletzt von Hand unterrühren“). Von Hand: kein Hinweis.
+- **Optionen:** A Warnung · B Hinweis (gewählt, Belege uneinheitlich) · C nichts (Quellen reichen).
+- **pro:** verhindert ein häufiges Misslingen; die Regel ist Daten und lässt sich für weitere Werkzeug-Zutat-Paare nutzen.
+- **cons:** keine deutsche Quelle; Stärke der Bitterkeit hängt vom Öl ab (nicht abgebildet).
+- **risk:** Gering. werkzeuge.json, ingredients.json (Eigenschaft Olivenöl), engine.js, Test mayonnaise. Rückgängig: ein Commit.

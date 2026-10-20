@@ -323,3 +323,14 @@ Ergebnis: 16 Rezepte (8 von Hand, 8 Pürierstab). Wasser je Öl 10–62 % (Media
 | 2026-10-20 | rewe.de, lecker.de | 2 / 2 (Suchtreffer) | Eischnee unterheben | ein Drittel lockert, Rest mit dem Spatel von unten nach oben; nur kurz |
 
 Ergebnis: „am Boden halten bis cremig, dann hochziehen“ mehrfach belegt; „Öl absetzen lassen“ nur in englischen Quellen.
+
+## 2026-10-20 — Olivenöl bitter mit Pürierstab (T88, DR-058, Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | americastestkitchen.com, cooksillustrated.com | 1 (Suchtreffer) | Test Olivenöl bitter | Küchenmaschine deutlich bitter, von Hand geschlagen nicht; feinere Tröpfchen → mehr Bitterkeit |
+| 2026-10-20 | nigella.com | 1 (Suchtreffer) | Pürierstab vs. Mixer | Stab kleiner und milder, Bitterkeit seltener; Ursache nicht ganz geklärt |
+| 2026-10-20 | tastingtable.com, chowhound.com | 1 / 2 (Suchtreffer) | Erklärung, Abhilfe | Polyphenole von Fettsäuren umhüllt, bei der Emulsion frei; neutrales oder raffiniertes Öl |
+| 2026-10-20 | researchsquare.com | 1 (nur Titel) | Gegenhinweis | Preprint: Eiweiß dämpft Bitterkeit und Schärfe von nativem Olivenöl |
+
+Ergebnis: Hinweis „kann bitter werden“ beim Pürierstab, keine Warnung; keine deutsche Quelle gefunden.

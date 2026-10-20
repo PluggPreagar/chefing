@@ -49,5 +49,13 @@ ok(inSpanne(zeile(stabGelb)) && inSpanne(zeile(stabEi)) && zeile(stabGelb).korpu
 const fett=(c)=>c.zutatenListe.find(z=>z.rolle==='fluessigkeit').korpus;
 ok(JSON.stringify(fett(stabGelb))===JSON.stringify(fett(stabEi)),'Rollen ohne menge_je_zutat: Spanne unverändert aus der Methoden-Zelle');
 
+// T88/DR-058: natives Olivenöl kann mit dem Pürierstab bitter werden — Hinweis (keine Warnung), nur bei Werkzeug + Zutat
+const bitter=(c)=>c.anpassungen.some(a=>/bitter/.test(a));
+const oliv=rechne('mayo_stab',{fett:E('olivenoel')});
+ok(bitter(oliv) && oliv.regelIds.includes('werkzeug:puerierstab:olivenoel_bitter') && !oliv.warnungen.some(w=>/bitter/.test(w)),'Pürierstab + Olivenöl: Hinweis „kann bitter werden“ mit Regel-Id, keine Warnung');
+ok(bitter(rechne('mayo_stab_einlaufen',{fett:E('olivenoel')})),'auch beim Öl-Einlaufen mit dem Stab');
+ok(!bitter(rechne('mayo_hand',{fett:E('olivenoel')})) && !bitter(rechne('mayo_stab')),'von Hand mit Olivenöl oder Pürierstab mit neutralem Öl: kein Hinweis');
+ok(bitter(rechne('mayo_stab',{fett:[{zutat:'pflanzenoel',anteil:2},{zutat:'olivenoel',anteil:1}]})),'Mischung mit Olivenöl: Hinweis bleibt');
+
 console.log(fail?`${fail} FAILED`:'ALL PASS');
 process.exit(fail?1:0);
