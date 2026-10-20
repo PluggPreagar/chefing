@@ -8,6 +8,7 @@ import { renderRueckfragen } from './ui/rueckfragen.js';
 import { renderKandidaten } from './ui/kandidaten.js';
 import { sendeOffene } from './model/rueckmeldung.js';
 import { alsEintraege, presetPatch, archetypPatch } from './model/zustand.js';
+import { initFehlerMelden } from './ui/fehlerMelden.js';
 
 async function loadJson(path) {
   const r = await fetch(path, { cache: 'no-cache' });
@@ -105,8 +106,10 @@ function update(patch) {
   render();
 }
 
+let letztes = null; // zuletzt berechnetes Rezept, für die Fehlermeldung
 function render() {
   const computed = compute(state, data, korpusStats);
+  letztes = computed;
   renderRueckfragen($('rueckfragen'), sessionStart, render);
   renderMorphbox($('morphbox'), state, data, computed, korpusStats, update);
   renderTechnikSchalter($('ablauf-techniken'), state, data, computed, update);
@@ -120,6 +123,13 @@ $('toggle-stats').addEventListener('click', () => {
   s.hidden = !s.hidden;
   if (!s.hidden) renderStats(s, korpusStats, data);
 });
+// Fehler melden (DR-044): die Meldung nennt, was gerade eingestellt und berechnet war
+initFehlerMelden($('fehler-melden'), () => ({
+  archetyp: state.archetyp, variante: letztes?.variante, gefaess: state.gefaess, methode: letztes?.methodKey, methode_gewaehlt: state.methode,
+  zutaten: state.zutaten, mengen: state.mengen, techniken: state.techniken, fixiert: state.fixiert,
+  status: letztes?.status, regeln: letztes?.regelIds, zeit: letztes?.zeit,
+  ablauf: letztes?.ablauf.map((s) => `${s.nr}. ${s.key} (${s.aktiv}+${s.wirk} Min.)`),
+}));
 $('toggle-kandidaten').addEventListener('click', () => {
   const k = $('kandidaten');
   k.hidden = !k.hidden;
