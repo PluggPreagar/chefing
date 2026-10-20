@@ -357,3 +357,16 @@ Breit gesucht („Kaiserschmarrn Rezept“), nicht nach Eischnee: 9 von 11 aufge
 | 2026-10-20 | rewe.de, oma-kocht.de, kuechenfibel.de, rezepte-silkeswelt.de, alleantworten.de | je 1 (Suchtreffer) | Hefeteig kneten | Maschine mind. 5, von Hand mind. 8 Min.; Richtwert Maschine 8–10, Hand 10–15 Min. |
 
 Ergebnis: Faktoren von Hand ×4 (Luft schlagen, cremig aufschlagen) und ×1,5 (kneten) als Richtwerte.
+
+## 2026-10-20 — Springform und quadratische Form (T91, DR-061)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-20 | f-pieper.de, bakeomaniac.com | je 1 | Korpus Kastenkuchen (gezielt) | Rührteig luftiger, Springform 26; Butter Cake 8 × 8 Zoll, getrennte Eier |
+| 2026-10-20 | kuechengoetter.de, lecker.de, essen-und-trinken.de, familienkost.de, zimtliebe.de, rezeptschachtel.de | je 1 | Backzeit Springform 26 | Rührkuchen 175–180 °C, Median 52 Min.; 790 g 45 Min., 1320 g 60 Min.; rezeptschachtel Ausreißer (190 °C, 2,1 kg) |
+| 2026-10-20 | wielangemuss.de, kitchenkoenig.de | je 1 | Backzeiten, Füllmenge | Zeittabelle; Springform 1,5–1,8 l Teig |
+| 2026-10-20 | littlesweetbaker.com, indianhealthyrecipes.com, hungrylankan.com, tasteasianfood.com | je 1 | Backzeit 8 × 8 Zoll | 175 °C (350 °F); Zeit folgt der Masse (750 g 28 Min., 1030 g 35 Min.); typische Masse 750–1000 g |
+| 2026-10-20 | gaumenfreundin.de, sheepysbakery.de, sallys-blog.de, buttermilkbysam.com | je 1 | Backzeit | nicht genutzt (Gugelhupf, ohne Formgröße, 9 Zoll) |
+| 2026-10-20 | thesugarcoatedcottage.com, rasamalaysia.com | je 1 | Backzeit | 403, nichts gelesen |
+
+Nur Suchtreffer (Volumen der Formen): backformen.com, birkmann.de, combi.de, mytime.de, Wilton-Formtabellen.

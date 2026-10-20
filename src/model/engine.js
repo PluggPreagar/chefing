@@ -1,4 +1,4 @@
-import { fromGrams } from './units.js';
+import { fromGrams, summarize } from './units.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt, wirksameTechniken, technikStufe } from './rules.js';
 import { zeitFuerSchritt, zeitleiste, zeitMeldung, fmtZeit } from './zeit.js';
 import { emulsionsVerlauf } from './emulsion.js';
@@ -260,8 +260,12 @@ export function compute(state, data, korpusStats) {
   const vorschlaegeFertig = vorschlaegeZusammenfassen(mengenVorschlaege, bpPosten, data.ingredients, grenzen, referenzRolle, new Set(verletzt.hart.map((v) => v.id)));
 
   const round5 = (x) => Math.round(x / 5) * 5;
-  const kb = st.backen || {};
-  const ausKorpus = st.n >= 3 && kb.minuten?.median != null;
+  // Backwerte aus Rezepten derselben Gefäß-Familie (T91, DR-061): eine Springform erbt nicht die Zeit der Kastenform
+  const familienIds = new Set(Object.values(data.vessels).filter((x) => x?.familie && x.familie === vessel.familie).flatMap((x) => x.korpus_ids || []));
+  const backListe = st.backenListe ? st.backenListe.filter((b) => familienIds.has(b.gefaess)) : null;
+  const kb = backListe ? { tempOU: summarize(backListe.map((b) => b.tempOU)), tempUmluft: summarize(backListe.map((b) => b.tempUmluft)), minuten: summarize(backListe.map((b) => b.minuten)) } : st.backen || {};
+  const nBacken = kb.minuten?.n ?? st.n;
+  const ausKorpus = nBacken >= 3 && kb.minuten?.median != null;
   // Gefäße ohne Ofen (Pfanne, T06) haben keine Temperaturen, nur `hitze` (Text) und Minuten je Einheit.
   // Gefäße ohne Hitze (Glas für Mayonnaise, T78): `basis: null` — kein Backen, nur die Hinweise des Gefäßs
   const basis = vessel.basis ?? {};
@@ -273,7 +277,7 @@ export function compute(state, data, korpusStats) {
   const backHinweise = [...(vessel.hinweise || [])];
   if (ausKorpus) {
     const referenz = ofen ? `${basis.tempOU} °C / ${basis.minuten} Min.` : `${basis.minuten} ${minutenLabel}`;
-    backHinweise.unshift(`Median aus ${st.n} Rezepten (Spanne ${Math.round(kb.minuten.min)}–${Math.round(kb.minuten.max)} ${minutenLabel}); Gefäß-Referenz wäre ${referenz}.`);
+    backHinweise.unshift(`Median aus ${nBacken} Rezepten (Spanne ${Math.round(kb.minuten.min)}–${Math.round(kb.minuten.max)} ${minutenLabel}); Gefäß-Referenz wäre ${referenz}.`);
   }
   if (ofen && (props.fett?.aggregat === 'fluessig' || res.schritte.some((s) => s.key === 'schmelzen'))) {
     minuten = Math.round(minuten * 0.95);

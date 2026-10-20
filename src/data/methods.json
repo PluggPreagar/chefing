@@ -67,7 +67,7 @@
     "nach": {"einlegen": [], "einlage_unterheben": ["unterheben_abwechselnd", "einlegen"]},
     "textur": "feinporig, gleichmäßig, schnittfest",
     "triebquelle": "eingeschlagene Luft im Fett + Backpulver",
-    "geeignet_fuer": ["kastenform", "gugelhupfform", "springform"],
+    "geeignet_fuer": ["kastenform", "gugelhupfform", "springform", "quadratform"],
     "warum": "Die klassische Rührteig-Methode. Setzt plastisches Fett voraus — deshalb funktioniert sie nicht mit Öl."
   },
   "muffin": {
@@ -160,7 +160,7 @@
     "nach": {"einlegen": [], "einlage_unterheben": ["unterheben_abwechselnd", "einlegen"]},
     "textur": "sehr saftig, etwas dichter, bleibt lange frisch",
     "triebquelle": "Eischaum + Backpulver",
-    "geeignet_fuer": ["kastenform", "gugelhupfform", "springform", "muffinform"],
+    "geeignet_fuer": ["kastenform", "gugelhupfform", "springform", "quadratform", "muffinform"],
     "warum": "Die Öl-Antwort auf die Crememethode: Da Öl keine Luft hält, wird die Luft über Eier + Zucker eingeschlagen."
   },
   "schaummasse": {
@@ -226,7 +226,7 @@
     "nach": {"einlegen": [], "einlage_unterheben": ["butter_zuletzt", "einlegen"]},
     "textur": "fein, locker, eher trocken (Sandkuchen-Art)",
     "triebquelle": "Eischaum (warm aufgeschlagen); wenig oder kein Backpulver",
-    "geeignet_fuer": ["kastenform", "gugelhupfform", "springform"],
+    "geeignet_fuer": ["kastenform", "gugelhupfform", "springform", "quadratform"],
     "warum": "Umgekehrte Reihenfolge zur Crememethode: die Luft kommt aus dem Eischaum, nicht aus dem Fett; die Butter kommt flüssig zuletzt und darf den Schaum nicht zerstören (Wiener Masse, Sandmasse). Auch mit Öl möglich."
   },
   "allinone": {

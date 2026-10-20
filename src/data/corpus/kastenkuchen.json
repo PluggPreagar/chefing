@@ -2178,5 +2178,178 @@
       "eier_getrennt"
     ],
     "auswahl": "gezielt"
+  },
+  {
+    "id": "f-pieper-ruehrteig-luftig",
+    "titel": "Rührteig, noch luftiger (Eier getrennt)",
+    "quelle": {
+      "url": "http://www.f-pieper.de/07Gebaeck/Ruehrteig.htm",
+      "site": "f-pieper.de",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "springform_26",
+    "zutaten": [
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 250,
+        "einheit": "g",
+        "original": "250 g Mehl"
+      },
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Butter"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 200,
+        "einheit": "g",
+        "original": "200 g Zucker"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 Eier (getrennt)"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 0.5,
+        "einheit": "pkt",
+        "original": "½ Päckchen Backpulver"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1,
+        "einheit": "prise",
+        "original": "1 Prise Salz"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Eier trennen; Eigelbe mit Zucker und weicher Butter lange schaumig rühren",
+      "Etwa die Hälfte des Mehls mit dem Backpulver einrühren, bis der Teig glatt ist",
+      "Eiweiß steif schlagen",
+      "Eischnee und restliches Mehl rasch unterheben, ohne den Schaum zu zerstören",
+      "In die gefettete, mit Bröseln ausgestreute Springform füllen und backen"
+    ],
+    "backen": {
+      "tempOU": 180,
+      "tempUmluft": 160,
+      "minuten": 25,
+      "original": "180 °C Ober-/Unterhitze, ca. 20–30 Min. (Angabe des Grundrezepts)"
+    },
+    "stueckzahl": null,
+    "notizen": "Seite nennt Zeit und Temperatur nur beim Grundrezept (alle Eier ganz); für die Variante mit getrennten Eiern gelten sie sinngemäß. ½ Päckchen Backpulver ≈ 7,5 g. Teigmasse rechnerisch ≈ 800 g (Ei ohne Schale ≈ 50 g) – in Ø 26 cm nur ca. 1,5–2 cm hoch, daher die kurze Zeit. Butter und Semmelbrösel für die Form nicht als Teigzutat erfasst. Umluft −20 °C abgeleitet.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
+  },
+  {
+    "id": "bakeomaniac-butter-cake-eier-getrennt",
+    "titel": "Butter Cake (Egg Separation Method)",
+    "quelle": {
+      "url": "https://bakeomaniac.com/butter-cake-recipe-egg-separation/",
+      "site": "bakeomaniac.com",
+      "bewertung": null,
+      "anzahlBewertungen": null
+    },
+    "archetyp": "ruehrteig",
+    "variante": "kastenkuchen",
+    "gefaess": "quadratform_20",
+    "zutaten": [
+      {
+        "rolle": "fett",
+        "zutat": "butter",
+        "menge": 225,
+        "einheit": "g",
+        "original": "1 cup / 225 g unsalted butter, softened"
+      },
+      {
+        "rolle": "suesse",
+        "zutat": "zucker",
+        "menge": 175,
+        "einheit": "g",
+        "original": "3/4 cup + 2 tbsp / 175 g granulated sugar"
+      },
+      {
+        "rolle": "bindung",
+        "zutat": "ei",
+        "menge": 3,
+        "einheit": "stk",
+        "original": "3 large eggs (55 g each), separated"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "vanilleextrakt",
+        "menge": 5,
+        "einheit": "ml",
+        "original": "1 tsp / 5 ml vanilla extract"
+      },
+      {
+        "rolle": "aroma",
+        "zutat": "salz",
+        "menge": 1.4,
+        "einheit": "g",
+        "original": "1/4 tsp / 1.4 g table salt"
+      },
+      {
+        "rolle": "struktur",
+        "zutat": "weizenmehl",
+        "menge": 190,
+        "einheit": "g",
+        "original": "1 1/2 cups + 1 tbsp / 190 g all-purpose flour, sifted"
+      },
+      {
+        "rolle": "trieb",
+        "zutat": "backpulver",
+        "menge": 3,
+        "einheit": "g",
+        "original": "3/4 tsp / 3 g baking powder"
+      },
+      {
+        "rolle": "fluessigkeit",
+        "zutat": "milch",
+        "menge": 100,
+        "einheit": "ml",
+        "original": "1/3 cup / 100 ml full cream milk"
+      }
+    ],
+    "methode": "creme",
+    "ablauf": [
+      "Weiche Butter mit 80 g des Zuckers hell und luftig aufschlagen",
+      "Eigelbe einzeln einarbeiten, dann Vanille und Salz zugeben",
+      "Eiweiß mit dem übrigen Zucker in zwei Portionen zu steifem Baiser schlagen",
+      "Gesiebtes Mehl mit Backpulver und die Milch abwechselnd in je zwei Teilen unterheben (mit Mehl beginnen)",
+      "Baiser erst zu einem Drittel, dann den Rest in zwei Portionen vorsichtig unterziehen",
+      "In die mit Backpapier ausgelegte Form füllen, aufklopfen, backen bis das Stäbchen sauber bleibt; bei Raumtemperatur auskühlen"
+    ],
+    "backen": {
+      "tempOU": 160,
+      "tempUmluft": 140,
+      "minuten": 53,
+      "original": "160 °C (320 °F), ca. 52–55 Min."
+    },
+    "stueckzahl": null,
+    "notizen": "Form 8×8 inch ≈ 20×20 cm. Alle Grammangaben von der Seite übernommen (US-Cups dort nur parallel). 1 large egg mit 55 g angegeben. Zucker geteilt: 80 g zur Butter, 95 g ins Eiweiß. Optional ⅛ TL Weinstein (cream of tartar) fürs Eiweiß – kein erlaubter Zutatenschlüssel, daher nicht erfasst. All-purpose flour ≈ Weizenmehl Type 405/550. Teigmasse rechnerisch ≈ 865 g. Ofenart nicht genannt, als Ober-/Unterhitze gelesen; Umluft −20 °C abgeleitet. Seite: keine Sterne, 19 Kommentare.",
+    "qualitaet": 4,
+    "qualitaet_grund": "keine Seitenwertung",
+    "techniken": [
+      "eier_getrennt"
+    ],
+    "auswahl": "gezielt"
   }
 ]

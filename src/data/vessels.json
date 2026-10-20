@@ -151,5 +151,48 @@
     "korpus_ids": [
       "pfanne_28_ofenfest"
     ]
+  },
+  "springform_26": {
+    "label": "Springform 26 cm",
+    "familie": "springform",
+    "volumen_ml": 3700,
+    "fuellgrad": 0.26,
+    "teigmasse_g": 950,
+    "geometrie": "flach und breit (2–3 cm Teig) → kurzer Weg für die Hitze, kürzer als die Kastenform",
+    "basis": {
+      "tempOU": 175,
+      "tempUmluft": 155,
+      "minuten": 50
+    },
+    "hinweise": [
+      "Boden mit Backpapier einspannen, Rand fetten",
+      "Stäbchenprobe in der Mitte",
+      "Nach dem Backen kurz ruhen lassen, dann den Rand lösen"
+    ],
+    "korpus_ids": [
+      "springform_26",
+      "springform_unbekannt"
+    ]
+  },
+  "quadratform_20": {
+    "label": "Quadratische Form 20 × 20 cm",
+    "familie": "quadratform",
+    "volumen_ml": 2000,
+    "fuellgrad": 0.45,
+    "teigmasse_g": 900,
+    "geometrie": "flach, Ecken backen schneller als die Mitte",
+    "basis": {
+      "tempOU": 175,
+      "tempUmluft": 155,
+      "minuten": 35
+    },
+    "hinweise": [
+      "Form fetten oder mit Backpapier auslegen",
+      "Stäbchenprobe in der Mitte"
+    ],
+    "korpus_ids": [
+      "quadratform_20",
+      "quadratform_unbekannt"
+    ]
   }
 }

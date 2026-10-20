@@ -26,7 +26,7 @@ let c=compute(st('kastenkuchen'),data,ks);
 ok(approx(c.rollenBp.trieb.bp,median('trieb',c)) && approx(c.rollenBp.fett.bp,median('fett',c)) && c.anpassungen.length===0,'Basis (Backpulver, Milch, Butter): Korpus-Median, keine Anpassung');
 
 // T48 im Rührteig: Crememethode (n ≥ 5) hat mehr Fett als der Variantenmedian über Creme und Rühr-Öl; Rühr-Öl (n = 4) fällt zurück
-ok(c.methodKey==='creme' && ks.kastenkuchen.proMethode.creme.n===16 && ks.kastenkuchen.proMethode.ruehroel.n===4,'Kastenkuchen: Zellen „creme“ (n = 16) und „ruehroel“ (n = 4) — schon wenige Rezepte bilden eine Zelle (T48)');
+ok(c.methodKey==='creme' && ks.kastenkuchen.proMethode.creme.n===18 && ks.kastenkuchen.proMethode.ruehroel.n===4,'Kastenkuchen: Zellen „creme“ (n = 18) und „ruehroel“ (n = 4) — schon wenige Rezepte bilden eine Zelle (T48)');
 ok(approx(c.rollenBp.fett.bp,ks.kastenkuchen.proMethode.creme.bp.fett.median) && ks.kastenkuchen.proMethode.creme.bp.fett.median!==ks.kastenkuchen.bp.fett.median && c.korpusNMethode===ks.kastenkuchen.proMethode.creme.n,`Creme-Fett ${median('fett',c).toFixed(0)} % statt Variantenmedian ${ks.kastenkuchen.bp.fett.median.toFixed(0)} % — die Karte nennt n der Methode`);
 const roel=compute({...st('kastenkuchen'),methode:'ruehroel'},data,ks);
 ok(roel.korpusNMethode===4 && approx(roel.rollenBp.fett.bp,ks.kastenkuchen.proMethode.ruehroel.bp.fett.median) && roel.rollenBp.fett.bp<0.85*ks.kastenkuchen.bp.fett.median,'Rühr-Öl (n = 4): eigene Rezepte statt Variantenmedian — weniger Fett als Creme (Öl hat 100 % Fettgehalt)');

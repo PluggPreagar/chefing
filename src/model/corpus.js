@@ -166,6 +166,8 @@ export function stats(normalized, rollen = ROLLEN, { proMethode = true, gewichte
     teigmasse: summarize(normalized.map((r) => r.teigmasse)),
     // Verteilung der Gesamtbilanz (Bäckerprozent) — Erfahrungs-Toleranz für T35
     bilanz: Object.fromEntries(Object.keys(GROESSEN).map((g) => [g, summarize(normalized.map((r) => r.bilanz?.bp[g]))])),
+    // je Rezept Gefäß + Backwerte (T91): die Engine nimmt nur Rezepte derselben Gefäß-Familie (Springform backt kürzer als Kasten)
+    backenListe: normalized.map((r) => ({ gefaess: r.gefaess, tempOU: r.backen?.tempOU ?? null, tempUmluft: r.backen?.tempUmluft ?? null, minuten: r.backen?.minuten ?? null })),
     backen: {
       tempOU: summarize(normalized.map((r) => r.backen?.tempOU)),
       tempUmluft: summarize(normalized.map((r) => r.backen?.tempUmluft)),
