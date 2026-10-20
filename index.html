@@ -14,8 +14,11 @@
     </div>
     <nav class="presets" aria-label="Best-of-Presets">
       <select id="archetyp-wahl" class="archetyp-wahl" aria-label="Archetyp" hidden></select>
-      <button type="button" id="toggle-stats" class="ghost">Korpus-Statistik</button>
-      <button type="button" id="toggle-kandidaten" class="ghost">Regel-Kandidaten</button>
+      <span id="preset-gruppe" class="knopfgruppe" role="group" aria-label="Varianten"></span>
+      <span class="knopfgruppe" role="group" aria-label="Ansichten">
+        <button type="button" id="toggle-stats" class="ghost" aria-pressed="false">Korpus-Statistik</button>
+        <button type="button" id="toggle-kandidaten" class="ghost" aria-pressed="false">Regel-Kandidaten</button>
+      </span>
       <button type="button" id="fehler-melden" class="ghost" title="Fehler melden: Beschreibung, gewählte Elemente und App-Zustand als ZIP herunterladen, zum Verschicken per Mail">⚑ Fehler melden</button>
     </nav>
   </header>
@@ -25,7 +28,7 @@
   <section class="panel ablauf">
     <div class="ablauf-kopf">
       <h2>Ablauf</h2>
-      <div id="ablauf-techniken" class="ablauf-techniken" hidden></div>
+      <div id="ablauf-techniken" class="ablauf-techniken knopfgruppe" role="group" aria-label="Techniken" hidden></div>
     </div>
     <div id="flow" class="strom" role="group" aria-label="Ablauf: der Teig fließt von Gefäß zu Gefäß, Zutaten fließen hinein"></div>
   </section>

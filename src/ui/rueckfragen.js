@@ -26,7 +26,8 @@ function frage(o, onAnswered) {
   const box = el('div', 'rueckfrage');
   const kontext = o.kontext ? ` (${o.kontext})` : '';
   box.append(el('p', 'rueckfrage-text', `Du hattest überschrieben: „${o.text || o.regelId}“${kontext}. Hat es funktioniert?`));
-  const row = el('div', 'rueckfrage-buttons');
+  const row = el('div', 'rueckfrage-buttons knopfgruppe'); // Antworten auf eine Frage als Knopfgruppe (DR-045)
+  row.setAttribute('role', 'group');
   row.append(
     knopf('Ja, hat funktioniert', () => antworten('ja')),
     knopf('Nein, war doch nötig', () => antworten('nein')),

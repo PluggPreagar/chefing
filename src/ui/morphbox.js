@@ -63,7 +63,7 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
         title: `Passt zu: ${passend.map((m) => data.methods[m].label).join(', ')}`,
         onClick: () => onChange(technikPatch(state, arch, t, k, true)),
       }),
-    ]));
+    ], null, null, true));
   }
 
   for (const r of data.methods[computed.methodKey]?.lockert || []) gelockert.add(r); // Schaummasse: Trieb aus dem Eischaum (DR-046)
@@ -141,6 +141,7 @@ const technikKeysVon = (arch, data) => [...new Set(arch.methoden.flatMap((m) => 
 export function renderTechnikSchalter(root, state, data, computed, onChange) {
   const arch = data.archetypes[state.archetyp];
   root.replaceChildren();
+  root.classList.add('knopfgruppe'); // auch bei älterer index.html aus dem Cache (DR-037)
   for (const k of technikKeysVon(arch, data)) {
     if (technikStufe(arch, computed.variante, k) === 'aus') continue;
     const t = data.techniken[k];
@@ -182,7 +183,8 @@ function setAnteil(entries, key, anteil) {
   return entries.map((e) => (e.zutat === key ? { ...e, anteil: wert } : e));
 }
 
-function dimension(title, hint, items, pin, substitution) {
+// gruppe: Optionen als Knopfgruppe (DR-045), z. B. Ja/Nein einer Technik
+function dimension(title, hint, items, pin, substitution, gruppe = false) {
   const row = el('div', 'dim');
   const head = el('div', 'dim-head');
   const titleRow = el('div', 'dim-title-row');
@@ -196,7 +198,8 @@ function dimension(title, hint, items, pin, substitution) {
   head.append(titleRow);
   if (hint) head.append(el('div', 'dim-hint', hint));
   row.append(head);
-  const opts = el('div', 'dim-options');
+  const opts = el('div', `dim-options${gruppe ? ' knopfgruppe' : ''}`);
+  if (gruppe) opts.setAttribute('role', 'group');
   opts.append(...items);
   row.append(opts);
   return row;

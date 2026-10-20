@@ -478,7 +478,7 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 ## DR-045 · ui · Ähnliche Knöpfe als Knopfgruppe
 
 - **descr:** (2026-10-20, Nutzer: „persist: UI rule — for similar buttons use buttongroups to avoid visual noise“) Gleichartige Knöpfe (Varianten-Presets, Ansichts-Schalter, Umschalter wie Eischnee an/aus, Werkzeuge einer Leiste) stehen als **Knopfgruppe** nebeneinander: Ränder verbunden, aktiver Knopf hervorgehoben, verschiedene Gruppen mit Abstand getrennt — keine lose Reihe einzelner Pillen. Gilt projektübergreifend (aktien-monitor: „Knopfgruppe (Segment)“). In Chefing heute betroffen: Kopfzeile (Archetyp, Presets, Korpus-Statistik, Regel-Kandidaten, Fehler melden als gleich gestylte Pillen) und die Ja/Nein-Optionen im Kasten.
-- **Optionen:** A Regel festhalten, Umbau bei der nächsten UI-Änderung (gewählt für den Eintrag) · B sofort alle Stellen umbauen.
+- **Optionen:** A Regel festhalten, Umbau bei der nächsten UI-Änderung · B sofort alle Stellen umbauen (umgesetzt in T76: Kopfzeile, Eier getrennt, Eischnee-Schalter, Rückfragen; Optionskarten mit Untertitel bleiben Karten).
 - **pro:** Zusammengehöriges ist auf einen Blick erkennbar, weniger Rauschen, Auswahl aus mehreren wirkt als eine Entscheidung.
 - **cons:** Gruppen brauchen auf dem Handy Umbruch-Regeln (eine Gruppe darf als Ganzes umbrechen, nicht mitten durch).
 - **risk:** Gering, nur CSS und Markup der Kopfzeile/Optionen.

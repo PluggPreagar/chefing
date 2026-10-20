@@ -40,6 +40,18 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .presets button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; }
 .presets button.is-active { border-color: var(--best); background: var(--best-bg); font-weight: 600; }
 .presets button.ghost { color: var(--muted); }
+.presets button.ghost.is-active { color: var(--ink); }
+/* Knopfgruppe (DR-045): gleichartige Knöpfe nebeneinander, Ränder verbunden, aktiver hervorgehoben, Gruppe bricht als Ganzes um */
+.knopfgruppe { display: inline-flex; flex-wrap: nowrap; gap: 0 !important; vertical-align: middle; }
+.knopfgruppe > * { position: relative; border-radius: 0 !important; margin-left: -1px; }
+.knopfgruppe > :first-child { margin-left: 0; border-top-left-radius: 999px !important; border-bottom-left-radius: 999px !important; }
+.knopfgruppe > :last-child { border-top-right-radius: 999px !important; border-bottom-right-radius: 999px !important; }
+.knopfgruppe > .is-active, .knopfgruppe > .is-selected, .knopfgruppe > .is-an, .knopfgruppe > [aria-pressed="true"], .knopfgruppe > :focus-visible { z-index: 1; }
+.knopfgruppe:empty { display: none; }
+/* Optionskarten im Kasten und Rückfrage-Knöpfe: eckiger, also kleinere Außenradien */
+.dim-options.knopfgruppe > :not(:first-child) { margin-left: -2px; } /* Optionskarten haben 2px Rand */
+.dim-options.knopfgruppe > :first-child, .rueckfrage-buttons.knopfgruppe > :first-child { border-top-left-radius: 8px !important; border-bottom-left-radius: 8px !important; }
+.dim-options.knopfgruppe > :last-child, .rueckfrage-buttons.knopfgruppe > :last-child { border-top-right-radius: 8px !important; border-bottom-right-radius: 8px !important; }
 .archetyp-wahl { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: .5rem .9rem; border-radius: 999px; }
 
 .layout { display: grid; gap: 1rem; padding: 0 1.5rem 1.5rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }

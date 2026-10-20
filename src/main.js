@@ -58,6 +58,20 @@ const state = {
 
 const $ = (id) => document.getElementById(id);
 
+// Knopfgruppe der Varianten (DR-045); fehlt sie (ältere index.html aus dem Browser-Cache, DR-037), wird sie angelegt
+function presetGruppe() {
+  let g = $('preset-gruppe');
+  if (!g) {
+    g = document.createElement('span');
+    g.id = 'preset-gruppe';
+    g.className = 'knopfgruppe';
+    g.setAttribute('role', 'group');
+    g.setAttribute('aria-label', 'Varianten');
+    $('toggle-stats').before(g);
+  }
+  return g;
+}
+
 // Archetyp wechseln (T06): aktiver Archetyp lebt an drei Stellen (arch, data.arch, state.archetyp) —
 // hier immer gemeinsam setzen. Preset-Buttons kommen aus den Varianten des Archetyps.
 function waehleArchetyp(key) {
@@ -65,13 +79,14 @@ function waehleArchetyp(key) {
   data.arch = arch;
   Object.assign(state, archetypPatch(arch, key));
   document.querySelectorAll('[data-preset]').forEach((b) => b.remove());
+  const gruppe = presetGruppe();
   for (const [vKey, v] of Object.entries(arch.varianten)) {
     const b = document.createElement('button');
     b.type = 'button';
     b.dataset.preset = vKey;
     b.textContent = v.kurz ?? v.label;
     b.addEventListener('click', () => { applyPreset(vKey); render(); });
-    $('toggle-stats').before(b);
+    gruppe.append(b);
   }
   $('tagline').textContent = `${arch.label} als Kombinatorik: Zutaten nach Eigenschaften wählen, Methode folgt aus der Physik, Mengen aus dem Rezept-Korpus.`;
   document.title = `Chefing — ${arch.label}-Kombinator`;
@@ -118,9 +133,12 @@ function render() {
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }
 
+// Ansichts-Schalter zeigen, ob ihr Panel offen ist (aktiv in der Knopfgruppe, DR-045)
+const gedrueckt = (b, an) => { b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); };
 $('toggle-stats').addEventListener('click', () => {
   const s = $('stats');
   s.hidden = !s.hidden;
+  gedrueckt($('toggle-stats'), !s.hidden);
   if (!s.hidden) renderStats(s, korpusStats, data);
 });
 // Fehler melden (DR-044): die Meldung nennt, was gerade eingestellt und berechnet war
@@ -133,6 +151,7 @@ initFehlerMelden($('fehler-melden'), () => ({
 $('toggle-kandidaten').addEventListener('click', () => {
   const k = $('kandidaten');
   k.hidden = !k.hidden;
+  gedrueckt($('toggle-kandidaten'), !k.hidden);
   if (!k.hidden) refreshKandidaten();
 });
 
