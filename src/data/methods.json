@@ -52,7 +52,10 @@
         "verteilung": "einzeln",
         "variante": "einzeln einrühren",
         "auf": ["bindung"],
-        "voraussetzung": [],
+        "voraussetzung": [
+          { "rolle": "bindung", "eigenschaft": "temperatur", "mindestens": 15, "strenge": "hart", "id": "eier_nicht_kalt" }
+        ],
+        "vorbereitung_falls_nicht": "eier_temperieren",
         "wirkung": "Ei-Lecithin emulgiert Wasser (Ei) in Fett: das Fett bleibt die durchgehende Phase (Wasser in Fett), das Eigelb-Fett umhüllt die eingeschlagenen Luftzellen. Einzeln zugeben hält die Emulsion stabil, weil die umhüllten Zellen nur begrenzt Flüssigkeit aufnehmen.",
         "risiko": "Alle Eier auf einmal, kalte Eier oder zu viel Flüssigkeit → Emulsion bricht, Masse gerinnt/wird flockig, die Krume wird grob. Rettung: 1–2 EL vom Mehl einrühren; Eier vorher auf Zimmertemperatur bringen.",
         "dauer_min": 2

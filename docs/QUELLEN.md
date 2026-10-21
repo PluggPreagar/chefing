@@ -400,3 +400,12 @@ Ergebnis: Würfel schneiden + 20 Min. warten als Richtwert; gefrorene Butter nic
 | 2026-10-21 | thecountrycook.net, onesarcasticbaker.com, vinmec.com | je 1 (Suchtreffer) | Würfel, Scheiben | mehr Oberfläche beschleunigt; Reiben und Ausrollen ohne Beleg |
 
 Ergebnis: vier Wege (rausstellen 1 Std., Würfel 20 Min., Glas 5–15 Min., Mikrowelle kurz) mit Quellen in zustaende.json.
+
+## 2026-10-21 — Eier zimmerwarm, Butter schmelzen (DR-065, Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-21 | chowhound.com, goodlifeeats.com, tastingtable.com, sugarspunrun.com, foodrepublic.com, culinarylore.com | je 1 (Suchtreffer) | Eier zimmerwarm | Arbeitsfläche 30–60 Min. (nicht über 2 Std.), warmes Wasserbad 5–15 Min. (nicht heiß), fließend warmes Wasser 2–5 Min. |
+| 2026-10-21 | rewe.de, heidelberg24.de, cooksillustrated.com | je 1 (Suchtreffer) | Butter schmelzen | im Topf bei kleiner Hitze, kurz abkühlen; Mikrowelle in kurzen Stößen, abdecken (spritzt sonst) |
+
+Ergebnis: Wege für „zimmerwarm“ und „geschmolzen“ in zustaende.json; „nicht heiß einrühren“ belegt über QUELLEN 2026-10-20 (Schaummasse).

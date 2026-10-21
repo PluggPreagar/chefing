@@ -19,7 +19,7 @@ ok(W.anzeige==='weich (18–22 °C)' && W.wege.length===4 && W.wege.every(w=>w.k
 ok(W.wege[0].key==='rausstellen' && W.wege.find(w=>w.key==='mikrowelle').risiko,'einfachster Weg zuerst (rausstellen); Mikrowelle mit Risiko-Hinweis');
 
 const std=rechne();
-ok(std.methodKey==='creme' && std.status==='ok' && std.zustaende.length===1 && std.zustaende[0].gewaehlt===null && !std.ablauf.some(s=>s.key==='temperieren') && !std.regelIds.length,'Standard: Crememethode bleibt Auto, „ok“, Zustand an der Butter, kein Schritt, keine Regel-Id');
+ok(std.methodKey==='creme' && std.status==='ok' && std.zustaende.length===2 && std.zustaende.every(z=>z.gewaehlt===null) && std.zustaende.some(z=>z.rolle==='bindung' && z.zustand==='zimmerwarm' && z.anzeige==='zimmerwarm (etwa 18–22 °C)') && !std.ablauf.some(s=>s.key==='temperieren') && !std.regelIds.length,'Standard: Crememethode bleibt Auto, „ok“, Zustände an Butter (weich) und Eiern (zimmerwarm), kein Schritt, keine Regel-Id');
 ok(std.zutatenListe.find(x=>x.rolle==='fett').zustand==='weich (18–22 °C)','Zutatenliste: Butter mit Zustand „weich (18–22 °C)“');
 
 const wuerfel=rechne({zustandWege:{fett:'wuerfel'}});
@@ -30,10 +30,16 @@ ok(p.vorlauf<0 && wuerfel.zeit.vorlauf>=20,`der Schritt läuft im Vorlauf vor de
 const mw=rechne({zustandWege:{fett:'mikrowelle'}}).ablauf.find(x=>x.key==='temperieren');
 ok(mw && mw.typ==='vorbereitung' && mw.dauer===1 && /Mikrowelle/.test(mw.label),'Weg „Mikrowelle“: kurzer Handgriff ohne Wartezeit');
 ok(!rechne({zustandWege:{fett:'gibtsnicht'}}).ablauf.some(x=>x.key==='temperieren'),'unbekannter Weg: kein Schritt');
-ok(!rechne({zutatTemperaturen:{fett:'plastisch'}}).zustaende.length,'Butter schon weich angegeben: kein Zustands-Hinweis');
+ok(!rechne({zutatTemperaturen:{fett:'plastisch',bindung:'raum'}}).zustaende.length,'Butter weich und Eier zimmerwarm angegeben: kein Zustands-Hinweis');
+const eier=rechne({zustandWege:{bindung:'wasserbad'}}).ablauf.find(x=>x.key==='eier_temperieren');
+ok(eier && eier.zustandWeg==='wasserbad' && eier.aktiv===0.5 && eier.wirk===10,'Eier: Weg „Warmes Wasserbad“ gewählt → ½ Min. + 10 Min. im Vorlauf');
+ok(rechne({zutatTemperaturen:{bindung:'kuehlschrank'}}).zustaende.some(z=>z.rolle==='bindung' && /ist: 4–7 °C/.test(z.grund)),'Eier aus dem Kühlschrank: Zustand „zimmerwarm“, Begründung nennt die Temperatur');
 ok(rechne({zutatTemperaturen:{fett:'lauwarm'}}).evals.creme.status==='invalid','Butter lauwarm (zu warm): Crememethode ungültig, „weich werden lassen“ hilft nicht');
 const oel=rechne({zutatTemperaturen:{},methode:'ruehroel'});
-ok(!oel.zustaende.length,'Rühr-Öl: kein Zustand „weich“ (Schmelzen bleibt eine Vorbereitung)');
+ok(oel.zustaende.some(z=>z.rolle==='fett' && z.zustand==='geschmolzen' && z.anzeige==='geschmolzen, nur lauwarm') && !oel.zustaende.some(z=>z.zustand==='weich') && !oel.ablauf.some(s=>s.key==='schmelzen') && oel.status==='ok','Rühr-Öl mit Butter: Zustand „geschmolzen, nur lauwarm“, kein Schmelzen-Schritt, Status ok');
+const topf=rechne({methode:'ruehroel',zustandWege:{fett:'topf'}}).ablauf.find(s=>s.key==='schmelzen');
+ok(topf && topf.ort==='topf' && topf.aktiv===3 && topf.wirk===5 && topf.temperatur==='35,7 °C','Weg „Im Topf“: Schmelzen im Topf, 3 Min. Hand + 5 Min. abkühlen, bei 35,7 °C');
+ok(rechne({methode:'ruehroel',zustandWege:{fett:'wuerfel'}}).zustaende.find(z=>z.rolle==='fett').gewaehlt===null,'ein Weg eines anderen Zustands (Würfel) zählt bei „geschmolzen“ nicht als gewählt');
 
 console.log(fail?`${fail} FAILED`:'ALL PASS');
 process.exit(fail?1:0);

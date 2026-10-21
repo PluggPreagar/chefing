@@ -434,7 +434,7 @@ export function compute(state, data, korpusStats) {
     zeit: zeitleiste(ablauf),
     trieb: { zeile: trieb.zeile, quellen: trieb.quellen },
     // Soll-Zustände der Zutaten mit Wegen dorthin (DR-064): an der Zutat statt als Schritt; gewählt = Weg, der als Vorlauf-Schritt im Ablauf steht
-    zustaende: (res.zustaende || []).map((z) => { const d = data.zustaende?.[z.zustand] || {}; return { ...z, label: d.label ?? z.zustand, anzeige: d.anzeige ?? z.zustand, pruefen: d.pruefen ?? null, wege: d.wege || [], gewaehlt: state.zustandWege?.[z.rolle] ?? null, zutat: props[z.rolle]?.kurzlabel?.replace(/\s*\(.*?\)/, '') ?? z.rolle }; }),
+    zustaende: (res.zustaende || []).map((z) => { const d = data.zustaende?.[z.zustand] || {}; const wege = (d.wege || []).map((w) => ({ ...w, gesamt_min: w.dauer_min > w.aktiv_min ? w.dauer_min + (w.aktiv_min >= 1 ? w.aktiv_min : 0) : w.dauer_min })); const wahl = state.zustandWege?.[z.rolle]; return { ...z, label: d.label ?? z.zustand, anzeige: d.anzeige ?? z.zustand, pruefen: d.pruefen ?? null, wege, gewaehlt: wege.some((w) => w.key === wahl) ? wahl : null, zutat: props[z.rolle]?.plural ?? props[z.rolle]?.kurzlabel?.replace(/\s*\(.*?\)/, '') ?? z.rolle }; }),
     // Technik-Stufe je Technik, gemessen am Korpus der Variante, wenn er genug Rezepte hat (T83, DR-051)
     technikStufen: Object.fromEntries(Object.keys(data.techniken || {}).filter((k) => !k.startsWith('_')).map((k) => [k, technikStufe(arch, variante, k, st.techniken?.[k] ?? { n: st.n, anteil: 0 })])),
     gas: gas?.zeile ? { gesamt: gas.gesamt, anteile: gas.anteile, zeile: gas.zeile } : null,

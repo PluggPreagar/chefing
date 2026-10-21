@@ -92,7 +92,7 @@ dev/                         Skizzen und Vorschauen, nicht Teil der App
 | `techniken.json` | optionale Techniken, die eine Methode ergänzen (Eier getrennt: Trennen, Eischnee, Unterheben; lockert den Trieb); Schalter im Kasten (DR-041) |
 | `triebquellen.json` | woher das Volumen kommt (Luft aus Butter-Creme/Ei-Schaum/Eischnee, CO₂ aus Backpulver/Natron/Hefe, Mineralwasser, Dampf), wann, und wie lange es hält; Zeile „Volumen aus …“ und Haltezeit-Warnung (DR-049); Zahlen fürs Gas-Budget je 100 g Teig (Schätzung ohne Dampf, DR-050) |
 | `werkzeuge.json` | Werkzeuge und Anforderungen (Luft schlagen, cremig aufschlagen, kneten): was jedes Werkzeug kann und wie viel länger es von Hand dauert; Ausstattung im Kasten, Standard = Alltags-Küche (DR-060); Pürierstab-Regeln der Emulsion (DR-053, DR-058) |
-| `zustaende.json` | Soll-Zustände von Zutaten (Butter weich, 18–22 °C) mit Wegen dorthin (rausstellen, Würfel, Glas, Mikrowelle): Klappe an der Zutat, ein gewählter Weg wird Vorlauf-Schritt (DR-064) |
+| `zustaende.json` | Soll-Zustände von Zutaten mit Wegen dorthin: Butter weich (rausstellen, Würfel, Glas, Mikrowelle), Eier zimmerwarm (rausstellen, Wasserbad), Butter geschmolzen (Topf, Mikrowelle); Klappe an der Zutat, ein gewählter Weg wird Vorlauf-Schritt (DR-064, DR-065) |
 | `modelle.json` | Rechenmodelle mit Parametern, Quelle und Validierung (Gärmodell: Hefe × Zeit × Temperatur) |
 | `temperaturen.json` | benannte Temperatur-Bereiche (Kühlschrank, kühl, Raum, warm, lauwarm, plastisch für Fett, Teig für die Teigtemperatur); Temperaturen stehen überall als Zahl, Wert ± Spielraum, Spanne oder Name (`temperatur` an Operationen, `temperaturen` im Rezept) |
 | `kategorien.json`, `verben.json` | Icon-Kategorien und Verben |

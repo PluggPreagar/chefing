@@ -155,6 +155,7 @@
     "umrechnung": { "el": 10, "tl": 3 }
   },
   "ei": {
+    "plural": "Eier",
     "label": "Ei (Gr. M)",
     "kategorie": "ei",
     "unterkategorie": "ei",

@@ -41,7 +41,7 @@ const basis=(a,vk)=>{ const v=a.varianten[vk], b={}; for (const r of a.rollen) b
  const kalt=rechne({zutatTemperaturen:{fett:'kuehlschrank'}});
  ok(kalt.zustaende.some(z=>z.rolle==='fett' && /cremig schlagbares Fett \(ist: nein\)/.test(z.grund)),'butter-zu-kalt-aufschlagen: Butter aus dem Kühlschrank → Zustand „weich“ mit Wegen an der Zutat (DR-064)');
  const warm=rechne();
- ok(warm.zustaende.some(z=>z.rolle==='fett') && !rechne({zutatTemperaturen:{fett:'plastisch'}}).zustaende.length,'ruehrteig-gerinnt-kalte-zutaten (Butter-Teil): ohne Angabe Zustand „weich“ an der Butter, bei 18–22 °C keiner');
+ ok(warm.zustaende.some(z=>z.rolle==='fett') && !rechne({zutatTemperaturen:{fett:'plastisch'}}).zustaende.some(z=>z.rolle==='fett'),'ruehrteig-gerinnt-kalte-zutaten (Butter-Teil): ohne Angabe Zustand „weich“ an der Butter, bei 18–22 °C keiner');
  const nass=rechne({mengen:{fluessigkeit:250}});
  const t5=tipps.find(t=>t.id==='ruehrteig-zu-viel-fluessigkeit').modell.durch.map(d=>d.split(':')[1]);
  ok(t5.some(id=>nass.regelIds.includes(id)),'ruehrteig-zu-viel-fluessigkeit: 250 % Flüssigkeit löst eine der genannten Wasser-Grenzen aus');

@@ -3,7 +3,7 @@
     "zweck": "Soll-Zustände von Zutaten (DR-064): ein Schritt braucht die Zutat in einem Zustand (Butter weich zum Aufschlagen). Statt eines Arbeitsschritts steht der Zustand an der Zutat; ein Klick zeigt die Wege dorthin (Unter-Rezept). Erst ein gewählter Weg wird ein Schritt im Vorlauf.",
     "anzeige": "Text an der Zutat im Rezept",
     "pruefen": "woran man den Zustand erkennt",
-    "wege": "Unter-Rezept: [{key, label, aktion, handgriff, aktiv_min, dauer_min, schritte[], risiko, quelle}] — dauer_min = Gesamtdauer, aktiv_min = Handzeit davon; der erste Weg ist der einfachste und erscheint in der Zeile „Vorbereiten“"
+    "wege": "Unter-Rezept: [{key, label, aktion, handgriff, ort, aktiv_min, dauer_min, schritte[], risiko, quelle}] — aktiv_min = Handgriff; dauer_min = Wartezeit danach (ist sie nicht länger als der Handgriff, ist der Weg nur ein Handgriff); ort = Arbeitsplatz, falls anders als bei der Vorbereitung; der erste Weg ist der einfachste und erscheint in der Zeile „Vorbereiten“"
   },
   "weich": {
     "label": "weich",
@@ -17,7 +17,10 @@
         "handgriff": "Aus dem Kühlschrank nehmen",
         "aktiv_min": 0.5,
         "dauer_min": 60,
-        "schritte": ["Butter etwa 1 Stunde vorher aus dem Kühlschrank nehmen", "Bei Raumtemperatur liegen lassen"],
+        "schritte": [
+          "Butter etwa 1 Stunde vorher aus dem Kühlschrank nehmen",
+          "Bei Raumtemperatur liegen lassen"
+        ],
         "risiko": "In einer kühlen Küche dauert es länger, in einer warmen wird sie schnell zu weich.",
         "quelle": "americastestkitchen.com: ganzes Stück etwa 1 Std."
       },
@@ -28,7 +31,10 @@
         "handgriff": "In Würfel schneiden",
         "aktiv_min": 1,
         "dauer_min": 20,
-        "schritte": ["In 1–2 cm große Würfel schneiden", "Auf einem Teller bei Raumtemperatur liegen lassen"],
+        "schritte": [
+          "In 1–2 cm große Würfel schneiden",
+          "Auf einem Teller bei Raumtemperatur liegen lassen"
+        ],
         "risiko": null,
         "quelle": "americastestkitchen.com (Esslöffel-Stücke etwa 20 Min.), tastingtable.com (Würfel etwa 15 Min.)"
       },
@@ -39,7 +45,11 @@
         "handgriff": "Glas heiß ausspülen, überstülpen",
         "aktiv_min": 1,
         "dauer_min": 10,
-        "schritte": ["Hitzefestes Glas mit heißem Wasser füllen, ausleeren und abtrocknen", "Über die Butter auf einem Teller stülpen", "5–15 Minuten warten, dann prüfen"],
+        "schritte": [
+          "Hitzefestes Glas mit heißem Wasser füllen, ausleeren und abtrocknen",
+          "Über die Butter auf einem Teller stülpen",
+          "5–15 Minuten warten, dann prüfen"
+        ],
         "risiko": "Nur hitzefestes Glas nehmen; zu heißes Glas schmilzt die Außenseite an.",
         "quelle": "thedailymeal.com, t-online.de, americastestkitchen.com: 5–20 Min. unter dem warmen Glas"
       },
@@ -50,9 +60,85 @@
         "handgriff": "Mikrowelle, niedrige Stufe",
         "aktiv_min": 1,
         "dauer_min": 1,
-        "schritte": ["In Stücke schneiden", "Niedrige Stufe (30–40 %), je 5–10 Sekunden", "Dazwischen wenden und mit dem Finger prüfen"],
+        "schritte": [
+          "In Stücke schneiden",
+          "Niedrige Stufe (30–40 %), je 5–10 Sekunden",
+          "Dazwischen wenden und mit dem Finger prüfen"
+        ],
         "risiko": "Butter schmilzt sehr schnell an — dann ist sie ölig und hält beim Aufschlagen keine Luft mehr.",
         "quelle": "bakingamoment.com, noobcook.com: 30–40 % Leistung, 5–15 Sek. je Schritt, zwischendurch prüfen"
+      }
+    ]
+  },
+  "zimmerwarm": {
+    "label": "zimmerwarm",
+    "anzeige": "zimmerwarm (etwa 18–22 °C)",
+    "pruefen": "fühlt sich in der Hand nicht mehr kühl an",
+    "wege": [
+      {
+        "key": "rausstellen",
+        "label": "Rechtzeitig rausstellen",
+        "aktion": "Rausstellen",
+        "handgriff": "Aus dem Kühlschrank nehmen",
+        "aktiv_min": 0.5,
+        "dauer_min": 30,
+        "schritte": [
+          "Eier 30–60 Minuten vorher aus dem Kühlschrank nehmen"
+        ],
+        "risiko": "Nicht länger als etwa 2 Stunden ungekühlt liegen lassen.",
+        "quelle": "chowhound.com: 30–60 Min., nicht über 2 Std."
+      },
+      {
+        "key": "wasserbad",
+        "label": "Warmes Wasserbad",
+        "aktion": "Wasserbad",
+        "handgriff": "In warmes Wasser legen",
+        "aktiv_min": 0.5,
+        "dauer_min": 10,
+        "schritte": [
+          "Eier in eine Schüssel mit warmem, nicht heißem Leitungswasser legen",
+          "5–15 Minuten liegen lassen"
+        ],
+        "risiko": "Zu heißes Wasser lässt das Eiweiß am Rand stocken.",
+        "quelle": "goodlifeeats.com, tastingtable.com, sugarspunrun.com: 5–15 Min."
+      }
+    ]
+  },
+  "geschmolzen": {
+    "label": "geschmolzen",
+    "anzeige": "geschmolzen, nur lauwarm",
+    "pruefen": "ganz flüssig, aber nicht heiß — der Finger hält es aus",
+    "wege": [
+      {
+        "key": "topf",
+        "label": "Im Topf, kleine Hitze",
+        "aktion": "Schmelzen",
+        "handgriff": "Im Topf schmelzen",
+        "ort": "topf",
+        "aktiv_min": 3,
+        "dauer_min": 5,
+        "schritte": [
+          "Bei kleiner Hitze unter Rühren schmelzen",
+          "Vom Herd nehmen und etwa 5 Minuten abkühlen lassen"
+        ],
+        "risiko": "Zu heiß eingerührt → das Ei stockt, die Masse gerinnt.",
+        "quelle": "rewe.de (klein schmelzen, kurz abkühlen); QUELLEN.md 2026-10-20 (Butter zuletzt geschmolzen, nicht heiß)"
+      },
+      {
+        "key": "mikrowelle",
+        "label": "Mikrowelle, kurze Stöße",
+        "aktion": "Mikrowelle",
+        "handgriff": "Mikrowelle, kurze Stöße",
+        "ort": "schaelchen",
+        "aktiv_min": 1,
+        "dauer_min": 2,
+        "schritte": [
+          "In Stücke schneiden, mit Backpapier abdecken",
+          "In Stößen von wenigen Sekunden erhitzen, dazwischen umrühren",
+          "Kurz abkühlen lassen"
+        ],
+        "risiko": "Zu viel Hitze auf einmal → die Butter spritzt (das Wasser darin verdampft).",
+        "quelle": "heidelberg24.de: kurze Stöße, abdecken; noobcook.com"
       }
     ]
   }

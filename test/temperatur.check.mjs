@@ -127,14 +127,14 @@ ok(ops.kneten.reibung_k===8 && ops.kneten.temperatur==='teig','Daten: Kneten tr�
 {const ruehr=data.archetypes.ruehrteig; const rr=ruehr.rollen.map(r=>r.rolle);
  const ksR=Object.fromEntries(Object.entries(ruehr.varianten).map(([k,x])=>[k,stats(J('corpus/'+x.korpus).map(r=>normalizeRecipe(r,data.ingredients,{rollen:rr})),rr)]));
  const v=ruehr.varianten.kastenkuchen; const base={}; for (const r of ruehr.rollen) base[r.rolle]=E(v.bestof[r.rolle]!==undefined?v.bestof[r.rolle]:r.default);
- const rechne=(over,methode=null)=>compute({archetyp:'ruehrteig',gefaess:v.gefaess,methode,fixiert:{rollen:{},zutaten:{}},zutaten:{...base,...over}},data,ksR);
+ const rechne=(over,methode=null)=>compute({archetyp:'ruehrteig',gefaess:v.gefaess,methode,fixiert:{rollen:{},zutaten:{}},zutaten:{...base,...over},zustandWege:{fett:'topf'}},{...data,zustaende:J('zustaende')},ksR); // Weg „Im Topf“ gewählt, damit der Schmelzen-Schritt da ist (DR-064)
  let cr=rechne({});
  ok(cr.ablauf.find(s=>s.key==='aufschlagen').temperatur==='18–22 °C (plastisch)','Crememethode mit Butter: Aufschlagen bei 18–22 °C (plastisch), aus der Zutat abgeleitet');
  cr=rechne({fett:E('margarine')});
  ok(cr.ablauf.find(s=>s.key==='aufschlagen').temperatur==='15–24 °C','mit Margarine: Aufschlagen bei 15–24 °C (breiterer plastischer Bereich)');
  cr=rechne({fett:E('butter')},'ruehroel');
  const sch=cr.ablauf.find(s=>s.key==='schmelzen');
- ok(sch && sch.temperatur==='35,7 °C','Rühr-Öl-Methode mit Butter: eingefügtes „Schmelzen“ bei 35,7 °C (Schmelzpunkt 34 °C × 1,05)');
+ ok(sch && sch.temperatur==='35,7 °C','Rühr-Öl-Methode mit Butter, Weg „Im Topf“: Schmelzen bei 35,7 °C (Schmelzpunkt 34 °C × 1,05)');
  cr=rechne({fett:E('margarine')},'ruehroel');
  ok(cr.ablauf.find(s=>s.key==='schmelzen').temperatur==='37,8 °C','mit Margarine (Schmelzpunkt 36 °C): 37,8 °C');
  cr=rechne({fett:E('pflanzenoel')},'ruehroel');

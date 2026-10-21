@@ -26,7 +26,7 @@ ok(iconFehlt.length === 0, 'jedes Arbeitsplatz-Icon steht in icons.js' + (iconFe
 ok(['topf', 'tasse', 'schaelchen', 'schuessel_2'].every((k) => data.orte[k].neben) && ['schuessel', 'flaeche', 'gefaess', 'ofen'].every((k) => !data.orte[k].neben), 'Nebenplätze: Topf, Tasse, Schälchen, Schüssel 2; Hauptstrom: Schüssel, Fläche, Gefäß, Ofen');
 
 const ksVon = {};
-function rechne(archKey, vk, methode, over = {}, techniken = {}) {
+function rechne(archKey, vk, methode, over = {}, techniken = {}, zustandWege = {}) {
   const arch = data.archetypes[archKey];
   const rollen = arch.rollen.map((r) => r.rolle);
   const referenz = arch.rollen.find((r) => r.referenz)?.rolle ?? rollen[0];
@@ -35,7 +35,7 @@ function rechne(archKey, vk, methode, over = {}, techniken = {}) {
   const z = {};
   for (const r of arch.rollen) z[r.rolle] = E(v.bestof[r.rolle] !== undefined ? v.bestof[r.rolle] : r.default);
   Object.assign(z, over);
-  const c = compute({ archetyp: archKey, gefaess: v.gefaess, methode, fixiert: { rollen: {}, zutaten: {} }, zutaten: z, techniken }, { ...data, arch }, ksVon[archKey]);
+  const c = compute({ archetyp: archKey, gefaess: v.gefaess, methode, fixiert: { rollen: {}, zutaten: {} }, zutaten: z, techniken, zustandWege }, { ...data, arch, zustaende: J('zustaende') }, ksVon[archKey]);
   return { c, M: stromModell(c.ablauf, data.orte, c.vessel), z };
 }
 
@@ -104,7 +104,7 @@ ok(leer('stueckgare').haupt.ort.label === 'Backblech' && leer('backen').haupt.or
 ok(akt('einlage_unterheben').haupt.dicke > akt('kneten').haupt.dicke && akt('hefe_ansetzen').spuren.find((s) => s.ort.key === 'tasse').dicke < akt('kneten').haupt.dicke, 'Dicke = Menge: mit Rosinen dicker, Hefe-Milch dünner als der Teig');
 ok(c.zeit.aktiv === Math.round(M.aktiv) && c.zeit.aktiv < 30 && c.zeit.vorlauf === Math.round(M.vorlauf), `Hände ${c.zeit.aktiv} Min., Vorlauf ${c.zeit.vorlauf} Min., gesamt ${c.zeit.gesamt} Min. ab Start`);
 
-({ c, M } = rechne('ruehrteig', 'muffin', 'muffin', { fett: E('butter') }));
+({ c, M } = rechne('ruehrteig', 'muffin', 'muffin', { fett: E('butter') }, {}, { fett: 'topf' })); // Weg „Im Topf“ gewählt (DR-064)
 zeig(c, M);
 ok(akt('trocken_mischen').strom === 'haupt' && akt('schmelzen').strom === 'neben' && akt('schmelzen').strang === akt('verquirlen').strang && akt('unterheben_kurz').zufluss === akt('verquirlen').strang, 'Muffin mit Butter: Topf → Schüssel 2 als ein Strang, mündet ins Unterheben');
 ok(akt('fuellen').ort.icon === 'ort_muffinform', 'Muffinform bekommt ihr eigenes Icon');
@@ -117,7 +117,7 @@ ok(akt('ausbacken').ort.icon === 'ort_pfanne' && akt('ausbacken').haupt.aktiv &&
 
 // Reihenfolge Ei+Zucker zuerst, Butter zuletzt (DR-046) und Öl in dünnem Strahl beim Rühr-Öl
 ({ c, M } = rechne('ruehrteig', 'kastenkuchen', 'schaummasse'));
-ok(c.korpusNMethode === 4 && c.ablauf.map((s) => s.key).join() === 'ei_zucker_warm,mehl_unterheben,schmelzen,butter_zuletzt,fuellen,backen' && M.plan.start[iVon('butter_zuletzt')] > M.plan.start[iVon('mehl_unterheben')] && c.ablauf.find((s) => s.key === 'ei_zucker_warm').temperatur, 'Schaummasse: Ei + Zucker warm (38–45 °C), Mehl, geschmolzene Butter zuletzt; Mengen aus 4 Sandkuchen-Rezepten');
+ok(c.korpusNMethode === 4 && c.ablauf.map((s) => s.key).join() === 'ei_zucker_warm,mehl_unterheben,butter_zuletzt,fuellen,backen' && c.zustaende.some((x) => x.zustand === 'geschmolzen') && M.plan.start[iVon('butter_zuletzt')] > M.plan.start[iVon('mehl_unterheben')] && c.ablauf.find((s) => s.key === 'ei_zucker_warm').temperatur, 'Schaummasse: Ei + Zucker warm (38–45 °C), Mehl, geschmolzene Butter zuletzt; Mengen aus 4 Sandkuchen-Rezepten');
 ok(rechne('ruehrteig', 'kastenkuchen', 'schaummasse', { trieb: [] }).c.status !== 'invalid' && data.methods.schaummasse.lockert.includes('trieb'), 'Schaummasse ohne Backpulver gültig: der Trieb kommt aus dem Eischaum');
 ({ c, M } = rechne('ruehrteig', 'kastenkuchen', 'ruehroel', { fett: E('pflanzenoel') }));
 ok(c.ablauf.some((s) => s.key === 'oel_einlaufen') && !c.ablauf.some((s) => s.key === 'verquirlen') && /dünnem Strahl/.test(c.ablauf.find((s) => s.key === 'oel_einlaufen').wirkung), 'Rühr-Öl: eigener Schritt „Öl langsam einlaufen lassen“ (Öl in Wasser, wie Mayonnaise)');

@@ -210,7 +210,7 @@ ok(ids(rechne('hefeteig','weissbrot',null).computed).length===0 && ids(rechne('r
 ok(ids(rechne('ruehrteig','kastenkuchen',null,{trieb:E('natron')}).computed).includes('natron_braucht_saeure'),'Natron ohne Säure: regelIds nennt natron_braucht_saeure');
 ok(ids(rechne('ruehrteig','kastenkuchen',null,{fett:E('butter'),suesse:E('zucker'),struktur:E('speisestaerke')}).computed).some(x=>/gluten|eiweiss/.test(x)),'Stärke statt Mehl: eine Gluten-/Eiweiß-Grenze steht in regelIds');
 ok(ids(rechne('ruehrteig','kastenkuchen','creme',{fett:E('pflanzenoel')}).computed).includes('fett_muss_fest_fuer_aufschlagen'),'Öl mit Crememethode: Blockade-id steht in regelIds');
-ok(ids(rechne('ruehrteig','kastenkuchen','ruehroel').computed).includes('prep:schmelzen'),'eingefügte Vorbereitung: prep:schmelzen');
+ok(!ids(rechne('ruehrteig','kastenkuchen','ruehroel').computed).some(i=>/^prep:/.test(i)),'Schmelzen ist ein Zustand an der Zutat (DR-064): keine prep-Regel-Id');
 ok(ids(rechne('ruehrteig','muffin','muffin').computed).includes('toleranz:zucker'),'Korpus-Hinweis „untypisch“: toleranz:zucker');
 {const k2={...ks,weissbrot:{...ks.weissbrot,proMethode:{...ks.weissbrot.proMethode,hefe_noknead:{...ks.weissbrot.proMethode.hefe_noknead,bp:{...ks.weissbrot.proMethode.hefe_noknead.bp,trieb:{...ks.weissbrot.proMethode.hefe_noknead.bp.trieb,median:12}}}}}};
  const c=rechne('hefeteig','weissbrot','hefe_noknead',{},k2).computed;

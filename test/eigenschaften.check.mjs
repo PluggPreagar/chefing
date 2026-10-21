@@ -72,18 +72,20 @@ ok(nachVorbereitung('schmelzen',mitO,data.operations,data).fett.aggregat==='flue
 const rr=data.archetypes.ruehrteig.rollen.map(r=>r.rolle); const v0=data.archetypes.ruehrteig.varianten.muffin;
 const basis={}; for (const r of data.archetypes.ruehrteig.rollen) basis[r.rolle]=E(v0.bestof[r.rolle]!==undefined?v0.bestof[r.rolle]:r.default);
 let res=resolveMethod('muffin',{...basis,fett:E('butter')},v0.gefaess,data);
-ok(res.status==='prep' && res.schritte.some(s=>s.key==='schmelzen' && s.eingefuegt) && res.warnungen.some(w=>/Zusätzlich notwendiger Schritt „Schmelzen“/.test(w) && /flüssiges Fett \(ist: fest\)/.test(w)),'Muffin mit Butter: Schmelzen wird eingefügt, Begründung nennt „flüssiges Fett (ist: fest)“');
+ok(res.status==='ok' && !res.schritte.some(s=>s.key==='schmelzen') && res.zustaende.some(z=>z.rolle==='fett' && z.zustand==='geschmolzen' && /flüssiges Fett \(ist: fest\)/.test(z.grund)),'Muffin mit Butter: „geschmolzen“ als Zustand an der Butter, Begründung nennt „flüssiges Fett (ist: fest)“, kein Schritt (DR-064)');
+res=resolveMethod('muffin',{...basis,fett:E('butter')},v0.gefaess,{...data,zustaende:J('zustaende')},{rollen:{},zutaten:{}},null,{},{fett:'topf'});
+ok(res.schritte.some(s=>s.key==='schmelzen' && s.eingefuegt && s.op.ort==='topf' && s.op.zustandWeg==='topf') && res.status==='ok','Weg „Im Topf“ gewählt: Schmelzen-Schritt im Topf, Status bleibt ok');
 res=resolveMethod('muffin',{...basis,fett:E('pflanzenoel')},v0.gefaess,data);
 ok(res.status==='ok' && !res.schritte.some(s=>s.key==='schmelzen'),'Muffin mit Öl: kein Schmelzen nötig');
 res=resolveMethod('muffin',{...basis,fett:E('butter')},v0.gefaess,data,{rollen:{},zutaten:{}},{fett:50});
 ok(res.status==='ok' && !res.schritte.some(s=>s.key==='schmelzen'),'Rezept nennt „Butter 50 °C“ (schon flüssig): kein Schmelzen eingefügt');
 res=resolveMethod('muffin',{...basis,fett:E('butter')},v0.gefaess,data,{rollen:{},zutaten:{}},{fett:'lauwarm'});
-ok(res.status==='ok' && !res.schritte.some(s=>s.key==='schmelzen') && res.warnungen.some(w=>/flüssiges Fett nicht sicher gegeben/.test(w) && /30–35 °C \(lauwarm\)/.test(w) && /Schmelzpunkt 34 °C/.test(w) && /Im Zweifel vorher herstellen/.test(w)),'Butter „lauwarm“ (30–35 °C): im Zweifel Warnung statt Verbot — kein Schmelzen eingefügt, der Hinweis nennt Temperatur und Schmelzpunkt');
+ok(res.status==='ok' && !res.schritte.some(s=>s.key==='schmelzen') && res.zustaende.some(z=>z.zustand==='geschmolzen' && /unbestimmt/.test(z.grund)) && !res.warnungen.some(w=>/nicht sicher gegeben/.test(w)),'Butter „lauwarm“ (30–35 °C): im Zweifel Zustand „geschmolzen“ an der Zutat statt Warnung (DR-064)');
 const ks={}; for (const [k,x] of Object.entries(data.archetypes.ruehrteig.varianten)) ks[k]=stats(J('corpus/'+x.korpus).map(r=>normalizeRecipe(r,data.ingredients,{rollen:rr})),rr);
 const c=compute({archetyp:'ruehrteig',gefaess:v0.gefaess,methode:'muffin',fixiert:{rollen:{},zutaten:{}},zutaten:{...basis,fett:E('butter')},zutatTemperaturen:{fett:50}},data,ks);
 ok(c.status!=='prep' && !c.regelIds.some(i=>/^prep:schmelzen/.test(i)),'Engine reicht die Zutaten-Temperatur durch (state.zutatTemperaturen)');
 const c0=compute({archetyp:'ruehrteig',gefaess:v0.gefaess,methode:'muffin',fixiert:{rollen:{},zutaten:{}},zutaten:{...basis,fett:E('butter')}},data,ks);
-ok(c0.status==='prep' && c0.regelIds.includes('prep:schmelzen'),'ohne Angabe wie bisher: Butter wird für Muffins geschmolzen');
+ok(c0.status==='ok' && !c0.regelIds.some(i=>/^prep:/.test(i)) && c0.zustaende.some(z=>z.zustand==='geschmolzen'),'ohne Angabe: Butter für Muffins als Zustand „geschmolzen“ an der Zutat, kein Schritt (DR-064)');
 {const regel={regeln:[{id:'t',rolle:'fett',wenn:{rolle:'fett',eigenschaft:'aggregat',wert:'fluessig'},faktor:0.5,begruendung:'Regel greift bei {fett}.',quelle:'t'}]};
  const zt=(extra)=>compute({archetyp:'ruehrteig',gefaess:v0.gefaess,methode:'muffin',fixiert:{rollen:{},zutaten:{}},zutaten:{...basis,fett:E('butter')},...extra},{...data,erfahrungsregeln:regel},ks);
  ok(zt({zutatTemperaturen:{fett:50}}).anpassungen.some(a=>/Regel greift/.test(a)) && !zt({}).anpassungen.some(a=>/Regel greift/.test(a)),'die Erfahrungsregeln der Engine sehen den Zustand „Butter 50 °C = flüssig“ (und bei fester Butter nicht)');}
@@ -114,7 +116,7 @@ ok(ck.ok && ck.empfehlungen.length===1 && ck.empfehlungen[0].unsicher===true,'St
 {const a=data.archetypes.ruehrteig; const vk=a.varianten.kastenkuchen; const b2={}; for (const r of a.rollen) b2[r.rolle]=E(vk.bestof[r.rolle]!==undefined?vk.bestof[r.rolle]:r.default);
  const ev=(zt)=>compute({archetyp:'ruehrteig',gefaess:vk.gefaess,methode:'creme',fixiert:{rollen:{},zutaten:{}},zutaten:b2,zutatTemperaturen:zt},data,ks);
  const w=(c)=>c.warnungen.filter(x=>/nicht sicher gegeben/.test(x));
- ok(ev().status==='ok' && w(ev()).length===0 && ev().zustaende.length===1 && ev().zustaende[0].rolle==='fett' && ev().zustaende[0].zustand==='weich' && !ev().ablauf.some(s=>s.key==='temperieren'),'Kastenkuchen (Creme) mit Butter ohne Temperaturangabe: Butter „weich (18–22 °C)“ als Zustand an der Zutat, kein Schritt, keine Warnung (DR-064)');
+ ok(ev().status==='ok' && w(ev()).length===0 && ev().zustaende.some(z=>z.rolle==='fett' && z.zustand==='weich') && ev().zustaende.some(z=>z.rolle==='bindung' && z.zustand==='zimmerwarm') && !ev().ablauf.some(s=>s.key==='temperieren'),'Kastenkuchen (Creme) mit Butter ohne Temperaturangabe: Butter „weich“ und Eier „zimmerwarm“ als Zustand an der Zutat, kein Schritt, keine Warnung (DR-064)');
  ok(ev({fett:'plastisch'}).status==='ok' && w(ev({fett:'plastisch'})).length===0 && ev({fett:20}).warnungen.every(x=>!/nicht sicher/.test(x)),'Rezept nennt „Butter zimmerwarm (18–22 °C)“: kein Hinweis');
  ok(ev({fett:'kuehlschrank'}).status==='ok' && ev({fett:'kuehlschrank'}).zustaende.some(z=>/ist: nein/.test(z.grund)) && !ev({fett:'kuehlschrank'}).gruende.length,'Rezept nennt „Butter aus dem Kühlschrank“: Zustand „weich“ an der Zutat (DR-064, vorher ungültig)');
  ok(ev({fett:'lauwarm'}).evals.creme.status==='invalid','Butter lauwarm (zu warm): weich werden lassen hilft nicht, Creme bleibt ungültig');
@@ -123,7 +125,7 @@ ok(ck.ok && ck.empfehlungen.length===1 && ck.empfehlungen[0].unsicher===true,'St
  const d2={...data,methods:{...data.methods,creme:{...creme,sequenz:creme.sequenz.map(e=>typeof e==='object' && e.key==='aufschlagen' ? {...e,voraussetzung:[...e.voraussetzung,{rolle:'fett',eigenschaft:'aggregat',wert:'fluessig',strenge:'empfohlen'}]} : e)}}};
  const cg=compute({archetyp:'ruehrteig',gefaess:vk.gefaess,methode:'creme',fixiert:{rollen:{},zutaten:{}},zutaten:b2},d2,ks);
  const wn=cg.warnungen.filter(x=>/empfohlen, aber nicht zwingend/.test(x)), wu=cg.warnungen.filter(x=>/nicht sicher gegeben/.test(x));
- ok(wn.length===1 && !/cremig/.test(wn[0]) && /flüssiges Fett/.test(wn[0]) && wu.length===0 && cg.zustaende.length===1 && /cremig schlagbares/.test(cg.zustaende[0].grund) && !/flüssiges/.test(cg.zustaende[0].grund),'normale Empfehlung und Zweifel an einer Operation: Empfehlung als Meldung, der Zweifel als Zustand an der Zutat — jede nur mit ihrem Teil');
+ ok(wn.length===1 && !/cremig/.test(wn[0]) && /flüssiges Fett/.test(wn[0]) && wu.length===0 && cg.zustaende.filter(z=>z.rolle==='fett').length===1 && /cremig schlagbares/.test(cg.zustaende.find(z=>z.rolle==='fett').grund) && !/flüssiges/.test(cg.zustaende.find(z=>z.rolle==='fett').grund),'normale Empfehlung und Zweifel an einer Operation: Empfehlung als Meldung, der Zweifel als Zustand an der Zutat — jede nur mit ihrem Teil');
  // Aufschlag-Temperatur als einzelne Zahl: „plastisch bei 20 °C“
  // ohne wegklickbare Vorbereitung (T94) bleibt der Zweifel eine Warnung — dort steht die Aufschlag-Temperatur
  const d3={...data,ingredients:{...data.ingredients,butter:{...data.ingredients.butter,aufschlag_temp:20}},methods:{...data.methods,creme:{...creme,sequenz:creme.sequenz.map(e=>typeof e==='object' && e.key==='aufschlagen' ? (({vorbereitung_falls_nicht,...rest})=>rest)(e) : e)}}};

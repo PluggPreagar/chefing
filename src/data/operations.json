@@ -48,17 +48,46 @@
   },
   "schmelzen": {
     "label": "Schmelzen",
-    "aktion": "Schmelzen", "ort": "topf",
-    "temperatur": { "von": { "rolle": "fett", "feld": "schmelzpunkt_c" }, "faktor": 1.05 },
+    "aktion": "Schmelzen",
+    "ort": "topf",
+    "temperatur": {
+      "von": {
+        "rolle": "fett",
+        "feld": "schmelzpunkt_c"
+      },
+      "faktor": 1.05
+    },
     "typ": "vorbereitung",
     "verb": "erhitzen",
     "variante": "Schmelzen",
-    "auf": ["fett"],
-    "voraussetzung": [{ "rolle": "fett", "eigenschaft": "aggregat", "wert": "fest", "strenge": "hart", "id": "fett_muss_fest_fuer_schmelzen" }],
-    "wirkt_auf_eigenschaften": { "fett": { "temperatur": { "von": { "rolle": "fett", "feld": "schmelzpunkt_c" }, "faktor": 1.05 }, "geschmolzen": true } },
+    "auf": [
+      "fett"
+    ],
+    "voraussetzung": [
+      {
+        "rolle": "fett",
+        "eigenschaft": "aggregat",
+        "wert": "fest",
+        "strenge": "hart",
+        "id": "fett_muss_fest_fuer_schmelzen"
+      }
+    ],
+    "wirkt_auf_eigenschaften": {
+      "fett": {
+        "temperatur": {
+          "von": {
+            "rolle": "fett",
+            "feld": "schmelzpunkt_c"
+          },
+          "faktor": 1.05
+        },
+        "geschmolzen": true
+      }
+    },
     "wirkung": "Festes Fett wird flüssig und verhält sich wie Öl. Eingeschlagene Luft ist damit nicht mehr möglich.",
     "risiko": "Zu heiß eingerührt → Ei stockt vorzeitig.",
-    "dauer_min": 3
+    "dauer_min": 3,
+    "zustand": "geschmolzen"
   },
   "verquirlen": {
     "label": "Flüssiges verquirlen",
@@ -336,5 +365,36 @@
     "risiko": "Zu warm oder in der Mikrowelle angeschmolzen → ölig, hält beim Aufschlagen keine Luft mehr. Ganzes Stück statt Würfel → etwa eine Stunde.",
     "dauer_min": 20,
     "zustand": "weich"
+  },
+  "eier_temperieren": {
+    "label": "Eier zimmerwarm werden lassen",
+    "aktion": "Rausstellen",
+    "handgriff": "Aus dem Kühlschrank nehmen",
+    "ort": "schaelchen",
+    "typ": "warten",
+    "aktiv_min": 0.5,
+    "verb": "vorbereiten",
+    "variante": "auf Raumtemperatur",
+    "auf": [
+      "bindung"
+    ],
+    "voraussetzung": [
+      {
+        "rolle": "bindung",
+        "eigenschaft": "kategorie",
+        "wert": "ei",
+        "strenge": "hart",
+        "id": "eier_temperierbar"
+      }
+    ],
+    "wirkt_auf_eigenschaften": {
+      "bindung": {
+        "temperatur": "raum"
+      }
+    },
+    "zustand": "zimmerwarm",
+    "wirkung": "Zimmerwarme Eier verbinden sich mit der aufgeschlagenen Butter, ohne sie abzukühlen: die Emulsion bleibt glatt.",
+    "risiko": "Kalte Eier lassen die Butter-Zucker-Masse gerinnen (flockig).",
+    "dauer_min": 30
   }
 }

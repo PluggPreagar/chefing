@@ -227,7 +227,7 @@ function seitlich(table) {
 function vorbereitenZeile(z) {
   const weg = z.wege.find((w) => w.key === z.gewaehlt) ?? z.wege[0];
   const p = el('p', 'note note-info vorbereiten');
-  p.append(el('b', null, 'Vorbereiten: '), el('span', null, `${z.zutat} ${z.anzeige}${weg ? (z.gewaehlt ? ` — im Ablauf: ${weg.label} (${fmtZeit(weg.dauer_min)})` : ` — am einfachsten: ${weg.schritte[0]}`) : ''}. Andere Wege an der Zutat.`));
+  p.append(el('b', null, 'Vorbereiten: '), el('span', null, `${z.zutat} ${z.anzeige}${weg ? (z.gewaehlt ? ` — im Ablauf: ${weg.label} (${fmtZeit(weg.gesamt_min)})` : ` — am einfachsten: ${weg.schritte[0]}`) : ''}. Andere Wege an der Zutat.`));
   return p;
 }
 // Klappe an der Zutat: woran man den Zustand erkennt und die Wege dorthin; „in den Ablauf“ macht den Weg zum Vorlauf-Schritt (C)
@@ -238,7 +238,7 @@ function zustandKlappe(z, state, onChange) {
   const ul = el('ul', 'zustand-wege');
   for (const w of z.wege) {
     const li = el('li', null);
-    li.append(el('b', null, `${w.label} `), el('span', 'fine', `(${fmtZeit(w.dauer_min)})`), el('span', null, ` ${w.schritte.join(' · ')}`));
+    li.append(el('b', null, `${w.label} `), el('span', 'fine', `(${fmtZeit(w.gesamt_min)})`), el('span', null, ` ${w.schritte.join(' · ')}`));
     if (w.risiko) li.append(el('span', 'fine', ` ⚠ ${w.risiko}`));
     const gewaehlt = z.gewaehlt === w.key;
     const b = el('button', 'kaskade-btn', gewaehlt ? 'im Ablauf ✓ — entfernen' : 'in den Ablauf');

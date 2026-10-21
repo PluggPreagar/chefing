@@ -330,7 +330,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
       if (weg) {
         startKeys.add(check.vorbereitung);
         vorbereitungKey = check.vorbereitung;
-        const wegOp = { ...zustandsOp, label: `${zustandsOp.label}: ${weg.label}`, aktion: weg.aktion, handgriff: weg.handgriff, aktiv_min: weg.aktiv_min, dauer_min: weg.dauer_min, typ: weg.dauer_min > weg.aktiv_min ? 'warten' : 'vorbereitung', variante: weg.label, risiko: weg.risiko ?? zustandsOp.risiko, zustandWeg: weg.key };
+        const wegOp = { ...zustandsOp, label: `${zustandsOp.label}: ${weg.label}`, aktion: weg.aktion, handgriff: weg.handgriff, ort: weg.ort ?? zustandsOp.ort, aktiv_min: weg.aktiv_min, dauer_min: weg.dauer_min, typ: weg.dauer_min > weg.aktiv_min ? 'warten' : 'vorbereitung', variante: weg.label, risiko: weg.risiko ?? zustandsOp.risiko, zustandWeg: weg.key };
         schritte.push({ key: check.vorbereitung, op: wegOp, eingefuegt: true, nach: [] });
       }
     } else if (check.ok && check.vorbereitung) {
