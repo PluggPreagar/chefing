@@ -409,3 +409,12 @@ Ergebnis: vier Wege (rausstellen 1 Std., Würfel 20 Min., Glas 5–15 Min., Mikr
 | 2026-10-21 | rewe.de, heidelberg24.de, cooksillustrated.com | je 1 (Suchtreffer) | Butter schmelzen | im Topf bei kleiner Hitze, kurz abkühlen; Mikrowelle in kurzen Stößen, abdecken (spritzt sonst) |
 
 Ergebnis: Wege für „zimmerwarm“ und „geschmolzen“ in zustaende.json; „nicht heiß einrühren“ belegt über QUELLEN 2026-10-20 (Schaummasse).
+
+## 2026-10-21 — Ausstattung Stufe 2 (T93, DR-066, Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-21 | cooksillustrated.com, americastestkitchen.com, crazyforcrust.com, fatandweirdcookie.com | je 1 (Suchtreffer) | Creme von Hand gegen Maschine | Maschine 3 Min. „hands-off“, von Hand 20 Min.; von Hand oft weniger luftig; keine Messung von Volumen oder Dichte |
+| 2026-10-21 | utopia.de, lecker.de | je 1 (Suchtreffer) | Mayonnaise von Hand gegen Rührgerät | Handrührgerät als Alternative, von Hand „mit Abstand am langwierigsten“; keine Minuten |
+
+Ergebnis: Hände frei mit Küchenmaschine und Hinweis „von Hand weniger Luft“ umgesetzt; Zeit-Faktor fürs Emulgieren offen (T96).

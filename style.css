@@ -234,8 +234,17 @@ th { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color:
 .fine { color: var(--muted); font-size: .8rem; margin: .35rem 0; }
 
 /* Rückmeldung „Hat es geklappt?“ (T53) */
-.rueckmeldung { margin-top: 1rem; border: 1px solid var(--line, rgba(128, 128, 128, .35)); border-radius: 6px; padding: .5rem .75rem; }
-.rueckmeldung > summary { cursor: pointer; font-weight: 600; }
+/* eigene Box „Hat es geklappt?“ (DR-067): abgesetzt, Wertungen als Knopfgruppe sofort sichtbar */
+.rueckmeldung { margin-top: 1.25rem; border: 1px solid var(--sel); border-left-width: 4px; border-radius: 8px; padding: .75rem 1rem; background: var(--sel-bg); scroll-margin-top: 1rem; transition: box-shadow .3s; }
+.rueckmeldung h3 { margin: 0 0 .15rem; }
+.rueckmeldung.hervorheben { box-shadow: 0 0 0 4px var(--best); }
+.rm-punkte.knopfgruppe { gap: 0; }
+.rm-punkte .rm-punkt { border: 1px solid var(--line); background: var(--panel); padding: .35rem .6rem; margin: 0 -1px 0 0; font-size: .85rem; }
+.rm-punkte .rm-punkt input { position: absolute; opacity: 0; width: 0; height: 0; }
+.rm-punkte .rm-punkt:has(input:checked) { background: var(--sel); color: #fff; border-color: var(--sel); }
+.rm-punkte .rm-punkt:has(input:focus-visible) { outline: 2px solid var(--sel); outline-offset: 2px; }
+.rm-mehr > summary { cursor: pointer; color: var(--sel); margin-top: .4rem; }
+.rm-mehr[open] { display: grid; gap: .5rem; }
 .rueckmeldung-form { display: grid; gap: .5rem; margin-top: .6rem; }
 .rm-punkte { border: 0; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .25rem .9rem; }
 .rm-punkte legend { padding: 0; margin-bottom: .25rem; color: var(--muted); font-size: .85rem; }

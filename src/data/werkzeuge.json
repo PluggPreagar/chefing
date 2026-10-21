@@ -9,7 +9,9 @@
     "anforderungen": "T92, DR-060: was ein Schritt braucht. Ein Schritt nennt `anforderung: {art, basis}` — basis = Werkzeug, für das seine Dauer gilt.",
     "kann": "je Werkzeug: {art: faktor} — welche Anforderung es erfüllt und mit welchem Faktor auf die Handzeit (1 = wie das Basis-Werkzeug). Die Engine nimmt das schnellste vorhandene Werkzeug.",
     "immer": "true: gehört zu jeder Küche (Schneebesen, Hände) und lässt sich nicht abwählen",
-    "standard": "true: in der Standard-Ausstattung (Alltags-Küche, Nutzer 2026-10-20: Pürierstab gehört dazu)"
+    "standard": "true: in der Standard-Ausstattung (Alltags-Küche, Nutzer 2026-10-20: Pürierstab gehört dazu)",
+    "haende_frei": "T93, DR-066: true = das Werkzeug arbeitet allein (Küchenmaschine); Handzeit nur fürs Einschalten (`handgriff`), der Rest ist Wirkzeit — Hände frei. Bei gleichem Faktor wird ein solches Werkzeug bevorzugt.",
+    "ergebnis_hinweise": "T93, DR-066: {art: text} — Hinweis, wenn dieses Werkzeug die Anforderung erfüllt und das Ergebnis anders ausfällt (von Hand aufgeschlagen: weniger Luft); nur Text, keine Zahl ohne Beleg."
   },
   "puerierstab": {
     "label": "Pürierstab",
@@ -48,7 +50,10 @@
       "luft_schlagen": 4,
       "cremig_aufschlagen": 4
     },
-    "quelle": "Eischnee: Handrührgerät 3–4 Min., Schneebesen etwa 15 Min. (kita.de-Ratgeber, lecker.de, bosch-home.com); Butter + Zucker: Maschine 3–5 Min., von Hand 10–20 Min. (cooksillustrated.com 20 gegen 3, kitchenaid.com, masterclass.com) — Faktor 4, Richtwert."
+    "quelle": "Eischnee: Handrührgerät 3–4 Min., Schneebesen etwa 15 Min. (kita.de-Ratgeber, lecker.de, bosch-home.com); Butter + Zucker: Maschine 3–5 Min., von Hand 10–20 Min. (cooksillustrated.com 20 gegen 3, kitchenaid.com, masterclass.com) — Faktor 4, Richtwert. Ergebnis: von Hand oft weniger luftig (kitchenaid.com), keine Messung.",
+    "ergebnis_hinweise": {
+      "cremig_aufschlagen": "Von Hand aufgeschlagen hält die Butter-Zucker-Creme meist weniger Luft: so lange schlagen, bis sie deutlich heller und fluffig ist und kaum noch Zuckerkristalle zu sehen sind."
+    }
   },
   "haende": {
     "label": "Hände",
@@ -76,6 +81,8 @@
       "cremig_aufschlagen": 1,
       "kneten": 1
     },
-    "quelle": "Stufe 1 nur Zeit: wie das Handrührgerät; „Hände frei“ kommt mit Stufe 2."
+    "quelle": "Zeit wie Handrührgerät; „hands-off“ (cooksillustrated.com: 3 Min. in der Maschine ohne Hände) → Hände frei (T93).",
+    "haende_frei": true,
+    "handgriff": "Küchenmaschine einschalten"
   }
 }

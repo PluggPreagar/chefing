@@ -34,5 +34,12 @@ ok(kn(null)===10 && kn({handruehrgeraet:false})===15 && kn({handruehrgeraet:fals
 const stab=rechne('mayonnaise','mayonnaise',{methode:'mayo_stab',ausstattung:{puerierstab:false}});
 ok(stab.warnungen.some(w=>/braucht einen Pürierstab/.test(w)) && stab.regelIds.includes('ausstattung:puerierstab') && !rechne('mayonnaise','mayonnaise',{methode:'mayo_stab'}).warnungen.some(w=>/Pürierstab/.test(w)),'Pürierstab-Methode ohne Pürierstab: Warnung mit Regel-Id; mit Standard-Küche keine');
 
+// T93/DR-066: Küchenmaschine arbeitet allein (Hände frei); von Hand aufgeschlagen: Hinweis aufs Ergebnis
+const km=rechne('ruehrteig','kastenkuchen',{ausstattung:{kuechenmaschine:true}});
+ok(schritt(km,'aufschlagen').werkzeugWahl.key==='kuechenmaschine' && schritt(km,'aufschlagen').aktiv===0.5 && schritt(km,'aufschlagen').wirk===4 && schritt(km,'aufschlagen').handgriff==='Küchenmaschine einschalten','Küchenmaschine (gleich schnell wie Handrührgerät) wird bevorzugt: ½ Min. einschalten, 4 Min. Hände frei');
+ok(km.zeit.aktiv<std.zeit.aktiv,`Handzeit sinkt mit Küchenmaschine (${std.zeit.aktiv} → ${km.zeit.aktiv} Min.)`);
+ok(schritt(rechne('hefeteig','weissbrot',{ausstattung:{kuechenmaschine:true}}),'kneten').aktiv===0.5,'Kneten in der Küchenmaschine: Hände frei');
+ok(hand.anpassungen.some(a=>/Butter \+ Zucker aufschlagen: Von Hand aufgeschlagen hält die Butter-Zucker-Creme meist weniger Luft/.test(a)) && !std.anpassungen.some(a=>/weniger Luft/.test(a)),'von Hand cremig aufgeschlagen: Hinweis „weniger Luft, länger schlagen“; mit Gerät kein Hinweis');
+
 console.log(fail?`${fail} FAILED`:'ALL PASS');
 process.exit(fail?1:0);

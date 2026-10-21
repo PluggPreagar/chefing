@@ -358,6 +358,9 @@ export function compute(state, data, korpusStats) {
           s.dauer = Math.round(s.dauer * wahl.faktor * 2) / 2;
           if (wahl.faktor > 1) werkzeugHinweise.push(`${s.label}: mit ${wahl.label} statt ${wahl.basisLabel} etwa ${String(wahl.faktor).replace('.', ',')}× so lange (≈ ${fmtZeit(s.dauer)}).`);
         }
+        // Küchenmaschine (T93): einschalten, dann arbeitet sie allein — Hände frei
+        if (wahl.haendeFrei && !s.passiv) { s.passiv = true; s.aktivMin = 0.5; s.handgriff = wahl.handgriff ?? s.handgriff; }
+        if (wahl.ergebnisHinweis) werkzeugHinweise.push(`${s.label}: ${wahl.ergebnisHinweis}`);
       }
     }
     if (op.werkzeug && data.werkzeuge?.[op.werkzeug] && !vorhanden(data.werkzeuge, state.ausstattung, op.werkzeug)) {

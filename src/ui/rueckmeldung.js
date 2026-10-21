@@ -2,13 +2,16 @@ import { baueMeldung, pruefeEingabe, meldeErgebnis, BEWERTUNG_TEXT, MAX_KOMMENTA
 
 // Formular „Hat es geklappt?“ (T53, DR-027): 1–5 Punkte, Kommentar, Häkchen „mit den vorgeschlagenen Mengen“.
 // Nichts wird ohne Klick auf „Senden“ übertragen; „Was wird gesendet?“ zeigt vorher die genaue Meldung.
+// Eigene Box (Fehlermeldung 20261021-073245 „zu unauffällig“, DR-067): Überschrift und die 5 Wertungen sofort sichtbar,
+// der Rest (Ablauf-Angaben, Kommentar, Senden) klappt nach der ersten Wertung auf.
 export function renderRueckmeldung(state, data, computed) {
-  const box = el('details', 'rueckmeldung');
-  box.append(el('summary', null, 'Hat es geklappt? Ergebnis melden'));
+  const box = el('section', 'rueckmeldung');
+  box.id = 'rueckmeldung';
+  box.append(el('h3', null, 'Hat es geklappt?'), el('p', 'fine', 'Nach dem Backen: eine Wertung genügt. Sie hilft, die Regeln dieser App zu prüfen.'));
   const form = el('form', 'rueckmeldung-form');
   form.noValidate = true;
 
-  const punkte = el('fieldset', 'rm-punkte');
+  const punkte = el('fieldset', 'rm-punkte knopfgruppe');
   punkte.append(el('legend', null, 'Wie ist es geworden?'));
   for (let i = 1; i <= 5; i++) {
     const label = el('label', 'rm-punkt');
@@ -18,6 +21,11 @@ export function renderRueckmeldung(state, data, computed) {
     punkte.append(label);
   }
   form.append(punkte);
+  // alles Weitere erst nach der Wertung
+  const mehr = el('details', 'rm-mehr');
+  mehr.append(el('summary', null, 'Mehr angeben und senden'));
+  punkte.addEventListener('change', () => { mehr.open = true; });
+  form.append(mehr);
 
   // Prozessfehler (T66): optional, nur Ja/Nein — hier steckt oft die Ursache, die die Mengen nicht zeigen
   const prozess = el('fieldset', 'rm-prozess');
@@ -29,24 +37,24 @@ export function renderRueckmeldung(state, data, computed) {
     label.append(box, el('span', null, ` ${text}`));
     prozess.append(label);
   }
-  form.append(prozess);
+  mehr.append(prozess);
 
   const kommentar = document.createElement('textarea');
   kommentar.rows = 3; kommentar.maxLength = MAX_KOMMENTAR; kommentar.name = 'kommentar';
   kommentar.placeholder = 'Was ist passiert? (optional — bitte keine persönlichen Daten)';
-  form.append(el('label', 'rm-kommentar', 'Kommentar'), kommentar);
+  mehr.append(el('label', 'rm-kommentar', 'Kommentar'), kommentar);
 
   const mengenLabel = el('label', 'rm-mengen');
   const mengen = document.createElement('input');
   const manuell = Object.values(computed.rollenBp || {}).some((v) => v.quelle === 'manuell'); // manuell gesetzte Mengen (T40)
   mengen.type = 'checkbox'; mengen.checked = !manuell;
   mengenLabel.append(mengen, el('span', null, ' Ich habe die vorgeschlagenen Mengen verwendet'));
-  form.append(mengenLabel);
+  mehr.append(mengenLabel);
 
   // Honeypot: für Menschen unsichtbar, nicht anklickbar, nicht im Tab-Weg
   const falle = document.createElement('input');
   falle.type = 'text'; falle.name = 'website'; falle.tabIndex = -1; falle.autocomplete = 'off'; falle.className = 'rm-falle'; falle.setAttribute('aria-hidden', 'true');
-  form.append(falle);
+  mehr.append(falle);
 
   const aktuell = () => {
     const gewaehlt = form.querySelector('input[name="bewertung"]:checked');
@@ -60,13 +68,13 @@ export function renderRueckmeldung(state, data, computed) {
   vorschau.append(pre, el('p', 'fine', 'Wertung, Kommentar, angekreuzte Ablauf-Angaben und die Rezeptdaten oben (Zutaten, Methode, Hinweise). Keine IP-Adresse, keine Cookies, kein Konto. Gespeichert wird auf dem Server dieser Seite.'));
   vorschau.addEventListener('toggle', () => { if (vorschau.open) pre.textContent = JSON.stringify(aktuell().meldung, null, 2); });
   form.addEventListener('input', () => { if (vorschau.open) pre.textContent = JSON.stringify(aktuell().meldung, null, 2); });
-  form.append(vorschau);
+  mehr.append(vorschau);
 
   const knopf = el('button', 'rm-senden', 'Senden');
   knopf.type = 'submit';
   const status = el('p', 'rm-status');
   status.setAttribute('role', 'status');
-  form.append(knopf, status);
+  mehr.append(knopf, status);
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();

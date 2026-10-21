@@ -17,8 +17,9 @@ export function vorhanden(werkzeuge, ausstattung, key) {
 export function werkzeugWahl(anforderung, werkzeuge, ausstattung) {
   const kandidaten = werkzeugEintraege(werkzeuge).filter(([k, w]) => w.kann?.[anforderung.art] != null && vorhanden(werkzeuge, ausstattung, k));
   if (!kandidaten.length) return null;
-  const [key, w] = kandidaten.sort((a, b) => a[1].kann[anforderung.art] - b[1].kann[anforderung.art])[0];
+  // schnellstes zuerst; bei gleichem Faktor das, das allein arbeitet (Küchenmaschine, T93)
+  const [key, w] = kandidaten.sort((a, b) => a[1].kann[anforderung.art] - b[1].kann[anforderung.art] || (b[1].haende_frei ? 1 : 0) - (a[1].haende_frei ? 1 : 0))[0];
   const basis = werkzeuge[anforderung.basis];
   const basisFaktor = basis?.kann?.[anforderung.art] ?? 1;
-  return { key, label: w.label, faktor: w.kann[anforderung.art] / basisFaktor, basisLabel: basis?.label ?? anforderung.basis };
+  return { key, label: w.label, faktor: w.kann[anforderung.art] / basisFaktor, basisLabel: basis?.label ?? anforderung.basis, haendeFrei: !!w.haende_frei, handgriff: w.handgriff ?? null, ergebnisHinweis: w.ergebnis_hinweise?.[anforderung.art] ?? null };
 }

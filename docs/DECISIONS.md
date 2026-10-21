@@ -642,3 +642,19 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** ein Muster für alle Vorbereitungen von Zutaten; Ablauf ruhig; Wege mit Dauer und Risiko an der Zutat.
 - **cons:** die Schmelz-Zeit steht ohne gewählten Weg nur in der Zeile „Vorbereiten“; zwei Zustände in der Crememethode → zwei Zeilen.
 - **risk:** Mittel. zustaende.json, operations.json (`schmelzen` mit Zustand, `eier_temperieren`), methods.json (Eier einzeln), ingredients.json (`plural`), archetypes.json (Rührteig-Fett frei), rules.js (Weg-Ort), engine.js; Tests ablauf-graph, eigenschaften, zustaende, tipps, rueckmeldung, temperatur, strom, rollen-freiheit angepasst. Rückgängig: ein Commit.
+
+## DR-066 · konzept · Ausstattung Stufe 2: Küchenmaschine lässt die Hände frei, Hinweis aufs Ergebnis von Hand
+
+- **descr:** (2026-10-21, Nutzer: „T93“) (1) **Hände frei:** ein Werkzeug mit `haende_frei` (Küchenmaschine) arbeitet allein — Handzeit nur fürs Einschalten (½ Min.), die Dauer wird Wirkzeit; bei gleichem Faktor wird es vor dem Handrührgerät gewählt (cooksillustrated.com: „3-minute hands-off“ in der Maschine). Mit Küchenmaschine sinkt die Handzeit des Rührkuchens von 18 auf 7 Min. (mit Eischnee), Kneten im Hefeteig wird Wartezeit. (2) **Ergebnis von Hand:** `ergebnis_hinweise` am Werkzeug; mit dem Schneebesen cremig aufgeschlagen erscheint „hält meist weniger Luft — so lange schlagen, bis deutlich heller und fluffig“ (kitchenaid.com, qualitativ). Keine Zahl im Gas-Budget, weil keine Messung gefunden wurde. (3) **Emulgieren** (Mayonnaise von Hand gegen Handrührgerät): keine Minuten-Angabe in den Quellen → nicht umgesetzt, T96.
+- **Optionen:** Faktor für weniger Luft schätzen (verworfen: ohne Beleg) · Hinweis (gewählt).
+- **pro:** ehrlicher Ablauf mit Küchenmaschine; das Ergebnis-Risiko von Hand wird genannt.
+- **cons:** die Luftmenge von Hand bleibt im Gas-Budget gleich; Einschalten pauschal ½ Min.
+- **risk:** Gering. werkzeuge.json, ausstattung.js, engine.js, Test ausstattung. Rückgängig: ein Commit.
+
+## DR-067 · ui · „Hat es geklappt?“ als eigene Box mit sichtbaren Wertungen und Sprung-Knopf
+
+- **descr:** (2026-10-21, Fehlermeldung 20261021-073245 „Feedback zu unauffällig — eigene Box für ‚Hat es geklappt‘“) Bisher eine zugeklappte Zeile am Ende des Rezepts. Jetzt eine abgesetzte Box (Rahmen und Fläche in der Auswahlfarbe, Überschrift „Hat es geklappt?“), die 5 Wertungen sind sofort als Knopfgruppe sichtbar (DR-045); Ablauf-Angaben, Kommentar, Mengen-Häkchen, Vorschau und Senden klappen erst nach der ersten Wertung auf („Mehr angeben und senden“). Im Kopf neben „⚑ Fehler melden“ springt **„✓ Hat es geklappt?“** zur Box und hebt sie kurz hervor (fehlt der Knopf in einer alten index.html aus dem Cache, legt main.js ihn an, DR-037). Bewusst nicht ganz oben: beim Planen wäre die Box Rauschen.
+- **Optionen:** A Box oben im Rezept · B eigene Box am Ende + Sprung-Knopf im Kopf (gewählt) · C eigenes Panel über die ganze Breite.
+- **pro:** sichtbar und mit einem Klick bedienbar; stört beim Planen nicht.
+- **cons:** am Ende eines langen Rezepts bleibt der Weg nach unten; der Knopf im Kopf gleicht das aus.
+- **risk:** Gering. rueckmeldung.js, style.css, index.html, main.js. Rückgängig: ein Commit.

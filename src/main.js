@@ -146,6 +146,21 @@ $('toggle-stats').addEventListener('click', () => {
   if (!s.hidden) renderStats(s, korpusStats, data);
 });
 // Fehler melden (DR-044): die Meldung nennt, was gerade eingestellt und berechnet war
+// Sprung zur Box „Hat es geklappt?“ (DR-067); fehlt der Knopf (alte index.html aus dem Cache, DR-037), wird er angelegt
+let ergebnisKnopf = $('ergebnis-melden');
+if (!ergebnisKnopf && $('fehler-melden')) {
+  ergebnisKnopf = Object.assign(document.createElement('button'), { type: 'button', id: 'ergebnis-melden', className: 'ghost', textContent: '✓ Hat es geklappt?', title: 'Zur Box „Hat es geklappt?“ springen' });
+  $('fehler-melden').before(ergebnisKnopf);
+}
+ergebnisKnopf?.addEventListener('click', () => {
+  const b = $('rueckmeldung');
+  if (!b) return;
+  b.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  b.classList.add('hervorheben');
+  setTimeout(() => b.classList.remove('hervorheben'), 1600);
+  b.querySelector('input[name="bewertung"]')?.focus({ preventScroll: true });
+});
+
 initFehlerMelden($('fehler-melden'), () => ({
   archetyp: state.archetyp, variante: letztes?.variante, gefaess: state.gefaess, methode: letztes?.methodKey, methode_gewaehlt: state.methode,
   zutaten: state.zutaten, mengen: state.mengen, techniken: state.techniken, ausstattung: state.ausstattung, fixiert: state.fixiert,
