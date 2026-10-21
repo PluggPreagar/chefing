@@ -1,6 +1,7 @@
 import { iconHtml } from './icons.js';
 import { fmtZeit, planeAblauf } from '../model/zeit.js';
 import { skizzeHtml } from './skizzen.js';
+import { vorbereitenZeile } from './zustandLink.js';
 
 // verb=mischen wird je nach Intensität als anderes Icon dargestellt
 // (passiv=Einlegen/Ruhen, sanft=Mischen-S, kraeftig=Schlagen), statt drei
@@ -207,7 +208,7 @@ export function renderFlow(root, computed, data = {}) {
   const fuss = el('div', 'strom-fuss', `Zeit ${quer ? '→' : '↓'} · fertig nach ${fmtZeit(M.gesamt)} ab Start · Hände ${fmtZeit(M.aktiv)}${vorlaufText} · Schritt oder Uhr antippen für Wirkung und Risiko, nochmal antippen blendet sie aus`);
   // Soll-Zustände ohne gewählten Weg (DR-064) als Zeile über dem Strom, nicht als Knoten: „Vorbereiten: Butter weich (18–22 °C)“
   const zustaende = (computed.zustaende || []).filter((z) => !z.gewaehlt);
-  const vorbereiten = zustaende.length ? [el('div', 'strom-vorbereiten', `Vorbereiten: ${zustaende.map((z) => `${z.zutat} ${z.anzeige}${z.wege[0] ? ` (z. B. ${z.wege[0].label.toLowerCase()}, ${fmtZeit(z.wege[0].gesamt_min)})` : ''}`).join(' · ')} — Wege im Rezept an der Zutat`)] : [];
+  const vorbereiten = zustaende.length ? [vorbereitenZeile(zustaende, 'strom-vorbereiten')] : []; // kurz, Teile verlinken auf die Klappe an der Zutat (DR-068)
   root.replaceChildren(...vorbereiten, band, fuss);
   if (quer && offen) {
     const z = M.zeilen.find((x) => x.id === offen.zeile);

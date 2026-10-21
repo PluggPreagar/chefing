@@ -658,3 +658,11 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** sichtbar und mit einem Klick bedienbar; stört beim Planen nicht.
 - **cons:** am Ende eines langen Rezepts bleibt der Weg nach unten; der Knopf im Kopf gleicht das aus.
 - **risk:** Gering. rueckmeldung.js, style.css, index.html, main.js. Rückgängig: ein Commit.
+
+## DR-068 · ui · „Vorbereiten“ kurz, Teile als Link auf die Klappe an der Zutat; Fehlermeldungen lokal in issues/
+
+- **descr:** (2026-10-21, Fehlermeldung 20261021-074058 „Vorbereiten zu lang“: „95 % der Nutzer wissen, wie die Vorbereitung geht; wenn nicht, ein Link zum Detail — Hover braucht einen Hinweis und geht auf dem Handy nicht“; Verlauf: zehn Klicks auf die Zeile ohne Wirkung) Die Zeile über dem Ablauf und im Rezept lautet nur noch **„Vorbereiten: Butter weich · Eier zimmerwarm“**; jeder Teil ist ein Link (`ui/zustandLink.js`), der die Klappe an der Zutat öffnet, dorthin scrollt und sie kurz hervorhebt. Kein Hover. Im Rezept steht hinter einem gewählten Weg „✓ im Ablauf“. Die Klappen tragen ids (`zustand-<rolle>`). **Ablage der Meldungen** (Nutzer „A“): `issues/open/` und `issues/closed/` im Projekt wie bei aktien-monitor, aber in `.gitignore` — sonst würde `meta.json` (Browser, Klickverlauf) mit dem Deploy veröffentlicht.
+- **Optionen:** Hover (verworfen: Handy) · Link zur Klappe (gewählt) · Ablage: A lokal (gewählt) · B in Git ohne meta.json · C in Git, Deploy schließt den Ordner aus.
+- **pro:** Zeile auf einen Blick; Hilfe einen Klick entfernt, auch mobil; Meldungen geordnet, nichts öffentlich.
+- **cons:** Meldungen nicht im Repo gesichert.
+- **risk:** Gering. zustandLink.js (neu), flow.js, recipeCard.js, style.css, .gitignore. Rückgängig: ein Commit.

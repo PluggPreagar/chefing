@@ -33,5 +33,6 @@
  "src/ui/rueckfragen.js",
  "src/ui/rueckmeldung.js",
  "src/ui/skizzen.js",
- "src/ui/stats.js"
+ "src/ui/stats.js",
+ "src/ui/zustandLink.js"
 ]

@@ -2,6 +2,7 @@ import { fmtProzent } from '../model/bilanz.js';
 import { overrideErfassen, overridesFuer } from '../model/overrides.js';
 import { fmtZeit } from '../model/zeit.js';
 import { renderRueckmeldung } from './rueckmeldung.js';
+import { vorbereitenZeile } from './zustandLink.js';
 
 export function renderRecipe(root, computed, state, data, onChange) {
   root.replaceChildren();
@@ -38,7 +39,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   // Rezeptur ist auch ohne Override schon vollständig sichtbar (s. u.). Speichert nur, dass der
   // Nutzer diese `hart`-Regel bewusst für falsch/zu streng hält, für die Rückfrage in T28.
   for (const b of computed.blockaden || []) root.append(blockadeOverride(b, state, data, onChange));
-  for (const z of computed.zustaende || []) root.append(vorbereitenZeile(z)); // DR-064: was vorher in welchen Zustand muss
+  if (computed.zustaende?.length) root.append(vorbereitenZeile(computed.zustaende, 'note note-info vorbereiten', true)); // DR-064/DR-068: kurz, Teile verlinken auf die Klappe an der Zutat
   for (const w of computed.warnungen) root.append(el('p', 'note note-warn', w));
   for (const a of computed.anpassungen) root.append(el('p', 'note note-info', a));
   for (const h of computed.toleranzHinweise || []) root.append(el('p', 'note note-info', h));
@@ -223,16 +224,10 @@ function seitlich(table) {
   return d;
 }
 
-// Soll-Zustand einer Zutat (DR-064): Zeile „Vorbereiten“ mit dem einfachsten Weg bzw. dem gewählten
-function vorbereitenZeile(z) {
-  const weg = z.wege.find((w) => w.key === z.gewaehlt) ?? z.wege[0];
-  const p = el('p', 'note note-info vorbereiten');
-  p.append(el('b', null, 'Vorbereiten: '), el('span', null, `${z.zutat} ${z.anzeige}${weg ? (z.gewaehlt ? ` — im Ablauf: ${weg.label} (${fmtZeit(weg.gesamt_min)})` : ` — am einfachsten: ${weg.schritte[0]}`) : ''}. Andere Wege an der Zutat.`));
-  return p;
-}
 // Klappe an der Zutat: woran man den Zustand erkennt und die Wege dorthin; „in den Ablauf“ macht den Weg zum Vorlauf-Schritt (C)
 function zustandKlappe(z, state, onChange) {
   const d = el('details', 'zustand');
+  d.id = `zustand-${z.rolle}`; // Ziel der Links „Vorbereiten: …“ (DR-068)
   d.append(el('summary', null, `${z.anzeige} — so geht's`));
   if (z.pruefen) d.append(el('p', 'fine', `Erkennen: ${z.pruefen}.`));
   const ul = el('ul', 'zustand-wege');

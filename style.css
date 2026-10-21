@@ -181,6 +181,10 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .k-emulsion.ist-problem { color: var(--warn); }
 .strom-fuss { font-size: 11px; color: var(--muted); margin: 6px 0 0 52px; }
 .strom-vorbereiten { font-size: 12px; color: var(--muted); margin: 0 0 8px; }
+.zustand-link { color: var(--sel); text-decoration: underline dotted; text-underline-offset: 2px; cursor: pointer; }
+.zustand-link:hover { text-decoration-style: solid; }
+details.zustand { scroll-margin-top: 1rem; border-radius: 4px; transition: box-shadow .3s; }
+details.zustand.hervorheben { box-shadow: 0 0 0 3px var(--best); }
 details.zustand { margin-top: .2rem; font-size: .8rem; }
 details.zustand summary { cursor: pointer; color: var(--sel); }
 .zustand-wege { margin: .3rem 0 0; padding-left: 1.1rem; }
