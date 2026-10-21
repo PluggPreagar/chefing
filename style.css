@@ -56,7 +56,9 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .dim-options.knopfgruppe > :last-child, .rueckfrage-buttons.knopfgruppe > :last-child { border-top-right-radius: 8px !important; border-bottom-right-radius: 8px !important; }
 .archetyp-wahl { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: .5rem .9rem; border-radius: 999px; }
 
-.layout { display: grid; gap: 1rem; padding: 0 1.5rem 1.5rem; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+.layout { display: grid; gap: 1rem; padding: 0 1.5rem 1.5rem; grid-template-columns: minmax(0, 1fr); }
+/* feste 2 Spalten statt auto-fit: ein breites Panel (1 / -1) hätte sonst alle leeren Spuren aufgespannt und Kasten + Rezept gestaucht (Meldung 20261021-074547) */
+@media (min-width: 760px) { .layout { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 1rem; min-width: 0; }
 .panel-wide { grid-column: 1 / -1; }
 .ablauf { margin: 0 1.5rem 1rem; }

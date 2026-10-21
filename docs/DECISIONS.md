@@ -674,3 +674,11 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** ehrliche Zeit je Werkzeug; Standard-Küche (mit Handrührgerät) schneller, ohne Gerät länger.
 - **cons:** Richtwert aus wenigen Rezeptseiten, keine Messung; Ölmenge der Quellen unklar.
 - **risk:** Gering. werkzeuge.json, methods.json, Test. Rückgängig: ein Commit.
+
+## DR-070 · ui · Layout mit festen 2 Spalten statt auto-fit (kein Sprung beim Ein-/Ausblenden der Panels)
+
+- **descr:** (2026-10-21, Fehlermeldung 20261021-074547 „layout shift on toggle features“, Viewport 3200 px) `.layout` hatte `repeat(auto-fit, minmax(340px, 1fr))`: bei 3200 px rund 9 Spuren. Nur Kasten + Rezept → leere Spuren fallen weg, je halbe Breite. Ein breites Panel (Korpus-Statistik, Regel-Kandidaten, `grid-column: 1 / -1`) spannt alle Spuren auf, sie fallen nicht mehr weg → Kasten und Rezept schrumpfen auf je 1/9. Jetzt: 1 Spalte, ab 760 px fest 2 Spalten (`minmax(0, 1fr)`). Geprüft: 3200 px Breiten gleich mit und ohne Panels; 375 px eine Spalte, kein Quer-Scroll.
+- **Optionen:** feste 2 Spalten (gewählt) · auto-fill (verworfen: leere Spuren bleiben, Kasten + Rezept auf breiten Schirmen schmal) · breite Panels außerhalb des Grids (verworfen: mehr Umbau).
+- **pro:** Layout bleibt beim Umschalten stehen; einfache Regel.
+- **cons:** auf sehr breiten Schirmen nie mehr als 2 Spalten (war ohnehin so gemeint).
+- **risk:** Gering. style.css. Rückgängig: ein Commit.
