@@ -41,5 +41,12 @@ ok(km.zeit.aktiv<std.zeit.aktiv,`Handzeit sinkt mit Küchenmaschine (${std.zeit.
 ok(schritt(rechne('hefeteig','weissbrot',{ausstattung:{kuechenmaschine:true}}),'kneten').aktiv===0.5,'Kneten in der Küchenmaschine: Hände frei');
 ok(hand.anpassungen.some(a=>/Butter \+ Zucker aufschlagen: Von Hand aufgeschlagen hält die Butter-Zucker-Creme meist weniger Luft/.test(a)) && !std.anpassungen.some(a=>/weniger Luft/.test(a)),'von Hand cremig aufgeschlagen: Hinweis „weniger Luft, länger schlagen“; mit Gerät kein Hinweis');
 
+// T96: Mayonnaise von Hand — Öl einschlagen mit dem Schneebesen etwa doppelt so lange wie mit dem Handrührgerät
+const mz=(a)=>{const c=rechne('mayonnaise','mayonnaise',{methode:'mayo_hand',ausstattung:a}); return [schritt(c,'oel_tropfen'),schritt(c,'oel_strahl_mayo')];};
+const [mt,ms]=mz(null), [bt,bs]=mz({handruehrgeraet:false});
+ok(mt.werkzeugWahl.key==='handruehrgeraet' && mt.dauer===1.5 && ms.dauer===3,'Mayonnaise mit Handrührgerät: Öl tropfenweise 1½, im Strahl 3 Min.');
+ok(bt.werkzeugWahl.key==='schneebesen' && bt.dauer===3 && bs.dauer===6,'Mayonnaise mit Schneebesen: 3 + 6 Min. (von Hand rund 10 Min. insgesamt)');
+ok(!rechne('mayonnaise','mayonnaise',{methode:'mayo_hand'}).ablauf.some(s=>s.werkzeugWahl?.key==='puerierstab'),'Pürierstab übernimmt das tropfenweise Einschlagen nicht');
+
 console.log(fail?`${fail} FAILED`:'ALL PASS');
 process.exit(fail?1:0);

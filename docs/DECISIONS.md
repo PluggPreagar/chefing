@@ -666,3 +666,11 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** Zeile auf einen Blick; Hilfe einen Klick entfernt, auch mobil; Meldungen geordnet, nichts öffentlich.
 - **cons:** Meldungen nicht im Repo gesichert.
 - **risk:** Gering. zustandLink.js (neu), flow.js, recipeCard.js, style.css, .gitignore. Rückgängig: ein Commit.
+
+## DR-069 · werkzeuge · Mayonnaise: Anforderung „emulgieren“, Schneebesen doppelt so lange wie Handrührgerät
+
+- **descr:** (2026-10-21, T96, Rest aus DR-066) „Öl tropfenweise“ und „Öl im Strahl“ der Methode `mayo_hand` tragen `anforderung: {art: emulgieren, basis: schneebesen}`. Faktoren in `werkzeuge.json`: Schneebesen 2, Handrührgerät 1, Küchenmaschine 1 (Hände frei); der Pürierstab kann es nicht (andere Methode, alles auf einmal). Dauern sind Schneebesen-Zeiten: Basis 1 + tropfenweise 3 + Strahl 6 (vorher 4) = **rund 10 Min. von Hand**, mit Handrührgerät 1 + 1½ + 3 ≈ **5½ Min.** Belege: von Hand 10–15 Min. (krumpli.co.uk, biggerbolderbaking.com, deutsche Rezeptseiten), unter 10 (lostinfood.co.uk), etwa 5 (oxo.com); Handrührgerät etwa 5 Min. (lostinfood.co.uk). Methoden-Label: „Von Hand (Schneebesen oder Rührgerät)“.
+- **Optionen:** Faktor 2 aus Quellen (gewählt) · Faktor 4 wie Eischnee (verworfen: Quellen zeigen nur etwa das Doppelte) · nur Hinweis ohne Zeit (verworfen: Zahlen jetzt belegt).
+- **pro:** ehrliche Zeit je Werkzeug; Standard-Küche (mit Handrührgerät) schneller, ohne Gerät länger.
+- **cons:** Richtwert aus wenigen Rezeptseiten, keine Messung; Ölmenge der Quellen unklar.
+- **risk:** Gering. werkzeuge.json, methods.json, Test. Rückgängig: ein Commit.

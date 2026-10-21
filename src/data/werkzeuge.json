@@ -41,6 +41,9 @@
     },
     "kneten": {
       "label": "Teig kneten, bis das Gluten entwickelt ist"
+    },
+    "emulgieren": {
+      "label": "Öl in die Wasserphase einschlagen (Mayonnaise)"
     }
   },
   "schneebesen": {
@@ -48,9 +51,10 @@
     "immer": true,
     "kann": {
       "luft_schlagen": 4,
-      "cremig_aufschlagen": 4
+      "cremig_aufschlagen": 4,
+      "emulgieren": 2
     },
-    "quelle": "Eischnee: Handrührgerät 3–4 Min., Schneebesen etwa 15 Min. (kita.de-Ratgeber, lecker.de, bosch-home.com); Butter + Zucker: Maschine 3–5 Min., von Hand 10–20 Min. (cooksillustrated.com 20 gegen 3, kitchenaid.com, masterclass.com) — Faktor 4, Richtwert. Ergebnis: von Hand oft weniger luftig (kitchenaid.com), keine Messung.",
+    "quelle": "Eischnee: Handrührgerät 3–4 Min., Schneebesen etwa 15 Min. (kita.de-Ratgeber, lecker.de, bosch-home.com); Butter + Zucker: Maschine 3–5 Min., von Hand 10–20 Min. (cooksillustrated.com 20 gegen 3, kitchenaid.com, masterclass.com) — Faktor 4, Richtwert. Ergebnis: von Hand oft weniger luftig (kitchenaid.com), keine Messung. Mayonnaise (T96): von Hand 10–15 Min. (krumpli.co.uk, biggerbolderbaking.com, deutsche Rezeptseiten), unter 10 (lostinfood.co.uk), etwa 5 (oxo.com); Handrührgerät etwa 5 Min. (lostinfood.co.uk) — Faktor 2, Richtwert.",
     "ergebnis_hinweise": {
       "cremig_aufschlagen": "Von Hand aufgeschlagen hält die Butter-Zucker-Creme meist weniger Luft: so lange schlagen, bis sie deutlich heller und fluffig ist und kaum noch Zuckerkristalle zu sehen sind."
     }
@@ -69,7 +73,8 @@
     "kann": {
       "luft_schlagen": 1,
       "cremig_aufschlagen": 1,
-      "kneten": 1
+      "kneten": 1,
+      "emulgieren": 1
     },
     "quelle": "Basis der Schritt-Dauern; Knethaken kneten wie die Maschine (Annahme)."
   },
@@ -79,7 +84,8 @@
     "kann": {
       "luft_schlagen": 1,
       "cremig_aufschlagen": 1,
-      "kneten": 1
+      "kneten": 1,
+      "emulgieren": 1
     },
     "quelle": "Zeit wie Handrührgerät; „hands-off“ (cooksillustrated.com: 3 Min. in der Maschine ohne Hände) → Hände frei (T93).",
     "haende_frei": true,

@@ -418,3 +418,12 @@ Ergebnis: Wege für „zimmerwarm“ und „geschmolzen“ in zustaende.json; �
 | 2026-10-21 | utopia.de, lecker.de | je 1 (Suchtreffer) | Mayonnaise von Hand gegen Rührgerät | Handrührgerät als Alternative, von Hand „mit Abstand am langwierigsten“; keine Minuten |
 
 Ergebnis: Hände frei mit Küchenmaschine und Hinweis „von Hand weniger Luft“ umgesetzt; Zeit-Faktor fürs Emulgieren offen (T96).
+
+## 2026-10-21 — Mayonnaise emulgieren (T96, DR-069, Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-21 | lostinfood.co.uk, oxo.com, krumpli.co.uk, biggerbolderbaking.com | je 1 (Suchtreffer) | Mayonnaise von Hand gegen Handrührgerät | von Hand unter 10 bzw. 10–15 Min., OXO etwa 5; Handrührgerät etwa 5 Min.; Ölmenge nicht genannt |
+| 2026-10-21 | kuechenchaotin.de, mario-kaps.de, culturefood.org, nachhaltigkeit-mit-kopf.de, gaumenfreundin.de, oma-kocht.de | je 1 (Suchtreffer) | Mayonnaise von Hand | per Hand 10–15 Min.; erste Ölphase tropfenweise etwa 2 Min.; zu schnelles Öl häufigster Fehler |
+
+Ergebnis: Faktor 2 (Schneebesen gegen Handrührgerät) in werkzeuge.json; Strahl-Phase von 4 auf 6 Min. (von Hand rund 10 Min. gesamt).

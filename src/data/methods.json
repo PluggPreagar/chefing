@@ -488,7 +488,7 @@
     "warum": "Zeit statt Arbeit: kaum Handarbeit, viel Aroma, aber ein ganzer Tag Vorlauf. Nur mit Mehl, das genug Gluten bildet."
   },
   "mayo_hand": {
-    "label": "Von Hand (Schneebesen)",
+    "label": "Von Hand (Schneebesen oder Rührgerät)",
     "kurz": "Eigelb + Säure + Senf verrühren → Öl tropfenweise → Rest im dünnen Strahl",
     "sequenz": [
       {
@@ -531,6 +531,10 @@
         "wirkung": "Die ersten Tropfen werden fein zerteilt und vom Lecithin umhüllt; erst wenn die Masse bindet (dicklich, glänzend), trägt sie mehr Öl.",
         "risiko": "Am Anfang zu schnell → die Emulsion bildet sich nicht, die Masse bleibt flüssig.",
         "dauer_min": 3,
+        "anforderung": {
+          "art": "emulgieren",
+          "basis": "schneebesen"
+        },
         "skizze": "tropfenweise"
       },
       {
@@ -552,7 +556,11 @@
         "voraussetzung": [],
         "wirkung": "Die gebundene Emulsion nimmt das übrige Öl auf und wird fest.",
         "risiko": "Zu fest → einige Tropfen Wasser einrühren, das Wasser verteilt das Lecithin wieder. Gebrochen → neues Eigelb ansetzen und die gebrochene Masse langsam einrühren.",
-        "dauer_min": 4
+        "dauer_min": 6,
+        "anforderung": {
+          "art": "emulgieren",
+          "basis": "schneebesen"
+        }
       },
       {
         "key": "abfuellen",

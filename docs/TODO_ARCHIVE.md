@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T96 | Mayonnaise: Anforderung „emulgieren“ mit Zeit je Werkzeug | done | „Öl tropfenweise“ und „Öl im Strahl“ mit Anforderung emulgieren (Basis Schneebesen); Schneebesen ×2 gegen Handrührgerät; von Hand rund 10 Min., mit Gerät rund 5½. | T93, DR-060, DR-066, DR-069 |
 | T98 | Fehlermeldung „Vorbereiten zu lang“ (20261021-074058) | done | Zeile „Vorbereiten: Butter weich · Eier zimmerwarm“, Teile als Link auf die Klappe an der Zutat; Meldungen lokal in issues/open und issues/closed (gitignore). | DR-068 |
 | T97 | Fehlermeldung „Feedback zu unauffällig“ (20261021-073245) | done | Eigene Box „Hat es geklappt?“ mit sichtbaren Wertungen, Rest klappt nach der Wertung auf; Sprung-Knopf im Kopf. | DR-067 |
 | T93 | Ausstattung Stufe 2: Ergebnis und „Hände frei“ | done | Stufe 1 (DR-060) ändert nur die Zeit. Offen: (1) von Hand cremig aufgeschlagene Butter hält weniger Luft (kitchenaid.com: „not the same light and airy texture“) → Teig-Dichte bzw. Gas-Budget (DR-050) je Werkzeug; (2) die Küchenmaschine arbeitet allein → Handzeit nur fürs Einschalten, Rest Wirkzeit (Hände frei, DR-043); (3) Emulsion von Hand vs. Rührgerät bei der Mayonnaise als Anforderung `emulgieren`. Jeweils erst Belege (QUELLEN.md). | T92, DR-060, DR-050, DR-043, DR-066 (Teil 3 → T96) | 🟢🟢 Ergebnis statt nur Zeit; ehrlicher Ablauf mit Maschine | 🔴🔴 Zahlen kaum belegt | ⚠️⚠️ mittel; werkzeuge.json, trieb.js, engine.js, rückgängig ein Commit |
