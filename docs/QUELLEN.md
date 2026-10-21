@@ -390,3 +390,13 @@ Ergebnis: Effekt belegt (Mucilage), Menge im fertigen Senf nicht beziffert → H
 | 2026-10-20 | kuechenfibel.de, vinmec.com | je 1 (Suchtreffer) | Butter weich | mehr Oberfläche (Würfel, reiben) beschleunigt; keine genaue Minutenangabe |
 
 Ergebnis: Würfel schneiden + 20 Min. warten als Richtwert; gefrorene Butter nicht abgedeckt.
+
+## 2026-10-21 — Wege zu weicher Butter (DR-064, Recherche, kein Korpus)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-21 | thedailymeal.com, t-online.de, americastestkitchen.com, aol.com | je 1 (Suchtreffer) | Glas-Trick | heiß ausgespültes, hitzefestes Glas über die Butter, 5–20 Min. |
+| 2026-10-21 | bakingamoment.com, noobcook.com, dna.strongeru.com, cookanyday.com | je 1 (Suchtreffer) | Mikrowelle | 30–40 % Leistung, 5–15 Sek. je Schritt, wenden und prüfen; schmilzt sehr schnell (5–10 Sek. Unterschied) |
+| 2026-10-21 | thecountrycook.net, onesarcasticbaker.com, vinmec.com | je 1 (Suchtreffer) | Würfel, Scheiben | mehr Oberfläche beschleunigt; Reiben und Ausrollen ohne Beleg |
+
+Ergebnis: vier Wege (rausstellen 1 Std., Würfel 20 Min., Glas 5–15 Min., Mikrowelle kurz) mit Quellen in zustaende.json.

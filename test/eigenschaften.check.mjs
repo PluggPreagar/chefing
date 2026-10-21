@@ -114,16 +114,16 @@ ok(ck.ok && ck.empfehlungen.length===1 && ck.empfehlungen[0].unsicher===true,'St
 {const a=data.archetypes.ruehrteig; const vk=a.varianten.kastenkuchen; const b2={}; for (const r of a.rollen) b2[r.rolle]=E(vk.bestof[r.rolle]!==undefined?vk.bestof[r.rolle]:r.default);
  const ev=(zt)=>compute({archetyp:'ruehrteig',gefaess:vk.gefaess,methode:'creme',fixiert:{rollen:{},zutaten:{}},zutaten:b2,zutatTemperaturen:zt},data,ks);
  const w=(c)=>c.warnungen.filter(x=>/nicht sicher gegeben/.test(x));
- ok(ev().status==='prep' && w(ev()).length===0 && ev().vorbereitungen.length===1 && ev().vorbereitungen[0].key==='temperieren' && ev().ablauf.some(s=>s.key==='temperieren' && s.wegklick),'Kastenkuchen (Creme) mit Butter ohne Temperaturangabe: Schritt „weich werden lassen“ eingefügt und wegklickbar, keine Schein-Warnung (T94)');
+ ok(ev().status==='ok' && w(ev()).length===0 && ev().zustaende.length===1 && ev().zustaende[0].rolle==='fett' && ev().zustaende[0].zustand==='weich' && !ev().ablauf.some(s=>s.key==='temperieren'),'Kastenkuchen (Creme) mit Butter ohne Temperaturangabe: Butter „weich (18–22 °C)“ als Zustand an der Zutat, kein Schritt, keine Warnung (DR-064)');
  ok(ev({fett:'plastisch'}).status==='ok' && w(ev({fett:'plastisch'})).length===0 && ev({fett:20}).warnungen.every(x=>!/nicht sicher/.test(x)),'Rezept nennt „Butter zimmerwarm (18–22 °C)“: kein Hinweis');
- ok(ev({fett:'kuehlschrank'}).status==='prep' && ev({fett:'kuehlschrank'}).vorbereitungen.some(v=>/ist: nein/.test(v.text)) && !ev({fett:'kuehlschrank'}).gruende.length,'Rezept nennt „Butter aus dem Kühlschrank“: Creme mit Vorbereitung „weich werden lassen“ (T94, vorher ungültig)');
+ ok(ev({fett:'kuehlschrank'}).status==='ok' && ev({fett:'kuehlschrank'}).zustaende.some(z=>/ist: nein/.test(z.grund)) && !ev({fett:'kuehlschrank'}).gruende.length,'Rezept nennt „Butter aus dem Kühlschrank“: Zustand „weich“ an der Zutat (DR-064, vorher ungültig)');
  ok(ev({fett:'lauwarm'}).evals.creme.status==='invalid','Butter lauwarm (zu warm): weich werden lassen hilft nicht, Creme bleibt ungültig');
  // gemischt: eine normale Empfehlung und ein Zweifel an derselben Operation ergeben zwei getrennte Meldungen, jede nur mit ihrem Teil
  const creme=data.methods.creme;
  const d2={...data,methods:{...data.methods,creme:{...creme,sequenz:creme.sequenz.map(e=>typeof e==='object' && e.key==='aufschlagen' ? {...e,voraussetzung:[...e.voraussetzung,{rolle:'fett',eigenschaft:'aggregat',wert:'fluessig',strenge:'empfohlen'}]} : e)}}};
  const cg=compute({archetyp:'ruehrteig',gefaess:vk.gefaess,methode:'creme',fixiert:{rollen:{},zutaten:{}},zutaten:b2},d2,ks);
  const wn=cg.warnungen.filter(x=>/empfohlen, aber nicht zwingend/.test(x)), wu=cg.warnungen.filter(x=>/nicht sicher gegeben/.test(x));
- ok(wn.length===1 && !/cremig/.test(wn[0]) && /flüssiges Fett/.test(wn[0]) && wu.length===0 && cg.vorbereitungen.length===1 && /cremig schlagbares/.test(cg.vorbereitungen[0].text) && !/flüssiges/.test(cg.vorbereitungen[0].text),'normale Empfehlung und Zweifel an einer Operation: Empfehlung als Meldung, der Zweifel als Vorbereitung — jede nur mit ihrem Teil');
+ ok(wn.length===1 && !/cremig/.test(wn[0]) && /flüssiges Fett/.test(wn[0]) && wu.length===0 && cg.zustaende.length===1 && /cremig schlagbares/.test(cg.zustaende[0].grund) && !/flüssiges/.test(cg.zustaende[0].grund),'normale Empfehlung und Zweifel an einer Operation: Empfehlung als Meldung, der Zweifel als Zustand an der Zutat — jede nur mit ihrem Teil');
  // Aufschlag-Temperatur als einzelne Zahl: „plastisch bei 20 °C“
  // ohne wegklickbare Vorbereitung (T94) bleibt der Zweifel eine Warnung — dort steht die Aufschlag-Temperatur
  const d3={...data,ingredients:{...data.ingredients,butter:{...data.ingredients.butter,aufschlag_temp:20}},methods:{...data.methods,creme:{...creme,sequenz:creme.sequenz.map(e=>typeof e==='object' && e.key==='aufschlagen' ? (({vorbereitung_falls_nicht,...rest})=>rest)(e) : e)}}};

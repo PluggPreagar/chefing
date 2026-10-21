@@ -205,7 +205,10 @@ export function renderFlow(root, computed, data = {}) {
   });
   const vorlaufText = M.vorlauf > 0 ? ` · Vorlauf ${fmtZeit(M.vorlauf)} (${M.zeilen.filter((z) => z.art === 'aktion' && z.t0 < 0).map((z) => steps[z.i].handgriff ?? steps[z.i].aktion).join(', ')})` : '';
   const fuss = el('div', 'strom-fuss', `Zeit ${quer ? '→' : '↓'} · fertig nach ${fmtZeit(M.gesamt)} ab Start · Hände ${fmtZeit(M.aktiv)}${vorlaufText} · Schritt oder Uhr antippen für Wirkung und Risiko, nochmal antippen blendet sie aus`);
-  root.replaceChildren(band, fuss);
+  // Soll-Zustände ohne gewählten Weg (DR-064) als Zeile über dem Strom, nicht als Knoten: „Vorbereiten: Butter weich (18–22 °C)“
+  const zustaende = (computed.zustaende || []).filter((z) => !z.gewaehlt);
+  const vorbereiten = zustaende.length ? [el('div', 'strom-vorbereiten', `Vorbereiten: ${zustaende.map((z) => `${z.zutat} ${z.anzeige}${z.wege[0] ? ` (z. B. ${z.wege[0].label.toLowerCase()}, ${fmtZeit(z.wege[0].dauer_min)})` : ''}`).join(' · ')} — Wege im Rezept an der Zutat`)] : [];
+  root.replaceChildren(...vorbereiten, band, fuss);
   if (quer && offen) {
     const z = M.zeilen.find((x) => x.id === offen.zeile);
     if (z) root.append(karte(z, steps.find((s) => s.key === offen.key), ctx));

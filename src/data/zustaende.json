@@ -1,0 +1,59 @@
+{
+  "_schema": {
+    "zweck": "Soll-Zustände von Zutaten (DR-064): ein Schritt braucht die Zutat in einem Zustand (Butter weich zum Aufschlagen). Statt eines Arbeitsschritts steht der Zustand an der Zutat; ein Klick zeigt die Wege dorthin (Unter-Rezept). Erst ein gewählter Weg wird ein Schritt im Vorlauf.",
+    "anzeige": "Text an der Zutat im Rezept",
+    "pruefen": "woran man den Zustand erkennt",
+    "wege": "Unter-Rezept: [{key, label, aktion, handgriff, aktiv_min, dauer_min, schritte[], risiko, quelle}] — dauer_min = Gesamtdauer, aktiv_min = Handzeit davon; der erste Weg ist der einfachste und erscheint in der Zeile „Vorbereiten“"
+  },
+  "weich": {
+    "label": "weich",
+    "anzeige": "weich (18–22 °C)",
+    "pruefen": "gibt auf Fingerdruck nach, hält aber die Form und glänzt nicht",
+    "wege": [
+      {
+        "key": "rausstellen",
+        "label": "Rechtzeitig rausstellen",
+        "aktion": "Rausstellen",
+        "handgriff": "Aus dem Kühlschrank nehmen",
+        "aktiv_min": 0.5,
+        "dauer_min": 60,
+        "schritte": ["Butter etwa 1 Stunde vorher aus dem Kühlschrank nehmen", "Bei Raumtemperatur liegen lassen"],
+        "risiko": "In einer kühlen Küche dauert es länger, in einer warmen wird sie schnell zu weich.",
+        "quelle": "americastestkitchen.com: ganzes Stück etwa 1 Std."
+      },
+      {
+        "key": "wuerfel",
+        "label": "In Würfel schneiden",
+        "aktion": "Weich werden lassen",
+        "handgriff": "In Würfel schneiden",
+        "aktiv_min": 1,
+        "dauer_min": 20,
+        "schritte": ["In 1–2 cm große Würfel schneiden", "Auf einem Teller bei Raumtemperatur liegen lassen"],
+        "risiko": null,
+        "quelle": "americastestkitchen.com (Esslöffel-Stücke etwa 20 Min.), tastingtable.com (Würfel etwa 15 Min.)"
+      },
+      {
+        "key": "glas",
+        "label": "Warmes Glas darüber",
+        "aktion": "Weich werden lassen",
+        "handgriff": "Glas heiß ausspülen, überstülpen",
+        "aktiv_min": 1,
+        "dauer_min": 10,
+        "schritte": ["Hitzefestes Glas mit heißem Wasser füllen, ausleeren und abtrocknen", "Über die Butter auf einem Teller stülpen", "5–15 Minuten warten, dann prüfen"],
+        "risiko": "Nur hitzefestes Glas nehmen; zu heißes Glas schmilzt die Außenseite an.",
+        "quelle": "thedailymeal.com, t-online.de, americastestkitchen.com: 5–20 Min. unter dem warmen Glas"
+      },
+      {
+        "key": "mikrowelle",
+        "label": "Mikrowelle, ganz kurz",
+        "aktion": "Mikrowelle",
+        "handgriff": "Mikrowelle, niedrige Stufe",
+        "aktiv_min": 1,
+        "dauer_min": 1,
+        "schritte": ["In Stücke schneiden", "Niedrige Stufe (30–40 %), je 5–10 Sekunden", "Dazwischen wenden und mit dem Finger prüfen"],
+        "risiko": "Butter schmilzt sehr schnell an — dann ist sie ölig und hält beim Aufschlagen keine Luft mehr.",
+        "quelle": "bakingamoment.com, noobcook.com: 30–40 % Leistung, 5–15 Sek. je Schritt, zwischendurch prüfen"
+      }
+    ]
+  }
+}

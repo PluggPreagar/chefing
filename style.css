@@ -180,6 +180,12 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .k-skizze .skz-legende { font-size: 11px; color: var(--muted); margin: .1rem 0 0; }
 .k-emulsion.ist-problem { color: var(--warn); }
 .strom-fuss { font-size: 11px; color: var(--muted); margin: 6px 0 0 52px; }
+.strom-vorbereiten { font-size: 12px; color: var(--muted); margin: 0 0 8px; }
+details.zustand { margin-top: .2rem; font-size: .8rem; }
+details.zustand summary { cursor: pointer; color: var(--sel); }
+.zustand-wege { margin: .3rem 0 0; padding-left: 1.1rem; }
+.zustand-wege li { margin: .25rem 0; }
+.zustand-wege .kaskade-btn { margin-left: .4rem; }
 
 .ist-quer .strom-band { flex-direction: row; overflow-x: auto; padding-bottom: .5rem; }
 .ist-quer .strom-zeile { flex: none; width: 128px; min-height: 0; grid-template-columns: none; grid-template-rows: var(--raster); align-items: stretch; }

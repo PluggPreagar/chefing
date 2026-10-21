@@ -38,7 +38,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   // Rezeptur ist auch ohne Override schon vollständig sichtbar (s. u.). Speichert nur, dass der
   // Nutzer diese `hart`-Regel bewusst für falsch/zu streng hält, für die Rückfrage in T28.
   for (const b of computed.blockaden || []) root.append(blockadeOverride(b, state, data, onChange));
-  for (const v of computed.vorbereitungen || []) root.append(vorbereitungMitKnopf(v, state, data, onChange)); // T94
+  for (const z of computed.zustaende || []) root.append(vorbereitenZeile(z)); // DR-064: was vorher in welchen Zustand muss
   for (const w of computed.warnungen) root.append(el('p', 'note note-warn', w));
   for (const a of computed.anpassungen) root.append(el('p', 'note note-info', a));
   for (const h of computed.toleranzHinweise || []) root.append(el('p', 'note note-info', h));
@@ -55,6 +55,8 @@ export function renderRecipe(root, computed, state, data, onChange) {
     const spanne = k ? `${fmt(k.q1)}–${fmt(k.q3)} %` : '—';
     const marker = z.bpQuelle === 'schätzung' ? ' *' : z.bpQuelle === 'berechnet' ? ' †' : z.bpQuelle === 'manuell' ? ' ✎' : '';
     const row = tr([z.rolleLabel, z.label, menge, `${fmt(z.bp)} %${marker}`, z.bpQuelle === 'berechnet' ? '—' : spanne]);
+    const zst = z.zustand && (computed.zustaende || []).find((x) => x.rolle === z.rolle);
+    if (zst) row.children[1].append(zustandKlappe(zst, state, onChange)); // DR-064: Soll-Zustand + Wege dorthin
     tbody.append(row);
   }
   table.append(tbody);
@@ -221,17 +223,32 @@ function seitlich(table) {
   return d;
 }
 
-// Eingefügte Vorbereitung mit Entscheidung (T94, DR-063): warten oder „ist schon erledigt“ — der Knopf setzt die Temperatur der Rolle
-function vorbereitungMitKnopf(v, state, data, onChange) {
-  const p = el('p', 'note note-info vorbereitung');
-  const rolle = v.wegklick.rolle;
-  const zutat = data.ingredients[state.zutaten[rolle]?.[0]?.zutat]?.label?.replace(/\s*\(.*?\)/, '') ?? 'Fett';
-  p.append(el('span', null, `${v.label}${v.dauer ? ` (${fmtZeit(v.dauer)})` : ''} eingefügt: ${v.op} braucht weiches Fett (18–22 °C). `));
-  const b = el('button', 'kaskade-btn', `${zutat} ${v.wegklick.label}`);
-  b.type = 'button';
-  b.addEventListener('click', () => onChange({ zutatTemperaturen: { ...(state.zutatTemperaturen || {}), [rolle]: v.wegklick.temperatur } }));
-  p.append(b);
+// Soll-Zustand einer Zutat (DR-064): Zeile „Vorbereiten“ mit dem einfachsten Weg bzw. dem gewählten
+function vorbereitenZeile(z) {
+  const weg = z.wege.find((w) => w.key === z.gewaehlt) ?? z.wege[0];
+  const p = el('p', 'note note-info vorbereiten');
+  p.append(el('b', null, 'Vorbereiten: '), el('span', null, `${z.zutat} ${z.anzeige}${weg ? (z.gewaehlt ? ` — im Ablauf: ${weg.label} (${fmtZeit(weg.dauer_min)})` : ` — am einfachsten: ${weg.schritte[0]}`) : ''}. Andere Wege an der Zutat.`));
   return p;
+}
+// Klappe an der Zutat: woran man den Zustand erkennt und die Wege dorthin; „in den Ablauf“ macht den Weg zum Vorlauf-Schritt (C)
+function zustandKlappe(z, state, onChange) {
+  const d = el('details', 'zustand');
+  d.append(el('summary', null, `${z.anzeige} — so geht's`));
+  if (z.pruefen) d.append(el('p', 'fine', `Erkennen: ${z.pruefen}.`));
+  const ul = el('ul', 'zustand-wege');
+  for (const w of z.wege) {
+    const li = el('li', null);
+    li.append(el('b', null, `${w.label} `), el('span', 'fine', `(${fmtZeit(w.dauer_min)})`), el('span', null, ` ${w.schritte.join(' · ')}`));
+    if (w.risiko) li.append(el('span', 'fine', ` ⚠ ${w.risiko}`));
+    const gewaehlt = z.gewaehlt === w.key;
+    const b = el('button', 'kaskade-btn', gewaehlt ? 'im Ablauf ✓ — entfernen' : 'in den Ablauf');
+    b.type = 'button';
+    b.addEventListener('click', () => onChange({ zustandWege: { ...(state.zustandWege || {}), [z.rolle]: gewaehlt ? null : w.key } }));
+    li.append(b);
+    ul.append(li);
+  }
+  d.append(ul);
+  return d;
 }
 function el(tag, cls, text) {
   const e = document.createElement(tag);

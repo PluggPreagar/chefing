@@ -111,7 +111,7 @@ ok(akt('fuellen').ort.icon === 'ort_muffinform', 'Muffinform bekommt ihr eigenes
 ({ c, M } = rechne('hefeteig', 'weissbrot', 'hefe_kalt'));
 ok(leer('gehen').haupt.ort.key === 'kuehlschrank', 'Kalte Führung: der Teig wartet im Kühlschrank');
 ({ c, M } = rechne('ruehrteig', 'kastenkuchen', 'creme'));
-ok(M.spuren === 1 && c.ablauf.some((s) => s.key === 'temperieren' && s.eingefuegt) && akt('aufschlagen').modus === 'zu' && akt('fuellen').ort.key === 'gefaess', 'Crememethode ohne Einlage: nur die Butter weicht nebenher im Schälchen (T94) und mündet ins Aufschlagen');
+ok(M.spuren === 0 && akt('aufschlagen').modus === 'zu' && akt('fuellen').ort.key === 'gefaess', 'Crememethode ohne Einlage: ein Strom ohne Seitenstrang (weiche Butter ist ein Zustand an der Zutat, DR-064)');
 ({ c, M } = rechne('pfannkuchen', 'eierkuchen', 'pfannkuchen_glatt'));
 ok(akt('ausbacken').ort.icon === 'ort_pfanne' && akt('ausbacken').haupt.aktiv && !M.zeilen.some((r) => r.haupt?.ort.key === 'ofen') && leer('ruhen'), 'Eierkuchen: Ruhen als leerer Slot, Ausbacken aktiv in der Pfanne, kein Ofen');
 

@@ -139,8 +139,8 @@ export function checkOperation(op, props, operations, fixiert = {}, data = null)
     if ((b.strenge || 'hart') === 'frei') continue; // legitime Variante — kein Hinweis
     // Im Zweifel Warnung (T62): ist die Eigenschaft aus der Temperatur nicht sicher gegeben (`unbestimmt`), wird nichts verboten und
     // keine Vorbereitung eingefügt — es bleibt ein Hinweis mit der Temperatur.
-    // nur Vorbereitungen, die man wegklicken kann (T94), werden bei Zweifel eingefügt; Schmelzen bleibt bei der Warnung (T62)
-    if (r.ist === 'unbestimmt' && operations?.[op.vorbereitung_falls_nicht]?.wegklick) { fehlend.push({ ...b, ist: r.ist, strenge: b.strenge || 'hart', unsicher: true, temperatur: props[b.rolle]?.temperatur ?? null }); continue; }
+    // nur Zustands-Vorbereitungen (DR-064: Butter weich) greifen bei Zweifel; Schmelzen bleibt bei der Warnung (T62)
+    if (r.ist === 'unbestimmt' && operations?.[op.vorbereitung_falls_nicht]?.zustand) { fehlend.push({ ...b, ist: r.ist, strenge: b.strenge || 'hart', unsicher: true, temperatur: props[b.rolle]?.temperatur ?? null }); continue; }
     if (r.ist === 'unbestimmt') {
       empfehlungen.push({ ...b, ist: r.ist, strenge: 'empfohlen', unsicher: true, temperatur: props[b.rolle]?.temperatur ?? null, ...(r.hoechstens !== undefined ? { hoechstens: r.hoechstens } : {}), ...(r.mindestens !== undefined ? { mindestens: r.mindestens } : {}) });
       continue;
@@ -269,14 +269,15 @@ function technikAnwenden(m, t, operations) {
   return { ...m, sequenz, nach };
 }
 
-export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}, zutatTemp = null, techniken = {}) {
+// zustandWege (DR-064): {rolle: wegKey} — vom Nutzer gewählter Weg zu einem Soll-Zustand; nur dann wird er ein Schritt
+export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}, zutatTemp = null, techniken = {}, zustandWege = {}) {
   const method = mitTechniken(data.methods[methodKey], techniken, data);
   const vessel = data.vessels[gefaessKey];
   let props = propsOf(zutaten, data.ingredients, { benannt: data.temperaturen, zutatTemp });
   const schritte = [];
   const gruende = [];
   const warnungen = [];
-  const vorbereitungen = []; // eingefügte Schritte, die der Nutzer wegklicken kann (T94)
+  const zustaende = []; // Soll-Zustände von Zutaten (DR-064): stehen an der Zutat, nicht als Schritt
   const kaskaden = [];
   const blockaden = [];
   let status = 'ok';
@@ -319,7 +320,20 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
     }
     const check = checkOperation(op, props, data.operations, fixiert, data);
     let vorbereitungKey = null;
-    if (check.ok && check.vorbereitung) {
+    const zustandsOp = check.ok && check.vorbereitung ? data.operations[check.vorbereitung] : null;
+    if (zustandsOp?.zustand) {
+      // Zustand statt Schritt (DR-064): die Zutat wird so angenommen, wie das Rezept sie braucht; ein gewählter Weg kommt als Vorlauf-Schritt dazu
+      props = nachVorbereitung(check.vorbereitung, props, data.operations, data);
+      const rolle = Object.keys(zustandsOp.wirkt_auf_eigenschaften || {})[0] ?? zustandsOp.auf?.[0];
+      if (!zustaende.some((z) => z.rolle === rolle)) zustaende.push({ rolle, zustand: zustandsOp.zustand, fuer: op.label, grund: beschreibeBedingungen(check.fehlend, data) });
+      const weg = zustandWege?.[rolle] ? (data.zustaende?.[zustandsOp.zustand]?.wege || []).find((w) => w.key === zustandWege[rolle]) : null;
+      if (weg) {
+        startKeys.add(check.vorbereitung);
+        vorbereitungKey = check.vorbereitung;
+        const wegOp = { ...zustandsOp, label: `${zustandsOp.label}: ${weg.label}`, aktion: weg.aktion, handgriff: weg.handgriff, aktiv_min: weg.aktiv_min, dauer_min: weg.dauer_min, typ: weg.dauer_min > weg.aktiv_min ? 'warten' : 'vorbereitung', variante: weg.label, risiko: weg.risiko ?? zustandsOp.risiko, zustandWeg: weg.key };
+        schritte.push({ key: check.vorbereitung, op: wegOp, eingefuegt: true, nach: [] });
+      }
+    } else if (check.ok && check.vorbereitung) {
       // Eingefügte Vorbereitung ist ein Startschritt (z. B. Fett schmelzen geht jederzeit vorher).
       startKeys.add(check.vorbereitung);
       vorbereitungKey = check.vorbereitung;
@@ -329,10 +343,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
       // Nutzer-Vorgabe (2026-09-21, „Purpose not clear"): Zweck zuerst nennen (ein zusätzlicher
       // Schritt wurde eingefügt), Begründung auf eigener Zeile statt hinter einem Doppelpunkt
       // im selben Satz — Titel-Tooltips (siehe morphbox.js) stellen \n als Zeilenumbruch dar.
-      const prepOp = data.operations[check.vorbereitung];
-      const prepText = `Zusätzlich notwendiger Schritt „${prepOp.label}“ wurde eingefügt.\n${op.label} braucht ${beschreibeBedingungen(check.fehlend, data)}.`;
-      if (prepOp.wegklick) vorbereitungen.push({ key: check.vorbereitung, op: op.label, text: prepText, wegklick: prepOp.wegklick });
-      else warnungen.push(prepText);
+      warnungen.push(`Zusätzlich notwendiger Schritt „${data.operations[check.vorbereitung].label}“ wurde eingefügt.\n${op.label} braucht ${beschreibeBedingungen(check.fehlend, data)}.`);
     } else if (!check.ok) {
       status = 'invalid';
       gruende.push(`„${op.label}“ ist nicht möglich: braucht ${beschreibeBedingungen(check.fehlend, data)}. ${op.wirkung}`);
@@ -369,7 +380,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
     warnungen.push(`${method.label} ist für ${vessel.label} untypisch — ${method.warum}`);
   }
 
-  return { methodKey, status, schritte, gruende, warnungen, vorbereitungen, kaskaden, blockaden };
+  return { methodKey, status, schritte, gruende, warnungen, zustaende, kaskaden, blockaden };
 }
 
 const AGGREGAT = { fest: 'festes', fluessig: 'flüssiges', pulver: 'pulvriges', stueckig: 'stückiges' };
@@ -470,9 +481,9 @@ export function alleUeberschreibbarenRegeln(data) {
   return katalog;
 }
 
-export function evaluateAll(zutaten, gefaessKey, data, fixiert = {}, zutatTemp = null, techniken = {}) {
+export function evaluateAll(zutaten, gefaessKey, data, fixiert = {}, zutatTemp = null, techniken = {}, zustandWege = {}) {
   const arch = archVon(data);
-  return Object.fromEntries(arch.methoden.map((m) => [m, resolveMethod(m, zutaten, gefaessKey, data, fixiert, zutatTemp, techniken)]));
+  return Object.fromEntries(arch.methoden.map((m) => [m, resolveMethod(m, zutaten, gefaessKey, data, fixiert, zutatTemp, techniken, zustandWege)]));
 }
 
 export function bestMethod(evals, methodenHaeufigkeit = {}, gefaessKey, data) {
@@ -480,9 +491,7 @@ export function bestMethod(evals, methodenHaeufigkeit = {}, gefaessKey, data) {
   const rank = (k) => {
     const e = evals[k];
     const geeignet = (data.methods[k].geeignet_fuer || []).includes(vessel?.familie) ? 1 : 0;
-    // eine Vorbereitung, die man wegklicken kann (Butter weich werden lassen, T94), zählt wie „ok“ — sonst verlöre die Crememethode gegen All-in-one
-    const nurWegklick = e.status === 'prep' && !e.warnungen.some((w) => w.startsWith('Zusätzlich notwendiger Schritt')) && (e.vorbereitungen || []).length > 0;
-    const statusScore = e.status === 'ok' || nurWegklick ? 2 : e.status === 'prep' ? 1 : -10;
+    const statusScore = e.status === 'ok' ? 2 : e.status === 'prep' ? 1 : -10;
     return statusScore * 100 + geeignet * 10 + (methodenHaeufigkeit[k] || 0);
   };
   return Object.keys(evals).sort((a, b) => rank(b) - rank(a))[0];

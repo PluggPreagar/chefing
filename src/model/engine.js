@@ -54,7 +54,7 @@ export function compute(state, data, korpusStats) {
 
   const techniken = wirksameTechniken(state.techniken, arch, variante);
   const bezugLabel = arch.bezug_label ?? 'Mehl';
-  const evals = evaluateAll(state.zutaten, state.gefaess, data, state.fixiert, state.zutatTemperaturen, techniken);
+  const evals = evaluateAll(state.zutaten, state.gefaess, data, state.fixiert, state.zutatTemperaturen, techniken, state.zustandWege);
   const autoMethodKey = bestMethod(evals, st.methoden, state.gefaess, data); // was „Auto“ wählen würde, auch bei manueller Wahl (T81)
   const methodKey = state.methode && evals[state.methode] ? state.methode : autoMethodKey;
   const res = evals[methodKey];
@@ -162,6 +162,7 @@ export function compute(state, data, korpusStats) {
         bpQuelle: bpZiel[r].quelle,
         anteilProzent: entries.length > 1 ? Math.round(anteilAnteil * 100) : null,
         korpus: korpusDerRolle(r),
+        zustand: (res.zustaende || []).some((z) => z.rolle === r) ? (data.zustaende?.[(res.zustaende || []).find((z) => z.rolle === r).zustand]?.anzeige ?? null) : null, // DR-064
         ...anzeige,
       };
     });
@@ -335,7 +336,7 @@ export function compute(state, data, korpusStats) {
     wirkung: s.op.wirkung,
     risiko: s.op.risiko ?? null,
     skizze: s.op.skizze ?? null, // Erklär-Skizze (DR-055, ui/skizzen.js)
-    wegklick: s.eingefuegt ? s.op.wegklick ?? null : null, // T94: Vorbereitung, die der Nutzer schon erledigt haben kann
+    zustandWeg: s.op.zustandWeg ?? null, // DR-064: gewählter Weg zu einem Soll-Zustand (Vorlauf-Schritt)
     dauer: s.key === 'backen' ? minuten : zeiten[i].dauer,
     zeit: zeiten[i].fenster,
     // Temperatur der Aktion (T52): die Gare zeigt die Temperatur, mit der das Gärmodell rechnet
@@ -406,7 +407,7 @@ export function compute(state, data, korpusStats) {
     ...verletzt.empfohlen.map((v) => v.id),
     ...blockaden.map((b) => b.id),
     ...toleranzIds,
-    ...res.schritte.filter((s) => s.eingefuegt && !s.op.wegklick).map((s) => `prep:${s.key}`), // wegklickbare Vorbereitung (T94) ist eine Entscheidung, keine Regel-Aussage
+    ...res.schritte.filter((s) => s.eingefuegt && !s.op.zustand).map((s) => `prep:${s.key}`), // Soll-Zustand (DR-064) ist keine Regel-Aussage
     ...zeiten.flatMap((z, i) => (z.hinweis ? [`zeit:${res.schritte[i].key}`] : [])),
     ...(gaerPruefung ? ['gaerung_modell'] : []),
     ...technikIds,
@@ -432,8 +433,8 @@ export function compute(state, data, korpusStats) {
     warnungen: [...res.warnungen, ...technikWarnungen, ...emulsionsWarnungen.map((w) => w.text), ...trieb.warnungen.map((w) => w.text), ...werkzeugWarnungen.map((w) => w.text), ...gebuendelt.empfohlen, ...toleranzWarnungen, ...zeitWarnungen],
     zeit: zeitleiste(ablauf),
     trieb: { zeile: trieb.zeile, quellen: trieb.quellen },
-    // eingefügte Vorbereitungen mit Knopf „ist schon erledigt“ (T94, DR-063)
-    vorbereitungen: (res.vorbereitungen || []).map((v) => ({ ...v, label: ablauf.find((s) => s.key === v.key)?.label ?? v.key, dauer: ablauf.find((s) => s.key === v.key)?.dauer ?? null })),
+    // Soll-Zustände der Zutaten mit Wegen dorthin (DR-064): an der Zutat statt als Schritt; gewählt = Weg, der als Vorlauf-Schritt im Ablauf steht
+    zustaende: (res.zustaende || []).map((z) => { const d = data.zustaende?.[z.zustand] || {}; return { ...z, label: d.label ?? z.zustand, anzeige: d.anzeige ?? z.zustand, pruefen: d.pruefen ?? null, wege: d.wege || [], gewaehlt: state.zustandWege?.[z.rolle] ?? null, zutat: props[z.rolle]?.kurzlabel?.replace(/\s*\(.*?\)/, '') ?? z.rolle }; }),
     // Technik-Stufe je Technik, gemessen am Korpus der Variante, wenn er genug Rezepte hat (T83, DR-051)
     technikStufen: Object.fromEntries(Object.keys(data.techniken || {}).filter((k) => !k.startsWith('_')).map((k) => [k, technikStufe(arch, variante, k, st.techniken?.[k] ?? { n: st.n, anteil: 0 })])),
     gas: gas?.zeile ? { gesamt: gas.gesamt, anteile: gas.anteile, zeile: gas.zeile } : null,

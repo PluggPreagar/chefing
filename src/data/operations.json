@@ -12,7 +12,7 @@
     "auf": "Rollen, auf die die Operation wirkt",
     "voraussetzung": "Liste von Bedingungen {rolle, eigenschaft, wert, strenge, wenn?, hinweis?, kaskade_ziel?, id?}. strenge: hart (blockiert, Default) | empfohlen (Warnung, bleibt gültig) | frei (legitime Variante, kein Hinweis). rolle kann mit '!' beginnen (z. B. '!trieb') — bedeutet 'irgendeine Rolle außer dieser' (existenziell, für Bedingungen zwischen zwei Rollen statt an einer festen Rolle, DR-019/T22). wenn: optionale Guard-Bedingung {rolle, eigenschaft, wert} — die Voraussetzung gilt nur, wenn diese zuerst erfüllt ist (sonst nicht anwendbar, kein Hinweis). hinweis: optionaler fester Erklärtext, ersetzt die generisch aus rolle/eigenschaft/wert gebaute Meldung, wenn die generische Formel zu unspezifisch wäre. kaskade_ziel: optional, Rolle, die bei einer harten Kollision automatisch angepasst werden könnte (z. B. bei der Natron-Säure-Regel → fluessigkeit) — die Engine schlägt bei Bedarf den ersten passenden Ersatzkandidaten aus dieser Rolle vor (DR-019/T26), ändert aber nichts automatisch und lässt eine `gesetzt-fix`-Zielrolle unangetastet. id: stabiler Schlüssel für `hart`-Bedingungen, die ein Nutzer bewusst überschreiben können soll (DR-019/T25) — Grundlage für die Override-Erfassung in `localStorage`; Bedingungen ohne `id` können nicht überschrieben werden.",
     "vorbereitung_falls_nicht": "Operation, die eine fehlende harte Voraussetzung herstellen kann (sonst ungültig)",
-    "wegklick": "optional (T94, DR-063): {label, rolle, temperatur} — eine eingefügte Vorbereitung, die der Nutzer selbst erledigt haben kann (Butter schon weich); ein Knopf im Rezept setzt die Temperatur der Rolle und nimmt den Schritt heraus. Zählt bei der Auto-Wahl nicht als Nachteil.",
+    "zustand": "optional (DR-064): Schlüssel in zustaende.json — diese Vorbereitung stellt einen Soll-Zustand her (Butter weich); sie wird nicht als Schritt eingefügt, sondern steht als Zustand an der Zutat, erst ein gewählter Weg wird ein Vorlauf-Schritt.",
     "wirkt_auf_eigenschaften": "optional: {rolle: {eigenschaft: wert, ...}, ...} — wird angewendet, wenn diese Operation automatisch als vorbereitung_falls_nicht eingefügt wurde; beschreibt, wie sich die Eigenschaften der Rolle dadurch ändern (z. B. Schmelzen macht festes Fett flüssig). Ein Feld `temperatur` setzt die neue Temperatur der Rolle (Angabe wie überall, auch abgeleitet aus einer Zutat-Eigenschaft); Aggregat und Form folgen daraus (T62).",
     "wirkung": "physikalisch/chemisch, was passiert",
     "risiko": "typischer Fehler",
@@ -332,13 +332,9 @@
         "temperatur": "plastisch"
       }
     },
-    "wegklick": {
-      "label": "ist schon weich",
-      "rolle": "fett",
-      "temperatur": "plastisch"
-    },
     "wirkung": "Butter aus dem Kühlschrank in Würfeln wird bei Raumtemperatur weich (plastisch, 18–22 °C): sie gibt auf Druck nach, hält aber die Form und glänzt nicht.",
     "risiko": "Zu warm oder in der Mikrowelle angeschmolzen → ölig, hält beim Aufschlagen keine Luft mehr. Ganzes Stück statt Würfel → etwa eine Stunde.",
-    "dauer_min": 20
+    "dauer_min": 20,
+    "zustand": "weich"
   }
 }

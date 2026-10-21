@@ -39,9 +39,9 @@ const basis=(a,vk)=>{ const v=a.varianten[vk], b={}; for (const r of a.rollen) b
  const ref=rechne();
  ok(ref.status!=='invalid' && ref.regelIds.every(i=>!/wasser_|gaerung/.test(i)),'Ausgangslage: Kastenkuchen (Creme) ist gültig und ohne Wasser-Meldung');
  const kalt=rechne({zutatTemperaturen:{fett:'kuehlschrank'}});
- ok(kalt.vorbereitungen.some(v=>v.key==='temperieren' && /cremig schlagbares Fett \(ist: nein\)/.test(v.text)),'butter-zu-kalt-aufschlagen: Butter aus dem Kühlschrank → Schritt „weich werden lassen“ (T94)');
+ ok(kalt.zustaende.some(z=>z.rolle==='fett' && /cremig schlagbares Fett \(ist: nein\)/.test(z.grund)),'butter-zu-kalt-aufschlagen: Butter aus dem Kühlschrank → Zustand „weich“ mit Wegen an der Zutat (DR-064)');
  const warm=rechne();
- ok(warm.vorbereitungen.some(v=>v.key==='temperieren') && !rechne({zutatTemperaturen:{fett:'plastisch'}}).vorbereitungen.length,'ruehrteig-gerinnt-kalte-zutaten (Butter-Teil): ohne Angabe Vorbereitung „weich werden lassen“, bei 18–22 °C keine');
+ ok(warm.zustaende.some(z=>z.rolle==='fett') && !rechne({zutatTemperaturen:{fett:'plastisch'}}).zustaende.length,'ruehrteig-gerinnt-kalte-zutaten (Butter-Teil): ohne Angabe Zustand „weich“ an der Butter, bei 18–22 °C keiner');
  const nass=rechne({mengen:{fluessigkeit:250}});
  const t5=tipps.find(t=>t.id==='ruehrteig-zu-viel-fluessigkeit').modell.durch.map(d=>d.split(':')[1]);
  ok(t5.some(id=>nass.regelIds.includes(id)),'ruehrteig-zu-viel-fluessigkeit: 250 % Flüssigkeit löst eine der genannten Wasser-Grenzen aus');

@@ -16,12 +16,12 @@ async function loadJson(path) {
   return r.json();
 }
 
-const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge] = await Promise.all(
-  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen', 'modelle', 'temperaturen', 'orte', 'techniken', 'triebquellen', 'werkzeuge'].map((n) => loadJson(`./src/data/${n}.json`)),
+const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge, zustaende] = await Promise.all(
+  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen', 'modelle', 'temperaturen', 'orte', 'techniken', 'triebquellen', 'werkzeuge', 'zustaende'].map((n) => loadJson(`./src/data/${n}.json`)),
 );
 const archetypKeys = Object.keys(archetypes).filter((k) => !k.startsWith('_'));
 let arch = archetypes[archetypKeys[0]]; // aktiver Archetyp; waehleArchetyp() setzt ihn zusammen mit data.arch und state.archetyp
-const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge, arch };
+const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge, zustaende, arch };
 
 // Normalisierte Rezeptlisten bleiben erhalten (nicht nur die aggregierten `stats()`) — die
 // Korrelationssuche (DR-019 Punkt 5, T32) braucht die Rezepte einzeln, um Bäckerprozent bedingt
@@ -56,6 +56,8 @@ const state = {
   techniken: {},
   // ausstattung[werkzeug] = true/false (T92): was die Küche hat; null = Standard (Alltags-Küche); bleibt bei Preset-Wechsel
   ausstattung: null,
+  // zustandWege[rolle] = Weg-Schlüssel (DR-064): gewählter Weg zu einem Soll-Zustand (Butter weich) → Vorlauf-Schritt; null = nur Hinweis an der Zutat
+  zustandWege: {},
 };
 
 const $ = (id) => document.getElementById(id);
