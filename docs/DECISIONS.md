@@ -682,3 +682,11 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** Layout bleibt beim Umschalten stehen; einfache Regel.
 - **cons:** auf sehr breiten Schirmen nie mehr als 2 Spalten (war ohnehin so gemeint).
 - **risk:** Gering. style.css. Rückgängig: ein Commit.
+
+## DR-071 · ui · Ei-Schalter als zwei Knöpfe: „Ganzes Ei – ohne Eischnee“ / „Aufgeschlagenes Ei – mit Eischnee“
+
+- **descr:** (2026-10-22, Nutzer: statt „Eischnee: an“) Der Technik-Schalter im Kopf des Ablaufs ist jetzt eine Knopfgruppe mit zwei Knöpfen; die Beschriftung kommt aus `techniken.json` (`schalter: {aus, an}` je `{label, sub}`). Der Morph-Kasten nutzt dieselben Texte statt „Nein / Eier ganz“ und „Ja / Eischnee als Trieb“. Techniken ohne `schalter` behalten „Kurz: an/aus“. Passt die Technik nicht zur Methode, ist der „an“-Knopf gestrichelt.
+- **Optionen:** zwei Knöpfe mit Beschriftung aus den Daten (gewählt) · nur Text von „an/aus“ ändern (verworfen: ein Knopf zeigt die Alternative nicht).
+- **pro:** sagt, was mit dem Ei passiert; beide Wege auf einen Blick; ein Text für Ablauf und Kasten.
+- **cons:** breiter im Kopf des Ablaufs.
+- **risk:** Gering. techniken.json, morphbox.js, style.css. Rückgängig: ein Commit.
