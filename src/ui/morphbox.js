@@ -68,9 +68,9 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
     const passt = passend.includes(computed.methodKey);
     if (an && passt) (t.lockert || []).forEach((r) => gelockert.add(r));
     root.append(dimension(t.label, t.hinweis, [
-      option({ label: t.schalter?.aus.label ?? 'Nein', sub: t.schalter?.aus.sub, selected: !an, bestof: stufe !== 'typisch', onClick: () => onChange(technikPatch(state, arch, t, k, false)) }),
+      option({ label: 'Nein', sub: 'Eier ganz', iconKey: t.schalter?.aus.icon, iconTitle: t.schalter?.aus.titel, selected: !an, bestof: stufe !== 'typisch', onClick: () => onChange(technikPatch(state, arch, t, k, false)) }),
       option({
-        label: t.schalter?.an.label ?? 'Ja', sub: passt ? t.schalter?.an.sub : `nicht bei ${data.methods[computed.methodKey].label}`,
+        label: 'Ja', sub: passt ? 'Eischnee als Trieb' : `nicht bei ${data.methods[computed.methodKey].label}`, iconKey: t.schalter?.an.icon, iconTitle: t.schalter?.an.titel,
         selected: an, status: passt ? null : 'invalid', bestof: stufe === 'typisch',
         title: `Passt zu: ${passend.map((m) => data.methods[m].label).join(', ')}`,
         onClick: () => onChange(technikPatch(state, arch, t, k, true)),
@@ -162,20 +162,10 @@ export function renderTechnikSchalter(root, state, data, computed, onChange) {
     const an = !!state.techniken?.[k];
     const methode = data.methods[computed.methodKey];
     const passt = (methode.techniken || []).includes(k);
-    if (t.schalter) {
-      // zwei Knöpfe statt „an/aus“: was der Nutzer mit dem Ei tut (Nutzer 2026-10-22)
-      for (const [wert, s] of [[false, t.schalter.aus], [true, t.schalter.an]]) {
-        const b = el('button', `technik-schalter${an === wert ? ' is-an' : ''}${wert && !passt ? ' passt-nicht' : ''}`, s.label);
-        if (s.sub) b.append(' ', el('small', 'technik-sub', s.sub));
-        b.type = 'button';
-        b.setAttribute('aria-pressed', String(an === wert));
-        b.title = wert && !passt ? `${t.label} passt nicht zur ${methode.label}` : t.hinweis;
-        b.addEventListener('click', () => { if (an !== wert) onChange(technikPatch(state, arch, t, k, wert)); });
-        root.append(b);
-      }
-      continue;
-    }
-    const b = el('button', `technik-schalter${an ? ' is-an' : ''}${passt ? '' : ' passt-nicht'}`, `${t.kurz ?? t.label}: ${an ? 'an' : 'aus'}`);
+    // mit `schalter`: fester Text, das Icon zeigt den Zustand (ganzes → aufgeschlagenes Ei, Nutzer 2026-10-22)
+    const s = t.schalter?.[an ? 'an' : 'aus'];
+    const b = el('button', `technik-schalter${an ? ' is-an' : ''}${passt ? '' : ' passt-nicht'}`, t.schalter ? t.schalter.text : `${t.kurz ?? t.label}: ${an ? 'an' : 'aus'}`);
+    if (s?.icon) b.insertAdjacentHTML('afterbegin', iconHtml(s.icon, 16, s.titel) + ' ');
     b.type = 'button';
     b.setAttribute('aria-pressed', String(an));
     b.title = passt ? t.hinweis : `${t.label} passt nicht zur ${methode.label}`;

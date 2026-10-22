@@ -7,13 +7,13 @@
     "vor": "Schlagen und Unterheben kommen vor den ersten dieser Schritte (zuletzt in den Teig, dann sofort in Form oder Pfanne).",
     "ort_ausweich": "Arbeitsplatz eines Technik-Schritts, wenn die Methode seinen `ort` schon selbst nutzt (Pancakes: Nasses in Schüssel 2 → Eischnee in Schüssel 3; Eischnee wird in einer Schüssel mit Fett nicht steif).",
     "triebquelle": "Schritt-Feld (T80): Triebquelle aus triebquellen.json, die dieser Schritt anlegt (Eischnee).",
-    "schalter": "optional: {aus, an} je {label, sub} — Beschriftung der beiden Knöpfe (Nutzer 2026-10-22: „Ganzes Ei – ohne Eischnee“ / „Aufgeschlagenes Ei – mit Eischnee“ statt „Eischnee: an“).",
+    "schalter": "optional: {text, aus, an} — ein Knopf mit festem Text; aus/an je {icon, titel} zeigen den Zustand (Nutzer 2026-10-22: ganzes Ei + „mit Eischnee“, angeklickt aufgeschlagenes Ei + „mit Eischnee“ statt „Eischnee: an“).",
     "schritte": "trennen: neuer Startschritt vor dem ersten Schritt der Rolle; schlagen: verarbeitet den getrennten Teil, nach dem Schritt vor `vor` (frisch); unterheben: führt ihn zurück in den Teig."
   },
   "eier_getrennt": {
     "label": "Eischnee extra",
     "kurz": "Eischnee",
-    "schalter": { "aus": { "label": "Ganzes Ei", "sub": "ohne Eischnee" }, "an": { "label": "Aufgeschlagenes Ei", "sub": "mit Eischnee" } },
+    "schalter": { "text": "mit Eischnee", "aus": { "icon": "ei", "titel": "Ganzes Ei" }, "an": { "icon": "trennen", "titel": "Aufgeschlagenes Ei" } },
     "hinweis": "Eiweiß getrennt steif schlagen und zuletzt unterheben: lockert zusätzlich zu Backpulver oder ersetzt es.",
     "rolle": "bindung",
     "rest": "eigelb",

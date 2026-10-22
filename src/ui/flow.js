@@ -25,9 +25,9 @@ export function fmtSlot(min) {
   return m < 0 ? `−${t}` : t;
 }
 
-// Titel eines Slots ohne Aktion: was der Koch hat (freie Hände), nicht was die Zeile ist (Fehlermeldung 20261020-160203:
-// „was meint leer?“); die zweite Zeile nennt, was in der Zeit wirkt (Backen · 180 °C)
-export const slotTitel = (z) => (z.nebenher ? 'läuft nebenher' : `Hände frei · ${fmtZeit(z.t1 - z.t0)}`);
+// Titel eines Slots ohne Aktion: nur die Dauer — dass Warten ohne den Koch geht, ist klar (Nutzer 2026-10-22, vorher „Hände frei“,
+// davor „leer“, Fehlermeldung 20261020-160203); die zweite Zeile nennt, was in der Zeit wirkt (Backen · 180 °C)
+export const slotTitel = (z) => (z.nebenher ? 'läuft nebenher' : fmtZeit(z.t1 - z.t0));
 
 // Strom + Zufluss in Slots (DR-039, DR-043, Regeln R1–R7):
 // R1 je Zeile genau eine Aktion des Kochs (Knopf) oder keine (leer: nur Wirkzeit, Uhr).

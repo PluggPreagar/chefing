@@ -683,10 +683,18 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **cons:** auf sehr breiten Schirmen nie mehr als 2 Spalten (war ohnehin so gemeint).
 - **risk:** Gering. style.css. Rückgängig: ein Commit.
 
-## DR-071 · ui · Ei-Schalter als zwei Knöpfe: „Ganzes Ei – ohne Eischnee“ / „Aufgeschlagenes Ei – mit Eischnee“
+## DR-071 · ui · Ei-Schalter: ein Knopf „mit Eischnee“, Icon ganzes Ei → aufgeschlagenes Ei
 
-- **descr:** (2026-10-22, Nutzer: statt „Eischnee: an“) Der Technik-Schalter im Kopf des Ablaufs ist jetzt eine Knopfgruppe mit zwei Knöpfen; die Beschriftung kommt aus `techniken.json` (`schalter: {aus, an}` je `{label, sub}`). Der Morph-Kasten nutzt dieselben Texte statt „Nein / Eier ganz“ und „Ja / Eischnee als Trieb“. Techniken ohne `schalter` behalten „Kurz: an/aus“. Passt die Technik nicht zur Methode, ist der „an“-Knopf gestrichelt.
-- **Optionen:** zwei Knöpfe mit Beschriftung aus den Daten (gewählt) · nur Text von „an/aus“ ändern (verworfen: ein Knopf zeigt die Alternative nicht).
-- **pro:** sagt, was mit dem Ei passiert; beide Wege auf einen Blick; ein Text für Ablauf und Kasten.
-- **cons:** breiter im Kopf des Ablaufs.
+- **descr:** (2026-10-22, Nutzer: statt „Eischnee: an“; erste Fassung mit zwei Knöpfen korrigiert: „ganzes-Ei-Icon + mit Eischnee, bei Klick aufgeschlagenes-Ei-Icon + mit Eischnee (ausgewählt)“) Der Technik-Schalter im Kopf des Ablaufs bleibt **ein Knopf** mit festem Text „mit Eischnee“; das **Icon zeigt den Zustand**: aus = ganzes Ei (`ei`), an = aufgeschlagenes Ei (`trennen`, aufgebrochene Schale), an = ausgewählt. Daten in `techniken.json`: `schalter: {text, aus: {icon, titel}, an: {icon, titel}}`. Der Morph-Kasten behält „Nein / Eier ganz“ und „Ja / Eischnee als Trieb“ und bekommt dieselben Icons. Techniken ohne `schalter` behalten „Kurz: an/aus“.
+- **Optionen:** ein Knopf, Icon zeigt den Zustand (gewählt, Nutzer) · zwei Knöpfe „Ganzes Ei“ / „Aufgeschlagenes Ei“ (erste Fassung, verworfen: so nicht gemeint).
+- **pro:** kurz; das Bild sagt, was mit dem Ei passiert; gleiche Icons in Ablauf und Kasten.
+- **cons:** der Zustand „aus“ steht nur im Icon.
 - **risk:** Gering. techniken.json, morphbox.js, style.css. Rückgängig: ein Commit.
+
+## DR-072 · ui · Warte-Slot im Ablauf nennt nur die Dauer
+
+- **descr:** (2026-10-22, Nutzer: „Hände frei“ ist unnötig, Warten geht offensichtlich ohne mich) Der Titel eines Slots ohne Aktion ist nur noch die Dauer („1 Std.“), darunter wie bisher, was wirkt („Gehen · 30 °C“). Vorher „Hände frei · 1 Std.“ (DR nach Fehlermeldung 20261020-160203 „was meint leer?“). „läuft nebenher“ bleibt.
+- **Optionen:** nur Dauer (gewählt) · „Hände frei“ behalten (verworfen: Nutzer).
+- **pro:** kürzer, weniger Text im Ablauf.
+- **cons:** keine.
+- **risk:** Gering. flow.js, strom.check.mjs. Rückgängig: ein Commit.
