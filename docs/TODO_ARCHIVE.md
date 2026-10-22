@@ -8,7 +8,7 @@ noch aktive Arbeit.
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
 | T101 | Warte-Slot ohne „Hände frei“ | done | Slot-Titel nur noch die Dauer („1 Std.“). | DR-072 |
-| T100 | Ei-Schalter: „mit Eischnee“ mit Ei-Icon statt „Eischnee: an“ | done | Ein Knopf „mit Eischnee“; Icon ganzes Ei → aufgeschlagenes Ei (ausgewählt); Daten in techniken.json (`schalter`), gleiche Icons im Morph-Kasten. | DR-071 |
+| T100 | Ei-Schalter bietet den Wechsel an statt „Eischnee: an“ | done | Aus: aufgeschlagenes Ei + „mit Eischnee“; an (ausgewählt): ganzes Ei + „ohne Eischnee“; Daten in techniken.json (`schalter: {mit, ohne}`), gleiche Icons im Morph-Kasten. | DR-071 |
 | T99 | Fehlermeldung „layout shift on toggle features“ (20261021-074547) | done | `.layout` fest 2 Spalten ab 760 px statt auto-fit; breite Panels stauchen Kasten und Rezept nicht mehr. | DR-070 |
 | T96 | Mayonnaise: Anforderung „emulgieren“ mit Zeit je Werkzeug | done | „Öl tropfenweise“ und „Öl im Strahl“ mit Anforderung emulgieren (Basis Schneebesen); Schneebesen ×2 gegen Handrührgerät; von Hand rund 10 Min., mit Gerät rund 5½. | T93, DR-060, DR-066, DR-069 |
 | T98 | Fehlermeldung „Vorbereiten zu lang“ (20261021-074058) | done | Zeile „Vorbereiten: Butter weich · Eier zimmerwarm“, Teile als Link auf die Klappe an der Zutat; Meldungen lokal in issues/open und issues/closed (gitignore). | DR-068 |

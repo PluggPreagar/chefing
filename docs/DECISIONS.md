@@ -683,12 +683,12 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **cons:** auf sehr breiten Schirmen nie mehr als 2 Spalten (war ohnehin so gemeint).
 - **risk:** Gering. style.css. Rückgängig: ein Commit.
 
-## DR-071 · ui · Ei-Schalter: ein Knopf „mit Eischnee“, Icon ganzes Ei → aufgeschlagenes Ei
+## DR-071 · ui · Ei-Schalter bietet den Wechsel an: „mit Eischnee“ ↔ „ohne Eischnee“
 
-- **descr:** (2026-10-22, Nutzer: statt „Eischnee: an“; erste Fassung mit zwei Knöpfen korrigiert: „ganzes-Ei-Icon + mit Eischnee, bei Klick aufgeschlagenes-Ei-Icon + mit Eischnee (ausgewählt)“) Der Technik-Schalter im Kopf des Ablaufs bleibt **ein Knopf** mit festem Text „mit Eischnee“; das **Icon zeigt den Zustand**: aus = ganzes Ei (`ei`), an = aufgeschlagenes Ei (`trennen`, aufgebrochene Schale), an = ausgewählt. Daten in `techniken.json`: `schalter: {text, aus: {icon, titel}, an: {icon, titel}}`. Der Morph-Kasten behält „Nein / Eier ganz“ und „Ja / Eischnee als Trieb“ und bekommt dieselben Icons. Techniken ohne `schalter` behalten „Kurz: an/aus“.
-- **Optionen:** ein Knopf, Icon zeigt den Zustand (gewählt, Nutzer) · zwei Knöpfe „Ganzes Ei“ / „Aufgeschlagenes Ei“ (erste Fassung, verworfen: so nicht gemeint).
-- **pro:** kurz; das Bild sagt, was mit dem Ei passiert; gleiche Icons in Ablauf und Kasten.
-- **cons:** der Zustand „aus“ steht nur im Icon.
+- **descr:** (2026-10-22, Nutzer: statt „Eischnee: an“; erste Fassung mit zwei Knöpfen korrigiert: „ganzes-Ei-Icon + mit Eischnee, bei Klick aufgeschlagenes-Ei-Icon + mit Eischnee (ausgewählt)“) Zweite Korrektur (Nutzer: „nicht intuitiv — biete den Wechsel an“): **ein Knopf, der zeigt, was ein Klick tut**. Aus (Standard, nicht ausgewählt): aufgeschlagenes Ei (`trennen`) + „mit Eischnee“; an (ausgewählt): ganzes Ei (`ei`) + „ohne Eischnee“. Daten in `techniken.json`: `schalter: {mit, ohne}` je `{text, icon, titel}`. Der Morph-Kasten behält „Nein / Eier ganz“ und „Ja / Eischnee als Trieb“ und bekommt dieselben Icons. Techniken ohne `schalter` behalten „Kurz: an/aus“.
+- **Optionen:** Knopf bietet den Wechsel an (gewählt, Nutzer) · fester Text, Icon zeigt den Zustand (zweite Fassung, verworfen: nicht intuitiv) · zwei Knöpfe „Ganzes Ei“ / „Aufgeschlagenes Ei“ (erste Fassung, verworfen: so nicht gemeint).
+- **pro:** kurz; Text und Bild sagen, was der Klick bewirkt; gleiche Icons in Ablauf und Kasten.
+- **cons:** im Ablauf zeigt das Icon das Angebot, im Kasten den Zustand.
 - **risk:** Gering. techniken.json, morphbox.js, style.css. Rückgängig: ein Commit.
 
 ## DR-072 · ui · Warte-Slot im Ablauf nennt nur die Dauer

@@ -68,9 +68,9 @@ export function renderMorphbox(root, state, data, computed, korpusStats, onChang
     const passt = passend.includes(computed.methodKey);
     if (an && passt) (t.lockert || []).forEach((r) => gelockert.add(r));
     root.append(dimension(t.label, t.hinweis, [
-      option({ label: 'Nein', sub: 'Eier ganz', iconKey: t.schalter?.aus.icon, iconTitle: t.schalter?.aus.titel, selected: !an, bestof: stufe !== 'typisch', onClick: () => onChange(technikPatch(state, arch, t, k, false)) }),
+      option({ label: 'Nein', sub: 'Eier ganz', iconKey: t.schalter?.ohne.icon, iconTitle: t.schalter?.ohne.titel, selected: !an, bestof: stufe !== 'typisch', onClick: () => onChange(technikPatch(state, arch, t, k, false)) }),
       option({
-        label: 'Ja', sub: passt ? 'Eischnee als Trieb' : `nicht bei ${data.methods[computed.methodKey].label}`, iconKey: t.schalter?.an.icon, iconTitle: t.schalter?.an.titel,
+        label: 'Ja', sub: passt ? 'Eischnee als Trieb' : `nicht bei ${data.methods[computed.methodKey].label}`, iconKey: t.schalter?.mit.icon, iconTitle: t.schalter?.mit.titel,
         selected: an, status: passt ? null : 'invalid', bestof: stufe === 'typisch',
         title: `Passt zu: ${passend.map((m) => data.methods[m].label).join(', ')}`,
         onClick: () => onChange(technikPatch(state, arch, t, k, true)),
@@ -162,9 +162,9 @@ export function renderTechnikSchalter(root, state, data, computed, onChange) {
     const an = !!state.techniken?.[k];
     const methode = data.methods[computed.methodKey];
     const passt = (methode.techniken || []).includes(k);
-    // mit `schalter`: fester Text, das Icon zeigt den Zustand (ganzes → aufgeschlagenes Ei, Nutzer 2026-10-22)
-    const s = t.schalter?.[an ? 'an' : 'aus'];
-    const b = el('button', `technik-schalter${an ? ' is-an' : ''}${passt ? '' : ' passt-nicht'}`, t.schalter ? t.schalter.text : `${t.kurz ?? t.label}: ${an ? 'an' : 'aus'}`);
+    // mit `schalter`: der Knopf bietet den Wechsel an — aus „mit Eischnee“, an (ausgewählt) „ohne Eischnee“ (Nutzer 2026-10-22)
+    const s = t.schalter?.[an ? 'ohne' : 'mit'];
+    const b = el('button', `technik-schalter${an ? ' is-an' : ''}${passt ? '' : ' passt-nicht'}`, s ? s.text : `${t.kurz ?? t.label}: ${an ? 'an' : 'aus'}`);
     if (s?.icon) b.insertAdjacentHTML('afterbegin', iconHtml(s.icon, 16, s.titel) + ' ');
     b.type = 'button';
     b.setAttribute('aria-pressed', String(an));
