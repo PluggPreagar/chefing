@@ -490,3 +490,13 @@ Quelle: Europe PMC (ebi.ac.uk), REST-Suche nach frei zugänglichen Aufsätzen zu
 | 2026-10-24 | en.wikipedia.org, antoine.frostburg.edu, justia.com, uspto.gov | je 1 (Suchtreffer) | Zersetzung von Natron | Nur Referenz: über 80 °C 2 NaHCO3 zu Na2CO3, H2O, CO2; ohne Säure nur etwa die Hälfte des CO2. Eine Datenquelle (Otsubo und Yamaguchi 1961) nicht offen |
 
 Ergebnis: weiterhin **kein** offener begutachteter Beleg für Natron ohne Säure im Backen. Der Regeltext wurde nach den Referenzseiten präzisiert, die Gewissheit bleibt `surely` (Beleg Mechanismus, Schätzung).
+
+## 2026-10-24 — Mayonnaise-Ölzugabe (T115, Teil 2)
+
+Quelle: Europe PMC (ebi.ac.uk), REST-Suche nach frei zugänglichen Aufsätzen, die die Zugaberate des Öls bei Mayonnaise oder Ei-Emulsionen messen.
+
+| datum | domain | seiten | thema | notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-24 | ebi.ac.uk (Europe PMC) | 9 Suchen, 4 Volltexte durchsucht | Ölzugabe bei Mayonnaise | Durchsucht: PMC13512689 (Entropie der Mayonnaise-Herstellung, Motorstrom), PMC12311586 (Übersicht Emulsionsstabilität), PMC12428221 (Fettreduktion in Mayonnaise), PMC9141538 (Hitzebehandlung von Eigelb, Foods 11(10):1426). Keine Arbeit variiert die Zugaberate des Öls; die Herstellung wird nur als Verfahren beschrieben. Die Übersichten nennen Koaleszenz als Instabilitätsweg, ohne die Zugabe zu messen |
+
+Ergebnis: **kein** offener begutachteter Beleg, dass tropfenweise Ölzugabe am Anfang nötig ist. Die Aussagen `emulsion:oel_tropfen`, `emulsion:oel_strahl_mayo` und `emulsion:puerieren_einlaufen` bleiben `likely` (Mechanismus, Schätzung, gestützt auf den Korpus und Rückmeldungen).
