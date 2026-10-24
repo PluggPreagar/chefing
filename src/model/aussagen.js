@@ -241,12 +241,15 @@ export function hinweisSterne(h, daten) {
   return { sterne: manuell ? h.sterne_manuell : berechnet, berechnet, manuell, grund: manuell ? h.sterne_grund : null, aussage };
 }
 
-// Hinweise eines Schritts, die für die Stufe erscheinen (ab Schwelle), wichtigste zuerst
-export function hinweiseFuerSchritt(schrittKey, hinweiseDaten, daten, stufe = 'einsteiger') {
+const archetypenVon = (h) => [].concat(h?.archetyp ?? []);
+
+// Hinweise eines Schritts, die für die Stufe erscheinen (ab Schwelle), wichtigste zuerst; ein Hinweis mit archetyp nur bei diesem Archetyp
+export function hinweiseFuerSchritt(schrittKey, hinweiseDaten, daten, stufe = 'einsteiger', archetyp = null) {
   const schwelle = SCHWELLE[stufe] ?? SCHWELLE.einsteiger;
   const liste = [];
   for (const h of hinweiseDaten?.hinweise || []) {
     if (h.schritt !== schrittKey) continue;
+    if (h.archetyp != null && !archetypenVon(h).includes(archetyp)) continue;
     const s = hinweisSterne(h, daten);
     if (!s || s.sterne < schwelle) continue;
     liste.push({
@@ -267,7 +270,7 @@ export function schrittKeysAusDaten(data) {
   return keys;
 }
 
-export function hinweiseValidieren(hinweiseDaten, aussagenDaten, schrittKeys = null) {
+export function hinweiseValidieren(hinweiseDaten, aussagenDaten, schrittKeys = null, archetypKeys = null) {
   const fehler = [];
   const liste = hinweiseDaten?.hinweise;
   if (!Array.isArray(liste)) return ['hinweise.json: Feld „hinweise“ fehlt'];
@@ -280,6 +283,10 @@ export function hinweiseValidieren(hinweiseDaten, aussagenDaten, schrittKeys = n
     if (String(h?.text ?? '').trim().length < 10) fe('text fehlt');
     if (schrittKeys && !schrittKeys.has(h?.schritt)) fe(`schritt „${h?.schritt}“ ist kein Schritt der Daten`);
     if (!aussageVon(h?.aussage, aussagenDaten)) fe(`aussage „${h?.aussage}“ gibt es nicht (Regel-id:Ziel)`);
+    if (h?.archetyp != null) {
+      const liste = archetypenVon(h);
+      if (!liste.length || liste.some((a) => typeof a !== 'string' || (archetypKeys && !archetypKeys.has(a)))) fe(`archetyp „${JSON.stringify(h.archetyp)}“ ist kein Archetyp der Daten (Text oder Liste von Texten)`);
+    }
     if (h?.sterne_manuell != null && !(Number.isInteger(h.sterne_manuell) && h.sterne_manuell >= 0 && h.sterne_manuell <= 5)) fe('sterne_manuell muss eine ganze Zahl von 0 bis 5 sein');
     if (h?.sterne_manuell != null && String(h.sterne_grund ?? '').trim().length < 10) fe('sterne_manuell braucht einen sterne_grund');
     if (h?.sterne_manuell == null && h?.sterne_grund != null) fe('sterne_grund ohne sterne_manuell');

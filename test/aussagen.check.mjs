@@ -140,7 +140,8 @@ ok(grenzenBuendelnMitIds(v1).hart[0].ids.join() === 'a,b' && grenzenBuendeln(v1)
 // --- Hinweise mit Sternen und Nutzerstufe (DR-075, T112–T114) -------------------------------------------------------------------------
 const hinweise = J('hinweise');
 const schrittKeys = A.schrittKeysAusDaten(data);
-ok(A.hinweiseValidieren(hinweise, daten, schrittKeys).length === 0, 'hinweise.json ist gültig: ids, Schritte, Aussagen, Sterne-Overrides' + (A.hinweiseValidieren(hinweise, daten, schrittKeys).length ? ': ' + A.hinweiseValidieren(hinweise, daten, schrittKeys).join(' | ') : ''));
+const archetypKeys = new Set(Object.keys(data.archetypes));
+ok(A.hinweiseValidieren(hinweise, daten, schrittKeys, archetypKeys).length === 0, 'hinweise.json ist gültig: ids, Schritte, Aussagen, Sterne-Overrides' + (A.hinweiseValidieren(hinweise, daten, schrittKeys).length ? ': ' + A.hinweiseValidieren(hinweise, daten, schrittKeys).join(' | ') : ''));
 ok(A.STUFEN.join() === 'einsteiger,fortgeschritten,profi' && A.SCHWELLE.einsteiger === 1 && A.SCHWELLE.fortgeschritten === 3 && A.SCHWELLE.profi === 5, 'Stufen: Einsteiger ab 1, Fortgeschritten ab 3, Profi ab 5 Sternen');
 // Formel: Wirkungspunkte (0, 2, 4, 5) × Gewissheitsfaktor (0, 0,4, 0,6, 0,8, 1, 1), gerundet, höchstens 5
 const sb = (wirkung, gewissheit) => A.sterneBerechnet({ wirkung, gewissheit });
@@ -168,17 +169,25 @@ const hs = (schritt, stufe) => A.hinweiseFuerSchritt(schritt, hinweise, daten, s
 ok(A.hinweisSterne(fh('hefe-warm-und-zugfrei-gehen'), daten).sterne === 3 && A.hinweisSterne(fh('pfannkuchen-matt-wenden'), daten).sterne === 2, 'Hefe warm gehen: spürbar × wahrscheinlich = 3 Sterne; Pfannkuchen matt wenden: spürbar × vielleicht = 2 Sterne');
 ok(hs('gehen', 'einsteiger') === 'hefe-warm-und-zugfrei-gehen' && hs('gehen', 'fortgeschritten') === 'hefe-warm-und-zugfrei-gehen' && hs('gehen', 'profi') === '', 'Gehen: Hinweis für Einsteiger und Fortgeschrittene, nicht für Profis');
 ok(hs('ausbacken', 'einsteiger') === 'pfannkuchen-matt-wenden' && hs('ausbacken', 'fortgeschritten') === '', 'Ausbacken: 2-Sterne-Hinweis nur für Einsteiger');
+const hsA = (schritt, stufe, archetyp) => A.hinweiseFuerSchritt(schritt, hinweise, daten, stufe, archetyp).map((h) => h.id).join();
+ok(A.hinweisSterne(fh('kuchen-staebchenprobe'), daten).sterne === 3, 'Stäbchenprobe: spürbar × wahrscheinlich = 3 Sterne');
+ok(hsA('backen', 'einsteiger', 'ruehrteig') === 'kuchen-staebchenprobe' && hsA('backen', 'fortgeschritten', 'ruehrteig') === 'kuchen-staebchenprobe' && hsA('backen', 'profi', 'ruehrteig') === '', 'Stäbchenprobe: bei Rührteig für Einsteiger und Fortgeschrittene, nicht für Profis');
+ok(hsA('backen', 'einsteiger', 'hefeteig') === '' && hsA('backen', 'einsteiger', 'pfannkuchen') === '' && hsA('backen', 'einsteiger') === '' && hsA('backen', 'einsteiger', null) === '', 'Stäbchenprobe: nicht bei anderen Archetypen und nicht ohne Archetyp');
+ok(hsA('gehen', 'einsteiger', 'hefeteig') === 'hefe-warm-und-zugfrei-gehen', 'Hinweise ohne archetyp erscheinen bei jedem Archetyp');
+ok(A.hinweiseFuerSchritt('backen', { hinweise: [{ ...fh('kuchen-staebchenprobe'), archetyp: ['ruehrteig', 'hefeteig'] }] }, daten, 'einsteiger', 'hefeteig').length === 1, 'archetyp als Liste: passt bei jedem genannten Archetyp');
 ok(A.hinweiseFuerSchritt('backen', hinweise, daten, 'einsteiger').length === 0 && A.hinweiseFuerSchritt(schritt, null, daten).length === 0, 'andere Schritte und fehlende Daten: keine Hinweise');
 ok(A.hinweiseFuerSchritt(schritt, hinweise, daten, 'einsteiger')[0].titel.includes('3 von 5'), 'Titel nennt Sterne, Wirkung und Gewissheit');
 ok(A.hinweiseFuerSchritt(schritt, hinweise, daten, 'einsteiger').find((h) => h.id === 'eischnee-fettfrei').titel.includes('von Hand angepasst'), 'Titel nennt die Handanpassung samt berechnetem Wert');
 // Validator
-const hv = (h) => A.hinweiseValidieren({ hinweise: h }, daten, schrittKeys);
+const hv = (h) => A.hinweiseValidieren({ hinweise: h }, daten, schrittKeys, archetypKeys);
 const gut = { id: 'x', schritt: schritt, text: 'Ein kurzer Hinweistext hier', aussage: 'wissen:eischnee-eiweiss-zimmerwarm-tempo:tempo' };
 ok(hv([gut]).length === 0, 'Validator: gültiger Hinweis geht durch');
 ok(hv([gut, gut]).some((f) => /doppelt/.test(f)), 'Validator: doppelte id');
 ok(hv([{ ...gut, schritt: 'gibt_es_nicht' }]).some((f) => /schritt/.test(f)), 'Validator: unbekannter Schritt');
 ok(hv([{ ...gut, aussage: 'wissen:gibt-es-nicht:tempo' }]).some((f) => /aussage/.test(f)), 'Validator: unbekannte Aussage');
 ok(hv([{ ...gut, aussage: 'wissen:eischnee-eiweiss-zimmerwarm-tempo:volumen' }]).some((f) => /aussage/.test(f)), 'Validator: falsches Ziel an der Aussage');
+ok(hv([{ ...gut, archetyp: 'ruehrteig' }]).length === 0 && hv([{ ...gut, archetyp: ['ruehrteig', 'hefeteig'] }]).length === 0, 'Validator: archetyp als Text oder Liste geht durch');
+ok(hv([{ ...gut, archetyp: 'kuchenteig' }]).some((f) => /archetyp/.test(f)) && hv([{ ...gut, archetyp: [] }]).some((f) => /archetyp/.test(f)) && hv([{ ...gut, archetyp: 7 }]).some((f) => /archetyp/.test(f)), 'Validator: unbekannter, leerer oder falscher archetyp');
 ok(hv([{ ...gut, sterne_manuell: 2 }]).some((f) => /sterne_grund/.test(f)), 'Validator: Handwert ohne Grund');
 ok(hv([{ ...gut, sterne_manuell: 7, sterne_grund: 'Ein ausreichend langer Grund' }]).some((f) => /0 bis 5/.test(f)), 'Validator: Handwert außerhalb 0 bis 5');
 ok(hv([{ ...gut, sterne_grund: 'Ein ausreichend langer Grund' }]).some((f) => /ohne sterne_manuell/.test(f)), 'Validator: Grund ohne Handwert');
@@ -246,6 +255,11 @@ const cZ = rechne('hefeteig', hefeVk, { methode: zeitMethode }, dZeit);
 const zeitText = [...cZ.gruende, ...cZ.warnungen].find((t) => /Fenster/.test(t) && cZ.marken[t]);
 ok(!!zeitMethode && !!zeitText, 'Zeit-Fenster (Gehzeit weit über dem Fenster): die Meldung trägt eine Marke' + (zeitMethode ? '' : ' — keine Methode mit „gehen“ gefunden'));
 ok(Object.keys(rechne('ruehrteig', 'kastenkuchen', { methode: 'creme' }).marken).length === 0, 'Preset ohne Meldungen: weiterhin keine Marken');
+
+// Engine: Hinweis mit archetyp erscheint nur im passenden Ablauf (Stäbchenprobe beim Rührteig, nicht beim Hefeteig)
+const backHinweise = (zustand) => compute({ ...zustand, stufe: 'einsteiger' }, mitHinweisen, ks).ablauf.find((s) => s.key === 'backen')?.hinweise.map((h) => h.id).join() ?? null;
+ok(backHinweise(st('gugelhupf')) === 'kuchen-staebchenprobe', 'Engine: Rührteig-Ablauf zeigt die Stäbchenprobe am Backen');
+ok(backHinweise(stA('hefeteig', 'weissbrot')) === '', 'Engine: Hefeteig-Ablauf zeigt sie nicht');
 
 console.log(fail ? `${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;
