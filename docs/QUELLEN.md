@@ -479,3 +479,14 @@ Entscheidung des Nutzers: nur frei zugängliche Quellen. Volltexte kamen als JAT
 | 2026-10-24 | dr.lib.iastate.edu, foodnavigator-usa.com, doaj.org | je 1 (Suchtreffer) | Eigelb im Eiweißschaum | Eintrag des Journal-of-Food-Science-Artikels von Wang 2009; Volltext nicht frei |
 
 Ergebnis: **Eine** Aussage erreicht `proven`: Eigelb im Eiweiß senkt Schaumvolumen und -stabilität (Liu 2023, Volltext gelesen, Härte 10,7 N gegen 40,2 N bei 0,5 % Eigelb). Die Hefe-Hitze bleibt `surely` (ein Stamm, Stunden statt Minuten). Für Natron gibt es keinen offenen begutachteten Beleg; der Regeltext „ohne Säure kein CO₂“ ist nach den Suchtreffern ungenau (ab etwa 80 °C entsteht auch ohne Säure CO₂).
+
+## 2026-10-24 — Natron ohne Säure (T115, Teil 1)
+
+Quelle: Europe PMC (ebi.ac.uk), REST-Suche nach frei zugänglichen Aufsätzen zu Natron, Natriumcarbonat und thermischer Zersetzung in Teig oder Kuchen.
+
+| datum | domain | seiten | thema | notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-24 | ebi.ac.uk (Europe PMC) | 4 Suchen, 1 Volltext gelesen | Natron als alleiniges Treibmittel | Gelesen: Foods 12(5):946 (2023, Backpulver und Backsäuren im Pound Cake, PMC10001083). Es untersucht Backpulver mit zwei Säuren, nicht Natron ohne Säure; Aussage zur Kaltreaktion (10 % bzw. 40 % des CO₂ beim Mischen) passt zum Mechanismus, trägt aber den Regeltext nicht. Übrige Treffer thematisch daneben (Zusatzstoffe in Keksen, Futtermittel) |
+| 2026-10-24 | en.wikipedia.org, antoine.frostburg.edu, justia.com, uspto.gov | je 1 (Suchtreffer) | Zersetzung von Natron | Nur Referenz: über 80 °C 2 NaHCO3 zu Na2CO3, H2O, CO2; ohne Säure nur etwa die Hälfte des CO2. Eine Datenquelle (Otsubo und Yamaguchi 1961) nicht offen |
+
+Ergebnis: weiterhin **kein** offener begutachteter Beleg für Natron ohne Säure im Backen. Der Regeltext wurde nach den Referenzseiten präzisiert, die Gewissheit bleibt `surely` (Beleg Mechanismus, Schätzung).

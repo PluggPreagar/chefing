@@ -158,7 +158,7 @@
         "eigenschaft": "saeure",
         "wert": true,
         "strenge": "hart",
-        "hinweis": "eine saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker) — Natron ist nur Base, ohne Säure entsteht kein CO₂ und der Teig schmeckt seifig",
+        "hinweis": "eine saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker) — Natron ist nur Base: ohne Säure zersetzt es sich erst beim Erhitzen (ab etwa 80 °C), setzt nur etwa die Hälfte seines CO₂ frei und hinterlässt seifiges Natriumcarbonat",
         "kaskade_ziel": "fluessigkeit",
         "id": "natron_braucht_saeure"
       }
@@ -199,7 +199,7 @@
         "eigenschaft": "saeure",
         "wert": true,
         "strenge": "hart",
-        "hinweis": "eine saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker) — Natron ist nur Base, ohne Säure entsteht kein CO₂ und der Teig schmeckt seifig",
+        "hinweis": "eine saure Zutat (Buttermilch, Joghurt, Kakao, brauner Zucker) — Natron ist nur Base: ohne Säure zersetzt es sich erst beim Erhitzen (ab etwa 80 °C), setzt nur etwa die Hälfte seines CO₂ frei und hinterlässt seifiges Natriumcarbonat",
         "kaskade_ziel": "fluessigkeit",
         "id": "natron_braucht_saeure"
       }
