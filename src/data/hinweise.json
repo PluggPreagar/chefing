@@ -14,6 +14,8 @@
   {"id": "eischnee-eiweiss-zimmerwarm", "schritt": "eischnee_schlagen", "text": "Das Eiweiß vor dem Schlagen zimmerwarm werden lassen, dann wird es schneller zu Schnee.", "aussage": "wissen:eischnee-eiweiss-zimmerwarm-tempo:tempo"},
   {"id": "eischnee-eier-kalt-trennen", "schritt": "ei_trennen", "text": "Die Eier kalt trennen, dann reißt der Dotter seltener.", "aussage": "wissen:eier-kalt-trennen-leichter:gelingen"},
   {"id": "eischnee-kein-eigelb", "schritt": "ei_trennen", "text": "Beim Trennen keinen Dotter ins Eiweiß kommen lassen: schon eine winzige Spur macht den Schnee weniger voluminös und weniger stabil.", "aussage": "wissen:eischnee-eigelb-spur:volumen"},
+  {"id": "hefe-warm-und-zugfrei-gehen", "schritt": "gehen", "text": "Den Teig warm und zugfrei gehen lassen, am besten bei mindestens 22 °C: in der Kälte geht er nur langsam auf. Mit sehr wenig Hefe darf er auch lange im Kühlschrank gehen.", "aussage": "hefe-zu-kalt-langsam:tempo"},
+  {"id": "pfannkuchen-matt-wenden", "schritt": "ausbacken", "text": "Bei mittlerer Hitze backen und erst wenden, wenn die Oberfläche matt aussieht: dann reißt der Pfannkuchen beim Wenden seltener.", "aussage": "pfannkuchen-reisst-oder-klumpt:gelingen"},
   {"id": "eischnee-fettfrei", "schritt": "eischnee_schlagen", "text": "Schüssel und Besen fettfrei halten: schon ein Fettrest verhindert, dass das Eiweiß steif wird.", "aussage": "wissen:eischnee-fettfreie-schuessel:gelingen", "sterne_manuell": 2, "sterne_grund": "Die Wirkung ist Ausfall und die Gewissheit hoch, aber Fortgeschrittene und Profis kennen die Regel längst; nur Einsteiger sollen sie sehen."}
  ]
 }

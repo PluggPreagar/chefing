@@ -164,6 +164,10 @@ const trenn = (stufe) => A.hinweiseFuerSchritt('ei_trennen', hinweise, daten, st
 ok(trenn('einsteiger') === 'eischnee-kein-eigelb,eischnee-eier-kalt-trennen' && trenn('fortgeschritten') === 'eischnee-kein-eigelb' && trenn('profi') === '', 'Eier trennen: „kein Eigelb“ (4 Sterne, bewiesen) für Einsteiger und Fortgeschrittene, „kalt trennen“ (2 Sterne) nur für Einsteiger');
 const kein = A.hinweisSterne(fh('eischnee-kein-eigelb'), daten);
 ok(kein.sterne === 4 && kein.berechnet === 4 && !kein.manuell, 'kein Eigelb im Eiweiß: spürbar × proven = 4 Sterne, ohne Handanpassung');
+const hs = (schritt, stufe) => A.hinweiseFuerSchritt(schritt, hinweise, daten, stufe).map((h) => h.id).join();
+ok(A.hinweisSterne(fh('hefe-warm-und-zugfrei-gehen'), daten).sterne === 3 && A.hinweisSterne(fh('pfannkuchen-matt-wenden'), daten).sterne === 2, 'Hefe warm gehen: spürbar × wahrscheinlich = 3 Sterne; Pfannkuchen matt wenden: spürbar × vielleicht = 2 Sterne');
+ok(hs('gehen', 'einsteiger') === 'hefe-warm-und-zugfrei-gehen' && hs('gehen', 'fortgeschritten') === 'hefe-warm-und-zugfrei-gehen' && hs('gehen', 'profi') === '', 'Gehen: Hinweis für Einsteiger und Fortgeschrittene, nicht für Profis');
+ok(hs('ausbacken', 'einsteiger') === 'pfannkuchen-matt-wenden' && hs('ausbacken', 'fortgeschritten') === '', 'Ausbacken: 2-Sterne-Hinweis nur für Einsteiger');
 ok(A.hinweiseFuerSchritt('backen', hinweise, daten, 'einsteiger').length === 0 && A.hinweiseFuerSchritt(schritt, null, daten).length === 0, 'andere Schritte und fehlende Daten: keine Hinweise');
 ok(A.hinweiseFuerSchritt(schritt, hinweise, daten, 'einsteiger')[0].titel.includes('3 von 5'), 'Titel nennt Sterne, Wirkung und Gewissheit');
 ok(A.hinweiseFuerSchritt(schritt, hinweise, daten, 'einsteiger').find((h) => h.id === 'eischnee-fettfrei').titel.includes('von Hand angepasst'), 'Titel nennt die Handanpassung samt berechnetem Wert');
