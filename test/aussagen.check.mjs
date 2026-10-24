@@ -51,6 +51,14 @@ const fehlerVon = (d) => A.validieren(d, { regelIds: ids });
 ok(fehlerVon(mk('proven', { nachweis: stud })).length === 0, 'proven mit gültiger begutachteter Studie (DOI, Volltext gelesen) ist erlaubt');
 ok(fehlerVon(mk('never', { nachweis: stud })).length === 0, 'never mit gültiger begutachteter Studie ist erlaubt');
 ok(fehlerVon(mk('proven', {})).some((f) => /Nachweis/.test(f)), 'proven ohne Nachweis wird abgelehnt');
+// T119: Quellen-Haltung fuer | teilweise | gegen
+const mitHaltung = (h) => mk('maybe', { quellen: [{ site: 'beispiel.org', stand: 'gelesen', haltung: h }] });
+ok(A.QUELLEN_HALTUNG.join() === 'fuer,teilweise,gegen', 'Quellen-Haltung: fuer, teilweise, gegen');
+ok(['fuer', 'teilweise', 'gegen'].every((h) => fehlerVon(mitHaltung(h)).length === 0), 'Quelle mit Haltung fuer, teilweise oder gegen ist gültig');
+ok(fehlerVon(mitHaltung('vielleicht')).some((f) => /haltung/.test(f)) && fehlerVon(mitHaltung('')).some((f) => /haltung/.test(f)), 'unbekannte Quellen-Haltung wird gemeldet');
+ok(fehlerVon(mk('maybe', { quellen: [{ site: 'beispiel.org', stand: 'gelesen' }] })).length === 0, 'Haltung bleibt optional');
+const teil = (id) => (daten.regeln[id][0].beleg.quellen || []).filter((q) => q.haltung === 'teilweise').length;
+ok(teil('fett_nicht_zu_warm_zum_temperieren') === 1 && teil('zeit:ruhen') === 1, 'T119: Butter-Schmelzbereich und Gluten-Ruhezeit tragen ihre gelesene Studie mit Haltung teilweise');
 ok(fehlerVon(mk('never', {})).some((f) => /Nachweis/.test(f)), 'never ohne Nachweis wird abgelehnt');
 ok(fehlerVon(mk('proven', { art: 'mechanismus', nachweis: stud })).length > 0, 'proven mit Belegart „mechanismus“ wird abgelehnt (verlangt „gemessen“)');
 ok(fehlerVon(mk('proven', { art: 'konsens', quellen: [{ site: 'x.org', stand: 'gelesen' }] })).length > 0, 'proven auf Konsens vieler Ratgeber wird abgelehnt');

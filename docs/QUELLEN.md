@@ -519,6 +519,6 @@ Quelle: Europe PMC (ebi.ac.uk), REST-Suche nach frei zugänglichen Aufsätzen zu
 |-------|--------|--------|-------|-------|
 | 2026-10-24 | ebi.ac.uk (Europe PMC) | 7 Suchen, 1 Volltext durchsucht | Ruhezeit Teig, Gluten | Gelesen (Auszüge): Food Chemistry: X 2025, DOI 10.1016/j.fochx.2025.102366 (CC BY-NC-ND), Weizenteig mit Walz-Ruhe-Zyklen bei 4 und 35 °C, 30 Min Ruhe. Nach kurzer Ruhe steigen Maximalspannung, Restspannung und Elastizitätsmodul, die Relaxationszeit sinkt; mehr Zyklen senken Steifigkeit und Viskosität. Das ist fester Hefe- und Nudelteig nach mechanischer Dehnung, nicht dünner Teig; es stützt „Ruhe verändert das Gluten“, aber weder das Fenster 15 bis 120 Min noch „zu kurz ruhen macht zäh und blasig“. Keine Treffer zu Pfannkuchen- oder Crêpe-Teig |
 
-Ergebnis: **kein** offener begutachteter Beleg für die Ruhezeit dünner Teige. Die Aussage `zeit:ruhen` bleibt `likely` (Mechanismus, Schätzung). Quellen-Haltung für diese Studie nicht passend (weder `fuer` noch `gegen`), darum nicht in `aussagen.json` eingetragen.
+Ergebnis: **kein** offener begutachteter Beleg für die Ruhezeit dünner Teige. Die Aussage `zeit:ruhen` bleibt `likely` (Mechanismus, Schätzung). Die Studie ist seit T119 mit Haltung `teilweise` in `aussagen.json` eingetragen (stützt nur „Ruhe verändert das Gluten“).
 
 Bilanz T115: Natron, Mayonnaise, Butter und Gluten-Ruhezeit ohne offenen begutachteten Beleg. Die Suche nach offenen Quellen lieferte insgesamt einen Nachweis (Eigelb im Eiweiß).

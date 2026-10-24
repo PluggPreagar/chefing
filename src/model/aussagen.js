@@ -13,6 +13,8 @@ export const BELEG_ART = ['geruecht', 'konsens', 'mechanismus', 'gemessen'];
 export const ZIELE = ['gelingen', 'volumen', 'stabilitaet', 'tempo', 'geschmack'];
 export const RICHTUNG = ['plus', 'minus'];
 export const QUELLEN_STAND = ['gelesen', 'suchtreffer'];
+// Haltung einer Quelle zur Aussage: stützt sie, stützt nur den Mechanismus oder Teile davon (misst die Aussage nicht selbst), widerspricht sie
+export const QUELLEN_HALTUNG = ['fuer', 'teilweise', 'gegen'];
 
 export const WIRKUNG_TEXT = { ohne_folge: 'ohne Folge', leicht: 'leicht', spuerbar: 'spürbar', ausfall: 'Ausfall' };
 export const GEWISSHEIT_TEXT = { never: 'nie', unlikely: 'eher nein', maybe: 'vielleicht', likely: 'wahrscheinlich', surely: 'sicher', proven: 'bewiesen' };
@@ -104,6 +106,7 @@ export function validieren(daten, { regelIds = null } = {}) {
       if (b.quellen != null) {
         if (!Array.isArray(b.quellen) || b.quellen.some((q) => !q || !(q.site || q.ref))) fe(aid, 'beleg.quellen: jeder Eintrag braucht site oder ref');
         for (const q of b.quellen || []) if (q?.stand != null && !QUELLEN_STAND.includes(q.stand)) fe(aid, `quelle ${q.site}: stand „${q.stand}“ unbekannt`);
+        for (const q of b.quellen || []) if (q?.haltung != null && !QUELLEN_HALTUNG.includes(q.haltung)) fe(aid, `quelle ${q.site ?? q.ref}: haltung „${q.haltung}“ unbekannt (fuer | teilweise | gegen)`);
       }
       if (a.schaetzung === true && String(a.begruendung ?? '').trim().length < 10) fe(aid, 'Schätzung braucht eine begruendung');
       if (frei) {
