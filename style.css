@@ -39,10 +39,10 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .tagline { margin: .25rem 0 0; color: var(--muted); max-width: 60ch; }
 .top { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: flex-end; padding: 1.25rem 1.5rem .75rem; }
 .presets { display: flex; flex-wrap: wrap; gap: .5rem; }
-.presets button, .ablauf-ansicht button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; }
-.presets button.is-active, .ablauf-ansicht button.is-active { border-color: var(--best); background: var(--best-bg); font-weight: 600; }
-.presets button.ghost, .ablauf-ansicht button.ghost { color: var(--muted); }
-.presets button.ghost.is-active, .ablauf-ansicht button.ghost.is-active { color: var(--ink); }
+.presets button, .ablauf-ansicht button, .ablauf-stufe button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; }
+.presets button.is-active, .ablauf-ansicht button.is-active, .ablauf-stufe button.is-active { border-color: var(--best); background: var(--best-bg); font-weight: 600; }
+.presets button.ghost, .ablauf-ansicht button.ghost, .ablauf-stufe button.ghost { color: var(--muted); }
+.presets button.ghost.is-active, .ablauf-ansicht button.ghost.is-active, .ablauf-stufe button.ghost.is-active { color: var(--ink); }
 /* Knopfgruppe (DR-045): gleichartige Knöpfe nebeneinander, Ränder verbunden, aktiver hervorgehoben, Gruppe bricht als Ganzes um */
 .knopfgruppe { display: inline-flex; flex-wrap: nowrap; gap: 0 !important; vertical-align: middle; }
 .knopfgruppe > * { position: relative; border-radius: 0 !important; margin-left: -1px; }
@@ -175,6 +175,8 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .k-schritt { color: var(--muted); font-size: 12px; }
 .k-was { color: var(--muted); }
 .k-risiko .k-was { color: var(--warn); }
+.k-tipp { font-size: 12px; }
+.k-tipp .k-was { color: var(--sel); cursor: help; }
 .k-emulsion, .k-gas { font-size: 12px; }
 .k-skizze { margin: .4rem 0 .2rem; }
 .k-skizze figcaption { font-size: 12px; font-weight: 600; }

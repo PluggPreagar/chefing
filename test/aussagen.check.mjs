@@ -26,7 +26,7 @@ ok(fehler.length === 0, 'aussagen.json ist gültig' + (fehler.length ? ': ' + fe
 const frei = Object.keys(daten.regeln).filter((k) => k.startsWith('wissen:'));
 const gebunden = Object.keys(daten.regeln).filter((k) => !k.startsWith('wissen:'));
 ok(ids.size === 74 && gebunden.length === 74 && [...ids].every((i) => daten.regeln[i]), 'jede der 74 Regeln (Grenzen, Voraussetzungen, Erfahrungsregeln, Tipps) hat mindestens eine Aussage');
-ok(frei.length === 7, 'sieben freie Eischnee-/Buttercreme-Aussagen (T108)');
+ok(frei.length === 8, 'acht freie Eischnee-/Buttercreme-Aussagen (T108, dazu „Eier kalt trennen“ für T112)');
 ok(Object.values(daten.regeln).flat().every((a) => a.schaetzung === true && a.begruendung), 'alle heutigen Werte sind als Schätzung mit Begründung gekennzeichnet');
 const extremImBestand = Object.values(daten.regeln).flat().filter((a) => a.gewissheit === 'never' || a.gewissheit === 'proven');
 ok(extremImBestand.every((a) => a.beleg.art === 'gemessen' && A.nachweisGueltig(a.beleg.nachweis)), 'jede Aussage auf never/proven im Bestand trägt einen gültigen wissenschaftlichen Nachweis');
@@ -129,6 +129,62 @@ ok(Object.keys(c2.marken).length === 0 && c2.status !== 'invalid', 'Preset ohne 
 ok(c1.status === c0.status && JSON.stringify(c1.warnungen) === JSON.stringify(c0.warnungen) && JSON.stringify(c1.gruende) === JSON.stringify(c0.gruende), 'Marken ändern weder Status noch Meldungstexte');
 const v1 = { hart: [{ id: 'a', groesse: 'wasser', ziel: 'fluessigkeit', text: 'A.', kurz: 'a' }, { id: 'b', groesse: 'eiweiss', ziel: 'fluessigkeit', text: 'B.', kurz: 'b' }], empfohlen: [] };
 ok(grenzenBuendelnMitIds(v1).hart[0].ids.join() === 'a,b' && grenzenBuendeln(v1).hart[0] === grenzenBuendelnMitIds(v1).hart[0].text, 'grenzenBuendelnMitIds behält die ids; grenzenBuendeln liefert denselben Text');
+
+// --- Hinweise mit Sternen und Nutzerstufe (DR-075, T112–T114) -------------------------------------------------------------------------
+const hinweise = J('hinweise');
+const schrittKeys = A.schrittKeysAusDaten(data);
+ok(A.hinweiseValidieren(hinweise, daten, schrittKeys).length === 0, 'hinweise.json ist gültig: ids, Schritte, Aussagen, Sterne-Overrides' + (A.hinweiseValidieren(hinweise, daten, schrittKeys).length ? ': ' + A.hinweiseValidieren(hinweise, daten, schrittKeys).join(' | ') : ''));
+ok(A.STUFEN.join() === 'einsteiger,fortgeschritten,profi' && A.SCHWELLE.einsteiger === 1 && A.SCHWELLE.fortgeschritten === 3 && A.SCHWELLE.profi === 5, 'Stufen: Einsteiger ab 1, Fortgeschritten ab 3, Profi ab 5 Sternen');
+// Formel: Wirkungspunkte (0, 2, 4, 5) × Gewissheitsfaktor (0, 0,4, 0,6, 0,8, 1, 1), gerundet, höchstens 5
+const sb = (wirkung, gewissheit) => A.sterneBerechnet({ wirkung, gewissheit });
+ok(sb('spuerbar', 'likely') === 3, 'spürbar × likely = 3 Sterne (der Eischnee-Hinweis, vom Nutzer so gesetzt)');
+ok(sb('ausfall', 'surely') === 5 && sb('ausfall', 'proven') === 5, 'Ausfall × sicher = 5 Sterne');
+ok(sb('leicht', 'maybe') === 1 && sb('leicht', 'likely') === 2, 'leicht: maybe 1, likely 2');
+ok(sb('ausfall', 'never') === 0 && sb('ohne_folge', 'surely') === 0, 'never und ohne Folge = 0 Sterne');
+ok(sb('ausfall', 'unlikely') === 2 && sb('spuerbar', 'maybe') === 2, 'unlikely und maybe dämpfen: Ausfall × unlikely 2, spürbar × maybe 2');
+const fh = (id) => hinweise.hinweise.find((h) => h.id === id);
+ok(A.hinweisSterne(fh('eischnee-eiweiss-zimmerwarm'), daten).sterne === 3 && !A.hinweisSterne(fh('eischnee-eiweiss-zimmerwarm'), daten).manuell, 'Eischnee zimmerwarm: 3 Sterne berechnet');
+const fett = A.hinweisSterne(fh('eischnee-fettfrei'), daten);
+ok(fett.berechnet === 5 && fett.sterne === 2 && fett.manuell === true && fett.grund.length > 10, 'fettfreie Schüssel: berechnet 5, von Hand auf 2 gesenkt, mit Grund (Profis wissen es)');
+ok(A.hinweisSterne({ aussage: 'gibt:es:nicht' }, daten) === null, 'unbekannte Aussage: keine Sterne');
+const schritt = 'eischnee_schlagen';
+const ids2 = (stufe) => A.hinweiseFuerSchritt(schritt, hinweise, daten, stufe).map((h) => h.id).join();
+ok(ids2('einsteiger') === 'eischnee-eiweiss-zimmerwarm,eischnee-fettfrei', 'Einsteiger sehen beide Hinweise des Schnee-Schritts, wichtigster zuerst');
+ok(ids2('fortgeschritten') === 'eischnee-eiweiss-zimmerwarm', 'Fortgeschrittene sehen nur den 3-Sterne-Hinweis');
+ok(ids2('profi') === '', 'Profis sehen keinen dieser Hinweise (kein Hinweis hat 5 Sterne)');
+ok(A.hinweiseFuerSchritt(schritt, hinweise, daten, 'unbekannt').length === 2, 'unbekannte Stufe fällt auf Einsteiger zurück');
+ok(A.hinweiseFuerSchritt('ei_trennen', hinweise, daten, 'einsteiger').length === 1 && A.hinweiseFuerSchritt('ei_trennen', hinweise, daten, 'fortgeschritten').length === 0, 'Eier kalt trennen: 2 Sterne, nur für Einsteiger');
+ok(A.hinweiseFuerSchritt('backen', hinweise, daten, 'einsteiger').length === 0 && A.hinweiseFuerSchritt(schritt, null, daten).length === 0, 'andere Schritte und fehlende Daten: keine Hinweise');
+ok(A.hinweiseFuerSchritt(schritt, hinweise, daten, 'einsteiger')[0].titel.includes('3 von 5'), 'Titel nennt Sterne, Wirkung und Gewissheit');
+ok(A.hinweiseFuerSchritt(schritt, hinweise, daten, 'einsteiger').find((h) => h.id === 'eischnee-fettfrei').titel.includes('von Hand angepasst'), 'Titel nennt die Handanpassung samt berechnetem Wert');
+// Validator
+const hv = (h) => A.hinweiseValidieren({ hinweise: h }, daten, schrittKeys);
+const gut = { id: 'x', schritt: schritt, text: 'Ein kurzer Hinweistext hier', aussage: 'wissen:eischnee-eiweiss-zimmerwarm-tempo:tempo' };
+ok(hv([gut]).length === 0, 'Validator: gültiger Hinweis geht durch');
+ok(hv([gut, gut]).some((f) => /doppelt/.test(f)), 'Validator: doppelte id');
+ok(hv([{ ...gut, schritt: 'gibt_es_nicht' }]).some((f) => /schritt/.test(f)), 'Validator: unbekannter Schritt');
+ok(hv([{ ...gut, aussage: 'wissen:gibt-es-nicht:tempo' }]).some((f) => /aussage/.test(f)), 'Validator: unbekannte Aussage');
+ok(hv([{ ...gut, aussage: 'wissen:eischnee-eiweiss-zimmerwarm-tempo:volumen' }]).some((f) => /aussage/.test(f)), 'Validator: falsches Ziel an der Aussage');
+ok(hv([{ ...gut, sterne_manuell: 2 }]).some((f) => /sterne_grund/.test(f)), 'Validator: Handwert ohne Grund');
+ok(hv([{ ...gut, sterne_manuell: 7, sterne_grund: 'Ein ausreichend langer Grund' }]).some((f) => /0 bis 5/.test(f)), 'Validator: Handwert außerhalb 0 bis 5');
+ok(hv([{ ...gut, sterne_grund: 'Ein ausreichend langer Grund' }]).some((f) => /ohne sterne_manuell/.test(f)), 'Validator: Grund ohne Handwert');
+ok(hv([{ ...gut, text: 'kurz' }]).some((f) => /text/.test(f)), 'Validator: Text zu kurz');
+// Engine: Hinweise erscheinen am Schritt, gefiltert nach state.stufe; Warnungen bleiben unberührt
+const mitHinweisen = { ...mitAussagen, hinweise };
+const ablaufOf = (zustand, d = mitHinweisen) => compute(zustand, d, ks).ablauf;
+const mitSchnee = (stufe) => ({ ...st('gugelhupf'), techniken: { eier_getrennt: true }, stufe });
+const hat = (a, key) => a.find((s) => s.key === key)?.hinweise?.map((h) => h.id).join() ?? null;
+const aE = ablaufOf(mitSchnee('einsteiger'));
+ok(aE.every((s) => Array.isArray(s.hinweise)), 'jeder Ablauf-Schritt trägt eine Hinweis-Liste (auch leer)');
+ok(hat(aE, 'eischnee_schlagen') === 'eischnee-eiweiss-zimmerwarm,eischnee-fettfrei' && hat(aE, 'ei_trennen') === 'eischnee-eier-kalt-trennen', 'Einsteiger: Hinweise an Schnee-Schlagen und Eier-Trennen');
+const aF = ablaufOf(mitSchnee('fortgeschritten'));
+ok(hat(aF, 'eischnee_schlagen') === 'eischnee-eiweiss-zimmerwarm' && hat(aF, 'ei_trennen') === '', 'Fortgeschrittene: nur der 3-Sterne-Hinweis');
+ok(ablaufOf(mitSchnee('profi')).every((s) => s.hinweise.length === 0), 'Profi: keine dieser Hinweise');
+ok(hat(ablaufOf({ ...st('gugelhupf'), stufe: 'einsteiger' }), 'eischnee_schlagen') === null, 'ohne eingeschaltete Eischnee-Technik gibt es den Schritt und seine Hinweise nicht');
+ok(ablaufOf({ ...st('gugelhupf'), techniken: { eier_getrennt: true } }).find((s) => s.key === 'eischnee_schlagen').hinweise.length === 2, 'ohne state.stufe gilt Einsteiger');
+ok(ablaufOf(mitSchnee('einsteiger'), mitAussagen).every((s) => s.hinweise.length === 0), 'ohne data.hinweise: keine Hinweise, kein Fehler');
+const wA = compute(mitSchnee('einsteiger'), mitHinweisen, ks), wP = compute(mitSchnee('profi'), mitHinweisen, ks);
+ok(JSON.stringify(wA.warnungen) === JSON.stringify(wP.warnungen) && JSON.stringify(wA.gruende) === JSON.stringify(wP.gruende) && wA.status === wP.status, 'Warnungen, Gründe und Status hängen nicht von der Nutzerstufe ab');
 
 console.log(fail ? `${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;

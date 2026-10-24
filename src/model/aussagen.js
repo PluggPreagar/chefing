@@ -198,3 +198,77 @@ export function gewissheitVorschlaege(regelUrteile, daten) {
   }
   return vorschlaege;
 }
+
+// --- Hinweise mit Sternen und Nutzerstufe (DR-075, T112–T114) ----------------------------------------------------------------
+// Ein Hinweis (Praxistipp im Ablauf, keine Warnung) gehört zu genau einer Aussage; die Sterne sind seine Wichtigkeit für Einsteiger.
+// Startwert = Wirkungspunkte × Gewissheitsfaktor, gerundet, höchstens 5; `sterne_manuell` (mit `sterne_grund`) überschreibt ihn,
+// wo Vorwissen den Wert ändert. Die Nutzerstufe ist nur die Schwelle, ab der ein Hinweis erscheint.
+export const STUFEN = ['einsteiger', 'fortgeschritten', 'profi'];
+export const STUFE_TEXT = { einsteiger: 'Einsteiger', fortgeschritten: 'Fortgeschritten', profi: 'Profi' };
+export const SCHWELLE = { einsteiger: 1, fortgeschritten: 3, profi: 5 };
+const WIRKUNG_PUNKTE = { ohne_folge: 0, leicht: 2, spuerbar: 4, ausfall: 5 };
+const GEWISSHEIT_FAKTOR = { never: 0, unlikely: 0.4, maybe: 0.6, likely: 0.8, surely: 1, proven: 1 };
+
+// Aussage-id = <regel-id>:<ziel>; die Regel-id kann selbst Doppelpunkte tragen (wissen:name), das Ziel steht nach dem letzten
+export function aussageVon(aussageId, daten) {
+  const i = String(aussageId).lastIndexOf(':');
+  if (i < 0) return null;
+  return aussagenFuer(aussageId.slice(0, i), daten).find((a) => a.ziel === aussageId.slice(i + 1)) ?? null;
+}
+
+export const sterneBerechnet = (a) => Math.min(5, Math.max(0, Math.round(WIRKUNG_PUNKTE[a.wirkung] * GEWISSHEIT_FAKTOR[a.gewissheit])));
+
+// → { sterne, berechnet, manuell, grund, aussage } oder null, wenn die Aussage fehlt
+export function hinweisSterne(h, daten) {
+  const aussage = aussageVon(h?.aussage, daten);
+  if (!aussage) return null;
+  const berechnet = sterneBerechnet(aussage);
+  const manuell = Number.isInteger(h.sterne_manuell);
+  return { sterne: manuell ? h.sterne_manuell : berechnet, berechnet, manuell, grund: manuell ? h.sterne_grund : null, aussage };
+}
+
+// Hinweise eines Schritts, die für die Stufe erscheinen (ab Schwelle), wichtigste zuerst
+export function hinweiseFuerSchritt(schrittKey, hinweiseDaten, daten, stufe = 'einsteiger') {
+  const schwelle = SCHWELLE[stufe] ?? SCHWELLE.einsteiger;
+  const liste = [];
+  for (const h of hinweiseDaten?.hinweise || []) {
+    if (h.schritt !== schrittKey) continue;
+    const s = hinweisSterne(h, daten);
+    if (!s || s.sterne < schwelle) continue;
+    liste.push({
+      id: h.id, text: h.text, sterne: s.sterne, berechnet: s.berechnet, manuell: s.manuell,
+      titel: `Wichtigkeit für Einsteiger: ${s.sterne} von 5 Sternen. Wirkung ${WIRKUNG_TEXT[s.aussage.wirkung]}, Gewissheit ${GEWISSHEIT_TEXT[s.aussage.gewissheit]}${s.manuell ? `; von Hand angepasst (berechnet ${s.berechnet}): ${s.grund}` : ''}.`,
+    });
+  }
+  return liste.sort((a, b) => b.sterne - a.sterne || a.id.localeCompare(b.id));
+}
+
+// Alle Schritt-Schlüssel, an die ein Hinweis andocken kann: Technik-Schritte, Operationen und Schritte der Methoden
+export function schrittKeysAusDaten(data) {
+  const keys = new Set();
+  for (const t of Object.values(data.techniken || {})) if (t && typeof t === 'object') for (const s of Object.values(t.schritte || {})) if (s?.key) keys.add(s.key);
+  for (const k of Object.keys(data.operations || {})) if (!k.startsWith('_')) keys.add(k);
+  for (const m of Object.values(data.methods || {})) for (const e of Array.isArray(m?.sequenz) ? m.sequenz : []) keys.add(typeof e === 'string' ? e : e?.key);
+  keys.delete(undefined);
+  return keys;
+}
+
+export function hinweiseValidieren(hinweiseDaten, aussagenDaten, schrittKeys = null) {
+  const fehler = [];
+  const liste = hinweiseDaten?.hinweise;
+  if (!Array.isArray(liste)) return ['hinweise.json: Feld „hinweise“ fehlt'];
+  const ids = new Set();
+  for (const h of liste) {
+    const id = h?.id ?? '(ohne id)';
+    const fe = (m) => fehler.push(`${id}: ${m}`);
+    if (!h?.id || ids.has(h.id)) fe('id fehlt oder doppelt');
+    ids.add(h?.id);
+    if (String(h?.text ?? '').trim().length < 10) fe('text fehlt');
+    if (schrittKeys && !schrittKeys.has(h?.schritt)) fe(`schritt „${h?.schritt}“ ist kein Schritt der Daten`);
+    if (!aussageVon(h?.aussage, aussagenDaten)) fe(`aussage „${h?.aussage}“ gibt es nicht (Regel-id:Ziel)`);
+    if (h?.sterne_manuell != null && !(Number.isInteger(h.sterne_manuell) && h.sterne_manuell >= 0 && h.sterne_manuell <= 5)) fe('sterne_manuell muss eine ganze Zahl von 0 bis 5 sein');
+    if (h?.sterne_manuell != null && String(h.sterne_grund ?? '').trim().length < 10) fe('sterne_manuell braucht einen sterne_grund');
+    if (h?.sterne_manuell == null && h?.sterne_grund != null) fe('sterne_grund ohne sterne_manuell');
+  }
+  return fehler;
+}

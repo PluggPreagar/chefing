@@ -6,7 +6,7 @@ import { triebQuellen, gasBudget } from './trieb.js';
 import { werkzeugWahl, vorhanden } from './ausstattung.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
-import { markeFuer } from './aussagen.js';
+import { markeFuer, hinweiseFuerSchritt } from './aussagen.js';
 import { bilanz, grenzenPruefen, grenzenFuer, grenzenBuendelnMitIds, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, basisLuecke, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 // Größen, die aus geschätzten Kapazitäten folgen (Natron-Säure-Balance, T37): ihre Grenze trägt die Aussage, kein Vergleich mit den Korpus-Quartilen
@@ -404,6 +404,8 @@ export function compute(state, data, korpusStats) {
   // Gas-Budget (T82, DR-050): Gas je 100 g Teig je Schritt bis zum Erhitzen, Schätzung ohne Dampf
   const gas = gasBudget(ablauf, res.schritte.map((s) => s.op), props, data.triebquellen, { gramm: grammVon, teigmasse });
   gas?.proSchritt.forEach((g, i) => { ablauf[i].gas = g; });
+  // Praxishinweise mit Sternen (DR-075): je Schritt die Hinweise, die für die Nutzerstufe erscheinen (ohne data.hinweise leer)
+  for (const a of ablauf) a.hinweise = hinweiseFuerSchritt(a.key, data.hinweise, data.aussagen, state.stufe);
   // T72 (A): wenig oder kein Backpulver haben nur eierreiche Teige ohne Milch (Sandkuchen, Soufflé-Pancakes, Kaiserschmarrn)
   const mehl = grammVon('struktur');
   const eierJe100 = mehl && props.bindung?.umrechnung?.stk ? (grammVon('bindung') / props.bindung.umrechnung.stk / mehl) * 100 : 0;

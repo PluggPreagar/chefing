@@ -364,8 +364,17 @@ function karte(z, s, ctx) {
     r.append(el('span', 'k-was', 'Risiko '), document.createTextNode(s.risiko));
     k.append(r);
   }
+  for (const h of s.hinweise || []) { // Praxishinweise mit Sternen (DR-075), gefiltert nach der Nutzerstufe
+    const t = el('div', 'k-tipp');
+    const was = el('span', 'k-was', `Tipp ${sterneText(h.sterne)} `);
+    was.title = h.titel;
+    t.append(was, document.createTextNode(h.text));
+    k.append(t);
+  }
   return k;
 }
+
+const sterneText = (n) => '★'.repeat(n) + '☆'.repeat(5 - n);
 
 function knopf(z, s, ctx, groesse = 'gross') {
   const i = ctx.steps.indexOf(s);

@@ -1,0 +1,18 @@
+{
+ "_schema": {
+  "zweck": "Praxishinweise im Ablauf (DR-075), keine Warnungen bei Regelverletzung: Tipps, die einen Schritt leichter machen. Warnungen bleiben immer sichtbar, Hinweise erscheinen je nach Nutzerstufe.",
+  "id": "stabiler Schlüssel, eindeutig",
+  "schritt": "Schlüssel des Schritts, an dem der Hinweis erscheint (Schritt einer Technik, Operation oder Methode); er erscheint nur, wenn dieser Schritt im Ablauf steht",
+  "text": "ein bis zwei kurze Sätze, nur eigene Formulierung",
+  "aussage": "genau eine Aussage aus aussagen.json als <regel-id>:<ziel>; ihre Wirkung und Gewissheit liefern den Startwert der Sterne. Ein Hinweis, der mehrere Aussagen zusammenfasst, wird in mehrere Hinweise geteilt.",
+  "sterne": "wird nicht gespeichert: Wirkungspunkte (ohne Folge 0, leicht 2, spürbar 4, Ausfall 5) mal Gewissheitsfaktor (never 0, unlikely 0,4, maybe 0,6, likely 0,8, surely und proven 1), gerundet, höchstens 5",
+  "sterne_manuell": "optional, 0 bis 5: überschreibt den berechneten Wert, wo Vorwissen ihn ändert (was Profis längst wissen, bekommt weniger Sterne). Braucht sterne_grund.",
+  "sterne_grund": "Pflicht bei sterne_manuell: warum der Wert vom berechneten abweicht",
+  "stufen": "Einsteiger sehen Hinweise ab 1 Stern, Fortgeschrittene ab 3, Profis ab 5 (DR-075)"
+ },
+ "hinweise": [
+  {"id": "eischnee-eiweiss-zimmerwarm", "schritt": "eischnee_schlagen", "text": "Das Eiweiß vor dem Schlagen zimmerwarm werden lassen, dann wird es schneller zu Schnee.", "aussage": "wissen:eischnee-eiweiss-zimmerwarm-tempo:tempo"},
+  {"id": "eischnee-eier-kalt-trennen", "schritt": "ei_trennen", "text": "Die Eier kalt trennen, dann reißt der Dotter seltener.", "aussage": "wissen:eier-kalt-trennen-leichter:gelingen"},
+  {"id": "eischnee-fettfrei", "schritt": "eischnee_schlagen", "text": "Schüssel und Besen fettfrei halten: schon ein Fettrest verhindert, dass das Eiweiß steif wird.", "aussage": "wissen:eischnee-fettfreie-schuessel:gelingen", "sterne_manuell": 2, "sterne_grund": "Die Wirkung ist Ausfall und die Gewissheit hoch, aber Fortgeschrittene und Profis kennen die Regel längst; nur Einsteiger sollen sie sehen."}
+ ]
+}

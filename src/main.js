@@ -11,6 +11,7 @@ import { renderKandidaten } from './ui/kandidaten.js';
 import { sendeOffene } from './model/rueckmeldung.js';
 import { alsEintraege, presetPatch, archetypPatch } from './model/zustand.js';
 import { initFehlerMelden } from './ui/fehlerMelden.js';
+import { STUFEN, STUFE_TEXT, SCHWELLE } from './model/aussagen.js';
 
 async function loadJson(path) {
   const r = await fetch(path, { cache: 'no-cache' });
@@ -18,12 +19,12 @@ async function loadJson(path) {
   return r.json();
 }
 
-const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge, zustaende, aussagen] = await Promise.all(
-  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen', 'modelle', 'temperaturen', 'orte', 'techniken', 'triebquellen', 'werkzeuge', 'zustaende', 'aussagen'].map((n) => loadJson(`./src/data/${n}.json`)),
+const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge, zustaende, aussagen, hinweise] = await Promise.all(
+  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen', 'modelle', 'temperaturen', 'orte', 'techniken', 'triebquellen', 'werkzeuge', 'zustaende', 'aussagen', 'hinweise'].map((n) => loadJson(`./src/data/${n}.json`)),
 );
 const archetypKeys = Object.keys(archetypes).filter((k) => !k.startsWith('_'));
 let arch = archetypes[archetypKeys[0]]; // aktiver Archetyp; waehleArchetyp() setzt ihn zusammen mit data.arch und state.archetyp
-const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge, zustaende, aussagen, arch };
+const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge, zustaende, aussagen, hinweise, arch };
 
 // Normalisierte Rezeptlisten bleiben erhalten (nicht nur die aggregierten `stats()`) — die
 // Korrelationssuche (DR-019 Punkt 5, T32) braucht die Rezepte einzeln, um Bäckerprozent bedingt
@@ -41,8 +42,13 @@ for (const key of archetypKeys) {
   }
 }
 
+// Nutzerstufe (DR-075): Schwelle für Praxishinweise (Einsteiger ab 1 Stern, Fortgeschritten ab 3, Profi ab 5); Wahl je Browser, Vorgabe Einsteiger
+let gemerkteStufe = 'einsteiger';
+try { const s = localStorage.getItem('chefing.stufe'); if (STUFEN.includes(s)) gemerkteStufe = s; } catch { /* ohne Speicher: Einsteiger */ }
+
 const state = {
   archetyp: archetypKeys[0],
+  stufe: gemerkteStufe,
   gefaess: null,
   methode: null,
   // fixiert.rollen[rolle] = true: ganze Rolle bewusst fixiert (DR-019 Wert-Zustand "gesetzt-fix",
@@ -94,6 +100,33 @@ function ablaufAnsicht() {
   }
 }
 ablaufAnsicht();
+
+// Stufen-Schalter im Kopf des Ablaufs (DR-075): wie viele Praxishinweise erscheinen; Warnungen bleiben immer sichtbar.
+// Fehlt die Knopfgruppe (ältere index.html aus dem Cache, DR-037), wird sie angelegt.
+function ablaufStufe() {
+  let g = $('ablauf-stufe');
+  if (!g) {
+    g = Object.assign(document.createElement('span'), { id: 'ablauf-stufe', className: 'knopfgruppe ablauf-stufe' });
+    g.setAttribute('role', 'group');
+    g.setAttribute('aria-label', 'Erfahrung: wie viele Hinweise');
+    for (const k of STUFEN) {
+      const b = Object.assign(document.createElement('button'), { type: 'button', className: 'ghost', textContent: STUFE_TEXT[k] });
+      b.dataset.stufe = k;
+      g.append(b);
+    }
+    $('ablauf-ansicht').after(g);
+  }
+  for (const b of g.querySelectorAll('[data-stufe]')) {
+    const k = b.dataset.stufe;
+    b.title = `${STUFE_TEXT[k]}: Hinweise ab ${SCHWELLE[k]} ${SCHWELLE[k] === 1 ? 'Stern' : 'Sternen'}`;
+    b.addEventListener('click', () => {
+      state.stufe = k;
+      try { localStorage.setItem('chefing.stufe', k); } catch { /* nur für diese Sitzung */ }
+      render();
+    });
+  }
+}
+ablaufStufe();
 
 // Knopfgruppe der Varianten (DR-045); fehlt sie (ältere index.html aus dem Browser-Cache, DR-037), wird sie angelegt
 function presetGruppe() {
@@ -170,6 +203,7 @@ function render() {
   $('kompakt').hidden = !kompakt;
   if (kompakt) renderKompakt($('kompakt'), computed, data); else renderFlow($('flow'), computed, data);
   document.querySelectorAll('[data-ansicht]').forEach((b) => { b.classList.toggle('is-active', b.dataset.ansicht === ansicht); b.setAttribute('aria-pressed', String(b.dataset.ansicht === ansicht)); });
+  document.querySelectorAll('[data-stufe]').forEach((b) => { b.classList.toggle('is-active', b.dataset.stufe === state.stufe); b.setAttribute('aria-pressed', String(b.dataset.stufe === state.stufe)); });
   renderRecipe($('recipe'), computed, state, data, update);
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }
