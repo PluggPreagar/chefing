@@ -41,7 +41,8 @@ ok(['eischnee-kalte-geraete'].every((k) => daten.regeln['wissen:' + k][0].gewiss
 ok(daten.regeln['wissen:eischnee-eiweiss-kalt-stabiler'][0].gewissheit === 'maybe' && daten.regeln['wissen:eischnee-eiweiss-kalt-stabiler'][0].beleg.art === 'geruecht', 'T108: „kalt ist stabiler“ bleibt Gerücht und maybe');
 ok(daten.regeln.eier_nicht_kalt[0].beleg.art === 'konsens' && daten.regeln.eier_nicht_kalt[0].gewissheit === 'likely', 'T104: eier_nicht_kalt = Konsens, likely (Tipp mit Evidenz 3)');
 const tippEv = (id) => tipps.tipps.find((t) => t.id === id).evidenz;
-ok(tipps.tipps.every((t) => { const a = daten.regeln[t.id][0]; return t.evidenz === 3 ? a.beleg.art === 'konsens' && a.gewissheit === 'likely' : t.evidenz === 2 ? a.beleg.art === 'konsens' && a.gewissheit === 'maybe' : a.beleg.art === 'geruecht' && a.gewissheit === 'maybe'; }), 'T104: evidenz 3 → Konsens/likely, 2 → Konsens/maybe, 1 → Gerücht/maybe');
+// Die Startschätzung gilt für jeden Tipp, den T118 nicht von Hand eingestuft hat (dort steht „T118“ in der Begründung)
+ok(tipps.tipps.every((t) => { const a = daten.regeln[t.id][0]; if (/T118/.test(a.begruendung)) return true; return t.evidenz === 3 ? a.beleg.art === 'konsens' && a.gewissheit === 'likely' : t.evidenz === 2 ? a.beleg.art === 'konsens' && a.gewissheit === 'maybe' : a.beleg.art === 'geruecht' && a.gewissheit === 'maybe'; }), 'T104: evidenz 3 → Konsens/likely, 2 → Konsens/maybe, 1 → Gerücht/maybe');
 ok(tippEv('ruehrteig-gerinnt-kalte-zutaten') === 3, 'Bezugsdatum stimmt: der Tipp zu kalten Eiern hat Evidenz 3');
 
 // --- Strenge Nachweis-Pflicht (Nutzer-Vorgabe: never/proven nur mit wissenschaftlichem Beweis) ----------------------------------
@@ -57,6 +58,13 @@ ok(A.QUELLEN_HALTUNG.join() === 'fuer,teilweise,gegen', 'Quellen-Haltung: fuer, 
 ok(['fuer', 'teilweise', 'gegen'].every((h) => fehlerVon(mitHaltung(h)).length === 0), 'Quelle mit Haltung fuer, teilweise oder gegen ist gültig');
 ok(fehlerVon(mitHaltung('vielleicht')).some((f) => /haltung/.test(f)) && fehlerVon(mitHaltung('')).some((f) => /haltung/.test(f)), 'unbekannte Quellen-Haltung wird gemeldet');
 ok(fehlerVon(mk('maybe', { quellen: [{ site: 'beispiel.org', stand: 'gelesen' }] })).length === 0, 'Haltung bleibt optional');
+// T118: Handeinschätzung der ersten Prüfkandidaten, nie über „sicher“ ohne Nachweis
+const ae = (id) => daten.regeln[id][0];
+ok(ae('butter-zu-kalt-aufschlagen').gewissheit === 'likely' && ae('hefe-zu-wenig-kneten').gewissheit === 'likely' && ae('hefe-fluessigkeit-zu-heiss').gewissheit === 'surely', 'T118: Butter kalt und zu wenig kneten wahrscheinlich, Hefe zu heiß sicher (wie die Schwesterregel)');
+ok(ae('hefe-fluessigkeit-zu-heiss').gewissheit === daten.regeln.hefe_fluessigkeit_zu_heiss[0].gewissheit && ae('hefe-fluessigkeit-zu-heiss').siehe.includes('hefe_fluessigkeit_zu_heiss'), 'T118: Tipp und Regel zu heißer Flüssigkeit haben dieselbe Gewissheit und verweisen aufeinander');
+ok(ae('hefe-salz-direkt').wirkung === 'leicht' && ae('hefe-alt-oder-kalte-flaeche').wirkung === 'leicht' && ae('hefe-salz-direkt').gewissheit === 'maybe', 'T118: Salz auf der Hefe und alte Hefe nur leicht, weiter vielleicht');
+ok(['fett_max_hart', 'hf_fett_max_hart', 'hf_hefe_max_hart'].every((id) => ae(id).gewissheit === 'likely' && /T118/.test(ae(id).begruendung) && /Korpus/.test(ae(id).begruendung)), 'T118: harte Grenzen bleiben wahrscheinlich, die Begründung nennt den Korpus-Bereich');
+ok(['oel_tropfen', 'oel_strahl_mayo', 'puerieren', 'puerieren_einlaufen'].every((k) => ae('emulsion:' + k).gewissheit === 'likely' && /T115/.test(ae('emulsion:' + k).begruendung)), 'T118: Mayonnaise-Aussagen bleiben wahrscheinlich, die erfolglose Suche steht in der Begründung');
 const teil = (id) => (daten.regeln[id][0].beleg.quellen || []).filter((q) => q.haltung === 'teilweise').length;
 ok(teil('fett_nicht_zu_warm_zum_temperieren') === 1 && teil('zeit:ruhen') === 1, 'T119: Butter-Schmelzbereich und Gluten-Ruhezeit tragen ihre gelesene Studie mit Haltung teilweise');
 ok(fehlerVon(mk('never', {})).some((f) => /Nachweis/.test(f)), 'never ohne Nachweis wird abgelehnt');

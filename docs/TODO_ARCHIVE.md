@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T118 | Prüf-Priorität abarbeiten (erste 15) | done | Gegenprobe am Korpus, Negativ-Korpus und den gelesenen Quellen; drei Aussagen angehoben, zwei in der Wirkung gesenkt, übrige Begründungen mit Korpus-Zahlen ergänzt. Alles Handeinschätzung. Weitere Kandidaten der Liste: `hf_hefe_min_hart`, `hf_salz_max_hart`, `hf_wasser_max_hart`. | DR-074, T115 |
 | T119 | Quellen-Haltung „teilweise“ im Aussagen-Schema | done | `QUELLEN_HALTUNG` mit `fuer`, `teilweise`, `gegen`, Validator, Test, Schema-Text; Butter-Quelle von `fuer` auf `teilweise`, Gluten-Studie bei `zeit:ruhen` nachgetragen. | DR-074 |
 | T117 | Muffin-Ofentemperatur als Hinweis | done | Hinweis `muffin-heisser-ofen` am Schritt `backen`, 2 Sterne (nur Einsteiger). Beim Umsetzen zeigte sich: die Muffin-Methode ist nicht dasselbe wie Muffins (Variante folgt aus dem Gefäß), darum neues Hinweis-Feld `variante` statt `methode`; `methode` bleibt im Schema, ungenutzt. | DR-075 |
 | T115 | Weitere Nachweise aus offenen Quellen | done | Regeltext zu Natron korrigiert (ab etwa 80 °C, nur halbes CO₂, seifig), Hinweis „Kein Eigelb ins Eiweiß“ mit 4 Sternen am Schritt `ei_trennen`. Mayonnaise-Ölzugabe, Butter-Schmelzbereich (Milchfett breit bis etwa 40 °C, Quelle ergänzt) und Gluten-Ruhezeit durchsucht, ohne offenen begutachteten Beleg; die Aussagen bleiben Schätzungen. | DR-074 |

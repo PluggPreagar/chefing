@@ -522,3 +522,23 @@ Quelle: Europe PMC (ebi.ac.uk), REST-Suche nach frei zugänglichen Aufsätzen zu
 Ergebnis: **kein** offener begutachteter Beleg für die Ruhezeit dünner Teige. Die Aussage `zeit:ruhen` bleibt `likely` (Mechanismus, Schätzung). Die Studie ist seit T119 mit Haltung `teilweise` in `aussagen.json` eingetragen (stützt nur „Ruhe verändert das Gluten“).
 
 Bilanz T115: Natron, Mayonnaise, Butter und Gluten-Ruhezeit ohne offenen begutachteten Beleg. Die Suche nach offenen Quellen lieferte insgesamt einen Nachweis (Eigelb im Eiweiß).
+
+## 2026-10-24 — Prüf-Priorität, erste 15 Aussagen (T118)
+
+Keine neue Web-Recherche; Gegenprobe der Aussagen am eigenen Korpus (`src/data/corpus/`), am Negativ-Korpus (`node tools/negativ.mjs`) und an den schon gelesenen offenen Quellen (Milchfett, Hefe-Hitze).
+
+| aussage | vorher | nachher | grund |
+|---------|--------|---------|-------|
+| butter-zu-kalt-aufschlagen | vielleicht, Konsens | wahrscheinlich, Mechanismus | Mechanismus bekannt (kalte Butter lässt sich nicht verformen), zwei Ratgeber, Milchfett-Studie teilweise |
+| hefe-fluessigkeit-zu-heiss | wahrscheinlich, Konsens | sicher, Mechanismus | gleiche Aussage wie die Regel `hefe_fluessigkeit_zu_heiss` (dort sicher); Studie als Quelle teilweise ergänzt |
+| hefe-zu-wenig-kneten | vielleicht, Konsens | wahrscheinlich, Mechanismus | Klebergerüst hält das Gas (wie `hefe_braucht_gluten`), zwei Ratgeber |
+| hefe-salz-direkt | spürbar, vielleicht | leicht, vielleicht | Kontakt kurz, Flüssigkeit verdünnt; Bäckerwissen, nicht belegt |
+| hefe-alt-oder-kalte-flaeche | spürbar, vielleicht | leicht, vielleicht | zwei Ursachen in einer Aussage, bremst aber bricht selten |
+| hefe-viel-fett-zucker, hefe-zu-trocken | vielleicht | vielleicht | Begründung ergänzt: Korpus Hefezopf Median 2,0 % Hefe bei 33 % Fett plus Zucker, Weißbrot 0,2 % bei 7 % (Führung unterscheidet sich, kein Beleg) |
+| fett_max_hart (150 %) | wahrscheinlich | wahrscheinlich | Korpus bis 108 %, ein schwacher Fehlschlag bei 182,6 % (Verlässlichkeit 1) |
+| hf_fett_max_hart (70 %) | wahrscheinlich | wahrscheinlich | Korpus bis 34 %, dazwischen keine Daten, Zahl ungeprüft |
+| hf_hefe_max_hart (20 %) | wahrscheinlich | wahrscheinlich | Korpus bis 7,0 %, einziger Hefe-Fehlschlag (5,6 %) kommt von der Gärzeit |
+| emulsion: oel_tropfen, oel_strahl_mayo, puerieren, puerieren_einlaufen | wahrscheinlich | wahrscheinlich | offene Suche (T115) ohne Beleg, Negativ-Korpus ohne Mayonnaise-Fälle |
+| gaerung_modell | vielleicht | vielleicht | Passgüte R² 0,80 (bei 25 °C 0,77), Daten nur 5,5 bis 35 °C |
+
+Alle Änderungen sind Handeinschätzungen ohne Nachweis; `never` und `proven` kommen nicht vor. Offene, noch ungeprüfte Kandidaten: `hf_hefe_min_hart`, `hf_salz_max_hart`, `hf_wasser_max_hart` (nächste Plätze der Prüf-Priorität).
