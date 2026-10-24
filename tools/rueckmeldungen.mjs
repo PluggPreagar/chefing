@@ -9,6 +9,7 @@ import fs from 'fs';
 
 const wurzel = new URL('../src/', import.meta.url);
 const { auswerten, klasseVon, MIN_BERICHT_N, PROZESS_FEHLER } = await import(new URL('model/rueckmeldung.js', wurzel));
+const { gewissheitVorschlaege, GEWISSHEIT_TEXT } = await import(new URL('model/aussagen.js', wurzel));
 
 const datei = process.argv[2];
 if (!datei) { console.log('Aufruf: node tools/rueckmeldungen.mjs <feedback.jsonl> [--min N]'); process.exit(1); }
@@ -31,6 +32,14 @@ console.log('Regeln, die dem Nutzer etwas gesagt haben (Warnung/Hinweis/Blockade
 console.log('  id'.padEnd(36), 'n'.padStart(3), 'klappt'.padStart(8), 'geht so'.padStart(8), 'nicht'.padStart(8), '  Urteil');
 for (const r of a.regeln) console.log(`  ${r.id}`.padEnd(36), String(r.n).padStart(3), prozent(r, 'klappt').padStart(8), prozent(r, 'abweichung').padStart(8), prozent(r, 'nicht').padStart(8), ' ', r.urteil);
 if (!a.regeln.length) console.log('  (noch keine)');
+
+// Gewissheit schärfen (DR-074, T107): nur Vorschläge, der Maintainer ändert src/data/aussagen.json von Hand. Rückmeldungen sind kein
+// wissenschaftlicher Beleg — Vorschläge bleiben zwischen „eher nein“ und „sicher“, never/proven kommen nie dabei heraus.
+const aussagenDaten = JSON.parse(fs.readFileSync(new URL('data/aussagen.json', wurzel), 'utf8'));
+const vorschlaege = gewissheitVorschlaege(a.regeln, aussagenDaten);
+console.log('\nGewissheit der Aussagen (Vorschläge, Freigabe von Hand in src/data/aussagen.json):');
+for (const v of vorschlaege) console.log(`  ${v.aussage.padEnd(44)} ${GEWISSHEIT_TEXT[v.von]} → ${GEWISSHEIT_TEXT[v.nach]}   ${v.grund}`);
+if (!vorschlaege.length) console.log('  (keine — es fehlen Meldungen mit eindeutigem Urteil)');
 
 console.log('\nRezepte ohne jede Meldung (hier zeigen sich fehlende Regeln):');
 console.log('  Variante/Methode'.padEnd(36), 'n'.padStart(3), 'klappt'.padStart(8), 'geht so'.padStart(8), 'nicht'.padStart(8), '  Urteil');

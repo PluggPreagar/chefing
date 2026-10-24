@@ -7,11 +7,11 @@ import { vorbereitenZeile } from './zustandLink.js';
 // (passiv=Einlegen/Ruhen, sanft=Mischen-S, kraeftig=Schlagen), statt drei
 // eigene Verben zu pflegen.
 const MISCHEN_ICON = { passiv: 'vorbereiten', sanft: 'mischen', kraeftig: 'schlagen' };
-const verbIcon = (s) => (s.verb === 'mischen' ? (MISCHEN_ICON[s.intensitaet] ?? 'mischen') : s.verb);
+export const verbIcon = (s) => (s.verb === 'mischen' ? (MISCHEN_ICON[s.intensitaet] ?? 'mischen') : s.verb);
 
 // Wirkzeit (DR-024/T44, DR-043) zeigt eine Uhr der nächstliegenden Dauer-Stufe.
 const DAUER_STUFEN = [5, 10, 15, 30, 45, 60];
-const dauerIconKey = (min) => `dauer_${DAUER_STUFEN.reduce((a, m) => (Math.abs(m - min) < Math.abs(a - min) ? m : a), DAUER_STUFEN[0])}`;
+export const dauerIconKey = (min) => `dauer_${DAUER_STUFEN.reduce((a, m) => (Math.abs(m - min) < Math.abs(a - min) ? m : a), DAUER_STUFEN[0])}`;
 
 const vorgaengerVon = (s, i, steps) => s.nach ?? (i > 0 ? [steps[i - 1].nr] : []);
 const ohneKlammer = (t) => String(t).replace(/\s*\(.*?\)/g, '').trim();
@@ -39,7 +39,7 @@ export function stromModell(steps, orte = {}, vessel = null) {
   const plan = planeAblauf(steps);
   const gesehen = new Set();
   const neu = steps.map((s) => (s.zutaten || []).filter((z) => !gesehen.has(z.rolle) && gesehen.add(z.rolle))
-    .map((z) => ({ label: ohneKlammer(z.label), kategorie: z.kategorie, icon: z.icon ?? z.kategorie, teil: !!z.teil, gramm: z.gramm ?? 0, geteilt: !!z.geteilt })));
+    .map((z) => ({ rolle: z.rolle, label: ohneKlammer(z.label), kategorie: z.kategorie, icon: z.icon ?? z.kategorie, teil: !!z.teil, gramm: z.gramm ?? 0, geteilt: !!z.geteilt })));
   const alleNachfolger = steps.map((s, i) => steps.map((t, j) => j).filter((j) => j > i && vorgaengerVon(steps[j], j, steps).includes(s.nr)));
   const istNeben = (i) => !!orte[steps[i].ort]?.neben;
   const ziel = steps.map((_, i) => {

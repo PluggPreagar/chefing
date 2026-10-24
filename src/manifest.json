@@ -1,5 +1,6 @@
 [
  "src/main.js",
+ "src/model/aussagen.js",
  "src/model/ausstattung.js",
  "src/model/bilanz.js",
  "src/model/corpus.js",
@@ -28,6 +29,7 @@
  "src/ui/flow.js",
  "src/ui/icons.js",
  "src/ui/kandidaten.js",
+ "src/ui/kompakt.js",
  "src/ui/morphbox.js",
  "src/ui/recipeCard.js",
  "src/ui/rueckfragen.js",

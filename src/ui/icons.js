@@ -115,8 +115,22 @@ const ICONS_ORT = {
   ort_ofen: ortIcon('M4 3.5h16v17H4z', 'M4 8h16', 'M8 11.5h8v5.5H8z'),
 };
 
+// Kompakt-Ansicht (DR-073): Knotenkette mit Zuflüssen von rechts — Bild der Ansicht als Einladung auf dem Knopf
+const ICONS_ANSICHT = {
+  ansicht_kompakt: [
+    { tag: 'path', attrs: { d: 'M7 5V19', fill: 'none', stroke: F, 'stroke-width': 1.6 } },
+    { tag: 'circle', attrs: { cx: 7, cy: 5, r: 2.6, fill: F } },
+    { tag: 'circle', attrs: { cx: 7, cy: 12, r: 2.6, fill: F } },
+    { tag: 'circle', attrs: { cx: 7, cy: 19, r: 2.6, fill: F } },
+    { tag: 'path', attrs: { d: 'M19 5H11.5M19 12H11.5', fill: 'none', stroke: F, 'stroke-width': 1.6, 'stroke-linecap': 'round' } },
+    { tag: 'circle', attrs: { cx: 20.5, cy: 5, r: 1.8, fill: F } },
+    { tag: 'circle', attrs: { cx: 20.5, cy: 12, r: 1.8, fill: F } },
+  ],
+};
+
 export const ICONS = {
   ...ICONS_ORT,
+  ...ICONS_ANSICHT,
 
   // --- Dauer (5/10/15/30/45/60 Min.) --------------------------------------
   ...ICONS_DAUER,

@@ -1,4 +1,5 @@
 import { fmtProzent } from '../model/bilanz.js';
+import { WIRKUNG_TEXT, GEWISSHEIT_TEXT } from '../model/aussagen.js';
 import { overrideErfassen, overridesFuer } from '../model/overrides.js';
 import { fmtZeit } from '../model/zeit.js';
 import { renderRueckmeldung } from './rueckmeldung.js';
@@ -28,7 +29,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   if (computed.trieb?.zeile) root.append(el('p', 'trieb-zeile', computed.trieb.zeile)); // Triebquellen (T80, DR-049)
   if (computed.gas?.zeile) root.append(el('p', 'trieb-zeile', computed.gas.zeile)); // Gas-Budget (T82, DR-050)
 
-  for (const g of computed.gruende) root.append(el('p', 'note note-bad', g));
+  for (const g of computed.gruende) root.append(mitMarke(el('p', 'note note-bad', g), computed.marken?.[g]));
   // Kaskaden-Vorschlag (DR-019/T27): zeigt den in T26 berechneten Ersatzkandidaten mit
   // Bestätigen-Button. Nichts ändert sich, bis der Nutzer klickt — kein stilles Umschalten.
   for (const k of computed.kaskaden || []) root.append(kaskadenVorschlag(k, state, data, onChange));
@@ -40,7 +41,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   // Nutzer diese `hart`-Regel bewusst für falsch/zu streng hält, für die Rückfrage in T28.
   for (const b of computed.blockaden || []) root.append(blockadeOverride(b, state, data, onChange));
   if (computed.zustaende?.length) root.append(vorbereitenZeile(computed.zustaende, 'note note-info vorbereiten', true)); // DR-064/DR-068: kurz, Teile verlinken auf die Klappe an der Zutat
-  for (const w of computed.warnungen) root.append(el('p', 'note note-warn', w));
+  for (const w of computed.warnungen) root.append(mitMarke(el('p', 'note note-warn', w), computed.marken?.[w]));
   for (const a of computed.anpassungen) root.append(el('p', 'note note-info', a));
   for (const h of computed.toleranzHinweise || []) root.append(el('p', 'note note-info', h));
 
@@ -245,6 +246,19 @@ function zustandKlappe(z, state, onChange) {
   d.append(ul);
   return d;
 }
+// Marke an einer Meldung (DR-074): Wirkung und Gewissheit der dahinterliegenden Aussagen; unter „wahrscheinlich“ als Verdacht
+function mitMarke(p, m) {
+  if (!m) return p;
+  const s = el('span', `marke${m.verdacht ? ' marke-verdacht' : ''}`);
+  s.title = m.titel;
+  s.append(
+    el('span', 'marke-teil', `Wirkung ${WIRKUNG_TEXT[m.wirkung]}`),
+    el('span', 'marke-teil', m.verdacht ? `Verdacht: ${GEWISSHEIT_TEXT[m.gewissheit]}` : `Gewissheit ${GEWISSHEIT_TEXT[m.gewissheit]}`),
+  );
+  p.append(s);
+  return p;
+}
+
 function el(tag, cls, text) {
   const e = document.createElement(tag);
   if (cls) e.className = cls;

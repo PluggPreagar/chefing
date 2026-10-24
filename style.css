@@ -39,10 +39,10 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .tagline { margin: .25rem 0 0; color: var(--muted); max-width: 60ch; }
 .top { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: flex-end; padding: 1.25rem 1.5rem .75rem; }
 .presets { display: flex; flex-wrap: wrap; gap: .5rem; }
-.presets button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; }
-.presets button.is-active { border-color: var(--best); background: var(--best-bg); font-weight: 600; }
-.presets button.ghost { color: var(--muted); }
-.presets button.ghost.is-active { color: var(--ink); }
+.presets button, .ablauf-ansicht button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; }
+.presets button.is-active, .ablauf-ansicht button.is-active { border-color: var(--best); background: var(--best-bg); font-weight: 600; }
+.presets button.ghost, .ablauf-ansicht button.ghost { color: var(--muted); }
+.presets button.ghost.is-active, .ablauf-ansicht button.ghost.is-active { color: var(--ink); }
 /* Knopfgruppe (DR-045): gleichartige Knöpfe nebeneinander, Ränder verbunden, aktiver hervorgehoben, Gruppe bricht als Ganzes um */
 .knopfgruppe { display: inline-flex; flex-wrap: nowrap; gap: 0 !important; vertical-align: middle; }
 .knopfgruppe > * { position: relative; border-radius: 0 !important; margin-left: -1px; }
@@ -184,6 +184,24 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .k-emulsion.ist-problem { color: var(--warn); }
 .strom-fuss { font-size: 11px; color: var(--muted); margin: 6px 0 0 52px; }
 .strom-vorbereiten { font-size: 12px; color: var(--muted); margin: 0 0 8px; }
+/* Kompakt-Ansicht (DR-073): nur Icons, Zeit nach unten, Name und Menge beim Antippen */
+.ablauf-ansicht { margin-left: auto; }
+.ablauf-ansicht .icon { vertical-align: -3px; margin-right: .3rem; }
+.kompakt-bild { overflow-x: auto; }
+.kompakt-svg { display: block; color: var(--ink); }
+.kompakt-linie { fill: none; stroke: var(--c); stroke-width: 2.5; stroke-linecap: round; }
+.kompakt-linie.ist-quelle { stroke-dasharray: 4 3; }
+.kompakt-zufluss { stroke: var(--muted); stroke-width: 1.5; }
+.kompakt-spitze { fill: var(--muted); }
+.kompakt-knoten { cursor: pointer; }
+.kompakt-knoten circle { fill: var(--panel); stroke: var(--c); stroke-width: 2; }
+.kompakt-knoten.ist-warten circle { stroke-dasharray: 3 2; }
+.kompakt-knoten:hover circle, .kompakt-knoten:focus-visible circle { stroke-width: 3; }
+.kompakt-zutat { cursor: pointer; color: var(--muted); }
+.kompakt-zutat:hover, .kompakt-zutat:focus-visible { color: var(--ink); }
+.kompakt-knoten:focus, .kompakt-zutat:focus { outline: none; }
+.kompakt-info { font-size: 13px; min-height: 1.4em; margin: 6px 0 0; }
+.kompakt-fuss { margin-left: 0; }
 .zustand-link { color: var(--sel); text-decoration: underline dotted; text-underline-offset: 2px; cursor: pointer; }
 .zustand-link:hover { text-decoration-style: solid; }
 details.zustand { scroll-margin-top: 1rem; border-radius: 4px; transition: box-shadow .3s; }
@@ -229,6 +247,9 @@ details.zustand summary { cursor: pointer; color: var(--sel); }
 .note-warn { background: var(--warn-bg); color: var(--warn); display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap; }
 .note-buttons { display: flex; gap: .4rem; flex: none; }
 .note-info { background: var(--info-bg); }
+.marke { display: inline-flex; flex-wrap: wrap; gap: .25rem; margin-left: .5rem; font-size: .7rem; vertical-align: baseline; }
+.marke-teil { padding: 0 .4rem; border: 1px solid currentColor; border-radius: 999px; opacity: .75; white-space: nowrap; }
+.marke-verdacht .marke-teil:last-child { border-style: dashed; opacity: 1; font-weight: 600; }
 .note-kaskade { background: var(--fix-bg); color: var(--fix); display: flex; align-items: center; justify-content: space-between; gap: .6rem; flex-wrap: wrap; }
 .kaskade-btn { border: 1px solid var(--fix); background: var(--panel); color: var(--fix); border-radius: 6px; padding: .3rem .7rem; cursor: pointer; font: inherit; font-weight: 600; white-space: nowrap; }
 .kaskade-btn:hover { background: var(--fix-bg); }

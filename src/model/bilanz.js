@@ -96,7 +96,8 @@ export function grenzenPruefen(b, grenzen) {
 // 160 % → fett_max + fett_max_hart) meldet nur die harte; (2) Grenzen mit gleicher Kaskade-Zielrolle
 // haben dieselbe Ursache (Struktur → Klebereiweiß + Gesamteiweiß) und werden zu einer Meldung mit
 // Kurzform der übrigen. Nur die Anzeigetexte — Blockaden/Kaskaden rechnen weiter mit allen Grenzen.
-export function grenzenBuendeln(verletzt) {
+// Wie grenzenBuendeln, aber jede Meldung behält die ids der Grenzen, die in ihr stecken (DR-074: Marke je Meldung).
+export function grenzenBuendelnMitIds(verletzt) {
   const hartGroessen = new Set(verletzt.hart.map((v) => v.groesse));
   const buendeln = (liste) => {
     const gruppen = new Map();
@@ -105,14 +106,20 @@ export function grenzenBuendeln(verletzt) {
       if (!gruppen.has(schluessel)) gruppen.set(schluessel, []);
       gruppen.get(schluessel).push(v);
     }
-    return [...gruppen.values()].map(([erste, ...rest]) => (
-      rest.length ? `${erste.text.replace(/\.$/, '')}. Gleiche Ursache: ${rest.map((r) => r.kurz).join('; ')}.` : erste.text
-    ));
+    return [...gruppen.values()].map(([erste, ...rest]) => ({
+      text: rest.length ? `${erste.text.replace(/\.$/, '')}. Gleiche Ursache: ${rest.map((r) => r.kurz).join('; ')}.` : erste.text,
+      ids: [erste.id, ...rest.map((r) => r.id)],
+    }));
   };
   return {
     hart: buendeln(verletzt.hart),
     empfohlen: buendeln(verletzt.empfohlen.filter((v) => !hartGroessen.has(v.groesse))),
   };
+}
+
+export function grenzenBuendeln(verletzt) {
+  const m = grenzenBuendelnMitIds(verletzt);
+  return { hart: m.hart.map((x) => x.text), empfohlen: m.empfohlen.map((x) => x.text) };
 }
 
 // Korpus-Toleranz (T35): vergleicht einen Wert mit der Korpus-Verteilung (summarize() aus

@@ -2,6 +2,8 @@ import { loadCorpus, normalizeRecipe, stats } from './model/corpus.js';
 import { compute } from './model/engine.js';
 import { renderMorphbox, renderTechnikSchalter } from './ui/morphbox.js';
 import { renderFlow } from './ui/flow.js';
+import { renderKompakt } from './ui/kompakt.js';
+import { iconHtml } from './ui/icons.js';
 import { renderRecipe } from './ui/recipeCard.js';
 import { renderStats } from './ui/stats.js';
 import { renderRueckfragen } from './ui/rueckfragen.js';
@@ -16,12 +18,12 @@ async function loadJson(path) {
   return r.json();
 }
 
-const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge, zustaende] = await Promise.all(
-  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen', 'modelle', 'temperaturen', 'orte', 'techniken', 'triebquellen', 'werkzeuge', 'zustaende'].map((n) => loadJson(`./src/data/${n}.json`)),
+const [ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge, zustaende, aussagen] = await Promise.all(
+  ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 'kategorien', 'verben', 'erfahrungsregeln', 'grenzen', 'modelle', 'temperaturen', 'orte', 'techniken', 'triebquellen', 'werkzeuge', 'zustaende', 'aussagen'].map((n) => loadJson(`./src/data/${n}.json`)),
 );
 const archetypKeys = Object.keys(archetypes).filter((k) => !k.startsWith('_'));
 let arch = archetypes[archetypKeys[0]]; // aktiver Archetyp; waehleArchetyp() setzt ihn zusammen mit data.arch und state.archetyp
-const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge, zustaende, arch };
+const data = { ingredients, operations, methods, archetypes, vessels, kategorien, verben, erfahrungsregeln, grenzen, modelle, temperaturen, orte, techniken, triebquellen, werkzeuge, zustaende, aussagen, arch };
 
 // Normalisierte Rezeptlisten bleiben erhalten (nicht nur die aggregierten `stats()`) — die
 // Korrelationssuche (DR-019 Punkt 5, T32) braucht die Rezepte einzeln, um Bäckerprozent bedingt
@@ -61,6 +63,37 @@ const state = {
 };
 
 const $ = (id) => document.getElementById(id);
+
+// Ansicht des Ablaufs (DR-073): Strom oder Kompakt (nur Icons); Wahl je Browser.
+// Fehlen Knopfgruppe oder Ziel (ältere index.html aus dem Cache, DR-037), werden sie angelegt.
+let ansicht = 'strom';
+try { if (localStorage.getItem('chefing.ablauf') === 'kompakt') ansicht = 'kompakt'; } catch { /* ohne Speicher: Strom */ }
+function ablaufAnsicht() {
+  if (!$('kompakt')) $('flow').after(Object.assign(document.createElement('div'), { id: 'kompakt', className: 'kompakt', hidden: true }));
+  let g = $('ablauf-ansicht');
+  if (!g) {
+    g = Object.assign(document.createElement('span'), { id: 'ablauf-ansicht', className: 'knopfgruppe ablauf-ansicht' });
+    g.setAttribute('role', 'group');
+    g.setAttribute('aria-label', 'Ansicht des Ablaufs');
+    for (const [k, t] of [['strom', 'Strom'], ['kompakt', 'Kompakt']]) {
+      const b = Object.assign(document.createElement('button'), { type: 'button', className: 'ghost', textContent: t });
+      b.dataset.ansicht = k;
+      g.append(b);
+    }
+    $('ablauf-techniken').after(g);
+  }
+  const kompaktKnopf = g.querySelector('[data-ansicht="kompakt"]');
+  if (kompaktKnopf && !kompaktKnopf.querySelector('svg')) kompaktKnopf.insertAdjacentHTML('afterbegin', iconHtml('ansicht_kompakt', 16));
+  kompaktKnopf.title = 'Ganzer Ablauf auf einen Blick: nur Symbole, Namen und Mengen beim Antippen';
+  for (const b of g.querySelectorAll('[data-ansicht]')) {
+    b.addEventListener('click', () => {
+      ansicht = b.dataset.ansicht;
+      try { localStorage.setItem('chefing.ablauf', ansicht); } catch { /* nur für diese Sitzung */ }
+      render();
+    });
+  }
+}
+ablaufAnsicht();
 
 // Knopfgruppe der Varianten (DR-045); fehlt sie (ältere index.html aus dem Browser-Cache, DR-037), wird sie angelegt
 function presetGruppe() {
@@ -132,7 +165,11 @@ function render() {
   renderRueckfragen($('rueckfragen'), sessionStart, render);
   renderMorphbox($('morphbox'), state, data, computed, korpusStats, update);
   renderTechnikSchalter($('ablauf-techniken'), state, data, computed, update);
-  renderFlow($('flow'), computed, data);
+  const kompakt = ansicht === 'kompakt';
+  $('flow').hidden = kompakt;
+  $('kompakt').hidden = !kompakt;
+  if (kompakt) renderKompakt($('kompakt'), computed, data); else renderFlow($('flow'), computed, data);
+  document.querySelectorAll('[data-ansicht]').forEach((b) => { b.classList.toggle('is-active', b.dataset.ansicht === ansicht); b.setAttribute('aria-pressed', String(b.dataset.ansicht === ansicht)); });
   renderRecipe($('recipe'), computed, state, data, update);
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }

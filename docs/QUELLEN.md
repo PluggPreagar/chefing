@@ -427,3 +427,29 @@ Ergebnis: Hände frei mit Küchenmaschine und Hinweis „von Hand weniger Luft�
 | 2026-10-21 | kuechenchaotin.de, mario-kaps.de, culturefood.org, nachhaltigkeit-mit-kopf.de, gaumenfreundin.de, oma-kocht.de | je 1 (Suchtreffer) | Mayonnaise von Hand | per Hand 10–15 Min.; erste Ölphase tropfenweise etwa 2 Min.; zu schnelles Öl häufigster Fehler |
 
 Ergebnis: Faktor 2 (Schneebesen gegen Handrührgerät) in werkzeuge.json; Strahl-Phase von 4 auf 6 Min. (von Hand rund 10 Min. gesamt).
+
+## 2026-10-24 — Eiweiß kalt oder zimmerwarm für Eischnee (Recherche, kein Korpus, keine Datenänderung)
+
+Gelesen = WebFetch lieferte Text. PDF = Text nicht lesbar (komprimierter Datenstrom). Suchtreffer = nur Zusammenfassung der Suche.
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-24 | decodingdelicious.com | 1 (gelesen) | Kalt gegen zimmerwarm, Foto-Vergleich | nur Foto, keine Messung; Autorin sieht keinen Unterschied |
+| 2026-10-24 | kingarthurbaking.com | 1 (gelesen) | Dauer bis steife Spitzen | 22 Min. mit kaltem Eiweiß; kalt trennen, dann temperieren; Pflicht nur bei Buttercreme |
+| 2026-10-24 | scienceinsights.org | 1 (gelesen) | Mechanismus Temperatur und Schaum | warm = mehr Volumen, kalt = stabiler; keine Studie genannt |
+| 2026-10-24 | cjfs.agriculturejournals.cz, content.cabi.org | 3 (PDF) | Fachaufsätze zu Eiweißschaum | Text nicht lesbar; Titel und Stichworte nennen Temperatur als Messgröße nicht |
+| 2026-10-24 | thekitchn.com, localfood.ces.ncsu.edu, aol.com | je 1 (Abruf scheitert: 403, 404, 404) | Kalt gegen zimmerwarm | nur Suchzusammenfassung; Pavlova-Einbruch bei kalten Eiern unbestätigt |
+| 2026-10-24 | foodrepublic.com, cycookery.com, preparedfoods.com, bakinglikeachef.com, lecker.de, bosch-home.com, chemie.de, rewe.de, kruss-scientific.com | je 1 (Suchtreffer) | Praxisregeln, Mechanismus | zimmerwarm = schneller, mehr Volumen; Fachliteratur ohne Vergleich 4 gegen 20 °C |
+
+Ergebnis: keine kontrollierte Messung gefunden. Belegt: zimmerwarm schlägt schneller auf, kalt bleibt stabiler. Nicht belegt: „kalt ist besser“.
+
+## 2026-10-24 — Kaltes Eiweiß und Butter, kalte Geräte für Eischnee (Recherche, kein Korpus, keine Datenänderung)
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-24 | kingarthurbaking.com | 1 (gelesen) | Buttercreme gerinnt | Ursache: Butter oder Meringue zu kalt, zu warm gibt flüssige Creme; kaltes Ausgangs-Eiweiß wird nicht genannt (die Seite von 2018 aus dem Eintrag davor behauptet es ohne Beleg) |
+| 2026-10-24 | chowhound.com, foodrepublic.com | je 1 (gelesen) | Kalte Schüssel und Besen | kalt nur für Sahne wegen des Fetts; für Eiweiß und Meringue Schüssel, Besen und Eiweiß zimmerwarm |
+| 2026-10-24 | popsci.com | 1 (Suchtreffer) | Gegenmeinung | Meringue gelingt kalt besser, nur Behauptung |
+| 2026-10-24 | bakeclub.com.au, tastingtable.com, williams-sonoma.com, zwilling.com, alleantworten.de, stuttgarter-zeitung.de, rewe.de, lecker.de | je 1 (Suchtreffer) | Gerinnen, fettfreie Geräte, Eiweiß kühlen | Temperaturabstand zwischen Butter und Meringue; Fettfreiheit der Geräte ist die belegte Geräteregel; Kühl-Tipps gelten der Sahne, nur lecker.de nennt Gefrierfach für zu warmes Eiweiß |
+
+Ergebnis: „kaltes Eiweiß lässt Butter gerinnen“ nur als Gerücht; belegt ist der Temperaturabstand von Butter und fertiger Meringue. „Geräte kalt für Eischnee“ nicht gestützt, die Quellen empfehlen das Gegenteil und meinen für Kälte die Sahne.

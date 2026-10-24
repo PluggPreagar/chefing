@@ -6,7 +6,8 @@ import { triebQuellen, gasBudget } from './trieb.js';
 import { werkzeugWahl, vorhanden } from './ausstattung.js';
 import { gaerungModell, gaerungsZeit, hefeFuerGare, gaerungErgebnis, pruefeGaerung, fmtDauer } from './gaerung.js';
 import { temperaturBereich, medianBereich, fmtTemperatur, wassertemperatur, grad } from './temperatur.js';
-import { bilanz, grenzenPruefen, grenzenFuer, grenzenBuendeln, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, basisLuecke, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
+import { markeFuer } from './aussagen.js';
+import { bilanz, grenzenPruefen, grenzenFuer, grenzenBuendelnMitIds, grenzenKaskade, grenzenMengenKaskade, vorschlaegeZusammenfassen, beitraege, beschreibeGrenze, toleranz, basisLuecke, fmtProzent, GROESSEN, GROESSEN_LABEL } from './bilanz.js';
 
 // Größen, die aus geschätzten Kapazitäten folgen (Natron-Säure-Balance, T37): ihre Grenze trägt die Aussage, kein Vergleich mit den Korpus-Quartilen
 const OHNE_TOLERANZ = new Set(['natron', 'saeure']);
@@ -213,7 +214,14 @@ export function compute(state, data, korpusStats) {
     const herkunft = beitraege(zutatenListe, data.ingredients, g).map((b) => ({ rolle: b.rolle, label: arch.rollen.find((r) => r.rolle === b.rolle)?.label ?? b.rolle, anteil: b.anteil }));
     return { groesse: g, label: GROESSEN_LABEL[g], gramm: bil.gramm[g], bp: bil.bp[g], korpus, toleranz: t, herkunft };
   });
-  const gebuendelt = grenzenBuendeln(verletzt);
+  const gebuendeltMitIds = grenzenBuendelnMitIds(verletzt);
+  const gebuendelt = { hart: gebuendeltMitIds.hart.map((m) => m.text), empfohlen: gebuendeltMitIds.empfohlen.map((m) => m.text) };
+  // Marke je Grenz-Meldung (DR-074): Wirkung und Gewissheit der Aussagen hinter der Meldung; ohne data.aussagen leer
+  const marken = {};
+  for (const m of [...gebuendeltMitIds.hart, ...gebuendeltMitIds.empfohlen]) {
+    const marke = markeFuer(m.ids, data.aussagen);
+    if (marke) marken[m.text] = marke;
+  }
   const status = verletzt.hart.length ? 'invalid' : res.status;
 
   // T39: hart-Grenzen werden überschreibbar (Override-Feedback, DR-019 Punkt 4) und jede
@@ -424,6 +432,7 @@ export function compute(state, data, korpusStats) {
 
   return {
     regelIds,
+    marken,
     variante,
     varianteLabel: arch.varianten[variante]?.label,
     korpusN: st.n,

@@ -1,0 +1,261 @@
+{
+ "_schema": {
+   "zweck": "Bewertung der Aussagen, die Regeln machen (DR-074). Bewertet wird die Aussage, nicht die Regel: eine Regel kann mehrere Aussagen mit verschiedener Sicherheit machen. Schlüssel = Regel-id aus grenzen.json, operations.json/methods.json (voraussetzung), erfahrungsregeln.json oder tipps.json; `wissen:<name>` = freie Aussage ohne Regel im Modell (Recherche, kann später zur Regel werden).",
+   "ziel": "gelingen | volumen | stabilitaet | tempo | geschmack — worauf die Aussage wirkt. Aussage-id = <regel-id>:<ziel>; je Regel höchstens eine Aussage je Ziel.",
+   "richtung": "minus = schadet, wenn man die Regel bricht (so misslingt es) | plus = hilft, wenn man sie befolgt. Eine Regel darf Aussagen mit gegenläufiger Richtung tragen (kaltes Eiweiß: stabiler, aber langsamer).",
+   "wirkung": "ohne_folge | leicht | spuerbar | ausfall — bezogen auf „Regel gebrochen“. ausfall entspricht dem heutigen hart. ohne_folge markiert eine Löschkandidatin.",
+   "gewissheit": "never | unlikely | maybe | likely | surely | proven — wie sicher die Aussage gilt. never und proven verlangen einen wissenschaftlichen Nachweis (beleg.nachweis); alles darunter darf eine begründete Schätzung sein.",
+   "beleg": "{art, quellen, nachweis?, rueckmeldungen?, log?}. art: geruecht (nur Behauptung, höchstens maybe) | konsens (mehrere unabhängige Quellen ohne Messung, höchstens likely) | mechanismus (physikalisch erklärt, höchstens surely) | gemessen (Studie oder Versuch). Die Art begrenzt die Gewissheit nach oben; die Startgewissheit ist die Obergrenze oder eine Stufe darunter.",
+   "nachweis": "Pflicht für never und proven, sonst nicht erlaubt ohne volle Angaben: {art: \"studie\", peer_reviewed: true, volltext_gelesen: true, doi, zitat, deckt_aussage}. Eigene Versuche, Rückmeldungen, Ratgeberseiten, Foren, Preprints und Such-Zusammenfassungen zählen nicht. test/aussagen.check.mjs erzwingt das.",
+   "rueckmeldungen": "optional {n, klappt, nicht}: Meldungen aus „hat es geklappt?“. Ab MIN_BERICHT_N heben sie die Obergrenze auf höchstens surely, nie auf proven oder never.",
+   "schaetzung": "true = Startwert vom Maintainer geschätzt (Text-Heuristik oder Handeinschätzung), noch nicht durch Rückmeldungen oder Nachweis bestätigt; `begruendung` sagt, worauf er beruht. Wird entfernt, wenn ein Wert bestätigt ist.",
+   "siehe": "optional: ids verwandter Regeln oder freier Aussagen.",
+   "quellen": "Je Eintrag site (Domain) oder ref (Datei#id). Freie Aussagen: site, stand (gelesen | suchtreffer), haltung (fuer | gegen). Ausführliches Log: docs/QUELLEN.md."
+ },
+ "skalen": {"wirkung":["ohne_folge","leicht","spuerbar","ausfall"],"gewissheit":["never","unlikely","maybe","likely","surely","proven"],"beleg_art":["geruecht","konsens","mechanismus","gemessen"],"ziele":["gelingen","volumen","stabilitaet","tempo","geschmack"]},
+ "regeln": {
+  "wasser_min_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#wasser_min_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "wasser_band": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"ref":"grenzen.json#wasser_band"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (am Korpus plausibilisiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "wasser_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#wasser_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "fett_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#fett_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "fett_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#fett_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "zucker_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#zucker_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen, abgemildert: Richtwert, Folge nur leicht."}
+  ],
+  "zucker_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#zucker_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "zucker_wasser_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#zucker_wasser_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "gluten_min": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#gluten_min"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "eiweiss_min": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#eiweiss_min"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "triebkraft_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#triebkraft_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen, abgemildert: Richtwert, Folge nur leicht."}
+  ],
+  "triebkraft_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#triebkraft_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "natron_saeure_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"surely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#natron_saeure_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "pk_wasser_min_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"ref":"grenzen.json#pk_wasser_min_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (am Korpus plausibilisiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "pk_wasser_band": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#pk_wasser_band"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "pk_wasser_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"ref":"grenzen.json#pk_wasser_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (keine Begründung dokumentiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "pk_fett_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"ref":"grenzen.json#pk_fett_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (am Korpus plausibilisiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "pk_fett_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"ref":"grenzen.json#pk_fett_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (keine Begründung dokumentiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "pk_zucker_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"ref":"grenzen.json#pk_zucker_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (am Korpus plausibilisiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen, abgemildert: Richtwert, Folge nur leicht."}
+  ],
+  "pk_zucker_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"ref":"grenzen.json#pk_zucker_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (keine Begründung dokumentiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "pk_gluten_min": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#pk_gluten_min"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "pk_triebkraft_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"ref":"grenzen.json#pk_triebkraft_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (am Korpus plausibilisiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen, abgemildert: Richtwert, Folge nur leicht."}
+  ],
+  "pk_triebkraft_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#pk_triebkraft_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "pk_natron_saeure_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"surely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#pk_natron_saeure_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "hf_wasser_min_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_wasser_min_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "hf_wasser_band": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_wasser_band"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "hf_wasser_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_wasser_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "hf_hefe_min_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_hefe_min_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "hf_hefe_band": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_hefe_band"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "hf_hefe_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_hefe_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "hf_salz_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_salz_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "hf_salz_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_salz_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "hf_zucker_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_zucker_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen, abgemildert: Richtwert, Folge nur leicht."}
+  ],
+  "hf_zucker_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_zucker_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "hf_fett_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_fett_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "hf_fett_max_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_fett_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "hf_gluten_min": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#hf_gluten_min"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "mayo_wasser_min_hart": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#mayo_wasser_min_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+  ],
+  "mayo_wasser_min": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"ref":"grenzen.json#mayo_wasser_min"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (am Korpus plausibilisiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "mayo_wasser_max": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"ref":"grenzen.json#mayo_wasser_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (am Korpus plausibilisiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
+  ],
+  "fett_muss_fest_fuer_schmelzen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"surely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json/methods.json#fett_muss_fest_fuer_schmelzen"}]},"schaetzung":true,"begruendung":"Flüssiges Fett lässt sich nicht schmelzen, der Schritt wäre überflüssig; folgenarm, aber logisch zwingend."}
+  ],
+  "fett_muss_fluessig_fuer_verquirlen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json/methods.json#fett_muss_fluessig_fuer_verquirlen"}]},"schaetzung":true,"begruendung":"Festes Fett bleibt beim Verquirlen in Klümpchen, die Emulsion gelingt schlecht; wie stark, hängt von der Menge ab."}
+  ],
+  "fett_muss_fluessig_fuer_butter_zuletzt": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json/methods.json#fett_muss_fluessig_fuer_butter_zuletzt"}]},"schaetzung":true,"begruendung":"Feste Butter lässt sich nicht gleichmäßig unter den Schaum heben und drückt ihn zusammen."}
+  ],
+  "natron_braucht_saeure": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"surely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json/methods.json#natron_braucht_saeure"}]},"schaetzung":true,"begruendung":"Natron ist nur Base: ohne Säure kein Trieb und seifiger Geschmack (Stöchiometrie, Chemie-Grundwissen)."}
+  ],
+  "hefe_fluessigkeit_zu_heiss": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"surely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json/methods.json#hefe_fluessigkeit_zu_heiss"}]},"schaetzung":true,"begruendung":"Hefe stirbt ab etwa 42 °C ab, der Teig geht nicht auf; in mehreren Ratgebern belegt (Tipp hefe-fluessigkeit-zu-heiss, Evidenz 3)."}
+  ],
+  "hefe_braucht_gluten": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"surely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json/methods.json#hefe_braucht_gluten"}]},"schaetzung":true,"begruendung":"Ohne Klebereiweiß hält der Teig das Hefegas nicht und geht nicht auf."}
+  ],
+  "fett_temperierbar": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json/methods.json#fett_temperierbar"}]},"schaetzung":true,"begruendung":"Logische Voraussetzung des Temperier-Schritts: ohne Temperier-Weg lässt sich das Fett nicht auf Arbeitstemperatur bringen."}
+  ],
+  "fett_nicht_zu_warm_zum_temperieren": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"surely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json/methods.json#fett_nicht_zu_warm_zum_temperieren"}]},"schaetzung":true,"begruendung":"Butter schmilzt ab etwa 32 °C: ölig, schlägt keine Luft mehr ein."}
+  ],
+  "eier_temperierbar": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json/methods.json#eier_temperierbar"}]},"schaetzung":true,"begruendung":"Logische Voraussetzung des Schritts „Eier temperieren“."}
+  ],
+  "fett_muss_fest_fuer_aufschlagen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"surely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json/methods.json#fett_muss_fest_fuer_aufschlagen"}]},"schaetzung":true,"begruendung":"Luft lässt sich nur in plastisches, festes Fett schlagen; Öl hält keine Luft. Das Ergebnis wird dichter, ist aber essbar."}
+  ],
+  "fett_muss_cremig_fuer_aufschlagen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json/methods.json#fett_muss_cremig_fuer_aufschlagen"}]},"schaetzung":true,"begruendung":"Zu hartes oder zu weiches Fett schlägt weniger Luft ein; Folge: dichtere Krume."}
+  ],
+  "eier_nicht_kalt": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"ref":"operations.json/methods.json#eier_nicht_kalt"}]},"schaetzung":true,"begruendung":"Kalte Eier lassen die Creme gerinnen (Tipp ruehrteig-gerinnt-kalte-zutaten, Evidenz 3, fünf Seiten); das Ergebnis wird gröber, ist aber nicht unbrauchbar.","siehe":["ruehrteig-gerinnt-kalte-zutaten"]}
+  ],
+  "natron_drittel": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"surely","beleg":{"art":"mechanismus","quellen":[{"ref":"erfahrungsregeln.json#natron_drittel"}]},"schaetzung":true,"begruendung":"Natron wirkt etwa dreimal so stark wie Backpulver (Chemie); der genaue Faktor schwankt je nach Backpulver."}
+  ],
+  "saeure_reduziert_backpulver": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"erfahrungsregeln.json#saeure_reduziert_backpulver"}]},"schaetzung":true,"begruendung":"Saure Flüssigkeit liefert zusätzliches CO₂; die 15 % sind ein Richtwert, keine Messung."}
+  ],
+  "oel_korpus_fallback": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"erfahrungsregeln.json#oel_korpus_fallback"}]},"schaetzung":true,"begruendung":"Rechnerisch: Öl hat 100 % Fett, Butter 82 %; die 10 % weniger sind eine Näherung ohne Korpus-Beleg."}
+  ],
+  "ruehrteig-gerinnt-kalte-zutaten": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"site":"kuechenfibel.de","ref":"tipps.json#ruehrteig-gerinnt-kalte-zutaten"},{"site":"kingarthurbaking.com","ref":"tipps.json#ruehrteig-gerinnt-kalte-zutaten"},{"site":"chowhound.com","ref":"tipps.json#ruehrteig-gerinnt-kalte-zutaten"},{"site":"kingarthurbaking.com","ref":"tipps.json#ruehrteig-gerinnt-kalte-zutaten"},{"site":"bakeinfo.co.nz","ref":"tipps.json#ruehrteig-gerinnt-kalte-zutaten"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 3: mehrere unabhängige Ratgeber nennen dieselbe Ursache; keine Messung."}
+  ],
+  "butter-zu-kalt-aufschlagen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"site":"kuechenfibel.de","ref":"tipps.json#butter-zu-kalt-aufschlagen"},{"site":"bakeclub.com.au","ref":"tipps.json#butter-zu-kalt-aufschlagen"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 2: zwei Quellen oder eine mit Zahl, für „wahrscheinlich“ zu dünn; keine Messung."}
+  ],
+  "ruehrteig-faellt-ein-triebmittel": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"site":"kuechenfibel.de","ref":"tipps.json#ruehrteig-faellt-ein-triebmittel"},{"site":"lidl.de","ref":"tipps.json#ruehrteig-faellt-ein-triebmittel"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 3: mehrere unabhängige Ratgeber nennen dieselbe Ursache; keine Messung."}
+  ],
+  "ruehrteig-uebermischen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"site":"bakingbites.com","ref":"tipps.json#ruehrteig-uebermischen"},{"site":"lecker.de","ref":"tipps.json#ruehrteig-uebermischen"},{"site":"utopia.de","ref":"tipps.json#ruehrteig-uebermischen"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 3: mehrere unabhängige Ratgeber nennen dieselbe Ursache; keine Messung."}
+  ],
+  "ruehrteig-zu-viel-fluessigkeit": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"lecker.de","ref":"tipps.json#ruehrteig-zu-viel-fluessigkeit"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 1: eine Quelle ohne Zahl oder nur Schlussfolgerung; keine Messung."}
+  ],
+  "ruehrteig-zu-viel-mehl-trocken": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"site":"heidelberg24.de","ref":"tipps.json#ruehrteig-zu-viel-mehl-trocken"},{"site":"lecker.de","ref":"tipps.json#ruehrteig-zu-viel-mehl-trocken"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 2: zwei Quellen oder eine mit Zahl, für „wahrscheinlich“ zu dünn; keine Messung."}
+  ],
+  "ruehrteig-zu-wenig-zucker": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"heidelberg24.de","ref":"tipps.json#ruehrteig-zu-wenig-zucker"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 1: eine Quelle ohne Zahl oder nur Schlussfolgerung; keine Messung."}
+  ],
+  "kuchen-ofen-und-backzeit": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"site":"lidl.de","ref":"tipps.json#kuchen-ofen-und-backzeit"},{"site":"leinetal24.de","ref":"tipps.json#kuchen-ofen-und-backzeit"},{"site":"lecker.de","ref":"tipps.json#kuchen-ofen-und-backzeit"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 3: mehrere unabhängige Ratgeber nennen dieselbe Ursache; keine Messung."}
+  ],
+  "hefe-fluessigkeit-zu-heiss": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"site":"lecker.de","ref":"tipps.json#hefe-fluessigkeit-zu-heiss"},{"site":"wunderweib.de","ref":"tipps.json#hefe-fluessigkeit-zu-heiss"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 3: mehrere unabhängige Ratgeber nennen dieselbe Ursache; keine Messung."}
+  ],
+  "hefe-zu-kalt-langsam": [
+   {"ziel":"tempo","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"site":"lecker.de","ref":"tipps.json#hefe-zu-kalt-langsam"},{"site":"lecker.de","ref":"tipps.json#hefe-zu-kalt-langsam"},{"site":"wunderweib.de","ref":"tipps.json#hefe-zu-kalt-langsam"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 3: mehrere unabhängige Ratgeber nennen dieselbe Ursache; keine Messung."}
+  ],
+  "hefe-salz-direkt": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"wunderweib.de","ref":"tipps.json#hefe-salz-direkt"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 1: eine Quelle ohne Zahl oder nur Schlussfolgerung; keine Messung."}
+  ],
+  "hefe-zu-wenig-kneten": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"site":"wunderweib.de","ref":"tipps.json#hefe-zu-wenig-kneten"},{"site":"lecker.de","ref":"tipps.json#hefe-zu-wenig-kneten"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 2: zwei Quellen oder eine mit Zahl, für „wahrscheinlich“ zu dünn; keine Messung."}
+  ],
+  "hefe-zu-trocken": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"lecker.de","ref":"tipps.json#hefe-zu-trocken"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 1: eine Quelle ohne Zahl oder nur Schlussfolgerung; keine Messung."}
+  ],
+  "hefe-viel-fett-zucker": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"wunderweib.de","ref":"tipps.json#hefe-viel-fett-zucker"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 1: eine Quelle ohne Zahl oder nur Schlussfolgerung; keine Messung."}
+  ],
+  "hefe-alt-oder-kalte-flaeche": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"lecker.de","ref":"tipps.json#hefe-alt-oder-kalte-flaeche"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 1: eine Quelle ohne Zahl oder nur Schlussfolgerung; keine Messung."}
+  ],
+  "pfannkuchen-reisst-oder-klumpt": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"rewe.de","ref":"tipps.json#pfannkuchen-reisst-oder-klumpt"},{"site":"wikibooks.org","ref":"tipps.json#pfannkuchen-reisst-oder-klumpt"},{"site":"berliner-kurier.de","ref":"tipps.json#pfannkuchen-reisst-oder-klumpt"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 1: eine Quelle ohne Zahl oder nur Schlussfolgerung; keine Messung."}
+  ],
+  "muerbeteig-butter-zu-warm": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"site":"antwort.net","ref":"tipps.json#muerbeteig-butter-zu-warm"},{"site":"ichkoche.at","ref":"tipps.json#muerbeteig-butter-zu-warm"},{"site":"baketotheroots.de","ref":"tipps.json#muerbeteig-butter-zu-warm"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 2: zwei Quellen oder eine mit Zahl, für „wahrscheinlich“ zu dünn; keine Messung."}
+  ],
+  "kekse-zerlaufen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"pastrychefonline.com","ref":"tipps.json#kekse-zerlaufen"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 1: eine Quelle ohne Zahl oder nur Schlussfolgerung; keine Messung."}
+  ],
+  "muffin-ohne-gipfel-ofen-kalt": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"pastrychefonline.com","ref":"tipps.json#muffin-ohne-gipfel-ofen-kalt"}]},"schaetzung":true,"begruendung":"Startschätzung aus evidenz 1: eine Quelle ohne Zahl oder nur Schlussfolgerung; keine Messung."}
+  ],
+  "wissen:eischnee-eiweiss-zimmerwarm-tempo": [
+   {"ziel":"tempo","richtung":"plus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"site":"kingarthurbaking.com","stand":"gelesen","haltung":"fuer","hinweis":"kalt: 22 Minuten bis steife Spitzen, eine einzelne gestoppte Zeit"},{"site":"chowhound.com","stand":"gelesen","haltung":"fuer"},{"site":"foodrepublic.com","stand":"gelesen","haltung":"fuer"},{"site":"scienceinsights.org","stand":"gelesen","haltung":"fuer","hinweis":"ohne Studie"}],"log":"docs/QUELLEN.md, Abschnitte 2026-10-24"},"schaetzung":true,"begruendung":"Vier Ratgeber nennen es übereinstimmend, nur eine Zeit wurde gestoppt; kein kontrollierter Vergleich.","text":"Zimmerwarmes Eiweiß schlägt deutlich schneller zu steifem Schnee als kaltes."}
+  ],
+  "wissen:eischnee-eiweiss-zimmerwarm-volumen": [
+   {"ziel":"volumen","richtung":"plus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"site":"scienceinsights.org","stand":"gelesen","haltung":"fuer","hinweis":"ohne Studie"},{"site":"preparedfoods.com","stand":"suchtreffer","haltung":"fuer","hinweis":"Fachpresse: weniger Oberflächenspannung nahe Zimmertemperatur"},{"site":"decodingdelicious.com","stand":"gelesen","haltung":"gegen","hinweis":"Fotovergleich, kein Unterschied sichtbar"}],"log":"docs/QUELLEN.md, Abschnitte 2026-10-24"},"schaetzung":true,"begruendung":"Erklärung stimmig, aber der einzige Direktvergleich (Foto) zeigt keinen Unterschied; keine Messung.","text":"Zimmerwarmes Eiweiß gibt etwas mehr Volumen als kaltes."}
+  ],
+  "wissen:eischnee-eiweiss-kalt-stabiler": [
+   {"ziel":"stabilitaet","richtung":"plus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"thekitchn.com","stand":"suchtreffer","haltung":"fuer","hinweis":"Meinung einer Redakteurin"},{"site":"scienceinsights.org","stand":"gelesen","haltung":"fuer","hinweis":"ohne Studie"},{"site":"popsci.com","stand":"suchtreffer","haltung":"fuer"},{"site":"decodingdelicious.com","stand":"gelesen","haltung":"gegen","hinweis":"kein Unterschied sichtbar"},{"site":"cjfs.agriculturejournals.cz","stand":"suchtreffer","haltung":"gegen","hinweis":"Übersicht: Schaumstabilität zwischen 20 und 34 °C kaum beeinflusst, aus zweiter Hand"}],"log":"docs/QUELLEN.md, Abschnitte 2026-10-24"},"schaetzung":true,"begruendung":"Nur Meinungen und Erklärungen ohne Messung; ein Vergleich und ein Literaturhinweis sprechen dagegen.","text":"Kaltes Eiweiß ergibt einen stabileren Schaum mit kleineren Blasen."}
+  ],
+  "wissen:eischnee-kalte-geraete": [
+   {"ziel":"gelingen","richtung":"plus","wirkung":"leicht","gewissheit":"unlikely","beleg":{"art":"geruecht","quellen":[{"site":"chowhound.com","stand":"gelesen","haltung":"gegen","hinweis":"Eiweiß: Besen zimmerwarm, kalt nur für Sahne"},{"site":"foodrepublic.com","stand":"gelesen","haltung":"gegen","hinweis":"Eiweiß: Schüssel, Besen und Eiweiß zimmerwarm"},{"site":"popsci.com","stand":"suchtreffer","haltung":"fuer","hinweis":"Behauptung ohne Beleg"}],"log":"docs/QUELLEN.md, Abschnitte 2026-10-24"},"schaetzung":true,"begruendung":"Die Quellen empfehlen das Gegenteil; die Kälte-Regel gilt der Sahne (Fett soll fest bleiben), vermutlich Verwechslung.","text":"Schüssel und Besen sollten für Eischnee kalt sein."}
+  ],
+  "wissen:eischnee-fettfreie-schuessel": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"surely","beleg":{"art":"mechanismus","quellen":[{"site":"zwilling.com","stand":"suchtreffer","haltung":"fuer"},{"site":"alleantworten.de","stand":"suchtreffer","haltung":"fuer"},{"site":"stuttgarter-zeitung.de","stand":"suchtreffer","haltung":"fuer","hinweis":"auch eine Spur Eigelb"}],"log":"docs/QUELLEN.md, Abschnitte 2026-10-24"},"schaetzung":true,"begruendung":"Fett verdrängt das Eiweiß an der Blasenoberfläche (Lehrbuchwissen); im Projekt schon in techniken.json hinterlegt. Quellen nur als Such-Zusammenfassung gelesen, kein Volltext.","text":"Ein Fettrest in Schüssel oder Besen verhindert, dass Eischnee steif wird.","siehe":[]}
+  ],
+  "wissen:buttercreme-gerinnt-temperaturabstand": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"site":"kingarthurbaking.com","stand":"gelesen","haltung":"fuer","hinweis":"Föhn oder Wasserbad am Schüsselrand hilft"},{"site":"bakeclub.com.au","stand":"suchtreffer","haltung":"fuer"},{"site":"tastingtable.com","stand":"suchtreffer","haltung":"fuer"}],"log":"docs/QUELLEN.md, Abschnitte 2026-10-24"},"schaetzung":true,"begruendung":"Mehrere Quellen nennen den Temperaturabstand als Ursache und denselben Rettungsweg; keine Messung.","text":"Meringue-Buttercreme gerinnt, wenn Butter oder die fertige Meringue zu kalt sind; zu warme Meringue macht sie flüssig."}
+  ],
+  "wissen:eischnee-kaltes-eiweiss-butter-gerinnt": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"kingarthurbaking.com","stand":"gelesen","haltung":"fuer","hinweis":"Seite von 2018 behauptet es ohne Beleg"},{"site":"kingarthurbaking.com","stand":"gelesen","haltung":"gegen","hinweis":"Seite von 2025 nennt nur Butter oder Meringue zu kalt"}],"log":"docs/QUELLEN.md, Abschnitte 2026-10-24"},"schaetzung":true,"begruendung":"Bei gekochter Meringue ist die Starttemperatur des Eiweißes unerheblich; belegt ist der Temperaturabstand der fertigen Zutaten. Für Rührteig gilt der Tipp zu kalten Eiern.","text":"Kaltes Eiweiß lässt Butter in Buttercreme gerinnen.","siehe":["ruehrteig-gerinnt-kalte-zutaten","wissen:buttercreme-gerinnt-temperaturabstand"]}
+  ]
+ }
+}

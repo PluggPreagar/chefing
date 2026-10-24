@@ -86,6 +86,7 @@ dev/                         Skizzen und Vorschauen, nicht Teil der App
 | `vessels.json` | Gefäße mit Teigmasse, Backwerten, Hinweisen |
 | `grenzen.json` | quantitative Grenzen je Archetyp, mit Herkunft im Feld `quelle` |
 | `erfahrungsregeln.json` | Praxis-Regeln, die Mengen oder Zeit-Fenster anpassen |
+| `aussagen.json` | Bewertung der Aussagen, die Regeln machen: Wirkung, Gewissheit (never … proven) und Beleg je Aussage (DR-074); `never` und `proven` nur mit begutachteter Studie |
 | `negativ.json` | dokumentierte Misserfolge mit Mengen (Negativ-Korpus, T55) für `node tools/negativ.mjs` |
 | `tipps.json` | Ursache-Wirkungs-Tipps aus Backratgebern (T61): Symptom, Ursache, Zahlen, Quellen und ob das Modell die Ursache kennt (Test `tipps`) |
 | `orte.json` | Arbeitsplätze (Tasse, Schüssel, Form, Ofen …) mit Icon und Farbe; Hauptstrom = Weg des Teigs, `neben` = Seitenstrom (Tasse, Topf, Schälchen, Schüssel 2); jede Operation nennt ihren `ort` (DR-038, DR-039) |
@@ -121,6 +122,7 @@ Der Archetyp-Umschalter erscheint automatisch, sobald es mehr als einen Archetyp
 - Mengen aus Seiten-Zusammenfassungen sind nicht gegengeprüft; Auffälligkeiten stehen in `notizen` je Rezept.
 - Vor dem Einpflegen prüfen: Zutat-Schlüssel, Rollen, Einheiten, Dubletten (id und URL), Grenzen.
 - Nach jedem Korpus-Zuwachs `node tools/ueberraschungen.mjs` laufen lassen: zeigt Grenzen, die ein einzelnes Rezept trägt, und Rezepte, die das Gärmodell verfehlen — mit Mustern (zum Beispiel fehlt die Raumtemperatur). Der Korpus enthält nur Erfolge; Misserfolge kommen aus den Rückmeldungen und aus dem kleinen Negativ-Korpus (`src/data/negativ.json`, `node tools/negativ.mjs`).
+- **Aussagen bewerten** (DR-074): jede Regel macht Aussagen, die in `src/data/aussagen.json` Wirkung, Gewissheit und Beleg tragen. `node tools/aussagen-pruefen.mjs` zeigt Verteilung, Prüf-Priorität (Wirkung × Unsicherheit) und Befunde zu `strenge`; `test/aussagen.check.mjs` erzwingt, dass `never` und `proven` einen begutachteten Studien-Nachweis mit DOI tragen. Neue Regeln brauchen eine Aussage (der Test meldet fehlende), alle Startwerte sind Schätzungen mit Begründung, bis Rückmeldungen oder ein Nachweis sie bestätigen.
 - Nach Änderungen an Regeln, Grenzen oder Korpus außerdem: `node tools/gaerung-fit.mjs` (Gärmodell gegen den Korpus, mit Leave-one-out-Spanne und Prüf-Rezepten), `node tools/negativ.mjs` (dokumentierte Misserfolge gegen die Regeln), `node tools/rollen-freiheit.mjs` (Substitutions-Freiheit je Rolle; `archetypes.json` muss übereinstimmen, der Test prüft es) und `node tools/qualitaet-gewicht.mjs` (wie stark ein Qualitäts-Gewicht die Mengen verschöbe; der Schalter steht in `corpus.js` und ist aus).
 - **Qualitätsnote 1–5** je Rezept (`qualitaet`, mit Begründung in `qualitaet_grund`): nach neuen Rezepten `node tools/qualitaet.mjs --write` ausführen. Eigene Note: `qualitaet_manuell` im Rezept setzen, das Skript fasst sie nie an. Die Note wird nur angezeigt, Mengen rechnen unabhängig davon (DR-026). Rezepte, die nicht ins Raster passen (Sauerteig, Honig, andere Mehlsorten), lieber weglassen als erfinden.
 
