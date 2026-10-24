@@ -315,7 +315,7 @@
    {"ziel":"volumen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"mechanismus","quellen":[{"ref":"triebquellen.json#backpulver"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Doppeltwirkendes Backpulver hält lange, der Mechanismus ist bekannt; die 180 Minuten sind unbelegt und selten relevant."}
   ],
   "zeit:einlegen": [
-   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json#einlegen.zeit"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Zu kurz gequollene Einlage entzieht dem Teig Wasser, zu lange eingelegte wird weich; die Spanne ist sehr weit. Das Fenster ist ein Faustwert aus der Backliteratur, nicht gemessen."}
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json#einlegen.zeit"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Zu kurz gequollene Einlage entzieht dem Teig Wasser, zu lange eingelegte wird weich; die Spanne ist sehr weit. Das Fenster ist ein Faustwert aus der Backliteratur, nicht gemessen; eine offene Suche (T115) fand keine Messung für dünne Teige wie Pfannkuchenteig."}
   ],
   "zeit:ruhen": [
    {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json#ruhen.zeit"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Zu kurz ruhen lässt das Gluten gespannt (zäh, reißt beim Wenden), zu lang lässt den Teig absetzen. Das Fenster ist ein Faustwert aus der Backliteratur, nicht gemessen."}

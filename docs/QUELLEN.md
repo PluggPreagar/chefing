@@ -510,3 +510,15 @@ Quelle: Europe PMC (ebi.ac.uk), REST-Suche nach frei zugänglichen Aufsätzen zu
 | 2026-10-24 | ebi.ac.uk (Europe PMC) | 6 Suchen, 4 Volltexte durchsucht, 1 gelesen | Schmelzbereich Butter, Milchfett | Gelesen: Journal of Food Science 2026, DOI 10.1111/1750-3841.71493 (CC BY, Olivenöl-Oleogele mit trockenfraktioniertem wasserfreiem Milchfett). Milchfett schmilzt über einen sehr breiten Bereich (bis etwa 40 °C), Hauptbereich 32 bis 36 °C; die Schmelz-Anfangs- und Endwerte des Milchfetts stehen nur in einer Abbildung. Durchsucht ohne Butterwerte: PMC12820598 (pflanzliche Butter-Alternative, Festfett nur im Vergleich genannt), PMC13135125 (Rinder- und Kakaofett-Mischungen), PMC11666836 (Butter, Ghee, Margarine, SWOT) |
 
 Ergebnis: **kein** begutachteter offener Beleg mit Messwerten für Butter selbst (16 % Wasser, Festfettgehalt bei 20 und 30 °C). Die Marke 32 °C bleibt eine Näherung; die Aussage `fett_nicht_zu_warm_zum_temperieren` bleibt `surely` (Mechanismus, Schätzung) mit der gelesenen Quelle als Stütze.
+
+## 2026-10-24 — Gluten-Ruhezeit (T115, Teil 4)
+
+Quelle: Europe PMC (ebi.ac.uk), REST-Suche nach frei zugänglichen Aufsätzen zur Ruhezeit von Teigen und dünnen Teigen (Pfannkuchen, Crêpes, Kuchenteig).
+
+| datum | domain | seiten | thema | notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-24 | ebi.ac.uk (Europe PMC) | 7 Suchen, 1 Volltext durchsucht | Ruhezeit Teig, Gluten | Gelesen (Auszüge): Food Chemistry: X 2025, DOI 10.1016/j.fochx.2025.102366 (CC BY-NC-ND), Weizenteig mit Walz-Ruhe-Zyklen bei 4 und 35 °C, 30 Min Ruhe. Nach kurzer Ruhe steigen Maximalspannung, Restspannung und Elastizitätsmodul, die Relaxationszeit sinkt; mehr Zyklen senken Steifigkeit und Viskosität. Das ist fester Hefe- und Nudelteig nach mechanischer Dehnung, nicht dünner Teig; es stützt „Ruhe verändert das Gluten“, aber weder das Fenster 15 bis 120 Min noch „zu kurz ruhen macht zäh und blasig“. Keine Treffer zu Pfannkuchen- oder Crêpe-Teig |
+
+Ergebnis: **kein** offener begutachteter Beleg für die Ruhezeit dünner Teige. Die Aussage `zeit:ruhen` bleibt `likely` (Mechanismus, Schätzung). Quellen-Haltung für diese Studie nicht passend (weder `fuer` noch `gegen`), darum nicht in `aussagen.json` eingetragen.
+
+Bilanz T115: Natron, Mayonnaise, Butter und Gluten-Ruhezeit ohne offenen begutachteten Beleg. Die Suche nach offenen Quellen lieferte insgesamt einen Nachweis (Eigelb im Eiweiß).
