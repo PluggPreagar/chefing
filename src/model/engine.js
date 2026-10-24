@@ -183,6 +183,8 @@ export function compute(state, data, korpusStats) {
     [...verletzt.hart, ...verletzt.empfohlen].map((v) => grenzen.find((g) => g.id === v.id)?.groesse),
   );
   const toleranzHinweise = [];
+  // Meldungstexte mit den Regel-ids dahinter (DR-074/T109): daraus entstehen am Ende die Marken (Wirkung, Gewissheit)
+  const meldungIds = [...(res.meldungen || [])];
   const toleranzWarnungen = [];
   const toleranzIds = []; // welche Größen dem Nutzer als „untypisch/ungetestet“ gezeigt wurden (Rückmeldungen, T53)
   // Eine Grenzverletzung erklärt die Korpus-Abweichung meist schon (Stärke allein → Eiweiß-Grenzen);
@@ -209,6 +211,7 @@ export function compute(state, data, korpusStats) {
         : `${GROESSEN_LABEL[g]} ${wert} % vom ${bezugLabel} ist untypisch (Korpus Q1–Q3: ${fmtProzent(korpus.q1)}–${fmtProzent(korpus.q3)} %).`;
       (t === 'ausserhalb_spanne' ? toleranzWarnungen : toleranzHinweise).push(text);
       toleranzIds.push(`toleranz:${g}`);
+      meldungIds.push({ text, ids: [`toleranz:${g}`] });
     }
     // Herkunft nach Rollen (T41): welche Rolle liefert wie viel dieser Größe
     const herkunft = beitraege(zutatenListe, data.ingredients, g).map((b) => ({ rolle: b.rolle, label: arch.rollen.find((r) => r.rolle === b.rolle)?.label ?? b.rolle, anteil: b.anteil }));
@@ -216,12 +219,7 @@ export function compute(state, data, korpusStats) {
   });
   const gebuendeltMitIds = grenzenBuendelnMitIds(verletzt);
   const gebuendelt = { hart: gebuendeltMitIds.hart.map((m) => m.text), empfohlen: gebuendeltMitIds.empfohlen.map((m) => m.text) };
-  // Marke je Grenz-Meldung (DR-074): Wirkung und Gewissheit der Aussagen hinter der Meldung; ohne data.aussagen leer
-  const marken = {};
-  for (const m of [...gebuendeltMitIds.hart, ...gebuendeltMitIds.empfohlen]) {
-    const marke = markeFuer(m.ids, data.aussagen);
-    if (marke) marken[m.text] = marke;
-  }
+  meldungIds.push(...gebuendeltMitIds.hart, ...gebuendeltMitIds.empfohlen);
   const status = verletzt.hart.length ? 'invalid' : res.status;
 
   // T39: hart-Grenzen werden überschreibbar (Override-Feedback, DR-019 Punkt 4) und jede
@@ -306,11 +304,18 @@ export function compute(state, data, korpusStats) {
   const zeitWarnungen = [];
   zeiten.forEach((z, i) => {
     if (z.anpassung && !anpassungen.includes(z.anpassung)) anpassungen.push(z.anpassung);
-    if (z.hinweis) (z.hinweis.strenge === 'hart' ? zeitGruende : zeitWarnungen).push(zeitMeldung(res.schritte[i].op, z));
+    if (z.hinweis) {
+      const text = zeitMeldung(res.schritte[i].op, z);
+      (z.hinweis.strenge === 'hart' ? zeitGruende : zeitWarnungen).push(text);
+      meldungIds.push({ text, ids: [`zeit:${res.schritte[i].key}`] });
+    }
   });
   // Plausibilität (Stufe 1): passen Gärzeit und Hefemenge zusammen? (nach der Berechnung oben trivial erfüllt)
   const gaerPruefung = gaerungAktiv ? pruefeGaerung({ hefeBp: bpZiel[modell.rolle].bp, gare: gare.summe, temp: gareTemp?.mitte, tempText: gareTempText, mindest: gareMindest }, modell) : null;
-  if (gaerPruefung) zeitWarnungen.push(gaerPruefung.text);
+  if (gaerPruefung) {
+    zeitWarnungen.push(gaerPruefung.text);
+    meldungIds.push({ text: gaerPruefung.text, ids: ['gaerung_modell'] });
+  }
   const grammVon = (r) => zutatenListe.filter((z) => z.rolle === r).reduce((a, z) => a + (z.gramm || 0), 0); // Linienstärke im Ablauf (DR-043)
   const ablauf = res.schritte.map((s, i) => ({
     nr: i + 1,
@@ -431,6 +436,18 @@ export function compute(state, data, korpusStats) {
     ...archetypHinweise.map((h) => `archetyp:${h.id}`),
     ...(modellGilt && !stM ? ['gaerung_berechnet'] : []),
   ])];
+
+  // Marken (DR-074/T109): zu jedem Meldungstext Wirkung und Gewissheit der Aussagen hinter seinen Regel-ids; ohne data.aussagen leer
+  meldungIds.push(
+    ...emulsionsWarnungen.map((w) => ({ text: w.text, ids: [w.id] })),
+    ...trieb.warnungen.map((w) => ({ text: w.text, ids: [w.id] })),
+    ...archetypHinweise.map((h) => ({ text: h.text, ids: [`archetyp:${h.id}`] })),
+  );
+  const marken = {};
+  for (const m of meldungIds) {
+    const marke = markeFuer(m.ids, data.aussagen);
+    if (marke) marken[m.text] = marke;
+  }
 
   return {
     regelIds,

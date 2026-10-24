@@ -1,5 +1,5 @@
 import { fmtProzent } from '../model/bilanz.js';
-import { WIRKUNG_TEXT, GEWISSHEIT_TEXT } from '../model/aussagen.js';
+import { WIRKUNG_TEXT, GEWISSHEIT_TEXT, ZIEL_TEXT } from '../model/aussagen.js';
 import { overrideErfassen, overridesFuer } from '../model/overrides.js';
 import { fmtZeit } from '../model/zeit.js';
 import { renderRueckmeldung } from './rueckmeldung.js';
@@ -42,8 +42,8 @@ export function renderRecipe(root, computed, state, data, onChange) {
   for (const b of computed.blockaden || []) root.append(blockadeOverride(b, state, data, onChange));
   if (computed.zustaende?.length) root.append(vorbereitenZeile(computed.zustaende, 'note note-info vorbereiten', true)); // DR-064/DR-068: kurz, Teile verlinken auf die Klappe an der Zutat
   for (const w of computed.warnungen) root.append(mitMarke(el('p', 'note note-warn', w), computed.marken?.[w]));
-  for (const a of computed.anpassungen) root.append(el('p', 'note note-info', a));
-  for (const h of computed.toleranzHinweise || []) root.append(el('p', 'note note-info', h));
+  for (const a of computed.anpassungen) root.append(mitMarke(el('p', 'note note-info', a), computed.marken?.[a]));
+  for (const h of computed.toleranzHinweise || []) root.append(mitMarke(el('p', 'note note-info', h), computed.marken?.[h]));
 
   const table = el('table', 'zutaten');
   const thead = el('thead');
@@ -252,7 +252,7 @@ function mitMarke(p, m) {
   const s = el('span', `marke${m.verdacht ? ' marke-verdacht' : ''}`);
   s.title = m.titel;
   s.append(
-    el('span', 'marke-teil', `Wirkung ${WIRKUNG_TEXT[m.wirkung]}`),
+    el('span', 'marke-teil', `Wirkung ${WIRKUNG_TEXT[m.wirkung]}${m.ziel && m.ziel !== 'gelingen' ? ` auf ${ZIEL_TEXT[m.ziel]}` : ''}`),
     el('span', 'marke-teil', m.verdacht ? `Verdacht: ${GEWISSHEIT_TEXT[m.gewissheit]}` : `Gewissheit ${GEWISSHEIT_TEXT[m.gewissheit]}`),
   );
   p.append(s);

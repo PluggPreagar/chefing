@@ -277,6 +277,9 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
   const schritte = [];
   const gruende = [];
   const warnungen = [];
+  // Meldungstext mit den Regel-ids dahinter (DR-074/T109): damit die Anzeige Wirkung und Gewissheit der Aussagen anheften kann
+  const meldungen = [];
+  const idsVon = (liste) => liste.map((f) => f.id).filter(Boolean);
   const zustaende = []; // Soll-Zustände von Zutaten (DR-064): stehen an der Zutat, nicht als Schritt
   const kaskaden = [];
   const blockaden = [];
@@ -343,10 +346,14 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
       // Nutzer-Vorgabe (2026-09-21, „Purpose not clear"): Zweck zuerst nennen (ein zusätzlicher
       // Schritt wurde eingefügt), Begründung auf eigener Zeile statt hinter einem Doppelpunkt
       // im selben Satz — Titel-Tooltips (siehe morphbox.js) stellen \n als Zeilenumbruch dar.
-      warnungen.push(`Zusätzlich notwendiger Schritt „${data.operations[check.vorbereitung].label}“ wurde eingefügt.\n${op.label} braucht ${beschreibeBedingungen(check.fehlend, data)}.`);
+      const eingefuegtText = `Zusätzlich notwendiger Schritt „${data.operations[check.vorbereitung].label}“ wurde eingefügt.\n${op.label} braucht ${beschreibeBedingungen(check.fehlend, data)}.`;
+      warnungen.push(eingefuegtText);
+      meldungen.push({ text: eingefuegtText, ids: idsVon(check.fehlend) });
     } else if (!check.ok) {
       status = 'invalid';
-      gruende.push(`„${op.label}“ ist nicht möglich: braucht ${beschreibeBedingungen(check.fehlend, data)}. ${op.wirkung}`);
+      const grundText = `„${op.label}“ ist nicht möglich: braucht ${beschreibeBedingungen(check.fehlend, data)}. ${op.wirkung}`;
+      gruende.push(grundText);
+      meldungen.push({ text: grundText, ids: idsVon(check.fehlend) });
       // Kaskaden-Vorschlag (DR-019/T26): nur für hart-Bedingungen mit `kaskade_ziel`, und nur
       // wenn die Zielrolle nicht selbst `gesetzt-fix` ist (T24-Konfliktregel). Reine Berechnung,
       // wird in `computed.kaskaden` bereitgestellt — die Übernahme passiert erst in T27.
@@ -369,8 +376,16 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
     if (check.ok && check.empfehlungen?.length) {
       const normal = check.empfehlungen.filter((e) => !e.unsicher);
       const unsicher = check.empfehlungen.filter((e) => e.unsicher);
-      if (normal.length) warnungen.push(`${op.label}: ${beschreibeBedingungen(normal, data)} empfohlen, aber nicht zwingend — Ergebnis kann etwas abweichen.`);
-      if (unsicher.length) warnungen.push(`${op.label}: ${unsicherText(unsicher, props, data)}`);
+      if (normal.length) {
+        const text = `${op.label}: ${beschreibeBedingungen(normal, data)} empfohlen, aber nicht zwingend — Ergebnis kann etwas abweichen.`;
+        warnungen.push(text);
+        meldungen.push({ text, ids: idsVon(normal) });
+      }
+      if (unsicher.length) {
+        const text = `${op.label}: ${unsicherText(unsicher, props, data)}`;
+        warnungen.push(text);
+        meldungen.push({ text, ids: idsVon(unsicher) });
+      }
     }
     const nach = vorgaenger(key).filter((k) => k !== vorbereitungKey);
     schritte.push({ key, op, eingefuegt: false, nach: vorbereitungKey ? [...nach, vorbereitungKey] : nach });
@@ -380,7 +395,7 @@ export function resolveMethod(methodKey, zutaten, gefaessKey, data, fixiert = {}
     warnungen.push(`${method.label} ist für ${vessel.label} untypisch — ${method.warum}`);
   }
 
-  return { methodKey, status, schritte, gruende, warnungen, zustaende, kaskaden, blockaden };
+  return { methodKey, status, schritte, gruende, warnungen, meldungen, zustaende, kaskaden, blockaden };
 }
 
 const AGGREGAT = { fest: 'festes', fluessig: 'flüssiges', pulver: 'pulvriges', stueckig: 'stückiges' };

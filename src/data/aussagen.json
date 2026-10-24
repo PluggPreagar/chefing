@@ -259,6 +259,105 @@
   ],
   "wissen:eischnee-kaltes-eiweiss-butter-gerinnt": [
    {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"site":"kingarthurbaking.com","stand":"gelesen","haltung":"fuer","hinweis":"Seite von 2018 behauptet es ohne Beleg"},{"site":"kingarthurbaking.com","stand":"gelesen","haltung":"gegen","hinweis":"Seite von 2025 nennt nur Butter oder Meringue zu kalt"}],"log":"docs/QUELLEN.md, Abschnitte 2026-10-24"},"schaetzung":true,"begruendung":"Bei gekochter Meringue ist die Starttemperatur des Eiweißes unerheblich; belegt ist der Temperaturabstand der fertigen Zutaten. Für Rührteig gilt der Tipp zu kalten Eiern.","text":"Kaltes Eiweiß lässt Butter in Buttercreme gerinnen.","siehe":["ruehrteig-gerinnt-kalte-zutaten","wissen:buttercreme-gerinnt-temperaturabstand"]}
+  ],
+  "toleranz:wasser": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Wasser außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Eine Abweichung wirkt meist nur leicht."}
+  ],
+  "toleranz:fett": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Fett außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Eine Abweichung wirkt meist nur leicht."}
+  ],
+  "toleranz:zucker": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Zucker außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Eine Abweichung wirkt meist nur leicht."}
+  ],
+  "toleranz:eiweiss": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Eiweiß außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Eine Abweichung wirkt meist nur leicht."}
+  ],
+  "toleranz:gluten": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Klebereiweiß außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Eine Abweichung wirkt meist nur leicht."}
+  ],
+  "toleranz:staerke": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Stärke außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Eine Abweichung wirkt meist nur leicht."}
+  ],
+  "toleranz:emulgator": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Emulgator außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Eine Abweichung wirkt meist nur leicht."}
+  ],
+  "toleranz:triebkraft": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Triebkraft außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Abweichungen wirken hier stärker (kleine Mengen mit großer Wirkung)."}
+  ],
+  "toleranz:hefe": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Hefe außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Abweichungen wirken hier stärker (kleine Mengen mit großer Wirkung)."}
+  ],
+  "toleranz:salz": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Salz außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Abweichungen wirken hier stärker (kleine Mengen mit großer Wirkung)."}
+  ],
+  "toleranz:natron": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Natron außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Abweichungen wirken hier stärker (kleine Mengen mit großer Wirkung)."}
+  ],
+  "toleranz:saeure": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"engine.js: toleranz() gegen den Korpus"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Säure außerhalb der Korpus-Spanne heißt ungetestet, nicht falsch; der Korpus enthält nur Erfolge, darum nur maybe. Abweichungen wirken hier stärker (kleine Mengen mit großer Wirkung)."}
+  ],
+  "trieb:luft_wasser": [
+   {"ziel":"volumen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"triebquellen.json#luft_wasser"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Der Ei-Schaum fällt mit der Zeit zusammen, bei Wartezeit geht Volumen verloren; die zehn Minuten sind ein Richtwert, nicht gemessen."}
+  ],
+  "trieb:eischnee": [
+   {"ziel":"volumen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"triebquellen.json#eischnee"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Eischnee verliert Luft und Standfestigkeit, darum erst kurz vor dem Backen schlagen und unterheben; die zehn Minuten sind ein Richtwert."}
+  ],
+  "trieb:mineralwasser": [
+   {"ziel":"volumen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"ref":"triebquellen.json#mineralwasser"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Die Kohlensäure entweicht beim Stehen; der Zeitwert von zehn Minuten ist eine Praxisangabe ohne dokumentierte Quelle."}
+  ],
+  "trieb:natron": [
+   {"ziel":"volumen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"triebquellen.json#natron"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Natron setzt sein CO₂ mit der Säure sofort frei und es entweicht; sofort backen. Die fünfzehn Minuten sind ein Richtwert."}
+  ],
+  "trieb:backpulver": [
+   {"ziel":"volumen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"mechanismus","quellen":[{"ref":"triebquellen.json#backpulver"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Doppeltwirkendes Backpulver hält lange, der Mechanismus ist bekannt; die 180 Minuten sind unbelegt und selten relevant."}
+  ],
+  "zeit:einlegen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json#einlegen.zeit"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Zu kurz gequollene Einlage entzieht dem Teig Wasser, zu lange eingelegte wird weich; die Spanne ist sehr weit. Das Fenster ist ein Faustwert aus der Backliteratur, nicht gemessen."}
+  ],
+  "zeit:ruhen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json#ruhen.zeit"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Zu kurz ruhen lässt das Gluten gespannt (zäh, reißt beim Wenden), zu lang lässt den Teig absetzen. Das Fenster ist ein Faustwert aus der Backliteratur, nicht gemessen."}
+  ],
+  "zeit:kneten": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json#kneten.zeit"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Zu kurz geknetet bildet das Klebergerüst nicht aus, zu lang erwärmt den Teig. Das Fenster ist ein Faustwert aus der Backliteratur, nicht gemessen."}
+  ],
+  "zeit:gehen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json#gehen.zeit"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Zu kurz gegangen bleibt der Teig dicht, zu lang übergärt er und fällt zusammen. Das Fenster ist ein Faustwert aus der Backliteratur, nicht gemessen."}
+  ],
+  "zeit:stueckgare": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json#stueckgare.zeit"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Zu kurze Stückgare reißt im Ofen unkontrolliert, zu lange fällt in der Form zusammen. Das Fenster ist ein Faustwert aus der Backliteratur, nicht gemessen."}
+  ],
+  "zeit:vorteig_reifen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"maybe","beleg":{"art":"mechanismus","quellen":[{"ref":"operations.json#vorteig_reifen.zeit"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Ein zu kurz gereifter Vorteig bringt keinen Aroma- und Triebvorsprung, ein überreifer schmeckt säuerlich-flach; die Spanne ist sehr weit. Das Fenster ist ein Faustwert aus der Backliteratur, nicht gemessen."}
+  ],
+  "emulsion:eier_einzeln": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"emulsion.js, methods.json"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Zu viel Ei auf einmal in die Fett-Basis lässt die Creme gerinnen (Tipp ruehrteig-gerinnt-kalte-zutaten, Evidenz 3); das Ergebnis wird gröber."}
+  ],
+  "emulsion:oel_einlaufen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"emulsion.js, methods.json"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Öl im Schwall in die Ei-Basis trennt sich vom Wasser; dünn eingelaufen bleibt die Emulsion."}
+  ],
+  "emulsion:butter_zuletzt": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"emulsion.js, methods.json"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Butter portionsweise unter den Schaum, sonst bricht die Emulsion oder der Schaum fällt."}
+  ],
+  "emulsion:unterheben_abwechselnd": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"emulsion.js, methods.json"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Flüssigkeit portionsweise zur Fett-Basis, sonst gerinnt die Masse."}
+  ],
+  "emulsion:oel_tropfen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"emulsion.js, methods.json"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Der Anfang der Mayonnaise braucht tropfenweises Öl; zu schnell beginnen trennt die Emulsion, sie ist dann unbrauchbar (Korpus: häufigster Fehler laut Rückmeldungen und Quellen, QUELLEN.md 2026-10-21)."}
+  ],
+  "emulsion:oel_strahl_mayo": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"emulsion.js, methods.json"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Der Strahl darf erst nach der stabilen Basis kommen; zu früh trennt die Mayonnaise."}
+  ],
+  "emulsion:puerieren": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"emulsion.js, methods.json"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Pürierstab: alles auf einmal geht nur in der richtigen Reihenfolge und im passenden Gefäß, sonst bleibt die Masse flüssig."}
+  ],
+  "emulsion:puerieren_einlaufen": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"emulsion.js, methods.json"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Pürierstab mit einlaufendem Öl: zu schnell eingelaufen trennt die Emulsion."}
+  ],
+  "gaerung_modell": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"maybe","beleg":{"art":"konsens","quellen":[{"ref":"modelle.json#gaerung, tools/gaerung-fit.mjs"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Das Gärmodell ist am Korpus angepasst (Leave-one-out-Spanne), nicht gemessen; eine Abweichung von Gärzeit und Hefemenge kann Über- oder Untergare bedeuten, ist aber nur eine Plausibilitätsprüfung."}
+  ],
+  "archetyp:senf_fehlt": [
+   {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"archetypes.json#mayonnaise.hinweise"}]},"schaetzung":true,"begruendung":"Startschätzung (T109): Die Schleimstoffe der Senfsaat stabilisieren die Emulsion zusätzlich zum Lecithin; alle Korpus-Rezepte nehmen Senf, ohne ihn gelingt es meist auch, nur langsamer."}
   ]
  }
 }

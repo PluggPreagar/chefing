@@ -5,7 +5,7 @@ import fs from 'fs';
 const wurzel = new URL('../src/', import.meta.url);
 const { validieren, regelIdsAusDaten, pruefPrioritaet, konsistenz, WIRKUNG, GEWISSHEIT, BELEG_ART, WIRKUNG_TEXT, GEWISSHEIT_TEXT } = await import(new URL('model/aussagen.js', wurzel));
 const J = (n) => JSON.parse(fs.readFileSync(new URL(`data/${n}.json`, wurzel), 'utf8'));
-const data = Object.fromEntries(['grenzen', 'operations', 'methods', 'erfahrungsregeln'].map((n) => [n, J(n)]));
+const data = Object.fromEntries(['grenzen', 'operations', 'methods', 'erfahrungsregeln', 'archetypes', 'triebquellen', 'modelle'].map((n) => [n, J(n)]));
 data.tipps = J('tipps');
 const aussagen = J('aussagen');
 const { ids, strenge, mitVorbereitung, logisch } = regelIdsAusDaten(data);

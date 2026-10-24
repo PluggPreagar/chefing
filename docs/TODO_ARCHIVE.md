@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T109 | Marken und Aussagen für die übrigen Meldungen | done | Marke an Meldungen aus Voraussetzungen, Korpus-Toleranz, Trieb, Zeit-Fenstern, Emulsion, Gärmodell und Archetyp-Hinweisen (`computed.marken` aus einer gemeinsamen Liste von Text und Regel-ids); 33 neue Aussagen als Schätzung; `markeFuer` zeigt alle Schadens-Aussagen mit ihrer Zielgröße. Tests je Quelle, im Browser geprüft. | DR-074 |
 | T114 | Nutzerstufe: Einsteiger, Fortgeschritten, Profi filtert Hinweise | done | Knopfgruppe im Kopf des Ablaufs neben „Strom / Kompakt“; Schwellen 1, 3, 5 Sterne; Wahl je Browser gemerkt (`chefing.stufe`), Vorgabe Einsteiger; `state.stufe` filtert in `compute`, Warnungen bleiben immer sichtbar. Im Browser geprüft. | DR-075, T113 |
 | T113 | Hinweis-Schema und Sternformel | done | `src/data/hinweise.json` (id, Schritt, Text, Aussage, optional `sterne_manuell` mit `sterne_grund`); `hinweisSterne` mit Wirkungspunkten (0, 2, 4, 5) mal Gewissheitsfaktor (0, 0,4, 0,6, 0,8, 1, 1), höchstens 5; Validator und Tests in `test/aussagen.check.mjs`. | DR-075 |
 | T112 | Eischnee-Hinweise im Schritt | done | Drei Hinweise am Schnee-Schlagen und Eier-Trennen: zimmerwarmes Eiweiß (3 Sterne), Eier kalt trennen (2), fettfreie Schüssel (berechnet 5, von Hand 2); Anzeige als „Tipp ★★★☆☆“ in der Strom-Ansicht. Kalte Geräte bleiben unter Verdacht und erscheinen nicht. | T113, DR-075 |

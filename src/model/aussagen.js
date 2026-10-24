@@ -5,6 +5,7 @@
 // Die Daten liegen in data/aussagen.json, nach Regel-id (oder `wissen:<name>` für freie Aussagen ohne Regel).
 // Rein, ohne DOM: Validator, Marken für die Anzeige, Prüf-Priorität, Konsistenz, Vorschläge aus Rückmeldungen.
 import { MIN_BERICHT_N } from './rueckmeldung.js';
+import { GROESSEN } from './bilanz.js';
 
 export const WIRKUNG = ['ohne_folge', 'leicht', 'spuerbar', 'ausfall'];
 export const GEWISSHEIT = ['never', 'unlikely', 'maybe', 'likely', 'surely', 'proven'];
@@ -16,6 +17,7 @@ export const QUELLEN_STAND = ['gelesen', 'suchtreffer'];
 export const WIRKUNG_TEXT = { ohne_folge: 'ohne Folge', leicht: 'leicht', spuerbar: 'spürbar', ausfall: 'Ausfall' };
 export const GEWISSHEIT_TEXT = { never: 'nie', unlikely: 'eher nein', maybe: 'vielleicht', likely: 'wahrscheinlich', surely: 'sicher', proven: 'bewiesen' };
 export const BELEG_TEXT = { geruecht: 'Gerücht', konsens: 'Konsens', mechanismus: 'Mechanismus', gemessen: 'gemessen' };
+export const ZIEL_TEXT = { gelingen: 'Gelingen', volumen: 'Volumen', stabilitaet: 'Stabilität', tempo: 'Tempo', geschmack: 'Geschmack' };
 
 const rang = (liste, wert) => liste.indexOf(wert);
 const gRang = (g) => rang(GEWISSHEIT, g);
@@ -66,6 +68,15 @@ export function regelIdsAusDaten(data) {
   for (const m of Object.values(data.methods || {})) for (const e of Array.isArray(m?.sequenz) ? m.sequenz : []) if (e && typeof e === 'object') ausVoraussetzung(e);
   for (const r of data.erfahrungsregeln?.regeln || []) merke(r.id);
   for (const t of data.tipps?.tipps || []) merke(t.id);
+  // Meldungsquellen der Engine mit eigenen ids (T109): Korpus-Toleranz je Bilanz-Größe, haltbare Triebquellen, Zeit-Fenster der
+  // Operationen, Emulsions-Schritte, Gärmodell, Archetyp-Hinweise. Nicht erfasst (keine Vorhersage): technik:, prep:, basis:, ausstattung:.
+  for (const g of Object.keys(GROESSEN)) merke(`toleranz:${g}`);
+  for (const [k, q] of Object.entries(data.triebquellen || {})) if (!k.startsWith('_') && typeof q?.haelt_min === 'number') merke(`trieb:${k}`);
+  for (const [k, op] of Object.entries(data.operations || {})) if (!k.startsWith('_') && op?.zeit) merke(`zeit:${k}`);
+  for (const [k, op] of Object.entries(data.operations || {})) if (!k.startsWith('_') && op?.emulsion) merke(`emulsion:${k}`);
+  for (const m of Object.values(data.methods || {})) for (const e of Array.isArray(m?.sequenz) ? m.sequenz : []) if (e && typeof e === 'object' && e.emulsion && e.key) merke(`emulsion:${e.key}`);
+  if (data.modelle?.gaerung) merke('gaerung_modell');
+  for (const a of Object.values(data.archetypes || {})) for (const h of a?.hinweise || []) if (h?.id && typeof a === 'object') merke(`archetyp:${h.id}`);
   return { ids, strenge, mitVorbereitung, logisch };
 }
 
@@ -122,20 +133,23 @@ export const aussagenFuer = (regelId, daten) => daten?.regeln?.[regelId] || [];
 
 // --- Marke für die Anzeige --------------------------------------------------------------------------------------------------
 // Fasst die Aussagen mehrerer Regel-ids (eine gebündelte Meldung) zusammen: höchste Wirkung, niedrigste Gewissheit.
-// Berücksichtigt nur das Gelingen (Zielgröße der Warnung); hat keine Regel eine Aussage dazu, gibt es keine Marke.
+// Berücksichtigt die Aussagen, die einen Schaden beschreiben (Richtung minus), das ist der Inhalt einer Warnung; hat keine Regel
+// eine solche Aussage, gibt es keine Marke. `ziel` nennt die Zielgröße der stärksten Aussage (Gelingen, Volumen, Tempo …).
 export function markeFuer(regelIds, daten) {
-  const alle = (regelIds || []).flatMap((id) => aussagenFuer(id, daten).filter((a) => a.ziel === 'gelingen' && a.richtung === 'minus').map((a) => ({ id, ...a })));
+  const alle = (regelIds || []).flatMap((id) => aussagenFuer(id, daten).filter((a) => a.richtung === 'minus').map((a) => ({ id, ...a })));
   if (!alle.length) return null;
-  const wirkung = alle.reduce((m, a) => (rang(WIRKUNG, a.wirkung) > rang(WIRKUNG, m) ? a.wirkung : m), alle[0].wirkung);
+  const staerkste = alle.reduce((m, a) => (rang(WIRKUNG, a.wirkung) > rang(WIRKUNG, m.wirkung) ? a : m), alle[0]);
+  const wirkung = staerkste.wirkung;
   const niedrigste = alle.reduce((m, a) => (gRang(a.gewissheit) < gRang(m.gewissheit) ? a : m), alle[0]);
   const schaetzung = alle.some((a) => a.schaetzung === true);
   const arten = [...new Set(alle.map((a) => BELEG_TEXT[a.beleg.art]))];
   return {
+    ziel: staerkste.ziel,
     wirkung,
     gewissheit: niedrigste.gewissheit,
     verdacht: gRang(niedrigste.gewissheit) < gRang('likely'),
     schaetzung,
-    titel: `Wirkung ${WIRKUNG_TEXT[wirkung]}, Gewissheit ${GEWISSHEIT_TEXT[niedrigste.gewissheit]}. Beleg: ${arten.join(', ')}${schaetzung ? ' (Schätzung, noch nicht durch Rückmeldungen geprüft)' : ''}.${niedrigste.begruendung ? ` ${niedrigste.begruendung}` : ''}`,
+    titel: `Wirkung ${WIRKUNG_TEXT[wirkung]}${staerkste.ziel !== 'gelingen' ? ` auf ${ZIEL_TEXT[staerkste.ziel]}` : ''}, Gewissheit ${GEWISSHEIT_TEXT[niedrigste.gewissheit]}. Beleg: ${arten.join(', ')}${schaetzung ? ' (Schätzung, noch nicht durch Rückmeldungen geprüft)' : ''}.${niedrigste.begruendung ? ` ${niedrigste.begruendung}` : ''}`,
     ids: alle.map((a) => `${a.id}:${a.ziel}`),
   };
 }

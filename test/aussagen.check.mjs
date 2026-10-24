@@ -25,7 +25,7 @@ const fehler = A.validieren(daten, { regelIds: ids });
 ok(fehler.length === 0, 'aussagen.json ist gültig' + (fehler.length ? ': ' + fehler.slice(0, 3).join(' | ') : ''));
 const frei = Object.keys(daten.regeln).filter((k) => k.startsWith('wissen:'));
 const gebunden = Object.keys(daten.regeln).filter((k) => !k.startsWith('wissen:'));
-ok(ids.size === 74 && gebunden.length === 74 && [...ids].every((i) => daten.regeln[i]), 'jede der 74 Regeln (Grenzen, Voraussetzungen, Erfahrungsregeln, Tipps) hat mindestens eine Aussage');
+ok(ids.size === 107 && gebunden.length === 107 && [...ids].every((i) => daten.regeln[i]), 'jede der 107 Regeln (74 aus Grenzen, Voraussetzungen, Erfahrungsregeln, Tipps; 33 aus Toleranz, Trieb, Zeit, Emulsion, Gärmodell, Archetyp-Hinweis, T109) hat mindestens eine Aussage');
 ok(frei.length === 8, 'acht freie Eischnee-/Buttercreme-Aussagen (T108, dazu „Eier kalt trennen“ für T112)');
 ok(Object.values(daten.regeln).flat().every((a) => a.schaetzung === true && a.begruendung), 'alle heutigen Werte sind als Schätzung mit Begründung gekennzeichnet');
 const extremImBestand = Object.values(daten.regeln).flat().filter((a) => a.gewissheit === 'never' || a.gewissheit === 'proven');
@@ -185,6 +185,53 @@ ok(ablaufOf({ ...st('gugelhupf'), techniken: { eier_getrennt: true } }).find((s)
 ok(ablaufOf(mitSchnee('einsteiger'), mitAussagen).every((s) => s.hinweise.length === 0), 'ohne data.hinweise: keine Hinweise, kein Fehler');
 const wA = compute(mitSchnee('einsteiger'), mitHinweisen, ks), wP = compute(mitSchnee('profi'), mitHinweisen, ks);
 ok(JSON.stringify(wA.warnungen) === JSON.stringify(wP.warnungen) && JSON.stringify(wA.gruende) === JSON.stringify(wP.gruende) && wA.status === wP.status, 'Warnungen, Gründe und Status hängen nicht von der Nutzerstufe ab');
+
+// --- T109: Marken und Aussagen für alle Meldungsquellen -----------------------------------------------------------------------------
+const tq = J('triebquellen');
+const idFamilien = [
+  ...Object.keys(GROESSEN_KEYS()).map((g) => `toleranz:${g}`),
+  ...Object.entries(tq).filter(([k, q]) => !k.startsWith('_') && typeof q.haelt_min === 'number').map(([k]) => `trieb:${k}`),
+  ...Object.entries(data.operations).filter(([k, o]) => !k.startsWith('_') && o?.zeit).map(([k]) => `zeit:${k}`),
+  'emulsion:eier_einzeln', 'emulsion:oel_einlaufen', 'emulsion:butter_zuletzt', 'emulsion:unterheben_abwechselnd', 'emulsion:oel_tropfen', 'emulsion:oel_strahl_mayo', 'emulsion:puerieren', 'emulsion:puerieren_einlaufen',
+  'gaerung_modell', 'archetyp:senf_fehlt',
+];
+function GROESSEN_KEYS() { return { wasser: 1, fett: 1, zucker: 1, eiweiss: 1, gluten: 1, staerke: 1, emulgator: 1, triebkraft: 1, hefe: 1, salz: 1, natron: 1, saeure: 1 }; }
+ok(idFamilien.length === 33 && idFamilien.every((i) => ids.has(i) && daten.regeln[i]), 'alle 33 Ids der Meldungsquellen sind im Regel-Universum und tragen eine Aussage');
+ok(!['technik:', 'prep:', 'basis:', 'ausstattung:'].some((p) => [...ids].some((i) => i.startsWith(p))), 'technik:, prep:, basis: und ausstattung: sind keine Vorhersagen und tragen bewusst keine Aussage');
+const tr = A.markeFuer(['trieb:natron'], daten);
+ok(tr && tr.ziel === 'volumen' && /auf Volumen/.test(tr.titel), 'markeFuer: Aussagen zu Volumen tragen ihre Zielgröße im Titel');
+ok(A.markeFuer(['wissen:eischnee-eiweiss-zimmerwarm-tempo'], daten) === null, 'markeFuer: Aussagen mit Richtung plus (Hinweise) bekommen keine Warn-Marke');
+ok(A.ZIEL_TEXT.volumen === 'Volumen' && Object.keys(A.ZIEL_TEXT).join() === A.ZIELE.join(), 'ZIEL_TEXT deckt alle Zielgrößen ab');
+// Engine: jede Meldungsquelle hängt ihre Marke an
+const kA = data.archetypes;
+const ksAlle = {};
+for (const [ak, a] of Object.entries(kA)) {
+  if (ak.startsWith('_')) continue;
+  const rollen = a.rollen.map((r) => r.rolle); const referenz = a.rollen.find((r) => r.referenz)?.rolle ?? rollen[0];
+  for (const [vk, v] of Object.entries(a.varianten)) ksAlle[vk] = stats(J('corpus/' + v.korpus).map((r) => normalizeRecipe(r, data.ingredients, { rollen, referenz })), rollen);
+}
+const stA = (ak, vk, over = {}) => { const a = kA[ak]; const v = a.varianten[vk]; const z = {}; for (const r of a.rollen) z[r.rolle] = E(v.bestof[r.rolle] !== undefined ? v.bestof[r.rolle] : r.default); Object.assign(z, over.zutaten || {}); return { archetyp: ak, gefaess: v.gefaess, methode: over.methode ?? null, fixiert: { rollen: {}, zutaten: {} }, zutaten: z, techniken: over.techniken || {}, mengen: {}, zustandWege: {}, ausstattung: null, stufe: 'einsteiger' }; };
+const rechne = (ak, vk, over, d = mitHinweisen) => compute(stA(ak, vk, over), { ...d, arch: kA[ak] }, ksAlle);
+const alleTexte = (c) => [...c.gruende, ...c.warnungen, ...c.toleranzHinweise, ...c.anpassungen];
+const cV = rechne('ruehrteig', 'kastenkuchen', { methode: 'creme', zutaten: { fett: E('pflanzenoel') } });
+ok(cV.gruende.length > 0 && cV.gruende.every((g) => cV.marken[g]), 'Voraussetzung (Öl in der Crememethode, nicht möglich): jeder Grund trägt eine Marke');
+const cT = rechne('ruehrteig', 'muffin', { methode: 'creme' });
+ok(alleTexte(cT).filter((t) => /Korpus/.test(t) && cT.marken[t]).length > 0, 'Korpus-Toleranz (Muffin mit Crememethode): die Meldung trägt eine Marke');
+const cN = rechne('pfannkuchen', 'eierkuchen', { zutaten: { trieb: E('natron') } });
+const natronText = cN.warnungen.find((t) => /Natron/.test(t) && cN.marken[t]);
+ok(natronText && cN.marken[natronText].ziel === 'volumen', 'Trieb (Natron hält nur kurz): die Warnung trägt eine Marke mit Ziel Volumen');
+const mayoVk = Object.keys(kA.mayonnaise.varianten)[0];
+const cA = rechne('mayonnaise', mayoVk, { zutaten: { aroma: [] } });
+ok(cA.anpassungen.some((t) => /Senf/.test(t) && cA.marken[t]), 'Archetyp-Hinweis (Senf fehlt): trägt eine Marke');
+// Zeit: ein von der Methode festgelegter Wert außerhalb des Fensters (synthetisch, damit der Fall sicher eintritt)
+const zeitMethode = Object.entries(data.methods).find(([k, m]) => kA.hefeteig.methoden.includes(k) && Array.isArray(m.sequenz) && m.sequenz.some((e) => (typeof e === 'string' ? e : e?.key) === 'gehen'))?.[0];
+const hefeVk = Object.keys(kA.hefeteig.varianten)[0];
+const dZeit = JSON.parse(JSON.stringify(mitHinweisen));
+dZeit.methods[zeitMethode].zeiten = { ...(dZeit.methods[zeitMethode].zeiten || {}), gehen: 2000 };
+const cZ = rechne('hefeteig', hefeVk, { methode: zeitMethode }, dZeit);
+const zeitText = [...cZ.gruende, ...cZ.warnungen].find((t) => /Fenster/.test(t) && cZ.marken[t]);
+ok(!!zeitMethode && !!zeitText, 'Zeit-Fenster (Gehzeit weit über dem Fenster): die Meldung trägt eine Marke' + (zeitMethode ? '' : ' — keine Methode mit „gehen“ gefunden'));
+ok(Object.keys(rechne('ruehrteig', 'kastenkuchen', { methode: 'creme' }).marken).length === 0, 'Preset ohne Meldungen: weiterhin keine Marken');
 
 console.log(fail ? `${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;
