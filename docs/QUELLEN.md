@@ -453,3 +453,15 @@ Ergebnis: keine kontrollierte Messung gefunden. Belegt: zimmerwarm schlägt schn
 | 2026-10-24 | bakeclub.com.au, tastingtable.com, williams-sonoma.com, zwilling.com, alleantworten.de, stuttgarter-zeitung.de, rewe.de, lecker.de | je 1 (Suchtreffer) | Gerinnen, fettfreie Geräte, Eiweiß kühlen | Temperaturabstand zwischen Butter und Meringue; Fettfreiheit der Geräte ist die belegte Geräteregel; Kühl-Tipps gelten der Sahne, nur lecker.de nennt Gefrierfach für zu warmes Eiweiß |
 
 Ergebnis: „kaltes Eiweiß lässt Butter gerinnen“ nur als Gerücht; belegt ist der Temperaturabstand von Butter und fertiger Meringue. „Geräte kalt für Eischnee“ nicht gestützt, die Quellen empfehlen das Gegenteil und meinen für Kälte die Sahne.
+
+## 2026-10-24 — Volltexte der Fachaufsätze zu Eiweißschaum (T110, Teilarbeit, kein Korpus)
+
+Die PDFs liegen vor und wurden mit `pdfjs-dist` (nur im Scratchpad installiert) in Text umgewandelt; damit sind die zuvor als „Text nicht lesbar“ geführten Aufsätze gelesen.
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-24 | cjfs.agriculturejournals.cz | 3 (gelesen, PDF) | Eiweißschaum: Temperatur beim Schlagen | Radványi u. a. 2012 und Bovšková, Míková 2011: Hitzebehandlung, pH, Metallionen, Zucker; die Schlagtemperatur von kaltem gegen zimmerwarmes Eiweiß wird nicht untersucht |
+| 2026-10-24 | agriculturejournals.cz | 1 (gelesen, PDF) | Eiweißschaum: Temperatur beim Schlagen | Lomakina, Míková 2006, Czech J. Food Sci. 24(3): 110–118, begutachtete Übersicht, enthält die Stelle: bei Zimmertemperatur schneller und mehr Volumen (St. John, Flor 1931), Stabilität zwischen 20 und 34 °C kaum beeinflusst (Stadelman, Cotterill 1994), Girton 1999 ohne Einfluss bei Vollei im Vakuum; alle drei dort nur zitiert |
+| 2026-10-24 | content.cabi.org | 1 (gelesen, PDF) | Eiweißschaum: Einflussfaktoren | Míková, Bovšková 2009, Tagungsbeitrag: Temperatur nur in der Aufzählung, nicht untersucht |
+
+Ergebnis: Kein begutachteter Volltext belegt „kalt ist stabiler“. Die Übersicht stützt „zimmerwarm schlägt schneller und gibt mehr Volumen“ als begutachtete Aussage aus zweiter Hand. Für `proven` fehlt der Volltext der Originalstudien von 1931 und 1994.

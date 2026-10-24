@@ -23,7 +23,7 @@ console.log(`  Gewissheit: ${zaehle((a) => a.gewissheit, GEWISSHEIT)}`);
 console.log(`  Wirkung:    ${zaehle((a) => a.wirkung, WIRKUNG)}`);
 console.log(`  Beleg:      ${zaehle((a) => a.beleg.art, BELEG_ART)}`);
 const extrem = alle.filter((a) => a.gewissheit === 'never' || a.gewissheit === 'proven');
-console.log(`  Mit wissenschaftlichem Nachweis (never/proven): ${extrem.length}${extrem.length ? '' : ' — keine Aussage hat bisher einen begutachteten Volltext-Beleg'}\n`);
+console.log(`  Mit wissenschaftlichem Nachweis (never/proven): ${extrem.length}${extrem.length ? '' : ' — keine Aussage trägt bisher einen vollständigen Nachweis (begutachtete Studie, Volltext gelesen, DOI)'}\n`);
 
 console.log(`Prüf-Priorität (Wirkung × Unsicherheit), die ersten ${top}:`);
 for (const z of pruefPrioritaet(aussagen).slice(0, top)) {
