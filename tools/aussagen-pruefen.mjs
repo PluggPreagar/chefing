@@ -8,7 +8,7 @@ const J = (n) => JSON.parse(fs.readFileSync(new URL(`data/${n}.json`, wurzel), '
 const data = Object.fromEntries(['grenzen', 'operations', 'methods', 'erfahrungsregeln'].map((n) => [n, J(n)]));
 data.tipps = J('tipps');
 const aussagen = J('aussagen');
-const { ids, strenge } = regelIdsAusDaten(data);
+const { ids, strenge, mitVorbereitung, logisch } = regelIdsAusDaten(data);
 
 const topIdx = process.argv.indexOf('--top');
 const top = topIdx > 0 ? Number(process.argv[topIdx + 1]) : 15;
@@ -30,10 +30,12 @@ for (const z of pruefPrioritaet(aussagen).slice(0, top)) {
   console.log(`  ${String(z.prioritaet).padStart(2)}  ${z.id.padEnd(52)} ${WIRKUNG_TEXT[z.wirkung].padEnd(10)} ${GEWISSHEIT_TEXT[z.gewissheit].padEnd(14)} ${z.beleg}`);
 }
 
-const k = konsistenz(aussagen, strenge, ids);
+const k = konsistenz(aussagen, strenge, ids, mitVorbereitung, logisch);
 console.log(`\nKonsistenz zu strenge (nur Hinweise, die Einstufung bleibt Maintainer-Entscheidung):`);
 console.log(`  hart, aber keine Aussage mit Ausfall (vielleicht eher „empfohlen“): ${k.hartWirkung.length}`);
 for (const r of k.hartWirkung) console.log(`    ${r.id.padEnd(44)} Wirkung: ${r.wirkung}`);
+console.log(`  hart ohne Ausfall, aber mit automatischer Vorbereitung (Pflicht mit Hilfe, in Ordnung): ${k.hartMitHilfe.length}${k.hartMitHilfe.length ? ` — ${k.hartMitHilfe.map((r) => r.id).join(', ')}` : ''}`);
+console.log(`  hart ohne Ausfall, Voraussetzung eines Zustands-Schritts (sagt nur, ob der Schritt geht, in Ordnung): ${k.hartLogisch.length}${k.hartLogisch.length ? ` — ${k.hartLogisch.map((r) => r.id).join(', ')}` : ''}`);
 console.log(`  hart, aber sicherste Aussage unter „wahrscheinlich“: ${k.hartGewissheit.length}`);
 for (const r of k.hartGewissheit) console.log(`    ${r.id.padEnd(44)} Gewissheit: ${r.gewissheit}`);
 console.log(`  Löschkandidaten (alle Aussagen ohne Folge): ${k.loeschkandidaten.length}${k.loeschkandidaten.length ? ` — ${k.loeschkandidaten.join(', ')}` : ''}`);

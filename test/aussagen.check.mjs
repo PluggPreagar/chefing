@@ -13,7 +13,7 @@ const names = ['ingredients', 'operations', 'methods', 'archetypes', 'vessels', 
 const data = Object.fromEntries(names.map((n) => [n, J(n)]));
 const tipps = J('tipps');
 const daten = J('aussagen');
-const { ids, strenge } = A.regelIdsAusDaten({ ...data, tipps });
+const { ids, strenge, mitVorbereitung, logisch } = A.regelIdsAusDaten({ ...data, tipps });
 
 // --- Skalen ----------------------------------------------------------------------------------------------------------------------
 ok(A.GEWISSHEIT.join() === 'never,unlikely,maybe,likely,surely,proven', 'Gewissheit: sechs Stufen never … proven');
@@ -88,8 +88,15 @@ ok(prio.find((p) => p.id === 'y:gelingen').prioritaet === 0 && prio.find((p) => 
 const kons = A.konsistenz({ regeln: { h1: [{ ziel: 'gelingen', wirkung: 'spuerbar', gewissheit: 'likely' }], h2: [{ ziel: 'gelingen', wirkung: 'ausfall', gewissheit: 'maybe' }], e1: [{ ziel: 'gelingen', wirkung: 'ohne_folge', gewissheit: 'likely' }] } }, new Map([['h1', 'hart'], ['h2', 'hart'], ['e1', 'empfohlen']]), new Set(['h1', 'h2', 'e1', 'offen']));
 ok(kons.hartWirkung.map((x) => x.id).join() === 'h1' && kons.hartGewissheit.map((x) => x.id).join() === 'h2', 'Konsistenz: hart ohne Ausfall und hart unter likely werden gemeldet');
 ok(kons.loeschkandidaten.join() === 'e1' && kons.unbewertet.join() === 'offen', 'Konsistenz: Löschkandidat und unbewertete Regel werden gemeldet');
-const echt = A.konsistenz(daten, strenge, ids);
+const echt = A.konsistenz(daten, strenge, ids, mitVorbereitung, logisch);
 ok(echt.unbewertet.length === 0, 'echte Daten: keine Regel ohne Aussage');
+// hart mit automatischer Vorbereitung ist Pflicht mit Hilfe (die App schiebt den Schritt ein), kein Fehlalarm der Konsistenzprüfung
+ok(['fett_muss_fest_fuer_aufschlagen', 'fett_muss_cremig_fuer_aufschlagen', 'eier_nicht_kalt', 'fett_muss_fluessig_fuer_verquirlen', 'fett_muss_fluessig_fuer_butter_zuletzt'].every((i) => mitVorbereitung.has(i)), 'Regeln mit `vorbereitung_falls_nicht` am Schritt sind als Pflicht mit Hilfe erkannt');
+ok(echt.hartMitHilfe.length === 5 && echt.hartLogisch.map((r) => r.id).sort().join() === 'eier_temperierbar,fett_muss_fest_fuer_schmelzen,fett_nicht_zu_warm_zum_temperieren,fett_temperierbar', 'echte Daten: 5 harte Regeln mit Hilfe und 4 Voraussetzungen von Zustands-Schritten, beide in Ordnung');
+ok(echt.hartWirkung.length === 0, 'echte Daten: kein harter Befund ohne Ausfall mehr offen');
+ok(echt.hartGewissheit.length === 0, 'echte Daten: keine harte Regel unter „wahrscheinlich“ (die drei Pfannkuchen-Grenzen von Hand auf Mechanismus korrigiert)');
+const hilfe = A.konsistenz({ regeln: { h1: [{ ziel: 'gelingen', wirkung: 'spuerbar', gewissheit: 'likely' }] } }, new Map([['h1', 'hart']]), new Set(['h1']), new Set(['h1']));
+ok(hilfe.hartWirkung.length === 0 && hilfe.hartMitHilfe.length === 1, 'hart ohne Ausfall wird mit Vorbereitung nicht als Befund gemeldet, aber ausgewiesen');
 
 // --- Rückmeldungen schärfen die Gewissheit (T107) -------------------------------------------------------------------------------------
 const rd = { regeln: { r1: [{ ziel: 'gelingen', richtung: 'minus', gewissheit: 'maybe' }], r2: [{ ziel: 'gelingen', richtung: 'minus', gewissheit: 'surely' }], r3: [{ ziel: 'gelingen', richtung: 'minus', gewissheit: 'unlikely' }], r4: [{ ziel: 'gelingen', richtung: 'minus', gewissheit: 'proven' }], r5: [{ ziel: 'tempo', richtung: 'plus', gewissheit: 'maybe' }], r6: [{ ziel: 'gelingen', richtung: 'minus', gewissheit: 'never' }] } };

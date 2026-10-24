@@ -60,19 +60,19 @@
    {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#pk_wasser_band"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
   ],
   "pk_wasser_max_hart": [
-   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"ref":"grenzen.json#pk_wasser_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (keine Begründung dokumentiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#pk_wasser_max_hart"}]},"schaetzung":true,"begruendung":"Von Hand korrigiert (2026-10-24): Die Textmuster-Suche hatte den Hinweis übersehen, der den Mechanismus nennt (zu dünner Teig bindet nicht, läuft in der Pfanne auseinander). Zahlenwert 450 % ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
   ],
   "pk_fett_max": [
    {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"ref":"grenzen.json#pk_fett_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (am Korpus plausibilisiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}
   ],
   "pk_fett_max_hart": [
-   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"ref":"grenzen.json#pk_fett_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (keine Begründung dokumentiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#pk_fett_max_hart"}]},"schaetzung":true,"begruendung":"Von Hand korrigiert (2026-10-24): Der Hinweis nennt den Mechanismus (Fett schwimmt auf dem Teig, er stockt nicht gleichmäßig), den die Textmuster-Suche übersehen hatte. Zahlenwert 100 % ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
   ],
   "pk_zucker_max": [
    {"ziel":"gelingen","richtung":"minus","wirkung":"leicht","gewissheit":"likely","beleg":{"art":"konsens","quellen":[{"ref":"grenzen.json#pk_zucker_max"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (am Korpus plausibilisiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen, abgemildert: Richtwert, Folge nur leicht."}
   ],
   "pk_zucker_max_hart": [
-   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"maybe","beleg":{"art":"geruecht","quellen":[{"ref":"grenzen.json#pk_zucker_max_hart"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (keine Begründung dokumentiert); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
+   {"ziel":"gelingen","richtung":"minus","wirkung":"ausfall","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#pk_zucker_max_hart"}]},"schaetzung":true,"begruendung":"Von Hand korrigiert (2026-10-24): Der Hinweis nennt den Mechanismus (Zucker karamellisiert sofort, der Pfannkuchen klebt an und verbrennt), den die Textmuster-Suche übersehen hatte. Zahlenwert 80 % ist ein Faustwert, nicht gemessen. Wirkung nach strenge hart."}
   ],
   "pk_gluten_min": [
    {"ziel":"gelingen","richtung":"minus","wirkung":"spuerbar","gewissheit":"likely","beleg":{"art":"mechanismus","quellen":[{"ref":"grenzen.json#pk_gluten_min"}]},"schaetzung":true,"begruendung":"Startschätzung aus quelle und hinweis der Grenze (Wirkung physikalisch begründet); Zahlenwert ist ein Faustwert, nicht gemessen. Wirkung nach strenge empfohlen."}

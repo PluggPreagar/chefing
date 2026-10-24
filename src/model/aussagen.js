@@ -46,18 +46,27 @@ export const nachweisGueltig = (n) => nachweisFehler(n).length === 0;
 
 // --- Regel-ids aus den Daten ----------------------------------------------------------------------------------------------
 // Alle Regeln, die Aussagen tragen können: Grenzen, Voraussetzungen (Operationen und Methoden), Erfahrungsregeln, Tipps.
-// Rückgabe: { ids: Set, strenge: Map(id → 'hart'|'empfohlen') } — Erfahrungsregeln und Tipps haben keine strenge.
+// Rückgabe: { ids: Set, strenge: Map(id → 'hart'|'empfohlen'), mitVorbereitung: Set } — Erfahrungsregeln und Tipps haben keine strenge;
+// mitVorbereitung = Voraussetzungen, deren Schritt eine Vorbereitung ergänzt (`vorbereitung_falls_nicht`): „hart“ heißt dort Pflicht mit Hilfe.
 export function regelIdsAusDaten(data) {
   const ids = new Set();
   const strenge = new Map();
+  const mitVorbereitung = new Set();
+  const logisch = new Set();
   const merke = (id, s) => { if (!id) return; ids.add(id); if (s && !strenge.has(id)) strenge.set(id, s); };
   for (const liste of Object.values(data.grenzen?.archetypen || {})) for (const g of liste) merke(g.id, g.strenge);
-  const ausVoraussetzung = (op) => { for (const b of op?.voraussetzung || []) merke(b.id, b.strenge || 'hart'); };
+  const ausVoraussetzung = (op) => {
+    for (const b of op?.voraussetzung || []) {
+      merke(b.id, b.strenge || 'hart');
+      if (b.id && op.vorbereitung_falls_nicht) mitVorbereitung.add(b.id);
+      if (b.id && op.zustand) logisch.add(b.id); // Schritt stellt einen Soll-Zustand her (DR-064): die Voraussetzung sagt nur, ob das geht
+    }
+  };
   for (const op of Object.values(data.operations || {})) if (op && typeof op === 'object') ausVoraussetzung(op);
   for (const m of Object.values(data.methods || {})) for (const e of Array.isArray(m?.sequenz) ? m.sequenz : []) if (e && typeof e === 'object') ausVoraussetzung(e);
   for (const r of data.erfahrungsregeln?.regeln || []) merke(r.id);
   for (const t of data.tipps?.tipps || []) merke(t.id);
-  return { ids, strenge };
+  return { ids, strenge, mitVorbereitung, logisch };
 }
 
 // --- Validator ------------------------------------------------------------------------------------------------------------
@@ -143,24 +152,26 @@ export function pruefPrioritaet(daten) {
   return zeilen.sort((x, y) => y.prioritaet - x.prioritaet || x.id.localeCompare(y.id));
 }
 
-// strengen: Map(regel-id → 'hart'|'empfohlen') aus regelIdsAusDaten. Befunde (keine Fehler, nur Hinweise für den Maintainer):
-//   hartWirkung   – `hart`, aber keine Aussage mit Wirkung „Ausfall“ (vielleicht eher `empfohlen`)
+// strengen, mitVorbereitung: aus regelIdsAusDaten. Befunde (keine Fehler, nur Hinweise für den Maintainer):
+//   hartWirkung   – `hart`, aber keine Aussage mit Wirkung „Ausfall“ (vielleicht eher `empfohlen`); ausgenommen Regeln, deren Schritt
+//                   eine Vorbereitung ergänzt (`hartMitHilfe`): dort blockiert `hart` nicht, die App schiebt den Schritt ein; und
+//                   Voraussetzungen von Schritten, die einen Soll-Zustand herstellen (`hartLogisch`): sie sagen nur, ob der Schritt geht
 //   hartGewissheit – `hart`, aber die sicherste Aussage liegt unter „wahrscheinlich“
 //   loeschkandidaten – alle Aussagen der Regel ohne Folge
 //   unbewertet    – Regel ohne jede Aussage
-export function konsistenz(daten, strengen, alleIds = null) {
+export function konsistenz(daten, strengen, alleIds = null, mitVorbereitung = new Set(), logisch = new Set()) {
   const regeln = daten?.regeln || {};
-  const hartWirkung = [], hartGewissheit = [], loeschkandidaten = [];
+  const hartWirkung = [], hartMitHilfe = [], hartLogisch = [], hartGewissheit = [], loeschkandidaten = [];
   for (const [id, liste] of Object.entries(regeln)) {
     if (strengen?.get(id) === 'hart') {
-      if (!liste.some((a) => a.wirkung === 'ausfall')) hartWirkung.push({ id, wirkung: liste.map((a) => a.wirkung).join(', ') });
+      if (!liste.some((a) => a.wirkung === 'ausfall')) (mitVorbereitung.has(id) ? hartMitHilfe : logisch.has(id) ? hartLogisch : hartWirkung).push({ id, wirkung: liste.map((a) => a.wirkung).join(', ') });
       const hoechste = Math.max(...liste.map((a) => gRang(a.gewissheit)));
       if (hoechste < gRang('likely')) hartGewissheit.push({ id, gewissheit: GEWISSHEIT[hoechste] });
     }
     if (liste.every((a) => a.wirkung === 'ohne_folge')) loeschkandidaten.push(id);
   }
   const unbewertet = alleIds ? [...alleIds].filter((id) => !regeln[id]).sort() : [];
-  return { hartWirkung, hartGewissheit, loeschkandidaten, unbewertet };
+  return { hartWirkung, hartMitHilfe, hartLogisch, hartGewissheit, loeschkandidaten, unbewertet };
 }
 
 // --- Rückmeldungen schärfen die Gewissheit (T107) -------------------------------------------------------------------------------
