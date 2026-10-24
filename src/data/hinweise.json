@@ -6,6 +6,7 @@
   "text": "ein bis zwei kurze Sätze, nur eigene Formulierung",
   "aussage": "genau eine Aussage aus aussagen.json als <regel-id>:<ziel>; ihre Wirkung und Gewissheit liefern den Startwert der Sterne. Ein Hinweis, der mehrere Aussagen zusammenfasst, wird in mehrere Hinweise geteilt.",
   "archetyp": "optional, ein Archetyp-Schlüssel oder eine Liste (ruehrteig, pfannkuchen, hefeteig, mayonnaise): der Hinweis erscheint nur bei diesem Archetyp, sonst bei allen, die den Schritt haben",
+  "methode": "optional, ein Methoden-Schlüssel aus methods.json oder eine Liste (z. B. creme, muffin, hefe_kalt): der Hinweis erscheint nur bei dieser Methode; zusammen mit archetyp müssen beide passen",
   "sterne": "wird nicht gespeichert: Wirkungspunkte (ohne Folge 0, leicht 2, spürbar 4, Ausfall 5) mal Gewissheitsfaktor (never 0, unlikely 0,4, maybe 0,6, likely 0,8, surely und proven 1), gerundet, höchstens 5",
   "sterne_manuell": "optional, 0 bis 5: überschreibt den berechneten Wert, wo Vorwissen ihn ändert (was Profis längst wissen, bekommt weniger Sterne). Braucht sterne_grund.",
   "sterne_grund": "Pflicht bei sterne_manuell: warum der Wert vom berechneten abweicht",

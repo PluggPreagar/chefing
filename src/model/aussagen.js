@@ -241,15 +241,18 @@ export function hinweisSterne(h, daten) {
   return { sterne: manuell ? h.sterne_manuell : berechnet, berechnet, manuell, grund: manuell ? h.sterne_grund : null, aussage };
 }
 
-const archetypenVon = (h) => [].concat(h?.archetyp ?? []);
+// Einschränkungen eines Hinweises: Text oder Liste von Texten; fehlt das Feld, gilt der Hinweis überall
+const EINSCHRAENKUNGEN = ['archetyp', 'methode'];
+const werteVon = (h, feld) => [].concat(h?.[feld] ?? []);
 
-// Hinweise eines Schritts, die für die Stufe erscheinen (ab Schwelle), wichtigste zuerst; ein Hinweis mit archetyp nur bei diesem Archetyp
-export function hinweiseFuerSchritt(schrittKey, hinweiseDaten, daten, stufe = 'einsteiger', archetyp = null) {
+// Hinweise eines Schritts, die für die Stufe erscheinen (ab Schwelle), wichtigste zuerst; kontext = { archetyp, methode } des Ablaufs,
+// ein Hinweis mit archetyp oder methode erscheint nur bei einem der genannten Werte
+export function hinweiseFuerSchritt(schrittKey, hinweiseDaten, daten, stufe = 'einsteiger', kontext = {}) {
   const schwelle = SCHWELLE[stufe] ?? SCHWELLE.einsteiger;
   const liste = [];
   for (const h of hinweiseDaten?.hinweise || []) {
     if (h.schritt !== schrittKey) continue;
-    if (h.archetyp != null && !archetypenVon(h).includes(archetyp)) continue;
+    if (EINSCHRAENKUNGEN.some((feld) => h[feld] != null && !werteVon(h, feld).includes(kontext?.[feld]))) continue;
     const s = hinweisSterne(h, daten);
     if (!s || s.sterne < schwelle) continue;
     liste.push({
@@ -270,7 +273,8 @@ export function schrittKeysAusDaten(data) {
   return keys;
 }
 
-export function hinweiseValidieren(hinweiseDaten, aussagenDaten, schrittKeys = null, archetypKeys = null) {
+// bekannt = { archetyp: Set, methode: Set } der Schlüssel aus den Daten; ohne Angabe wird nur die Form geprüft
+export function hinweiseValidieren(hinweiseDaten, aussagenDaten, schrittKeys = null, bekannt = {}) {
   const fehler = [];
   const liste = hinweiseDaten?.hinweise;
   if (!Array.isArray(liste)) return ['hinweise.json: Feld „hinweise“ fehlt'];
@@ -283,9 +287,10 @@ export function hinweiseValidieren(hinweiseDaten, aussagenDaten, schrittKeys = n
     if (String(h?.text ?? '').trim().length < 10) fe('text fehlt');
     if (schrittKeys && !schrittKeys.has(h?.schritt)) fe(`schritt „${h?.schritt}“ ist kein Schritt der Daten`);
     if (!aussageVon(h?.aussage, aussagenDaten)) fe(`aussage „${h?.aussage}“ gibt es nicht (Regel-id:Ziel)`);
-    if (h?.archetyp != null) {
-      const liste = archetypenVon(h);
-      if (!liste.length || liste.some((a) => typeof a !== 'string' || (archetypKeys && !archetypKeys.has(a)))) fe(`archetyp „${JSON.stringify(h.archetyp)}“ ist kein Archetyp der Daten (Text oder Liste von Texten)`);
+    for (const feld of EINSCHRAENKUNGEN) {
+      if (h?.[feld] == null) continue;
+      const werte = werteVon(h, feld);
+      if (!werte.length || werte.some((w) => typeof w !== 'string' || (bekannt?.[feld] && !bekannt[feld].has(w)))) fe(`${feld} „${JSON.stringify(h[feld])}“ ist kein ${feld === 'archetyp' ? 'Archetyp' : 'Methoden-Schlüssel'} der Daten (Text oder Liste von Texten)`);
     }
     if (h?.sterne_manuell != null && !(Number.isInteger(h.sterne_manuell) && h.sterne_manuell >= 0 && h.sterne_manuell <= 5)) fe('sterne_manuell muss eine ganze Zahl von 0 bis 5 sein');
     if (h?.sterne_manuell != null && String(h.sterne_grund ?? '').trim().length < 10) fe('sterne_manuell braucht einen sterne_grund');
