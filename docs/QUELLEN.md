@@ -465,3 +465,17 @@ Die PDFs liegen vor und wurden mit `pdfjs-dist` (nur im Scratchpad installiert) 
 | 2026-10-24 | content.cabi.org | 1 (gelesen, PDF) | Eiweißschaum: Einflussfaktoren | Míková, Bovšková 2009, Tagungsbeitrag: Temperatur nur in der Aufzählung, nicht untersucht |
 
 Ergebnis: Kein begutachteter Volltext belegt „kalt ist stabiler“. Die Übersicht stützt „zimmerwarm schlägt schneller und gibt mehr Volumen“ als begutachtete Aussage aus zweiter Hand. Für `proven` fehlt der Volltext der Originalstudien von 1931 und 1994.
+
+## 2026-10-24 — Nur offene Quellen für Nachweise (T110, kein Korpus)
+
+Entscheidung des Nutzers: nur frei zugängliche Quellen. Volltexte kamen als JATS-XML über die Schnittstelle von Europe PMC (frei lizenzierte Artikel) und wurden von mir selbst gelesen, nicht über Zusammenfassungen.
+
+| Datum | Domain | Seiten | Zweck | Notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-24 | europepmc.org (ebi.ac.uk) | 4 (gelesen, Volltext-XML) | Eigelb im Eiweiß, Hefe und Hitze | Liu, Chen, Wang 2023, Foods 12(6):1289, DOI 10.3390/foods12061289 (Nachweis für „Eigelb im Eiweiß“); Li u. a. 2021, Foods 10(9):2238, DOI 10.3390/foods10092238 (bestätigt, Zahlen nur in Abbildungen); Munna u. a. 2015, BMC Research Notes, DOI 10.1186/s13104-015-1355-x (Laborstamm, 44 bis 46 °C); Osmo-, Thermo- und Ethanol-Toleranz von S. cerevisiae S1 (thermotoleranter Stamm, nicht verwendet) |
+| 2026-10-24 | worldeggorganisation.com | 1 (gelesen, PDF) | Eigelb und Fett im Eiweißschaum | Abschlussbericht Wang 2009 fasst zwei Artikel des Journal of Food Science zusammen (0,022 % Eigelb senkt das Schaumvermögen, neutrale Lipide schaden mehr als Phospholipide); der Volltext der Artikel ist nicht offen, darum kein Nachweis |
+| 2026-10-24 | mdpi.com | 2 (Abruf abgewiesen) | Foods-Aufsätze | PDF-Abruf liefert nur eine Sperrseite; Volltext stattdessen über Europe PMC |
+| 2026-10-24 | pubs.rsc.org, just.ustc.edu.cn, open.metu.edu.tr, en.wikipedia.org, ebsco.com, opentextbc.ca, chem.libretexts.org, innograin.uva.es, scientificamerican.com | je 1 (Suchtreffer) | Natron: Zersetzung ohne Säure | nur Suchzusammenfassungen: ab etwa 80 °C setzt Natron auch ohne Säure CO₂ frei und hinterlässt Natriumcarbonat (seifig); kein begutachteter offener Volltext zum Backen gefunden |
+| 2026-10-24 | dr.lib.iastate.edu, foodnavigator-usa.com, doaj.org | je 1 (Suchtreffer) | Eigelb im Eiweißschaum | Eintrag des Journal-of-Food-Science-Artikels von Wang 2009; Volltext nicht frei |
+
+Ergebnis: **Eine** Aussage erreicht `proven`: Eigelb im Eiweiß senkt Schaumvolumen und -stabilität (Liu 2023, Volltext gelesen, Härte 10,7 N gegen 40,2 N bei 0,5 % Eigelb). Die Hefe-Hitze bleibt `surely` (ein Stamm, Stunden statt Minuten). Für Natron gibt es keinen offenen begutachteten Beleg; der Regeltext „ohne Säure kein CO₂“ ist nach den Suchtreffern ungenau (ab etwa 80 °C entsteht auch ohne Säure CO₂).

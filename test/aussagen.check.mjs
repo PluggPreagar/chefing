@@ -26,8 +26,15 @@ ok(fehler.length === 0, 'aussagen.json ist gültig' + (fehler.length ? ': ' + fe
 const frei = Object.keys(daten.regeln).filter((k) => k.startsWith('wissen:'));
 const gebunden = Object.keys(daten.regeln).filter((k) => !k.startsWith('wissen:'));
 ok(ids.size === 107 && gebunden.length === 107 && [...ids].every((i) => daten.regeln[i]), 'jede der 107 Regeln (74 aus Grenzen, Voraussetzungen, Erfahrungsregeln, Tipps; 33 aus Toleranz, Trieb, Zeit, Emulsion, Gärmodell, Archetyp-Hinweis, T109) hat mindestens eine Aussage');
-ok(frei.length === 8, 'acht freie Eischnee-/Buttercreme-Aussagen (T108, dazu „Eier kalt trennen“ für T112)');
-ok(Object.values(daten.regeln).flat().every((a) => a.schaetzung === true && a.begruendung), 'alle heutigen Werte sind als Schätzung mit Begründung gekennzeichnet');
+ok(frei.length === 9, 'neun freie Eischnee-/Buttercreme-Aussagen (T108, dazu „Eier kalt trennen“ für T112 und „Eigelb im Eiweiß“ aus T110)');
+ok(Object.values(daten.regeln).flat().every((a) => A.nachweisGueltig(a.beleg?.nachweis) ? a.schaetzung !== true : a.schaetzung === true && a.begruendung), 'jede Aussage ohne gültigen Nachweis ist eine Schätzung mit Begründung, jede mit Nachweis ist keine mehr');
+const bewiesen = Object.entries(daten.regeln).filter(([, l]) => l.some((a) => a.gewissheit === 'proven' || a.gewissheit === 'never'));
+ok(bewiesen.length === 1 && bewiesen[0][0] === 'wissen:eischnee-eigelb-spur', 'T110: genau eine Aussage trägt proven oder never, Eigelb im Eiweiß (alle anderen bleiben begründete Schätzungen)');
+const eigelb = daten.regeln['wissen:eischnee-eigelb-spur'][0];
+ok(eigelb.gewissheit === 'proven' && eigelb.beleg.art === 'gemessen' && eigelb.beleg.nachweis.doi === '10.3390/foods12061289' && eigelb.beleg.nachweis.volltext_gelesen === true && eigelb.beleg.nachweis.peer_reviewed === true, 'T110: Eigelb-Aussage nennt Studie (Foods 2023, DOI), begutachtet, Volltext gelesen, Beleg gemessen');
+ok(/10,7 N/.test(eigelb.beleg.nachweis.deckt_aussage) && /40,2 N/.test(eigelb.beleg.nachweis.deckt_aussage) && /67,7 N/.test(eigelb.beleg.nachweis.deckt_aussage), 'T110: die Begründung nennt die gemessenen Härtewerte der Studie');
+ok(daten.regeln['wissen:eischnee-fettfreie-schuessel'][0].gewissheit === 'surely' && daten.regeln['wissen:eischnee-fettfreie-schuessel'][0].siehe.includes('wissen:eischnee-eigelb-spur'), 'T110: fettfreie Schüssel bleibt surely (Fettrest nicht gemessen) und verweist auf die gemessene Eigelb-Aussage');
+ok(daten.regeln.hefe_fluessigkeit_zu_heiss[0].gewissheit === 'surely' && daten.regeln.hefe_fluessigkeit_zu_heiss[0].beleg.quellen.some((q) => /BMC Research Notes/.test(q.hinweis || '')), 'T110: Hefe-Hitze bleibt surely, die frei lesbare Studie ist als Quelle ergänzt (Stamm und Stunden, kein proven)');
 const extremImBestand = Object.values(daten.regeln).flat().filter((a) => a.gewissheit === 'never' || a.gewissheit === 'proven');
 ok(extremImBestand.every((a) => a.beleg.art === 'gemessen' && A.nachweisGueltig(a.beleg.nachweis)), 'jede Aussage auf never/proven im Bestand trägt einen gültigen wissenschaftlichen Nachweis');
 ok(['eischnee-kalte-geraete'].every((k) => daten.regeln['wissen:' + k][0].gewissheit === 'unlikely'), 'T108: kalte Geräte für Eischnee sind unlikely, nicht never (kein Nachweis)');

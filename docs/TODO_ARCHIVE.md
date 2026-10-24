@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T110 | Wissenschaftliche Volltext-Belege für die wichtigsten Aussagen | done | Nur offene Quellen (Entscheidung des Nutzers). PDF-Text über `pdfjs-dist`, frei lizenzierte Volltexte über Europe PMC. Ergebnis: eine Aussage `proven` (Eigelb im Eiweiß, Liu u. a. 2023), Hefe-Hitze und Fettrest bleiben `surely`, Natron ohne offenen Beleg. Die Originale von 1931 und 1994 wurden nicht beschafft. | DR-074 |
 | T109 | Marken und Aussagen für die übrigen Meldungen | done | Marke an Meldungen aus Voraussetzungen, Korpus-Toleranz, Trieb, Zeit-Fenstern, Emulsion, Gärmodell und Archetyp-Hinweisen (`computed.marken` aus einer gemeinsamen Liste von Text und Regel-ids); 33 neue Aussagen als Schätzung; `markeFuer` zeigt alle Schadens-Aussagen mit ihrer Zielgröße. Tests je Quelle, im Browser geprüft. | DR-074 |
 | T114 | Nutzerstufe: Einsteiger, Fortgeschritten, Profi filtert Hinweise | done | Knopfgruppe im Kopf des Ablaufs neben „Strom / Kompakt“; Schwellen 1, 3, 5 Sterne; Wahl je Browser gemerkt (`chefing.stufe`), Vorgabe Einsteiger; `state.stufe` filtert in `compute`, Warnungen bleiben immer sichtbar. Im Browser geprüft. | DR-075, T113 |
 | T113 | Hinweis-Schema und Sternformel | done | `src/data/hinweise.json` (id, Schritt, Text, Aussage, optional `sterne_manuell` mit `sterne_grund`); `hinweisSterne` mit Wirkungspunkten (0, 2, 4, 5) mal Gewissheitsfaktor (0, 0,4, 0,6, 0,8, 1, 1), höchstens 5; Validator und Tests in `test/aussagen.check.mjs`. | DR-075 |
