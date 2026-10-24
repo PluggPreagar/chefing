@@ -160,7 +160,10 @@ ok(ids2('einsteiger') === 'eischnee-eiweiss-zimmerwarm,eischnee-fettfrei', 'Eins
 ok(ids2('fortgeschritten') === 'eischnee-eiweiss-zimmerwarm', 'Fortgeschrittene sehen nur den 3-Sterne-Hinweis');
 ok(ids2('profi') === '', 'Profis sehen keinen dieser Hinweise (kein Hinweis hat 5 Sterne)');
 ok(A.hinweiseFuerSchritt(schritt, hinweise, daten, 'unbekannt').length === 2, 'unbekannte Stufe fällt auf Einsteiger zurück');
-ok(A.hinweiseFuerSchritt('ei_trennen', hinweise, daten, 'einsteiger').length === 1 && A.hinweiseFuerSchritt('ei_trennen', hinweise, daten, 'fortgeschritten').length === 0, 'Eier kalt trennen: 2 Sterne, nur für Einsteiger');
+const trenn = (stufe) => A.hinweiseFuerSchritt('ei_trennen', hinweise, daten, stufe).map((h) => h.id).join();
+ok(trenn('einsteiger') === 'eischnee-kein-eigelb,eischnee-eier-kalt-trennen' && trenn('fortgeschritten') === 'eischnee-kein-eigelb' && trenn('profi') === '', 'Eier trennen: „kein Eigelb“ (4 Sterne, bewiesen) für Einsteiger und Fortgeschrittene, „kalt trennen“ (2 Sterne) nur für Einsteiger');
+const kein = A.hinweisSterne(fh('eischnee-kein-eigelb'), daten);
+ok(kein.sterne === 4 && kein.berechnet === 4 && !kein.manuell, 'kein Eigelb im Eiweiß: spürbar × proven = 4 Sterne, ohne Handanpassung');
 ok(A.hinweiseFuerSchritt('backen', hinweise, daten, 'einsteiger').length === 0 && A.hinweiseFuerSchritt(schritt, null, daten).length === 0, 'andere Schritte und fehlende Daten: keine Hinweise');
 ok(A.hinweiseFuerSchritt(schritt, hinweise, daten, 'einsteiger')[0].titel.includes('3 von 5'), 'Titel nennt Sterne, Wirkung und Gewissheit');
 ok(A.hinweiseFuerSchritt(schritt, hinweise, daten, 'einsteiger').find((h) => h.id === 'eischnee-fettfrei').titel.includes('von Hand angepasst'), 'Titel nennt die Handanpassung samt berechnetem Wert');
@@ -183,9 +186,9 @@ const mitSchnee = (stufe) => ({ ...st('gugelhupf'), techniken: { eier_getrennt: 
 const hat = (a, key) => a.find((s) => s.key === key)?.hinweise?.map((h) => h.id).join() ?? null;
 const aE = ablaufOf(mitSchnee('einsteiger'));
 ok(aE.every((s) => Array.isArray(s.hinweise)), 'jeder Ablauf-Schritt trägt eine Hinweis-Liste (auch leer)');
-ok(hat(aE, 'eischnee_schlagen') === 'eischnee-eiweiss-zimmerwarm,eischnee-fettfrei' && hat(aE, 'ei_trennen') === 'eischnee-eier-kalt-trennen', 'Einsteiger: Hinweise an Schnee-Schlagen und Eier-Trennen');
+ok(hat(aE, 'eischnee_schlagen') === 'eischnee-eiweiss-zimmerwarm,eischnee-fettfrei' && hat(aE, 'ei_trennen') === 'eischnee-kein-eigelb,eischnee-eier-kalt-trennen', 'Einsteiger: Hinweise an Schnee-Schlagen und Eier-Trennen');
 const aF = ablaufOf(mitSchnee('fortgeschritten'));
-ok(hat(aF, 'eischnee_schlagen') === 'eischnee-eiweiss-zimmerwarm' && hat(aF, 'ei_trennen') === '', 'Fortgeschrittene: nur der 3-Sterne-Hinweis');
+ok(hat(aF, 'eischnee_schlagen') === 'eischnee-eiweiss-zimmerwarm' && hat(aF, 'ei_trennen') === 'eischnee-kein-eigelb', 'Fortgeschrittene: nur Hinweise ab 3 Sternen (Schnee: zimmerwarm, Trennen: kein Eigelb)');
 ok(ablaufOf(mitSchnee('profi')).every((s) => s.hinweise.length === 0), 'Profi: keine dieser Hinweise');
 ok(hat(ablaufOf({ ...st('gugelhupf'), stufe: 'einsteiger' }), 'eischnee_schlagen') === null, 'ohne eingeschaltete Eischnee-Technik gibt es den Schritt und seine Hinweise nicht');
 ok(ablaufOf({ ...st('gugelhupf'), techniken: { eier_getrennt: true } }).find((s) => s.key === 'eischnee_schlagen').hinweise.length === 2, 'ohne state.stufe gilt Einsteiger');

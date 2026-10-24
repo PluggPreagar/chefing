@@ -13,6 +13,7 @@
  "hinweise": [
   {"id": "eischnee-eiweiss-zimmerwarm", "schritt": "eischnee_schlagen", "text": "Das Eiweiß vor dem Schlagen zimmerwarm werden lassen, dann wird es schneller zu Schnee.", "aussage": "wissen:eischnee-eiweiss-zimmerwarm-tempo:tempo"},
   {"id": "eischnee-eier-kalt-trennen", "schritt": "ei_trennen", "text": "Die Eier kalt trennen, dann reißt der Dotter seltener.", "aussage": "wissen:eier-kalt-trennen-leichter:gelingen"},
+  {"id": "eischnee-kein-eigelb", "schritt": "ei_trennen", "text": "Beim Trennen keinen Dotter ins Eiweiß kommen lassen: schon eine winzige Spur macht den Schnee weniger voluminös und weniger stabil.", "aussage": "wissen:eischnee-eigelb-spur:volumen"},
   {"id": "eischnee-fettfrei", "schritt": "eischnee_schlagen", "text": "Schüssel und Besen fettfrei halten: schon ein Fettrest verhindert, dass das Eiweiß steif wird.", "aussage": "wissen:eischnee-fettfreie-schuessel:gelingen", "sterne_manuell": 2, "sterne_grund": "Die Wirkung ist Ausfall und die Gewissheit hoch, aber Fortgeschrittene und Profis kennen die Regel längst; nur Einsteiger sollen sie sehen."}
  ]
 }
