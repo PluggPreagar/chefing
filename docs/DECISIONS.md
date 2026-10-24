@@ -751,3 +751,23 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
   - **Hinweise:** „Eiweiß zimmerwarm werden lassen“ (Aussage Tempo, 3 Sterne), „Eier kalt trennen“ (neue freie Aussage `wissen:eier-kalt-trennen-leichter`, 2 Sterne) und „Schüssel fettfrei halten“ (berechnet 5, von Hand auf 2 gesenkt mit Grund: Fortgeschrittene und Profis kennen es). Damit erscheint für Einsteiger alles, für Fortgeschrittene nur der erste, für Profis keiner dieser Hinweise. Die kalten Geräte bleiben unter Verdacht und werden nicht gezeigt.
   - **Stufe:** `state.stufe` (Vorgabe Einsteiger, je Browser in `chefing.stufe` gemerkt) filtert in `compute`, nicht erst in der Anzeige; Warnungen, Gründe und Status hängen nicht von der Stufe ab. Der Schalter ist eine Knopfgruppe im Kopf des Ablaufs, neben „Strom | Kompakt“.
   - **Anzeige:** In der Strom-Ansicht steht am Schritt eine Zeile „Tipp ★★★☆☆“ mit Text; die Sterne zeigen per Tooltip Wirkung, Gewissheit und eine Handanpassung. Die Kompakt-Ansicht zeigt keine Hinweise (nur Symbole).
+
+## DR-076 · modell · Butter-Schmelzbereich: Punkt statt Bereich im Zustandsmodell
+
+- **descr:** (2026-10-24, T120, Nutzer: „run all to T120, take and doc best guesses“) Die offene Quelle aus T115 (Journal of Food Science 2026, wasserfreies Milchfett) zeigt: Milchfett schmilzt über einen sehr breiten Bereich bis etwa 40 °C, der Hauptbereich liegt bei 32 bis 36 °C. Das Zustandsmodell (T62, DR-032) kennt je Fett einen Schmelzpunkt (`schmelzpunkt_c`, Butter 34 °C): ganz darunter fest, ganz darüber flüssig, dazwischen unbestimmt. Frage: Soll ein Bereich den Punkt ersetzen?
+- **Prüfung (2026-10-24):** Alle Temperaturen, die an Butter landen können (benannte Bereiche, abgeleitete Angaben der Operationen, Wirkung von „Schmelzen“), gegen Punkt 34 und gegen einen Bereich 32 bis 36 °C gerechnet. Ergebnis: Nur zwei von 15 fallen anders aus, beide sind das Schmelzziel 35,7 °C (34 × 1,05, Nutzer-Vorgabe „Schmelzpunkt plus etwa 5 %“): mit Bereich wäre es „unbestimmt“ statt „flüssig“, geschmolzene Butter gälte nicht mehr als flüssig. „lauwarm“ (30 bis 35 °C) ist mit beiden Modellen „unbestimmt“. Kein Rezept und keine Methode nennt eine Butter-Temperatur im Fenster 32 bis 34 °C.
+- **Optionen:**
+  - **A Punkt behalten (gewählt)** *Schmelzpunkt, Mitte, unverändert* — Butter 34 °C als Mitte des Hauptbereichs 32 bis 36 °C, Texte nennen den Bereich.
+    - 🟢🟢 Pro: keine Änderung an Engine, Daten und Schmelzziel; das Modell verhält sich in allen heutigen Fällen wie ein Bereichsmodell.
+    - 🔴 Contra: bei exakt angegebenen Temperaturen im Fenster (33 °C fest, 35 °C flüssig) sitzt eine scharfe Kante, die es in Wirklichkeit nicht gibt.
+    - ⚠️ Risk: gering, ein künftiger Bereich im Fenster 32 bis 36 °C würde falsch bewertet; ein Test meldet das (Aufwand: Test, Textänderung).
+  - **B Bereich mit Beginn und Ende** *`schmelzbeginn_c`, `schmelzende_c`* — fest unter dem Beginn, flüssig ab dem Ende, dazwischen unbestimmt.
+    - 🟢 Pro: näher an der Physik, keine scharfe Kante.
+    - 🔴🔴 Contra: das Schmelzziel müsste vom Ende abgeleitet werden (36 × 1,05 = 37,8 °C), sonst gälte geschmolzene Butter als „unbestimmt“; das ändert die Nutzer-Vorgabe und Rezepttexte, Tests und die Regel „Fett muss fließen“.
+    - ⚠️⚠️ Risk: mittel, Engine, Daten und etwa zehn Tests; Aufwand 1 bis 2 Tage, ohne dass heute ein Rezept anders ausfällt.
+  - **C Drittes Aggregat „angeschmolzen“** *Zustand zwischen fest und flüssig* — eigener Zustand für Butter zwischen Beginn und Ende.
+    - 🟢 Pro: bildet „ölig, hält keine Luft“ als Zustand ab.
+    - 🔴🔴🔴 Contra: berührt alle Regeln mit `aggregat`, die Zustands-Schritte und die Anzeige.
+    - ⚠️⚠️⚠️ Risk: hoch, Aufwand mehrere Tage, nur über Git zurücknehmbar.
+- **Entscheidung (Best Guess, ohne Rückfrage):** A. Der Nutzen von B und C ist heute null (kein Rezept fällt anders aus), die Kosten sind klar. Bedingung zum Überdenken: Es kommt eine Temperatur-Angabe für Butter im Fenster 32 bis 36 °C dazu, etwa ein Rezept mit „Butter bei 33 °C“. Der Test in `test/eigenschaften.check.mjs` (T120) schlägt dann an.
+- **Umsetzung:** Kommentar im Feld `schmelzpunkt_c` (`ingredients.json`) nennt den Bereich; Test hält fest, welche Bereiche das Fenster berühren (lauwarm, Hefe lösen, Schmelzen).

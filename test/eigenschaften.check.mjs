@@ -179,4 +179,19 @@ ok(!JSON.stringify(data.operations.schmelzen.wirkt_auf_eigenschaften).includes('
 ok(Object.entries(ing).filter(([k,v])=>!k.startsWith('_') && typeof v?.schmelzpunkt_c==='number').every(([,v])=>v.aggregat==='fest' && v.schmelzpunkt_c>std.max),'jede Zutat mit Schmelzpunkt ist im Standard-Bereich fest (Schmelzpunkt über 27 °C, deklariertes Aggregat „fest“ passt zur Ableitung)');
 ok(Object.entries(ing).filter(([k,v])=>!k.startsWith('_') && typeof v?.schmelzpunkt_c==='number').every(([,v])=>aggregatAus(std,v)===v.aggregat),'Ableitung und deklariertes Aggregat stimmen für alle Zutaten mit Schmelzpunkt überein');
 
+// T120 (DR-076): Butter schmilzt in Wirklichkeit über 32 bis 36 °C, das Modell nimmt einen Punkt (34 °C). Das ist nur dann gleichwertig,
+// wenn kein Daten-Bereich knapp unter 34 °C liegt; diese Prüfung hält fest, welche Bereiche heute in das Fenster 32 bis 36 °C fallen.
+{
+  const T=J('temperaturen'), ops=J('operations'), butterK={fett:{schmelzpunkt_c:34,aufschlag_temp:'plastisch'}};
+  const alle=new Map();
+  for (const [k,v] of Object.entries(T)) if(!k.startsWith('_') && typeof v==='object') alle.set('benannt:'+k,{min:v.min,max:v.max});
+  for (const [k,o] of Object.entries(ops)) if(!k.startsWith('_')) {
+    if (o.temperatur!=null) { const b=temperaturBereich(o.temperatur,T,butterK); if(b) alle.set('operation:'+k,b); }
+    const w=o.wirkt_auf_eigenschaften?.fett?.temperatur; if (w!=null) { const b=temperaturBereich(w,T,butterK); if(b) alle.set('wirkt:'+k,b); }
+  }
+  const imFenster=[...alle].filter(([,b])=>b.max>=32 && b.min<36).map(([k])=>k).sort();
+  ok(imFenster.join()==='benannt:lauwarm,operation:hefe_ansetzen,operation:schmelzen,wirkt:schmelzen','T120: nur „lauwarm“, das Hefe-Lösen und das Schmelzen berühren das Fenster 32–36 °C; ein neuer Bereich dort ist ein Anlass, den Schmelzpunkt-Punkt zu überdenken (DR-076)');
+  ok(aggregatAus({min:30,max:35},ing.butter)==='unbestimmt' && aggregatAus({min:35.7,max:35.7},ing.butter)==='fluessig' && aggregatAus({min:24,max:26},ing.butter)==='fest','T120: lauwarm (30–35 °C) ist bei Butter unbestimmt, das Schmelzziel 35,7 °C flüssig, Raumwärme fest');
+}
+
 console.log(fail?fail+' FAIL':'ALL PASS');

@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T120 | Butter-Schmelzbereich im Zustandsmodell | done | Geprüft, nicht umgebaut (DR-076): Ein Bereich würde nur das Schmelzziel 35,7 °C ändern und geschmolzene Butter „unbestimmt“ machen, sonst fällt kein Fall anders aus. Punkt 34 °C bleibt als Mitte des Hauptbereichs 32 bis 36 °C, Feldtext nennt den Bereich, Test hält die Berührungspunkte fest. | T62, T115 |
 | T118 | Prüf-Priorität abarbeiten (erste 15) | done | Gegenprobe am Korpus, Negativ-Korpus und den gelesenen Quellen; drei Aussagen angehoben, zwei in der Wirkung gesenkt, übrige Begründungen mit Korpus-Zahlen ergänzt. Alles Handeinschätzung. Weitere Kandidaten der Liste: `hf_hefe_min_hart`, `hf_salz_max_hart`, `hf_wasser_max_hart`. | DR-074, T115 |
 | T119 | Quellen-Haltung „teilweise“ im Aussagen-Schema | done | `QUELLEN_HALTUNG` mit `fuer`, `teilweise`, `gegen`, Validator, Test, Schema-Text; Butter-Quelle von `fuer` auf `teilweise`, Gluten-Studie bei `zeit:ruhen` nachgetragen. | DR-074 |
 | T117 | Muffin-Ofentemperatur als Hinweis | done | Hinweis `muffin-heisser-ofen` am Schritt `backen`, 2 Sterne (nur Einsteiger). Beim Umsetzen zeigte sich: die Muffin-Methode ist nicht dasselbe wie Muffins (Variante folgt aus dem Gefäß), darum neues Hinweis-Feld `variante` statt `methode`; `methode` bleibt im Schema, ungenutzt. | DR-075 |
