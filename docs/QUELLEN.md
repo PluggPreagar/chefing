@@ -500,3 +500,13 @@ Quelle: Europe PMC (ebi.ac.uk), REST-Suche nach frei zugänglichen Aufsätzen, d
 | 2026-10-24 | ebi.ac.uk (Europe PMC) | 9 Suchen, 4 Volltexte durchsucht | Ölzugabe bei Mayonnaise | Durchsucht: PMC13512689 (Entropie der Mayonnaise-Herstellung, Motorstrom), PMC12311586 (Übersicht Emulsionsstabilität), PMC12428221 (Fettreduktion in Mayonnaise), PMC9141538 (Hitzebehandlung von Eigelb, Foods 11(10):1426). Keine Arbeit variiert die Zugaberate des Öls; die Herstellung wird nur als Verfahren beschrieben. Die Übersichten nennen Koaleszenz als Instabilitätsweg, ohne die Zugabe zu messen |
 
 Ergebnis: **kein** offener begutachteter Beleg, dass tropfenweise Ölzugabe am Anfang nötig ist. Die Aussagen `emulsion:oel_tropfen`, `emulsion:oel_strahl_mayo` und `emulsion:puerieren_einlaufen` bleiben `likely` (Mechanismus, Schätzung, gestützt auf den Korpus und Rückmeldungen).
+
+## 2026-10-24 — Butter-Schmelzbereich (T115, Teil 3)
+
+Quelle: Europe PMC (ebi.ac.uk), REST-Suche nach frei zugänglichen Aufsätzen zu Schmelzbereich und Festfettgehalt von Butter und Milchfett.
+
+| datum | domain | seiten | thema | notiz |
+|-------|--------|--------|-------|-------|
+| 2026-10-24 | ebi.ac.uk (Europe PMC) | 6 Suchen, 4 Volltexte durchsucht, 1 gelesen | Schmelzbereich Butter, Milchfett | Gelesen: Journal of Food Science 2026, DOI 10.1111/1750-3841.71493 (CC BY, Olivenöl-Oleogele mit trockenfraktioniertem wasserfreiem Milchfett). Milchfett schmilzt über einen sehr breiten Bereich (bis etwa 40 °C), Hauptbereich 32 bis 36 °C; die Schmelz-Anfangs- und Endwerte des Milchfetts stehen nur in einer Abbildung. Durchsucht ohne Butterwerte: PMC12820598 (pflanzliche Butter-Alternative, Festfett nur im Vergleich genannt), PMC13135125 (Rinder- und Kakaofett-Mischungen), PMC11666836 (Butter, Ghee, Margarine, SWOT) |
+
+Ergebnis: **kein** begutachteter offener Beleg mit Messwerten für Butter selbst (16 % Wasser, Festfettgehalt bei 20 und 30 °C). Die Marke 32 °C bleibt eine Näherung; die Aussage `fett_nicht_zu_warm_zum_temperieren` bleibt `surely` (Mechanismus, Schätzung) mit der gelesenen Quelle als Stütze.
