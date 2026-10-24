@@ -140,7 +140,7 @@ ok(grenzenBuendelnMitIds(v1).hart[0].ids.join() === 'a,b' && grenzenBuendeln(v1)
 // --- Hinweise mit Sternen und Nutzerstufe (DR-075, T112–T114) -------------------------------------------------------------------------
 const hinweise = J('hinweise');
 const schrittKeys = A.schrittKeysAusDaten(data);
-const bekannt = { archetyp: new Set(Object.keys(data.archetypes)), methode: new Set(Object.keys(data.methods).filter((k) => !k.startsWith('_'))) };
+const bekannt = { archetyp: new Set(Object.keys(data.archetypes)), variante: new Set(Object.values(data.archetypes).flatMap((a) => Object.keys(a.varianten || {}))), methode: new Set(Object.keys(data.methods).filter((k) => !k.startsWith('_'))) };
 ok(A.hinweiseValidieren(hinweise, daten, schrittKeys, bekannt).length === 0, 'hinweise.json ist gültig: ids, Schritte, Aussagen, Sterne-Overrides' + (A.hinweiseValidieren(hinweise, daten, schrittKeys).length ? ': ' + A.hinweiseValidieren(hinweise, daten, schrittKeys).join(' | ') : ''));
 ok(A.STUFEN.join() === 'einsteiger,fortgeschritten,profi' && A.SCHWELLE.einsteiger === 1 && A.SCHWELLE.fortgeschritten === 3 && A.SCHWELLE.profi === 5, 'Stufen: Einsteiger ab 1, Fortgeschritten ab 3, Profi ab 5 Sternen');
 // Formel: Wirkungspunkte (0, 2, 4, 5) × Gewissheitsfaktor (0, 0,4, 0,6, 0,8, 1, 1), gerundet, höchstens 5
@@ -170,6 +170,10 @@ ok(A.hinweisSterne(fh('hefe-warm-und-zugfrei-gehen'), daten).sterne === 3 && A.h
 ok(hs('gehen', 'einsteiger') === 'hefe-warm-und-zugfrei-gehen' && hs('gehen', 'fortgeschritten') === 'hefe-warm-und-zugfrei-gehen' && hs('gehen', 'profi') === '', 'Gehen: Hinweis für Einsteiger und Fortgeschrittene, nicht für Profis');
 ok(hs('ausbacken', 'einsteiger') === 'pfannkuchen-matt-wenden' && hs('ausbacken', 'fortgeschritten') === '', 'Ausbacken: 2-Sterne-Hinweis nur für Einsteiger');
 const hsA = (schritt, stufe, archetyp, methode) => A.hinweiseFuerSchritt(schritt, hinweise, daten, stufe, { archetyp, methode }).map((h) => h.id).join();
+ok(A.hinweisSterne(fh('muffin-heisser-ofen'), daten).sterne === 2, 'Muffin-Ofen: spürbar × vielleicht = 2 Sterne');
+ok(hsA('backen', 'einsteiger', 'ruehrteig', undefined) === 'kuchen-staebchenprobe', 'Muffin-Ofen: ohne Variante nicht gezeigt');
+const vh = (variante, stufe = 'einsteiger') => A.hinweiseFuerSchritt('backen', hinweise, daten, stufe, { archetyp: 'ruehrteig', variante }).map((h) => h.id).join();
+ok(vh('muffin') === 'kuchen-staebchenprobe,muffin-heisser-ofen' && vh('muffin', 'fortgeschritten') === 'kuchen-staebchenprobe' && vh('kastenkuchen') === 'kuchen-staebchenprobe' && vh('gugelhupf') === 'kuchen-staebchenprobe', 'Muffin-Ofen: nur bei der Variante Muffin und nur für Einsteiger, Stäbchenprobe bleibt überall im Rührteig');
 ok(A.hinweisSterne(fh('kuchen-staebchenprobe'), daten).sterne === 3, 'Stäbchenprobe: spürbar × wahrscheinlich = 3 Sterne');
 ok(hsA('backen', 'einsteiger', 'ruehrteig') === 'kuchen-staebchenprobe' && hsA('backen', 'fortgeschritten', 'ruehrteig') === 'kuchen-staebchenprobe' && hsA('backen', 'profi', 'ruehrteig') === '', 'Stäbchenprobe: bei Rührteig für Einsteiger und Fortgeschrittene, nicht für Profis');
 ok(hsA('backen', 'einsteiger', 'hefeteig') === '' && hsA('backen', 'einsteiger', 'pfannkuchen') === '' && hsA('backen', 'einsteiger') === '' && A.hinweiseFuerSchritt('backen', hinweise, daten, 'einsteiger').length === 0 && A.hinweiseFuerSchritt('backen', hinweise, daten, 'einsteiger', null).length === 0, 'Stäbchenprobe: nicht bei anderen Archetypen und nicht ohne Archetyp');
@@ -194,6 +198,7 @@ ok(hv([{ ...gut, aussage: 'wissen:gibt-es-nicht:tempo' }]).some((f) => /aussage/
 ok(hv([{ ...gut, aussage: 'wissen:eischnee-eiweiss-zimmerwarm-tempo:volumen' }]).some((f) => /aussage/.test(f)), 'Validator: falsches Ziel an der Aussage');
 ok(hv([{ ...gut, archetyp: 'ruehrteig' }]).length === 0 && hv([{ ...gut, archetyp: ['ruehrteig', 'hefeteig'] }]).length === 0, 'Validator: archetyp als Text oder Liste geht durch');
 ok(hv([{ ...gut, archetyp: 'kuchenteig' }]).some((f) => /archetyp/.test(f)) && hv([{ ...gut, archetyp: [] }]).some((f) => /archetyp/.test(f)) && hv([{ ...gut, archetyp: 7 }]).some((f) => /archetyp/.test(f)), 'Validator: unbekannter, leerer oder falscher archetyp');
+ok(hv([{ ...gut, variante: 'muffin' }]).length === 0 && hv([{ ...gut, variante: ['muffin', 'weissbrot'] }]).length === 0 && hv([{ ...gut, variante: 'gibt_es_nicht' }]).some((f) => /variante/.test(f)) && hv([{ ...gut, variante: [] }]).some((f) => /variante/.test(f)), 'Validator: variante als Text oder Liste, unbekannte oder leere wird gemeldet');
 ok(hv([{ ...gut, methode: 'creme' }]).length === 0 && hv([{ ...gut, methode: ['creme', 'muffin'] }]).length === 0, 'Validator: methode als Text oder Liste geht durch');
 ok(hv([{ ...gut, methode: 'gibt_es_nicht' }]).some((f) => /methode/.test(f)) && hv([{ ...gut, methode: [] }]).some((f) => /methode/.test(f)) && hv([{ ...gut, methode: 7 }]).some((f) => /methode/.test(f)), 'Validator: unbekannte, leere oder falsche methode');
 ok(A.hinweiseValidieren({ hinweise: [{ ...gut, archetyp: 'kuchenteig', methode: 'gibt_es_nicht' }] }, daten, schrittKeys).length === 0, 'Validator ohne Schlüsselmengen: nur die Form wird geprüft');
@@ -269,6 +274,10 @@ ok(Object.keys(rechne('ruehrteig', 'kastenkuchen', { methode: 'creme' }).marken)
 const backHinweise = (zustand) => compute({ ...zustand, stufe: 'einsteiger' }, mitHinweisen, ks).ablauf.find((s) => s.key === 'backen')?.hinweise.map((h) => h.id).join() ?? null;
 ok(backHinweise(st('gugelhupf')) === 'kuchen-staebchenprobe', 'Engine: Rührteig-Ablauf zeigt die Stäbchenprobe am Backen');
 ok(backHinweise(stA('hefeteig', 'weissbrot')) === '', 'Engine: Hefeteig-Ablauf zeigt sie nicht');
+// Engine: Hinweis mit variante folgt dem Gefäß, nicht der Methode (Muffin auch mit Creme-Methode, Kastenkuchen auch mit Muffin-Methode)
+const backIds = (zustand) => compute({ ...zustand, stufe: 'einsteiger' }, mitHinweisen, ks).ablauf.find((s) => s.key === 'backen')?.hinweise.map((h) => h.id).join() ?? null;
+ok(backIds({ ...st('muffin'), methode: 'creme' }) === 'kuchen-staebchenprobe,muffin-heisser-ofen' && backIds({ ...st('muffin'), methode: 'muffin' }) === 'kuchen-staebchenprobe,muffin-heisser-ofen', 'Engine: Muffin-Ofen-Hinweis bei Muffin-Gefäß mit Creme- und mit Muffin-Methode');
+ok(backIds({ ...st('kastenkuchen'), methode: 'muffin' }) === 'kuchen-staebchenprobe' && backIds(st('gugelhupf')) === 'kuchen-staebchenprobe', 'Engine: kein Muffin-Ofen-Hinweis im Kasten- und Gugelhupf-Gefäß, auch nicht mit Muffin-Methode');
 // Engine: Hinweis mit methode erscheint nur bei der gewählten Methode
 const nurCreme = { ...mitAussagen, hinweise: { hinweise: [{ ...fh('kuchen-staebchenprobe'), archetyp: undefined, methode: 'creme' }] } };
 const backMethode = (m) => compute({ ...st('gugelhupf'), methode: m, stufe: 'einsteiger' }, nurCreme, ks).ablauf.find((s) => s.key === 'backen')?.hinweise.length;

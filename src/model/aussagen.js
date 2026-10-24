@@ -242,11 +242,12 @@ export function hinweisSterne(h, daten) {
 }
 
 // Einschränkungen eines Hinweises: Text oder Liste von Texten; fehlt das Feld, gilt der Hinweis überall
-const EINSCHRAENKUNGEN = ['archetyp', 'methode'];
+const EINSCHRAENKUNGEN = ['archetyp', 'variante', 'methode'];
+const FELD_NAME = { archetyp: 'Archetyp', variante: 'Variante', methode: 'Methoden-Schlüssel' };
 const werteVon = (h, feld) => [].concat(h?.[feld] ?? []);
 
-// Hinweise eines Schritts, die für die Stufe erscheinen (ab Schwelle), wichtigste zuerst; kontext = { archetyp, methode } des Ablaufs,
-// ein Hinweis mit archetyp oder methode erscheint nur bei einem der genannten Werte
+// Hinweise eines Schritts, die für die Stufe erscheinen (ab Schwelle), wichtigste zuerst; kontext = { archetyp, variante, methode } des Ablaufs,
+// ein Hinweis mit archetyp, variante oder methode erscheint nur bei einem der genannten Werte
 export function hinweiseFuerSchritt(schrittKey, hinweiseDaten, daten, stufe = 'einsteiger', kontext = {}) {
   const schwelle = SCHWELLE[stufe] ?? SCHWELLE.einsteiger;
   const liste = [];
@@ -273,7 +274,7 @@ export function schrittKeysAusDaten(data) {
   return keys;
 }
 
-// bekannt = { archetyp: Set, methode: Set } der Schlüssel aus den Daten; ohne Angabe wird nur die Form geprüft
+// bekannt = { archetyp: Set, variante: Set, methode: Set } der Schlüssel aus den Daten; ohne Angabe wird nur die Form geprüft
 export function hinweiseValidieren(hinweiseDaten, aussagenDaten, schrittKeys = null, bekannt = {}) {
   const fehler = [];
   const liste = hinweiseDaten?.hinweise;
@@ -290,7 +291,7 @@ export function hinweiseValidieren(hinweiseDaten, aussagenDaten, schrittKeys = n
     for (const feld of EINSCHRAENKUNGEN) {
       if (h?.[feld] == null) continue;
       const werte = werteVon(h, feld);
-      if (!werte.length || werte.some((w) => typeof w !== 'string' || (bekannt?.[feld] && !bekannt[feld].has(w)))) fe(`${feld} „${JSON.stringify(h[feld])}“ ist kein ${feld === 'archetyp' ? 'Archetyp' : 'Methoden-Schlüssel'} der Daten (Text oder Liste von Texten)`);
+      if (!werte.length || werte.some((w) => typeof w !== 'string' || (bekannt?.[feld] && !bekannt[feld].has(w)))) fe(`${feld} „${JSON.stringify(h[feld])}“ ist kein ${FELD_NAME[feld]} der Daten (Text oder Liste von Texten)`);
     }
     if (h?.sterne_manuell != null && !(Number.isInteger(h.sterne_manuell) && h.sterne_manuell >= 0 && h.sterne_manuell <= 5)) fe('sterne_manuell muss eine ganze Zahl von 0 bis 5 sein');
     if (h?.sterne_manuell != null && String(h.sterne_grund ?? '').trim().length < 10) fe('sterne_manuell braucht einen sterne_grund');

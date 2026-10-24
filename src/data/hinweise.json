@@ -6,6 +6,7 @@
   "text": "ein bis zwei kurze Sätze, nur eigene Formulierung",
   "aussage": "genau eine Aussage aus aussagen.json als <regel-id>:<ziel>; ihre Wirkung und Gewissheit liefern den Startwert der Sterne. Ein Hinweis, der mehrere Aussagen zusammenfasst, wird in mehrere Hinweise geteilt.",
   "archetyp": "optional, ein Archetyp-Schlüssel oder eine Liste (ruehrteig, pfannkuchen, hefeteig, mayonnaise): der Hinweis erscheint nur bei diesem Archetyp, sonst bei allen, die den Schritt haben",
+  "variante": "optional, ein Varianten-Schlüssel aus archetypes.json oder eine Liste (z. B. muffin, weissbrot): der Hinweis erscheint nur bei dieser Variante; die Variante folgt aus dem Gefäß, nicht aus der Methode",
   "methode": "optional, ein Methoden-Schlüssel aus methods.json oder eine Liste (z. B. creme, muffin, hefe_kalt): der Hinweis erscheint nur bei dieser Methode; zusammen mit archetyp müssen beide passen",
   "sterne": "wird nicht gespeichert: Wirkungspunkte (ohne Folge 0, leicht 2, spürbar 4, Ausfall 5) mal Gewissheitsfaktor (never 0, unlikely 0,4, maybe 0,6, likely 0,8, surely und proven 1), gerundet, höchstens 5",
   "sterne_manuell": "optional, 0 bis 5: überschreibt den berechneten Wert, wo Vorwissen ihn ändert (was Profis längst wissen, bekommt weniger Sterne). Braucht sterne_grund.",
@@ -19,6 +20,7 @@
   {"id": "hefe-warm-und-zugfrei-gehen", "schritt": "gehen", "text": "Den Teig warm und zugfrei gehen lassen, am besten bei mindestens 22 °C: in der Kälte geht er nur langsam auf. Mit sehr wenig Hefe darf er auch lange im Kühlschrank gehen.", "aussage": "hefe-zu-kalt-langsam:tempo"},
   {"id": "pfannkuchen-matt-wenden", "schritt": "ausbacken", "text": "Bei mittlerer Hitze backen und erst wenden, wenn die Oberfläche matt aussieht: dann reißt der Pfannkuchen beim Wenden seltener.", "aussage": "pfannkuchen-reisst-oder-klumpt:gelingen"},
   {"id": "kuchen-staebchenprobe", "schritt": "backen", "archetyp": "ruehrteig", "text": "Die Ofentür erst nach der halben Backzeit öffnen und fünf bis zehn Minuten vor Ende der Zeit mit einem Holzstäbchen in der Mitte prüfen: bleibt kein Teig daran haften, ist der Kuchen durch.", "aussage": "kuchen-ofen-und-backzeit:gelingen"},
+  {"id": "muffin-heisser-ofen", "schritt": "backen", "variante": "muffin", "text": "Muffins brauchen einen heißen Ofen, etwa 205 bis 220 °C: ist er zu kühl, bekommen sie keinen hohen Gipfel. Cupcakes backen sanfter, bei etwa 165 bis 175 °C.", "aussage": "muffin-ohne-gipfel-ofen-kalt:gelingen"},
   {"id": "eischnee-fettfrei", "schritt": "eischnee_schlagen", "text": "Schüssel und Besen fettfrei halten: schon ein Fettrest verhindert, dass das Eiweiß steif wird.", "aussage": "wissen:eischnee-fettfreie-schuessel:gelingen", "sterne_manuell": 2, "sterne_grund": "Die Wirkung ist Ausfall und die Gewissheit hoch, aber Fortgeschrittene und Profis kennen die Regel längst; nur Einsteiger sollen sie sehen."}
  ]
 }

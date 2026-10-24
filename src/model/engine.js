@@ -410,7 +410,7 @@ export function compute(state, data, korpusStats) {
   const gas = gasBudget(ablauf, res.schritte.map((s) => s.op), props, data.triebquellen, { gramm: grammVon, teigmasse });
   gas?.proSchritt.forEach((g, i) => { ablauf[i].gas = g; });
   // Praxishinweise mit Sternen (DR-075): je Schritt die Hinweise, die für die Nutzerstufe erscheinen (ohne data.hinweise leer)
-  for (const a of ablauf) a.hinweise = hinweiseFuerSchritt(a.key, data.hinweise, data.aussagen, state.stufe, { archetyp: state.archetyp, methode: methodKey });
+  for (const a of ablauf) a.hinweise = hinweiseFuerSchritt(a.key, data.hinweise, data.aussagen, state.stufe, { archetyp: state.archetyp, variante, methode: methodKey });
   // T72 (A): wenig oder kein Backpulver haben nur eierreiche Teige ohne Milch (Sandkuchen, Soufflé-Pancakes, Kaiserschmarrn)
   const mehl = grammVon('struktur');
   const eierJe100 = mehl && props.bindung?.umrechnung?.stk ? (grammVon('bindung') / props.bindung.umrechnung.stk / mehl) * 100 : 0;
