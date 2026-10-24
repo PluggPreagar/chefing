@@ -12,3 +12,4 @@ Neue Todos bekommen die drei Felder von Anfang an.
 
 | id | title | state | descr | dependencies | pro | contra | risk |
 |----|-------|-------|-------|--------------|-----|--------|------|
+| T116 | Gewissheit aus Rückmeldungen anheben | blocked | Wartet auf genug Meldungen (mindestens 3 je Regel). Die echten Meldungen liegen nur auf dem Server in `feedback-data/feedback.jsonl` (nicht per HTTP lesbar, nicht im Repo). Sobald genug da sind: Datei per FTP holen, `node tools/rueckmeldungen.mjs <datei>` ausführen, die Vorschläge je Aussage prüfen und die Gewissheit in `src/data/aussagen.json` nach Freigabe von Hand anheben (nie auf `never` oder `proven`). | T107, DR-074 | 🟢🟢 Gewissheit stützt sich auf echte Nutzung | 🔴🔴 hängt von der Zahl der Meldungen ab | ⚠️ gering, nur Daten in `aussagen.json`, ein Commit zurücknehmbar |
