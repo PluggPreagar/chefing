@@ -165,6 +165,7 @@ initVollbild(document.querySelector('.panel.ablauf'), document.querySelector('.a
   beiWechsel: (s) => {
     const neu = s.offen ? (s.ausrichtung === 'quer' ? 'strom' : 'kompakt') : null;
     if (neu !== vollbildAnsicht) { vollbildAnsicht = neu; render(); }
+    kopfTitel();
     if (s.offen) spaeterZeichnen();
   },
 });
@@ -233,6 +234,15 @@ function update(patch) {
 }
 
 let letztes = null; // zuletzt berechnetes Rezept, für die Fehlermeldung
+// Kopf des Ablaufs: im Vollbild steht dort der Name der Variante („Rührkuchen“) statt „Ablauf“ (DR-106)
+function kopfTitel() {
+  const h = document.querySelector('.ablauf-kopf h2');
+  if (!h) return;
+  const voll = document.querySelector('.panel.ablauf').classList.contains('ablauf-voll');
+  const v = voll && letztes ? arch.varianten[letztes.variante] : null;
+  h.textContent = v ? (v.kurz ?? v.label) : 'Ablauf';
+}
+
 // Strom im Vollbild: den ganzen Bereich füllen (DR-103). `zoom` vergrößert Zeitleiste, Karte und Schrift gemeinsam; gemessen wird bei Maßstab 1,
 // mit Offsets statt Rechtecken, damit die CSS-Drehung des Vollbilds nichts verfälscht. Nie kleiner als 1, höchstens 3.
 function passeStromEin() {
@@ -268,6 +278,7 @@ function render() {
   $('kompakt-namen').querySelectorAll('[data-namen]').forEach((k) => { const an = (k.dataset.namen === 'true') === kompaktNamen; k.classList.toggle('is-active', an); k.setAttribute('aria-pressed', String(an)); });
   if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: kompaktNamen }); else renderFlow($('flow'), computed, data);
   passeStromEin();
+  kopfTitel();
   document.querySelectorAll('[data-ausrichtung]').forEach((b) => { const an = b.dataset.ausrichtung === ausrichtung; b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); });
   document.querySelectorAll('[data-namen]').forEach((b) => { const an = (b.dataset.namen === 'true') === kompaktNamen; b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); });
   stufenMenue.setze(state.stufe);

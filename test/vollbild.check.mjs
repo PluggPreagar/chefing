@@ -156,5 +156,10 @@ ok(/fenster\.addEventListener\?\.\('resize', v\.beiGroesse\)/.test(modul) && /fe
   ok(/spaeterZeichnen = \(\) => \{ clearTimeout\(spaeterTimer\);/.test(mainSrc) && /if \(s\.offen\) spaeterZeichnen\(\);/.test(mainSrc), 'Vollbild offen: nach Größenänderung wird verzögert noch einmal gezeichnet, auch bei gleicher Ansicht (DR-103)');
 }
 
+{
+  const mainSrc = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
+  ok(/function kopfTitel\(\)/.test(mainSrc) && /\.ablauf-kopf h2/.test(mainSrc) && /v\.kurz \?\? v\.label\) : 'Ablauf'/.test(mainSrc) && /passeStromEin\(\);\s*kopfTitel\(\);/.test(mainSrc) && /kopfTitel\(\);\s*if \(s\.offen\) spaeterZeichnen\(\)/.test(mainSrc), 'Vollbild: im Kopf steht der Name der Variante statt „Ablauf“, nach dem Beenden wieder „Ablauf“ (DR-106)');
+}
+
 console.log(fail ?`${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;

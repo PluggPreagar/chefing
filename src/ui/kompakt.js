@@ -137,6 +137,7 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const sig = steps.map((s) => s.key).join();
   if (root._offen?.sig !== sig) root._offen = { sig, set: new Set() };
   const offen = namen ? new Set() : root._offen.set;
+  const schluessel = (k) => `${k.i}:${k.art}`; // ein Schritt kann zwei Knoten haben (Einschieben und Backen, gleiche Nummer): das Detail gehört zum Knoten
   const maxZut = Math.max(0, ...K.knoten.map((k) => k.neu.length));
   // Symbole: die Breite hängt nie vom aufgeklappten Detail ab, und der Strom bleibt in der Mitte der Zeichnung (links so viel Rand wie rechts Platz für den Text),
   // damit nichts springt, wenn ein Detail auf- oder zugeht (Meldung 20261025-094730)
@@ -157,7 +158,7 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const lay = namen ? namenLayout(K, texte) : null;
   // Symbole: unter einer Zeile mit aufgeklapptem Schritt wächst der Abstand um die Höhe des Textes
   const extra = Array(K.zeilen).fill(0);
-  for (const k of K.knoten) if (offen.has(k.i)) extra[k.zeile] = Math.max(extra[k.zeile], blockLayout(texte.get(k), 8).unten + 6);
+  for (const k of K.knoten) if (offen.has(schluessel(k))) extra[k.zeile] = Math.max(extra[k.zeile], blockLayout(texte.get(k), 8).unten + 6);
   // Vollbild hochkant (opt.ziel = Pixelmaß des Bildbereichs): ist die Zeichnung auf die Breite begrenzt und bleibt darunter Platz, rücken die Zeilen auseinander (höchstens 2,5-fach)
   const natuerlich = PAD * 2 + K.zeilen * ROW + extra.reduce((a, b) => a + b, 0);
   const zielHoehe = opt.ziel && !namen ? (opt.ziel.h * breite) / opt.ziel.w : 0;
@@ -177,16 +178,16 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const info = el('div', 'kompakt-info', namen ? '' : 'Schritt, Zutat oder Pfeil antippen: Name und Menge');
   const zeige = (text) => { info.textContent = text; };
   const umschalten = (k) => {
-    const war = offen.has(k.i);
+    const war = offen.has(schluessel(k));
     offen.clear(); // höchstens ein Detail offen: ein Klick auf einen anderen Schritt schließt das alte
-    if (!war) offen.add(k.i);
+    if (!war) offen.add(schluessel(k));
     renderKompakt(root, computed, data, opt);
-    root.querySelector(`g[data-schritt="${k.i}"]`)?.focus();
+    root.querySelector(`g[data-knoten="${schluessel(k)}"]`)?.focus();
   };
   const knopf = (e, k, f) => {
     e.setAttribute('tabindex', '0');
     e.setAttribute('role', 'button');
-    e.setAttribute('aria-expanded', String(offen.has(k.i)));
+    e.setAttribute('aria-expanded', String(offen.has(schluessel(k))));
     klickbar(e, f);
   };
 
@@ -203,7 +204,7 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   for (const k of K.knoten) {
     const s = steps[k.i];
     const [x, y] = [xVon(k), yVon(k)];
-    const g = svgEl('g', { class: `kompakt-knoten ist-${k.art}`, 'data-schritt': k.i, style: `--c: var(--ort-${k.farbe})` });
+    const g = svgEl('g', { class: `kompakt-knoten ist-${k.art}`, 'data-schritt': k.i, 'data-knoten': schluessel(k), style: `--c: var(--ort-${k.farbe})` });
     g.append(svgEl('circle', { cx: x, cy: y, r: R }));
     g.append(iconGroup(k.icon, { x: x - ICON / 2, y: y - ICON / 2, size: ICON, title: s.label }));
     if (namen) { g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button'); klickbar(g, () => zeige(schrittText(s, k, computed))); } else knopf(g, k, () => umschalten(k));
@@ -212,14 +213,14 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
       zeichneBlock(svg, texte.get(k), lay.geo.get(k), textX, k.i);
       continue;
     }
-    if (offen.has(k.i)) {
+    if (offen.has(schluessel(k))) {
       const oben = zeilenTop[k.zeile] + zeilenHoehe;
       if (klein) svg.append(svgEl('rect', { x: 0, y: oben - 2, width: breite, height: extra[k.zeile], class: 'kompakt-detailgrund' })); // verdeckt die Linien im Bereich des Details
       zeichneBlock(svg, texte.get(k), blockLayout(texte.get(k), oben + 8), klein ? PAD + 2 : textX, k.i);
     }
     if (!k.neu.length) continue;
     const xz = x0 + R + 24;
-    const pfeil = svgEl('g', { class: 'kompakt-pfeilgruppe', 'data-schritt': k.i });
+    const pfeil = svgEl('g', { class: 'kompakt-pfeilgruppe', 'data-schritt': k.i, 'data-knoten': schluessel(k) });
     pfeil.append(svgEl('path', { d: `M${xz - 4} ${y}H${x + R + 3}`, class: 'kompakt-zufluss', 'marker-end': 'url(#kompakt-pfeil)' }));
     pfeil.append(svgEl('path', { d: `M${xz - 4} ${y}H${x + R + 3}`, class: 'kompakt-treffer' }));
     knopf(pfeil, k, () => umschalten(k));

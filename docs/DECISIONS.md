@@ -1183,3 +1183,23 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Wenig Umbrüche, gut lesbar, ruhiges Bild; die Linie zeigt, dass das Detail zum Schritt darüber gehört.
 - **cons:** Seitenstränge (Eischnee) sind im Bereich des Details unterbrochen; der Text liegt auf einem Grund, der bei einem anderen Farbschema passen muss (Variablen `--panel` und `--bg`).
 - **risk:** Gering, `kompakt.js`, `style.css`, ein Test. Rückgängig: ein Commit.
+
+## DR-106 · ui · Vollbild: der Kopf nennt die Variante statt „Ablauf“
+
+- **descr:** (2026-10-25, Nutzer: „in fullscreen don't show ‚Ablauf', instead the name like ‚Rührkuchen…'“) Im Vollbild fehlen Fluss und Titel der Seite; „Ablauf“ sagt dort nichts. Der Kopf des Kastens zeigt jetzt den **Namen der gewählten Variante** (`kurz`, sonst `label`: „Rührkuchen“, „Muffins“, „Weißbrot“). Außerhalb des Vollbilds bleibt „Ablauf“, weil darüber die Brotkrumen (Archetyp › Variante) stehen.
+- **Umsetzung:** `kopfTitel()` in `main.js`, aufgerufen nach jedem Zeichnen und bei jedem Wechsel des Vollbilds (auch Esc). Ein Variantenwechsel bei offenem Vollbild kommt über das nächste Zeichnen. Geprüft im Browser: Vollbild „Rührkuchen“, danach „Ablauf“, mit Muffins „Muffins“.
+- **Regeln:** R5 (der Fluss steht über der Beschreibung), R12 (ein Begriff für eine Sache: dieselbe Kurzform wie auf den Knöpfen der Varianten).
+- **Optionen:** **A Name der Variante (gewählt)** · B Archetyp › Variante („Rührteig › Rührkuchen“, länger, bricht auf dem Handy um) · C Variante plus Methode und Gefäß („Rührkuchen, Crememethode, Kastenform“, mehr Wissen, aber eine lange Überschrift).
+- **pro:** Man weiß im Vollbild, was man sieht; eine kurze Überschrift; kein neues Element.
+- **cons:** Der Archetyp fehlt im Vollbild (die Variante ist meist eindeutig).
+- **risk:** Gering, `main.js` und ein Test. Rückgängig: ein Commit.
+
+## DR-107 · ui · Kompakt (Symbole): das Detail gehört zum Knoten, nicht zur Schrittnummer (korrigiert DR-092)
+
+- **descr:** (2026-10-25, Nutzer mit Handy-Bild: „Last step is doubled?“) Im Vollbild standen unter den letzten zwei Knoten zwei Details, „5. Einschieben · 1 Min.“ und „5. Backen · 55 Min.“. **Ursache:** Der Backschritt hat in Kompakt **zwei Knoten**: die Handarbeit (Einschieben, 1 Min., Flamme) und das Warten (Backen, 55 Min., Ofen); beide tragen dieselbe Schrittnummer 5. Das Auf- und Zuklappen (DR-092) verwaltete die offenen Details nach der Schrittnummer, ein Klick öffnete also beide. **Entscheid:** Der Schlüssel ist jetzt **Schritt plus Art des Knotens** (`4:aktion`, `4:warten`); ein Klick öffnet nur das Detail dieses Knotens. Dieselbe Kennung steht als `data-knoten` am Knoten und am Pfeil und dient der Melden-Auswahl als Selektor (T145, DR-093); `data-schritt` bleibt für den Schritt.
+- **Nicht geändert:** Die doppelte Nummer 5 in der Beschriftung („5. Einschieben“ und „5. Backen“) ist gewollt, es ist ein Schritt mit zwei Phasen; sie steht auch in der Text-Variante so.
+- **Regeln:** R20 (aria-expanded je Knoten), R23 (Test, Messung bei 375 px: Einschieben öffnet nur „5. Einschieben“, Backen nur „5. Backen“, zweiter Klick schließt).
+- **Optionen:** **A Schlüssel pro Knoten (gewählt)** · B beide Knoten öffnen weiter zusammen (zeigt, dass sie zusammengehören, verwirrt aber: die Zeile wirkt doppelt) · C Backen als einen Knoten zusammenlegen (verliert die Zeit der Handarbeit, anderer Zeichner).
+- **pro:** Ein Klick, ein Detail; klarer, was Handarbeit und was Wartezeit ist.
+- **cons:** Das Detail der Wartezeit zeigt dieselbe Nummer wie die Handarbeit davor.
+- **risk:** Gering, `kompakt.js`, eine Zeile `fehlerMelden.js`, ein Test. Rückgängig: ein Commit.

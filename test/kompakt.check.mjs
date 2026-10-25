@@ -127,5 +127,16 @@ ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss), 'style.css: 
   ok(/const klein = !namen && gesamt < 520/.test(src) && /klein \? PAD \* 3 : textX \+ PAD/.test(src) && /if \(klein\) svg\.append\(svgEl\('rect'/.test(src) && /klein \? PAD \+ 2 : textX, k\.i\)/.test(src) && /\.kompakt-detailgrund \{ fill: var\(--panel\); \}/.test(css) && /\.ablauf-voll \.kompakt-detailgrund \{ fill: var\(--bg\); \}/.test(css), 'Detail in Symbole nur auf kleinen Geräten (unter 520 px): volle Breite unter dem Schritt, die Linien brechen ab (Grund in Panel- oder Seitenfarbe); breit bleibt es rechts vom Strom (DR-105)');
 }
 
+{
+  const src = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
+  const fm = fs.readFileSync(new URL('../src/ui/fehlerMelden.js', import.meta.url), 'utf8');
+  ok(/const schluessel = \(k\) => `\$\{k\.i\}:\$\{k\.art\}`/.test(src) && !/offen\.(has|add)\(k\.i\)/.test(src) && /'data-knoten': schluessel\(k\)/.test(src) && /g\[data-knoten=/.test(src) && /data-knoten/.test(fm), 'Detail gehört zum Knoten, nicht zur Schrittnummer: Einschieben und Backen (gleiche Nummer) öffnen einzeln (DR-107)');
+  // Einschieben und Backen sind zwei Knoten desselben Schritts
+  const { K } = rechne('ruehrteig', 'kastenkuchen', null, {});
+  const proSchritt = new Map();
+  for (const x of K.knoten) proSchritt.set(x.i, (proSchritt.get(x.i) ?? 0) + 1);
+  ok([...proSchritt.values()].some((n) => n > 1) && new Set(K.knoten.map((x) => x.i + ':' + x.art)).size === K.knoten.length, 'ein Schritt kann zwei Knoten haben (aktion und warten), Schritt plus Art ist je Knoten eindeutig');
+}
+
 console.log(fail ? `${fail} FAILED` : 'ALL PASS');
 process.exit(fail ? 1 : 0);

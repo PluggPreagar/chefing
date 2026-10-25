@@ -56,7 +56,7 @@ let schwebe = null;
 let kontext = () => ({});
 
 // Diagramm-Teil mit Kennung: Schritt oder Zutat (T145)
-const diagrammKennung = (el) => (el.getAttribute?.('data-zutat') != null ? `[data-zutat="${el.getAttribute('data-zutat')}"]` : el.getAttribute?.('data-schritt') != null ? `[data-schritt="${el.getAttribute('data-schritt')}"]` : '');
+const diagrammKennung = (el) => (el.getAttribute?.('data-zutat') != null ? `[data-zutat="${el.getAttribute('data-zutat')}"]` : el.getAttribute?.('data-knoten') != null ? `[data-knoten="${el.getAttribute('data-knoten')}"]` : el.getAttribute?.('data-schritt') != null ? `[data-schritt="${el.getAttribute('data-schritt')}"]` : '');
 function selektor(el) {
   const teile = [];
   while (el && el.nodeType === 1 && el !== document.body && teile.length < 8) { // tief genug bis zum nächsten Element mit id (#flow, #morphbox)
