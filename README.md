@@ -52,6 +52,7 @@ index.html, style.css        Seite
 src/main.js                  Zustand, Archetyp-Umschalter, Zusammenbau der Panels
 src/model/                   Engine ohne DOM (testbar)
   engine.js                  compute(): Zutaten → Mengen, Ablauf, Bilanz, Zeit, Meldungen
+  ui/vollbild.js             Ablauf im Vollbild und gedreht (DR-080)
   rules.js                   Voraussetzungen, Methoden-Auswertung, Regel-Katalog
   bilanz.js                  Gesamtbilanz, Grenzen, Kaskaden-Vorschläge, Korpus-Toleranz
   zeit.js                    Zeit-Fenster und Zeitleiste

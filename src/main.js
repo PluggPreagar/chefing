@@ -12,6 +12,7 @@ import { sendeOffene } from './model/rueckmeldung.js';
 import { alsEintraege, presetPatch, archetypPatch } from './model/zustand.js';
 import { initFehlerMelden } from './ui/fehlerMelden.js';
 import { STUFEN, STUFE_TEXT, SCHWELLE } from './model/aussagen.js';
+import { initVollbild } from './ui/vollbild.js';
 
 async function loadJson(path) {
   const r = await fetch(path, { cache: 'no-cache' });
@@ -127,6 +128,9 @@ function ablaufStufe() {
   }
 }
 ablaufStufe();
+
+// Ablauf im Vollbild, bei Bedarf gedreht (T124, DR-080)
+initVollbild(document.querySelector('.panel.ablauf'), document.querySelector('.ablauf-kopf'));
 
 // Knopfgruppe der Varianten (DR-045); fehlt sie (ältere index.html aus dem Browser-Cache, DR-037), wird sie angelegt
 function presetGruppe() {

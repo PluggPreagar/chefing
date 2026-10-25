@@ -37,5 +37,6 @@
  "src/ui/rueckmeldung.js",
  "src/ui/skizzen.js",
  "src/ui/stats.js",
+ "src/ui/vollbild.js",
  "src/ui/zustandLink.js"
 ]

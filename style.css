@@ -64,6 +64,14 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .ablauf { margin: 0 1.5rem 1rem; }
 .ablauf-kopf { display: flex; align-items: center; gap: .5rem .75rem; flex-wrap: wrap; margin-bottom: .5rem; }
 .ablauf-kopf h2 { margin: 0; }
+/* Vollbild des Ablaufs (T124, DR-080): Knopf rechts im Kopf, Kasten füllt die Seite, gedreht um 90° (Breite und Höhe getauscht) */
+.ablauf-voll-knopf { border: 1px solid var(--line); background: var(--panel); color: var(--muted); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; font-size: 13px; white-space: nowrap; }
+.ablauf-voll-knopf:hover { color: var(--ink); }
+#ablauf-voll, #ablauf-voll-zu { margin-left: auto; }
+.ablauf-voll-knopf[hidden] { display: none; }
+body.hat-vollbild { overflow: hidden; }
+.ablauf.ablauf-voll { position: fixed; inset: 0; z-index: 1000; margin: 0; border-radius: 0; overflow: auto; background: var(--bg); padding: .75rem 1rem; box-sizing: border-box; }
+.ablauf.ablauf-voll.gedreht { inset: auto; top: 0; left: 100vw; width: 100vh; height: 100vw; transform-origin: top left; transform: rotate(90deg); }
 .ablauf-techniken { display: flex; gap: .4rem; flex-wrap: wrap; }
 .technik-schalter { font: inherit; font-size: .82rem; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: .2rem .75rem; cursor: pointer; }
 .technik-schalter:hover { border-color: var(--muted); }

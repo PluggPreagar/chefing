@@ -838,3 +838,17 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** Neue Entwürfe brauchen keine eigene Abwägung mehr; gleiche Wahl sieht überall gleich aus.
 - **cons:** Häkchen und Pillen mischen sich im Ablauf-Kopf; Ausnahmen brauchen einen eigenen DR.
 - **risk:** Gering, nur Regel; bestehende Elemente erfüllen sie schon (Stand 2026-10-25).
+
+## DR-080 · ui · Ablauf im Vollbild und gedreht
+
+- **descr:** (2026-10-25, Nutzer: „add todo fullscreen diagram — offer function to open diagram in full screen / separate window — may turn orientation“, danach „mit T124 anfangen“; die Wahl der Option blieb offen, Best Guess A) Der Ablauf (Strom und Kompakt) soll sich größer öffnen lassen, auch auf dem Handy im Querformat.
+- **Optionen:** **A Vollbild in derselben Seite (gewählt)** · B eigenes Fenster (`window.open`, Zustand per URL) · C beides.
+- **pro:** Zustand bleibt gemeinsam (Zutaten, Technik-Schalter, Stufe, Hinweise wirken sofort, nichts muss übertragen werden); funktioniert auch dort, wo ein neues Fenster stört (Handy); kein neuer Pfad für den Zustand.
+- **cons:** Das Vollbild-Element der Browser-API ist je Browser verschieden (iPhone-Safari kennt es nur für Videos); die Sperre der Ausrichtung geht nur im echten Vollbild und fast nur auf Android.
+- **risk:** Gering, nur Oberfläche (`ui/vollbild.js`, `style.css`, drei Knöpfe in `index.html`, ein Aufruf in `main.js`). Rückgängig: ein Commit. Ein eigenes Fenster (B) bleibt später möglich, falls A auf Desktop mit zwei Bildschirmen zu wenig ist.
+- **Umsetzung:**
+  - **Kasten:** Der ganze Ablauf-Kasten (`section.panel.ablauf`) geht ins Vollbild, nicht nur das Diagramm: Technik-Schalter, Strom | Kompakt, Stufe und die Schritt-Karten bleiben bedienbar. Es gilt immer die gerade gewählte Ansicht.
+  - **Zwei Wege:** erst `requestFullscreen`; fehlt die API oder wird sie verweigert, füllt derselbe Kasten per CSS die Seite (`.ablauf-voll`, `position: fixed`, Seite `hat-vollbild` ohne Scrollen).
+  - **Drehen:** erst die Sperre der Bildschirm-Ausrichtung (`screen.orientation.lock`, im echten Vollbild zuerst auf Querformat, „Drehen“ wechselt dann auf die andere Seite); sonst dreht CSS den Kasten um 90° (`.gedreht`, Breite 100vh, Höhe 100vw). Esc beendet das Vollbild in beiden Wegen.
+  - **Knöpfe nach DR-079:** Aktionen ohne Zustand sind Knöpfe mit festem Verb, nie hervorgehoben: „Vollbild“ (nur wenn zu), „Vollbild beenden“ und „Drehen“ (nur wenn offen). Es wechselt keine Beschriftung, nur welche Aktion sichtbar ist; kein `aria-pressed`. Ein erster Entwurf mit „Vollbild | Schließen“ in einem Knopf verstieß dagegen und wurde vor dem Commit geändert.
+  - **Prüfung:** `test/vollbild.check.mjs` (Steuerung mit Attrappen: echtes Vollbild mit Sperre, Sperre verweigert oder fehlend, API fehlt oder verweigert, Esc, Drehen, Meldungen, Anbindung in `index.html`, `main.js`, `style.css`, DR-079-Regel). Im Browser geprüft: Öffnen, Drehen (Seite 1024 × 768 wird als 768 × 1024 gedreht dargestellt, Inhalt füllt den Bildschirm), Beenden. Der echte Vollbild-Aufruf scheiterte dort (Vorschau-Tab), dort lief der CSS-Weg; auf einem echten Handy ist er ungeprüft.
