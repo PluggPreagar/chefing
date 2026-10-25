@@ -142,6 +142,7 @@ Der Archetyp-Umschalter erscheint automatisch, sobald es mehr als einen Archetyp
 
 - Offene Arbeit steht in [docs/TODO.md](docs/TODO.md) (mit Pro, Contra, Risiko), Erledigtes im [Archiv](docs/TODO_ARCHIVE.md).
 - Entscheidungen mit Optionen stehen in `docs/DECISIONS.md`; vor größeren Änderungen erst Optionen vorlegen.
+- Für jede Bedienung und Oberfläche gilt das kompilierte Regelwerk [docs/UI-REGELN.md](docs/UI-REGELN.md) (welches Element für welche Wahl, Symbole, Stil, schmale Bildschirme, Prüfung); Meldungen aus `issues/open/` werden zuerst dagegen geprüft.
 - Planung offline (claude.ai) und Umsetzung (Claude Code, Laptop) gleichen sich über Patch-Dateien in `HANDOFF/` ab, siehe [HANDOFF/SYNC.md](HANDOFF/SYNC.md). Nur die Umsetzungsseite pusht.
 
 ## Deploy

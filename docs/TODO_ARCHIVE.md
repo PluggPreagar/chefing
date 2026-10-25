@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T146 | UI-Regelwerk kompilieren und festhalten | done | `docs/UI-REGELN.md` (R1 bis R25, Tabelle, Ausnahmen), Kurzfassung im Gedächtnis (`feedback_ui_regeln.md`), README-Verweis, Test `ui-regeln.check.mjs` (DR-091). | DR-079 bis DR-090, DR-091 |
 | T143 | Diagramm zentrieren | done | Meldung `20261025-083911-center-graphs-abfa` (Beschreibung leer, Annahme): Kompakt-Diagramm mittig, höchstens 640 Pixel breit (DR-090). | DR-090 |
 | T142 | Flache Symbol-Knöpfe im Diagramm | done | Meldung `20261025-084208-flatten-fullscreen-more-920b`: Rahmen nur beim Darüberfahren, ausgewählt = getönter Grund, für Vollbild, Ausrichtung und Beschriftung (DR-090). | DR-084, DR-090 |
 | T141 | Ausrichtung Auto \| Strom \| Kompakt im Diagramm-Block | done | Meldungen `20261025-084133-add-drehen-action-8970` und `20261025-083844-graph-button-style-3741`, Entscheidung D1 = A mit fester Übersteuerung: die Ansicht wandert aus der Leiste in den Diagramm-Kopf, Auto folgt dem Bildschirm, Text \| Symbole mit Symbolen, im Vollbild bedienbar (DR-090). | DR-087, DR-089, DR-090 |
