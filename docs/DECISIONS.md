@@ -1150,3 +1150,15 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Sofort sichtbar; kein neues Element; Handy ohne Überlauf.
 - **cons:** Eine Zeile mehr über dem Titel (auf dem Handy zwei Zeilen, wenn alle drei Angaben da sind).
 - **risk:** Gering, `index.html`, `style.css`, eine Zeile `main.js`, ein Test. Rückgängig: ein Commit.
+
+## DR-103 · ui · Vollbild passt sich an: Strom wird eingepasst, Zeichnung misst nach dem Größenwechsel neu
+
+- **descr:** (2026-10-25, Nutzer: „It does not rescale on fullscreen“) Zwei Ursachen gefunden. **1. Strom-Ansicht:** Nur Kompakt wurde im Vollbild eingepasst (DR-096). Bei **Auto** zeigt ein querformatiger Monitor aber Strom; dort blieb die Zeitleiste in ihrer normalen Größe, am Monitor 355 von 900 px hoch. **2. Messen zu früh:** Kompakt misst seinen Bereich beim Zeichnen (DR-099, DR-100). Das Vollbild ändert die Größe aber erst **nach** dem Wechsel (echtes Vollbild, Gerät gedreht); bei gleicher Ansicht wurde danach nicht neu gezeichnet, die Messung stammte aus der alten Größe.
+- **Entscheid 1:** Im Vollbild wird der Strom per CSS-`zoom` auf den Bereich eingepasst: gemessen wird bei Maßstab 1 (mit Offsets statt Rechtecken, damit die CSS-Drehung nichts verfälscht), Breite der Zeitleiste plus Karten-Spalte (DR-098), und Höhe; **nie kleiner als 1, höchstens 3**. Gemessen: 1920 × 1080 → Maßstab 1,48, Strom füllt die Breite (1886 px), kein Überlauf; 1400 × 900 → 1,07 (dort füllt der Strom die Breite schon fast). Zeitleiste, Karte und Schrift wachsen gemeinsam. Hochkant (Handy) bleibt der Strom bei 1, weil die Höhe begrenzt.
+- **Entscheid 2:** Im offenen Vollbild wird nach jeder Meldung der Steuerung (Öffnen, Drehen, `resize`, `orientationchange`) **kurz verzögert** (120 ms, ein Animationsbild) noch einmal gezeichnet, auch wenn die Ansicht gleich bleibt; die Zeichnung misst dann die endgültige Größe.
+- **Grenze:** Ein waagerechter Strom ist breit und flach; am Monitor wird die Breite genutzt, in der Höhe bleibt Platz, das lässt sich ohne Umbau der Zeitleiste nicht ändern. Wer den Platz in der Höhe will, wählt Kompakt (wird dort eingepasst, DR-096).
+- **Regeln:** R14, R23 (gemessen bei 1920 × 1080 und 1400 × 900).
+- **Optionen:** **A zoom auf die Breite der Zeitleiste und die Höhe (gewählt)** · B Zeitleiste im Vollbild auf eine Spalte umbauen (Karte darunter, größer, aber Karte rutscht aus dem Blick) · C Vollbild erzwingt Kompakt (nimmt dem Nutzer die Wahl, DR-090).
+- **pro:** Beide Ansichten füllen das Vollbild; die Messung stimmt nach dem Größenwechsel; kein neues Bedienelement.
+- **cons:** `zoom` ist eine CSS-Eigenschaft, die erst seit 2024 in allen großen Browsern gilt (Firefox 126); ältere Firefox zeigen den Strom wie vorher.
+- **risk:** Gering, `main.js` und ein Test. Rückgängig: ein Commit.

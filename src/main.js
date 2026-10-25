@@ -157,10 +157,15 @@ const stufenMenue = initStufenMenue($('stufe-menue'), {
 // Ablauf im Vollbild, bei Bedarf gedreht (T124, DR-080)
 // Im Vollbild folgt Auto der wirksamen Ausrichtung (DR-089): Querformat = Strom (links nach rechts), Hochformat = Kompakt (oben nach unten).
 // Beim Beenden springt die Ansicht auf die eigene Wahl zurück; die Wahl (`ausrichtung`) bleibt dabei unberührt, ist sie fest, gilt sie auch im Vollbild.
+// Das Vollbild ändert die Größe erst nach dem Wechsel (echtes Vollbild, Gerät gedreht): die Zeichnung misst ihren Bereich beim Zeichnen,
+// darum wird im offenen Vollbild nach jeder Meldung kurz verzögert noch einmal gezeichnet, auch wenn die Ansicht gleich bleibt (DR-103)
+let spaeterTimer = null;
+const spaeterZeichnen = () => { clearTimeout(spaeterTimer); spaeterTimer = setTimeout(() => requestAnimationFrame(() => render()), 120); };
 initVollbild(document.querySelector('.panel.ablauf'), document.querySelector('.ablauf-kopf'), document, globalThis.screen, {
   beiWechsel: (s) => {
     const neu = s.offen ? (s.ausrichtung === 'quer' ? 'strom' : 'kompakt') : null;
     if (neu !== vollbildAnsicht) { vollbildAnsicht = neu; render(); }
+    if (s.offen) spaeterZeichnen();
   },
 });
 
@@ -228,6 +233,26 @@ function update(patch) {
 }
 
 let letztes = null; // zuletzt berechnetes Rezept, für die Fehlermeldung
+// Strom im Vollbild: den ganzen Bereich füllen (DR-103). `zoom` vergrößert Zeitleiste, Karte und Schrift gemeinsam; gemessen wird bei Maßstab 1,
+// mit Offsets statt Rechtecken, damit die CSS-Drehung des Vollbilds nichts verfälscht. Nie kleiner als 1, höchstens 3.
+function passeStromEin() {
+  const f = $('flow');
+  f.style.zoom = '';
+  const p = document.querySelector('.panel.ablauf');
+  if (f.hidden || !p.classList.contains('ablauf-voll')) return;
+  const band = f.querySelector('.strom-band');
+  const kinder = band ? [...band.children] : [];
+  if (!kinder.length) return;
+  const cs = getComputedStyle(p);
+  const innen = { b: p.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), h: p.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - document.querySelector('.ablauf-kopf').offsetHeight };
+  const quer = f.classList.contains('ist-quer');
+  let breit = quer ? kinder.at(-1).offsetLeft + kinder.at(-1).offsetWidth - kinder[0].offsetLeft : band.offsetWidth;
+  const spalten = getComputedStyle(f).gridTemplateColumns.split(' ');
+  if (quer && spalten.length === 2) breit += parseFloat(getComputedStyle(f).columnGap) + parseFloat(spalten[1]); // Zeitleiste plus Karten-Spalte
+  const z = Math.min(3, innen.b / breit, innen.h / f.offsetHeight);
+  if (z > 1.05) f.style.zoom = String(Math.round(z * 100) / 100);
+}
+
 function render() {
   const computed = compute(state, data, korpusStats);
   letztes = computed;
@@ -242,6 +267,7 @@ function render() {
   $('kompakt-namen').hidden = !kompakt; // Text | Symbole betrifft nur die Kompakt-Ansicht
   $('kompakt-namen').querySelectorAll('[data-namen]').forEach((k) => { const an = (k.dataset.namen === 'true') === kompaktNamen; k.classList.toggle('is-active', an); k.setAttribute('aria-pressed', String(an)); });
   if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: kompaktNamen }); else renderFlow($('flow'), computed, data);
+  passeStromEin();
   document.querySelectorAll('[data-ausrichtung]').forEach((b) => { const an = b.dataset.ausrichtung === ausrichtung; b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); });
   document.querySelectorAll('[data-namen]').forEach((b) => { const an = (b.dataset.namen === 'true') === kompaktNamen; b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); });
   stufenMenue.setze(state.stufe);
