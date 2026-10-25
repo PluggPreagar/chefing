@@ -170,6 +170,21 @@ const ICONS_ANSICHT = {
     { tag: 'path', attrs: { d: 'M8 12.4L10.9 15.3L16.2 9.4', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } },
   ],
 
+  // Diagramm-Einstellungen (DR-090): Auto (A im Kreis), Text (Textzeilen), Symbole (Raster aus Formen)
+  ausrichtung_auto: [
+    { tag: 'circle', attrs: { cx: 12, cy: 12, r: 8.6, fill: 'none', stroke: F, 'stroke-width': 1.8 } },
+    { tag: 'path', attrs: { d: 'M8.6 16L12 7.6L15.4 16M9.9 13.4H14.1', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } },
+  ],
+  beschriftung_text: [
+    { tag: 'path', attrs: { d: 'M4 6.5H20M4 12H20M4 17.5H13', fill: 'none', stroke: F, 'stroke-width': 1.9, 'stroke-linecap': 'round' } },
+  ],
+  beschriftung_symbole: [
+    { tag: 'circle', attrs: { cx: 7.6, cy: 7.6, r: 3.2, fill: F } },
+    { tag: 'rect', attrs: { x: 13.2, y: 4.4, width: 6.4, height: 6.4, rx: 1.2, fill: F } },
+    { tag: 'path', attrs: { d: 'M7.6 13.4L11 19.6H4.2Z', fill: F } },
+    { tag: 'path', attrs: { d: 'M16.4 13.2L19.6 16.4L16.4 19.6L13.2 16.4Z', fill: F } },
+  ],
+
   ansicht_kompakt: [
     { tag: 'path', attrs: { d: 'M7 5V19', fill: 'none', stroke: F, 'stroke-width': 1.6 } },
     { tag: 'circle', attrs: { cx: 7, cy: 5, r: 2.6, fill: F } },

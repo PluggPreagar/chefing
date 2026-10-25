@@ -90,8 +90,8 @@ ok(/import \{ initVollbild \} from '\.\/ui\/vollbild\.js'/.test(main) && /initVo
 ok(/\.ablauf\.ablauf-voll \{[^}]*position: fixed[^}]*inset: 0/.test(css) && /\.ablauf\.ablauf-voll\.gedreht \{[^}]*rotate\(90deg\)[^}]*\}/.test(css) && /body\.hat-vollbild/.test(css), 'style.css: Kasten füllt die Seite, gedreht um 90°, Seite ohne Scrollen');
 // Meldung 20261025-075952: im Vollbild keine Einstellungen; Diagramm, Schritt-Karten und die Vollbild-Knöpfe bleiben
 const aus = css.match(/\.ablauf\.ablauf-voll #ablauf-techniken, \.ablauf\.ablauf-voll #ablauf-ansicht, \.ablauf\.ablauf-voll #kompakt-namen \{ display: none; \}/);
-ok(!!aus, 'style.css: im Vollbild sind Technik-Schalter, Ansicht (Strom | Kompakt) und Beschriftung (Text | Symbole) ausgeblendet');
-ok(['ablauf-techniken', 'ablauf-ansicht'].every((id) => new RegExp(`id="${id}"`).test(html)) && /id: 'kompakt-namen'/.test(main) && /\.ablauf\.ablauf-voll #kompakt-namen/.test(css), 'die ausgeblendeten Ids gibt es (Technik, Ansicht in index.html; Beschriftung wird in main.js mit id kompakt-namen angelegt)');
+ok(/\.ablauf\.ablauf-voll #ablauf-techniken \{ display: none; \}/.test(css) && !/\.ablauf\.ablauf-voll #ablauf-ansicht/.test(css) && !/\.ablauf\.ablauf-voll #kompakt-namen/.test(css) && !/\.ablauf\.ablauf-voll #ablauf-ausrichtung/.test(css), 'style.css: im Vollbild ist nur der Technik-Schalter ausgeblendet (er ändert das Rezept); Text | Symbole und Ausrichtung bleiben bedienbar (DR-090)');
+ok(/id="ablauf-techniken"/.test(html) && /id: 'kompakt-namen'/.test(main) && /id: 'ablauf-ausrichtung'/.test(main), 'die Gruppen des Diagramm-Kopfs gibt es: Technik in index.html, Beschriftung und Ausrichtung werden in main.js angelegt');
 ok(!/ablauf-voll[^{]*#ablauf-voll-zu[^{]*\{ display: none/.test(css) && !/ablauf-voll[^{]*#ablauf-drehen[^{]*\{ display: none/.test(css) && !/ablauf-voll[^{]*\.strom/.test(css.split('\n').filter((l) => /display: none/.test(l)).join('\n')), 'Vollbild beenden, Drehen und das Diagramm bleiben sichtbar');
 ok(/width: 100vh; height: 100vw/.test(css), 'gedreht: Breite und Höhe getauscht (100vh × 100vw)');
 ok(/document\.addEventListener\('fullscreenchange'/.test(modul) || /doc\.addEventListener\('fullscreenchange'/.test(modul), 'Vollbild-Wechsel durch den Browser (Esc) wird abgefangen');
@@ -141,8 +141,8 @@ ok(/document\.addEventListener\('fullscreenchange'/.test(modul) || /doc\.addEven
 
 // Anbindung: die Ausrichtung wählt die Ansicht, beim Beenden springt sie zurück, die Wahl in der Leiste bleibt unberührt
 ok(/let vollbildAnsicht = null;/.test(main) && /const neu = s\.offen \? \(s\.ausrichtung === 'quer' \? 'strom' : 'kompakt'\) : null;/.test(main) && /if \(neu !== vollbildAnsicht\) \{ vollbildAnsicht = neu; render\(\); \}/.test(main), 'main.js: quer = Strom, hoch = Kompakt, geschlossen = keine erzwungene Ansicht (springt zurück)');
-ok(/const kompakt = \(vollbildAnsicht \?\? ansicht\) === 'kompakt'/.test(main) && !/ansicht = vollbildAnsicht/.test(main), 'render() nimmt im Vollbild die erzwungene Ansicht, schreibt aber die eigene Wahl (ansicht, localStorage) nie um');
-ok(/namen: vollbildAnsicht === 'kompakt' \? true : kompaktNamen/.test(main), 'im Hochformat-Vollbild steht der Text neben den Symbolen (Einstellungen sind dort ausgeblendet)');
+ok(/const wirksameAnsicht = \(\) => ermittleAnsicht\(\{ ausrichtung, vollbildAnsicht, hoch: viewportHoch\(\) \}\);/.test(main) && /const ansichtJetzt = wirksameAnsicht\(\);/.test(main) && !/ausrichtung = vollbildAnsicht/.test(main), 'render() nimmt die wirksame Ansicht (feste Wahl, sonst Vollbild-Ausrichtung, sonst Bildschirm) und schreibt die eigene Wahl nie um');
+ok(/renderKompakt\(\$\('kompakt'\), computed, data, \{ namen: kompaktNamen \}\)/.test(main) && !/vollbildAnsicht === 'kompakt' \? true/.test(main), 'Text | Symbole gilt auch im Vollbild: kein erzwungener Text mehr, die Einstellung bleibt dort bedienbar (DR-090)');
 ok(/fenster\.addEventListener\?\.\('resize', v\.beiGroesse\)/.test(modul) && /fenster\.addEventListener\?\.\('orientationchange', v\.beiGroesse\)/.test(modul), 'Größenänderung und Gerätedrehung werden abgefangen');
 
 console.log(fail ? `${fail} FAIL` : 'ALL PASS');

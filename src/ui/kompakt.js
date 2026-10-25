@@ -117,7 +117,7 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const xVon = (k) => x0 - k.spalte * LANE;
   const namen = opt.namen === true;
   const textX = x0 + R + 12;
-  const gesamt = Math.max(240, Math.round(opt.breite || root.clientWidth || 340));
+  const gesamt = Math.max(240, Math.min(640, Math.round(opt.breite || root.clientWidth || 340))); // höchstens 640: auf breiten Bildschirmen bleibt der Text lesbar und das Diagramm lässt sich zentrieren
   const maxZeichen = Math.max(12, Math.floor((gesamt - textX - PAD) / NAMEN.ZEICHEN));
   const texte = namen ? knotenTexte(K, steps, computed, maxZeichen) : null;
   const lay = namen ? namenLayout(K, texte) : null;

@@ -105,19 +105,24 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 /* Vollbild des Ablaufs (T124, DR-080): Knopf rechts im Kopf, Kasten füllt die Seite, gedreht um 90° (Breite und Höhe getauscht) */
 .ablauf-voll-knopf { border: 1px solid var(--line); background: var(--panel); color: var(--muted); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; font-size: 13px; white-space: nowrap; }
 .ablauf-voll-knopf:hover { color: var(--ink); }
+/* flach (Meldung 20261025-084208, 083844): Rahmen nur beim Darüberfahren, ausgewählt = getönter Grund; gilt für alle Symbole im Diagramm-Kopf */
+.ablauf-kopf .flach { border-color: transparent; background: transparent; }
+.ablauf-kopf .flach:hover { border-color: var(--muted); background: var(--panel); }
+.ablauf-kopf .flach.is-active, .ablauf-kopf .flach[aria-pressed="true"] { border-color: transparent; background: var(--best-bg); color: var(--ink); }
+.ablauf-kopf .knopfgruppe > .flach { margin-left: 0; }
 /* nur Symbol (DR-084): rund, gleiche Höhe wie die Knopfgruppen im Kopf */
 .ablauf-voll-knopf.nur-symbol { display: inline-flex; align-items: center; justify-content: center; width: 2.4rem; height: 2.4rem; padding: 0; }
 .ablauf-voll-knopf.nur-symbol[hidden] { display: none; }
 .ablauf-voll-knopf.nur-symbol:focus-visible { outline: 2px solid var(--sel); outline-offset: 2px; }
 /* Ablauf-Kopf: links Titel und Technik, rechts Beschriftung und Vollbild; ein Platzhalter schiebt sie nach rechts, ohne dass zwei Abstände sie auseinanderziehen */
 .ablauf-kopf::after { content: ""; order: 1; flex: 1 1 0; min-width: 0; }
-.ablauf-kopf > #kompakt-namen, .ablauf-kopf > .ablauf-voll-knopf { order: 2; margin-left: 0; }
-@media (max-width: 640px) { .ablauf-kopf > #kompakt-namen { order: 3; } } /* schmal: Vollbild bleibt in der ersten Zeile rechts, die Beschriftung rutscht in die zweite */
+.ablauf-kopf > #kompakt-namen, .ablauf-kopf > #ablauf-ausrichtung, .ablauf-kopf > .ablauf-voll-knopf { order: 2; margin-left: 0; }
+@media (max-width: 640px) { .ablauf-kopf > #kompakt-namen, .ablauf-kopf > #ablauf-ausrichtung { order: 3; } } /* schmal: Vollbild bleibt in der ersten Zeile rechts, die Beschriftung rutscht in die zweite */
 .ablauf-voll-knopf[hidden] { display: none; }
 body.hat-vollbild { overflow: hidden; }
 .ablauf.ablauf-voll { position: fixed; inset: 0; z-index: 1000; margin: 0; border-radius: 0; overflow: auto; background: var(--bg); padding: .75rem 1rem; box-sizing: border-box; }
-/* Im Vollbild geht es nur ums Lesen des Diagramms: Einstellungen (Technik, Ansicht, Beschriftung) werden ausgeblendet (Meldung 20261025-075952) */
-.ablauf.ablauf-voll #ablauf-techniken, .ablauf.ablauf-voll #ablauf-ansicht, .ablauf.ablauf-voll #kompakt-namen { display: none; }
+/* Im Vollbild geht es ums Lesen des Diagramms: was das Rezept ändert (Technik) wird ausgeblendet (Meldung 20261025-075952); Einstellungen des Diagramms bleiben (Meldung 20261025-084133) */
+.ablauf.ablauf-voll #ablauf-techniken { display: none; } /* Text | Symbole und Ausrichtung bleiben im Vollbild bedienbar (DR-090): sie betreffen nur das Diagramm */
 .ablauf.ablauf-voll.gedreht { inset: auto; top: 0; left: 100vw; width: 100vh; height: 100vw; transform-origin: top left; transform: rotate(90deg); }
 .ablauf-techniken { display: flex; gap: .4rem; flex-wrap: wrap; }
 .technik-schalter { font: inherit; font-size: .82rem; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: .2rem .75rem; cursor: pointer; }
@@ -247,7 +252,8 @@ label.technik-schalter { display: inline-flex; align-items: center; gap: .35rem;
 .ablauf-ansicht { margin-left: 0; }
 .ablauf-ansicht .icon { vertical-align: -3px; margin-right: .3rem; }
 .kompakt-bild { overflow-x: auto; }
-.kompakt-svg { display: block; color: var(--ink); }
+.kompakt-svg { display: block; margin: 0 auto; color: var(--ink); }
+#kompakt.kompakt { text-align: center; } /* Diagramm und Zeilen darum mittig (Meldung 20261025-083911) */
 .kompakt-linie { fill: none; stroke: var(--c); stroke-width: 2.5; stroke-linecap: round; }
 .kompakt-linie.ist-quelle { stroke-dasharray: 4 3; }
 .kompakt-zufluss { stroke: var(--muted); stroke-width: 1.5; }
@@ -261,7 +267,7 @@ label.technik-schalter { display: inline-flex; align-items: center; gap: .35rem;
 .kompakt-knoten:focus, .kompakt-zutat:focus { outline: none; }
 .kompakt-info { font-size: 13px; min-height: 1.4em; margin: 6px 0 0; }
 /* Variante „mit Namen“ (DR-081): Schritt und Zutaten als Text, in der Breite des Bildschirms */
-.kompakt-svg.mit-namen { width: 100%; height: auto; }
+.kompakt-svg.mit-namen { max-width: 100%; height: auto; }
 .kompakt-titel { font-size: 13px; font-weight: 600; fill: var(--ink); }
 .kompakt-zutatentext { font-size: 13px; fill: var(--ink); }
 .mit-namen .kompakt-zutat { color: var(--ink); }

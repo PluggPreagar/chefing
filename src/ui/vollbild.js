@@ -81,7 +81,7 @@ export function initVollbild(panel, kopf, doc = document, scr = globalThis.scree
       b.id = id; b.type = 'button';
       kopf.append(b);
     }
-    b.className = 'ablauf-voll-knopf nur-symbol ghost';
+    b.className = 'ablauf-voll-knopf nur-symbol flach ghost';
     b.innerHTML = iconHtml(symbol, 18);
     b.title = titel;
     b.setAttribute('aria-label', name);

@@ -1,5 +1,6 @@
 [
  "src/main.js",
+ "src/model/ausrichtung.js",
  "src/model/aussagen.js",
  "src/model/ausstattung.js",
  "src/model/bilanz.js",

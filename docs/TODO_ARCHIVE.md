@@ -7,6 +7,9 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T143 | Diagramm zentrieren | done | Meldung `20261025-083911-center-graphs-abfa` (Beschreibung leer, Annahme): Kompakt-Diagramm mittig, höchstens 640 Pixel breit (DR-090). | DR-090 |
+| T142 | Flache Symbol-Knöpfe im Diagramm | done | Meldung `20261025-084208-flatten-fullscreen-more-920b`: Rahmen nur beim Darüberfahren, ausgewählt = getönter Grund, für Vollbild, Ausrichtung und Beschriftung (DR-090). | DR-084, DR-090 |
+| T141 | Ausrichtung Auto \| Strom \| Kompakt im Diagramm-Block | done | Meldungen `20261025-084133-add-drehen-action-8970` und `20261025-083844-graph-button-style-3741`, Entscheidung D1 = A mit fester Übersteuerung: die Ansicht wandert aus der Leiste in den Diagramm-Kopf, Auto folgt dem Bildschirm, Text \| Symbole mit Symbolen, im Vollbild bedienbar (DR-090). | DR-087, DR-089, DR-090 |
 | T140 | Kopf auf dem Handy ohne Umbruch-Brüche | done | Aus dem Handy-Screenshot „Awkward wraps of buttons“: Melden neben die Leiste, Titel und Melden in einer Zeile, Einstellungen darunter, Fluss untereinander, Platzhalter im Ablauf-Kopf statt zwei Auto-Abständen (DR-087 Nachtrag). | DR-087 |
 | T139 | Vollbild je Ausrichtung | done | Querformat zeigt Strom, Hochformat Kompakt mit Text; neu bestimmt beim Öffnen, Drehen, bei der Sperre und bei Größenänderung; beim Beenden springt die Ansicht auf die eigene Wahl zurück (Nutzer: „ja springt zurück“, DR-089). Ungeprüft auf einem echten Handy. | DR-080, DR-081, DR-089 |
 | T138 | Archetyp und Variante als ein Fluss-Element | done | `nav.fluss`: Archetyp › Variante in einer Zeile unter dem Titel, Pfeil entfällt auf schmalen Bildschirmen (Meldung `hierarchy-breaks-flow`, DR-087). | DR-087 |

@@ -12,6 +12,7 @@ import { sendeOffene } from './model/rueckmeldung.js';
 import { alsEintraege, presetPatch, archetypPatch } from './model/zustand.js';
 import { initFehlerMelden, oeffneMeldung } from './ui/fehlerMelden.js';
 import { initMeldenMenue } from './ui/meldenMenue.js';
+import { wirksameAnsicht as ermittleAnsicht, ausrichtungAusSpeicher } from './model/ausrichtung.js';
 import { STUFEN, STUFE_TEXT, SCHWELLE } from './model/aussagen.js';
 import { initVollbild } from './ui/vollbild.js';
 import { initStufenMenue } from './ui/stufenMenue.js';
@@ -73,62 +74,71 @@ const state = {
 
 const $ = (id) => document.getElementById(id);
 
-// Ansicht des Ablaufs (DR-073): Strom oder Kompakt (nur Icons); Wahl je Browser.
-// Fehlen Knopfgruppe oder Ziel (ältere index.html aus dem Cache, DR-037), werden sie angelegt.
-let ansicht = 'strom';
-try { if (localStorage.getItem('chefing.ablauf') === 'kompakt') ansicht = 'kompakt'; } catch { /* ohne Speicher: Strom */ }
-function ablaufAnsicht() {
-  if (!$('kompakt')) $('flow').after(Object.assign(document.createElement('div'), { id: 'kompakt', className: 'kompakt', hidden: true }));
-  let g = $('ablauf-ansicht');
-  if (!g) {
-    g = Object.assign(document.createElement('span'), { id: 'ablauf-ansicht', className: 'knopfgruppe' });
-    g.setAttribute('role', 'group');
-    g.setAttribute('aria-label', 'Ansicht des Ablaufs');
-    for (const k of ['strom', 'kompakt']) {
-      const b = Object.assign(document.createElement('button'), { type: 'button', className: 'leiste-knopf ghost' });
-      b.dataset.ansicht = k;
-      g.append(b);
-    }
-    ($('stufe-menue') ?? document.querySelector('.ablauf-kopf'))?.after(g);
-  }
-  // nur Symbol (DR-084), Erklärung per Tooltip und aria-label; auch für eine ältere index.html aus dem Cache (DR-037)
-  const ANSICHT = { strom: ['ansicht_strom', 'Strom', 'Strom: Zutaten fließen von oben auf die Zeitleiste'], kompakt: ['ansicht_kompakt', 'Kompakt', 'Kompakt: ganzer Ablauf auf einen Blick'] };
-  for (const b of g.querySelectorAll('[data-ansicht]')) {
-    const [icon, name, titel] = ANSICHT[b.dataset.ansicht];
-    b.classList.add('leiste-knopf');
-    b.innerHTML = iconHtml(icon, 18);
-    b.title = titel;
-    b.setAttribute('aria-label', name);
-    b.addEventListener('click', () => {
-      ansicht = b.dataset.ansicht;
-      try { localStorage.setItem('chefing.ablauf', ansicht); } catch { /* nur für diese Sitzung */ }
-      render();
-    });
-  }
-}
-ablaufAnsicht();
-
-// Beschriftung der Kompakt-Ansicht (DR-081, DR-086): Text neben den Symbolen oder nur Symbole. Zwei benannte Möglichkeiten, die sofort wirken,
-// also eine Knopfgruppe „Text | Symbole“ (DR-079); nur in der Kompakt-Ansicht sichtbar, Vorgabe Text, Wahl je Browser.
-let kompaktNamen = true;
+// Ausrichtung des Diagramms (DR-073, DR-090): Auto, Strom oder Kompakt; Wahl je Browser. Auto folgt dem Bildschirm: hochkant = Kompakt (oben
+// nach unten), quer = Strom (links nach rechts), im Vollbild der Ausrichtung samt Drehen (DR-089). Strom und Kompakt bleiben als feste
+// Wahl. Früher war es nur die Ansicht Strom | Kompakt (Schlüssel chefing.ablauf), deren Wahl gilt weiter.
+let ausrichtung = 'auto';
+try { ausrichtung = ausrichtungAusSpeicher({ neu: localStorage.getItem('chefing.ausrichtung'), alt: localStorage.getItem('chefing.ablauf') }); } catch { /* ohne Speicher: Auto */ }
+let kompaktNamen = true; // Text neben den Symbolen (DR-081); Vorgabe Text
 try { if (localStorage.getItem('chefing.kompaktNamen') === 'aus') kompaktNamen = false; } catch { /* ohne Speicher: Text */ }
-function kompaktBeschriftung() {
-  const g = Object.assign(document.createElement('span'), { id: 'kompakt-namen', className: 'knopfgruppe ablauf-ansicht' });
-  g.setAttribute('role', 'group');
-  g.setAttribute('aria-label', 'Beschriftung der Kompakt-Ansicht');
-  for (const [wahl, text, titel] of [[true, 'Text', 'Schritte und Zutaten mit Name und Menge neben den Symbolen'], [false, 'Symbole', 'Nur Symbole, Name und Menge erst beim Antippen']]) {
-    const knopf = Object.assign(document.createElement('button'), { type: 'button', className: 'ghost', textContent: text, title: titel });
-    knopf.dataset.namen = String(wahl);
-    knopf.addEventListener('click', () => {
-      kompaktNamen = wahl;
-      try { localStorage.setItem('chefing.kompaktNamen', wahl ? 'an' : 'aus'); } catch { /* nur für diese Sitzung */ }
-      render();
-    });
-    g.append(knopf);
+let vollbildAnsicht = null; // im Vollbild gilt bei Auto die Ausrichtung des Bildschirms, siehe initVollbild unten
+let gezeigteAnsicht = null;
+const viewportHoch = () => innerHeight > innerWidth;
+const wirksameAnsicht = () => ermittleAnsicht({ ausrichtung, vollbildAnsicht, hoch: viewportHoch() });
+
+// Symbolgruppe im Ablauf-Kopf (DR-084, DR-090): nur flache Symbole mit Tooltip und aria-label, ausgewählt = aria-pressed. Fehlt sie in der
+// index.html (ältere Fassung aus dem Cache, DR-037), wird sie angelegt; eine alte Ansichtsgruppe aus der Werkzeugleiste wird entfernt.
+function symbolGruppe({ id, name, attr, knoepfe, nach, beiWahl }) {
+  let g = $(id);
+  if (!g) {
+    g = Object.assign(document.createElement('span'), { id, className: 'knopfgruppe' });
+    g.setAttribute('role', 'group');
+    (nach ?? document.querySelector('.ablauf-kopf'))?.after(g);
   }
-  ($('ablauf-techniken') ?? document.querySelector('.ablauf-kopf')).after(g);
+  g.setAttribute('aria-label', name);
+  g.replaceChildren();
+  for (const k of knoepfe) {
+    const b = Object.assign(document.createElement('button'), { type: 'button', className: 'leiste-knopf flach ghost', title: k.titel });
+    b.dataset[attr] = k.wert;
+    b.innerHTML = iconHtml(k.icon, 18);
+    b.setAttribute('aria-label', k.name);
+    b.addEventListener('click', () => beiWahl(k.wert));
+    g.append(b);
+  }
+  return g;
 }
-kompaktBeschriftung();
+function ablaufEinstellungen() {
+  if (!$('kompakt')) $('flow').after(Object.assign(document.createElement('div'), { id: 'kompakt', className: 'kompakt', hidden: true }));
+  $('ablauf-ansicht')?.remove();
+  const namen = symbolGruppe({
+    id: 'kompakt-namen', name: 'Beschriftung der Kompakt-Ansicht', attr: 'namen', nach: $('ablauf-techniken'),
+    knoepfe: [
+      { wert: 'true', icon: 'beschriftung_text', name: 'Text', titel: 'Text: Schritte und Zutaten mit Name und Menge neben den Symbolen' },
+      { wert: 'false', icon: 'beschriftung_symbole', name: 'Symbole', titel: 'Symbole: nur Symbole, Name und Menge erst beim Antippen' },
+    ],
+    beiWahl: (w) => {
+      kompaktNamen = w === 'true';
+      try { localStorage.setItem('chefing.kompaktNamen', kompaktNamen ? 'an' : 'aus'); } catch { /* nur für diese Sitzung */ }
+      render();
+    },
+  });
+  symbolGruppe({
+    id: 'ablauf-ausrichtung', name: 'Ausrichtung des Diagramms', attr: 'ausrichtung', nach: namen,
+    knoepfe: [
+      { wert: 'auto', icon: 'ausrichtung_auto', name: 'Auto', titel: 'Auto: folgt dem Bildschirm, hochkant Kompakt (oben nach unten), quer Strom (links nach rechts)' },
+      { wert: 'strom', icon: 'ansicht_strom', name: 'Strom', titel: 'Strom: immer quer, Zeitleiste von links nach rechts' },
+      { wert: 'kompakt', icon: 'ansicht_kompakt', name: 'Kompakt', titel: 'Kompakt: immer hochkant, von oben nach unten' },
+    ],
+    beiWahl: (w) => {
+      ausrichtung = w;
+      try { localStorage.setItem('chefing.ausrichtung', ausrichtung); } catch { /* nur für diese Sitzung */ }
+      render();
+    },
+  });
+  // Auto folgt dem Bildschirm: nur neu zeichnen, wenn sich die Ansicht dadurch ändert
+  addEventListener('resize', () => { if (ausrichtung === 'auto' && wirksameAnsicht() !== gezeigteAnsicht) render(); });
+}
+ablaufEinstellungen();
 
 // Erfahrungsstufe (DR-075, DR-085): wie viele Praxishinweise erscheinen; Warnungen bleiben immer sichtbar. Eine allgemeine, selten geänderte
 // Einstellung, darum ein Auswahlmenü oben auf der Seite statt einer Knopfgruppe im Ablauf. Fehlt der Platz in der index.html (ältere Fassung
@@ -145,9 +155,8 @@ const stufenMenue = initStufenMenue($('stufe-menue'), {
 });
 
 // Ablauf im Vollbild, bei Bedarf gedreht (T124, DR-080)
-// Im Vollbild wählt die Ausrichtung die Ansicht (DR-089): Querformat = Strom (links nach rechts), Hochformat = Kompakt mit Text (oben nach unten).
-// Beim Beenden springt die Ansicht auf die eigene Wahl zurück; die Wahl in der Werkzeugleiste (`ansicht`) bleibt dabei unberührt.
-let vollbildAnsicht = null;
+// Im Vollbild folgt Auto der wirksamen Ausrichtung (DR-089): Querformat = Strom (links nach rechts), Hochformat = Kompakt (oben nach unten).
+// Beim Beenden springt die Ansicht auf die eigene Wahl zurück; die Wahl (`ausrichtung`) bleibt dabei unberührt, ist sie fest, gilt sie auch im Vollbild.
 initVollbild(document.querySelector('.panel.ablauf'), document.querySelector('.ablauf-kopf'), document, globalThis.screen, {
   beiWechsel: (s) => {
     const neu = s.offen ? (s.ausrichtung === 'quer' ? 'strom' : 'kompakt') : null;
@@ -225,13 +234,16 @@ function render() {
   renderRueckfragen($('rueckfragen'), sessionStart, render);
   renderMorphbox($('morphbox'), state, data, computed, korpusStats, update);
   renderTechnikSchalter($('ablauf-techniken'), state, data, computed, update);
-  const kompakt = (vollbildAnsicht ?? ansicht) === 'kompakt'; // im Vollbild gilt die Ansicht der Ausrichtung (DR-089)
+  const ansichtJetzt = wirksameAnsicht();
+  gezeigteAnsicht = ansichtJetzt;
+  const kompakt = ansichtJetzt === 'kompakt';
   $('flow').hidden = kompakt;
   $('kompakt').hidden = !kompakt;
-  $('kompakt-namen').hidden = ansicht !== 'kompakt'; // gehört zur eigenen Wahl, nicht zur Ansicht im Vollbild
+  $('kompakt-namen').hidden = !kompakt; // Text | Symbole betrifft nur die Kompakt-Ansicht
   $('kompakt-namen').querySelectorAll('[data-namen]').forEach((k) => { const an = (k.dataset.namen === 'true') === kompaktNamen; k.classList.toggle('is-active', an); k.setAttribute('aria-pressed', String(an)); });
-  if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: vollbildAnsicht === 'kompakt' ? true : kompaktNamen }); else renderFlow($('flow'), computed, data);
-  document.querySelectorAll('[data-ansicht]').forEach((b) => { b.classList.toggle('is-active', b.dataset.ansicht === ansicht); b.setAttribute('aria-pressed', String(b.dataset.ansicht === ansicht)); });
+  if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: kompaktNamen }); else renderFlow($('flow'), computed, data);
+  document.querySelectorAll('[data-ausrichtung]').forEach((b) => { const an = b.dataset.ausrichtung === ausrichtung; b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); });
+  document.querySelectorAll('[data-namen]').forEach((b) => { const an = (b.dataset.namen === 'true') === kompaktNamen; b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); });
   stufenMenue.setze(state.stufe);
   renderRecipe($('recipe'), computed, state, data, update);
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
