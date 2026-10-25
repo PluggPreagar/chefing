@@ -312,7 +312,7 @@ if ($('version-info') && appVersion?.sha) {
   const kurzSha = String(appVersion.sha).slice(0, 7);
   data.appVersion = kurzSha; // Rückmeldungen nennen die App-Version (welche Regeln galten, T53)
   const teile = [`Version ${kurzSha}`, appVersion.time && `Commit ${appVersion.time.replace(/:\d\d UTC$/, ' UTC')}`, utc(appVersion.deployed) && `deployed ${utc(appVersion.deployed)}`];
-  $('version-info').textContent = teile.filter(Boolean).join(' · ');
+  $('version-info').textContent = teile.filter(Boolean).map((t) => t.replace(/ /g, ' ')).join(' · '); // geschützte Leerzeichen: schmal bricht die Zeile zwischen den Angaben um, nie mitten in einer Zeitangabe
   $('version-info').hidden = false;
 } // sonst lokale Entwicklung — kein Fehler, Zeile bleibt versteckt
 

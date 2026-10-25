@@ -1140,3 +1140,13 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Keine Überraschung beim Öffnen; Kompakt bleibt Kompakt; gleiches Verhalten mit und ohne Orientierungs-Sperre (iPhone hat sie nie).
 - **cons:** Wer im Vollbild gern quer liest, muss „Drehen“ drücken oder das Gerät kippen.
 - **risk:** Gering, `vollbild.js` und der Vollbild-Test. Rückgängig: ein Commit. Auf einem echten Handy ungeprüft (die Sperre selbst lässt sich in der Vorschau nicht auslösen); das Testen deckt die Steuerung mit Attrappen ab.
+
+## DR-102 · ui · Version und Zeit ganz oben im Kopf
+
+- **descr:** (2026-10-25, Nutzer: „Move version and timestamp to top to see it right away“) Die Zeile „Version <SHA> · Commit <Zeit> · deployed <Zeit>“ stand im Fuß der Seite und war nur nach dem Scrollen zu sehen. Sie steht jetzt als **erste Zeile im Kopf**, vor dem Titel, klein und gedämpft (`.top > .version`). Damit sieht man nach einem Deploy sofort, welcher Stand läuft.
+- **Umsetzung:** `<p id="version-info">` von `<footer>` nach `<header class="top">` verschoben; `main.js` füllt sie wie bisher (nur wenn `version.json` vom Deploy da ist, lokal bleibt sie versteckt). Auf dem Handy bricht sie zwischen den Angaben um, nie mitten in einer Zeitangabe (geschützte Leerzeichen). Eine zwischengespeicherte alte `index.html` zeigt sie weiter im Fuß, `main.js` findet sie über die gleiche Kennung.
+- **Regeln:** R5 bleibt (Fluss direkt unter dem Titel, die Zeile darüber ist eine Statusangabe, kein Bedienelement); R22 (Rückfall für alte `index.html` ist gegeben).
+- **Optionen:** **A erste Zeile im Kopf (gewählt)** · B rechts neben dem Titel in die Werkzeugleiste (verdrängt auf dem Handy Symbole, R16) · C als Kurzform nur der SHA im Titel (Zeit fehlt, die der Nutzer sehen will).
+- **pro:** Sofort sichtbar; kein neues Element; Handy ohne Überlauf.
+- **cons:** Eine Zeile mehr über dem Titel (auf dem Handy zwei Zeilen, wenn alle drei Angaben da sind).
+- **risk:** Gering, `index.html`, `style.css`, eine Zeile `main.js`, ein Test. Rückgängig: ein Commit.
