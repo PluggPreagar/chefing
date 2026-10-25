@@ -151,5 +151,19 @@ ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss), 'style.css: 
   ok(/split\(\/\[ \\t\\r\\n\]\+\/\)/.test(kSrc) && /return fest\(\[\`\$\{s\.nr\}\. \$\{titel\}\`/.test(kSrc) && /return fest\(n\.teil/.test(kSrc) && /schuetzeEinheiten\(\$\('flow'\)\)/.test(mSrc) && /schuetzeEinheiten\(\$\('recipe'\)\)/.test(mSrc), 'Anbindung: Schritt- und Zutatentexte gehen durch fest(), der Umbruch trennt nur echte Leerzeichen, Strom und Rezept werden nachbehandelt');
 }
 
+// --- DR-116: je Zeitscheibe nur ein Strang durchgezogen, wartende Stränge gestrichelt ---------------------------------------------------
+{
+  const src = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
+  const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+  ok(/const zeilenOben = \(z\) =>/.test(src) && /const zeilenUnten = \(z\) =>/.test(src) && /class: \`\$\{klasse\} ist-wartend\`/.test(src) && /b\.zeile - a\.zeile <= 1 \|\| u >= o/.test(src) && /\.kompakt-linie\.ist-quelle, \.kompakt-linie\.ist-wartend \{ stroke-dasharray: 4 3; \}/.test(css), 'Linien: in der eigenen Zeile durchgezogen, an fremden Zeilen vorbei gestrichelt (ist-wartend), benachbarte Zeilen bleiben ein Strich');
+  // Wie oft läuft eine Linie an Zeilen eines anderen Strangs vorbei? Muss es geben, sonst wäre die Regel wirkungslos, und alle Lücken liegen zwischen zwei Zeilen
+  let luecken = 0; let falsch = 0;
+  for (const [ak, vk] of [['ruehrteig', 'gugelhupf'], ['ruehrteig', 'kastenkuchen']]) {
+    const { K } = rechne(ak, vk, null, { eier_getrennt: true });
+    for (const e of K.kanten.filter((x) => x.art !== 'quelle')) { if (e.zu.zeile - e.von.zeile > 1) luecken++; if (e.zu.zeile <= e.von.zeile) falsch++; }
+  }
+  ok(luecken >= 2 && falsch === 0, `Gugelhupf und Rührkuchen mit Eischnee: ${luecken} Linien laufen an Zeilen anderer Stränge vorbei (gestrichelt), keine nach oben`);
+}
+
 console.log(fail ? `${fail} FAILED` : 'ALL PASS');
 process.exit(fail ? 1 : 0);

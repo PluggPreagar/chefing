@@ -288,7 +288,7 @@ label.technik-schalter { display: inline-flex; align-items: center; gap: .35rem;
 .kompakt-svg { display: block; margin: 0 auto; color: var(--ink); }
 #kompakt.kompakt { text-align: center; } /* Diagramm und Zeilen darum mittig (Meldung 20261025-083911) */
 .kompakt-linie { fill: none; stroke: var(--c); stroke-width: 2.5; stroke-linecap: round; }
-.kompakt-linie.ist-quelle { stroke-dasharray: 4 3; }
+.kompakt-linie.ist-quelle, .kompakt-linie.ist-wartend { stroke-dasharray: 4 3; } /* wartet: gestrichelt, in Arbeit: durchgezogen (DR-116) */
 .kompakt-detailgrund { fill: var(--panel); }
 .ablauf-voll .kompakt-detailgrund { fill: var(--bg); } /* im Vollbild ist der Grund der Seite die Fläche */
 .kompakt-zufluss { stroke: var(--muted); stroke-width: 1.5; }

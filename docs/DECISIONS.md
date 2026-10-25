@@ -1303,3 +1303,15 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Kein Zahlenrest mehr am Zeilenende; wirkt in allen Ansichten; die Modelle bleiben rein.
 - **cons:** Eine feste Einheitenliste; geschützte Leerzeichen stehen beim Kopieren des Texts mit.
 - **risk:** Gering, `einheiten.js`, `kompakt.js`, `main.js`, Tests. Rückgängig: ein Commit.
+
+## DR-116 · ui · Kompakt: je Zeitscheibe ein Strang durchgezogen, wartende Stränge gestrichelt
+
+- **descr:** (2026-10-25, Nutzer mit Handy-Bild der Gugelhupf-Symbole im Vollbild: „There should be only 1 solid line and all other dashed in a certain time slice“) In Kompakt waren alle Linien durchgezogen, auch Stränge, die an einer Zeile nur vorbeilaufen, in der ein anderer Strang arbeitet (der lange linke Strang für die Frucht, der Eigelb-Strang, die Hauptlinie neben dem Eischnee). In der Zeitleiste sind wartende Stränge dagegen schon gestrichelt (`ist-wartend`).
+- **Regel:** Jede **Zeile** ist eine Zeitscheibe, in der genau **ein** Knoten arbeitet. Die Linie eines Strangs ist **durchgezogen** in der Zeile ihres Knotens (vom Knoten bis zum Zeilenende) und in der Zeile des Zielknotens (ab Zeilenbeginn); in den **Zeilen dazwischen** wartet der Strang und ist **gestrichelt**. Benachbarte Zeilen (kein Zwischenraum) bleiben ein durchgezogener Strich. Gilt für Ketten und Mündungen (die Mündung läuft nach dem Warten durchgezogen in den Bogen); der Abzweig von der Quelle war schon gestrichelt.
+- **Umsetzung:** In `renderKompakt`: `zeilenOben(z)` und `zeilenUnten(z)` geben die Zeilengrenzen (Symbole: Zeilenraster samt aufgeklapptem Detail; Liste: Blöcke der Knoten); eine Kante mit Lücke wird in drei Pfade geteilt (in Arbeit, wartet, wieder in Arbeit); CSS `.kompakt-linie.ist-wartend { stroke-dasharray: 4 3 }`. Gilt für Symbole und Liste.
+- **Gemessen (414 × 828, Gugelhupf, Vollbild):** ohne Eischnee 1 gestrichelte Teilstrecke (der Frucht-Strang), mit Eischnee 3 gestrichelte Teilstrecken plus der gestrichelte Abzweig; in jeder Zeile genau ein durchgezogener Strang.
+- **Regeln:** R23; die Darstellung folgt der Zeitleiste (DR-039: durchgezogen = in Arbeit, gestrichelt = wartet).
+- **Optionen:** **A in Arbeit durchgezogen, wartend gestrichelt, je Zeile (gewählt)** · B alle Nebenstränge gestrichelt, nur die Hauptlinie durchgezogen (zeigt das Warten nicht) · C wartende Stränge blasser statt gestrichelt (weniger klar auf kleinen Bildern).
+- **pro:** Man sieht in jeder Zeitscheibe, wo die Hände sind; gleiche Bedeutung wie in der Zeitleiste.
+- **cons:** Auf kleinen Bildern sind die Striche kurz; Linien mit vielen Lücken wirken unruhiger.
+- **risk:** Gering, `kompakt.js`, `style.css`, ein Test. Rückgängig: ein Commit.

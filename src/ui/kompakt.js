@@ -199,14 +199,26 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
     klickbar(e, f);
   };
 
+  // Je Zeitscheibe (Zeile) ist genau ein Strang in Arbeit: seine Linie ist durchgezogen. Läuft ein Strang an Zeilen vorbei, in denen ein anderer arbeitet,
+  // wartet er dort: gestrichelt (wie in der Zeitleiste, DR-116)
+  const zeilenOben = (z) => (lay ? Math.min(...K.knoten.filter((x) => x.zeile === z).map((x) => lay.geo.get(x).von)) : zeilenTop[z]);
+  const zeilenUnten = (z) => (lay ? Math.max(...K.knoten.filter((x) => x.zeile === z).map((x) => lay.geo.get(x).bis)) : zeilenTop[z] + zeilenHoehe + extra[z]);
   for (const kante of K.kanten) {
     const [a, b] = [kante.von, kante.zu];
     const [xa, ya, xb, yb] = [xVon(a), yVon(a), xVon(b), yVon(b)];
-    const d = kante.art === 'kette' ? `M${xa} ${ya + R}V${yb - R}`
-      // Mündung: in der eigenen Spalte bis kurz vor die Zielzeile, dann im Bogen hinüber in den Zielknoten
-      : kante.art === 'muendung' ? `M${xa} ${ya + R}V${yb - 12}Q${xa} ${yb} ${xa + 12} ${yb}H${xb - R}`
-      : `M${xa - R} ${ya}H${xb + 12}Q${xb} ${ya} ${xb} ${ya + 12}V${yb - R}`;
-    svg.append(svgEl('path', { d, class: `kompakt-linie ist-${kante.art}`, style: `--c: var(--ort-${a.farbe})` }));
+    const klasse = `kompakt-linie ist-${kante.art}`;
+    const stil = `--c: var(--ort-${a.farbe})`;
+    if (kante.art === 'quelle') { // Abzweig von der Quelle: war schon gestrichelt
+      svg.append(svgEl('path', { d: `M${xa - R} ${ya}H${xb + 12}Q${xb} ${ya} ${xb} ${ya + 12}V${yb - R}`, class: klasse, style: stil }));
+      continue;
+    }
+    // Mündung: in der eigenen Spalte bis kurz vor die Zielzeile, dann im Bogen hinüber in den Zielknoten
+    const ende = kante.art === 'kette' ? `V${yb - R}` : `V${yb - 12}Q${xa} ${yb} ${xa + 12} ${yb}H${xb - R}`;
+    const [u, o] = [zeilenUnten(a.zeile), zeilenOben(b.zeile)];
+    if (b.zeile - a.zeile <= 1 || u >= o) { svg.append(svgEl('path', { d: `M${xa} ${ya + R}${ende}`, class: klasse, style: stil })); continue; }
+    svg.append(svgEl('path', { d: `M${xa} ${ya + R}V${u}`, class: klasse, style: stil }));                      // in Arbeit: bis zum Ende der eigenen Zeile
+    svg.append(svgEl('path', { d: `M${xa} ${u}V${o}`, class: `${klasse} ist-wartend`, style: stil }));            // wartet: die Zeilen dazwischen
+    svg.append(svgEl('path', { d: `M${xa} ${o}${ende}`, class: klasse, style: stil }));                          // wieder in Arbeit: ab Beginn der Zielzeile
   }
 
   for (const k of K.knoten) {
