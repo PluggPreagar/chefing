@@ -241,10 +241,15 @@ else {
   // echter HTTP-Test mit dem PHP-Entwicklungsserver
   const doc=fs.mkdtempSync(path.join(os.tmpdir(),'chefing_http_'));
   fs.copyFileSync(new URL('../chefing-feedback.php',import.meta.url),path.join(doc,'chefing-feedback.php'));
-  const port=24000+Math.floor(Math.random()*5000);
-  const server=spawn(php,['-S',`127.0.0.1:${port}`,'-t',doc],{stdio:'ignore'});
-  const basis=`http://127.0.0.1:${port}/chefing-feedback.php`;
-  let bereit=false; for (let i=0;i<50 && !bereit;i++) { try { await fetch(basis,{method:'GET'}); bereit=true; } catch { await new Promise(r=>setTimeout(r,100)); } }
+  // Zufälliger Port und Startzeit schwanken (belegter Port, ausgelastete Maschine): bis zu drei Versuche mit neuem Port, je bis zu 8 s warten
+  let port, server, basis, bereit=false;
+  for (let versuch=0; versuch<3 && !bereit; versuch++) {
+    port=24000+Math.floor(Math.random()*5000);
+    server=spawn(php,['-S',`127.0.0.1:${port}`,'-t',doc],{stdio:'ignore'});
+    basis=`http://127.0.0.1:${port}/chefing-feedback.php`;
+    for (let i=0;i<80 && !bereit;i++) { try { await fetch(basis,{method:'GET'}); bereit=true; } catch { await new Promise(r=>setTimeout(r,100)); } }
+    if (!bereit) server.kill();
+  }
   try {
     ok(bereit,'PHP-Entwicklungsserver läuft');
     const post=(body,header={})=>fetch(basis,{method:'POST',headers:{'Content-Type':'application/json',...header},body:typeof body==='string'?body:JSON.stringify(body)});
