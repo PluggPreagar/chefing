@@ -130,6 +130,12 @@ body.hat-vollbild { overflow: hidden; }
 .ablauf.ablauf-voll { position: fixed; inset: 0; z-index: 1000; margin: 0; border-radius: 0; overflow: auto; background: var(--bg); padding: .75rem 1rem; box-sizing: border-box; }
 /* Im Vollbild geht es ums Lesen des Diagramms: was das Rezept ändert (Technik) wird ausgeblendet (Meldung 20261025-075952); Einstellungen des Diagramms bleiben (Meldung 20261025-084133) */
 .ablauf.ablauf-voll #ablauf-techniken { display: none; } /* Text | Symbole und Ausrichtung bleiben im Vollbild bedienbar (DR-090): sie betreffen nur das Diagramm */
+/* Vollbild füllt das Diagramm: das Kompakt-Bild nimmt den Rest der Höhe, die Zeichnung wird per viewBox auf Breite und Höhe eingepasst (T148) */
+.ablauf.ablauf-voll { display: flex; flex-direction: column; }
+.ablauf.ablauf-voll #flow { flex: none; }
+.ablauf.ablauf-voll #kompakt:not([hidden]) { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
+.ablauf.ablauf-voll .kompakt-bild { flex: 1 1 0; min-height: 0; overflow: hidden; }
+.ablauf.ablauf-voll .kompakt-svg, .ablauf.ablauf-voll .kompakt-svg.mit-namen { width: 100%; height: 100%; max-width: none; }
 .ablauf.ablauf-voll.gedreht { inset: auto; top: 0; left: 100vw; width: 100vh; height: 100vw; transform-origin: top left; transform: rotate(90deg); }
 .ablauf-techniken { display: flex; gap: .4rem; flex-wrap: wrap; }
 .technik-schalter { font: inherit; font-size: .82rem; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: .2rem .75rem; cursor: pointer; }

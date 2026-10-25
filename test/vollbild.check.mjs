@@ -145,5 +145,10 @@ ok(/const wirksameAnsicht = \(\) => ermittleAnsicht\(\{ ausrichtung, vollbildAns
 ok(/renderKompakt\(\$\('kompakt'\), computed, data, \{ namen: kompaktNamen \}\)/.test(main) && !/vollbildAnsicht === 'kompakt' \? true/.test(main), 'Text | Symbole gilt auch im Vollbild: kein erzwungener Text mehr, die Einstellung bleibt dort bedienbar (DR-090)');
 ok(/fenster\.addEventListener\?\.\('resize', v\.beiGroesse\)/.test(modul) && /fenster\.addEventListener\?\.\('orientationchange', v\.beiGroesse\)/.test(modul), 'Größenänderung und Gerätedrehung werden abgefangen');
 
-console.log(fail ? `${fail} FAIL` : 'ALL PASS');
+{
+  const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+  ok(/\.ablauf\.ablauf-voll \{ display: flex; flex-direction: column; \}/.test(css) && /\.ablauf\.ablauf-voll #kompakt:not\(\[hidden\]\) \{ flex: 1 1 0; min-height: 0;/.test(css) && /\.ablauf\.ablauf-voll \.kompakt-svg, \.ablauf\.ablauf-voll \.kompakt-svg\.mit-namen \{ width: 100%; height: 100%; max-width: none; \}/.test(css), 'Vollbild: das Kompakt-Diagramm füllt den Rest der Höhe und wird eingepasst (DR-096)');
+}
+
+console.log(fail ?`${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;

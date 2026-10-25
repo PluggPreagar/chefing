@@ -1076,3 +1076,13 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Reihenfolge Titel → Wahl → Erklärung; kein Skript, kein neues Element.
 - **cons:** Auf dem Handy bleibt der Fluss zweizeilig, wirkt dort weniger wie eine Brotkrumenleiste.
 - **risk:** Gering, nur `index.html`, `style.css` und ein Test. Rückgängig: ein Commit. Eine zwischengespeicherte alte `index.html` zeigt kurz die alte Reihenfolge, ohne Fehler.
+
+## DR-096 · ui · Vollbild: das Kompakt-Diagramm füllt den Bildschirm
+
+- **descr:** (2026-10-25, Nutzer mit Bild eines 1920 × 1080-Bildschirms: „scale to use the monitor / handy in best way“) Im Vollbild stand die Kompakt-Zeichnung klein in der Mitte (rund 180 × 280 px), der Rest blieb leer. Jetzt nimmt das Diagramm den ganzen Rest der Höhe und wird per `viewBox` auf Breite und Höhe eingepasst (Seitenverhältnis bleibt, mittig): auf dem Monitor etwa dreifach, auf dem Handy je nach Ausrichtung so groß wie möglich. Gilt für Symbole und Text, gedreht und ungedreht, mit und ohne aufgeklapptes Detail.
+- **Umsetzung:** nur CSS: im Vollbild ist der Kasten eine Spalte, `#kompakt` und `.kompakt-bild` wachsen mit `min-height: 0`, die Zeichnung bekommt `width: 100%; height: 100%`. Außerhalb des Vollbilds bleibt R14 (mittig, höchstens 640 px) unverändert. Die Strom-Ansicht ist nicht betroffen.
+- **Regeln:** R14 (mittig, begrenzt) gilt im normalen Seitenverlauf, im Vollbild gilt „einpassen“; R23 (Messung: kein Überlauf bei 1024 × 768, gedreht, Text und Symbole).
+- **Optionen:** **A einpassen ohne Obergrenze (gewählt)** · B einpassen bis höchstens 2,5-fach (ruhiger auf riesigen Bildschirmen, verschenkt Platz) · C Schrift und Symbole getrennt skalieren (Aufwand, bricht die Zeichnung).
+- **pro:** Ein Klick auf Vollbild nutzt den Bildschirm; keine Skript-Logik; gilt für Monitor und Handy.
+- **cons:** Das Aufklappen eines Details verkleinert die Zeichnung, weil die Gesamthöhe wächst; auf sehr breiten Bildschirmen bleibt seitlich Leerraum (das Diagramm ist schmal).
+- **risk:** Gering, nur `style.css` und ein Test. Rückgängig: ein Commit.

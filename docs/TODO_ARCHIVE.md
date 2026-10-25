@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T148 | Vollbild: Diagramm füllt den Bildschirm | done | Das Kompakt-Diagramm wird im Vollbild per `viewBox` auf Breite und Höhe eingepasst (Monitor und Handy, Symbole und Text); nur CSS (DR-096). | DR-080, DR-090, DR-096 |
 | T147 | Prüf-Priorität: fünf harte Hefeteig-Grenzen | done | `hf_hefe_min_hart`, `hf_salz_max_hart`, `hf_wasser_max_hart`, `hf_wasser_min_hart`, `hf_zucker_max_hart` gegen Korpus (65 Rezepte) und Negativ-Korpus geprüft: keine Verletzung, Gewissheit bleibt `likely`, Begründungen mit Zahlen ergänzt. Alles Handeinschätzung; von der Liste bleiben nur Emulsions-Aussagen ohne neue Datenlage. | T118, DR-074 |
 | T145 | Meldungs-Auswahl greift ins Diagramm | done | Im Kompakt-Diagramm wählt „Elemente zeigen“ Schritt, Zutat oder Pfeil einzeln (Kennungen aus T144); Selektor und Umfeld nennen sie; Test `diagramm-auswahl.check.mjs` (DR-093). | T144, DR-044, DR-092, DR-093 |
 | T144 | Diagramm: Details direkt unter dem Schritt | done | Symbole-Ansicht: Klick auf Schritt, Zutat oder Pfeil klappt die Text-Fassung unter dem Schritt auf, höchstens eines offen, zweiter Klick schließt, kein Rahmen; Kennungen `data-schritt` und `data-zutat` (DR-092). | DR-073, DR-081, DR-090, DR-092 |
