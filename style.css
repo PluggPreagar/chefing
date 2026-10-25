@@ -324,6 +324,12 @@ details.zustand summary { cursor: pointer; color: var(--sel); }
 .ist-quer .strom-band { justify-content: safe center; }
 .ist-quer .strom-fuss, .ist-quer .strom-vorbereiten { text-align: center; }
 .ist-quer .strom-karte { max-width: 640px; margin-left: auto; margin-right: auto; }
+/* breite Bildschirme (Meldung 20261025-120559): zwei Spalten, links die Zeitleiste mittig, rechts die Wirkungs-Karte in fester Breite; die Spalte bleibt auch ohne offene Karte reserviert, damit nichts springt */
+@media (min-width: 1100px) {
+  .strom.ist-quer { display: grid; grid-template-columns: minmax(0, 1fr) 30rem; grid-template-rows: auto auto auto 1fr; column-gap: 1.5rem; align-items: start; }
+  .strom.ist-quer > * { grid-column: 1; }
+  .strom.ist-quer > .strom-karte { grid-column: 2; grid-row: 1 / 5; position: sticky; top: 1rem; width: auto; max-width: none; margin: 0; }
+}
 .ist-hoch .strom-band, .ist-hoch .strom-vorbereiten { max-width: 720px; margin-left: auto; margin-right: auto; }
 .ist-hoch .strom-fuss { max-width: 720px; margin: 6px auto 0; padding-left: 52px; box-sizing: border-box; }
 

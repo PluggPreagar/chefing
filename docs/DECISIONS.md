@@ -1097,3 +1097,14 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Nichts springt beim Klicken; beide Ansichten sehen gleich geordnet aus.
 - **cons:** Die geschlossene Symbole-Zeichnung ist breiter (Leerraum links und rechts); auf dem Handy bleibt der Text im Detail etwas schmaler.
 - **risk:** Gering, `kompakt.js`, `style.css`, ein Test. Rückgängig: ein Commit.
+
+## DR-098 · ui · Breite Bildschirme: Strom quer in zwei Spalten (Zeitleiste links, Karte rechts in fester Breite)
+
+- **descr:** (2026-10-25, Meldung `20261025-120559-use-width-53a3`: „on large screens use width – fixed size for text-box, use set width for the right column with text – the graph goes to center of left column“) In der Strom-Ansicht (quer) stand die Wirkungs-Karte eines Schritts unter der Zeitleiste, rechts blieb Platz leer. Ab **1100 px** Breite gibt es jetzt **zwei Spalten**: links die Zeitleiste (mittig in ihrer Spalte, DR-097), rechts die Karte in **fester Breite von 30 rem**, oben bündig und beim Scrollen sichtbar (`position: sticky`).
+- **Spalte immer reserviert:** Die rechte Spalte gibt es auch ohne offene Karte; so springt die Zeitleiste nicht, wenn eine Karte auf- oder zugeht (gleiche Idee wie DR-097). Gemessen bei 1400 px: Zeitleiste 41 bis 840, Karte 864 bis 1344 (480 px breit), in beiden Zuständen gleich.
+- **Umsetzung:** nur CSS (`@media (min-width: 1100px)`, Grid mit Zeilen `auto auto auto 1fr`, damit die hohe Karte nur die letzte Zeile streckt). Schmaler als 1100 px und hochkant bleibt alles wie in DR-097 (Karte unter der Zeitleiste, höchstens 640 px, mittig). Kompakt ist nicht betroffen.
+- **Regeln:** R14 (mittig, begrenzt) bleibt, die Karte ist ein fester Teil statt eines Anhängsels; R23 (Messung bei 1400 px).
+- **Optionen:** **A zwei Spalten ab 1100 px, Spalte reserviert (gewählt)** · B Spalte nur bei offener Karte (Zeitleiste springt) · C Karte schwebt über der Zeitleiste (verdeckt Schritte).
+- **pro:** Breite wird genutzt, nichts springt, Text bleibt in lesbarer Zeilenlänge.
+- **cons:** Ohne offene Karte bleibt rechts eine leere Spalte; die Zeitleiste steht dann nicht in der Seitenmitte, sondern in der Mitte ihrer Spalte.
+- **risk:** Gering, `style.css` und ein Test. Rückgängig: ein Commit.

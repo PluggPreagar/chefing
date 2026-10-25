@@ -95,6 +95,12 @@ ok(/\.kompakt-svg\.mit-namen \{[^}]*width: 100%/.test(kompaktCss) && /\.kompakt-
   ok(/\.ist-quer \.strom-band \{ justify-content: safe center; \}/.test(css) && /\.ist-hoch \.strom-band, \.ist-hoch \.strom-vorbereiten \{ max-width: 720px; margin-left: auto; margin-right: auto; \}/.test(css) && /\.ist-quer \.strom-fuss, \.ist-quer \.strom-vorbereiten \{ text-align: center; \}/.test(css), 'style.css: Strom-Ansicht mittig, quer mit safe center (passt sie nicht, beginnt sie links), hochkant schmal und mittig');
 }
 
+// --- T150: breite Bildschirme, Strom quer in zwei Spalten (DR-098)
+{
+  const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+  ok(/@media \(min-width: 1100px\) \{\s*\.strom\.ist-quer \{ display: grid; grid-template-columns: minmax\(0, 1fr\) 30rem; grid-template-rows: auto auto auto 1fr;/.test(css) && /\.strom\.ist-quer > \.strom-karte \{ grid-column: 2; grid-row: 1 \/ 5; position: sticky;/.test(css), 'style.css: ab 1100 px Strom quer in zwei Spalten, links die Zeitleiste, rechts die Karte in fester Breite (30 rem), Spalte immer reserviert');
+}
+
 // --- T144: Details unter dem Schritt in der Symbole-Ansicht ------------------------------------------------------------------------
 const kompaktSrc = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
 ok(/data-schritt': k\.i/.test(kompaktSrc) && /'data-zutat'/.test(kompaktSrc) && /kompakt-pfeilgruppe/.test(kompaktSrc) && /kompakt-treffer/.test(kompaktSrc), 'Kennungen: data-schritt an Knoten und Pfeil, data-zutat an Zutaten (Grundlage für T145)');
