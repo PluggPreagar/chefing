@@ -923,3 +923,56 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **cons:** zwei Knöpfe statt eines Häkchens, der Ablauf-Kopf wird breiter (auf dem Handy bricht er um).
 - **risk:** Gering, nur `main.js`, ein Test. Rückgängig: ein Commit. Eine Regel in `style.css` sorgt dafür, dass `hidden` bei Knopfgruppen gilt (`display: inline-flex` überschrieb das Attribut).
 - **Prüfung:** `test/kompakt.check.mjs` (Gruppe statt Häkchen, Name, `aria-pressed`, Vorgabe); im Browser: im Strom unsichtbar, in Kompakt „Text“ gewählt, Wechsel zu „Symbole“ lässt die Namen verschwinden, Speicherung stimmt.
+
+- **DR-080 Nachtrag (2026-10-25, Meldung `20261025-075952-fullscreen-focus-c155`, Teil 1):** Im Vollbild werden **keine Einstellungen** mehr geändert: Technik-Schalter, Ansicht (Strom | Kompakt) und Beschriftung (Text | Symbole) sind dort ausgeblendet (`style.css`, `.ablauf.ablauf-voll`), es bleiben Titel, Diagramm, Schritt-Karten sowie „Vollbild beenden“ und „Drehen“. Das ersetzt die Aussage oben, diese Schalter blieben bedienbar. Teil 2 der Meldung (Diagramm je Ausrichtung neu zeichnen) ist als T139 offen.
+
+## DR-087 · ui · Kopfzeile: Fluss und Einstellungen trennen, Melden bündeln (Entwurf, Entscheidung offen)
+
+- **descr:** (2026-10-25, vier Meldungen über den lokalen Server, Nutzer: „check, priorize and suggest order“, danach „H0 ausarbeiten“) Die Kopfzeile mischt zwei Arten von Bedienelementen: den **Fluss** (Rezeptart wählen → Variante → Zutaten → Ablauf → Rezept) und **Einstellungen**, die man selten oder nur zum Ansehen ändert. Ergebnis heute: fünf Reihen Knöpfe vor dem eigentlichen Inhalt, vier davon gleich auffällig.
+  - `20261025-075311-hierarchy-breaks-flow-1305`: Archetyp-Auswahl und Varianten-Knöpfe sind eine Hierarchie, wirken aber wie zwei getrennte Schritte; sie stehen neben allgemeinen Einstellungen. „Find ways to get it into 1 flow; find some separation for flow vs settings.“
+  - `20261025-074915-miss-formatted-toggle-19fe`: „Strom | Kompakt“: Symbol für Strom ergänzen, oben rechts platzieren, evtl. als Auswahlmenü wie die Erfahrungsstufe.
+  - `20261025-075717-toggle-view-5ef1`: „Korpus-Statistik | Regel-Kandidaten“ sind ebenfalls Einstellungen, in den Einstellungsbereich verschieben, Symbole ergänzen.
+  - `20261025-075524-melde-merge-2355`: „✓ Hat es geklappt?“ und „⚑ Melden“ zusammenfassen; es fehlt ein Symbol für „positiv melden“, oder beide in einen Melden-Ablauf.
+- **Leitplanken aus früheren Entscheiden:** Auffälligkeit nach Wirkung und Häufigkeit (DR-085); feste Beschriftung, nie Zustand und Aktion zugleich (DR-079); Werkzeugleisten-Aktionen als flaches Symbol mit Tooltip (DR-084); Erfahrungsstufe ist schon ein Auswahlmenü oben neben dem Titel (DR-085); Wahlen mit Wirkung im Ablauf bleiben am Ort ihrer Wirkung (DR-079: Technik-Schalter im Ablauf-Kopf).
+- **Heute (zum Vergleich):**
+```
+Chefing [Einsteiger v]
+[Rührteig v] [Weißbrot|Hefezopf] [Statistik|Kandidaten] [Hat es geklappt?] [Melden]
++-- ABLAUF [ ] mit Eischnee   [Strom|Kompakt] [Text|Symbole]  [Vollbild] -----+
+```
+- **Optionen:**
+  - **A Zahnrad: alle Einstellungen in einem Menü** *Einstellungen, ein Knopf*
+```
+Chefing                                   [Zahnrad] [Melden v]
+Rührteig > Rührkuchen | Muffins | Gugelhupf
++-- ABLAUF [ ] mit Eischnee                              [Vollbild] -----+
+Zahnrad öffnet:  Erfahrung   Einsteiger v
+                 Ansicht     Strom | Kompakt
+                 Beschriftung Text | Symbole
+                 Analyse     [ ] Statistik  [ ] Kandidaten
+```
+    - **Pro:** 🟢🟢 ruhigste Kopfzeile (zwei Knöpfe rechts, eine Fluss-Zeile), 🟢 Trennung Fluss und Einstellungen sofort sichtbar.
+    - **Contra:** 🔴🔴 Strom | Kompakt wechselt man oft und bekäme einen Klick mehr (gegen DR-085), 🔴 Einstellungen sind versteckt, Erfahrungsstufe wanderte aus der Kopfzeile ins Menü.
+    - **Risk:** ⚠️⚠️ mittel: neues Menü, Erfahrung und Ansicht umziehen, Tests anpassen; ein Commit je Schritt, zurücknehmbar.
+  - **B Leiste rechts oben mit Symbol-Menüs (Empfehlung)** *Werkzeugleiste, je Einstellung ein Symbol*
+```
+Chefing        [Löffel v] [Strom|Kompakt als Symbole] [Statistik] [Kandidaten] | [Melden v]
+Rührteig > Rührkuchen | Muffins | Gugelhupf               <- Fluss, eine Zeile
++-- ABLAUF [ ] mit Eischnee        [Text|Symbole nur in Kompakt]  [Vollbild] -+
+Melden v öffnet:  Fehler, Idee oder Frage melden
+                  Rezept bewerten (Hat es geklappt?)
+```
+    - **Pro:** 🟢🟢 trifft die Meldungen wörtlich (rechts oben, Symbole, Auswahlmenü wie Erfahrung, beide Melden-Wege gebündelt), 🟢 jede Einstellung bleibt einen Klick entfernt, 🟢 passt zu DR-084 und DR-085.
+    - **Contra:** 🔴 mehr Symbole, die man lernen muss (Tooltip), 🔴 neue Symbole für Statistik, Kandidaten, Melden und Bewerten nötig, 🔴 auf dem Handy bricht die Leiste um.
+    - **Risk:** ⚠️⚠️ mittel: drei bis vier neue Symbole, Kopf umbauen, Melden-Menü; die Symbole sind das Risiko (Verständlichkeit), nicht der Code.
+  - **C Schritte statt Leisten** *Seite als Fluss, Einstellungen im Schub*
+```
+Chefing                                              [Zahnrad] [Melden v]
+(1) Rezeptart: Rührteig > Rührkuchen  -> (2) Zutaten -> (3) Ablauf -> (4) Rezept
+```
+    - **Pro:** 🟢🟢 der Fluss wird sichtbar als nummerierte Folge, Einstellungen klar getrennt.
+    - **Contra:** 🔴🔴🔴 baut die Seite um (Morph-Kasten, Ablauf, Rezept als Schritte), neue Navigation, viele Tests.
+    - **Risk:** ⚠️⚠️⚠️ hoch: größter Umbau, Aufwand mehrere Tage, zurücknehmbar nur über Git.
+- **Unterfragen (gelten für alle Optionen):** (1) Archetyp und Variante als ein Fluss-Element „Rührteig > Rührkuchen“, die Variante bleibt Knopfgruppe (Wirkung sofort, DR-079). (2) „Text | Symbole“ nur in der Kompakt-Ansicht, bleibt im Ablauf-Kopf. (3) Technik-Schalter („mit Eischnee“) bleibt im Ablauf-Kopf, er ändert den Ablauf. (4) Symbol für „positiv melden“: Haken in einem Kreis (Vorschlag), das Wort „Kochmütze“ ist schon für Profi vergeben.
+- **Empfehlung:** B. Sie setzt die vier Meldungen am wörtlichsten um und bleibt innerhalb der vorhandenen Regeln. A ist die Rückfallebene, falls dir die Symbolleiste zu voll wird; C wäre ein eigenes Projekt.
+- **Entscheidung:** offen (T135). Danach folgen T136 bis T138.

@@ -88,6 +88,11 @@ ok(!/aria-pressed/.test(modul) && !/is-active/.test(modul) && !/textContent|inne
 ok(/'Vollbild beenden'/.test(modul) && /'Drehen'/.test(modul) && /hidden = offen; zu\.hidden = !offen; dreh\.hidden = !offen/.test(modul), 'nur die sichtbare Aktion wechselt: Vollbild (zu) · Vollbild beenden und Drehen (offen)');
 ok(/import \{ initVollbild \} from '\.\/ui\/vollbild\.js'/.test(main) && /initVollbild\(document\.querySelector\('\.panel\.ablauf'\), document\.querySelector\('\.ablauf-kopf'\)\)/.test(main), 'main.js bindet das Vollbild an den Ablauf-Kasten');
 ok(/\.ablauf\.ablauf-voll \{[^}]*position: fixed[^}]*inset: 0/.test(css) && /\.ablauf\.ablauf-voll\.gedreht \{[^}]*rotate\(90deg\)[^}]*\}/.test(css) && /body\.hat-vollbild/.test(css), 'style.css: Kasten füllt die Seite, gedreht um 90°, Seite ohne Scrollen');
+// Meldung 20261025-075952: im Vollbild keine Einstellungen; Diagramm, Schritt-Karten und die Vollbild-Knöpfe bleiben
+const aus = css.match(/\.ablauf\.ablauf-voll #ablauf-techniken, \.ablauf\.ablauf-voll #ablauf-ansicht, \.ablauf\.ablauf-voll #kompakt-namen \{ display: none; \}/);
+ok(!!aus, 'style.css: im Vollbild sind Technik-Schalter, Ansicht (Strom | Kompakt) und Beschriftung (Text | Symbole) ausgeblendet');
+ok(['ablauf-techniken', 'ablauf-ansicht'].every((id) => new RegExp(`id="${id}"`).test(html)) && /id: 'kompakt-namen'/.test(main) && /\.ablauf\.ablauf-voll #kompakt-namen/.test(css), 'die ausgeblendeten Ids gibt es (Technik, Ansicht in index.html; Beschriftung wird in main.js mit id kompakt-namen angelegt)');
+ok(!/ablauf-voll[^{]*#ablauf-voll-zu[^{]*\{ display: none/.test(css) && !/ablauf-voll[^{]*#ablauf-drehen[^{]*\{ display: none/.test(css) && !/ablauf-voll[^{]*\.strom/.test(css.split('\n').filter((l) => /display: none/.test(l)).join('\n')), 'Vollbild beenden, Drehen und das Diagramm bleiben sichtbar');
 ok(/width: 100vh; height: 100vw/.test(css), 'gedreht: Breite und Höhe getauscht (100vh × 100vw)');
 ok(/document\.addEventListener\('fullscreenchange'/.test(modul) || /doc\.addEventListener\('fullscreenchange'/.test(modul), 'Vollbild-Wechsel durch den Browser (Esc) wird abgefangen');
 

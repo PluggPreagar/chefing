@@ -92,6 +92,8 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .ablauf-voll-knopf[hidden] { display: none; }
 body.hat-vollbild { overflow: hidden; }
 .ablauf.ablauf-voll { position: fixed; inset: 0; z-index: 1000; margin: 0; border-radius: 0; overflow: auto; background: var(--bg); padding: .75rem 1rem; box-sizing: border-box; }
+/* Im Vollbild geht es nur ums Lesen des Diagramms: Einstellungen (Technik, Ansicht, Beschriftung) werden ausgeblendet (Meldung 20261025-075952) */
+.ablauf.ablauf-voll #ablauf-techniken, .ablauf.ablauf-voll #ablauf-ansicht, .ablauf.ablauf-voll #kompakt-namen { display: none; }
 .ablauf.ablauf-voll.gedreht { inset: auto; top: 0; left: 100vw; width: 100vh; height: 100vw; transform-origin: top left; transform: rotate(90deg); }
 .ablauf-techniken { display: flex; gap: .4rem; flex-wrap: wrap; }
 .technik-schalter { font: inherit; font-size: .82rem; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: .2rem .75rem; cursor: pointer; }
