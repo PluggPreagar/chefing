@@ -787,3 +787,54 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
   - **Client:** `src/model/meldungSenden.js` (`sendeFehlermeldung`, wirft nie, nennt den Grund); das Panel hat die Knöpfe „Absenden“, „ZIP herunterladen“ und „Abbrechen", sagt vor dem Senden, was übertragen wird, und zeigt nach Erfolg die Nummer. Bei einem Fehler bleibt das Panel offen, der ZIP-Knopf wird hervorgehoben. Ab 12 MB wird nicht gesendet, nur der ZIP-Download angeboten.
   - **Prüfung:** `test/issue-endpunkt.test.php` (Grenzen, Ablage, Ablehnungen, Limits, Gesamtgröße), `test/issue-endpunkt.check.mjs` (Client mit Fake-fetch, Oberfläche, und der PHP-Test mit einer Anfrage, die der echte Client gebaut hat). Zusätzlich im Browser gegen den PHP-Entwicklungsserver (`chefing-php` in `.claude/launch.json`): Absenden legte den Ordner an.
   - **Betrieb:** `chefing-issue.php` von Hand neben `index.html` legen (`deploy.php` verteilt sie nicht), nach der ersten Meldung prüfen, dass `…/issues-data/` 403 oder 404 liefert. Auswerten: Ordner aus `issues-data/open/` per FTP holen und nach `issues/open/` legen, die Meldung liegt dort wie bisher als ZIP-Inhalt vor.
+
+## DR-078 · ui · Eischnee-Schalter als Häkchen „☑ mit Eischnee“ mit Zustands-Icon dahinter
+
+- **descr:** (2026-10-25, Nutzer: „the ohne/mit Eischnee-toggle still feels awkward – shall the toggle show current state or the state I want to trigger?“) Der Knopf im Kopf des Ablaufs wechselte Beschriftung **und** Hervorhebung zugleich: aus „mit Eischnee“, an hervorgehoben „ohne Eischnee“. Hervorgehoben stand damit der Zustand, der gerade nicht gilt. Zuerst als Segment „ohne | mit Eischnee“ gebaut (nicht veröffentlicht), dann Nutzer-Entscheid D: „D with changing suffix icon“. Die allgemeine Regel steht in DR-079.
+- **Optionen:**
+  - **A Segment mit Namen** *„Eier ganz | Eischnee“* — Knopfgruppe, ausgewählt = Zustand.
+    - 🟢🟢 Pro: beide Zustände benannt, nichts zu deuten.
+    - 🔴 Contra: doppelt so breit für eine Ja/Nein-Frage.
+    - ⚠️ Risk: gering.
+  - **B Schalter (Switch)** *„Eischnee [●—]“*
+    - 🟢🟢 Pro: Standard für an/aus mit sofortiger Wirkung, kompakt.
+    - 🔴🔴 Contra: neues Element zwischen Knopfgruppen, bricht das Bild; nennt die Alternative nicht.
+    - ⚠️ Risk: gering, neues CSS.
+  - **C Filter-Chip mit ✓** *eine Pille, an = gefüllt mit Häkchen*
+    - 🟢🟢 Pro: Häkchen löst „ist das an?“; passt zum Pillen-Stil.
+    - 🔴 Contra: wirkt allein verloren, gedacht für Reihen von Filtern.
+    - ⚠️ Risk: gering.
+  - **D Häkchen (Checkbox) mit wechselndem Icon dahinter (gewählt)** *„☐ mit Eischnee 🥚“ / „☑ mit Eischnee ⬖“*
+    - 🟢🟢🟢 Pro: am klarsten, jeder kennt es; die Beschriftung bleibt fest, das Kästchen sagt an/aus, das Icon zeigt, was mit den Eiern passiert (ganz / getrennt).
+    - 🔴 Contra: Formular-Element zwischen Knopfgruppen.
+    - ⚠️ Risk: gering, nur `renderTechnikSchalter` und drei CSS-Zeilen; ein Commit zurücknehmbar.
+  - **E Schalter im Kopf weglassen** *nur der Morph-Kasten (Nein/Ja)*
+    - 🟢🟢 Pro: eine Stelle je Entscheidung.
+    - 🔴🔴 Contra: kein schneller Wechsel beim Lesen des Ablaufs.
+    - ⚠️⚠️ Risk: Nutzer verlieren eine Abkürzung.
+- **Umsetzung (2026-10-25, T126):** je Technik ein `<label class="technik-schalter">` als Pille mit nativem `<input type="checkbox">`, fester Beschriftung `schalter.mit.text` und dahinter dem Icon des Zustands (aus → `schalter.ohne.icon` „Ganzes Ei“, an → `schalter.mit.icon` „Aufgeschlagenes Ei“). An bleibt die Pille zusätzlich gefüllt (`is-an`), „passt nicht“ bleibt gestrichelt. Der Container `#ablauf-techniken` ist keine Knopfgruppe mehr (die Klasse wird auch bei älterer `index.html` aus dem Cache entfernt). Ersetzt die Regel vom 2026-10-22 („der Knopf bietet den Wechsel an“).
+
+## DR-079 · ui · Welches Bedienelement für welche Wahl (Regel für künftige Entwürfe)
+
+- **descr:** (2026-10-25, Nutzer: „set up adr for future designs“, nach DR-078) Feste Zuordnung von Art der Wahl zu Bedienelement, angelehnt an Apple HIG, Material Design und Nielsen Norman Group. Gilt für jede neue oder geänderte Bedienung in Chefing. Ergänzt DR-037 und DR-045 (Knopfgruppen).
+- **Grundregeln:**
+  1. **Ein Element zeigt entweder den Zustand oder die Aktion, nie beides.** Nie Beschriftung und Hervorhebung zugleich wechseln (Fehler aus DR-078).
+  2. **Beschriftung fest und positiv** („mit Eischnee“, nicht „ohne …“ als Schalter-Text); der Zustand steckt im Kästchen, in der Auswahl oder im Icon.
+  3. **Eine Entscheidung, ein Hauptort.** Ein zweites Element für dieselbe Entscheidung ist eine Abkürzung und muss genau dasselbe Element wie die Regel unten sein.
+  4. **Wechselnde Icons zeigen den Zustand**, nie die Aktion (DR-078: ganzes Ei / getrennt).
+- **Zuordnung:**
+
+  | Art der Wahl | Element | Beispiel in Chefing |
+  |---|---|---|
+  | an/aus, wirkt sofort | **Häkchen** mit fester Beschriftung, optional Zustands-Icon dahinter | Eischnee im Ablauf (DR-078), „mit den vorgeschlagenen Mengen“ |
+  | eine aus 2 bis 5 benannten Möglichkeiten, wirkt sofort | **Knopfgruppe (Segment)**, ausgewählt = Zustand, `aria-pressed` | Strom \| Kompakt, Einsteiger \| Fortgeschritten \| Profi, Varianten |
+  | eine aus mehreren mit Erklärung oder Status | **Optionskarten** als Radiogruppe | Gefäß, Methode, Ja/Nein im Morph-Kasten |
+  | mehrere zugleich (mischbar) | **Gruppe von Umschaltern** (je Knopf `aria-pressed`) | mischbare Zutaten (T81) |
+  | Antwort auf eine Frage | **Knopfgruppe** mit den Antworten | Rückfragen (DR-045), Punkte 1 bis 5 |
+  | Aktion ohne Zustand | **Knopf mit Verb**, nie hervorgehoben | „Fehler melden“, „Absenden“, „ZIP herunterladen“ |
+  | sehr viele Möglichkeiten (mehr als etwa 7) | **Auswahlliste** | (noch keins) |
+
+- **Nicht verwenden:** Schalter (Switch) — gehört in Einstellungen auf Mobilgeräten, bricht das Bild zwischen Pillen und Knopfgruppen. Filter-Chips — erst, wenn es eine Reihe mehrerer an/aus-Filter gibt. Knöpfe mit wechselnder Beschriftung (DR-078).
+- **pro:** Neue Entwürfe brauchen keine eigene Abwägung mehr; gleiche Wahl sieht überall gleich aus.
+- **cons:** Häkchen und Pillen mischen sich im Ablauf-Kopf; Ausnahmen brauchen einen eigenen DR.
+- **risk:** Gering, nur Regel; bestehende Elemente erfüllen sie schon (Stand 2026-10-25).

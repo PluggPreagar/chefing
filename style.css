@@ -70,6 +70,8 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .technik-schalter.is-an { border-color: var(--sel); background: var(--sel-bg); font-weight: 600; }
 .technik-schalter.passt-nicht { border-style: dashed; color: var(--muted); }
 .technik-schalter .icon { vertical-align: -3px; }
+label.technik-schalter { display: inline-flex; align-items: center; gap: .35rem; }
+.technik-schalter input { margin: 0; accent-color: var(--sel); cursor: pointer; }
 #rueckfragen { margin: 0 1.5rem 1rem; border-color: var(--warn); }
 .rueckfrage { padding: .5rem 0; border-top: 1px solid var(--line); }
 .rueckfrage:first-child { padding-top: 0; border-top: 0; }

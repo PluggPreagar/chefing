@@ -155,22 +155,24 @@ const technikKeysVon = (arch, data) => [...new Set(arch.methoden.flatMap((m) => 
 export function renderTechnikSchalter(root, state, data, computed, onChange) {
   const arch = data.archetypes[state.archetyp];
   root.replaceChildren();
-  root.classList.add('knopfgruppe'); // auch bei älterer index.html aus dem Cache (DR-037)
+  root.classList.remove('knopfgruppe'); // Häkchen statt Knopfgruppe; ältere index.html aus dem Cache hat die Klasse noch (DR-037)
   for (const k of technikKeysVon(arch, data)) {
     if (technikStufe(arch, computed.variante, k) === 'aus') continue;
     const t = data.techniken[k];
     const an = !!state.techniken?.[k];
     const methode = data.methods[computed.methodKey];
     const passt = (methode.techniken || []).includes(k);
-    // mit `schalter`: der Knopf bietet den Wechsel an — aus „mit Eischnee“, an (ausgewählt) „ohne Eischnee“ (Nutzer 2026-10-22)
-    const s = t.schalter?.[an ? 'ohne' : 'mit'];
-    const b = el('button', `technik-schalter${an ? ' is-an' : ''}${passt ? '' : ' passt-nicht'}`, s ? s.text : `${t.kurz ?? t.label}: ${an ? 'an' : 'aus'}`);
-    if (s?.icon) b.insertAdjacentHTML('afterbegin', iconHtml(s.icon, 16, s.titel) + ' ');
-    b.type = 'button';
-    b.setAttribute('aria-pressed', String(an));
-    b.title = passt ? t.hinweis : `${t.label} passt nicht zur ${methode.label}`;
-    b.addEventListener('click', () => onChange(technikPatch(state, arch, t, k, !an)));
-    root.append(b);
+    // Häkchen mit fester Beschriftung, das Icon dahinter zeigt den Zustand (ganzes Ei / getrennt) (DR-078)
+    const label = el('label', `technik-schalter${an ? ' is-an' : ''}${passt ? '' : ' passt-nicht'}`);
+    const box = el('input');
+    box.type = 'checkbox';
+    box.checked = an;
+    box.addEventListener('change', () => onChange(technikPatch(state, arch, t, k, box.checked)));
+    const s = t.schalter?.[an ? 'mit' : 'ohne'];
+    label.append(box, t.schalter?.mit.text ?? `mit ${t.kurz ?? t.label}`);
+    if (s?.icon) label.insertAdjacentHTML('beforeend', iconHtml(s.icon, 16, s.titel));
+    label.title = passt ? t.hinweis : `${t.label} passt nicht zur ${methode.label}`;
+    root.append(label);
   }
   root.hidden = !root.children.length;
 }
