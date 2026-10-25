@@ -152,7 +152,7 @@ ok(/fenster\.addEventListener\?\.\('resize', v\.beiGroesse\)/.test(modul) && /fe
 
 {
   const mainSrc = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
-  ok(/function passeStromEin\(\)/.test(mainSrc) && /f\.style\.zoom = ''/.test(mainSrc) && /Math\.min\(3, innen\.b \/ breit, innen\.h \/ f\.offsetHeight\)/.test(mainSrc) && /passeStromEin\(\);\s*document\.querySelectorAll\('\[data-ausrichtung\]'\)/.test(mainSrc), 'Strom im Vollbild: per zoom auf Breite und Höhe eingepasst (nie kleiner als 1, höchstens 3), nach jedem Zeichnen (DR-103)');
+  ok(/function passeStromEin\(\)/.test(mainSrc) && /f\.style\.zoom = ''/.test(mainSrc) && /Math\.min\(3, innen\.b \/ breit, innen\.h \/ f\.offsetHeight\)/.test(mainSrc) && /passeStromEin\(\);\s*kopfTitel\(\);\s*document\.querySelectorAll\('\[data-ausrichtung\]'\)/.test(mainSrc), 'Strom im Vollbild: per zoom auf Breite und Höhe eingepasst (nie kleiner als 1, höchstens 3), nach jedem Zeichnen (DR-103)');
   ok(/spaeterZeichnen = \(\) => \{ clearTimeout\(spaeterTimer\);/.test(mainSrc) && /if \(s\.offen\) spaeterZeichnen\(\);/.test(mainSrc), 'Vollbild offen: nach Größenänderung wird verzögert noch einmal gezeichnet, auch bei gleicher Ansicht (DR-103)');
 }
 
