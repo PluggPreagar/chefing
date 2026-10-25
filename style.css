@@ -36,13 +36,29 @@ body { margin: 0; background: var(--bg); line-height: 1.45; }
 h1 { margin: 0; font-size: 1.6rem; letter-spacing: .02em; }
 h2 { margin: 0 0 .5rem; font-size: 1.05rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
 h3 { margin: 0 0 .5rem; font-size: 1rem; }
+/* Erfahrungsstufe als Auswahlmenü oben (DR-085) */
+.top-zeile { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem .9rem; }
+.top-zeile h1 { margin: 0; }
+.stufe-menue { position: relative; }
+.stufe-knopf { display: inline-flex; align-items: center; gap: .45rem; font: inherit; font-size: .88rem; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: .3rem .8rem; cursor: pointer; }
+.stufe-knopf:hover, .stufe-knopf[aria-expanded="true"] { border-color: var(--muted); }
+.stufe-knopf:focus-visible, .stufe-liste li:focus-visible { outline: 2px solid var(--sel); outline-offset: 2px; }
+.stufe-pfeil { color: var(--muted); }
+.stufe-liste { position: absolute; z-index: 50; left: 0; top: calc(100% + 6px); min-width: 15rem; margin: 0; padding: .3rem; list-style: none; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 6px 24px rgba(0, 0, 0, .14); }
+.stufe-liste[hidden] { display: none; }
+.stufe-liste li { display: flex; align-items: center; gap: .7rem; padding: .5rem .7rem; border-radius: 8px; cursor: pointer; }
+.stufe-liste li:hover, .stufe-liste li.is-fokus { background: var(--best-bg); }
+.stufe-liste li[aria-selected="true"] { font-weight: 600; }
+.stufe-liste li[aria-selected="true"] b::after { content: " ✓"; color: var(--best); }
+.stufe-text { display: flex; flex-direction: column; line-height: 1.25; }
+.stufe-text small { color: var(--muted); font-weight: 400; }
 .tagline { margin: .25rem 0 0; color: var(--muted); max-width: 60ch; }
 .top { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: flex-end; padding: 1.25rem 1.5rem .75rem; }
 .presets { display: flex; flex-wrap: wrap; gap: .5rem; }
-.presets button, .ablauf-ansicht button, .ablauf-stufe button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; }
-.presets button.is-active, .ablauf-ansicht button.is-active, .ablauf-stufe button.is-active { border-color: var(--best); background: var(--best-bg); font-weight: 600; }
-.presets button.ghost, .ablauf-ansicht button.ghost, .ablauf-stufe button.ghost { color: var(--muted); }
-.presets button.ghost.is-active, .ablauf-ansicht button.ghost.is-active, .ablauf-stufe button.ghost.is-active { color: var(--ink); }
+.presets button, .ablauf-ansicht button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; }
+.presets button.is-active, .ablauf-ansicht button.is-active { border-color: var(--best); background: var(--best-bg); font-weight: 600; }
+.presets button.ghost, .ablauf-ansicht button.ghost { color: var(--muted); }
+.presets button.ghost.is-active, .ablauf-ansicht button.ghost.is-active { color: var(--ink); }
 /* Knopfgruppe (DR-045): gleichartige Knöpfe nebeneinander, Ränder verbunden, aktiver hervorgehoben, Gruppe bricht als Ganzes um */
 .knopfgruppe { display: inline-flex; flex-wrap: nowrap; gap: 0 !important; vertical-align: middle; }
 .knopfgruppe > * { position: relative; border-radius: 0 !important; margin-left: -1px; }

@@ -129,6 +129,21 @@ const ICONS_ANSICHT = {
     { tag: 'path', attrs: { d: 'M19.5 4.5v4.2h-4.2', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } },
   ],
 
+  // Erfahrungsstufe (DR-085): Löffel = Einsteiger, Schneebesen = Fortgeschritten, Kochmütze = Profi
+  loeffel: [
+    { tag: 'ellipse', attrs: { cx: 12, cy: 7.6, rx: 4.2, ry: 5.4, fill: F } },
+    { tag: 'path', attrs: { d: 'M12 12.9V21', fill: 'none', stroke: F, 'stroke-width': 2.2, 'stroke-linecap': 'round' } },
+  ],
+  besen: [
+    { tag: 'path', attrs: { d: 'M12 15C6.5 13.5 6.5 6 12 3C17.5 6 17.5 13.5 12 15Z', fill: 'none', stroke: F, 'stroke-width': 1.6, 'stroke-linejoin': 'round' } },
+    { tag: 'path', attrs: { d: 'M12 15C9.4 11.5 9.4 6.5 12 3M12 15c2.6-3.5 2.6-8.5 0-12', fill: 'none', stroke: F, 'stroke-width': 1.4, 'stroke-linecap': 'round' } },
+    { tag: 'path', attrs: { d: 'M12 15.4V21', fill: 'none', stroke: F, 'stroke-width': 2.2, 'stroke-linecap': 'round' } },
+  ],
+  kochmuetze: [
+    { tag: 'path', attrs: { d: 'M7.5 15a3.7 3.7 0 0 1-.8-7.2A4.6 4.6 0 0 1 12 3.8a4.6 4.6 0 0 1 5.3 4A3.7 3.7 0 0 1 16.5 15', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linejoin': 'round' } },
+    { tag: 'path', attrs: { d: 'M7.5 15v5.2h9V15M7.5 17.6h9', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' } },
+  ],
+
   ansicht_kompakt: [
     { tag: 'path', attrs: { d: 'M7 5V19', fill: 'none', stroke: F, 'stroke-width': 1.6 } },
     { tag: 'circle', attrs: { cx: 7, cy: 5, r: 2.6, fill: F } },

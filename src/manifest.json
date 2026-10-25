@@ -37,6 +37,7 @@
  "src/ui/rueckmeldung.js",
  "src/ui/skizzen.js",
  "src/ui/stats.js",
+ "src/ui/stufenMenue.js",
  "src/ui/vollbild.js",
  "src/ui/zustandLink.js",
  "src/ui/zwischenablage.js"

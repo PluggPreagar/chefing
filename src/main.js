@@ -13,6 +13,7 @@ import { alsEintraege, presetPatch, archetypPatch } from './model/zustand.js';
 import { initFehlerMelden } from './ui/fehlerMelden.js';
 import { STUFEN, STUFE_TEXT, SCHWELLE } from './model/aussagen.js';
 import { initVollbild } from './ui/vollbild.js';
+import { initStufenMenue } from './ui/stufenMenue.js';
 
 async function loadJson(path) {
   const r = await fetch(path, { cache: 'no-cache' });
@@ -119,32 +120,19 @@ function kompaktNamenHaken() {
 }
 kompaktNamenHaken();
 
-// Stufen-Schalter im Kopf des Ablaufs (DR-075): wie viele Praxishinweise erscheinen; Warnungen bleiben immer sichtbar.
-// Fehlt die Knopfgruppe (ältere index.html aus dem Cache, DR-037), wird sie angelegt.
-function ablaufStufe() {
-  let g = $('ablauf-stufe');
-  if (!g) {
-    g = Object.assign(document.createElement('span'), { id: 'ablauf-stufe', className: 'knopfgruppe ablauf-stufe' });
-    g.setAttribute('role', 'group');
-    g.setAttribute('aria-label', 'Erfahrung: wie viele Hinweise');
-    for (const k of STUFEN) {
-      const b = Object.assign(document.createElement('button'), { type: 'button', className: 'ghost', textContent: STUFE_TEXT[k] });
-      b.dataset.stufe = k;
-      g.append(b);
-    }
-    $('ablauf-ansicht').after(g);
-  }
-  for (const b of g.querySelectorAll('[data-stufe]')) {
-    const k = b.dataset.stufe;
-    b.title = `${STUFE_TEXT[k]}: Hinweise ab ${SCHWELLE[k]} ${SCHWELLE[k] === 1 ? 'Stern' : 'Sternen'}`;
-    b.addEventListener('click', () => {
-      state.stufe = k;
-      try { localStorage.setItem('chefing.stufe', k); } catch { /* nur für diese Sitzung */ }
-      render();
-    });
-  }
-}
-ablaufStufe();
+// Erfahrungsstufe (DR-075, DR-085): wie viele Praxishinweise erscheinen; Warnungen bleiben immer sichtbar. Eine allgemeine, selten geänderte
+// Einstellung, darum ein Auswahlmenü oben auf der Seite statt einer Knopfgruppe im Ablauf. Fehlt der Platz in der index.html (ältere Fassung
+// aus dem Cache, DR-037), wird er neben dem Titel angelegt; eine alte Knopfgruppe im Ablauf-Kopf wird entfernt.
+$('ablauf-stufe')?.remove();
+if (!$('stufe-menue')) document.querySelector('header.top h1')?.after(Object.assign(document.createElement('div'), { id: 'stufe-menue' }));
+const stufenMenue = initStufenMenue($('stufe-menue'), {
+  stufen: STUFEN, text: STUFE_TEXT, schwelle: SCHWELLE, aktuell: state.stufe,
+  onWahl: (k) => {
+    state.stufe = k;
+    try { localStorage.setItem('chefing.stufe', k); } catch { /* nur für diese Sitzung */ }
+    render();
+  },
+});
 
 // Ablauf im Vollbild, bei Bedarf gedreht (T124, DR-080)
 initVollbild(document.querySelector('.panel.ablauf'), document.querySelector('.ablauf-kopf'));
@@ -226,7 +214,7 @@ function render() {
   $('kompakt-namen').classList.toggle('is-an', kompaktNamen);
   if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: kompaktNamen }); else renderFlow($('flow'), computed, data);
   document.querySelectorAll('[data-ansicht]').forEach((b) => { b.classList.toggle('is-active', b.dataset.ansicht === ansicht); b.setAttribute('aria-pressed', String(b.dataset.ansicht === ansicht)); });
-  document.querySelectorAll('[data-stufe]').forEach((b) => { b.classList.toggle('is-active', b.dataset.stufe === state.stufe); b.setAttribute('aria-pressed', String(b.dataset.stufe === state.stufe)); });
+  stufenMenue.setze(state.stufe);
   renderRecipe($('recipe'), computed, state, data, update);
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }

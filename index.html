@@ -9,7 +9,10 @@
 <body>
   <header class="top">
     <div>
-      <h1>Chefing</h1>
+      <div class="top-zeile">
+        <h1>Chefing</h1>
+        <div id="stufe-menue"></div>
+      </div>
       <p class="tagline" id="tagline">Kombinatorik: Zutaten nach Eigenschaften wählen, Methode folgt aus der Physik, Mengen aus dem Rezept-Korpus.</p>
     </div>
     <nav class="presets" aria-label="Best-of-Presets">
@@ -31,7 +34,6 @@
       <h2>Ablauf</h2>
       <div id="ablauf-techniken" class="ablauf-techniken" role="group" aria-label="Techniken" hidden></div>
       <span id="ablauf-ansicht" class="knopfgruppe ablauf-ansicht" role="group" aria-label="Ansicht des Ablaufs"><button type="button" class="ghost" data-ansicht="strom">Strom</button><button type="button" class="ghost" data-ansicht="kompakt">Kompakt</button></span>
-      <span id="ablauf-stufe" class="knopfgruppe ablauf-stufe" role="group" aria-label="Erfahrung: wie viele Hinweise"><button type="button" class="ghost" data-stufe="einsteiger">Einsteiger</button><button type="button" class="ghost" data-stufe="fortgeschritten">Fortgeschritten</button><button type="button" class="ghost" data-stufe="profi">Profi</button></span>
       <button type="button" id="ablauf-voll" class="ablauf-voll-knopf nur-symbol ghost" title="Ablauf im Vollbild öffnen" aria-label="Vollbild"></button>
       <button type="button" id="ablauf-voll-zu" class="ablauf-voll-knopf nur-symbol ghost" title="Vollbild verlassen (Esc)" aria-label="Vollbild beenden" hidden></button>
       <button type="button" id="ablauf-drehen" class="ablauf-voll-knopf nur-symbol ghost" title="Ablauf drehen (Quer- oder Hochformat)" aria-label="Drehen" hidden></button>
