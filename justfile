@@ -2,7 +2,7 @@
 set windows-shell := ["powershell.exe", "-NoLogo", "-NoProfile", "-Command"]
 
 # Lokalen Server starten: Seite auf http://127.0.0.1:PORT/, "Fehler melden" speichert in issues/open/
-serve port="8765":
+serve port="8780":
     python tools/dev-server.py --port {{port}}
 
 # Alle Headless-Prüfungen (Node >= 18, die PHP-Tests brauchen PHP ab 8.1)

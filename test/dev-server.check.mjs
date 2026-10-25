@@ -20,7 +20,7 @@ for (const k of kandidaten) {
 }
 const wurzel = new URL('../', import.meta.url);
 const ok0 = fs.readFileSync(new URL('justfile', wurzel), 'utf8');
-ok(/^serve port="8765":\n    python tools\/dev-server\.py --port \{\{port\}\}/m.test(ok0) && /^test:/m.test(ok0) && /^issues:/m.test(ok0), 'justfile: serve (Port 8765), test und issues');
+ok(/^serve port="8780":\n    python tools\/dev-server\.py --port \{\{port\}\}/m.test(ok0) && /^test:/m.test(ok0) && /^issues:/m.test(ok0), 'justfile: serve (Port 8780), test und issues');
 
 if (!py) {
   console.log('SKIP Python 3.9+ nicht gefunden — Server-Test übersprungen (PYTHON_BIN setzen)');
@@ -40,6 +40,22 @@ const port = await new Promise((resolve, reject) => {
   const warte = setInterval(() => { const m = /127\.0\.0\.1:(\d+)\//.exec(ausgabe); if (m) { clearInterval(warte); clearTimeout(t); resolve(+m[1]); } }, 50);
 });
 const B = `http://127.0.0.1:${port}`;
+// derselbe Port ein zweites Mal: der Start muss mit klarer Meldung scheitern, nicht stillschweigend mitlaufen (Windows: exklusiv binden)
+{
+  const zweiter = spawnSync(py, [skript, '--port', String(port), '--issues', path.join(tmp, 'zweit')], { encoding: 'utf8', timeout: 15000, env: { ...process.env, PYTHONIOENCODING: 'utf-8' } });
+  ok(zweiter.status === 1 && /belegt/.test(zweiter.stderr) && /Anderen Port/.test(zweiter.stderr) && !/Traceback/.test(zweiter.stderr), 'zweiter Server auf demselben Port: Exit 1 mit Meldung „Port belegt“, ohne Traceback');
+}
+ok(/default=8780/.test(fs.readFileSync(skript, 'utf8')), 'Vorgabe-Port 8780 (8765 gehört der Vorschau mit npx serve)');
+// der Fall des Nutzers: auf dem Port lauscht schon ein anderer Server auf allen Adressen (npx serve auf 0.0.0.0)
+{
+  const { createServer } = await import('net');
+  const fremd = createServer((s) => s.end('HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n'));
+  await new Promise((r) => fremd.listen(0, '0.0.0.0', r));
+  const fremdPort = fremd.address().port;
+  const dritter = spawnSync(py, [skript, '--port', String(fremdPort), '--issues', path.join(tmp, 'dritt')], { encoding: 'utf8', timeout: 15000, env: { ...process.env, PYTHONIOENCODING: 'utf-8' } });
+  fremd.close();
+  ok(dritter.status === 1 && /belegt/.test(dritter.stderr) && !/Traceback/.test(dritter.stderr), 'Port schon von einem anderen Server auf 0.0.0.0 belegt (wie npx serve): Start scheitert mit Meldung, statt Anfragen still an sich zu ziehen');
+}
 const post = (p, body, typ = 'application/json') => fetch(B + p, { method: 'POST', headers: { 'Content-Type': typ }, body });
 
 try {

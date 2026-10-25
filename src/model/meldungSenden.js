@@ -32,6 +32,8 @@ export async function sendeFehlermeldung({ titel, md, metaJson, zipBytes }, { ur
   let inhalt = null;
   try { inhalt = await antwort.json(); } catch { /* keine JSON-Antwort */ }
   if (antwort.ok && inhalt?.ok) return { ok: true, id: inhalt.id ?? null };
+  // 200 ohne JSON-Antwort: ein statischer Server hat die Datei ausgeliefert, statt die Meldung anzunehmen (lokal: just serve starten)
+  if (antwort.ok && !inhalt) return { ok: false, fehler: 'Der Server nimmt hier keine Meldungen an (keine gültige Antwort).', status: antwort.status };
   const fehler = TEXT[antwort.status]
     ?? (antwort.status >= 500 ? 'Der Server konnte die Meldung nicht speichern.' : `Die Meldung wurde abgelehnt (${inhalt?.fehler ?? antwort.status}).`);
   return { ok: false, fehler, status: antwort.status };

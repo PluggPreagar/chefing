@@ -4,7 +4,7 @@
 "Fehler melden" -> "Absenden" schickt POST /chefing-issue.php (derselbe Weg wie live). Hier landet die Meldung entpackt in
 issues/open/<Zeit>-<Titel>-<Zufall>/ : issue.md, meta.json, wireframe.png, anhang/ (Format wie im Projekt aktien-monitor).
 
-Nur Standardbibliothek, nur 127.0.0.1. Start: `just serve` oder `python tools/dev-server.py [--port 8765] [--issues issues/open]`.
+Nur Standardbibliothek, nur 127.0.0.1. Start: `just serve` oder `python tools/dev-server.py [--port 8780] [--issues issues/open]`.
 Nur für die Entwicklung: keine Limits je Zeit, keine Origin-Prüfung; Rückmeldungen ("Hat es geklappt?") nimmt der Server nicht an.
 """
 import argparse
@@ -12,8 +12,10 @@ import base64
 import binascii
 import io
 import json
+import os
 import re
 import secrets
+import socket
 import sys
 import zipfile
 from datetime import datetime, timezone
@@ -102,6 +104,27 @@ def speichern(sauber, ziel: Path, jetzt: datetime) -> str:
     return ident
 
 
+class Server(ThreadingHTTPServer):
+    # Unter Windows kann ein zweiter Server denselben Port belegen (SO_REUSEADDR, und ein Bind an 127.0.0.1 gelingt auch neben einem
+    # Server auf 0.0.0.0): Anfragen landen dann beim falschen. Dort exklusiv binden, sonst scheitert der Start mit klarer Meldung.
+    allow_reuse_address = os.name != "nt"
+
+    def server_bind(self):
+        if os.name == "nt":
+            self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_EXCLUSIVEADDRUSE, 1)
+        super().server_bind()
+
+
+def antwortet_schon(port: int) -> bool:
+    """Lauscht auf dem Port schon etwas? Unter Windows reicht der Bind-Fehler nicht: neben einem Server auf 0.0.0.0 gelingt ein
+    Bind an 127.0.0.1 trotzdem, und der neue Server würde die Anfragen stillschweigend an sich ziehen."""
+    try:
+        with socket.create_connection(("127.0.0.1", port), timeout=0.5):
+            return True
+    except OSError:
+        return False
+
+
 def handler_fuer(issues: Path):
     class Handler(SimpleHTTPRequestHandler):
         def __init__(self, *a, **k):
@@ -176,14 +199,21 @@ def handler_fuer(issues: Path):
 
 def main(argv=None):
     p = argparse.ArgumentParser(description="Lokaler Entwicklungsserver für Chefing mit Ablage für Fehlermeldungen")
-    p.add_argument("--port", type=int, default=8765, help="Port (0 = freier Port), Vorgabe 8765")
+    p.add_argument("--port", type=int, default=8780, help="Port (0 = freier Port), Vorgabe 8780 (8765 nutzt die Vorschau mit npx serve)")
     p.add_argument("--issues", default=str(ROOT / "issues" / "open"), help="Ordner für Fehlermeldungen, Vorgabe issues/open")
     a = p.parse_args(argv)
     issues = Path(a.issues).resolve()
     issues.mkdir(parents=True, exist_ok=True)
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
-    httpd = ThreadingHTTPServer(("127.0.0.1", a.port), handler_fuer(issues))
+    try:
+        if a.port and antwortet_schon(a.port):
+            raise OSError(None, "dort antwortet schon ein Server")
+        httpd = Server(("127.0.0.1", a.port), handler_fuer(issues))
+    except OSError as e:
+        print(f"Port {a.port} ist belegt oder nicht erreichbar ({e.strerror or e}).", file=sys.stderr)
+        print("Anderen Port wählen (just serve 8781) oder den Server beenden, der ihn belegt. Auf Windows: netstat -ano | findstr :" + str(a.port), file=sys.stderr)
+        sys.exit(1)
     port = httpd.server_address[1]
     print(f"Chefing läuft auf http://127.0.0.1:{port}/  (Strg+C beendet)", flush=True)
     print(f"Fehlermeldungen landen in {issues}", flush=True)

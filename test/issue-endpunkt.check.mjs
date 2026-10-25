@@ -54,6 +54,8 @@ r = await sendeFehlermeldung(meldung, { fetchFn: async () => { throw new TypeErr
 ok(!r.ok && /Keine Verbindung/.test(r.fehler), 'Netzfehler: „Keine Verbindung“, kein Wurf');
 r = await sendeFehlermeldung(meldung, { fetchFn: fangen(200, { ok: false }) });
 ok(!r.ok, '200 mit ok:false gilt nicht als gesendet');
+r = await sendeFehlermeldung(meldung, { fetchFn: fangen(200, undefined) });
+ok(!r.ok && r.status === 200 && /nimmt hier keine Meldungen an/.test(r.fehler) && !/abgelehnt/.test(r.fehler), '200 ohne JSON (statischer Server): „Server nimmt hier keine Meldungen an“ statt „abgelehnt (200)“');
 let gerufen = false;
 r = await sendeFehlermeldung({ ...meldung, zipBytes: new Uint8Array(MAX_ZIP_BYTES + 1) }, { fetchFn: async () => { gerufen = true; return antwort(200, { ok: true })(); } });
 ok(!r.ok && !gerufen && /zu groß/.test(r.fehler), 'ZIP über 12 MB: wird gar nicht erst gesendet');

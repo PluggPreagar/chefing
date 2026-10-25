@@ -22,11 +22,11 @@ Dann `http://localhost:3000` öffnen (oder den Port, den `serve` ausgibt). Es gi
 Zum Entwickeln und Fehlersuchen gibt es einen lokalen Server mit Ablage für Fehlermeldungen (Python 3, nur Standardbibliothek, DR-082):
 
 ```bash
-just serve          # http://127.0.0.1:8765/ (anderer Port: just serve 8780)
+just serve          # http://127.0.0.1:8780/ (anderer Port: just serve 8781)
 just issues         # gespeicherte Fehlermeldungen auflisten
 ```
 
-Ohne `just`: `python tools/dev-server.py --port 8765`. „Fehler melden“ → „Absenden“ legt die Meldung entpackt in `issues/open/<Zeit>-<Titel>-<Zufall>/` ab (`issue.md`, `meta.json`, `wireframe.png`, `anhang/`); der Ordner steht in `.gitignore`, erledigte Meldungen kommen nach `issues/closed/`. Der Server hört nur auf 127.0.0.1, liefert `issues/`, `.git` und die Daten-Ordner nicht aus und nimmt keine Rückmeldungen („Hat es geklappt?“) an.
+Ohne `just`: `python tools/dev-server.py --port 8780`. Port 8765 gehört der Vorschau mit `npx serve`, die nur Dateien ausliefert und keine Meldungen annimmt; wer „Absenden“ dort versucht, sieht „Der Server nimmt hier keine Meldungen an“. „Fehler melden“ → „Absenden“ legt die Meldung entpackt in `issues/open/<Zeit>-<Titel>-<Zufall>/` ab (`issue.md`, `meta.json`, `wireframe.png`, `anhang/`); der Ordner steht in `.gitignore`, erledigte Meldungen kommen nach `issues/closed/`. Der Server hört nur auf 127.0.0.1, liefert `issues/`, `.git` und die Daten-Ordner nicht aus und nimmt keine Rückmeldungen („Hat es geklappt?“) an.
 
 Tests (Node ≥ 18, keine Abhängigkeiten):
 
