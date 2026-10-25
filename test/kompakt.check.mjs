@@ -95,6 +95,12 @@ ok(/\.kompakt-svg\.mit-namen \{[^}]*width: 100%/.test(kompaktCss) && /\.kompakt-
   ok(/\.ist-quer \.strom-band \{ justify-content: safe center; \}/.test(css) && /\.ist-hoch \.strom-band, \.ist-hoch \.strom-vorbereiten \{ max-width: 720px; margin-left: auto; margin-right: auto; \}/.test(css) && /\.ist-quer \.strom-fuss, \.ist-quer \.strom-vorbereiten \{ text-align: center; \}/.test(css), 'style.css: Strom-Ansicht mittig, quer mit safe center (passt sie nicht, beginnt sie links), hochkant schmal und mittig');
 }
 
+// --- DR-096 Nachtrag: Vollbild hochkant, die Zeilen rücken auseinander, wenn unter der Zeichnung Platz bleibt
+{
+  const src = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
+  ok(/const zielHoehe = opt\.ziel && !namen \? \(opt\.ziel\.h \* breite\) \/ opt\.ziel\.w : 0/.test(src) && /Math\.min\(\(zielHoehe - natuerlich\) \/ K\.zeilen, ROW \* 1\.5\)/.test(src) && /root\.closest\?\.\('\.ablauf-voll'\)/.test(src) && /ziel: \{ w, h \}/.test(src), 'Vollbild hochkant: Bildbereich messen, Zeilenabstand bis 2,5-fach vergrößern, nur ein zweites Zeichnen (ziel verhindert Schleifen)');
+}
+
 // --- T150: breite Bildschirme, Strom quer in zwei Spalten (DR-098)
 {
   const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');

@@ -154,10 +154,14 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   // Symbole: unter einer Zeile mit aufgeklapptem Schritt wächst der Abstand um die Höhe des Textes
   const extra = Array(K.zeilen).fill(0);
   for (const k of K.knoten) if (offen.has(k.i)) extra[k.zeile] = Math.max(extra[k.zeile], blockLayout(texte.get(k), 8).unten + 6);
+  // Vollbild hochkant (opt.ziel = Pixelmaß des Bildbereichs): ist die Zeichnung auf die Breite begrenzt und bleibt darunter Platz, rücken die Zeilen auseinander (höchstens 2,5-fach)
+  const natuerlich = PAD * 2 + K.zeilen * ROW + extra.reduce((a, b) => a + b, 0);
+  const zielHoehe = opt.ziel && !namen ? (opt.ziel.h * breite) / opt.ziel.w : 0;
+  const zeilenHoehe = zielHoehe > natuerlich ? ROW + Math.min((zielHoehe - natuerlich) / K.zeilen, ROW * 1.5) : ROW;
   const zeilenTop = [];
   let summe = PAD;
-  extra.forEach((e, z) => { zeilenTop[z] = summe; summe += ROW + e; });
-  const yVon = (k) => (lay ? lay.geo.get(k).cy : zeilenTop[k.zeile] + ROW / 2);
+  extra.forEach((e, z) => { zeilenTop[z] = summe; summe += zeilenHoehe + e; });
+  const yVon = (k) => (lay ? lay.geo.get(k).cy : zeilenTop[k.zeile] + zeilenHoehe / 2);
   const hoehe = namen ? lay.hoehe : summe + PAD;
   const svg = svgEl('svg', { viewBox: `0 0 ${breite} ${hoehe}`, width: breite, height: hoehe, class: `kompakt-svg${namen ? ' mit-namen' : ''}`, role: 'img', 'aria-label': namen ? 'Ablauf kompakt mit Namen und Mengen' : 'Ablauf kompakt: Schritt, Zutat oder Pfeil antippen für Name und Menge' });
   const defs = svgEl('defs');
@@ -205,7 +209,7 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
       continue;
     }
     if (offen.has(k.i)) {
-      const oben = zeilenTop[k.zeile] + ROW;
+      const oben = zeilenTop[k.zeile] + zeilenHoehe;
       zeichneBlock(svg, texte.get(k), blockLayout(texte.get(k), oben + 8), textX, k.i);
     }
     if (!k.neu.length) continue;
@@ -229,6 +233,12 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   root.className = 'kompakt';
   root.replaceChildren(...(zustaende.length ? [vorbereitenZeile(zustaende, 'strom-vorbereiten')] : []), el('div', 'kompakt-bild', null), info, fuss);
   root.querySelector('.kompakt-bild').append(svg);
+  // im Vollbild den Bildbereich messen und, wenn unten Platz bleibt, einmal mit dem Maß neu zeichnen
+  if (!namen && !opt.ziel && root.closest?.('.ablauf-voll')) {
+    const bild = root.querySelector('.kompakt-bild');
+    const [w, h] = [bild.clientWidth, bild.clientHeight];
+    if (w > 0 && h > 0 && (h * breite) / w > hoehe + 1) renderKompakt(root, computed, data, { ...opt, ziel: { w, h } });
+  }
 }
 
 // Name und Menge: aus der Zutatenliste (Stück bleiben Stück); ein Teil (Eiweiß) nennt die ganze Zutat dazu

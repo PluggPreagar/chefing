@@ -1108,3 +1108,14 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Breite wird genutzt, nichts springt, Text bleibt in lesbarer Zeilenlänge.
 - **cons:** Ohne offene Karte bleibt rechts eine leere Spalte; die Zeitleiste steht dann nicht in der Seitenmitte, sondern in der Mitte ihrer Spalte.
 - **risk:** Gering, `style.css` und ein Test. Rückgängig: ein Commit.
+
+## DR-099 · ui · Vollbild hochkant: Zeilen rücken auseinander (Nachtrag zu DR-096)
+
+- **descr:** (2026-10-25, Nutzer mit Handy-Bild im Vollbild: „Still dead space“) DR-096 passte die Zeichnung nur ein; auf dem Handy hochkant ist sie aber auf die **Breite** begrenzt, weil sie schmal und hoch ist, und es blieb unten rund ein Drittel leer. Jetzt misst die Zeichnung im Vollbild ihren Bildbereich und **vergrößert den Zeilenabstand** (höchstens auf das 2,5-fache der Zeilenhöhe), bis die Höhe gefüllt ist; Symbole und Pfeile behalten ihre Größe. Gemessen bei 375 × 812 px: Zeichnung 341 × 621 füllt den Bildbereich, Strom und Zutaten gleichmäßig verteilt.
+- **Umsetzung:** `renderKompakt` kennt `opt.ziel = {w, h}` (Pixelmaß des Bildbereichs). Im Vollbild zeichnet es einmal normal, misst `.kompakt-bild` und zeichnet nur dann ein zweites Mal mit dem Maß, wenn unter der Zeichnung Platz bleibt (`ziel` verhindert Schleifen). Querformat (Monitor) ist höhenbegrenzt, dort passiert nichts zusätzlich. Nur Symbole; die Namen-Variante füllt über ihren Text.
+- **Grenze:** Die Zeichnung bleibt so breit wie für das Detail nötig (DR-097); auf dem Handy ist sie deshalb im Vollbild nicht größer als normal, nur höher verteilt. Größere Symbole gäbe es nur, wenn die Breite beim Aufklappen wechselte; das wäre ein Springen und widerspricht DR-097.
+- **Regeln:** R14, R23 (gemessen bei 375 × 812).
+- **Optionen:** **A Zeilen strecken (gewählt)** · B Symbole mit vergrößern und Breite beim Aufklappen wechseln (größer, aber springt) · C Namen-Variante im Vollbild hochkant erzwingen (nimmt dem Nutzer die Wahl, DR-090).
+- **pro:** Die ganze Höhe wird genutzt, nichts springt, kein Eingriff in die Wahl des Nutzers.
+- **cons:** Lange Linien zwischen den Schritten; Symbole bleiben klein.
+- **risk:** Gering, nur `kompakt.js` und ein Test. Rückgängig: ein Commit.
