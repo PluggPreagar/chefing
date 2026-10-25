@@ -1252,3 +1252,17 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Bildschirm genutzt (Zeitleiste und Karte füllen die Höhe), nichts springt.
 - **cons:** Die Karte ist breit und flach; ohne Karte bleibt der Reservestreifen leer.
 - **risk:** Mittel-gering, `main.js` (Einpassen, Beobachter), `style.css`, Test. Rückgängig: ein Commit.
+
+## DR-112 · ui · Autoscroll beim Aufklappen eines Schritts
+
+- **descr:** (2026-10-25, Nutzer: „add some autoscroll – if I expand some step, then scroll up to 1) the step before (allow to go back easily) – 2) but if the next step is still below (and invisible), scroll up to the current step (sacrifice easy navigation to show the unrolled content)“) Klappt man einen Schritt auf, liegt das Detail oft unter dem sichtbaren Rand; man musste suchen.
+- **Regel:** (1) Der **Schritt davor** steht oben im Bild (Rand 8 px), so kommt man leicht zurück. (2) Passt dabei der **folgende Schritt** mit seiner Unterkante nicht mehr ins Bild, steht stattdessen der **aufgeklappte Schritt selbst** oben: der Platz für den Inhalt geht der Rückwärts-Navigation vor. Ohne Schritt davor (erster Schritt) steht der Schritt selbst oben, ohne folgenden Schritt zählt das Ende der Zeichnung beziehungsweise des Details. Nie unter null.
+- **Wo:** Kompakt (Symbole) und Zeitleiste hochkant (Detail unter der Zeile). **Nur beim Aufklappen** (nicht beim Zuklappen) und nur beim Klick, nicht beim Überfahren der Zeitleiste. Die Zeitleiste quer (Karte daneben beziehungsweise darunter, DR-098, DR-111) und die Liste haben nichts, das aufklappt.
+- **Behälter:** Gescrollt wird der nächste Vorfahr, der senkrecht scrollt (im Vollbild auf dem Handy der Bildbereich, sonst der Kasten), sonst die Seite. `behavior: smooth`, bei „Bewegung reduzieren“ sofort. Das Neuzeichnen von Kompakt behält die Scrollposition des Bildbereichs, und der Fokus springt nicht selbst (`preventScroll`).
+- **Umsetzung:** `src/ui/autoScroll.js` (reine Rechnung `scrollZiel`, `scrollBehaelter`, `scrolleNachAufklappen`), Aufruf in `kompakt.js` (`umschalten`) und `flow.js` (`klick`). Test `test/autoscroll.check.mjs` (Rechnung, Grenzfälle, Behälter, Anbindung).
+- **Gemessen (375 × 600, Seite scrollt):** Schritt 3 aufgeklappt, folgender Schritt passt: Schritt davor bei y = 8, aufgeklappter bei 52, folgender bei 238; bei 230 px Bildhöhe (folgender passt nicht): aufgeklappter Schritt bei y = 8, der folgende sichtbar. Vollbild (Bildbereich scrollt): Ziel 270 px, nach rund einer Sekunde erreicht.
+- **Grenze:** Das weiche Scrollen lief im eingebetteten Vorschau-Browser unzuverlässig (teils gar nicht); die Zielposition ist gemessen richtig, das Fortbewegen musst du im echten Browser sehen. Die Zeitleiste hochkant ist nur in der Rechnung geprüft (Ziel 546 px bei langem Detail).
+- **Optionen:** **A zwei Regeln: Schritt davor, sonst der Schritt selbst (gewählt)** · B immer der Schritt selbst oben (zurück schwerer) · C nie scrollen (Detail oft unsichtbar).
+- **pro:** Das Detail ist sofort sichtbar, der Weg zurück bleibt kurz, wo es der Platz erlaubt.
+- **cons:** Bei langen Details springt die Ansicht über den Schritt davor hinaus; weiches Scrollen kann bei sehr langen Seiten kurz dauern.
+- **risk:** Gering, `autoScroll.js`, zwei Aufrufe, ein Test. Rückgängig: ein Commit.

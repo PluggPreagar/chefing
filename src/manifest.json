@@ -27,6 +27,7 @@
  "src/model/zeit.js",
  "src/model/zip.js",
  "src/model/zustand.js",
+ "src/ui/autoScroll.js",
  "src/ui/fehlerMelden.js",
  "src/ui/flow.js",
  "src/ui/icons.js",

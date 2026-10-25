@@ -2,6 +2,7 @@ import { iconGroup } from './icons.js';
 import { fmtZeit } from '../model/zeit.js';
 import { stromModell, verbIcon, dauerIconKey } from './flow.js';
 import { vorbereitenZeile } from './zustandLink.js';
+import { scrolleNachAufklappen } from './autoScroll.js';
 
 // Kompakt-Ansicht des Ablaufs (DR-073, Skizze des Nutzers 2026-10-24): nur Icons, Zeit läuft nach unten.
 // Je Zeile ein Knoten (Werkzeug/Tätigkeit, am Ende Uhr oder Ofen); Zutaten rechts mit Pfeil hinein;
@@ -182,7 +183,13 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
     offen.clear(); // höchstens ein Detail offen: ein Klick auf einen anderen Schritt schließt das alte
     if (!war) offen.add(schluessel(k));
     renderKompakt(root, computed, data, opt);
-    root.querySelector(`g[data-knoten="${schluessel(k)}"]`)?.focus();
+    const knoten = (kk) => (kk ? root.querySelector(`g[data-knoten="${schluessel(kk)}"]`) : null);
+    const aktuell = knoten(k);
+    aktuell?.focus({ preventScroll: true }); // der Fokus soll nicht selbst springen, das macht der Autoscroll
+    if (!war && aktuell) { // aufgeklappt: Schritt davor oben, sonst der Schritt selbst (DR-112)
+      const i = K.knoten.indexOf(k);
+      scrolleNachAufklappen({ vor: knoten(K.knoten[i - 1]), jetzt: aktuell, danach: knoten(K.knoten[i + 1]) ?? root.querySelector('.kompakt-svg') });
+    }
   };
   const knopf = (e, k, f) => {
     e.setAttribute('tabindex', '0');
@@ -236,9 +243,11 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
 
   const zustaende = (computed.zustaende || []).filter((z) => !z.gewaehlt);
   const fuss = el('div', 'strom-fuss kompakt-fuss', `Zeit ↓ · fertig nach ${fmtZeit(M.gesamt)} ab Start · Hände ${fmtZeit(M.aktiv)}`);
+  const altScroll = root.querySelector('.kompakt-bild')?.scrollTop ?? 0; // Position des Bildbereichs (Vollbild) übersteht das Neuzeichnen
   root.className = 'kompakt';
   root.replaceChildren(...(zustaende.length ? [vorbereitenZeile(zustaende, 'strom-vorbereiten')] : []), el('div', 'kompakt-bild', null), info, fuss);
   root.querySelector('.kompakt-bild').append(svg);
+  root.querySelector('.kompakt-bild').scrollTop = altScroll;
   // im Vollbild den Bildbereich messen und, wenn unten Platz bleibt, einmal mit dem Maß neu zeichnen
   if (!namen && !opt.ziel && root.closest?.('.ablauf-voll')) {
     const bild = root.querySelector('.kompakt-bild');

@@ -1,4 +1,5 @@
 import { iconHtml } from './icons.js';
+import { scrolleNachAufklappen } from './autoScroll.js';
 import { fmtZeit, planeAblauf } from '../model/zeit.js';
 import { skizzeHtml } from './skizzen.js';
 import { vorbereitenZeile } from './zustandLink.js';
@@ -191,7 +192,15 @@ export function renderFlow(root, computed, data = {}) {
     namen: { ...(data.kategorien || {}), ...(data.verben || {}) },
     istOffen,
     // Klick auf das Offene klappt zu; Hover wechselt nur, wenn schon etwas offen ist (öffnet nie von selbst wieder)
-    klick: (z, i) => setze(istOffen(z, i) ? null : { zeile: z.id, key: steps[i].key }),
+    klick: (z, i) => {
+      const neu = istOffen(z, i) ? null : { zeile: z.id, key: steps[i].key };
+      setze(neu);
+      if (neu && !quer) { // hochkant klappt das Detail unter der Zeile auf: Schritt davor oben, sonst der Schritt selbst (DR-112)
+        const detail = root.querySelector('.ist-details');
+        const jetzt = detail?.previousElementSibling;
+        if (jetzt) scrolleNachAufklappen({ vor: jetzt.previousElementSibling, jetzt, danach: detail.nextElementSibling ?? detail });
+      }
+    },
     hover: (z, i) => { if (offen != null && !istOffen(z, i)) setze({ zeile: z.id, key: steps[i].key }); },
   };
 
