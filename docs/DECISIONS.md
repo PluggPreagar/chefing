@@ -1066,3 +1066,13 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Eine ruhige Kopfzeile auf dem Handy; keine Skript-Logik; Melden bleibt erreichbar und erklärt.
 - **cons:** Das Wort „Melden“ fehlt auf dem Handy; das Symbol (Flagge) muss gelernt werden.
 - **risk:** Gering, nur `style.css` und ein Test. Rückgängig: ein Commit.
+
+## DR-095 · ui · Brotkrumen (Archetyp › Variante) über der Beschreibung
+
+- **descr:** (2026-10-25, Nutzer: „navigation like bread crumbs, close to top, as ‚rührteig‘ should be above its definition too (not below)“) Der Fluss **Archetyp › Variante** steht direkt unter dem Titel und **vor** der Beschreibung („Rührteig als Kombinatorik …“). Die Beschreibung erklärt damit, was darüber gewählt ist, statt davor zu stehen.
+- **Umsetzung:** Reihenfolge in `index.html` getauscht (nav vor `#tagline`), Abstand der Beschreibung nach oben. Aufbau, Beschriftung und Verhalten des Flusses bleiben (R5, R15, R16): breit eine Zeile mit „›“, schmal untereinander und linksbündig, weil Auswahl und drei Varianten nicht in 345 px passen.
+- **Regeln:** R5 (Fluss = eine Zeile unter dem Titel) bleibt, nur die Nachbarschaft ändert sich. Keine Abweichung.
+- **Optionen:** **A Fluss nach oben, Aufbau unverändert (gewählt)** · B zusätzlich auch schmal in eine Zeile zwingen (Archetyp als kurzer Krümel, Varianten umbrechen; bricht R16 und macht Ziele klein) · C Beschreibung ganz entfernen (Nutzer wollte sie nur nach unten).
+- **pro:** Reihenfolge Titel → Wahl → Erklärung; kein Skript, kein neues Element.
+- **cons:** Auf dem Handy bleibt der Fluss zweizeilig, wirkt dort weniger wie eine Brotkrumenleiste.
+- **risk:** Gering, nur `index.html`, `style.css` und ein Test. Rückgängig: ein Commit. Eine zwischengespeicherte alte `index.html` zeigt kurz die alte Reihenfolge, ohne Fehler.

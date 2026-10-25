@@ -41,6 +41,7 @@ const css = fs.readFileSync(new URL('style.css', P), 'utf8');
 const fm = fs.readFileSync(new URL('src/ui/fehlerMelden.js', P), 'utf8');
 const kopf = html.slice(html.indexOf('<header class="top">'), html.indexOf('</header>'));
 ok(/class="top-leiste" role="toolbar"/.test(kopf) && kopf.indexOf('id="stufe-menue"') < kopf.indexOf('id="toggle-stats"') && kopf.indexOf('id="toggle-stats"') < kopf.indexOf('id="toggle-kandidaten"') && kopf.indexOf('id="toggle-kandidaten"') < kopf.indexOf('id="melden-menue"'), 'Kopfzeile: Werkzeugleiste in der Reihenfolge Erfahrung, Statistik, Kandidaten, Melden (die Ansicht ist in den Diagramm-Block gewandert, DR-090)');
+ok(kopf.indexOf('<nav class="presets fluss"') > kopf.indexOf('</div>\n    </div>') && kopf.indexOf('<nav class="presets fluss"') < kopf.indexOf('id="tagline"'), 'Fluss (Brotkrumen) steht direkt unter dem Titel und vor der Beschreibung (DR-095)');
 ok(/<nav class="presets fluss" aria-label="Rezeptart">\s*<select id="archetyp-wahl"[^>]*><\/select>\s*<span class="fluss-pfeil"[^>]*>›<\/span>\s*<span id="preset-gruppe"/.test(kopf), 'Fluss in einer Zeile unter dem Titel: Archetyp › Variante');
 ok(!/id="ablauf-ansicht"/.test(html) && !/data-ansicht/.test(html) && !/id="ergebnis-melden"/.test(html) && !/id="fehler-melden"/.test(html), 'keine Ansicht mehr in der Kopfzeile (DR-090), die zwei alten Melden-Knöpfe sind weg');
 const knoepfe = [...kopf.matchAll(/<button[^>]*class="leiste-knopf[^"]*"[^>]*>([^<]*)<\/button>/g)];

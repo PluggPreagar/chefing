@@ -52,7 +52,7 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .stufe-liste li[aria-selected="true"] b::after { content: " ✓"; color: var(--best); }
 .stufe-text { display: flex; flex-direction: column; line-height: 1.25; }
 .stufe-text small { color: var(--muted); font-weight: 400; }
-.tagline { margin: .25rem 0 0; color: var(--muted); max-width: 60ch; }
+.tagline { margin: .6rem 0 0; color: var(--muted); max-width: 60ch; }
 .top { display: block; padding: 1.25rem 1.5rem .75rem; }
 /* Kopfzeile (DR-087 Option B): oben links der Titel, rechts die Werkzeugleiste, darunter der Fluss Archetyp › Variante */
 .top-zeile { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem .9rem; }

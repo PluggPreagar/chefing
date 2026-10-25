@@ -27,7 +27,7 @@ Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachseh
 ## 2 Auffälligkeit und Ort
 
 - **R4** Die Auffälligkeit richtet sich nach **Wirkung und Häufigkeit**. Selten geänderte, allgemeine Einstellungen stehen **oben** als Auswahlmenü (Erfahrung); oft gewechselte Wahlen bleiben als Knopfgruppe **am Ort ihrer Wirkung**. (DR-085)
-- **R5** **Fluss und Einstellungen trennen.** Fluss = eine Zeile unter dem Titel, Hierarchie in einer Zeile: `Archetyp › Variante`. Einstellungen = **Werkzeugleiste rechts oben** (Erfahrung, Statistik, Kandidaten), **Melden** daneben. (DR-087)
+- **R5** **Fluss und Einstellungen trennen.** Fluss = eine Zeile direkt unter dem Titel und **vor** der Beschreibung (Brotkrumen), Hierarchie in einer Zeile: `Archetyp › Variante`. Einstellungen = **Werkzeugleiste rechts oben** (Erfahrung, Statistik, Kandidaten), **Melden** daneben. (DR-087, 095)
 - **R6** Einstellungen, die **nur das Diagramm** betreffen, stehen im **Kopf des Diagramm-Blocks, oben rechts**, in gleicher Form, Größe und Lage wie der Vollbild-Knopf: Text | Symbole (nur bei Kompakt), Ausrichtung Auto | Strom | Kompakt, Vollbild. (DR-090)
 - **R7** Was das **Rezept** ändert („mit Eischnee“), bleibt im Kopf des Diagramm-Blocks links und ist im Vollbild ausgeblendet; was nur die Darstellung ändert, bleibt im Vollbild bedienbar. (DR-080, 090)
 - **R8** Zwei Bedienelemente für dieselbe Entscheidung gibt es nicht; ein zweites ist nur eine Abkürzung und genau dasselbe Element. (DR-079)
