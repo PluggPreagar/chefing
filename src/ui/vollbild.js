@@ -1,7 +1,8 @@
 // Ablauf im Vollbild (T124, DR-080): der Ablauf-Kasten füllt den Bildschirm, bei Bedarf gedreht (Querformat auf dem Handy).
 // Zwei Wege, damit es überall geht: die Vollbild-API des Browsers; fehlt sie oder wird sie verweigert (iPhone-Safari), füllt
-// derselbe Kasten per CSS die Seite (Klasse `ablauf-voll`). Drehen: erst die Sperre der Bildschirm-Ausrichtung (nur im echten
-// Vollbild und nur auf manchen Geräten), sonst wird der Kasten per CSS um 90° gedreht (Klasse `gedreht`).
+// derselbe Kasten per CSS die Seite (Klasse `ablauf-voll`). Beim Öffnen bleibt die Ausrichtung des Geräts, wie sie ist (DR-101).
+// Drehen: erst die Sperre der Bildschirm-Ausrichtung (nur im echten Vollbild und nur auf manchen Geräten), sonst wird der Kasten
+// per CSS um 90° gedreht (Klasse `gedreht`).
 // Dazu die wirksame Ausrichtung (DR-089): Querformat (Zeitleiste links nach rechts) oder Hochformat (oben nach unten), aus Seitenverhältnis des
 // Bildschirms und CSS-Drehung; die Oberfläche wählt danach die Ansicht, und beim Beenden springt sie auf die eigene Wahl zurück.
 // Die Steuerung kennt nur kleine Schnittstellen (panel, doc, scr, viewportQuer), damit sie ohne Browser testbar ist.
@@ -31,7 +32,7 @@ export function erzeugeVollbild({ panel, doc, scr = {}, melden = () => {}, viewp
     if (typeof panel.requestFullscreen === 'function') {
       try { await panel.requestFullscreen({ navigationUI: 'hide' }); echt = true; } catch { /* verweigert: CSS-Vollbild */ }
     }
-    if (echt && sperre()) { try { await scr.orientation.lock('landscape'); } catch { /* Gerät oder Browser erlaubt keine Sperre */ } }
+    // keine Sperre beim Öffnen: das Handy bleibt, wie es gehalten wird, und mit ihm die Ansicht (Nutzer 2026-10-25); gedreht wird nur mit „Drehen“ (DR-101)
     zeige();
     return stand();
   }

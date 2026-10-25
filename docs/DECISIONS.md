@@ -1130,3 +1130,13 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Alles groß und lesbar auf dem Handy; nichts springt; Höhe und Breite genutzt.
 - **cons:** Das Detail ist schmal und hoch (viele Zeilen); bei langen Details scrollt man im Vollbild.
 - **risk:** Gering, `kompakt.js`, `style.css` und ein Test. Rückgängig: ein Commit.
+
+## DR-101 · ui · Vollbild sperrt die Ausrichtung nicht mehr beim Öffnen
+
+- **descr:** (2026-10-25, Nutzer: „On mobile: see Compact/Vertical and go fullscreen to see it compact in zoom – instead it turns to Stream-View … check handling“) **Ursache:** Das echte Vollbild sperrte beim Öffnen die Ausrichtung auf **Querformat** (DR-080). Das Handy kippte damit ins Querformat, und bei **Auto** wählt das Querformat die Strom-Ansicht (DR-089, DR-090). Wer hochkant in Kompakt arbeitete, bekam im Vollbild plötzlich den Strom.
+- **Entscheid:** Beim Öffnen wird **nichts mehr gesperrt**: das Gerät bleibt, wie es gehalten wird, und mit ihm die Ansicht. Hochkant in Kompakt öffnet das Vollbild also hochkant in Kompakt, groß eingepasst (DR-096, DR-099, DR-100). Gedreht wird nur noch mit **„Drehen“** (Sperre auf die andere Seite, sonst CSS-Drehung) oder indem man das Gerät selbst kippt; dann folgt Auto dem Bildschirm (DR-089), eine feste Wahl Strom oder Kompakt gilt ohnehin überall (DR-090).
+- **Regeln:** R3 (Auto folgt dem Bildschirm, feste Wahl gilt überall) bleibt; geändert wird nur der Ausgangspunkt beim Öffnen. Ersetzt in DR-080 den Satz „im echten Vollbild zuerst auf Querformat“.
+- **Optionen:** **A beim Öffnen nicht sperren (gewählt)** · B Sperre nur, wenn die eigene Wahl Strom ist (Sonderfall, Auto bleibt unklar) · C Sperre nur auf Wunsch per Einstellung (neues Bedienelement für eine Randfrage).
+- **pro:** Keine Überraschung beim Öffnen; Kompakt bleibt Kompakt; gleiches Verhalten mit und ohne Orientierungs-Sperre (iPhone hat sie nie).
+- **cons:** Wer im Vollbild gern quer liest, muss „Drehen“ drücken oder das Gerät kippen.
+- **risk:** Gering, `vollbild.js` und der Vollbild-Test. Rückgängig: ein Commit. Auf einem echten Handy ungeprüft (die Sperre selbst lässt sich in der Vorschau nicht auslösen); das Testen deckt die Steuerung mit Attrappen ab.

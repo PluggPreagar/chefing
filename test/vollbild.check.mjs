@@ -21,13 +21,13 @@ const k = (b) => [...b.panel.classList.s].sort().join();
 // --- echtes Vollbild mit Sperre --------------------------------------------------------------------------------------------------
 let b = bau();
 let s = await b.v.oeffnen();
-ok(s.offen && s.echt && !s.gedreht && b.log[0].startsWith('voll') && b.log[1] === 'lock landscape', 'öffnen: Vollbild-API, dann Querformat gesperrt');
+ok(s.offen && s.echt && !s.gedreht && b.log[0].startsWith('voll') && !b.log.some((x) => x.startsWith('lock')), 'öffnen: Vollbild-API, keine Sperre der Ausrichtung (das Handy bleibt, wie es gehalten wird, DR-101)');
 ok(k(b) === 'ablauf-voll' && b.doc.body.classList.contains('hat-vollbild'), 'der Kasten trägt ablauf-voll, die Seite hat-vollbild (kein Scrollen dahinter)');
 ok(b.log[0].includes('hide'), 'Vollbild ohne Browser-Leisten angefordert');
 s = await b.v.oeffnen();
-ok(s.offen && b.log.length === 2, 'zweites Öffnen tut nichts');
+ok(s.offen && b.log.length === 1, 'zweites Öffnen tut nichts');
 s = await b.v.drehen();
-ok(s.offen && !s.gedreht && b.log[2] === 'lock portrait' && k(b) === 'ablauf-voll', 'drehen aus Hochformat-Gerät: Sperre wechselt auf die andere Seite, keine CSS-Drehung');
+ok(s.offen && !s.gedreht && b.log[1] === 'lock landscape' && k(b) === 'ablauf-voll', 'drehen aus Hochformat-Gerät: erst jetzt wird gesperrt, auf die andere Seite, keine CSS-Drehung');
 s = b.v.schliessen();
 ok(!s.offen && b.log.includes('exit') && b.log.includes('unlock') && k(b) === '' && !b.doc.body.classList.contains('hat-vollbild'), 'schließen: Vollbild verlassen, Sperre gelöst, Klassen weg');
 ok(b.v.schliessen().offen === false && b.log.filter((x) => x === 'exit').length === 1, 'zweites Schließen tut nichts');
@@ -41,7 +41,7 @@ ok(b.v.stand().offen, 'Vollbildwechsel bei weiter laufendem Vollbild ändert nic
 // --- Sperre verweigert oder nicht vorhanden ------------------------------------------------------------------------------------
 b = bau({ sperreVerweigert: true });
 s = await b.v.oeffnen();
-ok(s.offen && s.echt && k(b) === 'ablauf-voll', 'Sperre beim Öffnen verweigert: Vollbild bleibt trotzdem');
+ok(s.offen && s.echt && k(b) === 'ablauf-voll', 'Vollbild ohne Sperre beim Öffnen');
 s = await b.v.drehen();
 ok(s.gedreht && k(b) === 'ablauf-voll,gedreht', 'drehen ohne erlaubte Sperre: CSS-Drehung');
 s = await b.v.drehen();
@@ -129,12 +129,12 @@ ok(/document\.addEventListener\('fullscreenchange'/.test(modul) || /doc\.addEven
   ok(x.meldungen.length === anzahl + 1 && x.meldungen.at(-1).ausrichtung === 'quer', 'Gerät ins Querformat gedreht: Größenänderung meldet quer');
   x.v.schliessen(); const nachZu = x.meldungen.length; x.v.beiGroesse();
   ok(x.meldungen.length === nachZu, 'bei geschlossenem Vollbild meldet eine Größenänderung nichts');
-  // echte Sperre: Vollbild im Hochformat-Gerät sperrt auf Querformat, der Bildschirm wird quer
+  // echtes Vollbild im Hochformat-Gerät: es bleibt hoch (Kompakt bleibt Kompakt), erst „Drehen“ sperrt auf Querformat
   x = bauQ(false, { sperre: true });
   s = await x.v.oeffnen();
-  ok(s.echt && x.zustand.quer === true && s.ausrichtung === 'quer', 'echtes Vollbild mit Sperre: Gerät geht ins Querformat, wirksam quer');
+  ok(s.echt && x.zustand.quer === false && s.ausrichtung === 'hoch', 'echtes Vollbild mit Sperre-Schnittstelle: Gerät bleibt im Hochformat, wirksam hoch (DR-101)');
   s = await x.v.drehen();
-  ok(!s.gedreht && x.zustand.quer === false && s.ausrichtung === 'hoch', 'Drehen mit Sperre wechselt auf Hochformat, wirksam hoch, ohne CSS-Drehung');
+  ok(!s.gedreht && x.zustand.quer === true && s.ausrichtung === 'quer', 'Drehen mit Sperre wechselt auf Querformat, wirksam quer, ohne CSS-Drehung');
   s = x.v.schliessen();
   ok(!s.offen && x.meldungen.at(-1).offen === false, 'Schließen meldet offen: false (die Oberfläche springt auf die eigene Ansicht zurück)');
 }
