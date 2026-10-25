@@ -81,7 +81,10 @@ for (const [label, techn] of [['ohne Eischnee', {}], ['mit Eischnee', { eier_get
 }
 const kompaktMain = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
 const kompaktCss = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
-ok(/id: 'kompakt-namen'/.test(kompaktMain) && /chefing\.kompaktNamen/.test(kompaktMain) && /renderKompakt\(\$\('kompakt'\), computed, data, \{ namen: kompaktNamen \}\)/.test(kompaktMain) && /\$\('kompakt-namen'\)\.hidden = !kompakt/.test(kompaktMain), 'main.js: Häkchen „mit Namen“ nur in der Kompakt-Ansicht, Wahl je Browser, Vorgabe an');
+ok(/id: 'kompakt-namen'/.test(kompaktMain) && /chefing\.kompaktNamen/.test(kompaktMain) && /renderKompakt\(\$\('kompakt'\), computed, data, \{ namen: kompaktNamen \}\)/.test(kompaktMain) && /\$\('kompakt-namen'\)\.hidden = !kompakt/.test(kompaktMain), 'main.js: Beschriftung der Kompakt-Ansicht nur in der Kompakt-Ansicht sichtbar, Wahl je Browser, Vorgabe Text');
+// Nutzer-Meldung 20261025-074508: die Beschriftung nennt die beiden Zustände (Text | Symbole), nicht „mit Namen“; zwei Möglichkeiten = Knopfgruppe (DR-079)
+ok(/\[true, 'Text',/.test(kompaktMain) && /\[false, 'Symbole',/.test(kompaktMain) && /className: 'knopfgruppe ablauf-ansicht'/.test(kompaktMain) && /dataset\.namen = String\(wahl\)/.test(kompaktMain) && !/mit Namen'/.test(kompaktMain) && !/type: 'checkbox', checked: kompaktNamen/.test(kompaktMain), 'Knopfgruppe „Text | Symbole“ statt des Häkchens „mit Namen“');
+ok(/aria-label', 'Beschriftung der Kompakt-Ansicht'/.test(kompaktMain) && /setAttribute\('aria-pressed', String\(an\)\)/.test(kompaktMain), 'Gruppe hat einen Namen für Vorlesegeräte, der gewählte Knopf trägt aria-pressed');
 ok(/\.kompakt-svg\.mit-namen \{[^}]*width: 100%/.test(kompaktCss) && /\.kompakt-titel \{[^}]*font-size: 13px/.test(kompaktCss) && /\.kompakt-zutatentext/.test(kompaktCss), 'style.css: Namen-Variante füllt die Breite, Schrift 13 px');
 
 console.log(fail ? `${fail} FAILED` : 'ALL PASS');

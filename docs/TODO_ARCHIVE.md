@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T133 | Kompakt-Beschriftung: „Text \| Symbole“ | done | Aus der vierten echten Meldung (`20261025-074508-mit-name-match-to-action-d2ad`): Knopfgruppe statt des Häkchens „mit Namen“, beide Zustände benannt (DR-086); `hidden` gilt jetzt auch bei Knopfgruppen. | DR-079, DR-081, DR-086 |
 | T132 | Erfahrungsstufe als Auswahlmenü oben mit Symbolen | done | Aus der dritten echten Meldung (`20261025-074224-match-level-buttons-to-level-of-impact-e6ac`): Menü oben neben dem Titel statt Knopfgruppe im Ablauf-Kopf, Löffel, Schneebesen, Kochmütze, Erklärung je Stufe, Tastatur und ARIA (DR-085). | DR-075, DR-079, DR-085 |
 | T131 | Vollbild-Knöpfe nur als Symbol | done | Aus der zweiten echten Meldung (`20261025-073938-just-symbol-8423`): Symbole `vollbild`, `vollbild_zu`, `drehen` im Symbolsatz, Knöpfe ohne Text, Tooltip und `aria-label` erklären (DR-084). Offen: weitere Knöpfe auf Symbole umstellen (Option B). | DR-080, DR-084 |
 | T130 | Meldeknopf allgemeiner und kürzer benennen | done | Aus der ersten echten Meldung (`20261025-073726-melden-smaller-235f`): „⚑ Fehler melden“ heißt jetzt „⚑ Melden“, Panel „Melden“, Platzhalter und Tooltip nennen Fehler, Idee oder Frage (DR-083). | DR-077, DR-079, DR-083 |

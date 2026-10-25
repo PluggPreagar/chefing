@@ -861,7 +861,7 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **cons:** Mit Namen ist der Ablauf länger (Beispiel Rührkuchen mit Eischnee: 802 statt etwa 400 Pixel Höhe); die Symbol-Variante ist nicht mehr die Vorgabe.
 - **risk:** Gering, nur Oberfläche (`kompakt.js`, `main.js`, `style.css`), Rückgängig: ein Commit. B und C wären einfache Folgeentscheide; Vorgabe „an“ ist ein Best Guess, weil die Beschwerde vom Handy kam.
 - **Umsetzung:**
-  - **Häkchen** „mit Namen“ im Ablauf-Kopf, neben „Strom | Kompakt“, nur in der Kompakt-Ansicht sichtbar, fester Text (DR-079, an/aus wirkt sofort), Wahl in `localStorage` (`chefing.kompaktNamen`, Vorgabe an).
+  - **Häkchen** (seit DR-086 die Knopfgruppe „Text | Symbole“) „mit Namen“ im Ablauf-Kopf, neben „Strom | Kompakt“, nur in der Kompakt-Ansicht sichtbar, fester Text (DR-079, an/aus wirkt sofort), Wahl in `localStorage` (`chefing.kompaktNamen`, Vorgabe an).
   - **Aufbau mit Namen:** Je Knoten steht rechts daneben der Schritt mit Nummer, Zeit und Temperatur (fett, 13 px), darunter die zufließenden Zutaten als Liste mit Symbol, Name und Menge. Texte werden in der Breite des Behälters umgebrochen (`umbrechen`, `knotenTexte`), die Blöcke liegen lückenlos untereinander (`namenLayout`), Linien, Seitenstränge und Mündungen folgen der Lage der Knoten. Die Zutaten-Streifen mit Pfeil entfallen in dieser Variante, das Antippen zeigt weiter die Angabe unter dem Bild.
   - **Prüfung:** `test/kompakt.check.mjs` (Umbruch, Texte, lückenloses Layout, Kanten nach unten, mit und ohne Eischnee, Anbindung in `main.js` und `style.css`); im Browser bei 375 Pixel Breite geprüft (Rührkuchen, auch mit Eischnee-Seitenstrang), gut lesbar.
 
@@ -913,3 +913,13 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
   - **Symbole in `icons.js`:** `loeffel` (Einsteiger), `besen` (Fortgeschritten, Schneebesen), `kochmuetze` (Profi); gezeichnet im Stil des Satzes, in 96 Pixel und in 18 Pixel geprüft.
   - **Menü:** `erzeugeStufenMenue` (Steuerung: öffnen, schließen, wählen, von außen setzen, Tastatur) und `initStufenMenue` (Oberfläche); sitzt im Kopf neben „Chefing“ (`#stufe-menue` in `.top-zeile`). Klick außerhalb und Esc schließen. Eine alte Knopfgruppe aus einer zwischengespeicherten `index.html` wird beim Start entfernt (DR-037).
   - **Prüfung:** `test/stufenmenue.check.mjs` (30 Fälle: Steuerung, Tastatur, Symbole, Anbindung, ARIA). Im Browser bei Desktop- und Handybreite: Öffnen, Wählen per Klick und Tastatur, Esc, Klick außerhalb, Speicherung; die Liste bleibt im Bildschirm (375 Pixel).
+
+## DR-086 · ui · Kompakt-Ansicht: „Text | Symbole“ statt des Häkchens „mit Namen“
+
+- **descr:** (2026-10-25, vierte echte Meldung über den lokalen Server, `issues/open/20261025-074508-mit-name-match-to-action-d2ad`, am Häkchen „mit Namen“ der Kompakt-Ansicht: „'mit Name' match to action — show text / only icons ...“) DR-081 hatte ein Häkchen „mit Namen“ eingeführt. Es sagt nicht, was geschieht: gezeigt werden Schritt, Zeit, Temperatur, Name **und Menge**, und der andere Zustand heißt nirgends. Die Meldung nennt die beiden Zustände selbst: Text zeigen, nur Symbole.
+- **Entscheidung:** Zwei benannte Möglichkeiten, die sofort wirken, sind nach DR-079 eine **Knopfgruppe**: **„Text | Symbole“**, im Ablauf-Kopf neben „Strom | Kompakt“, nur in der Kompakt-Ansicht sichtbar. Der gewählte Zustand ist hervorgehoben (`aria-pressed`), die Beschriftung bleibt fest. Vorgabe wie bisher Text, die Wahl bleibt in `localStorage` (`chefing.kompaktNamen`, `an` oder `aus`), alte Wahlen gelten weiter.
+- **Optionen:** **A Knopfgruppe „Text | Symbole“ (gewählt)** · B Häkchen „Text anzeigen“ (benennt nur einen Zustand) · C Häkchen mit Symbol dahinter (DR-078; ein Symbol für „Text“ gibt es nicht im Symbolsatz).
+- **pro:** beide Zustände stehen da, das Wort passt zur Wirkung, gleiche Form wie „Strom | Kompakt“ und die anderen Wahlen.
+- **cons:** zwei Knöpfe statt eines Häkchens, der Ablauf-Kopf wird breiter (auf dem Handy bricht er um).
+- **risk:** Gering, nur `main.js`, ein Test. Rückgängig: ein Commit. Eine Regel in `style.css` sorgt dafür, dass `hidden` bei Knopfgruppen gilt (`display: inline-flex` überschrieb das Attribut).
+- **Prüfung:** `test/kompakt.check.mjs` (Gruppe statt Häkchen, Name, `aria-pressed`, Vorgabe); im Browser: im Strom unsichtbar, in Kompakt „Text“ gewählt, Wechsel zu „Symbole“ lässt die Namen verschwinden, Speicherung stimmt.

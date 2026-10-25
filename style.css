@@ -61,6 +61,7 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .presets button.ghost.is-active, .ablauf-ansicht button.ghost.is-active { color: var(--ink); }
 /* Knopfgruppe (DR-045): gleichartige Knöpfe nebeneinander, Ränder verbunden, aktiver hervorgehoben, Gruppe bricht als Ganzes um */
 .knopfgruppe { display: inline-flex; flex-wrap: nowrap; gap: 0 !important; vertical-align: middle; }
+.knopfgruppe[hidden] { display: none; } /* sonst überschreibt display das Attribut hidden (Beschriftung der Kompakt-Ansicht) */
 .knopfgruppe > * { position: relative; border-radius: 0 !important; margin-left: -1px; }
 .knopfgruppe > :first-child { margin-left: 0; border-top-left-radius: 999px !important; border-bottom-left-radius: 999px !important; }
 .knopfgruppe > :last-child { border-top-right-radius: 999px !important; border-bottom-right-radius: 999px !important; }

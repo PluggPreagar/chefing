@@ -103,22 +103,27 @@ function ablaufAnsicht() {
 }
 ablaufAnsicht();
 
-// „mit Namen“ in der Kompakt-Ansicht (DR-081): Schritte und Zutaten als Text neben den Symbolen; Häkchen mit fester Beschriftung (DR-079),
-// nur in der Kompakt-Ansicht sichtbar, Vorgabe an, Wahl je Browser.
+// Beschriftung der Kompakt-Ansicht (DR-081, DR-086): Text neben den Symbolen oder nur Symbole. Zwei benannte Möglichkeiten, die sofort wirken,
+// also eine Knopfgruppe „Text | Symbole“ (DR-079); nur in der Kompakt-Ansicht sichtbar, Vorgabe Text, Wahl je Browser.
 let kompaktNamen = true;
-try { if (localStorage.getItem('chefing.kompaktNamen') === 'aus') kompaktNamen = false; } catch { /* ohne Speicher: an */ }
-function kompaktNamenHaken() {
-  const l = Object.assign(document.createElement('label'), { id: 'kompakt-namen', className: 'technik-schalter', title: 'Schritte und Zutaten mit Namen und Mengen neben den Symbolen' });
-  const box = Object.assign(document.createElement('input'), { type: 'checkbox', checked: kompaktNamen });
-  box.addEventListener('change', () => {
-    kompaktNamen = box.checked;
-    try { localStorage.setItem('chefing.kompaktNamen', kompaktNamen ? 'an' : 'aus'); } catch { /* nur für diese Sitzung */ }
-    render();
-  });
-  l.append(box, 'mit Namen');
-  $('ablauf-ansicht').after(l);
+try { if (localStorage.getItem('chefing.kompaktNamen') === 'aus') kompaktNamen = false; } catch { /* ohne Speicher: Text */ }
+function kompaktBeschriftung() {
+  const g = Object.assign(document.createElement('span'), { id: 'kompakt-namen', className: 'knopfgruppe ablauf-ansicht' });
+  g.setAttribute('role', 'group');
+  g.setAttribute('aria-label', 'Beschriftung der Kompakt-Ansicht');
+  for (const [wahl, text, titel] of [[true, 'Text', 'Schritte und Zutaten mit Name und Menge neben den Symbolen'], [false, 'Symbole', 'Nur Symbole, Name und Menge erst beim Antippen']]) {
+    const knopf = Object.assign(document.createElement('button'), { type: 'button', className: 'ghost', textContent: text, title: titel });
+    knopf.dataset.namen = String(wahl);
+    knopf.addEventListener('click', () => {
+      kompaktNamen = wahl;
+      try { localStorage.setItem('chefing.kompaktNamen', wahl ? 'an' : 'aus'); } catch { /* nur für diese Sitzung */ }
+      render();
+    });
+    g.append(knopf);
+  }
+  $('ablauf-ansicht').after(g);
 }
-kompaktNamenHaken();
+kompaktBeschriftung();
 
 // Erfahrungsstufe (DR-075, DR-085): wie viele Praxishinweise erscheinen; Warnungen bleiben immer sichtbar. Eine allgemeine, selten geänderte
 // Einstellung, darum ein Auswahlmenü oben auf der Seite statt einer Knopfgruppe im Ablauf. Fehlt der Platz in der index.html (ältere Fassung
@@ -211,7 +216,7 @@ function render() {
   $('flow').hidden = kompakt;
   $('kompakt').hidden = !kompakt;
   $('kompakt-namen').hidden = !kompakt;
-  $('kompakt-namen').classList.toggle('is-an', kompaktNamen);
+  $('kompakt-namen').querySelectorAll('[data-namen]').forEach((k) => { const an = (k.dataset.namen === 'true') === kompaktNamen; k.classList.toggle('is-active', an); k.setAttribute('aria-pressed', String(an)); });
   if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: kompaktNamen }); else renderFlow($('flow'), computed, data);
   document.querySelectorAll('[data-ansicht]').forEach((b) => { b.classList.toggle('is-active', b.dataset.ansicht === ansicht); b.setAttribute('aria-pressed', String(b.dataset.ansicht === ansicht)); });
   stufenMenue.setze(state.stufe);
