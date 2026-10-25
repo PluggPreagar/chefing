@@ -117,6 +117,18 @@ const ICONS_ORT = {
 
 // Kompakt-Ansicht (DR-073): Knotenkette mit Zuflüssen von rechts — Bild der Ansicht als Einladung auf dem Knopf
 const ICONS_ANSICHT = {
+  // Ansicht und Werkzeugleiste des Ablaufs (DR-080, DR-084): Ecken nach außen = Vollbild öffnen, nach innen = verlassen, Kreispfeil = drehen
+  vollbild: [
+    { tag: 'path', attrs: { d: 'M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } },
+  ],
+  vollbild_zu: [
+    { tag: 'path', attrs: { d: 'M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } },
+  ],
+  drehen: [
+    { tag: 'path', attrs: { d: 'M19.5 12a7.5 7.5 0 1 1-2.2-5.3', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round' } },
+    { tag: 'path', attrs: { d: 'M19.5 4.5v4.2h-4.2', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } },
+  ],
+
   ansicht_kompakt: [
     { tag: 'path', attrs: { d: 'M7 5V19', fill: 'none', stroke: F, 'stroke-width': 1.6 } },
     { tag: 'circle', attrs: { cx: 7, cy: 5, r: 2.6, fill: F } },

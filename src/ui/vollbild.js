@@ -4,6 +4,8 @@
 // Vollbild und nur auf manchen Geräten), sonst wird der Kasten per CSS um 90° gedreht (Klasse `gedreht`).
 // Die Steuerung kennt nur kleine Schnittstellen (panel, doc, scr), damit sie ohne Browser testbar ist.
 
+import { iconHtml } from './icons.js';
+
 export function erzeugeVollbild({ panel, doc, scr = {}, melden = () => {} }) {
   let offen = false;
   let echt = false;     // läuft die Vollbild-API?
@@ -59,29 +61,26 @@ export function erzeugeVollbild({ panel, doc, scr = {}, melden = () => {} }) {
   return { oeffnen, schliessen, drehen, beiVollbildwechsel, stand };
 }
 
-const SVG = (pfad) => `<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="${pfad}"/></svg>`;
-const ICON_VOLL = SVG('M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4');
-const ICON_ZU = SVG('M6 2v4H2M14 6h-4V2M10 14v-4h4M2 10h4v4');
-const ICON_DREHEN = SVG('M13 8a5 5 0 1 1-1.6-3.7M13 2v3h-3');
-
-// Knöpfe im Kopf des Ablaufs, nach DR-079 Aktionen mit festem Verb ohne Hervorhebung: „Vollbild“ (nur wenn zu), „Vollbild beenden“
-// und „Drehen“ (nur wenn offen). Es wechselt nie eine Beschriftung, nur welche Aktion sichtbar ist.
-// Fehlen sie (ältere index.html aus dem Cache, DR-037), werden sie angelegt.
+// Knöpfe im Kopf des Ablaufs, nur als flaches Symbol aus dem Symbolsatz (DR-084); Tooltip und aria-label erklären sie. Nach DR-079 sind es
+// Aktionen mit festem Verb, nie hervorgehoben: „Vollbild“ (nur wenn zu), „Vollbild beenden“ und „Drehen“ (nur wenn offen). Es wechselt nie
+// ein Symbol oder Text, nur welche Aktion sichtbar ist. Fehlen sie (ältere index.html aus dem Cache, DR-037), werden sie angelegt.
 export function initVollbild(panel, kopf, doc = document, scr = globalThis.screen) {
-  const knopf = (id, icon, text, titel) => {
+  const knopf = (id, symbol, name, titel) => {
     let b = doc.getElementById(id);
     if (!b) {
       b = doc.createElement('button');
-      b.id = id; b.type = 'button'; b.className = 'ablauf-voll-knopf ghost';
+      b.id = id; b.type = 'button';
       kopf.append(b);
     }
-    b.innerHTML = `${icon} ${text}`;
+    b.className = 'ablauf-voll-knopf nur-symbol ghost';
+    b.innerHTML = iconHtml(symbol, 18);
     b.title = titel;
+    b.setAttribute('aria-label', name);
     return b;
   };
-  const voll = knopf('ablauf-voll', ICON_VOLL, 'Vollbild', 'Ablauf im Vollbild öffnen');
-  const zu = knopf('ablauf-voll-zu', ICON_ZU, 'Vollbild beenden', 'Vollbild verlassen (Esc)');
-  const dreh = knopf('ablauf-drehen', ICON_DREHEN, 'Drehen', 'Ablauf drehen (Quer- oder Hochformat)');
+  const voll = knopf('ablauf-voll', 'vollbild', 'Vollbild', 'Ablauf im Vollbild öffnen');
+  const zu = knopf('ablauf-voll-zu', 'vollbild_zu', 'Vollbild beenden', 'Vollbild verlassen (Esc)');
+  const dreh = knopf('ablauf-drehen', 'drehen', 'Drehen', 'Ablauf drehen (Quer- oder Hochformat)');
   const zeigeAktionen = (offen) => { voll.hidden = offen; zu.hidden = !offen; dreh.hidden = !offen; };
   zeigeAktionen(false);
   const v = erzeugeVollbild({ panel, doc, scr, melden: ({ offen }) => zeigeAktionen(offen) });

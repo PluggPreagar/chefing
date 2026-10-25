@@ -76,7 +76,13 @@ const html = fs.readFileSync(new URL('index.html', P), 'utf8');
 const css = fs.readFileSync(new URL('style.css', P), 'utf8');
 const main = fs.readFileSync(new URL('src/main.js', P), 'utf8');
 const modul = fs.readFileSync(new URL('src/ui/vollbild.js', P), 'utf8');
-ok(/id="ablauf-voll"[^>]*>Vollbild</.test(html) && /id="ablauf-voll-zu"[^>]*hidden[^>]*>Vollbild beenden</.test(html) && /id="ablauf-drehen"[^>]*hidden[^>]*>Drehen</.test(html), 'index.html: „Vollbild“ im Kopf des Ablaufs, „Vollbild beenden“ und „Drehen“ zunächst versteckt');
+const knopfHtml = (id) => html.match(new RegExp(`<button[^>]*id="${id}"[^>]*>([^<]*)</button>`));
+ok(knopfHtml('ablauf-voll') && /aria-label="Vollbild"/.test(knopfHtml('ablauf-voll')[0]) && /id="ablauf-voll-zu"[^>]*hidden/.test(html) && /id="ablauf-drehen"[^>]*hidden/.test(html), 'index.html: „Vollbild“ im Kopf des Ablaufs, „Vollbild beenden“ und „Drehen“ zunächst versteckt');
+// DR-084: nur Symbol aus dem Symbolsatz, Erklärung per Tooltip und aria-label; kein Text im Knopf
+const { ICONS } = await import(new URL('src/ui/icons.js', P).href);
+ok(['ablauf-voll', 'ablauf-voll-zu', 'ablauf-drehen'].every((id) => { const m = knopfHtml(id); return m && m[1] === '' && /title="[^"]{8,}"/.test(m[0]) && /aria-label="[^"]+"/.test(m[0]) && /nur-symbol/.test(m[0]); }), 'DR-084: die drei Knöpfe haben keinen Text, aber Tooltip, aria-label und die Klasse nur-symbol');
+ok(['vollbild', 'vollbild_zu', 'drehen'].every((k) => Array.isArray(ICONS[k]) && ICONS[k].length && ICONS[k].every((x) => x.tag && x.attrs)) && /iconHtml\('vollbild'/.test(modul) === false && /knopf\('ablauf-voll', 'vollbild'/.test(modul) && /knopf\('ablauf-voll-zu', 'vollbild_zu'/.test(modul) && /knopf\('ablauf-drehen', 'drehen'/.test(modul), 'die Symbole vollbild, vollbild_zu und drehen stehen im Symbolsatz (icons.js) und werden von den Knöpfen benutzt');
+ok(/\.ablauf-voll-knopf\.nur-symbol \{[^}]*width: 2\.4rem[^}]*height: 2\.4rem/.test(css), 'style.css: Symbol-Knöpfe rund und gleich groß');
 // DR-079: Aktionen ohne Zustand = Knopf mit festem Verb, nie hervorgehoben; keine wechselnde Beschriftung, kein aria-pressed
 ok(!/aria-pressed/.test(modul) && !/is-active/.test(modul) && !/textContent|innerHTML = \`\${offen/.test(modul), 'DR-079: die Vollbild-Knöpfe haben keine wechselnde Beschriftung, kein aria-pressed und keine Hervorhebung');
 ok(/'Vollbild beenden'/.test(modul) && /'Drehen'/.test(modul) && /hidden = offen; zu\.hidden = !offen; dreh\.hidden = !offen/.test(modul), 'nur die sichtbare Aktion wechselt: Vollbild (zu) · Vollbild beenden und Drehen (offen)');

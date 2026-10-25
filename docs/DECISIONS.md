@@ -887,3 +887,16 @@ Gleichzeitig Korrektur an der Holo-Umwandlung: `holoAttrs()` verwandelte bisher 
 - **pro:** kurz, ein Verb (DR-079: Aktion ohne Zustand = Knopf mit Verb), die Abgrenzung zu „✓ Hat es geklappt?“ (Bewertung eines Rezepts) bleibt klar.
 - **cons:** „Melden“ allein sagt nicht, dass auch Fehler gemeint sind; der Hinweistext (Tooltip) und das Panel erklären es. Die Datei `ui/fehlerMelden.js`, die Id `fehler-melden` und die Namen in älteren DRs bleiben (kein Umbenennen ohne Nutzen).
 - **risk:** Gering, nur Beschriftungen. Rückgängig: ein Commit.
+
+## DR-084 · ui · Aktionen in der Werkzeugleiste als flaches Symbol, Erklärung per Tooltip
+
+- **descr:** (2026-10-25, zweite echte Meldung über den lokalen Server, `issues/open/20261025-073938-just-symbol-8423`, am Knopf „Vollbild“: „use all known icon for all known actions — tooltip to explain as fallback — here I expect a flat icon only“) Der Knopf zeigte ein selbst gezeichnetes Symbol **und** das Wort „Vollbild“, das Symbol stand nicht im Symbolsatz (`icons.js`).
+- **Regel:** Aktionen in einer Werkzeugleiste (Ablauf-Kopf) sind **nur ein flaches Symbol aus dem Symbolsatz**; Erklärung durch `title` (Tooltip) und `aria-label` (Vorlesen), kein Text im Knopf. Fehlt ein Symbol für eine bekannte Aktion, kommt es in `icons.js` dazu (24×24, Linie, runde Enden), kein Einzelsymbol im Modul. Text bleibt nur dort, wo es kein bekanntes Symbol gibt oder die Aktion ohne Wort mehrdeutig wäre; dann erklärt der Tooltip zusätzlich. Ergänzt DR-079: Aktion ohne Zustand = Knopf mit Verb; das Verb steht bei Symbol-Knöpfen im `aria-label`.
+- **Optionen:** **A Symbol allein, nur in der Werkzeugleiste des Ablaufs (gewählt)** · B alle Knöpfe der Seite nur mit Symbol (bräuchte Symbole für Melden, Absenden, ZIP, Kopieren, Rückmeldung) · C Symbol plus Text überall.
+- **pro:** ruhigere Leiste auf dem Handy, ein Symbolsatz statt verstreuter Einzelsymbole, Tooltip und `aria-label` erklären jede Aktion.
+- **cons:** Wer das Symbol nicht kennt, muss den Tooltip lesen (auf dem Handy erst nach langem Drücken); Ecken-Symbole für Vollbild sind aus Video-Playern gelernt, der Kreispfeil für „Drehen“ ist weniger eindeutig.
+- **risk:** Gering, nur Oberfläche. Rückgängig: ein Commit.
+- **Umsetzung:**
+  - **Neue Symbole in `icons.js`:** `vollbild` (Ecken nach außen), `vollbild_zu` (Ecken nach innen), `drehen` (Kreispfeil). Die drei Knöpfe im Ablauf-Kopf (`#ablauf-voll`, `#ablauf-voll-zu`, `#ablauf-drehen`) sind rund, 2,4 rem groß (`.nur-symbol`), ohne Text, mit `title` und `aria-label`. Es wechselt nie ein Symbol, nur welche Aktion sichtbar ist (DR-079 Regel 1 und 4).
+  - **Prüfung:** `test/vollbild.check.mjs` (kein Text im Knopf, Tooltip, `aria-label`, Symbole im Symbolsatz und benutzt, CSS); im Browser: Knöpfe erscheinen als Symbole, Öffnen, Drehen und Beenden funktionieren.
+  - **Offen, nicht entschieden:** Ob auch „⚑ Melden“, „✓ Hat es geklappt?“, „Absenden“, „ZIP herunterladen“ und „Nummer kopieren“ auf Symbole umgestellt werden (Option B). Dafür fehlen noch Symbole für Melden, Senden, Herunterladen und Kopieren; die Texte sind dort kurz und eindeutig.
