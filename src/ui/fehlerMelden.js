@@ -55,26 +55,42 @@ let anhaenge = [];
 let schwebe = null;
 let kontext = () => ({});
 
+// Diagramm-Teil mit Kennung: Schritt oder Zutat (T145)
+const diagrammKennung = (el) => (el.getAttribute?.('data-zutat') != null ? `[data-zutat="${el.getAttribute('data-zutat')}"]` : el.getAttribute?.('data-schritt') != null ? `[data-schritt="${el.getAttribute('data-schritt')}"]` : '');
 function selektor(el) {
   const teile = [];
   while (el && el.nodeType === 1 && el !== document.body && teile.length < 8) { // tief genug bis zum nächsten Element mit id (#flow, #morphbox)
     let s = el.tagName.toLowerCase();
     if (el.id) { teile.unshift(`${s}#${CSS.escape(el.id)}`); break; }
+    const kennung = diagrammKennung(el);
     const geschw = [...el.parentNode.children].filter((x) => x.tagName === el.tagName);
-    if (geschw.length > 1) s += `:nth-of-type(${geschw.indexOf(el) + 1})`;
+    if (kennung) s += (el.classList[0] ? '.' + el.classList[0] : '') + kennung;
+    else if (geschw.length > 1) s += `:nth-of-type(${geschw.indexOf(el) + 1})`;
     teile.unshift(s);
     el = el.parentNode;
   }
   return teile.join(' > ');
 }
-// SVG-Teil → ganzes Icon, unsichtbar kleine Elemente → Elternteil
+// Im Ablauf-Diagramm: Schritt, Zutat oder Pfeil einzeln (T145); sonst SVG-Teil → ganzes Icon, unsichtbar kleine Elemente → Elternteil
 function ziel(el) {
   const sv = el.closest?.('svg');
-  if (sv) el = sv.parentElement;
+  if (sv) {
+    const teil = el.closest('[data-zutat], [data-schritt]');
+    if (teil && sv.contains(teil)) return teil;
+    el = sv.parentElement;
+  }
   while (el?.parentElement && (el.getBoundingClientRect().width < 4 || el.getBoundingClientRect().height < 4)) el = el.parentElement;
   return el;
 }
-const kasten = (el) => { const r = el.getBoundingClientRect(); return { x: Math.round(r.left + scrollX), y: Math.round(r.top + scrollY), w: Math.round(r.width), h: Math.round(r.height) }; };
+// dünne SVG-Teile (der Pfeil hat keine Höhe) bekommen mindestens 16 Pixel, damit Rahmen und Skizze sichtbar bleiben
+const kasten = (el) => {
+  const r = el.getBoundingClientRect();
+  if (el instanceof SVGElement) {
+    const [w, h] = [Math.max(r.width, 16), Math.max(r.height, 16)];
+    return { x: Math.round(r.left + r.width / 2 - w / 2 + scrollX), y: Math.round(r.top + r.height / 2 - h / 2 + scrollY), w: Math.round(w), h: Math.round(h) };
+  }
+  return { x: Math.round(r.left + scrollX), y: Math.round(r.top + scrollY), w: Math.round(r.width), h: Math.round(r.height) };
+};
 // Wo in Chefing liegt das Element? Panel, Zeile im Kasten, Schritt im Ablauf, Rezept-Tabelle → ohne Screenshot nachvollziehbar
 function umfeld(el) {
   const c = {};
@@ -89,6 +105,7 @@ function umfeld(el) {
   if (knopf?.getAttribute('aria-label')) c.knopf = knopf.getAttribute('aria-label');
   const tr = el.closest('tr');
   if (tr) c.tabellen_zeile = [...tr.cells].map((x) => txt(x)).filter(Boolean).join(' · ').slice(0, 160);
+  if (el.closest('svg.kompakt-svg')) c.diagramm = el.dataset.zutat != null ? `Zutat ${el.dataset.zutat} (Schritt:Zutat)` : el.classList.contains('kompakt-pfeilgruppe') ? `Pfeil zu Schritt ${el.dataset.schritt}` : el.dataset.schritt != null ? `Schritt ${el.dataset.schritt}` : 'Diagramm';
   if (el.dataset && Object.keys(el.dataset).length) c.data = { ...el.dataset };
   c.html = el.outerHTML.slice(0, 1500);
   return c;

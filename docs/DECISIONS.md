@@ -1046,3 +1046,13 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Details dort, wo man klickt; gleiche Texte wie in der Text-Variante; Kennungen für das Melden.
 - **cons:** Das Einschieben verschiebt die Folgeschritte; ein Vergleich zweier Schritte geht nur nacheinander.
 - **risk:** Gering, nur `kompakt.js`, `style.css` und Test. Rückgängig: ein Commit. Die Strom-Ansicht ist nicht betroffen.
+
+## DR-093 · ui · Melden-Auswahl greift ins Diagramm (Schritt, Zutat, Pfeil einzeln)
+
+- **descr:** (2026-10-25, Meldung `20261025-084949-inside-graph-error-picker-cfe8`) „Elemente zeigen“ im Melden-Panel wählt im Kompakt-Diagramm nicht mehr den ganzen Block, sondern **Schritt**, **Zutat** oder **Pfeil** einzeln, über die Kennungen aus DR-092 (`data-schritt`, `data-zutat`). Das Detail-Textblatt unter einem Schritt wählt den Schritt.
+- **Umsetzung:** `ziel()` nimmt im Diagramm das nächste Element mit Kennung; `kasten()` gibt dünnen SVG-Teilen (Pfeil) mindestens 16 × 16 px für Rahmen und Skizze; `selektor()` nennt sie über die Kennung (`g.kompakt-pfeilgruppe[data-schritt="0"]`) statt über `nth-of-type`; `umfeld()` ergänzt `diagramm` („Schritt 0“, „Zutat 0:1“, „Pfeil zu Schritt 0“). Alles andere bleibt wie vorher.
+- **Regeln:** R25 (Meldung gegen das Regelwerk geprüft), R23 (Test, Messung im Browser). Keine Abweichung, kein neues Bedienelement.
+- **Optionen:** **A Kennungen nutzen (gewählt)** · B Koordinaten-Treffer auf dem ganzen Block (ungenau, keine Namen) · C Diagramm als HTML statt SVG (zu großer Umbau für ein POC).
+- **pro:** Meldungen nennen genau, welcher Schritt oder welche Zutat gemeint ist; keine Änderung am Panel.
+- **cons:** Zahlen als Kennung (Schritt-Index, nicht Schrittnummer) müssen beim Lesen der Meldung zugeordnet werden; die Strom-Ansicht hat keine Kennungen (dort bleibt es bei Zeilen).
+- **risk:** Gering, nur `fehlerMelden.js`, ein Attribut in `kompakt.js` und ein Test. Rückgängig: ein Commit.

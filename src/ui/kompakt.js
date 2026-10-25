@@ -98,7 +98,7 @@ function blockLayout(t, cy) {
 
 // Textblock zeichnen: Schritt fett, Zutaten mit Symbol, Name und Menge
 function zeichneBlock(svg, t, geo, textX, kennung) {
-  t.titel.forEach((zeile, i) => { const x = svgEl('text', { x: textX, y: geo.titelY[i], class: 'kompakt-titel' }); x.textContent = zeile; svg.append(x); });
+  t.titel.forEach((zeile, i) => { const x = svgEl('text', { x: textX, y: geo.titelY[i], class: 'kompakt-titel' }); if (kennung != null) x.setAttribute('data-schritt', kennung); x.textContent = zeile; svg.append(x); });
   t.zutaten.forEach((zt, j) => {
     const gz = geo.zutaten[j];
     const ic = iconGroup(zt.icon, { x: textX, y: gz.iconY - NAMEN.ICON / 2, size: NAMEN.ICON, title: zt.label });
