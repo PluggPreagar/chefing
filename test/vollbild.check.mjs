@@ -86,7 +86,7 @@ ok(/\.ablauf-voll-knopf\.nur-symbol \{[^}]*width: 2\.4rem[^}]*height: 2\.4rem/.t
 // DR-079: Aktionen ohne Zustand = Knopf mit festem Verb, nie hervorgehoben; keine wechselnde Beschriftung, kein aria-pressed
 ok(!/aria-pressed/.test(modul) && !/is-active/.test(modul) && !/textContent|innerHTML = \`\${offen/.test(modul), 'DR-079: die Vollbild-Knöpfe haben keine wechselnde Beschriftung, kein aria-pressed und keine Hervorhebung');
 ok(/'Vollbild beenden'/.test(modul) && /'Drehen'/.test(modul) && /hidden = offen; zu\.hidden = !offen; dreh\.hidden = !offen/.test(modul), 'nur die sichtbare Aktion wechselt: Vollbild (zu) · Vollbild beenden und Drehen (offen)');
-ok(/import \{ initVollbild \} from '\.\/ui\/vollbild\.js'/.test(main) && /initVollbild\(document\.querySelector\('\.panel\.ablauf'\), document\.querySelector\('\.ablauf-kopf'\)\)/.test(main), 'main.js bindet das Vollbild an den Ablauf-Kasten');
+ok(/import \{ initVollbild \} from '\.\/ui\/vollbild\.js'/.test(main) && /initVollbild\(document\.querySelector\('\.panel\.ablauf'\), document\.querySelector\('\.ablauf-kopf'\), document, globalThis\.screen, \{/.test(main), 'main.js bindet das Vollbild an den Ablauf-Kasten');
 ok(/\.ablauf\.ablauf-voll \{[^}]*position: fixed[^}]*inset: 0/.test(css) && /\.ablauf\.ablauf-voll\.gedreht \{[^}]*rotate\(90deg\)[^}]*\}/.test(css) && /body\.hat-vollbild/.test(css), 'style.css: Kasten füllt die Seite, gedreht um 90°, Seite ohne Scrollen');
 // Meldung 20261025-075952: im Vollbild keine Einstellungen; Diagramm, Schritt-Karten und die Vollbild-Knöpfe bleiben
 const aus = css.match(/\.ablauf\.ablauf-voll #ablauf-techniken, \.ablauf\.ablauf-voll #ablauf-ansicht, \.ablauf\.ablauf-voll #kompakt-namen \{ display: none; \}/);
@@ -95,6 +95,55 @@ ok(['ablauf-techniken', 'ablauf-ansicht'].every((id) => new RegExp(`id="${id}"`)
 ok(!/ablauf-voll[^{]*#ablauf-voll-zu[^{]*\{ display: none/.test(css) && !/ablauf-voll[^{]*#ablauf-drehen[^{]*\{ display: none/.test(css) && !/ablauf-voll[^{]*\.strom/.test(css.split('\n').filter((l) => /display: none/.test(l)).join('\n')), 'Vollbild beenden, Drehen und das Diagramm bleiben sichtbar');
 ok(/width: 100vh; height: 100vw/.test(css), 'gedreht: Breite und Höhe getauscht (100vh × 100vw)');
 ok(/document\.addEventListener\('fullscreenchange'/.test(modul) || /doc\.addEventListener\('fullscreenchange'/.test(modul), 'Vollbild-Wechsel durch den Browser (Esc) wird abgefangen');
+
+// --- Ausrichtung (T139, DR-089) ---------------------------------------------------------------------------------------------------------
+// Querformat = Zeitleiste links nach rechts (Strom), Hochformat = oben nach unten (Kompakt); die CSS-Drehung vertauscht Breite und Höhe
+{
+  const bauQ = (quer, opt = {}) => {
+    const zustand = { quer };
+    const panel = { classList: klassen(), requestFullscreen: opt.api === false ? undefined : async () => { doc.fullscreenElement = panel; } };
+    const doc = { body: { classList: klassen() }, fullscreenElement: null, exitFullscreen: async () => { doc.fullscreenElement = null; } };
+    const scr = opt.sperre ? { orientation: { type: quer ? 'landscape-primary' : 'portrait-primary', lock: async (a) => { zustand.quer = a === 'landscape'; scr.orientation.type = a + '-primary'; }, unlock: () => {} } } : {};
+    const meldungen = [];
+    const v = erzeugeVollbild({ panel, doc, scr, viewportQuer: () => zustand.quer, melden: (s) => meldungen.push({ ...s }) });
+    return { v, zustand, meldungen, panel };
+  };
+  let x = bauQ(true, { api: false });
+  ok(x.v.stand().ausrichtung === 'quer', 'Querformat-Bildschirm: Ausrichtung quer');
+  let s = await x.v.oeffnen();
+  ok(s.ausrichtung === 'quer' && x.meldungen.at(-1).ausrichtung === 'quer', 'Öffnen im Querformat meldet quer (Ansicht Strom)');
+  s = await x.v.drehen();
+  ok(s.gedreht && s.ausrichtung === 'hoch' && x.meldungen.at(-1).ausrichtung === 'hoch', 'CSS-Drehung auf dem Querformat-Bildschirm: wirksam Hochformat, gemeldet');
+  s = await x.v.drehen();
+  ok(!s.gedreht && s.ausrichtung === 'quer', 'noch einmal drehen: wieder quer');
+  x = bauQ(false, { api: false });
+  s = await x.v.oeffnen();
+  ok(s.ausrichtung === 'hoch', 'Hochformat-Bildschirm (Handy): Öffnen meldet hoch (Ansicht Kompakt)');
+  s = await x.v.drehen();
+  ok(s.gedreht && s.ausrichtung === 'quer', 'CSS-Drehung auf dem Hochformat-Bildschirm: wirksam Querformat');
+  // Gerät gedreht: Größe ändert sich, die Steuerung meldet neu
+  x = bauQ(false, { api: false });
+  await x.v.oeffnen();
+  const anzahl = x.meldungen.length;
+  x.zustand.quer = true; x.v.beiGroesse();
+  ok(x.meldungen.length === anzahl + 1 && x.meldungen.at(-1).ausrichtung === 'quer', 'Gerät ins Querformat gedreht: Größenänderung meldet quer');
+  x.v.schliessen(); const nachZu = x.meldungen.length; x.v.beiGroesse();
+  ok(x.meldungen.length === nachZu, 'bei geschlossenem Vollbild meldet eine Größenänderung nichts');
+  // echte Sperre: Vollbild im Hochformat-Gerät sperrt auf Querformat, der Bildschirm wird quer
+  x = bauQ(false, { sperre: true });
+  s = await x.v.oeffnen();
+  ok(s.echt && x.zustand.quer === true && s.ausrichtung === 'quer', 'echtes Vollbild mit Sperre: Gerät geht ins Querformat, wirksam quer');
+  s = await x.v.drehen();
+  ok(!s.gedreht && x.zustand.quer === false && s.ausrichtung === 'hoch', 'Drehen mit Sperre wechselt auf Hochformat, wirksam hoch, ohne CSS-Drehung');
+  s = x.v.schliessen();
+  ok(!s.offen && x.meldungen.at(-1).offen === false, 'Schließen meldet offen: false (die Oberfläche springt auf die eigene Ansicht zurück)');
+}
+
+// Anbindung: die Ausrichtung wählt die Ansicht, beim Beenden springt sie zurück, die Wahl in der Leiste bleibt unberührt
+ok(/let vollbildAnsicht = null;/.test(main) && /const neu = s\.offen \? \(s\.ausrichtung === 'quer' \? 'strom' : 'kompakt'\) : null;/.test(main) && /if \(neu !== vollbildAnsicht\) \{ vollbildAnsicht = neu; render\(\); \}/.test(main), 'main.js: quer = Strom, hoch = Kompakt, geschlossen = keine erzwungene Ansicht (springt zurück)');
+ok(/const kompakt = \(vollbildAnsicht \?\? ansicht\) === 'kompakt'/.test(main) && !/ansicht = vollbildAnsicht/.test(main), 'render() nimmt im Vollbild die erzwungene Ansicht, schreibt aber die eigene Wahl (ansicht, localStorage) nie um');
+ok(/namen: vollbildAnsicht === 'kompakt' \? true : kompaktNamen/.test(main), 'im Hochformat-Vollbild steht der Text neben den Symbolen (Einstellungen sind dort ausgeblendet)');
+ok(/fenster\.addEventListener\?\.\('resize', v\.beiGroesse\)/.test(modul) && /fenster\.addEventListener\?\.\('orientationchange', v\.beiGroesse\)/.test(modul), 'Größenänderung und Gerätedrehung werden abgefangen');
 
 console.log(fail ? `${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;

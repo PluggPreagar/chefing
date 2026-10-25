@@ -2,23 +2,27 @@
 // Zwei Wege, damit es überall geht: die Vollbild-API des Browsers; fehlt sie oder wird sie verweigert (iPhone-Safari), füllt
 // derselbe Kasten per CSS die Seite (Klasse `ablauf-voll`). Drehen: erst die Sperre der Bildschirm-Ausrichtung (nur im echten
 // Vollbild und nur auf manchen Geräten), sonst wird der Kasten per CSS um 90° gedreht (Klasse `gedreht`).
-// Die Steuerung kennt nur kleine Schnittstellen (panel, doc, scr), damit sie ohne Browser testbar ist.
+// Dazu die wirksame Ausrichtung (DR-089): Querformat (Zeitleiste links nach rechts) oder Hochformat (oben nach unten), aus Seitenverhältnis des
+// Bildschirms und CSS-Drehung; die Oberfläche wählt danach die Ansicht, und beim Beenden springt sie auf die eigene Wahl zurück.
+// Die Steuerung kennt nur kleine Schnittstellen (panel, doc, scr, viewportQuer), damit sie ohne Browser testbar ist.
 
 import { iconHtml } from './icons.js';
 
-export function erzeugeVollbild({ panel, doc, scr = {}, melden = () => {} }) {
+export function erzeugeVollbild({ panel, doc, scr = {}, melden = () => {}, viewportQuer = () => true }) {
   let offen = false;
   let echt = false;     // läuft die Vollbild-API?
   let gedreht = false;  // per CSS gedreht?
 
   const sperre = () => scr.orientation && typeof scr.orientation.lock === 'function';
-  const stand = () => ({ offen, echt, gedreht });
+  // CSS-Drehung vertauscht Breite und Höhe: querformatiger Bildschirm + gedreht = Hochformat
+  const stand = () => ({ offen, echt, gedreht, ausrichtung: viewportQuer() !== gedreht ? 'quer' : 'hoch' });
   const zeige = () => {
     panel.classList.toggle('ablauf-voll', offen);
     panel.classList.toggle('gedreht', offen && gedreht);
     doc.body?.classList?.toggle('hat-vollbild', offen);
     melden(stand());
   };
+  const melde = () => melden(stand());
   const entsperren = () => { try { scr.orientation?.unlock?.(); } catch { /* nichts gesperrt */ } };
 
   async function oeffnen() {
@@ -58,13 +62,18 @@ export function erzeugeVollbild({ panel, doc, scr = {}, melden = () => {} }) {
   function beiVollbildwechsel() {
     if (offen && echt && !doc.fullscreenElement) schliessen();
   }
-  return { oeffnen, schliessen, drehen, beiVollbildwechsel, stand };
+  // Größe oder Ausrichtung des Bildschirms hat sich geändert (Gerät gedreht, Sperre gegriffen): neu melden, damit die Ansicht folgt
+  function beiGroesse() {
+    if (offen) melde();
+  }
+  return { oeffnen, schliessen, drehen, beiVollbildwechsel, beiGroesse, stand };
 }
 
 // Knöpfe im Kopf des Ablaufs, nur als flaches Symbol aus dem Symbolsatz (DR-084); Tooltip und aria-label erklären sie. Nach DR-079 sind es
 // Aktionen mit festem Verb, nie hervorgehoben: „Vollbild“ (nur wenn zu), „Vollbild beenden“ und „Drehen“ (nur wenn offen). Es wechselt nie
 // ein Symbol oder Text, nur welche Aktion sichtbar ist. Fehlen sie (ältere index.html aus dem Cache, DR-037), werden sie angelegt.
-export function initVollbild(panel, kopf, doc = document, scr = globalThis.screen) {
+// optionen.beiWechsel(stand): wird nach jedem Wechsel gerufen (offen, gedreht, Ausrichtung), die Oberfläche wählt danach die Ansicht
+export function initVollbild(panel, kopf, doc = document, scr = globalThis.screen, optionen = {}) {
   const knopf = (id, symbol, name, titel) => {
     let b = doc.getElementById(id);
     if (!b) {
@@ -83,11 +92,15 @@ export function initVollbild(panel, kopf, doc = document, scr = globalThis.scree
   const dreh = knopf('ablauf-drehen', 'drehen', 'Drehen', 'Ablauf drehen (Quer- oder Hochformat)');
   const zeigeAktionen = (offen) => { voll.hidden = offen; zu.hidden = !offen; dreh.hidden = !offen; };
   zeigeAktionen(false);
-  const v = erzeugeVollbild({ panel, doc, scr, melden: ({ offen }) => zeigeAktionen(offen) });
+  const fenster = doc.defaultView ?? globalThis;
+  const viewportQuer = () => (fenster.innerWidth ?? 1) >= (fenster.innerHeight ?? 0);
+  const v = erzeugeVollbild({ panel, doc, scr, viewportQuer, melden: (s) => { zeigeAktionen(s.offen); optionen.beiWechsel?.(s); } });
   voll.addEventListener('click', () => v.oeffnen());
   zu.addEventListener('click', () => v.schliessen());
   dreh.addEventListener('click', () => v.drehen());
   doc.addEventListener('fullscreenchange', v.beiVollbildwechsel);
+  fenster.addEventListener?.('resize', v.beiGroesse);
+  fenster.addEventListener?.('orientationchange', v.beiGroesse);
   doc.addEventListener('keydown', (e) => { if (e.key === 'Escape' && v.stand().offen && !v.stand().echt) v.schliessen(); }); // im echten Vollbild übernimmt der Browser Esc
   return v;
 }

@@ -145,7 +145,15 @@ const stufenMenue = initStufenMenue($('stufe-menue'), {
 });
 
 // Ablauf im Vollbild, bei Bedarf gedreht (T124, DR-080)
-initVollbild(document.querySelector('.panel.ablauf'), document.querySelector('.ablauf-kopf'));
+// Im Vollbild wählt die Ausrichtung die Ansicht (DR-089): Querformat = Strom (links nach rechts), Hochformat = Kompakt mit Text (oben nach unten).
+// Beim Beenden springt die Ansicht auf die eigene Wahl zurück; die Wahl in der Werkzeugleiste (`ansicht`) bleibt dabei unberührt.
+let vollbildAnsicht = null;
+initVollbild(document.querySelector('.panel.ablauf'), document.querySelector('.ablauf-kopf'), document, globalThis.screen, {
+  beiWechsel: (s) => {
+    const neu = s.offen ? (s.ausrichtung === 'quer' ? 'strom' : 'kompakt') : null;
+    if (neu !== vollbildAnsicht) { vollbildAnsicht = neu; render(); }
+  },
+});
 
 // Knopfgruppe der Varianten (DR-045); fehlt sie (ältere index.html aus dem Browser-Cache, DR-037), wird sie angelegt
 function presetGruppe() {
@@ -217,12 +225,12 @@ function render() {
   renderRueckfragen($('rueckfragen'), sessionStart, render);
   renderMorphbox($('morphbox'), state, data, computed, korpusStats, update);
   renderTechnikSchalter($('ablauf-techniken'), state, data, computed, update);
-  const kompakt = ansicht === 'kompakt';
+  const kompakt = (vollbildAnsicht ?? ansicht) === 'kompakt'; // im Vollbild gilt die Ansicht der Ausrichtung (DR-089)
   $('flow').hidden = kompakt;
   $('kompakt').hidden = !kompakt;
-  $('kompakt-namen').hidden = !kompakt;
+  $('kompakt-namen').hidden = ansicht !== 'kompakt'; // gehört zur eigenen Wahl, nicht zur Ansicht im Vollbild
   $('kompakt-namen').querySelectorAll('[data-namen]').forEach((k) => { const an = (k.dataset.namen === 'true') === kompaktNamen; k.classList.toggle('is-active', an); k.setAttribute('aria-pressed', String(an)); });
-  if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: kompaktNamen }); else renderFlow($('flow'), computed, data);
+  if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: vollbildAnsicht === 'kompakt' ? true : kompaktNamen }); else renderFlow($('flow'), computed, data);
   document.querySelectorAll('[data-ansicht]').forEach((b) => { b.classList.toggle('is-active', b.dataset.ansicht === ansicht); b.setAttribute('aria-pressed', String(b.dataset.ansicht === ansicht)); });
   stufenMenue.setze(state.stufe);
   renderRecipe($('recipe'), computed, state, data, update);
