@@ -1311,6 +1311,7 @@ Chefing                                              [Zahnrad] [Melden v]
 - **Umsetzung:** In `renderKompakt`: `zeilenOben(z)` und `zeilenUnten(z)` geben die Zeilengrenzen (Symbole: Zeilenraster samt aufgeklapptem Detail; Liste: Blöcke der Knoten); eine Kante mit Lücke wird in drei Pfade geteilt (in Arbeit, wartet, wieder in Arbeit); CSS `.kompakt-linie.ist-wartend { stroke-dasharray: 4 3 }`. Gilt für Symbole und Liste.
 - **Gemessen (414 × 828, Gugelhupf, Vollbild):** ohne Eischnee 1 gestrichelte Teilstrecke (der Frucht-Strang), mit Eischnee 3 gestrichelte Teilstrecken plus der gestrichelte Abzweig; in jeder Zeile genau ein durchgezogener Strang.
 - **Regeln:** R23; die Darstellung folgt der Zeitleiste (DR-039: durchgezogen = in Arbeit, gestrichelt = wartet).
+- **Festgehalten (2026-10-25, Nutzer: „Add that to doc“ mit dem Bild der Live-Seite):** als **R26** in `docs/UI-REGELN.md` (Abschnitt „8 Diagramme“), mit dem Bild als Beispiel in `docs/skizzen/linien-zeitscheibe.png`; der Test `test/ui-regeln.check.mjs` prüft, dass die Regel im Dokument, im Code (`ist-wartend`) und im CSS steht.
 - **Optionen:** **A in Arbeit durchgezogen, wartend gestrichelt, je Zeile (gewählt)** · B alle Nebenstränge gestrichelt, nur die Hauptlinie durchgezogen (zeigt das Warten nicht) · C wartende Stränge blasser statt gestrichelt (weniger klar auf kleinen Bildern).
 - **pro:** Man sieht in jeder Zeitscheibe, wo die Hände sind; gleiche Bedeutung wie in der Zeitleiste.
 - **cons:** Auf kleinen Bildern sind die Striche kurz; Linien mit vielen Lücken wirken unruhiger.

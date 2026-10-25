@@ -39,5 +39,13 @@ ok(/docs\/UI-REGELN\.md/.test(lies('README.md')), 'README verweist auf das Regel
   ok(setztDisplay && /#flow\[hidden\], #kompakt\[hidden\] \{ display: none; \}/.test(css), 'R19: Regeln mit display für .strom.ist-quer (Spalten, Vollbild) gibt es, darum steht #flow[hidden], #kompakt[hidden] { display: none } dagegen (DR-117)');
 }
 
+// R26 (DR-116): Linien je Zeitscheibe, im Dokument und im Code, mit dem Beispielbild
+{
+  const doc = fs.readFileSync(new URL('../docs/UI-REGELN.md', import.meta.url), 'utf8');
+  const kompakt = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
+  const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+  ok(/\*\*R26\*\* \*\*Linien zeigen, wo die Hände sind/.test(doc) && /skizzen\/linien-zeitscheibe\.png/.test(doc) && fs.existsSync(new URL('../docs/skizzen/linien-zeitscheibe.png', import.meta.url)) && /ist-wartend/.test(kompakt) && /\.kompakt-linie\.ist-wartend/.test(css), 'R26: je Zeitscheibe ein Strang durchgezogen, wartende gestrichelt, steht im Regelwerk mit Beispielbild und im Code (ist-wartend)');
+}
+
 console.log(fail ? `${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;

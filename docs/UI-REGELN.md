@@ -1,7 +1,7 @@
 # Chefing — UI-Regeln
 
 Das kompilierte Regelwerk für Bedienung und Oberfläche. Es fasst die Entscheide aus `docs/DECISIONS.md` zusammen
-(DR-037, 045, 078, 079, 083 bis 090, 094); dort steht das Warum und die Geschichte, hier steht, **was jetzt gilt**.
+(DR-037, 045, 078, 079, 083 bis 090, 094, 116); dort steht das Warum und die Geschichte, hier steht, **was jetzt gilt**.
 Stand: 2026-10-25. Eine Abweichung braucht einen eigenen DR (Beispiele: DR-085 und DR-088 weichen von DR-079 ab).
 Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachsehen.
 
@@ -63,6 +63,12 @@ Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachseh
 - **R23** Jede UI-Änderung bekommt einen **Test für Struktur und Reihenfolge** und wird **im Browser bei 375 Pixel und am Desktop gemessen** (Überlauf, Zeilen, Lage), nicht nur angesehen.
 - **R24** Gespeicherte Wahlen behalten ihren Schlüssel oder werden übernommen (`chefing.ablauf` → `chefing.ausrichtung`), damit keine Wahl des Nutzers verloren geht. (DR-090)
 - **R25** Jede Meldung aus `issues/open/` wird zuerst gegen diese Regeln geprüft; was ihnen widerspricht, geht als Entscheidung mit Optionen an den Nutzer, nicht direkt in den Code. Erledigte Meldungen kommen nach `issues/closed/`.
+
+## 8 Diagramme
+
+- **R26** **Linien zeigen, wo die Hände sind.** Jede Zeile (Zeitscheibe) hat genau **einen** arbeitenden Strang: seine Linie ist **durchgezogen**. Ein Strang, der an Zeilen vorbeiläuft, in denen ein anderer arbeitet, **wartet** dort und ist **gestrichelt**; zwei benachbarte Zeilen bleiben ein Strich. Gilt in Kompakt (Symbole und Liste) wie in der Zeitleiste (`ist-wartend`). Beispiel (Gugelhupf mit Eischnee, Vollbild auf dem Handy; Quelle `docs/skizzen/linien-zeitscheibe.png`): der linke Strang für die Frucht ist von seinem Knoten bis zur Mündung gestrichelt, die Hauptlinie in den Zeilen von Ei und Eischnee ebenfalls, in jeder Zeile steht genau ein durchgezogener Strang. (DR-039, 116)
+
+![Je Zeitscheibe ein durchgezogener Strang, wartende gestrichelt](skizzen/linien-zeitscheibe.png)
 
 ## Dokumentierte Ausnahmen
 
