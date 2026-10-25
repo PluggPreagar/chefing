@@ -58,10 +58,13 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .top-zeile { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem .9rem; }
 .top-leiste { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; order: 1; margin-left: auto; }
 #melden-menue { order: 2; padding-left: .9rem; border-left: 1px solid var(--line); }
-/* schmale Bildschirme: Titel und Melden in einer Zeile, die Einstellungen als eigene Zeile darunter, nichts bricht mitten in einer Gruppe um */
+/* schmale Bildschirme: Melden nur als Symbol (ohne Text), damit Titel, Einstellungen und Melden in einer Zeile bleiben; reicht der Platz nicht, rutscht die Leiste als Ganzes in die nächste Zeile (DR-094) */
 @media (max-width: 640px) {
-  #melden-menue { order: 1; margin-left: auto; padding-left: 0; border-left: 0; }
-  .top-leiste { order: 2; flex-basis: 100%; margin-left: 0; }
+  .top-zeile { column-gap: .35rem; justify-content: flex-end; } /* wächst der Titel, sitzen Leiste und Melden rechts; rutscht Melden allein in die nächste Zeile, bleibt es rechts */
+  .top-zeile h1 { flex: 1 1 auto; }
+  .top-leiste { gap: .3rem; margin-left: 0; }
+  #melden-menue { padding-left: 0; border-left: 0; }
+  .melden-haupt .melden-text { display: none; }
   nav.fluss { flex-direction: column; align-items: flex-start; gap: .4rem; } /* nav.fluss: sonst gewinnt die spätere Regel .fluss mit align-items: center */
 }
 .leiste-knopf { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-width: 2.4rem; height: 2.4rem; padding: 0 .7rem; border: 1px solid var(--line); background: var(--panel); color: var(--muted); border-radius: 999px; cursor: pointer; font: inherit; font-size: .88rem; }
@@ -72,6 +75,10 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .melden-gruppe .melden-haupt { padding: 0 .8rem; color: var(--ink); }
 .melden-gruppe .melden-pfeil { min-width: 2rem; padding: 0 .45rem; }
 .melden-menue .stufe-liste { left: auto; right: 0; min-width: 17rem; }
+@media (max-width: 640px) { /* nach den allgemeinen Regeln oben (gleiche Spezifität), sonst gewinnen diese */
+  .melden-gruppe .melden-haupt { padding: 0 .5rem; min-width: 2.2rem; }
+  .melden-gruppe .melden-pfeil { min-width: 1.6rem; padding: 0 .3rem; }
+}
 .fluss { margin-top: .6rem; align-items: center; }
 .fluss-pfeil { color: var(--muted); font-size: 1.1rem; }
 @media (max-width: 640px) { .fluss-pfeil { display: none; } } /* Archetyp und Varianten stehen dort untereinander, der Pfeil hinge allein am Zeilenende */

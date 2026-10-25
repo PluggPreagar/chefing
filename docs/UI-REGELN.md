@@ -1,7 +1,7 @@
 # Chefing — UI-Regeln
 
 Das kompilierte Regelwerk für Bedienung und Oberfläche. Es fasst die Entscheide aus `docs/DECISIONS.md` zusammen
-(DR-037, 045, 078, 079, 083 bis 090); dort steht das Warum und die Geschichte, hier steht, **was jetzt gilt**.
+(DR-037, 045, 078, 079, 083 bis 090, 094); dort steht das Warum und die Geschichte, hier steht, **was jetzt gilt**.
 Stand: 2026-10-25. Eine Abweichung braucht einen eigenen DR (Beispiele: DR-085 und DR-088 weichen von DR-079 ab).
 Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachsehen.
 
@@ -47,7 +47,7 @@ Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachseh
 
 ## 5 Schmale Bildschirme (bis 640 Pixel)
 
-- **R16** Titel und Melden in **einer** Zeile, die Einstellungen als **eigene** Zeile darunter, Archetyp und Varianten **untereinander und linksbündig**, der Pfeil entfällt. Nichts bricht mitten in einer Gruppe um, kein Trenner steht allein am Zeilenende. (DR-087)
+- **R16** Titel, Einstellungen und **Melden nur als Symbol** in **einer** Zeile; reicht der Platz nicht (etwa 320 px), rutscht Melden rechtsbündig in die nächste Zeile. Archetyp und Varianten **untereinander und linksbündig**, der Pfeil entfällt. Nichts bricht mitten in einer Gruppe um, kein Trenner steht allein am Zeilenende. (DR-087, 094)
 - **R17** Im Diagramm-Kopf bleibt das Vollbild in der **ersten** Zeile rechts, Text | Symbole und Ausrichtung rutschen in die zweite. (DR-090)
 - **R18** **Kein Abstand mit `margin-left: auto` auf zwei Geschwistern**: sie teilen sich den freien Platz und landen in der Mitte. Stattdessen ein Platzhalter (`::after` mit `flex: 1 1 0`) und `order`. (DR-087)
 - **R19** CSS-Reihenfolge: eine Regel in einer Medienabfrage verliert gegen eine **spätere** Regel gleicher Spezifität; Medienabfragen stehen nach den allgemeinen Regeln oder werden spezifischer (`nav.fluss`). Ein `display` in einer Regel überschreibt das Attribut `hidden`, dann braucht `[hidden]` eine eigene Regel. (DR-087)
@@ -70,5 +70,5 @@ Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachseh
 |---|---|---|---|
 | Tabelle „eine aus 2 bis 5 → Knopfgruppe“ | Erfahrungsstufe als Auswahlmenü | selten geänderte, allgemeine Einstellung (R4) | DR-085 |
 | R1, R2 (feste Beschriftung) | Melden / Bewerten wechselt am geteilten Knopf | der Hauptteil ist die Aktion selbst (R9) | DR-088 |
-| R10 (nur Symbol) | „Melden“ mit Symbol und Text | Einstieg in ein Menü, Text trägt die Bedeutung; Panel-Knöpfe („Absenden“, „ZIP herunterladen“) mit Text | DR-088, 084 |
+| R10 (nur Symbol) | „Melden“ mit Symbol und Text, nur breit (über 640 px) | Einstieg in ein Menü, Text trägt die Bedeutung; schmal nur Symbol (DR-094); Panel-Knöpfe („Absenden“, „ZIP herunterladen“) mit Text | DR-088, 094, 084 |
 | R6 (Einstellungen im Diagramm-Block) | Erfahrung, Statistik, Kandidaten in der Werkzeugleiste | betreffen die ganze Seite, nicht das Diagramm | DR-087 |

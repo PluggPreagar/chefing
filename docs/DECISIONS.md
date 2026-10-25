@@ -1056,3 +1056,13 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Meldungen nennen genau, welcher Schritt oder welche Zutat gemeint ist; keine Änderung am Panel.
 - **cons:** Zahlen als Kennung (Schritt-Index, nicht Schrittnummer) müssen beim Lesen der Meldung zugeordnet werden; die Strom-Ansicht hat keine Kennungen (dort bleibt es bei Zeilen).
 - **risk:** Gering, nur `fehlerMelden.js`, ein Attribut in `kompakt.js` und ein Test. Rückgängig: ein Commit.
+
+## DR-094 · ui · Schmal: Melden nur als Symbol, Kopfzeile bleibt in einer Zeile
+
+- **descr:** (2026-10-25, Nutzer mit Handy-Bild: „Reduce melden to icon if it's wrapping top actions“) Bis 640 px steht **Melden nur als Symbol** (Text ausgeblendet, `aria-label` und Tooltip nennen die Aktion), dadurch passen Titel, Einstellungen und Melden in **eine Zeile** (gemessen: 360 und 375 px). Das **ändert R16**: die Einstellungen bekommen nicht mehr zwingend eine eigene Zeile, sondern nur noch, wenn der Platz nicht reicht (etwa 320 px); dann rutscht Melden als Ganzes rechtsbündig in die nächste Zeile.
+- **Umsetzung:** Der Titel wächst (`flex: 1 1 auto`), `justify-content: flex-end` hält Leiste und Melden rechts; kleinere Abstände in Leiste und Zeile; Melden-Knöpfe schmaler (nach den allgemeinen Regeln, R19). Breit bleibt alles wie in DR-087 und DR-088 (Melden mit Text hinter einem Trenner).
+- **Regeln:** R10 (Aktion nur als Symbol) gilt jetzt auch für Melden auf schmalen Bildschirmen, die Ausnahme in DR-088 gilt nur noch breit. R16, R18 (kein doppeltes `margin-left: auto`), R19, R23 (Messung bei 375, 360 und 320 px).
+- **Optionen:** **A Symbol bis 640 px, Rückfall in die nächste Zeile (gewählt)** · B Symbol nur, wenn es wirklich umbricht (braucht Skript zum Messen, springt beim Drehen) · C Toolbar-Knöpfe kleiner (zu kleine Ziele).
+- **pro:** Eine ruhige Kopfzeile auf dem Handy; keine Skript-Logik; Melden bleibt erreichbar und erklärt.
+- **cons:** Das Wort „Melden“ fehlt auf dem Handy; das Symbol (Flagge) muss gelernt werden.
+- **risk:** Gering, nur `style.css` und ein Test. Rückgängig: ein Commit.
