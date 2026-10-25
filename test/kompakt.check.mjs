@@ -87,5 +87,18 @@ ok(/wert: 'true', icon: 'beschriftung_text', name: 'Text'/.test(kompaktMain) && 
 ok(/name: 'Beschriftung der Kompakt-Ansicht'/.test(kompaktMain) && /setAttribute\('aria-pressed', String\(an\)\)/.test(kompaktMain) && /setAttribute\('aria-label', k\.name\)/.test(kompaktMain), 'Gruppe hat einen Namen für Vorlesegeräte, jeder Knopf ein aria-label, der gewählte aria-pressed');
 ok(/\.kompakt-svg\.mit-namen \{[^}]*width: 100%/.test(kompaktCss) && /\.kompakt-titel \{[^}]*font-size: 13px/.test(kompaktCss) && /\.kompakt-zutatentext/.test(kompaktCss), 'style.css: Namen-Variante füllt die Breite, Schrift 13 px');
 
+// --- T144: Details unter dem Schritt in der Symbole-Ansicht ------------------------------------------------------------------------
+const kompaktSrc = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
+ok(/data-schritt': k\.i/.test(kompaktSrc) && /'data-zutat'/.test(kompaktSrc) && /kompakt-pfeilgruppe/.test(kompaktSrc) && /kompakt-treffer/.test(kompaktSrc), 'Kennungen: data-schritt an Knoten, Pfeil und Detail, data-zutat an Zutaten (Grundlage für T145)');
+ok(/knopf\(g, k, \(\) => umschalten\(k\)\)/.test(kompaktSrc) && /knopf\(pfeil, k, \(\) => umschalten\(k\)\)/.test(kompaktSrc) && /knopf\(z, k, \(\) => umschalten\(k\)\)/.test(kompaktSrc) && /aria-expanded/.test(kompaktSrc), 'Symbole: Schritt, Zutat und Pfeil klappen denselben Schritt auf und zu, aria-expanded');
+ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss) && /\.kompakt-detail \{/.test(kompaktCss), 'style.css: unsichtbare Trefferfläche für den Pfeil, Rahmen für das Detail');
+{
+  // Die Text-Fassung unter dem Schritt ist dieselbe wie in der Namen-Variante und liegt im Block unterhalb der Knotenzeile
+  const { c: cc, K: KK } = rechne('ruehrteig', 'kastenkuchen', null, {});
+  const t = knotenTexte(KK, cc.ablauf, cc, 30);
+  const aufschl = KK.knoten.find((x) => cc.ablauf[x.i].key === 'aufschlagen' && x.art === 'aktion');
+  ok(t.get(aufschl).titel.join(' ').startsWith('1. ') && t.get(aufschl).zutaten.length === 2, 'Detail: Schritt mit Nummer, dazu Butter und Zucker mit Menge');
+}
+
 console.log(fail ? `${fail} FAILED` : 'ALL PASS');
 process.exit(fail ? 1 : 0);

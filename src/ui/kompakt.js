@@ -82,6 +82,33 @@ export function knotenTexte(K, steps, computed, maxZeichen) {
   return texte;
 }
 
+// Zeilen eines Textblocks (Schritt, darunter die Zutaten) ab der Knotenmitte cy
+function blockLayout(t, cy) {
+  const L = NAMEN;
+  const titelY = t.titel.map((_, i) => cy + 5 + i * L.LINIE);
+  let zy = titelY.at(-1) + 10;
+  const zutaten = t.zutaten.map((x) => {
+    const h = Math.max(L.ZUT_MIN, x.zeilen.length * L.LINIE + 6);
+    const g = { top: zy, h, iconY: zy + h / 2, textY: x.zeilen.map((_, i) => zy + 16 + i * L.LINIE) };
+    zy += h;
+    return g;
+  });
+  return { titelY, zutaten, unten: zutaten.length ? zy : titelY.at(-1) };
+}
+
+// Textblock zeichnen: Schritt fett, Zutaten mit Symbol, Name und Menge
+function zeichneBlock(svg, t, geo, textX, kennung) {
+  t.titel.forEach((zeile, i) => { const x = svgEl('text', { x: textX, y: geo.titelY[i], class: 'kompakt-titel' }); x.textContent = zeile; svg.append(x); });
+  t.zutaten.forEach((zt, j) => {
+    const gz = geo.zutaten[j];
+    const ic = iconGroup(zt.icon, { x: textX, y: gz.iconY - NAMEN.ICON / 2, size: NAMEN.ICON, title: zt.label });
+    ic.classList.add('kompakt-zutat');
+    if (kennung != null) ic.setAttribute('data-zutat', `${kennung}:${j}`);
+    svg.append(ic);
+    zt.zeilen.forEach((zeile, i) => { const x = svgEl('text', { x: textX + NAMEN.ICON_PLATZ, y: gz.textY[i], class: 'kompakt-zutatentext' }); x.textContent = zeile; svg.append(x); });
+  });
+}
+
 // Senkrechte Lage in der Namen-Variante: je Zeile des Modells ein Block je Knoten, übereinander; die Höhe richtet sich nach dem Text.
 // Rückgabe: geo (Knoten → cy, titelY[], zutaten[{top, h, iconY, textY[]}]) und die Gesamthöhe.
 export function namenLayout(K, texte, pad = 6) {
@@ -90,17 +117,8 @@ export function namenLayout(K, texte, pad = 6) {
   let top = pad;
   for (let z = 0; z < K.zeilen; z++) {
     for (const k of K.knoten.filter((x) => x.zeile === z)) {
-      const t = texte.get(k);
       const cy = top + L.OBEN;
-      const titelY = t.titel.map((_, i) => cy + 5 + i * L.LINIE);
-      let zy = titelY.at(-1) + 10;
-      const zutaten = t.zutaten.map((x) => {
-        const h = Math.max(L.ZUT_MIN, x.zeilen.length * L.LINIE + 6);
-        const g = { top: zy, h, iconY: zy + h / 2, textY: x.zeilen.map((_, i) => zy + 16 + i * L.LINIE) };
-        zy += h;
-        return g;
-      });
-      const unten = zutaten.length ? zy : titelY.at(-1);
+      const { titelY, zutaten, unten } = blockLayout(texte.get(k), cy);
       geo.set(k, { cy, titelY, zutaten, von: top, bis: Math.max(top + L.ROW, unten + 10) });
       top = geo.get(k).bis;
     }
@@ -118,22 +136,44 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const namen = opt.namen === true;
   const textX = x0 + R + 12;
   const gesamt = Math.max(240, Math.min(640, Math.round(opt.breite || root.clientWidth || 340))); // höchstens 640: auf breiten Bildschirmen bleibt der Text lesbar und das Diagramm lässt sich zentrieren
-  const maxZeichen = Math.max(12, Math.floor((gesamt - textX - PAD) / NAMEN.ZEICHEN));
-  const texte = namen ? knotenTexte(K, steps, computed, maxZeichen) : null;
-  const lay = namen ? namenLayout(K, texte) : null;
-  const yVon = (k) => (lay ? lay.geo.get(k).cy : PAD + k.zeile * ROW + ROW / 2);
+  // Symbole: aufgeklappte Schritte (T144), gemerkt am Behälter, verworfen wenn sich der Ablauf ändert
+  const sig = steps.map((s) => s.key).join();
+  if (root._offen?.sig !== sig) root._offen = { sig, set: new Set() };
+  const offen = namen ? new Set() : root._offen.set;
   const maxZut = Math.max(0, ...K.knoten.map((k) => k.neu.length));
-  const breite = namen ? gesamt : x0 + R + 24 + maxZut * ZUT_ABST + PAD;
-  const hoehe = namen ? lay.hoehe : PAD * 2 + K.zeilen * ROW;
-  const svg = svgEl('svg', { viewBox: `0 0 ${breite} ${hoehe}`, width: breite, height: hoehe, class: `kompakt-svg${namen ? ' mit-namen' : ''}`, role: 'img', 'aria-label': namen ? 'Ablauf kompakt mit Namen und Mengen' : 'Ablauf kompakt: Symbole antippen für Name und Menge' });
+  const breiteSym = x0 + R + 24 + maxZut * ZUT_ABST + PAD;
+  const breite = namen ? gesamt : offen.size ? Math.max(breiteSym, Math.min(gesamt, textX + PAD + 230)) : breiteSym;
+  const maxZeichen = Math.max(12, Math.floor((breite - textX - PAD) / NAMEN.ZEICHEN));
+  const texte = namen || offen.size ? knotenTexte(K, steps, computed, maxZeichen) : null;
+  const lay = namen ? namenLayout(K, texte) : null;
+  // Symbole: unter einer Zeile mit aufgeklapptem Schritt wächst der Abstand um die Höhe des Textes
+  const extra = Array(K.zeilen).fill(0);
+  for (const k of K.knoten) if (offen.has(k.i)) extra[k.zeile] = Math.max(extra[k.zeile], blockLayout(texte.get(k), 8).unten + 6);
+  const zeilenTop = [];
+  let summe = PAD;
+  extra.forEach((e, z) => { zeilenTop[z] = summe; summe += ROW + e; });
+  const yVon = (k) => (lay ? lay.geo.get(k).cy : zeilenTop[k.zeile] + ROW / 2);
+  const hoehe = namen ? lay.hoehe : summe + PAD;
+  const svg = svgEl('svg', { viewBox: `0 0 ${breite} ${hoehe}`, width: breite, height: hoehe, class: `kompakt-svg${namen ? ' mit-namen' : ''}`, role: 'img', 'aria-label': namen ? 'Ablauf kompakt mit Namen und Mengen' : 'Ablauf kompakt: Schritt, Zutat oder Pfeil antippen für Name und Menge' });
   const defs = svgEl('defs');
   const marker = svgEl('marker', { id: 'kompakt-pfeil', viewBox: '0 0 8 8', refX: 7, refY: 4, markerWidth: 6, markerHeight: 6, orient: 'auto' });
   marker.append(svgEl('path', { d: 'M0 0L8 4L0 8Z', class: 'kompakt-spitze' }));
   defs.append(marker);
   svg.append(defs);
 
-  const info = el('div', 'kompakt-info', namen ? '' : 'Symbol antippen: Name und Menge');
+  const info = el('div', 'kompakt-info', namen ? '' : 'Schritt, Zutat oder Pfeil antippen: Name und Menge');
   const zeige = (text) => { info.textContent = text; };
+  const umschalten = (k) => {
+    if (offen.has(k.i)) offen.delete(k.i); else offen.add(k.i);
+    renderKompakt(root, computed, data, opt);
+    root.querySelector(`g[data-schritt="${k.i}"]`)?.focus();
+  };
+  const knopf = (e, k, f) => {
+    e.setAttribute('tabindex', '0');
+    e.setAttribute('role', 'button');
+    e.setAttribute('aria-expanded', String(offen.has(k.i)));
+    klickbar(e, f);
+  };
 
   for (const kante of K.kanten) {
     const [a, b] = [kante.von, kante.zu];
@@ -148,32 +188,32 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   for (const k of K.knoten) {
     const s = steps[k.i];
     const [x, y] = [xVon(k), yVon(k)];
-    const g = svgEl('g', { class: `kompakt-knoten ist-${k.art}`, tabindex: 0, role: 'button', style: `--c: var(--ort-${k.farbe})` });
+    const g = svgEl('g', { class: `kompakt-knoten ist-${k.art}`, 'data-schritt': k.i, style: `--c: var(--ort-${k.farbe})` });
     g.append(svgEl('circle', { cx: x, cy: y, r: R }));
     g.append(iconGroup(k.icon, { x: x - ICON / 2, y: y - ICON / 2, size: ICON, title: s.label }));
-    klickbar(g, () => zeige(schrittText(s, k, computed)));
+    if (namen) { g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button'); klickbar(g, () => zeige(schrittText(s, k, computed))); } else knopf(g, k, () => umschalten(k));
     svg.append(g);
     if (namen) {
-      const geo = lay.geo.get(k);
-      texte.get(k).titel.forEach((zeile, i) => { const t = svgEl('text', { x: textX, y: geo.titelY[i], class: 'kompakt-titel' }); t.textContent = zeile; svg.append(t); });
-      texte.get(k).zutaten.forEach((zt, j) => {
-        const gz = geo.zutaten[j];
-        const ic = iconGroup(zt.icon, { x: textX, y: gz.iconY - NAMEN.ICON / 2, size: NAMEN.ICON, title: zt.label });
-        ic.classList.add('kompakt-zutat');
-        svg.append(ic);
-        zt.zeilen.forEach((zeile, i) => { const t = svgEl('text', { x: textX + NAMEN.ICON_PLATZ, y: gz.textY[i], class: 'kompakt-zutatentext' }); t.textContent = zeile; svg.append(t); });
-      });
+      zeichneBlock(svg, texte.get(k), lay.geo.get(k), textX, k.i);
       continue;
+    }
+    if (offen.has(k.i)) {
+      const oben = zeilenTop[k.zeile] + ROW;
+      svg.append(svgEl('rect', { x: textX - 6, y: oben, width: breite - textX - PAD + 6, height: extra[k.zeile] - 2, rx: 6, class: 'kompakt-detail', 'data-schritt': k.i, style: `--c: var(--ort-${k.farbe})` }));
+      zeichneBlock(svg, texte.get(k), blockLayout(texte.get(k), oben + 8), textX, k.i);
     }
     if (!k.neu.length) continue;
     const xz = x0 + R + 24;
-    svg.append(svgEl('path', { d: `M${xz - 4} ${y}H${x + R + 3}`, class: 'kompakt-zufluss', 'marker-end': 'url(#kompakt-pfeil)' }));
+    const pfeil = svgEl('g', { class: 'kompakt-pfeilgruppe', 'data-schritt': k.i });
+    pfeil.append(svgEl('path', { d: `M${xz - 4} ${y}H${x + R + 3}`, class: 'kompakt-zufluss', 'marker-end': 'url(#kompakt-pfeil)' }));
+    pfeil.append(svgEl('path', { d: `M${xz - 4} ${y}H${x + R + 3}`, class: 'kompakt-treffer' }));
+    knopf(pfeil, k, () => umschalten(k));
+    svg.append(pfeil);
     k.neu.forEach((n, j) => {
       const z = iconGroup(n.icon, { x: xz + j * ZUT_ABST, y: y - ZUT / 2, size: ZUT, title: n.label });
       z.classList.add('kompakt-zutat');
-      z.setAttribute('tabindex', '0');
-      z.setAttribute('role', 'button');
-      klickbar(z, () => zeige(zutatText(n, computed)));
+      z.setAttribute('data-zutat', `${k.i}:${j}`);
+      knopf(z, k, () => umschalten(k));
       svg.append(z);
     });
   }

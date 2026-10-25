@@ -1034,3 +1034,15 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** ein Ort statt zwölf; der Assistent liest ihn automatisch (Gedächtnis); Rückschritte wie wechselnde Beschriftung oder doppelte Auto-Abstände fallen auf.
 - **cons:** Zwei Orte, die gleich bleiben müssen (Regelwerk und DRs); der Test sichert nur Verweise und Kernregeln, nicht jede Zeile.
 - **risk:** Gering, nur Dokumentation und ein Test. Rückgängig: ein Commit.
+
+## DR-092 · ui · Kompakt (Symbole): Details klappen direkt unter dem Schritt auf
+
+- **descr:** (2026-10-25, Meldung `20261025-085457-graph-icon-only-987c`, Nutzer: „arrow“ statt „error“) In der Symbole-Ansicht zeigt ein Klick auf **Schritt, Zutat oder Pfeil** die Text-Fassung des Schritts („1. Butter + Zucker aufschlagen · 4 Min. · 18–22 °C (plastisch)“, darunter die Zutaten mit Symbol und Menge) **direkt unter dem Schritt, vor den Symbolen des nächsten Schritts**. Alle drei Ziele öffnen **denselben** Schritt; ein zweiter Klick schließt ihn.
+- **Mehrere offen (Q2, beste Annahme):** jeder Schritt schaltet für sich, mehrere dürfen zugleich offen sein (Vergleich zweier Schritte, kein Zwang zum Schließen). Der Zustand hängt am Behälter und wird verworfen, wenn sich der Ablauf ändert.
+- **Umsetzung:** Zeilen mit offenem Schritt wachsen um die Texthöhe, Linien und Knoten rutschen mit; das Detail ist ein Rahmen in der Farbe des Ortes, rechts von der Hauptspalte (Seitenstränge bleiben frei). Der Text kommt aus `knotenTexte`, dieselbe Quelle wie die Text-Variante (`blockLayout`, `zeichneBlock` gemeinsam). Der dünne Pfeil hat eine unsichtbare, 16 px breite Trefferfläche. Tastatur: Enter und Leertaste, Fokus bleibt auf dem Schritt; `aria-expanded` an jedem Ziel.
+- **Kennungen für T145:** `data-schritt` an Knoten, Pfeil und Detail, `data-zutat="schritt:nr"` an Zutaten.
+- **Regeln:** R10 (Symbol, kein Text im Knopf), R14 (mittig, höchstens 640 px), R20 (Rolle, aria), R23 (Test und Messung bei 375 px). Keine Abweichung.
+- **Optionen:** **A aufklappen im Diagramm, mehrere offen (gewählt)** · B nur eines offen (Klick schließt das andere, weniger Höhe, aber kein Vergleich) · C wie bisher eine Zeile unter dem ganzen Bild (Nutzer wollte es am Schritt).
+- **pro:** Details dort, wo man klickt; gleiche Texte wie in der Text-Variante; Kennungen für das Melden.
+- **cons:** Das Einschieben verschiebt die Folgeschritte; viele offene Schritte machen das Bild lang.
+- **risk:** Gering, nur `kompakt.js`, `style.css` und Test. Rückgängig: ein Commit. Die Strom-Ansicht ist nicht betroffen.

@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T144 | Diagramm: Details direkt unter dem Schritt | done | Symbole-Ansicht: Klick auf Schritt, Zutat oder Pfeil klappt die Text-Fassung unter dem Schritt auf, mehrere zugleich offen, zweiter Klick schließt; Kennungen `data-schritt` und `data-zutat` (DR-092). | DR-073, DR-081, DR-090, DR-092 |
 | T146 | UI-Regelwerk kompilieren und festhalten | done | `docs/UI-REGELN.md` (R1 bis R25, Tabelle, Ausnahmen), Kurzfassung im Gedächtnis (`feedback_ui_regeln.md`), README-Verweis, Test `ui-regeln.check.mjs` (DR-091). | DR-079 bis DR-090, DR-091 |
 | T143 | Diagramm zentrieren | done | Meldung `20261025-083911-center-graphs-abfa` (Beschreibung leer, Annahme): Kompakt-Diagramm mittig, höchstens 640 Pixel breit (DR-090). | DR-090 |
 | T142 | Flache Symbol-Knöpfe im Diagramm | done | Meldung `20261025-084208-flatten-fullscreen-more-920b`: Rahmen nur beim Darüberfahren, ausgewählt = getönter Grund, für Vollbild, Ausrichtung und Beschriftung (DR-090). | DR-084, DR-090 |
