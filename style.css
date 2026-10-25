@@ -134,8 +134,9 @@ body.hat-vollbild { overflow: hidden; }
 .ablauf.ablauf-voll { display: flex; flex-direction: column; }
 .ablauf.ablauf-voll #flow { flex: none; }
 .ablauf.ablauf-voll #kompakt:not([hidden]) { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; }
-.ablauf.ablauf-voll .kompakt-bild { flex: 1 1 0; min-height: 0; overflow: hidden; }
+.ablauf.ablauf-voll .kompakt-bild { flex: 1 1 0; min-height: 0; overflow-x: hidden; overflow-y: auto; }
 .ablauf.ablauf-voll .kompakt-svg, .ablauf.ablauf-voll .kompakt-svg.mit-namen { width: 100%; height: 100%; max-width: none; }
+.ablauf.ablauf-voll .kompakt-svg.eng { height: auto; } /* Handy hochkant: Maßstab bleibt, ein aufgeklapptes Detail scrollt statt die Zeichnung zu verkleinern (DR-100) */
 .ablauf.ablauf-voll.gedreht { inset: auto; top: 0; left: 100vw; width: 100vh; height: 100vw; transform-origin: top left; transform: rotate(90deg); }
 .ablauf-techniken { display: flex; gap: .4rem; flex-wrap: wrap; }
 .technik-schalter { font: inherit; font-size: .82rem; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: .2rem .75rem; cursor: pointer; }

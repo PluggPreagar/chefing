@@ -143,7 +143,9 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const x0Basis = PAD + K.spalten * LANE + R;
   const breiteSym = x0Basis + R + 24 + maxZut * ZUT_ABST + PAD;
   const textBreite = x0Basis + R + 12 + PAD + 230; // Platz für das Detail rechts vom Strom
-  const breite = namen ? gesamt : Math.max(breiteSym, Math.min(gesamt, 2 * textBreite - breiteSym));
+  // Vollbild auf schmalem Bildschirm (Handy hochkant): keine Reserve für das Detail, die Zeichnung ist so schmal wie der Strom und wird dadurch um so größer eingepasst (DR-100); das Detail bricht enger um
+  const eng = !namen && gesamt < 520 && !!root.closest?.('.ablauf-voll');
+  const breite = namen ? gesamt : eng ? breiteSym : Math.max(breiteSym, Math.min(gesamt, 2 * textBreite - breiteSym));
   const rand = namen ? 0 : (breite - breiteSym) / 2;
   const x0 = x0Basis + rand;
   const xVon = (k) => x0 - k.spalte * LANE;
@@ -163,7 +165,7 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   extra.forEach((e, z) => { zeilenTop[z] = summe; summe += zeilenHoehe + e; });
   const yVon = (k) => (lay ? lay.geo.get(k).cy : zeilenTop[k.zeile] + zeilenHoehe / 2);
   const hoehe = namen ? lay.hoehe : summe + PAD;
-  const svg = svgEl('svg', { viewBox: `0 0 ${breite} ${hoehe}`, width: breite, height: hoehe, class: `kompakt-svg${namen ? ' mit-namen' : ''}`, role: 'img', 'aria-label': namen ? 'Ablauf kompakt mit Namen und Mengen' : 'Ablauf kompakt: Schritt, Zutat oder Pfeil antippen für Name und Menge' });
+  const svg = svgEl('svg', { viewBox: `0 0 ${breite} ${hoehe}`, width: breite, height: hoehe, class: `kompakt-svg${namen ? ' mit-namen' : ''}${eng ? ' eng' : ''}`, role: 'img', 'aria-label': namen ? 'Ablauf kompakt mit Namen und Mengen' : 'Ablauf kompakt: Schritt, Zutat oder Pfeil antippen für Name und Menge' });
   const defs = svgEl('defs');
   const marker = svgEl('marker', { id: 'kompakt-pfeil', viewBox: '0 0 8 8', refX: 7, refY: 4, markerWidth: 6, markerHeight: 6, orient: 'auto' });
   marker.append(svgEl('path', { d: 'M0 0L8 4L0 8Z', class: 'kompakt-spitze' }));

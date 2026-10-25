@@ -1119,3 +1119,14 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Die ganze Höhe wird genutzt, nichts springt, kein Eingriff in die Wahl des Nutzers.
 - **cons:** Lange Linien zwischen den Schritten; Symbole bleiben klein.
 - **risk:** Gering, nur `kompakt.js` und ein Test. Rückgängig: ein Commit.
+
+## DR-100 · ui · Vollbild auf dem Handy: alles groß, Detail scrollt (ersetzt die Grenze aus DR-099)
+
+- **descr:** (2026-10-25, Nutzer mit Handy-Bild nach dem Deploy: „Scale everything“) Nach DR-099 füllte die Zeichnung die Höhe, aber Symbole, Pfeile und Schrift blieben klein. Im Vollbild auf einem **schmalen Bildschirm** (Behälter unter 520 px, Handy hochkant) hat die Symbole-Zeichnung jetzt **keine Reserve für das Detail** mehr, ist so breit wie der Strom (178 Einheiten) und wird auf die ganze Breite eingepasst: etwa **1,9-fach** (Knoten 57 statt 30 px, Text 25 statt 13 px). Die Höhe füllen die auseinandergerückten Zeilen (DR-099).
+- **Detail:** Es bricht enger um (etwa 17 Zeichen), die Schrift ist dafür groß. Ein aufgeklapptes Detail **verkleinert die Zeichnung nicht**: der Maßstab bleibt, der Bildbereich scrollt senkrecht. Strom und Symbole bleiben dabei an ihrer Stelle (gemessen: Knoten bei x = 57 und Durchmesser 57 px, zu und offen), also gilt DR-097 weiter.
+- **Umsetzung:** `eng` in `renderKompakt` (schmal und im Vollbild), Klasse `eng` am SVG mit `height: auto`; `.kompakt-bild` im Vollbild `overflow-y: auto`. Monitor und breite Behälter (über 520 px) bleiben wie in DR-096 und DR-097. Die Grenze in DR-099 („Symbole bleiben klein“) gilt damit nicht mehr.
+- **Regeln:** R14, R23 (gemessen bei 375 × 812: zu 341 × 621 ohne Scrollen, offen 341 × 1023 mit Scrollen, Knoten gleich).
+- **Optionen:** **A schmal und Vollbild: Reserve weglassen, Detail scrollt (gewählt)** · B Reserve behalten und beim Aufklappen verkleinern (springt, Symbole schrumpfen) · C Symbole einzeln vergrößern (gleiche Verteilung, aber Pfeile und Linien passen nicht mehr).
+- **pro:** Alles groß und lesbar auf dem Handy; nichts springt; Höhe und Breite genutzt.
+- **cons:** Das Detail ist schmal und hoch (viele Zeilen); bei langen Details scrollt man im Vollbild.
+- **risk:** Gering, `kompakt.js`, `style.css` und ein Test. Rückgängig: ein Commit.
