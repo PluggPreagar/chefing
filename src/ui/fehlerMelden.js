@@ -6,6 +6,7 @@
 import { zipErstellen } from '../model/zip.js';
 import { meldungDateien } from '../model/meldung.js';
 import { sendeFehlermeldung } from '../model/meldungSenden.js';
+import { inZwischenablage } from './zwischenablage.js';
 
 const SK = 'chefing-aktionen';
 const MAX = 30;
@@ -313,8 +314,12 @@ async function abschicken() {
   sendet = false;
   if (r.ok) {
     merke('Fehler gemeldet (gesendet)', r.id ?? m.zipName);
-    fertig(`<p>Gesendet, danke.${r.id ? ` Nummer: <code>${esc(r.id)}</code>` : ''}</p><p>Wenn du magst, kannst du die Meldung zusätzlich als Datei speichern:</p><p><button type="button" id="fm-zip2">ZIP herunterladen</button></p>`);
+    // Die Nummer (= Ordnername der Meldung) liegt gleich in der Zwischenablage, zum Weitergeben; klappt das nicht, bleibt der Knopf
+    const kopiert = r.id ? await inZwischenablage(r.id) : false;
+    fertig(`<p>Gesendet, danke.${r.id ? ` Nummer: <code>${esc(r.id)}</code> <span class="fm-leise" id="fm-kopiert">${kopiert ? '· in die Zwischenablage kopiert' : '· Kopieren nicht möglich, bitte von Hand'}</span>` : ''}</p>`
+      + `<p>${r.id ? '<button type="button" id="fm-nr">Nummer kopieren</button> ' : ''}<button type="button" id="fm-zip2">ZIP herunterladen</button></p>`);
     $('#fm-zip2').onclick = () => zipSpeichern(m);
+    if (r.id) $('#fm-nr').onclick = async () => { $('#fm-kopiert').textContent = (await inZwischenablage(r.id)) ? '· in die Zwischenablage kopiert' : '· Kopieren nicht möglich, bitte von Hand'; };
     return;
   }
   // Rückfall: Panel bleibt offen, nichts geht verloren
