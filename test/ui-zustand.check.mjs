@@ -85,7 +85,7 @@ const meldung=R.baueMeldung({state:st,computed:r.c,eingabe:{bewertung:3,kommenta
 ok(meldung.mengenWieVorgeschlagen===false && JSON.stringify([...meldung.kontext.mengenManuell].sort())==='["bindung","fluessigkeit"]','Meldung: bei manuellen Mengen gilt „wie vorgeschlagen“ nie, kontext.mengenManuell nennt die Rollen');
 const m0=R.baueMeldung({state:zustand({}),computed:rechne(zustand({})),eingabe:{bewertung:3,kommentar:'',mengenWieVorgeschlagen:true},appVersion:'t'});
 ok(m0.mengenWieVorgeschlagen===true && m0.kontext.mengenManuell.length===0,'Meldung ohne manuelle Menge: Flag bleibt, Liste leer');
-ok(fs.readFileSync(new URL('../feedback.php',import.meta.url),'utf8').includes("'mengenManuell'") ,'feedback.php kennt kontext.mengenManuell');
+ok(fs.readFileSync(new URL('../chefing-feedback.php',import.meta.url),'utf8').includes("'mengenManuell'") ,'chefing-feedback.php kennt kontext.mengenManuell');
 // Prozessfehler zum Ankreuzen (T66)
 {const boxen=alle(r.w,k=>k.tag==='input' && k.name==='prozess');
  ok(boxen.length===Object.keys(R.PROZESS_FEHLER).length && boxen.every(b=>b.type==='checkbox' && b.checked!==true) && boxen.map(b=>b.value).join()===Object.keys(R.PROZESS_FEHLER).join(),'Formular: ein Ankreuzfeld je Prozessfehler (fünf), alle zunächst nicht angekreuzt, Schlüssel wie im Modell');

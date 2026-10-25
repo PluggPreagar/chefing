@@ -1,6 +1,6 @@
 <?php
 /**
- * feedback.php — minimaler Endpunkt für Rückmeldungen „hat es geklappt?“ (T53, DR-027).
+ * chefing-feedback.php — minimaler Endpunkt für Rückmeldungen „hat es geklappt?“ (T53, DR-027).
  *
  * POST application/json (Aufbau siehe src/model/rueckmeldung.js, baueMeldung) → genau eine JSON-Zeile in
  * feedback-data/feedback.jsonl. Kein Lesen über HTTP (Auswertung: tools/rueckmeldungen.mjs auf der Datei), keine IP,
@@ -151,7 +151,7 @@ function fb_datenordner(string $dir): bool {
     if (!is_dir($dir) && !@mkdir($dir, 0750, true) && !is_dir($dir)) return false;
     $ht = $dir . '/.htaccess';
     if (!file_exists($ht)) {
-        @file_put_contents($ht, "# erzeugt von feedback.php — Rückmeldungen nie öffentlich ausliefern\n"
+        @file_put_contents($ht, "# erzeugt von chefing-feedback.php — Rückmeldungen nie öffentlich ausliefern\n"
             . "<IfModule mod_authz_core.c>\nRequire all denied\n</IfModule>\n"
             . "<IfModule !mod_authz_core.c>\nOrder deny,allow\nDeny from all\n</IfModule>\n");
     }

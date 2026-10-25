@@ -1,6 +1,6 @@
 // Rückmeldung „hat es geklappt?“ (T53, DR-027): 1–5 Punkte + Kommentar zu einem erzeugten Rezept.
 // Jede Regel, Grenze und Modellwarnung ist eine Vorhersage (`computed.regelIds`); die Rückmeldung etikettiert sie.
-// Gesendet wird per POST an feedback.php (eigener Webspace, DR-027); Meldungen, die nicht ankommen, bleiben
+// Gesendet wird per POST an chefing-feedback.php (eigener Webspace, DR-027); Meldungen, die nicht ankommen, bleiben
 // lokal in der Warteschlange und werden beim nächsten Besuch erneut versucht (wie overrides.js: localStorage, still scheiternd).
 
 export const SCHEMA_VERSION = 1;
@@ -13,7 +13,7 @@ export const klasseVon = (bewertung) => (bewertung >= 4 ? 'klappt' : bewertung =
 export const BEWERTUNG_TEXT = { 1: 'misslungen', 2: 'schlecht', 3: 'geht so', 4: 'gut', 5: 'sehr gut' };
 
 // Prozessfehler zum Ankreuzen (T66, DR-036): die häufigsten Ursachen in Backratgebern, die das Modell nicht prüfen kann (T61, tipps.json).
-// Schlüssel sind Teil des Meldungs-Schemas (feedback.php kennt dieselbe Liste); Texte nur für die Anzeige.
+// Schlüssel sind Teil des Meldungs-Schemas (chefing-feedback.php kennt dieselbe Liste); Texte nur für die Anzeige.
 export const PROZESS_FEHLER = {
   zu_lange_geruehrt: 'Nach dem Mehl zu lange gerührt',
   tuer_frueh_geoeffnet: 'Backofentür zu früh geöffnet',
@@ -38,7 +38,7 @@ export function baueMeldung({ state, computed, eingabe, appVersion }) {
   return {
     v: SCHEMA_VERSION,
     bewertung: eingabe.bewertung,
-    kommentar: gekuerzt(String(eingabe.kommentar ?? '').trim(), MAX_KOMMENTAR), // erst trimmen, dann kürzen (wie feedback.php)
+    kommentar: gekuerzt(String(eingabe.kommentar ?? '').trim(), MAX_KOMMENTAR), // erst trimmen, dann kürzen (wie chefing-feedback.php)
     mengenWieVorgeschlagen: eingabe.mengenWieVorgeschlagen === true && mengenManuell.length === 0,
     prozess: prozessSauber(eingabe.prozess),
     app: appVersion || 'lokal',
@@ -84,7 +84,7 @@ export function merkeGesendet(meldung, id) {
 }
 
 // Antwortcodes: 200 ok · 4xx Meldung wird verworfen (kaputt oder abgelehnt) · 429/5xx/Netz: später erneut versuchen
-export async function sende(meldung, { url = './feedback.php', fetchFn = globalThis.fetch } = {}) {
+export async function sende(meldung, { url = './chefing-feedback.php', fetchFn = globalThis.fetch } = {}) {
   let antwort;
   try {
     antwort = await fetchFn(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(meldung) });
@@ -165,7 +165,7 @@ export function meldungZuFall(m, { ingredients = {} } = {}) {
 }
 
 // --- Auswertung (Vierfeldertafel je Regel-id) ---------------------------------------------------------------------------
-// meldungen: Meldungen wie sie feedback.php speichert. Nur Meldungen mit den vorgeschlagenen Mengen zählen für die
+// meldungen: Meldungen wie sie chefing-feedback.php speichert. Nur Meldungen mit den vorgeschlagenen Mengen zählen für die
 // Vorhersage; wer eigene Mengen nahm, hat ein eigenes Rezept ausprobiert (→ `eigeneRezepte`).
 export function auswerten(meldungen, { minN = MIN_BERICHT_N } = {}) {
   const leer = () => ({ klappt: 0, abweichung: 0, nicht: 0, n: 0 });

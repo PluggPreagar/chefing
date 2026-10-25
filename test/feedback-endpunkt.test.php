@@ -1,7 +1,7 @@
 <?php
-// Test der Kernlogik von feedback.php (T53). Aufruf: php test/feedback-endpunkt.test.php
+// Test der Kernlogik von chefing-feedback.php (T53). Aufruf: php test/feedback-endpunkt.test.php
 // Wird von test/feedback-endpunkt.check.mjs gestartet und gibt PASS/FAIL-Zeilen aus.
-require __DIR__ . '/../feedback.php';
+require __DIR__ . '/../chefing-feedback.php';
 
 $fail = 0;
 function ok(bool $c, string $m): void { global $fail; echo ($c ? 'PASS ' : 'FAIL ') . $m . "\n"; if (!$c) $fail++; }

@@ -71,7 +71,7 @@ const antwort=(status,body)=>async()=>({ok:status>=200&&status<300,status,json:a
 let aufgerufen=[];
 const fetchMit=(...folge)=>{let i=0;aufgerufen=[];return async(url,opt)=>{aufgerufen.push({url,opt});const f=folge[Math.min(i++,folge.length-1)];return f();};};
 let r=await R.sende(meldung(),{fetchFn:fetchMit(antwort(200,{ok:true,id:'abc123abc123'}))});
-ok(r.ok && r.id==='abc123abc123' && aufgerufen[0].url==='./feedback.php' && aufgerufen[0].opt.method==='POST' && aufgerufen[0].opt.headers['Content-Type']==='application/json' && JSON.parse(aufgerufen[0].opt.body).bewertung===4,'sende: POST mit JSON an ./feedback.php');
+ok(r.ok && r.id==='abc123abc123' && aufgerufen[0].url==='./chefing-feedback.php' && aufgerufen[0].opt.method==='POST' && aufgerufen[0].opt.headers['Content-Type']==='application/json' && JSON.parse(aufgerufen[0].opt.body).bewertung===4,'sende: POST mit JSON an ./chefing-feedback.php');
 r=await R.sende(meldung(),{fetchFn:fetchMit(antwort(429,{ok:false,fehler:'zu schnell'}))});
 ok(!r.ok && r.wiederholen && /zu viele/.test(r.fehler),'429 → später wiederholen (Limit)');
 r=await R.sende(meldung(),{fetchFn:fetchMit(antwort(404))});
@@ -240,10 +240,10 @@ else {
 
   // echter HTTP-Test mit dem PHP-Entwicklungsserver
   const doc=fs.mkdtempSync(path.join(os.tmpdir(),'chefing_http_'));
-  fs.copyFileSync(new URL('../feedback.php',import.meta.url),path.join(doc,'feedback.php'));
+  fs.copyFileSync(new URL('../chefing-feedback.php',import.meta.url),path.join(doc,'chefing-feedback.php'));
   const port=24000+Math.floor(Math.random()*5000);
   const server=spawn(php,['-S',`127.0.0.1:${port}`,'-t',doc],{stdio:'ignore'});
-  const basis=`http://127.0.0.1:${port}/feedback.php`;
+  const basis=`http://127.0.0.1:${port}/chefing-feedback.php`;
   let bereit=false; for (let i=0;i<50 && !bereit;i++) { try { await fetch(basis,{method:'GET'}); bereit=true; } catch { await new Promise(r=>setTimeout(r,100)); } }
   try {
     ok(bereit,'PHP-Entwicklungsserver läuft');
