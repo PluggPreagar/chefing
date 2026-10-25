@@ -542,3 +542,17 @@ Keine neue Web-Recherche; Gegenprobe der Aussagen am eigenen Korpus (`src/data/c
 | gaerung_modell | vielleicht | vielleicht | Passgüte R² 0,80 (bei 25 °C 0,77), Daten nur 5,5 bis 35 °C |
 
 Alle Änderungen sind Handeinschätzungen ohne Nachweis; `never` und `proven` kommen nicht vor. Offene, noch ungeprüfte Kandidaten: `hf_hefe_min_hart`, `hf_salz_max_hart`, `hf_wasser_max_hart` (nächste Plätze der Prüf-Priorität).
+
+## 2026-10-25 — Prüf-Priorität, fünf harte Hefeteig-Grenzen (T147)
+
+Keine neue Web-Recherche; Gegenprobe am eigenen Korpus (Weißbrot 29 und Hefezopf 36 Rezepte, Bilanz der Engine, Frischhefe-Äquivalent) und am Negativ-Korpus (`node tools/negativ.mjs`).
+
+| aussage | Korpus (min bis max, Median) | harte Grenze | Befund |
+|---------|------------------------------|--------------|--------|
+| hf_hefe_min_hart | Hefe 0,2 bis 8,8 %, Median 1,9 (Brot) und 4,2 (Zopf) | 0,1 % | liegt bei der Hälfte des kleinsten Werts, keine Verletzung |
+| hf_salz_max_hart | Salz 0,0 bis 3,6 %, Median 2,0 | 5 % | 1,4-fach über dem Maximum; Negativ-Fall 4,4 % nennt die Hefemenge als Ursache |
+| hf_wasser_max_hart | Gesamtwasser 57,9 bis 97,7 %, Median 70,7 und 80,7 | 130 % | weit darüber; Negativ-Fall 103 % wird von der Gär-Prüfung erfasst |
+| hf_wasser_min_hart | Gesamtwasser ab 57,9 % (Zopf), 65,6 % (Brot) | 45 % | darunter nichts belegt, Faustwert Mürbteig |
+| hf_zucker_max_hart | Zucker 0,0 bis 23,5 %, Median 15,2 | 40 % | 1,7-fach über dem Maximum; Negativ-Fall 27,6 % (Ursache offen) darunter |
+
+Ergebnis: keine Verletzung im Korpus, kein Misserfolg über einer der Grenzen. Die Gewissheit bleibt bei allen fünf `likely` (Mechanismus plausibel, Zahl Faustwert); nur die Begründungen in `aussagen.json` wurden mit den Korpus-Zahlen ergänzt. `never` und `proven` kommen nicht vor. Von der Prüf-Priorität bleiben nur Aussagen ohne neue Datenlage (Emulsion: oel_tropfen, oel_strahl_mayo, puerieren, puerieren_einlaufen, siehe T115).
