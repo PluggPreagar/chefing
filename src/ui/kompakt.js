@@ -150,8 +150,9 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const x0 = x0Basis + rand;
   const xVon = (k) => x0 - k.spalte * LANE;
   const textX = x0 + R + 12;
-  // Namen: Text rechts vom Strom; Symbole: das Detail unterbricht die Linien und nutzt die volle Breite unter dem Schritt (Meldung des Nutzers 2026-10-25)
-  const maxZeichen = Math.max(12, Math.floor((breite - (namen ? textX + PAD : PAD * 3)) / NAMEN.ZEICHEN));
+  // Namen und Symbole auf breiten Bildschirmen: Text rechts vom Strom. Symbole auf kleinen Geräten (Behälter unter 520 px): das Detail unterbricht die Linien und nutzt die volle Breite unter dem Schritt (DR-105)
+  const klein = !namen && gesamt < 520;
+  const maxZeichen = Math.max(12, Math.floor((breite - (klein ? PAD * 3 : textX + PAD)) / NAMEN.ZEICHEN));
   const texte = namen || offen.size ? knotenTexte(K, steps, computed, maxZeichen) : null;
   const lay = namen ? namenLayout(K, texte) : null;
   // Symbole: unter einer Zeile mit aufgeklapptem Schritt wächst der Abstand um die Höhe des Textes
@@ -213,8 +214,8 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
     }
     if (offen.has(k.i)) {
       const oben = zeilenTop[k.zeile] + zeilenHoehe;
-      svg.append(svgEl('rect', { x: 0, y: oben - 2, width: breite, height: extra[k.zeile], class: 'kompakt-detailgrund' })); // verdeckt die Linien im Bereich des Details
-      zeichneBlock(svg, texte.get(k), blockLayout(texte.get(k), oben + 8), PAD + 2, k.i);
+      if (klein) svg.append(svgEl('rect', { x: 0, y: oben - 2, width: breite, height: extra[k.zeile], class: 'kompakt-detailgrund' })); // verdeckt die Linien im Bereich des Details
+      zeichneBlock(svg, texte.get(k), blockLayout(texte.get(k), oben + 8), klein ? PAD + 2 : textX, k.i);
     }
     if (!k.neu.length) continue;
     const xz = x0 + R + 24;

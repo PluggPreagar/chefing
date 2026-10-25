@@ -124,7 +124,7 @@ ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss), 'style.css: 
 {
   const src = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
   const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
-  ok(/namen \? textX \+ PAD : PAD \* 3/.test(src) && /class: 'kompakt-detailgrund'/.test(src) && /blockLayout\(texte\.get\(k\), oben \+ 8\), PAD \+ 2, k\.i\)/.test(src) && /\.kompakt-detailgrund \{ fill: var\(--panel\); \}/.test(css) && /\.ablauf-voll \.kompakt-detailgrund \{ fill: var\(--bg\); \}/.test(css), 'Detail in Symbole: volle Breite unter dem Schritt, deckt die Linien im Bereich ab (Grund in Panel- oder Seitenfarbe), Umbruch nach der ganzen Breite (DR-105)');
+  ok(/const klein = !namen && gesamt < 520/.test(src) && /klein \? PAD \* 3 : textX \+ PAD/.test(src) && /if \(klein\) svg\.append\(svgEl\('rect'/.test(src) && /klein \? PAD \+ 2 : textX, k\.i\)/.test(src) && /\.kompakt-detailgrund \{ fill: var\(--panel\); \}/.test(css) && /\.ablauf-voll \.kompakt-detailgrund \{ fill: var\(--bg\); \}/.test(css), 'Detail in Symbole nur auf kleinen Geräten (unter 520 px): volle Breite unter dem Schritt, die Linien brechen ab (Grund in Panel- oder Seitenfarbe); breit bleibt es rechts vom Strom (DR-105)');
 }
 
 console.log(fail ? `${fail} FAILED` : 'ALL PASS');
