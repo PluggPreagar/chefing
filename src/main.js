@@ -10,7 +10,8 @@ import { renderRueckfragen } from './ui/rueckfragen.js';
 import { renderKandidaten } from './ui/kandidaten.js';
 import { sendeOffene } from './model/rueckmeldung.js';
 import { alsEintraege, presetPatch, archetypPatch } from './model/zustand.js';
-import { initFehlerMelden } from './ui/fehlerMelden.js';
+import { initFehlerMelden, oeffneMeldung } from './ui/fehlerMelden.js';
+import { initMeldenMenue } from './ui/meldenMenue.js';
 import { STUFEN, STUFE_TEXT, SCHWELLE } from './model/aussagen.js';
 import { initVollbild } from './ui/vollbild.js';
 import { initStufenMenue } from './ui/stufenMenue.js';
@@ -80,20 +81,24 @@ function ablaufAnsicht() {
   if (!$('kompakt')) $('flow').after(Object.assign(document.createElement('div'), { id: 'kompakt', className: 'kompakt', hidden: true }));
   let g = $('ablauf-ansicht');
   if (!g) {
-    g = Object.assign(document.createElement('span'), { id: 'ablauf-ansicht', className: 'knopfgruppe ablauf-ansicht' });
+    g = Object.assign(document.createElement('span'), { id: 'ablauf-ansicht', className: 'knopfgruppe' });
     g.setAttribute('role', 'group');
     g.setAttribute('aria-label', 'Ansicht des Ablaufs');
-    for (const [k, t] of [['strom', 'Strom'], ['kompakt', 'Kompakt']]) {
-      const b = Object.assign(document.createElement('button'), { type: 'button', className: 'ghost', textContent: t });
+    for (const k of ['strom', 'kompakt']) {
+      const b = Object.assign(document.createElement('button'), { type: 'button', className: 'leiste-knopf ghost' });
       b.dataset.ansicht = k;
       g.append(b);
     }
-    $('ablauf-techniken').after(g);
+    ($('stufe-menue') ?? document.querySelector('.ablauf-kopf'))?.after(g);
   }
-  const kompaktKnopf = g.querySelector('[data-ansicht="kompakt"]');
-  if (kompaktKnopf && !kompaktKnopf.querySelector('svg')) kompaktKnopf.insertAdjacentHTML('afterbegin', iconHtml('ansicht_kompakt', 16));
-  kompaktKnopf.title = 'Ganzer Ablauf auf einen Blick: nur Symbole, Namen und Mengen beim Antippen';
+  // nur Symbol (DR-084), Erklärung per Tooltip und aria-label; auch für eine ältere index.html aus dem Cache (DR-037)
+  const ANSICHT = { strom: ['ansicht_strom', 'Strom', 'Strom: Zutaten fließen von oben auf die Zeitleiste'], kompakt: ['ansicht_kompakt', 'Kompakt', 'Kompakt: ganzer Ablauf auf einen Blick'] };
   for (const b of g.querySelectorAll('[data-ansicht]')) {
+    const [icon, name, titel] = ANSICHT[b.dataset.ansicht];
+    b.classList.add('leiste-knopf');
+    b.innerHTML = iconHtml(icon, 18);
+    b.title = titel;
+    b.setAttribute('aria-label', name);
     b.addEventListener('click', () => {
       ansicht = b.dataset.ansicht;
       try { localStorage.setItem('chefing.ablauf', ansicht); } catch { /* nur für diese Sitzung */ }
@@ -121,7 +126,7 @@ function kompaktBeschriftung() {
     });
     g.append(knopf);
   }
-  $('ablauf-ansicht').after(g);
+  ($('ablauf-techniken') ?? document.querySelector('.ablauf-kopf')).after(g);
 }
 kompaktBeschriftung();
 
@@ -151,7 +156,7 @@ function presetGruppe() {
     g.className = 'knopfgruppe';
     g.setAttribute('role', 'group');
     g.setAttribute('aria-label', 'Varianten');
-    $('toggle-stats').before(g);
+    document.querySelector('nav.fluss, nav.presets')?.append(g);
   }
   return g;
 }
@@ -225,6 +230,9 @@ function render() {
 }
 
 // Ansichts-Schalter zeigen, ob ihr Panel offen ist (aktiv in der Knopfgruppe, DR-045)
+// nur Symbol (DR-084); Name und Erklärung stehen im Tooltip und im aria-label
+$('toggle-stats').innerHTML = iconHtml('statistik', 18);
+$('toggle-kandidaten').innerHTML = iconHtml('kandidaten', 18);
 const gedrueckt = (b, an) => { b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); };
 $('toggle-stats').addEventListener('click', () => {
   const s = $('stats');
@@ -232,28 +240,37 @@ $('toggle-stats').addEventListener('click', () => {
   gedrueckt($('toggle-stats'), !s.hidden);
   if (!s.hidden) renderStats(s, korpusStats, data);
 });
-// Fehler melden (DR-044): die Meldung nennt, was gerade eingestellt und berechnet war
-// Sprung zur Box „Hat es geklappt?“ (DR-067); fehlt der Knopf (alte index.html aus dem Cache, DR-037), wird er angelegt
-let ergebnisKnopf = $('ergebnis-melden');
-if (!ergebnisKnopf && $('fehler-melden')) {
-  ergebnisKnopf = Object.assign(document.createElement('button'), { type: 'button', id: 'ergebnis-melden', className: 'ghost', textContent: '✓ Hat es geklappt?', title: 'Zur Box „Hat es geklappt?“ springen' });
-  $('fehler-melden').before(ergebnisKnopf);
+// Melden (DR-044, DR-083, DR-088): ein geteilter Knopf mit zwei Aktionen. Die gewählte bleibt gemerkt (localStorage chefing.melden), damit man
+// dieselbe Aktion mehrmals hintereinander auslösen kann. Eine ältere index.html aus dem Cache (DR-037) bringt noch die zwei einzelnen Knöpfe mit:
+// sie werden entfernt und der Platz neu angelegt.
+if (!$('melden-menue')) {
+  $('fehler-melden')?.remove();
+  $('ergebnis-melden')?.remove();
+  (document.querySelector('.top-leiste') ?? document.querySelector('nav.presets') ?? document.querySelector('header.top'))?.append(Object.assign(document.createElement('div'), { id: 'melden-menue' }));
 }
-ergebnisKnopf?.addEventListener('click', () => {
+// Sprung zur Box „Hat es geklappt?“ (DR-067)
+function springeZurBewertung() {
   const b = $('rueckmeldung');
   if (!b) return;
   b.scrollIntoView({ behavior: 'smooth', block: 'center' });
   b.classList.add('hervorheben');
   setTimeout(() => b.classList.remove('hervorheben'), 1600);
   b.querySelector('input[name="bewertung"]')?.focus({ preventScroll: true });
-});
-
-initFehlerMelden($('fehler-melden'), () => ({
+}
+// Fehler melden: die Meldung nennt, was gerade eingestellt und berechnet war
+initFehlerMelden(() => ({
   archetyp: state.archetyp, variante: letztes?.variante, gefaess: state.gefaess, methode: letztes?.methodKey, methode_gewaehlt: state.methode,
   zutaten: state.zutaten, mengen: state.mengen, techniken: state.techniken, ausstattung: state.ausstattung, fixiert: state.fixiert,
   status: letztes?.status, regeln: letztes?.regelIds, zeit: letztes?.zeit,
   ablauf: letztes?.ablauf.map((s) => `${s.nr}. ${s.key} (${s.aktiv}+${s.wirk} Min.)`),
 }));
+let gemerktesMelden = 'fehler';
+try { const m = localStorage.getItem('chefing.melden'); if (m === 'fehler' || m === 'bewerten') gemerktesMelden = m; } catch { /* ohne Speicher: Melden */ }
+initMeldenMenue($('melden-menue'), {
+  aktuell: gemerktesMelden,
+  fuehreAus: (k) => (k === 'bewerten' ? springeZurBewertung() : oeffneMeldung()),
+  onMerke: (k) => { try { localStorage.setItem('chefing.melden', k); } catch { /* nur für diese Sitzung */ } },
+});
 $('toggle-kandidaten').addEventListener('click', () => {
   const k = $('kandidaten');
   k.hidden = !k.hidden;

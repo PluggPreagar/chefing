@@ -53,7 +53,22 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .stufe-text { display: flex; flex-direction: column; line-height: 1.25; }
 .stufe-text small { color: var(--muted); font-weight: 400; }
 .tagline { margin: .25rem 0 0; color: var(--muted); max-width: 60ch; }
-.top { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: flex-end; padding: 1.25rem 1.5rem .75rem; }
+.top { display: block; padding: 1.25rem 1.5rem .75rem; }
+/* Kopfzeile (DR-087 Option B): oben links der Titel, rechts die Werkzeugleiste, darunter der Fluss Archetyp › Variante */
+.top-zeile { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem .9rem; }
+.top-leiste { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; margin-left: auto; }
+.top-leiste .trenner { width: 1px; align-self: stretch; margin: .2rem .15rem; background: var(--line); }
+.leiste-knopf { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-width: 2.4rem; height: 2.4rem; padding: 0 .7rem; border: 1px solid var(--line); background: var(--panel); color: var(--muted); border-radius: 999px; cursor: pointer; font: inherit; font-size: .88rem; }
+.leiste-knopf:hover { color: var(--ink); border-color: var(--muted); }
+.leiste-knopf.is-active, .leiste-knopf[aria-pressed="true"], .leiste-knopf[aria-expanded="true"] { color: var(--ink); border-color: var(--best); background: var(--best-bg); }
+.leiste-knopf:focus-visible { outline: 2px solid var(--sel); outline-offset: 2px; }
+.leiste-knopf .icon { vertical-align: 0; }
+.melden-gruppe .melden-haupt { padding: 0 .8rem; color: var(--ink); }
+.melden-gruppe .melden-pfeil { min-width: 2rem; padding: 0 .45rem; }
+.melden-menue .stufe-liste { left: auto; right: 0; min-width: 17rem; }
+.fluss { margin-top: .6rem; align-items: center; }
+.fluss-pfeil { color: var(--muted); font-size: 1.1rem; }
+@media (max-width: 520px) { .fluss-pfeil { display: none; } } /* umbricht die Zeile, hängt der Pfeil sonst allein am Zeilenende */
 .presets { display: flex; flex-wrap: wrap; gap: .5rem; }
 .presets button, .ablauf-ansicht button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; }
 .presets button.is-active, .ablauf-ansicht button.is-active { border-color: var(--best); background: var(--best-bg); font-weight: 600; }

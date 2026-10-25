@@ -8,22 +8,25 @@
 </head>
 <body>
   <header class="top">
-    <div>
-      <div class="top-zeile">
-        <h1>Chefing</h1>
+    <div class="top-zeile">
+      <h1>Chefing</h1>
+      <div class="top-leiste" role="toolbar" aria-label="Einstellungen und Melden">
         <div id="stufe-menue"></div>
+        <span id="ablauf-ansicht" class="knopfgruppe" role="group" aria-label="Ansicht des Ablaufs">
+          <button type="button" class="leiste-knopf ghost" data-ansicht="strom" title="Strom: Zutaten fließen von oben auf die Zeitleiste" aria-label="Strom" aria-pressed="true"></button>
+          <button type="button" class="leiste-knopf ghost" data-ansicht="kompakt" title="Kompakt: ganzer Ablauf auf einen Blick" aria-label="Kompakt" aria-pressed="false"></button>
+        </span>
+        <button type="button" id="toggle-stats" class="leiste-knopf ghost" aria-pressed="false" title="Korpus-Statistik anzeigen" aria-label="Korpus-Statistik"></button>
+        <button type="button" id="toggle-kandidaten" class="leiste-knopf ghost" aria-pressed="false" title="Regel-Kandidaten anzeigen" aria-label="Regel-Kandidaten"></button>
+        <span class="trenner" aria-hidden="true"></span>
+        <div id="melden-menue"></div>
       </div>
-      <p class="tagline" id="tagline">Kombinatorik: Zutaten nach Eigenschaften wählen, Methode folgt aus der Physik, Mengen aus dem Rezept-Korpus.</p>
     </div>
-    <nav class="presets" aria-label="Best-of-Presets">
+    <p class="tagline" id="tagline">Kombinatorik: Zutaten nach Eigenschaften wählen, Methode folgt aus der Physik, Mengen aus dem Rezept-Korpus.</p>
+    <nav class="presets fluss" aria-label="Rezeptart">
       <select id="archetyp-wahl" class="archetyp-wahl" aria-label="Archetyp" hidden></select>
+      <span class="fluss-pfeil" aria-hidden="true">›</span>
       <span id="preset-gruppe" class="knopfgruppe" role="group" aria-label="Varianten"></span>
-      <span class="knopfgruppe" role="group" aria-label="Ansichten">
-        <button type="button" id="toggle-stats" class="ghost" aria-pressed="false">Korpus-Statistik</button>
-        <button type="button" id="toggle-kandidaten" class="ghost" aria-pressed="false">Regel-Kandidaten</button>
-      </span>
-      <button type="button" id="ergebnis-melden" class="ghost" title="Zur Box „Hat es geklappt?“ springen">✓ Hat es geklappt?</button>
-        <button type="button" id="fehler-melden" class="ghost" title="Melden: Fehler, Idee oder Frage mit Beschreibung, gewählten Elementen und App-Zustand absenden oder als ZIP herunterladen">⚑ Melden</button>
     </nav>
   </header>
 
@@ -33,7 +36,6 @@
     <div class="ablauf-kopf">
       <h2>Ablauf</h2>
       <div id="ablauf-techniken" class="ablauf-techniken" role="group" aria-label="Techniken" hidden></div>
-      <span id="ablauf-ansicht" class="knopfgruppe ablauf-ansicht" role="group" aria-label="Ansicht des Ablaufs"><button type="button" class="ghost" data-ansicht="strom">Strom</button><button type="button" class="ghost" data-ansicht="kompakt">Kompakt</button></span>
       <button type="button" id="ablauf-voll" class="ablauf-voll-knopf nur-symbol ghost" title="Ablauf im Vollbild öffnen" aria-label="Vollbild"></button>
       <button type="button" id="ablauf-voll-zu" class="ablauf-voll-knopf nur-symbol ghost" title="Vollbild verlassen (Esc)" aria-label="Vollbild beenden" hidden></button>
       <button type="button" id="ablauf-drehen" class="ablauf-voll-knopf nur-symbol ghost" title="Ablauf drehen (Quer- oder Hochformat)" aria-label="Drehen" hidden></button>

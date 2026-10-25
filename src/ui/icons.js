@@ -144,6 +144,32 @@ const ICONS_ANSICHT = {
     { tag: 'path', attrs: { d: 'M7.5 15v5.2h9V15M7.5 17.6h9', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' } },
   ],
 
+  // Werkzeugleiste der Kopfzeile (DR-087, DR-088): Strom (Zutaten fließen auf eine waagrechte Linie), Statistik, Kandidaten (Kolben), Melden
+  ansicht_strom: [
+    { tag: 'path', attrs: { d: 'M3 14H21', fill: 'none', stroke: F, 'stroke-width': 1.6, 'stroke-linecap': 'round' } },
+    { tag: 'circle', attrs: { cx: 6, cy: 14, r: 2.6, fill: F } },
+    { tag: 'circle', attrs: { cx: 12, cy: 14, r: 2.6, fill: F } },
+    { tag: 'circle', attrs: { cx: 18, cy: 14, r: 2.6, fill: F } },
+    { tag: 'path', attrs: { d: 'M6 5V10M12 5V10M18 5V10', fill: 'none', stroke: F, 'stroke-width': 1.6, 'stroke-linecap': 'round' } },
+  ],
+  statistik: [
+    { tag: 'rect', attrs: { x: 4, y: 13, width: 4.2, height: 7, rx: 1, fill: F } },
+    { tag: 'rect', attrs: { x: 9.9, y: 5, width: 4.2, height: 15, rx: 1, fill: F } },
+    { tag: 'rect', attrs: { x: 15.8, y: 9, width: 4.2, height: 11, rx: 1, fill: F } },
+  ],
+  kandidaten: [
+    { tag: 'path', attrs: { d: 'M9.5 3.5H14.5M10 3.5V9.2L5.2 17.6A2 2 0 0 0 6.9 20.5H17.1A2 2 0 0 0 18.8 17.6L14 9.2V3.5', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } },
+    { tag: 'path', attrs: { d: 'M7.8 15H16.2', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round' } },
+  ],
+  melden_fehler: [
+    { tag: 'path', attrs: { d: 'M6 21V4', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round' } },
+    { tag: 'path', attrs: { d: 'M6 5H17L14.6 9L17 13H6', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } },
+  ],
+  melden_bewerten: [
+    { tag: 'circle', attrs: { cx: 12, cy: 12, r: 8.6, fill: 'none', stroke: F, 'stroke-width': 1.8 } },
+    { tag: 'path', attrs: { d: 'M8 12.4L10.9 15.3L16.2 9.4', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } },
+  ],
+
   ansicht_kompakt: [
     { tag: 'path', attrs: { d: 'M7 5V19', fill: 'none', stroke: F, 'stroke-width': 1.6 } },
     { tag: 'circle', attrs: { cx: 7, cy: 5, r: 2.6, fill: F } },

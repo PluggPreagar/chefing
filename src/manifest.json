@@ -31,6 +31,7 @@
  "src/ui/icons.js",
  "src/ui/kandidaten.js",
  "src/ui/kompakt.js",
+ "src/ui/meldenMenue.js",
  "src/ui/morphbox.js",
  "src/ui/recipeCard.js",
  "src/ui/rueckfragen.js",

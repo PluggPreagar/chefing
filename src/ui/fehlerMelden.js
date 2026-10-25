@@ -328,18 +328,10 @@ async function abschicken() {
   $('#fm-zip').classList.add('fm-haupt');
 }
 
-// knopf: Element, das das Panel öffnet; holeKontext: liefert den App-Zustand für die Meldung
-// Fehlt der Knopf (ältere index.html aus dem Browser-Cache, DR-037), legt das Modul ihn selbst in die Kopfzeile.
-export function initFehlerMelden(knopf, holeKontext) {
+// holeKontext: liefert den App-Zustand für die Meldung. Den Knopf dazu gibt es nicht mehr hier: „Melden“ ist ein geteilter Knopf in der Kopfzeile
+// (DR-088, meldenMenue.js) und ruft oeffneMeldung() auf.
+export function initFehlerMelden(holeKontext) {
   kontext = holeKontext;
-  if (!knopf) {
-    knopf = document.createElement('button');
-    knopf.type = 'button';
-    knopf.id = 'fehler-melden';
-    knopf.className = 'ghost';
-    knopf.title = 'Melden: Fehler, Idee oder Frage mit Beschreibung, gewählten Elementen und App-Zustand absenden oder als ZIP herunterladen';
-    knopf.textContent = '⚑ Melden';
-    document.querySelector('nav.presets')?.append(knopf);
-  }
-  knopf.addEventListener('click', oeffnen);
+  return { oeffnen };
 }
+export const oeffneMeldung = () => oeffnen();

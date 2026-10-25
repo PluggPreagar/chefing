@@ -7,6 +7,10 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T138 | Archetyp und Variante als ein Fluss-Element | done | `nav.fluss`: Archetyp › Variante in einer Zeile unter dem Titel, Pfeil entfällt auf schmalen Bildschirmen (Meldung `hierarchy-breaks-flow`, DR-087). | DR-087 |
+| T137 | Melden bündeln | done | Geteilter Knopf „Melden“ / „Bewerten“ mit gemerkter Aktion, Wählen führt sofort aus, Hauptteil wiederholt (Meldung `melde-merge`, DR-088). | DR-087, DR-088 |
+| T136 | Werkzeugleiste und Einstellungen einziehen | done | Erfahrung, Ansicht mit neuem Symbol Strom, Statistik und Kandidaten mit Symbolen in der Leiste rechts oben (Meldungen `miss-formatted-toggle`, `toggle-view`, DR-087). | DR-087 |
+| T135 | Kopfzeile: Option gewählt | done | Nutzer wählte B (Leiste rechts oben mit Symbol-Menüs) plus gemerkte Melden-Aktion (DR-087, DR-088). | DR-087 |
 | T134 | Vollbild ohne Einstellungen | done | Meldung `20261025-075952-fullscreen-focus-c155`, Teil 1: im Vollbild sind Technik-Schalter, Ansicht und Beschriftung ausgeblendet; Diagramm, Schritt-Karten, „Vollbild beenden“ und „Drehen“ bleiben (DR-080 Nachtrag). Teil 2 steht als T139 offen. | DR-080 |
 | T133 | Kompakt-Beschriftung: „Text \| Symbole“ | done | Aus der vierten echten Meldung (`20261025-074508-mit-name-match-to-action-d2ad`): Knopfgruppe statt des Häkchens „mit Namen“, beide Zustände benannt (DR-086); `hidden` gilt jetzt auch bei Knopfgruppen. | DR-079, DR-081, DR-086 |
 | T132 | Erfahrungsstufe als Auswahlmenü oben mit Symbolen | done | Aus der dritten echten Meldung (`20261025-074224-match-level-buttons-to-level-of-impact-e6ac`): Menü oben neben dem Titel statt Knopfgruppe im Ablauf-Kopf, Löffel, Schneebesen, Kochmütze, Erklärung je Stufe, Tastatur und ARIA (DR-085). | DR-075, DR-079, DR-085 |

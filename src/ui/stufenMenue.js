@@ -1,4 +1,4 @@
-// Erfahrungsstufe als Auswahlmenü oben auf der Seite (DR-085): ein Knopf mit Symbol und Name der gewählten Stufe, der eine Liste mit den
+// Erfahrungsstufe als Auswahlmenü oben auf der Seite (DR-085, in der Werkzeugleiste DR-087): ein Knopf mit dem Symbol der gewählten Stufe (der Name steht im Tooltip), der eine Liste mit den
 // Stufen öffnet (Löffel = Einsteiger, Schneebesen = Fortgeschritten, Kochmütze = Profi). Die Stufe ist eine allgemeine, selten geänderte
 // Einstellung, darum sitzt sie ruhig oben und nicht mehr als Knopfgruppe im Ablauf (Nutzer-Meldung 20261025-074224).
 // Die Steuerung kennt nur kleine Schnittstellen, damit sie ohne Browser testbar ist; initStufenMenue baut daraus die Oberfläche.
@@ -49,7 +49,7 @@ export function erzeugeStufenMenue({ stufen, aktuell, onWahl = () => {}, melden 
 export function initStufenMenue(wurzel, { stufen, text, schwelle, aktuell, onWahl, doc = document }) {
   const erklaerung = (k) => `Hinweise ab ${schwelle[k]} ${schwelle[k] === 1 ? 'Stern' : 'Sternen'}`;
   wurzel.classList.add('stufe-menue');
-  wurzel.innerHTML = `<button type="button" class="stufe-knopf" aria-haspopup="listbox" aria-expanded="false" id="stufe-knopf"></button>`
+  wurzel.innerHTML = `<button type="button" class="stufe-knopf leiste-knopf" aria-haspopup="listbox" aria-expanded="false" id="stufe-knopf"></button>`
     + `<ul class="stufe-liste" role="listbox" aria-label="Erfahrung" hidden>${stufen.map((k) => `<li role="option" tabindex="-1" data-stufe="${k}" aria-selected="false" title="${text[k]}: ${erklaerung(k)}">${iconHtml(STUFE_ICON[k], 20)}<span class="stufe-text"><b>${text[k]}</b><small>${erklaerung(k)}</small></span></li>`).join('')}</ul>`;
   const knopf = wurzel.querySelector('.stufe-knopf');
   const liste = wurzel.querySelector('.stufe-liste');
@@ -58,7 +58,7 @@ export function initStufenMenue(wurzel, { stufen, text, schwelle, aktuell, onWah
   const m = erzeugeStufenMenue({
     stufen, aktuell, onWahl,
     melden: ({ offen, gewaehlt, fokus }) => {
-      knopf.innerHTML = `${iconHtml(STUFE_ICON[gewaehlt], 18)}<span class="stufe-name">${text[gewaehlt]}</span><svg class="stufe-pfeil" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
+      knopf.innerHTML = `${iconHtml(STUFE_ICON[gewaehlt], 18)}<svg class="stufe-pfeil" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>`;
       knopf.title = `Erfahrung: ${text[gewaehlt]} (${erklaerung(gewaehlt)})`;
       knopf.setAttribute('aria-label', `Erfahrung: ${text[gewaehlt]}`);
       knopf.setAttribute('aria-expanded', String(offen));

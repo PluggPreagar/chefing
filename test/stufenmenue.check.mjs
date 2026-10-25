@@ -58,7 +58,7 @@ const html = fs.readFileSync(new URL('index.html', P), 'utf8');
 const main = fs.readFileSync(new URL('src/main.js', P), 'utf8');
 const css = fs.readFileSync(new URL('style.css', P), 'utf8');
 const modul = fs.readFileSync(new URL('src/ui/stufenMenue.js', P), 'utf8');
-ok(/<div class="top-zeile">\s*<h1>Chefing<\/h1>\s*<div id="stufe-menue"><\/div>/.test(html), 'index.html: das Menü sitzt oben neben dem Titel');
+ok(/<div class="top-zeile">\s*<h1>Chefing<\/h1>\s*<div class="top-leiste"[^>]*>\s*<div id="stufe-menue"><\/div>/.test(html), 'index.html: das Menü sitzt oben, als erstes Element der Werkzeugleiste neben dem Titel (DR-087)');
 ok(!/ablauf-stufe/.test(html) && !/data-stufe/.test(html) && !/ablauf-stufe/.test(css), 'die Knopfgruppe im Ablauf-Kopf ist weg (HTML und CSS)');
 ok(/initStufenMenue\(\$\('stufe-menue'\)/.test(main) && /\$\('ablauf-stufe'\)\?\.remove\(\)/.test(main) && /stufenMenue\.setze\(state\.stufe\)/.test(main) && /localStorage\.setItem\('chefing\.stufe', k\)/.test(main) && !/data-stufe/.test(main), 'main.js: Menü angelegt, alte Gruppe aus dem Cache entfernt, Wahl in localStorage, Anzeige folgt dem Zustand');
 ok(/aria-haspopup="listbox"/.test(modul) && /role="listbox"/.test(modul) && /role="option"/.test(modul) && /aria-selected/.test(modul) && /aria-expanded/.test(modul), 'Menü hat die ARIA-Rollen für Listenauswahl (Knopf mit Popup, Liste, Optionen, Auswahl)');
