@@ -128,6 +128,8 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .ablauf-kopf::after { content: ""; order: 1; flex: 1 1 0; min-width: 0; }
 .ablauf-kopf > #ablauf-darstellung, .ablauf-kopf > .ablauf-voll-knopf { order: 2; margin-left: 0; }
 /* Ein Auswahlmenü statt der Gruppe auf schmalen Bildschirmen (DR-108, DR-109): Titel, Menü und Vollbild in einer Zeile, die Technik darunter */
+.version-voll { display: none; }
+.ablauf.ablauf-voll .ablauf-kopf > .version-voll:not([hidden]) { display: block; flex-basis: 100%; order: -1; margin: 0; font-size: .66rem; opacity: .5; } /* Version auch im Vollbild, ganz oben (DR-110) */
 .ablauf-kopf > .wahl-menue { display: none; }
 .wahl-menue[hidden] { display: none; }
 .wahl-menue .stufe-liste { min-width: 10rem; }
@@ -150,6 +152,9 @@ body.hat-vollbild { overflow: hidden; }
 .ablauf.ablauf-voll .kompakt-bild { flex: 1 1 0; min-height: 0; overflow-x: hidden; overflow-y: auto; }
 .ablauf.ablauf-voll .kompakt-svg, .ablauf.ablauf-voll .kompakt-svg.mit-namen { width: 100%; height: 100%; max-width: none; }
 .ablauf.ablauf-voll .kompakt-svg.eng { height: auto; } /* Handy hochkant: Maßstab bleibt, ein aufgeklapptes Detail scrollt statt die Zeichnung zu verkleinern (DR-100) */
+/* Vollbild quer: Zeitleiste oben, die Karte darunter statt daneben, damit die Höhe genutzt wird (DR-111) */
+.ablauf.ablauf-voll .strom.ist-quer { display: block; }
+.ablauf.ablauf-voll .strom.ist-quer > .strom-karte { position: static; width: auto; max-width: 960px; margin: .75rem auto 0; } /* breiter als sonst: weniger Zeilen, so passt sie unter die Zeitleiste */
 .ablauf.ablauf-voll.gedreht { inset: auto; top: 0; left: 100vw; width: 100vh; height: 100vw; transform-origin: top left; transform: rotate(90deg); }
 .ablauf-techniken { display: flex; gap: .4rem; flex-wrap: wrap; }
 .technik-schalter { font: inherit; font-size: .82rem; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 999px; padding: .2rem .75rem; cursor: pointer; }

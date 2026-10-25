@@ -154,6 +154,18 @@ const stufenMenue = initStufenMenue($('stufe-menue'), {
 // Ablauf im Vollbild, bei Bedarf gedreht (T124, DR-080)
 // Im Vollbild folgt Auto der wirksamen Ausrichtung (DR-089): Querformat = Strom (links nach rechts), Hochformat = Kompakt (oben nach unten).
 // Beim Beenden springt die Ansicht auf die eigene Wahl zurück; die Wahl (`ausrichtung`) bleibt dabei unberührt, ist sie fest, gilt sie auch im Vollbild.
+// Melden im Vollbild (DR-110): ein Knopf im Kopf des Ablaufs, nur solange das Vollbild offen ist; fehlt er (zwischengespeicherte index.html), wird er angelegt
+{
+  let mb = $('ablauf-melden');
+  if (!mb) {
+    mb = Object.assign(document.createElement('button'), { type: 'button', id: 'ablauf-melden', className: 'ablauf-voll-knopf nur-symbol flach ghost', title: 'Fehler, Idee oder Frage melden', hidden: true });
+    mb.setAttribute('aria-label', 'Melden');
+    $('ablauf-voll').before(mb);
+  }
+  mb.innerHTML = iconHtml('melden_fehler', 18);
+  mb.addEventListener('click', () => oeffneMeldung());
+}
+
 // Das Vollbild ändert die Größe erst nach dem Wechsel (echtes Vollbild, Gerät gedreht): die Zeichnung misst ihren Bereich beim Zeichnen,
 // darum wird im offenen Vollbild nach jeder Meldung kurz verzögert noch einmal gezeichnet, auch wenn die Ansicht gleich bleibt (DR-103)
 let spaeterTimer = null;
@@ -163,6 +175,7 @@ initVollbild(document.querySelector('.panel.ablauf'), document.querySelector('.a
     const neu = s.offen ? (s.ausrichtung === 'quer' ? 'strom' : 'kompakt') : null;
     if (neu !== vollbildAnsicht) { vollbildAnsicht = neu; render(); }
     kopfTitel();
+    $('ablauf-melden').hidden = !s.offen;
     if (s.offen) spaeterZeichnen();
   },
 });
@@ -248,6 +261,8 @@ function kopfTitel() {
 function passeStromEin() {
   const f = $('flow');
   f.style.zoom = '';
+  const karte = f.querySelector('.strom-karte');
+  if (karte) karte.style.zoom = '';
   const p = document.querySelector('.panel.ablauf');
   if (f.hidden || !p.classList.contains('ablauf-voll')) return;
   const band = f.querySelector('.strom-band');
@@ -256,14 +271,31 @@ function passeStromEin() {
   const cs = getComputedStyle(p);
   const innen = { b: p.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), h: p.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - document.querySelector('.ablauf-kopf').offsetHeight };
   const quer = f.classList.contains('ist-quer');
-  let breit = quer ? kinder.at(-1).offsetLeft + kinder.at(-1).offsetWidth - kinder[0].offsetLeft : band.offsetWidth;
-  const spalten = getComputedStyle(f).gridTemplateColumns.split(' ');
-  if (quer && spalten.length === 2) breit += parseFloat(getComputedStyle(f).columnGap) + parseFloat(spalten[1]); // Zeitleiste plus Karten-Spalte
-  // quer: Breite und Höhe; hochkant: nur die Breite, die Höhe scrollt (wie Kompakt: immer so groß wie möglich)
-  // hochkant auf dem Handy: das Raster hält noch bei 270 px Breite, dort wird die Zeichnung um so größer eingepasst (zoom = Breite / 270)
-  const z = quer ? Math.min(3, innen.b / breit, innen.h / f.offsetHeight) : innen.b <= 520 ? Math.min(3, innen.b / 270) : Math.min(3, innen.b / breit);
+  if (quer) {
+    // quer: Zeitleiste oben (Breite und Höhe), die Karte darunter mit eigenem Maßstab; für die Karte bleibt immer Platz reserviert, damit
+    // die Zeitleiste beim Auf- und Zuklappen nicht springt (DR-111). Gemessen bei Maßstab 1, mit Offsets (die CSS-Drehung verfälscht Rechtecke).
+    const RESERVE = 0.38;
+    const breit = kinder.at(-1).offsetLeft + kinder.at(-1).offsetWidth - kinder[0].offsetLeft;
+    const kartenHoehe = karte ? karte.offsetHeight + parseFloat(getComputedStyle(karte).marginTop) : 0;
+    const bandHoehe = f.offsetHeight - kartenHoehe;
+    const z = Math.min(3, innen.b / breit, (innen.h * (1 - RESERVE)) / bandHoehe);
+    if (z <= 1.05) return;
+    f.style.zoom = String(Math.round(z * 100) / 100);
+    if (karte) {
+      const frei = innen.h - bandHoehe * z - 24; // Rand und Abstand unten
+      const kz = Math.min(1.5, Math.max(0.7, frei / (kartenHoehe || 1)));
+      karte.style.zoom = String(Math.round((kz / z) * 100) / 100); // wirksam kz-fach, auch wenn die Zeitleiste davor um z vergrößert ist
+    }
+    return;
+  }
+  // hochkant: nur die Breite, die Höhe scrollt (wie Kompakt: immer so groß wie möglich); auf dem Handy hält das Raster noch bei 270 px Breite,
+  // dort wird um so größer eingepasst (zoom = Breite / 270)
+  const z = innen.b <= 520 ? Math.min(3, innen.b / 270) : Math.min(3, innen.b / band.offsetWidth);
   if (z > 1.05) f.style.zoom = String(Math.round(z * 100) / 100);
 }
+// Öffnet oder schließt der Strom eine Karte, zeichnet er seine Kinder neu: dann neu einpassen (nur Maßstäbe, keine Kinder, also keine Schleife)
+let stromTimer = null;
+new MutationObserver(() => { cancelAnimationFrame(stromTimer); stromTimer = requestAnimationFrame(() => passeStromEin()); }).observe($('flow'), { childList: true });
 
 function render() {
   const computed = compute(state, data, korpusStats);
@@ -347,13 +379,17 @@ function refreshKandidaten() {
 const utc = (s) => { const d = new Date(s); return !(d.getFullYear() > 2000) ? null : `${d.toISOString().slice(0, 16).replace('T', ' ')} UTC`; };
 const appVersion = globalThis.CHEFING_VERSION; // setzt der Lade-Stub in index.html (nur mit Deploy-version.json)
 if ($('version-info') && appVersion?.sha) {
-  const kurzSha = String(appVersion.sha).slice(0, 7);
+  const kurzSha = appVersion.anzeige ?? String(appVersion.sha).slice(0, 7); // lokal: „abc1234 (lokal, geändert 15:42)“ vom Entwicklungsserver
   data.appVersion = kurzSha; // Rückmeldungen nennen die App-Version (welche Regeln galten, T53)
   const teile = [['v-sha', `Version ${kurzSha}`], ['v-commit', appVersion.time && `Commit ${appVersion.time.replace(/:\d\d UTC$/, ' UTC')}`], ['v-deploy', utc(appVersion.deployed) && `deployed ${utc(appVersion.deployed)}`]].filter(([, t]) => t);
   // je Angabe ein Span (schmal blendet CSS die Commit-Zeit aus, damit die Zeile kurz bleibt); geschützte Leerzeichen: nie ein Umbruch mitten in einer Zeitangabe
-  $('version-info').replaceChildren(...teile.map(([k, t], i) => Object.assign(document.createElement('span'), { className: k, textContent: (i ? ' · ' : '') + t.replace(/ /g, ' ') })));
-  $('version-info').title = teile.map(([, t]) => t).join(' · ');
-  $('version-info').hidden = false;
+  for (const id of ['version-info', 'version-voll']) { // die zweite Zeile steht im Vollbild im Kopf des Ablaufs (DR-110)
+    const z = $(id);
+    if (!z) continue;
+    z.replaceChildren(...teile.map(([k, t], i) => Object.assign(document.createElement('span'), { className: k, textContent: (i ? ' · ' : '') + t.replace(/ /g, '\u00a0') })));
+    z.title = teile.map(([, t]) => t).join(' · ');
+    z.hidden = false;
+  }
 } // sonst lokale Entwicklung — kein Fehler, Zeile bleibt versteckt
 
 // Rückmeldungen, die beim letzten Mal nicht ankamen (Netz, Limit), noch einmal still versuchen (T53)

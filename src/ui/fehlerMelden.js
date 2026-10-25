@@ -17,6 +17,8 @@ const txt = (el) => (el && (el.innerText || el.textContent) || '').trim().replac
 // ---- Aktionen und JS-Fehler mitschreiben (Ringpuffer im Tab) ----
 let aktionen = (() => { try { return JSON.parse(sessionStorage.getItem(SK) || '[]'); } catch { return []; } })();
 const fehler = [];
+// im echten Vollbild zeigt der Browser nur das Vollbild-Element und seine Kinder: Panel und Auswahl gehören dann dort hinein (DR-110)
+const wurzel = () => document.fullscreenElement ?? document.body;
 const imPanel = (el) => el?.closest?.('#fm-panel, #fm-pickbar, .fm-ov');
 function merke(art, detail) {
   aktionen.push({ t: new Date().toLocaleTimeString('de-DE'), a: art, d: String(detail).slice(0, 140) });
@@ -116,11 +118,11 @@ function pickStart() {
   const b = document.createElement('div');
   b.id = 'fm-pickbar';
   b.innerHTML = 'Element anklicken (mehrfach) · Esc = fertig <button type="button">Übernehmen</button>';
-  document.body.append(b);
+  wurzel().append(b);
   b.querySelector('button').onclick = (e) => { e.stopPropagation(); pickEnde(); };
   schwebe = document.createElement('div');
   schwebe.className = 'fm-ov';
-  document.body.append(schwebe);
+  wurzel().append(schwebe);
 }
 function pickEnde() {
   if (!waehlen) return;
@@ -154,7 +156,7 @@ function markiere() {
     d.className = 'fm-ov sel';
     Object.assign(d.style, { left: k.bbox.x + 'px', top: k.bbox.y + 'px', width: k.bbox.w + 'px', height: k.bbox.h + 'px' });
     d.innerHTML = `<span>${i + 1}</span>`;
-    document.body.append(d);
+    wurzel().append(d);
   });
 }
 
@@ -244,7 +246,7 @@ function oeffnen() {
  <p class="fm-leise">Gesendet wird erst mit „Absenden“: Titel, Beschreibung, gewählte Elemente, Wireframe, Anhänge und die automatisch erfassten Angaben (auch die Browser-Kennung) gehen an den Server dieser Seite, ohne IP-Adresse und Cookies. „ZIP herunterladen“ speichert dieselbe Meldung als Datei zum Verschicken per Mail.</p>
 </div>
 <div class="fm-fuss"><button type="button" class="fm-haupt" id="fm-send">Absenden</button><button type="button" id="fm-zip">ZIP herunterladen</button><button type="button" id="fm-c">Abbrechen</button><span class="fm-leise" id="fm-m"></span></div>`;
-  document.body.append(p);
+  wurzel().append(p);
   $('#fm-x').onclick = schliessen;
   $('#fm-c').onclick = schliessen;
   $('#fm-pick').onclick = pickStart;

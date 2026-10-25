@@ -66,6 +66,11 @@ try {
   r = await fetch(B + '/src/model/engine.js');
   ok(r.status === 200 && /javascript/.test(r.headers.get('content-type')), 'GET /src/model/engine.js als JavaScript');
   r = await fetch(B + '/gibt-es-nicht.js'); ok(r.status === 404, 'unbekannte Datei → 404');
+  // lokal gibt es keine version.json vom Deploy: der Server liefert den Stand aus git für die Versionszeile (DR-110)
+  r = await fetch(B + '/version.lokal.json');
+  const lv = await r.json();
+  ok(r.status === 200 && /^[0-9a-f]{40}$/.test(lv.sha) && /^[0-9a-f]{7} \(lokal(, geändert \d\d:\d\d)?\)$/.test(lv.anzeige) && /^\d{4}-\d\d-\d\d \d\d:\d\d:\d\d UTC$/.test(lv.time), 'GET /version.lokal.json: Commit, Zeit und Anzeige aus git, „lokal“ oder „lokal, geändert HH:MM“');
+  r = await fetch(B + '/version.json'); ok(r.status === 404, '/version.json gibt es lokal nicht (nur der Deploy schreibt sie), die Seite lädt weiter ohne Versionierung');
   const gesperrt = [];
   for (const p of ['/issues/open/', '/.git/config', '/issues-data/', '/feedback-data/feedback.jsonl']) gesperrt.push((await fetch(B + p)).status);
   ok(gesperrt.every((s) => s === 404), 'issues, .git, issues-data und feedback-data werden nicht ausgeliefert');

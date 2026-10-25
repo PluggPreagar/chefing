@@ -152,13 +152,30 @@ ok(/fenster\.addEventListener\?\.\('resize', v\.beiGroesse\)/.test(modul) && /fe
 
 {
   const mainSrc = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
-  ok(/function passeStromEin\(\)/.test(mainSrc) && /f\.style\.zoom = ''/.test(mainSrc) && /quer \? Math\.min\(3, innen\.b \/ breit, innen\.h \/ f\.offsetHeight\) : innen\.b <= 520 \? Math\.min\(3, innen\.b \/ 270\) : Math\.min\(3, innen\.b \/ breit\)/.test(mainSrc) && /passeStromEin\(\);\s*kopfTitel\(\);\s*document\.querySelectorAll\('\[data-ansicht\]'\)/.test(mainSrc), 'Strom im Vollbild: per zoom auf Breite und Höhe eingepasst (nie kleiner als 1, höchstens 3), nach jedem Zeichnen (DR-103)');
+  ok(/function passeStromEin\(\)/.test(mainSrc) && /f\.style\.zoom = ''/.test(mainSrc) && /Math\.min\(3, innen\.b \/ breit, \(innen\.h \* \(1 - RESERVE\)\) \/ bandHoehe\)/.test(mainSrc) && /innen\.b <= 520 \? Math\.min\(3, innen\.b \/ 270\) : Math\.min\(3, innen\.b \/ band\.offsetWidth\)/.test(mainSrc) && /passeStromEin\(\);\s*kopfTitel\(\);\s*document\.querySelectorAll\('\[data-ansicht\]'\)/.test(mainSrc), 'Strom im Vollbild: per zoom eingepasst, quer Zeitleiste mit reserviertem Platz für die Karte, hochkant auf die Breite (nie kleiner als 1, höchstens 3), nach jedem Zeichnen (DR-103, DR-111)');
   ok(/spaeterZeichnen = \(\) => \{ clearTimeout\(spaeterTimer\);/.test(mainSrc) && /if \(s\.offen\) spaeterZeichnen\(\);/.test(mainSrc), 'Vollbild offen: nach Größenänderung wird verzögert noch einmal gezeichnet, auch bei gleicher Ansicht (DR-103)');
 }
 
 {
   const mainSrc = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
-  ok(/function kopfTitel\(\)/.test(mainSrc) && /\.ablauf-kopf h2/.test(mainSrc) && /v\.kurz \?\? v\.label\) : 'Ablauf'/.test(mainSrc) && /passeStromEin\(\);\s*kopfTitel\(\);/.test(mainSrc) && /kopfTitel\(\);\s*if \(s\.offen\) spaeterZeichnen\(\)/.test(mainSrc), 'Vollbild: im Kopf steht der Name der Variante statt „Ablauf“, nach dem Beenden wieder „Ablauf“ (DR-106)');
+  ok(/function kopfTitel\(\)/.test(mainSrc) && /\.ablauf-kopf h2/.test(mainSrc) && /v\.kurz \?\? v\.label\) : 'Ablauf'/.test(mainSrc) && /passeStromEin\(\);\s*kopfTitel\(\);/.test(mainSrc) && /kopfTitel\(\);\s*\$\('ablauf-melden'\)\.hidden = !s\.offen;\s*if \(s\.offen\) spaeterZeichnen\(\)/.test(mainSrc), 'Vollbild: im Kopf steht der Name der Variante statt „Ablauf“, nach dem Beenden wieder „Ablauf“ (DR-106)');
+}
+
+{
+  const main = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
+  const fm = fs.readFileSync(new URL('../src/ui/fehlerMelden.js', import.meta.url), 'utf8');
+  const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+  const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+  ok(/id="version-voll"/.test(html) && /id="ablauf-melden"/.test(html) && html.indexOf('id="version-voll"') < html.indexOf('<h2>Ablauf</h2>') && html.indexOf('id="ablauf-melden"') < html.indexOf('id="ablauf-voll"'), 'index.html: Version als erste Zeile und Melden vor den Vollbild-Knöpfen im Kopf des Ablaufs (DR-110)');
+  ok(/for \(const id of \['version-info', 'version-voll'\]\)/.test(main) && /mb\.addEventListener\('click', \(\) => oeffneMeldung\(\)\)/.test(main) && /\.ablauf\.ablauf-voll \.ablauf-kopf > \.version-voll:not\(\[hidden\]\) \{ display: block; flex-basis: 100%; order: -1;/.test(css), 'Vollbild: die Versionszeile steht oben im Kopf, ein Melden-Knopf öffnet das Panel (DR-110)');
+  ok(/const wurzel = \(\) => document\.fullscreenElement \?\? document\.body/.test(fm) && !/document\.body\.append\((b|schwebe|d|p)\)/.test(fm), 'Melden im echten Vollbild: Panel und Auswahl hängen im Vollbild-Element, sonst wären sie unsichtbar (DR-110)');
+}
+
+{
+  const mainSrc = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
+  const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+  ok(/new MutationObserver\(\(\) => \{ cancelAnimationFrame\(stromTimer\);/.test(mainSrc) && /\.observe\(\$\('flow'\), \{ childList: true \}\)/.test(mainSrc) && /karte\.style\.zoom = String\(Math\.round\(\(kz \/ z\) \* 100\) \/ 100\)/.test(mainSrc), 'Strom: öffnet oder schließt er eine Karte, wird neu eingepasst; die Karte hat ihren eigenen Maßstab (DR-111)');
+  ok(/\.ablauf\.ablauf-voll \.strom\.ist-quer \{ display: block; \}/.test(css) && /\.ablauf\.ablauf-voll \.strom\.ist-quer > \.strom-karte \{ position: static; width: auto; max-width: 960px; margin: \.75rem auto 0; \}/.test(css), 'Vollbild quer: die Karte steht unter der Zeitleiste statt daneben (DR-111)');
 }
 
 console.log(fail ?`${fail} FAIL` : 'ALL PASS');

@@ -30,8 +30,10 @@
 
   <section class="panel ablauf">
     <div class="ablauf-kopf">
+      <p id="version-voll" class="version version-voll" hidden></p>
       <h2>Ablauf</h2>
       <div id="ablauf-techniken" class="ablauf-techniken" role="group" aria-label="Techniken" hidden></div>
+      <button type="button" id="ablauf-melden" class="ablauf-voll-knopf nur-symbol flach ghost" title="Fehler, Idee oder Frage melden" aria-label="Melden" hidden></button>
       <button type="button" id="ablauf-voll" class="ablauf-voll-knopf nur-symbol flach ghost" title="Ablauf im Vollbild öffnen" aria-label="Vollbild"></button>
       <button type="button" id="ablauf-voll-zu" class="ablauf-voll-knopf nur-symbol flach ghost" title="Vollbild verlassen (Esc)" aria-label="Vollbild beenden" hidden></button>
       <button type="button" id="ablauf-drehen" class="ablauf-voll-knopf nur-symbol flach ghost" title="Ablauf drehen (Quer- oder Hochformat)" aria-label="Drehen" hidden></button>
@@ -80,7 +82,8 @@
         s.textContent = JSON.stringify({ imports });
         document.head.append(s);
         document.getElementById('css').href = './style.css' + q;
-      } catch (e) { /* kein version.json (lokale Entwicklung): ohne Versionierung weiter */ }
+      } catch (e) { /* kein version.json (lokale Entwicklung): ohne Versionierung weiter, die Anzeige kommt vom Entwicklungsserver (git) */ }
+      if (!v?.sha) { try { const r = await fetch('./version.lokal.json', { cache: 'no-store' }); if (r.ok) v = await r.json(); } catch (e) { /* auch das nicht: keine Versionszeile */ } }
       window.CHEFING_VERSION = v;
       import('./src/main.js');
     })();

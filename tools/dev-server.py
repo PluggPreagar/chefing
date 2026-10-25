@@ -16,6 +16,7 @@ import os
 import re
 import secrets
 import socket
+import subprocess
 import sys
 import zipfile
 from datetime import datetime, timezone
@@ -29,6 +30,25 @@ MAX_ZIP = 12 * 1024 * 1024     # wie ISSUE_MAX_ZIP
 MAX_TEXT = 200 * 1024          # wie ISSUE_MAX_TEXT
 MAX_TITEL = 120                # wie ISSUE_MAX_TITEL
 NICHT_AUSLIEFERN = (".git", "issues", "issues-data", "feedback-data")  # liegen im Projektordner, gehören nicht in den Browser
+
+
+def lokale_version():
+    """Stand des Arbeitsordners für die Versionszeile (lokal gibt es keine version.json vom Deploy): Commit, Zeit, ob etwas geändert ist."""
+    def git(*a):
+        try:
+            return subprocess.run(["git", *a], cwd=ROOT, capture_output=True, text=True, timeout=5).stdout.strip()
+        except (OSError, subprocess.SubprocessError):
+            return ""
+    sha = git("rev-parse", "HEAD")
+    if not sha:
+        return {}
+    ct = git("log", "-1", "--format=%ct")
+    commit = datetime.fromtimestamp(int(ct), timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC") if ct.isdigit() else None
+    geaendert = bool(git("status", "--porcelain", "--", "src", "index.html", "style.css"))
+    dateien = [p for p in (ROOT / "src").rglob("*") if p.is_file()] + [ROOT / "index.html", ROOT / "style.css"]
+    jung = max((p.stat().st_mtime for p in dateien if p.exists()), default=0)
+    zusatz = f"lokal, geändert {datetime.fromtimestamp(jung).strftime('%H:%M')}" if geaendert else "lokal"
+    return {"sha": sha, "time": commit, "anzeige": f"{sha[:7]} ({zusatz})", "branch": git("rev-parse", "--abbrev-ref", "HEAD")}
 
 
 def slug(titel: str) -> str:
@@ -156,6 +176,8 @@ def handler_fuer(issues: Path):
         def do_GET(self):
             if self.path.split("?")[0] == ENDPUNKT:
                 return self.antwort(405, {"ok": False, "fehler": "nur POST"}, {"Allow": "POST"})
+            if self.path.split("?")[0] == "/version.lokal.json":
+                return self.antwort(200, lokale_version())
             if self.gesperrt():
                 return self.send_error(404)
             return super().do_GET()

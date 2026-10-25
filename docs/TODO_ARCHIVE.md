@@ -7,6 +7,8 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T152 | Vollbild quer: toten Platz unten nutzen | done | Meldung `20261025-145236`: Zeitleiste oben (1,73-fach bei 1920 × 1080), Karte darunter mit eigenem Maßstab, Platz reserviert, Beobachter für das Neu-Einpassen (DR-111). | DR-103, DR-111 |
+| T151 | Version überall: lokal aus git, im Vollbild, Melden im Vollbild | done | Meldung `20261025-144706`: `/version.lokal.json` im Entwicklungsserver, zweite Versionszeile im Vollbild-Kopf, Melden-Knopf im Vollbild, Panel im Vollbild-Element (DR-110). | DR-102, DR-104, DR-110 |
 | T150 | Breite Bildschirme: Strom quer in zwei Spalten | done | Meldung `20261025-120559`: ab 1100 px Zeitleiste links mittig, Karte rechts in fester Breite (30 rem), Spalte immer reserviert (DR-098). | DR-097, DR-098 |
 | T149 | Diagramme mittig: ruhiger Strom, Strom-Ansicht zentriert | done | Meldungen `20261025-094730` und `20261025-115231`: Symbole-Zeichnung mit fester Breite, Strom bleibt beim Aufklappen an seinem Platz; Strom-Ansicht quer und hochkant mittig (DR-097). | DR-090, DR-092, DR-097 |
 | T148 | Vollbild: Diagramm füllt den Bildschirm | done | Das Kompakt-Diagramm wird im Vollbild per `viewBox` auf Breite und Höhe eingepasst (Monitor und Handy, Symbole und Text); nur CSS (DR-096). | DR-080, DR-090, DR-096 |
