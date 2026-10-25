@@ -56,5 +56,10 @@ ok(/#melden-menue \{ order: 2; padding-left: \.9rem; border-left: 1px solid var\
 ok(/@media \(max-width: 640px\) \{[^@]*nav\.fluss \{ flex-direction: column; align-items: flex-start;/.test(css), 'schmal stehen Archetyp und Varianten untereinander, linksbündig (nav.fluss schlägt die spätere Regel .fluss)');
 ok(/\.ablauf-kopf::after \{ content: ""; order: 1; flex: 1 1 0;/.test(css) && /\.ablauf-kopf > #kompakt-namen, \.ablauf-kopf > #ablauf-ausrichtung, \.ablauf-kopf > \.ablauf-voll-knopf \{ order: 2; margin-left: 0; \}\s*@media \(max-width: 640px\) \{ \.ablauf-kopf > #kompakt-namen, \.ablauf-kopf > #ablauf-ausrichtung \{ order: 3; \} \}/.test(css) && !/#ablauf-voll, #ablauf-voll-zu \{ margin-left: auto; \}/.test(css), 'Ablauf-Kopf: ein Platzhalter schiebt Beschriftung, Ausrichtung und Vollbild nach rechts (kein doppelter Auto-Abstand), schmal rutschen Beschriftung und Ausrichtung in die zweite Zeile');
 ok(/<div class="top-zeile">[\s\S]*?<div class="top-leiste" role="toolbar" aria-label="Einstellungen">[\s\S]*?<\/div>\s*<div id="melden-menue"><\/div>\s*<\/div>/.test(html), 'index.html: Melden steht neben der Werkzeugleiste in der Titelzeile, nicht mehr in ihr');
+{
+  const main = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
+  ok(/\['v-sha', /.test(main) && /\['v-commit', /.test(main) && /\['v-deploy', /.test(main) && /\.top > p\.version \{ font-size: \.66rem; opacity: \.5;[^}]*white-space: nowrap/.test(css) && /\.version \.v-commit \{ display: none; \}/.test(css) && /\.top \{ padding-top: \.45rem; \}/.test(css), 'schmal: Version als eine kurze, blasse Zeile ganz oben (Commit-Zeit ausgeblendet, Tooltip nennt alles), Kopf mit weniger Abstand oben (DR-102)');
+}
+
 console.log(fail ?`${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;

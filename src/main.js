@@ -337,8 +337,10 @@ const appVersion = globalThis.CHEFING_VERSION; // setzt der Lade-Stub in index.h
 if ($('version-info') && appVersion?.sha) {
   const kurzSha = String(appVersion.sha).slice(0, 7);
   data.appVersion = kurzSha; // Rückmeldungen nennen die App-Version (welche Regeln galten, T53)
-  const teile = [`Version ${kurzSha}`, appVersion.time && `Commit ${appVersion.time.replace(/:\d\d UTC$/, ' UTC')}`, utc(appVersion.deployed) && `deployed ${utc(appVersion.deployed)}`];
-  $('version-info').textContent = teile.filter(Boolean).map((t) => t.replace(/ /g, ' ')).join(' · '); // geschützte Leerzeichen: schmal bricht die Zeile zwischen den Angaben um, nie mitten in einer Zeitangabe
+  const teile = [['v-sha', `Version ${kurzSha}`], ['v-commit', appVersion.time && `Commit ${appVersion.time.replace(/:\d\d UTC$/, ' UTC')}`], ['v-deploy', utc(appVersion.deployed) && `deployed ${utc(appVersion.deployed)}`]].filter(([, t]) => t);
+  // je Angabe ein Span (schmal blendet CSS die Commit-Zeit aus, damit die Zeile kurz bleibt); geschützte Leerzeichen: nie ein Umbruch mitten in einer Zeitangabe
+  $('version-info').replaceChildren(...teile.map(([k, t], i) => Object.assign(document.createElement('span'), { className: k, textContent: (i ? ' · ' : '') + t.replace(/ /g, ' ') })));
+  $('version-info').title = teile.map(([, t]) => t).join(' · ');
   $('version-info').hidden = false;
 } // sonst lokale Entwicklung — kein Fehler, Zeile bleibt versteckt
 

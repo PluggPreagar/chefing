@@ -60,6 +60,9 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 #melden-menue { order: 2; padding-left: .9rem; border-left: 1px solid var(--line); }
 /* schmale Bildschirme: Melden nur als Symbol (ohne Text), damit Titel, Einstellungen und Melden in einer Zeile bleiben; reicht der Platz nicht, rutscht die Leiste als Ganzes in die nächste Zeile (DR-094) */
 @media (max-width: 640px) {
+  .top { padding-top: .45rem; }
+  .top > p.version { font-size: .66rem; opacity: .5; margin: 0 0 .2rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* schmal: eine kurze Zeile ganz oben, im Hintergrund (Nutzer 2026-10-25) */
+  .version .v-commit { display: none; }
   .top-zeile { column-gap: .35rem; justify-content: flex-end; } /* wächst der Titel, sitzen Leiste und Melden rechts; rutscht Melden allein in die nächste Zeile, bleibt es rechts */
   .top-zeile h1 { flex: 1 1 auto; }
   .top-leiste { gap: .3rem; margin-left: 0; }

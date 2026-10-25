@@ -1162,3 +1162,13 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Beide Ansichten füllen das Vollbild; die Messung stimmt nach dem Größenwechsel; kein neues Bedienelement.
 - **cons:** `zoom` ist eine CSS-Eigenschaft, die erst seit 2024 in allen großen Browsern gilt (Firefox 126); ältere Firefox zeigen den Strom wie vorher.
 - **risk:** Gering, `main.js` und ein Test. Rückgängig: ein Commit.
+
+## DR-104 · ui · Version auf kleinen Bildschirmen: eine kurze Zeile ganz oben im Hintergrund (Nachtrag zu DR-102)
+
+- **descr:** (2026-10-25, Nutzer mit Handy-Bild: „On small screen tighten the version info, put it to background to very top“) Auf dem Handy brauchte die Versionszeile zwei Zeilen mit Rand und stand mit dem vollen Gewicht über dem Titel. Bis 640 px ist sie jetzt **eine** Zeile: `Version <SHA> · deployed <Zeit>` (Commit-Zeit ausgeblendet, sie steht im Tooltip), Schrift 0,66 rem, Deckkraft 0,5, nie mehr als eine Zeile (Auslassungspunkte, falls es doch nicht passt), der Kopf hat oben nur noch 0,45 rem Abstand. Gemessen bei 375 px: Zeile 15 px hoch bei y = 7, Titel rückt von y = 60 auf 26. Breit bleibt alles wie in DR-102 (alle drei Angaben).
+- **Umsetzung:** `main.js` baut je Angabe einen Span (`v-sha`, `v-commit`, `v-deploy`) und setzt den Tooltip auf den vollen Text; die Medienabfrage blendet `.v-commit` aus. Selektor `.top > p.version`, damit er die allgemeine Regel weiter unten in `style.css` schlägt (R19).
+- **Regeln:** R19 (Spezifität statt Reihenfolge), R22 (alte `index.html`: die Kennung bleibt gleich).
+- **Optionen:** **A kürzen, blass, ganz oben (gewählt)** · B ganz ausblenden und nur im Tooltip des Titels zeigen (nicht „sofort sichtbar“) · C Zeit statt SHA zeigen (SHA ist der verlässlichere Vergleich).
+- **pro:** Bleibt sofort sichtbar, stört nicht, spart eine Zeile Höhe.
+- **cons:** Die Commit-Zeit ist auf dem Handy nur noch im Tooltip.
+- **risk:** Gering, `main.js`, `style.css`, ein Test. Rückgängig: ein Commit.
