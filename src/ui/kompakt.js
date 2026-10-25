@@ -150,7 +150,8 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const x0 = x0Basis + rand;
   const xVon = (k) => x0 - k.spalte * LANE;
   const textX = x0 + R + 12;
-  const maxZeichen = Math.max(12, Math.floor((breite - textX - PAD) / NAMEN.ZEICHEN));
+  // Namen: Text rechts vom Strom; Symbole: das Detail unterbricht die Linien und nutzt die volle Breite unter dem Schritt (Meldung des Nutzers 2026-10-25)
+  const maxZeichen = Math.max(12, Math.floor((breite - (namen ? textX + PAD : PAD * 3)) / NAMEN.ZEICHEN));
   const texte = namen || offen.size ? knotenTexte(K, steps, computed, maxZeichen) : null;
   const lay = namen ? namenLayout(K, texte) : null;
   // Symbole: unter einer Zeile mit aufgeklapptem Schritt wächst der Abstand um die Höhe des Textes
@@ -212,7 +213,8 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
     }
     if (offen.has(k.i)) {
       const oben = zeilenTop[k.zeile] + zeilenHoehe;
-      zeichneBlock(svg, texte.get(k), blockLayout(texte.get(k), oben + 8), textX, k.i);
+      svg.append(svgEl('rect', { x: 0, y: oben - 2, width: breite, height: extra[k.zeile], class: 'kompakt-detailgrund' })); // verdeckt die Linien im Bereich des Details
+      zeichneBlock(svg, texte.get(k), blockLayout(texte.get(k), oben + 8), PAD + 2, k.i);
     }
     if (!k.neu.length) continue;
     const xz = x0 + R + 24;

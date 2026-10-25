@@ -110,7 +110,7 @@ ok(/\.kompakt-svg\.mit-namen \{[^}]*width: 100%/.test(kompaktCss) && /\.kompakt-
 // --- T144: Details unter dem Schritt in der Symbole-Ansicht ------------------------------------------------------------------------
 const kompaktSrc = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
 ok(/data-schritt': k\.i/.test(kompaktSrc) && /'data-zutat'/.test(kompaktSrc) && /kompakt-pfeilgruppe/.test(kompaktSrc) && /kompakt-treffer/.test(kompaktSrc), 'Kennungen: data-schritt an Knoten und Pfeil, data-zutat an Zutaten (Grundlage für T145)');
-ok(/offen\.clear\(\)/.test(kompaktSrc) && /if \(!war\) offen\.add/.test(kompaktSrc) && !/kompakt-detail/.test(kompaktSrc + kompaktCss), 'höchstens ein Detail offen, erneuter Klick schließt es, kein zusätzlicher Rahmen');
+ok(/offen\.clear\(\)/.test(kompaktSrc) && /if \(!war\) offen\.add/.test(kompaktSrc) && !/kompakt-detail\b/.test(kompaktSrc + kompaktCss), 'höchstens ein Detail offen, erneuter Klick schließt es, kein zusätzlicher Rahmen');
 ok(/knopf\(g, k, \(\) => umschalten\(k\)\)/.test(kompaktSrc) && /knopf\(pfeil, k, \(\) => umschalten\(k\)\)/.test(kompaktSrc) && /knopf\(z, k, \(\) => umschalten\(k\)\)/.test(kompaktSrc) && /aria-expanded/.test(kompaktSrc), 'Symbole: Schritt, Zutat und Pfeil klappen denselben Schritt auf und zu, aria-expanded');
 ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss), 'style.css: unsichtbare Trefferfläche für den Pfeil');
 {
@@ -119,6 +119,12 @@ ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss), 'style.css: 
   const t = knotenTexte(KK, cc.ablauf, cc, 30);
   const aufschl = KK.knoten.find((x) => cc.ablauf[x.i].key === 'aufschlagen' && x.art === 'aktion');
   ok(t.get(aufschl).titel.join(' ').startsWith('1. ') && t.get(aufschl).zutaten.length === 2, 'Detail: Schritt mit Nummer, dazu Butter und Zucker mit Menge');
+}
+
+{
+  const src = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
+  const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+  ok(/namen \? textX \+ PAD : PAD \* 3/.test(src) && /class: 'kompakt-detailgrund'/.test(src) && /blockLayout\(texte\.get\(k\), oben \+ 8\), PAD \+ 2, k\.i\)/.test(src) && /\.kompakt-detailgrund \{ fill: var\(--panel\); \}/.test(css) && /\.ablauf-voll \.kompakt-detailgrund \{ fill: var\(--bg\); \}/.test(css), 'Detail in Symbole: volle Breite unter dem Schritt, deckt die Linien im Bereich ab (Grund in Panel- oder Seitenfarbe), Umbruch nach der ganzen Breite (DR-105)');
 }
 
 console.log(fail ? `${fail} FAILED` : 'ALL PASS');
