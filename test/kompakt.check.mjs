@@ -90,7 +90,7 @@ ok(/\.kompakt-svg\.mit-namen \{[^}]*width: 100%/.test(kompaktCss) && /\.kompakt-
 // --- T149: der Strom bleibt beim Auf- und Zuklappen an seinem Platz, der Strom (Zeitleiste) steht mittig (DR-097)
 {
   const src = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
-  ok(/const breite = namen \? gesamt : eng \? breiteSym : Math\.max\(breiteSym, Math\.min\(gesamt, 2 \* textBreite - breiteSym\)\)/.test(src) && /const eng = !namen && gesamt < 520 && !!root\.closest\?\.\('\.ablauf-voll'\)/.test(src) && /\.ablauf\.ablauf-voll \.kompakt-svg\.eng \{ height: auto; \}/.test(fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8')) && /overflow-x: hidden; overflow-y: auto/.test(fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8')) && /const rand = namen \? 0 : \(breite - breiteSym\) \/ 2/.test(src) && /const x0 = x0Basis \+ rand/.test(src) && !/offen\.size \? Math\.max/.test(src), 'Symbole: Breite unabhängig vom offenen Detail, Strom mit gleichem Rand links wie rechts Platz für den Text');
+  ok(/const breite = namen \? gesamt : eng \? breiteSym : Math\.max\(breiteSym, Math\.min\(gesamt, 2 \* textBreite - breiteSym\)\)/.test(src) && /const eng = klein && !!root\.closest\?\.\('\.ablauf-voll'\)/.test(src) && /\.ablauf\.ablauf-voll \.kompakt-svg\.eng \{ height: auto; \}/.test(fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8')) && /overflow-x: hidden; overflow-y: auto/.test(fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8')) && /const rand = namen \? 0 : \(breite - breiteSym\) \/ 2/.test(src) && /const x0 = x0Basis \+ rand/.test(src) && !/offen\.size \? Math\.max/.test(src), 'Symbole: Breite unabhängig vom offenen Detail, Strom mit gleichem Rand links wie rechts Platz für den Text');
   const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
   ok(/\.ist-quer \.strom-band \{ justify-content: safe center; \}/.test(css) && /\.ist-hoch \.strom-band, \.ist-hoch \.strom-vorbereiten \{ max-width: 720px; margin-left: auto; margin-right: auto; \}/.test(css) && /\.ist-quer \.strom-fuss, \.ist-quer \.strom-vorbereiten \{ text-align: center; \}/.test(css), 'style.css: Strom-Ansicht mittig, quer mit safe center (passt sie nicht, beginnt sie links), hochkant schmal und mittig');
 }
@@ -124,7 +124,7 @@ ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss), 'style.css: 
 {
   const src = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
   const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
-  ok(/const klein = !namen && gesamt < 520/.test(src) && /klein \? PAD \* 3 : textX \+ PAD/.test(src) && /if \(klein\) svg\.append\(svgEl\('rect'/.test(src) && /klein \? PAD \+ 2 : textX, k\.i\)/.test(src) && /\.kompakt-detailgrund \{ fill: var\(--panel\); \}/.test(css) && /\.ablauf-voll \.kompakt-detailgrund \{ fill: var\(--bg\); \}/.test(css), 'Detail in Symbole nur auf kleinen Geräten (unter 520 px): volle Breite unter dem Schritt, die Linien brechen ab (Grund in Panel- oder Seitenfarbe); breit bleibt es rechts vom Strom (DR-105)');
+  ok(/const klein = gesamt < 520/.test(src) && /klein \? PAD \* 3 : textX \+ PAD/.test(src) && /if \(klein\) svg\.append\(svgEl\('rect'/.test(src) && /klein \? PAD \+ 2 : textX, k\.i\)/.test(src) && /\.kompakt-detailgrund \{ fill: var\(--panel\); \}/.test(css) && /\.ablauf-voll \.kompakt-detailgrund \{ fill: var\(--bg\); \}/.test(css), 'Detail in Symbole nur auf kleinen Geräten (unter 520 px): volle Breite unter dem Schritt, die Linien brechen ab (Grund in Panel- oder Seitenfarbe); breit bleibt es rechts vom Strom (DR-105)');
 }
 
 {
@@ -163,6 +163,26 @@ ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss), 'style.css: 
     for (const e of K.kanten.filter((x) => x.art !== 'quelle')) { if (e.zu.zeile - e.von.zeile > 1) luecken++; if (e.zu.zeile <= e.von.zeile) falsch++; }
   }
   ok(luecken >= 2 && falsch === 0, `Gugelhupf und Rührkuchen mit Eischnee: ${luecken} Linien laufen an Zeilen anderer Stränge vorbei (gestrichelt), keine nach oben`);
+}
+
+// --- DR-118: Liste auf kleinen Geräten, der Text steht unter dem Knoten --------------------------------------------------------------------
+{
+  const { c: cc, K: KK } = rechne('ruehrteig', 'kastenkuchen', null, { eier_getrennt: true });
+  const R_ = 15;
+  const texte = knotenTexte(KK, cc.ablauf, cc, 30);
+  const lay = namenLayout(KK, texte, 6, true);
+  const alt = namenLayout(KK, texte, 6, false);
+  let sauber = true; let vorher = 6;
+  for (let z = 0; z < KK.zeilen; z++) for (const x of KK.knoten.filter((n) => n.zeile === z)) {
+    const g = lay.geo.get(x);
+    if (g.von !== vorher || !(g.titelY[0] > g.cy + R_) || g.titelY.at(-1) >= g.bis || g.zutaten.some((zz) => zz.top < g.titelY.at(-1) || zz.top + zz.h > g.bis)) sauber = false;
+    vorher = g.bis;
+  }
+  ok(sauber && lay.hoehe === vorher + 6, 'Liste klein: die erste Textzeile steht unter dem Kreis, Blöcke liegen lückenlos untereinander, Text und Zutaten bleiben im Block');
+  ok(lay.hoehe > alt.hoehe && [...lay.geo.values()].every((g) => g.cy > 6), `Liste klein ist höher als daneben (${Math.round(lay.hoehe)} statt ${Math.round(alt.hoehe)} px), weil der Text unter dem Knoten steht`);
+  ok(KK.kanten.every((e) => lay.geo.get(e.zu).cy > lay.geo.get(e.von).cy || e.art === 'quelle'), 'Liste klein: Kanten laufen weiter nach unten');
+  const src = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
+  ok(/namenLayout\(K, texte, 6, klein\)/.test(src) && /blockLayout\(texte\.get\(k\), klein \? cy \+ R \+ 11 : cy\)/.test(src) && /if \(klein\) svg\.append\(svgEl\('rect', \{ x: 0, y: geo\.cy \+ R \+ 3/.test(src) && /klein \? PAD \+ 2 : textX, k\.i\)/.test(src), 'Anbindung: Layout, Hintergrund und Textposition folgen dem kleinen Gerät, breit bleibt der Text neben dem Knoten');
 }
 
 console.log(fail ? `${fail} FAILED` : 'ALL PASS');

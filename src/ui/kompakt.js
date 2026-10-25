@@ -113,14 +113,15 @@ function zeichneBlock(svg, t, geo, textX, kennung) {
 
 // Senkrechte Lage in der Namen-Variante: je Zeile des Modells ein Block je Knoten, übereinander; die Höhe richtet sich nach dem Text.
 // Rückgabe: geo (Knoten → cy, titelY[], zutaten[{top, h, iconY, textY[]}]) und die Gesamthöhe.
-export function namenLayout(K, texte, pad = 6) {
+// klein = true (kleines Gerät, DR-118): der Text steht unter dem Knoten statt rechts daneben und nutzt die volle Breite
+export function namenLayout(K, texte, pad = 6, klein = false) {
   const L = NAMEN;
   const geo = new Map();
   let top = pad;
   for (let z = 0; z < K.zeilen; z++) {
     for (const k of K.knoten.filter((x) => x.zeile === z)) {
       const cy = top + L.OBEN;
-      const { titelY, zutaten, unten } = blockLayout(texte.get(k), cy);
+      const { titelY, zutaten, unten } = blockLayout(texte.get(k), klein ? cy + R + 11 : cy); // klein: die erste Zeile unter dem Kreis
       geo.set(k, { cy, titelY, zutaten, von: top, bis: Math.max(top + L.ROW, unten + 10) });
       top = geo.get(k).bis;
     }
@@ -147,17 +148,17 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const breiteSym = x0Basis + R + 24 + maxZut * ZUT_ABST + PAD;
   const textBreite = x0Basis + R + 12 + PAD + 230; // Platz für das Detail rechts vom Strom
   // Vollbild auf schmalem Bildschirm (Handy hochkant): keine Reserve für das Detail, die Zeichnung ist so schmal wie der Strom und wird dadurch um so größer eingepasst (DR-100); das Detail bricht enger um
-  const eng = !namen && gesamt < 520 && !!root.closest?.('.ablauf-voll');
+  const klein = gesamt < 520; // kleines Gerät: Text unter dem Knoten in voller Breite, die Linien brechen dort ab (DR-105, DR-118)
+  const eng = klein && !!root.closest?.('.ablauf-voll');
   const breite = namen ? gesamt : eng ? breiteSym : Math.max(breiteSym, Math.min(gesamt, 2 * textBreite - breiteSym));
   const rand = namen ? 0 : (breite - breiteSym) / 2;
   const x0 = x0Basis + rand;
   const xVon = (k) => x0 - k.spalte * LANE;
   const textX = x0 + R + 12;
   // Namen und Symbole auf breiten Bildschirmen: Text rechts vom Strom. Symbole auf kleinen Geräten (Behälter unter 520 px): das Detail unterbricht die Linien und nutzt die volle Breite unter dem Schritt (DR-105)
-  const klein = !namen && gesamt < 520;
   const maxZeichen = Math.max(12, Math.floor((breite - (klein ? PAD * 3 : textX + PAD)) / NAMEN.ZEICHEN));
   const texte = namen || offen.size ? knotenTexte(K, steps, computed, maxZeichen) : null;
-  const lay = namen ? namenLayout(K, texte) : null;
+  const lay = namen ? namenLayout(K, texte, 6, klein) : null;
   // Symbole: unter einer Zeile mit aufgeklapptem Schritt wächst der Abstand um die Höhe des Textes
   const extra = Array(K.zeilen).fill(0);
   for (const k of K.knoten) if (offen.has(schluessel(k))) extra[k.zeile] = Math.max(extra[k.zeile], blockLayout(texte.get(k), 8).unten + 6);
@@ -230,7 +231,9 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
     if (namen) { g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button'); klickbar(g, () => zeige(schrittText(s, k, computed))); } else knopf(g, k, () => umschalten(k));
     svg.append(g);
     if (namen) {
-      zeichneBlock(svg, texte.get(k), lay.geo.get(k), textX, k.i);
+      const geo = lay.geo.get(k);
+      if (klein) svg.append(svgEl('rect', { x: 0, y: geo.cy + R + 3, width: breite, height: geo.bis - (geo.cy + R + 3), class: 'kompakt-detailgrund' })); // verdeckt die Linien im Bereich des Textes
+      zeichneBlock(svg, texte.get(k), geo, klein ? PAD + 2 : textX, k.i);
       continue;
     }
     if (offen.has(schluessel(k))) {
