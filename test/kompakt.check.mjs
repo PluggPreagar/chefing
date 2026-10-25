@@ -89,9 +89,10 @@ ok(/\.kompakt-svg\.mit-namen \{[^}]*width: 100%/.test(kompaktCss) && /\.kompakt-
 
 // --- T144: Details unter dem Schritt in der Symbole-Ansicht ------------------------------------------------------------------------
 const kompaktSrc = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
-ok(/data-schritt': k\.i/.test(kompaktSrc) && /'data-zutat'/.test(kompaktSrc) && /kompakt-pfeilgruppe/.test(kompaktSrc) && /kompakt-treffer/.test(kompaktSrc), 'Kennungen: data-schritt an Knoten, Pfeil und Detail, data-zutat an Zutaten (Grundlage für T145)');
+ok(/data-schritt': k\.i/.test(kompaktSrc) && /'data-zutat'/.test(kompaktSrc) && /kompakt-pfeilgruppe/.test(kompaktSrc) && /kompakt-treffer/.test(kompaktSrc), 'Kennungen: data-schritt an Knoten und Pfeil, data-zutat an Zutaten (Grundlage für T145)');
+ok(/offen\.clear\(\)/.test(kompaktSrc) && /if \(!war\) offen\.add/.test(kompaktSrc) && !/kompakt-detail/.test(kompaktSrc + kompaktCss), 'höchstens ein Detail offen, erneuter Klick schließt es, kein zusätzlicher Rahmen');
 ok(/knopf\(g, k, \(\) => umschalten\(k\)\)/.test(kompaktSrc) && /knopf\(pfeil, k, \(\) => umschalten\(k\)\)/.test(kompaktSrc) && /knopf\(z, k, \(\) => umschalten\(k\)\)/.test(kompaktSrc) && /aria-expanded/.test(kompaktSrc), 'Symbole: Schritt, Zutat und Pfeil klappen denselben Schritt auf und zu, aria-expanded');
-ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss) && /\.kompakt-detail \{/.test(kompaktCss), 'style.css: unsichtbare Trefferfläche für den Pfeil, Rahmen für das Detail');
+ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss), 'style.css: unsichtbare Trefferfläche für den Pfeil');
 {
   // Die Text-Fassung unter dem Schritt ist dieselbe wie in der Namen-Variante und liegt im Block unterhalb der Knotenzeile
   const { c: cc, K: KK } = rechne('ruehrteig', 'kastenkuchen', null, {});

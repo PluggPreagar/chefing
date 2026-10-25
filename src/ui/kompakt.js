@@ -164,7 +164,9 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const info = el('div', 'kompakt-info', namen ? '' : 'Schritt, Zutat oder Pfeil antippen: Name und Menge');
   const zeige = (text) => { info.textContent = text; };
   const umschalten = (k) => {
-    if (offen.has(k.i)) offen.delete(k.i); else offen.add(k.i);
+    const war = offen.has(k.i);
+    offen.clear(); // höchstens ein Detail offen: ein Klick auf einen anderen Schritt schließt das alte
+    if (!war) offen.add(k.i);
     renderKompakt(root, computed, data, opt);
     root.querySelector(`g[data-schritt="${k.i}"]`)?.focus();
   };
@@ -199,7 +201,6 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
     }
     if (offen.has(k.i)) {
       const oben = zeilenTop[k.zeile] + ROW;
-      svg.append(svgEl('rect', { x: textX - 6, y: oben, width: breite - textX - PAD + 6, height: extra[k.zeile] - 2, rx: 6, class: 'kompakt-detail', 'data-schritt': k.i, style: `--c: var(--ort-${k.farbe})` }));
       zeichneBlock(svg, texte.get(k), blockLayout(texte.get(k), oben + 8), textX, k.i);
     }
     if (!k.neu.length) continue;

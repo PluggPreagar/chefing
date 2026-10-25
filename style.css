@@ -267,9 +267,7 @@ label.technik-schalter { display: inline-flex; align-items: center; gap: .35rem;
 .kompakt-knoten:focus, .kompakt-zutat:focus, .kompakt-pfeilgruppe:focus { outline: none; }
 .kompakt-pfeilgruppe { cursor: pointer; }
 .kompakt-treffer { fill: none; stroke: transparent; stroke-width: 16; } /* breite, unsichtbare Trefferfläche für den dünnen Pfeil */
-.kompakt-pfeilgruppe:hover .kompakt-zufluss, .kompakt-pfeilgruppe:focus-visible .kompakt-zufluss { stroke: var(--ink); }
-.kompakt-detail { fill: var(--panel); stroke: var(--c); stroke-width: 1.5; }
-.kompakt-info { font-size: 13px; min-height: 1.4em; margin: 6px 0 0; }
+.kompakt-pfeilgruppe:hover .kompakt-zufluss, .kompakt-pfeilgruppe:focus-visible .kompakt-zufluss { stroke: var(--ink); }.kompakt-info { font-size: 13px; min-height: 1.4em; margin: 6px 0 0; }
 /* Variante „mit Namen“ (DR-081): Schritt und Zutaten als Text, in der Breite des Bildschirms */
 .kompakt-svg.mit-namen { max-width: 100%; height: auto; }
 .kompakt-titel { font-size: 13px; font-weight: 600; fill: var(--ink); }
