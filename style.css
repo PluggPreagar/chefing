@@ -56,8 +56,14 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .top { display: block; padding: 1.25rem 1.5rem .75rem; }
 /* Kopfzeile (DR-087 Option B): oben links der Titel, rechts die Werkzeugleiste, darunter der Fluss Archetyp › Variante */
 .top-zeile { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem .9rem; }
-.top-leiste { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; margin-left: auto; }
-.top-leiste .trenner { width: 1px; align-self: stretch; margin: .2rem .15rem; background: var(--line); }
+.top-leiste { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; order: 1; margin-left: auto; }
+#melden-menue { order: 2; padding-left: .9rem; border-left: 1px solid var(--line); }
+/* schmale Bildschirme: Titel und Melden in einer Zeile, die Einstellungen als eigene Zeile darunter, nichts bricht mitten in einer Gruppe um */
+@media (max-width: 640px) {
+  #melden-menue { order: 1; margin-left: auto; padding-left: 0; border-left: 0; }
+  .top-leiste { order: 2; flex-basis: 100%; margin-left: 0; }
+  nav.fluss { flex-direction: column; align-items: flex-start; gap: .4rem; } /* nav.fluss: sonst gewinnt die spätere Regel .fluss mit align-items: center */
+}
 .leiste-knopf { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-width: 2.4rem; height: 2.4rem; padding: 0 .7rem; border: 1px solid var(--line); background: var(--panel); color: var(--muted); border-radius: 999px; cursor: pointer; font: inherit; font-size: .88rem; }
 .leiste-knopf:hover { color: var(--ink); border-color: var(--muted); }
 .leiste-knopf.is-active, .leiste-knopf[aria-pressed="true"], .leiste-knopf[aria-expanded="true"] { color: var(--ink); border-color: var(--best); background: var(--best-bg); }
@@ -68,7 +74,7 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .melden-menue .stufe-liste { left: auto; right: 0; min-width: 17rem; }
 .fluss { margin-top: .6rem; align-items: center; }
 .fluss-pfeil { color: var(--muted); font-size: 1.1rem; }
-@media (max-width: 520px) { .fluss-pfeil { display: none; } } /* umbricht die Zeile, hängt der Pfeil sonst allein am Zeilenende */
+@media (max-width: 640px) { .fluss-pfeil { display: none; } } /* Archetyp und Varianten stehen dort untereinander, der Pfeil hinge allein am Zeilenende */
 .presets { display: flex; flex-wrap: wrap; gap: .5rem; }
 .presets button, .ablauf-ansicht button { border: 1px solid var(--line); background: var(--panel); color: var(--ink); padding: .5rem .9rem; border-radius: 999px; cursor: pointer; font: inherit; }
 .presets button.is-active, .ablauf-ansicht button.is-active { border-color: var(--best); background: var(--best-bg); font-weight: 600; }
@@ -103,7 +109,10 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .ablauf-voll-knopf.nur-symbol { display: inline-flex; align-items: center; justify-content: center; width: 2.4rem; height: 2.4rem; padding: 0; }
 .ablauf-voll-knopf.nur-symbol[hidden] { display: none; }
 .ablauf-voll-knopf.nur-symbol:focus-visible { outline: 2px solid var(--sel); outline-offset: 2px; }
-#ablauf-voll, #ablauf-voll-zu { margin-left: auto; }
+/* Ablauf-Kopf: links Titel und Technik, rechts Beschriftung und Vollbild; ein Platzhalter schiebt sie nach rechts, ohne dass zwei Abstände sie auseinanderziehen */
+.ablauf-kopf::after { content: ""; order: 1; flex: 1 1 0; min-width: 0; }
+.ablauf-kopf > #kompakt-namen, .ablauf-kopf > .ablauf-voll-knopf { order: 2; margin-left: 0; }
+@media (max-width: 640px) { .ablauf-kopf > #kompakt-namen { order: 3; } } /* schmal: Vollbild bleibt in der ersten Zeile rechts, die Beschriftung rutscht in die zweite */
 .ablauf-voll-knopf[hidden] { display: none; }
 body.hat-vollbild { overflow: hidden; }
 .ablauf.ablauf-voll { position: fixed; inset: 0; z-index: 1000; margin: 0; border-radius: 0; overflow: auto; background: var(--bg); padding: .75rem 1rem; box-sizing: border-box; }
@@ -235,7 +244,7 @@ label.technik-schalter { display: inline-flex; align-items: center; gap: .35rem;
 .strom-fuss { font-size: 11px; color: var(--muted); margin: 6px 0 0 52px; }
 .strom-vorbereiten { font-size: 12px; color: var(--muted); margin: 0 0 8px; }
 /* Kompakt-Ansicht (DR-073): nur Icons, Zeit nach unten, Name und Menge beim Antippen */
-.ablauf-ansicht { margin-left: auto; }
+.ablauf-ansicht { margin-left: 0; }
 .ablauf-ansicht .icon { vertical-align: -3px; margin-right: .3rem; }
 .kompakt-bild { overflow-x: auto; }
 .kompakt-svg { display: block; color: var(--ink); }

@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T140 | Kopf auf dem Handy ohne Umbruch-Brüche | done | Aus dem Handy-Screenshot „Awkward wraps of buttons“: Melden neben die Leiste, Titel und Melden in einer Zeile, Einstellungen darunter, Fluss untereinander, Platzhalter im Ablauf-Kopf statt zwei Auto-Abständen (DR-087 Nachtrag). | DR-087 |
 | T139 | Vollbild je Ausrichtung | done | Querformat zeigt Strom, Hochformat Kompakt mit Text; neu bestimmt beim Öffnen, Drehen, bei der Sperre und bei Größenänderung; beim Beenden springt die Ansicht auf die eigene Wahl zurück (Nutzer: „ja springt zurück“, DR-089). Ungeprüft auf einem echten Handy. | DR-080, DR-081, DR-089 |
 | T138 | Archetyp und Variante als ein Fluss-Element | done | `nav.fluss`: Archetyp › Variante in einer Zeile unter dem Titel, Pfeil entfällt auf schmalen Bildschirmen (Meldung `hierarchy-breaks-flow`, DR-087). | DR-087 |
 | T137 | Melden bündeln | done | Geteilter Knopf „Melden“ / „Bewerten“ mit gemerkter Aktion, Wählen führt sofort aus, Hauptteil wiederholt (Meldung `melde-merge`, DR-088). | DR-087, DR-088 |

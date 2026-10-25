@@ -983,6 +983,12 @@ Chefing                                              [Zahnrad] [Melden v]
   - **Alte Knöpfe** „✓ Hat es geklappt?“ und „⚑ Melden“ sind weg; eine zwischengespeicherte `index.html` wird beim Start bereinigt und bekommt den Platz für den geteilten Knopf (DR-037).
   - **Prüfung:** `test/kopfzeile.check.mjs` (20 Fälle: Reihenfolge der Leiste, Fluss, nur eine Ansicht, Symbole ohne Text, Anbindung, CSS, gemerkte Aktion), bestehende Tests angepasst. Im Browser bei Desktop- und Handybreite: Strom, Kompakt, Statistik, Kandidaten, Melden, Bewerten, Wiederholen, Merken nach dem Neuladen.
 - **Folgen für die Meldungen:** `hierarchy-breaks-flow`, `miss-formatted-toggle`, `toggle-view` und `melde-merge` sind umgesetzt.
+- **Nachtrag Umbruch (2026-10-25, Handy-Screenshot der Live-Seite: „Awkward wraps of buttons“):** Auf 375 Pixel brach die Leiste mitten in der Gruppe um (Trenner allein am Zeilenende, Melden einzeln), im Ablauf-Kopf stand „Text | Symbole“ in der Mitte statt rechts (zwei Auto-Abstände teilten den Platz), Archetyp und Varianten wirkten zufällig umgebrochen. Jetzt gilt:
+  - **Kopf:** `Melden` ist ein eigenes Element neben der Werkzeugleiste (`.top-zeile > #melden-menue`), nicht mehr in ihr. Breit: Titel links, Leiste und Melden rechts, getrennt durch eine senkrechte Linie. Bis 640 Pixel: Titel und Melden in einer Zeile, die Einstellungen als eigene Zeile darunter (`order`, `flex-basis: 100%`), ohne Trenner.
+  - **Fluss:** bis 640 Pixel stehen Archetyp und Varianten bewusst untereinander und linksbündig, der Pfeil entfällt (`nav.fluss` schlägt die spätere Regel `.fluss`).
+  - **Ablauf-Kopf:** ein Platzhalter (`.ablauf-kopf::after`, `flex: 1 1 0`) schiebt „Text | Symbole“ und die Vollbild-Knöpfe nach rechts, ohne Auto-Abstände. Schmal bleibt das Vollbild in der ersten Zeile rechts, „Text | Symbole“ rutscht in die zweite.
+  - **Lehre:** Regeln in Medienabfragen verlieren gegen später stehende Regeln gleicher Spezifität; deshalb `nav.fluss` und die Abfrage für die Beschriftung stehen nach der allgemeinen Regel. Der Test prüft die Reihenfolge.
+  - **Prüfung:** `test/kopfzeile.check.mjs` (Struktur und Regeln) und gemessen im Browser bei 375, 800 Pixel und Desktop: Titel und Melden in einer Zeile (375), Vollbild neben „ABLAUF“, Beschriftung in der zweiten Zeile, kein Überlauf.
 
 ## DR-088 · ui · Melden als geteilter Knopf mit gemerkter Aktion
 

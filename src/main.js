@@ -254,7 +254,7 @@ $('toggle-stats').addEventListener('click', () => {
 if (!$('melden-menue')) {
   $('fehler-melden')?.remove();
   $('ergebnis-melden')?.remove();
-  (document.querySelector('.top-leiste') ?? document.querySelector('nav.presets') ?? document.querySelector('header.top'))?.append(Object.assign(document.createElement('div'), { id: 'melden-menue' }));
+  (document.querySelector('.top-zeile') ?? document.querySelector('nav.presets') ?? document.querySelector('header.top'))?.append(Object.assign(document.createElement('div'), { id: 'melden-menue' }));
 }
 // Sprung zur Box „Hat es geklappt?“ (DR-067)
 function springeZurBewertung() {
