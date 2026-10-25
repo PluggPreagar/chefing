@@ -3,6 +3,7 @@ import { fmtZeit } from '../model/zeit.js';
 import { stromModell, verbIcon, dauerIconKey } from './flow.js';
 import { vorbereitenZeile } from './zustandLink.js';
 import { scrolleNachAufklappen } from './autoScroll.js';
+import { fest } from './einheiten.js';
 
 // Kompakt-Ansicht des Ablaufs (DR-073, Skizze des Nutzers 2026-10-24): nur Icons, Zeit läuft nach unten.
 // Je Zeile ein Knoten (Werkzeug/Tätigkeit, am Ende Uhr oder Ofen); Zutaten rechts mit Pfeil hinein;
@@ -59,7 +60,7 @@ export function umbrechen(text, max) {
   const zeilen = [];
   let zeile = '';
   const schiebe = () => { if (zeile) zeilen.push(zeile); zeile = ''; };
-  for (let wort of String(text ?? '').split(/\s+/).filter(Boolean)) {
+  for (let wort of String(text ?? '').split(/[ \t\r\n]+/).filter(Boolean)) { // nur echte Leerzeichen trennen: das geschützte (Zahl und Einheit) bleibt im Wort
     while (wort.length > max) { schiebe(); zeilen.push(wort.slice(0, max)); wort = wort.slice(max); }
     if (!zeile) zeile = wort;
     else if ((zeile + ' ' + wort).length <= max) zeile += ' ' + wort;
@@ -260,14 +261,14 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
 function zutatText(n, computed) {
   const rolle = n.rolle.split(':')[0];
   const menge = (computed.zutatenListe || []).filter((z) => z.rolle === rolle).map((z) => `${z.label} ${z.menge} ${z.einheit}`).join(' + ');
-  return n.teil ? `${n.label} (von ${menge})` : menge || n.label;
+  return fest(n.teil ? `${n.label} (von ${menge})` : menge || n.label);
 }
 
 function schrittText(s, k, computed) {
   const temp = s.key === 'backen' && computed.backen?.tempOU ? `${computed.backen.tempOU} °C O/U` : s.temperatur;
   const dauer = k.art === 'warten' ? s.wirk ?? s.dauer : s.passiv ? s.aktiv : s.dauer;
   const titel = k.art === 'warten' ? s.aktion ?? s.label : s.passiv ? s.handgriff ?? s.aktion : s.label;
-  return [`${s.nr}. ${titel}`, dauer ? fmtZeit(dauer) : null, temp].filter(Boolean).join(' · ');
+  return fest([`${s.nr}. ${titel}`, dauer ? fmtZeit(dauer) : null, temp].filter(Boolean).join(' · '));
 }
 
 function klickbar(g, f) {

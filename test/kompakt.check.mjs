@@ -67,7 +67,7 @@ for (const [label, techn] of [['ohne Eischnee', {}], ['mit Eischnee', { eier_get
   ok(texte.size === KK.knoten.length && alle.every((z) => z.length <= max), `Namen (${label}): Text für jeden Knoten, keine Zeile länger als ${max} Zeichen`);
   const aufschl = KK.knoten.find((x) => cc.ablauf[x.i].key === 'aufschlagen' && x.art === 'aktion');
   const ta = texte.get(aufschl);
-  ok(ta.titel.join(' ').startsWith('1. ') && /Butter/.test(ta.zutaten[0].zeilen.join(' ')) && /\d+ g/.test(ta.zutaten[0].zeilen.join(' ')) && ta.zutaten.length === 2, `Namen (${label}): Aufschlagen nennt Schritt mit Nummer, Butter und Zucker mit Menge`);
+  ok(ta.titel.join(' ').startsWith('1. ') && /Butter/.test(ta.zutaten[0].zeilen.join(' ')) && /\d+[ \u00a0]g/.test(ta.zutaten[0].zeilen.join(' ')) && ta.zutaten.length === 2, `Namen (${label}): Aufschlagen nennt Schritt mit Nummer, Butter und Zucker mit Menge`);
   const lay = namenLayout(KK, texte);
   let vorher = 6; let sauber = true; const reihenfolge = [];
   for (let z = 0; z < KK.zeilen; z++) for (const x of KK.knoten.filter((n) => n.zeile === z)) reihenfolge.push(x);
@@ -136,6 +136,19 @@ ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss), 'style.css: 
   const proSchritt = new Map();
   for (const x of K.knoten) proSchritt.set(x.i, (proSchritt.get(x.i) ?? 0) + 1);
   ok([...proSchritt.values()].some((n) => n > 1) && new Set(K.knoten.map((x) => x.i + ':' + x.art)).size === K.knoten.length, 'ein Schritt kann zwei Knoten haben (aktion und warten), Schritt plus Art ist je Knoten eindeutig');
+}
+
+// --- DR-115: Zahl und Einheit brechen nie auseinander ----------------------------------------------------------------------------------
+{
+  const { fest } = await import(P + 'ui/einheiten.js');
+  const N = '\u00a0';
+  ok(fest('4 Min. · 18–22 °C (plastisch)') === `4${N}Min. · 18–22${N}°C (plastisch)` && fest('1 Std. 5 Min.') === `1${N}Std. 5${N}Min.` && fest('Butter 235 g + Zucker 215 g') === `Butter 235${N}g + Zucker 215${N}g`, 'fest(): geschütztes Leerzeichen zwischen Zahl und Einheit (Min., Std., °C, g), sonst bleiben die Leerzeichen');
+  ok(fest('2 große Eier') === '2 große Eier' && fest('3 Eier, 1 lang') === '3 Eier, 1 lang' && fest('Schritt 5 mit Milch') === 'Schritt 5 mit Milch' && fest(null) === '', 'fest(): Wörter, die nur mit einem Einheiten-Buchstaben beginnen, und Zahlen vor anderen Wörtern bleiben unberührt');
+  { const zeilen = umbrechen(fest('4. In Form füllen · 2 Min.'), 22); ok(zeilen.length > 1 && zeilen.every((z, k) => !(/\d$/.test(z) && /^(Min|Std|g|°)/.test(zeilen[k + 1] ?? ''))) && zeilen.some((z) => z.includes('2' + N + 'Min.')), 'umbrechen(): trennt nicht zwischen Zahl und Einheit, auch wenn die Zeile dort enden würde'); }
+  ok(umbrechen(fest('4 Min. · 18–22 °C'), 12).join('|').includes(`18–22${N}°C`) || umbrechen(fest('4 Min. · 18–22 °C'), 12).some((z) => z.includes(N)), 'umbrechen(): das geschützte Leerzeichen bleibt im Wort');
+  const kSrc = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
+  const mSrc = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
+  ok(/split\(\/\[ \\t\\r\\n\]\+\/\)/.test(kSrc) && /return fest\(\[\`\$\{s\.nr\}\. \$\{titel\}\`/.test(kSrc) && /return fest\(n\.teil/.test(kSrc) && /schuetzeEinheiten\(\$\('flow'\)\)/.test(mSrc) && /schuetzeEinheiten\(\$\('recipe'\)\)/.test(mSrc), 'Anbindung: Schritt- und Zutatentexte gehen durch fest(), der Umbruch trennt nur echte Leerzeichen, Strom und Rezept werden nachbehandelt');
 }
 
 console.log(fail ? `${fail} FAILED` : 'ALL PASS');

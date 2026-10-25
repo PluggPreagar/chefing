@@ -1290,3 +1290,16 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Weniger Umbrüche, gut lesbar, gleiche Behandlung wie in Symbole.
 - **cons:** Seitenstränge sind im Bereich der Karte unterbrochen.
 - **risk:** Gering, `flow.js` (eine Zeile) und `style.css` (eine Regel), ein Test. Rückgängig: ein Commit.
+
+## DR-115 · ui · Zahl und Einheit brechen nie auseinander (geschütztes Leerzeichen)
+
+- **descr:** (2026-10-25, Nutzer mit Handy-Bild im Vollbild: „Prevent wrap between digits and units – non breaking space“) Im Bild stand „4. In Form füllen · 2“ in einer Zeile und „Min.“ in der nächsten.
+- **Entscheid:** Zwischen Zahl und Einheit steht ein **geschütztes Leerzeichen** (U+00A0): „2 Min.“, „18–22 °C“, „235 g“, „1 Std. 5 Min.“. Die Einheiten: Min, Std, Sek, Stk, Prise, Pck, Pkt, EL, TL, kg, mg, ml, cl, dl, cm, mm, g, h, l, °C, °F, ° und %. Wörter, die nur mit einem Einheiten-Buchstaben beginnen („2 große Eier“, „3 lang“), und Zahlen vor anderen Wörtern („Schritt 5 mit Milch“) bleiben unberührt.
+- **Wo:** `fest()` in `src/ui/einheiten.js`. **SVG** (Kompakt, Liste und Symbole): Schritt- und Zutatentexte laufen durch `fest()`, und `umbrechen()` trennt nur noch an echten Leerzeichen (vorher an jedem Leerraum, auch am geschützten). **HTML** (Zeitleiste, Rezept): `schuetzeEinheiten()` behandelt die Textknoten nach jedem Zeichnen. Daten und Tests der Modelle bleiben unverändert (`fmtZeit` liefert weiter gewöhnliche Leerzeichen).
+- **Gemessen (414 × 828, Liste im Vollbild):** „2~Min.“, „4~Min.“, „180~°C“, „235~g“, „4~Stk“ bleiben zusammen; die Umbrüche fallen an die Trenner „ · “ oder zwischen Wörter; im Rezept 36 geschützte Zahl-Einheit-Paare.
+- **Grenze:** Ein Trenner „ · “ steht nach einem Umbruch zuweilen am Zeilenanfang („· 1 Min.“); das ist nicht Teil dieser Meldung. Die Liste der Einheiten ist fest; neue Einheiten in den Daten kommen dazu, wenn sie auftauchen.
+- **Regeln:** R23; keine Regel berührt.
+- **Optionen:** **A geschütztes Leerzeichen am Anzeigepunkt, im SVG vor dem Umbruch (gewählt)** · B `fmtZeit` und alle Datenquellen ändern (bricht Tests und Vergleiche, wirkt nicht auf Mengen aus den Zutaten) · C CSS `white-space: nowrap` je Einheit (geht im SVG nicht, dort bricht der Code um).
+- **pro:** Kein Zahlenrest mehr am Zeilenende; wirkt in allen Ansichten; die Modelle bleiben rein.
+- **cons:** Eine feste Einheitenliste; geschützte Leerzeichen stehen beim Kopieren des Texts mit.
+- **risk:** Gering, `einheiten.js`, `kompakt.js`, `main.js`, Tests. Rückgängig: ein Commit.

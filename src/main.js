@@ -17,6 +17,7 @@ import { STUFEN, STUFE_TEXT, SCHWELLE } from './model/aussagen.js';
 import { initVollbild } from './ui/vollbild.js';
 import { initStufenMenue } from './ui/stufenMenue.js';
 import { initWahlMenue } from './ui/wahlMenue.js';
+import { schuetzeEinheiten } from './ui/einheiten.js';
 
 async function loadJson(path) {
   const r = await fetch(path, { cache: 'no-cache' });
@@ -311,11 +312,13 @@ function render() {
   const ansichtGewaehlt = ansichtWert({ ausrichtung, namen: kompaktNamen });
   menues.ansicht.setze(ansichtGewaehlt);
   if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: kompaktNamen }); else renderFlow($('flow'), computed, data);
+  schuetzeEinheiten($('flow'));
   passeStromEin();
   kopfTitel();
   document.querySelectorAll('[data-ansicht]').forEach((b) => { const an = b.dataset.ansicht === ansichtGewaehlt; b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); });
   stufenMenue.setze(state.stufe);
   renderRecipe($('recipe'), computed, state, data, update);
+  schuetzeEinheiten($('recipe'));
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }
 
