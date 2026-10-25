@@ -1,9 +1,11 @@
 // Fehler melden (DR-044): Issue-Reporter nach dem Vorbild aus aktien-monitor (issue.js) — Panel mit Titel, Beschreibung,
 // automatischen Feldern (Seite, Version, App-Zustand, JS-Fehler, letzte Aktionen), Element-Auswahl, Wireframe-Skizze
-// und Anhängen. Chefing hat keinen Server: die Meldung wird im Browser zu einer ZIP-Datei (issue.md, meta.json,
-// wireframe.png, anhang/) und heruntergeladen, zum Verschicken per Mail. Es wird nichts gesendet (DR-027).
+// und Anhängen. Die Meldung wird im Browser zu einer ZIP-Datei (issue.md, meta.json, wireframe.png, anhang/); „Absenden“
+// schickt sie an chefing-issue.php (DR-077), „ZIP herunterladen“ speichert sie zum Verschicken per Mail (DR-044).
+// Gesendet wird nur auf Klick.
 import { zipErstellen } from '../model/zip.js';
 import { meldungDateien } from '../model/meldung.js';
+import { sendeFehlermeldung } from '../model/meldungSenden.js';
 
 const SK = 'chefing-aktionen';
 const MAX = 30;
@@ -221,14 +223,15 @@ function oeffnen() {
  <label class="fm-drop" id="fm-drop">Anhänge (z. B. Foto vom Gebäck): Dateien hierher ziehen oder <u>auswählen</u><input type="file" id="fm-f" multiple hidden></label>
  <div class="fm-leise" id="fm-fl"></div>
  <details><summary class="fm-leise">Automatisch erfasst (editierbar)</summary><textarea class="fm-auto" id="fm-a" aria-label="Automatisch erfasste Angaben"></textarea></details>
- <p class="fm-leise">Es wird nichts gesendet. „ZIP herunterladen“ speichert die Meldung als Datei, die du per Mail schicken kannst.</p>
+ <p class="fm-leise">Gesendet wird erst mit „Absenden“: Titel, Beschreibung, gewählte Elemente, Wireframe, Anhänge und die automatisch erfassten Angaben (auch die Browser-Kennung) gehen an den Server dieser Seite, ohne IP-Adresse und Cookies. „ZIP herunterladen“ speichert dieselbe Meldung als Datei zum Verschicken per Mail.</p>
 </div>
-<div class="fm-fuss"><button type="button" class="fm-haupt" id="fm-zip">ZIP herunterladen</button><button type="button" id="fm-c">Abbrechen</button><span class="fm-leise" id="fm-m"></span></div>`;
+<div class="fm-fuss"><button type="button" class="fm-haupt" id="fm-send">Absenden</button><button type="button" id="fm-zip">ZIP herunterladen</button><button type="button" id="fm-c">Abbrechen</button><span class="fm-leise" id="fm-m"></span></div>`;
   document.body.append(p);
   $('#fm-x').onclick = schliessen;
   $('#fm-c').onclick = schliessen;
   $('#fm-pick').onclick = pickStart;
   $('#fm-zip').onclick = herunterladen;
+  $('#fm-send').onclick = abschicken;
   const fi = $('#fm-f'); const dz = $('#fm-drop');
   fi.onchange = () => anhaengen(fi.files);
   dz.ondragover = (e) => { e.preventDefault(); dz.classList.add('ist-ueber'); };
@@ -263,24 +266,61 @@ function zeigeAnhaenge() {
   document.querySelectorAll('[data-ra]').forEach((b) => { b.onclick = () => { anhaenge.splice(+b.dataset.ra, 1); zeigeAnhaenge(); }; });
 }
 
-function herunterladen() {
+// Meldung aus dem Panel bauen: ZIP und die Texte, die beim Senden einzeln mitgehen; null ohne Titel
+function baue() {
   const titel = $('#fm-t').value.replace(/\s+/g, ' ').trim().slice(0, 120);
-  if (!titel) { $('#fm-m').textContent = 'Bitte einen Titel eingeben.'; $('#fm-t').focus(); return; }
+  if (!titel) { $('#fm-m').textContent = 'Bitte einen Titel eingeben.'; $('#fm-t').focus(); return null; }
   let auto;
   try { auto = JSON.parse($('#fm-a').value); } catch { auto = { text: $('#fm-a').value }; }
   const png = Uint8Array.from(atob(wireframe().split(',')[1]), (ch) => ch.charCodeAt(0));
-  const { zipName, dateien } = meldungDateien({ titel, beschreibung: $('#fm-d').value, auto, picks, wireframePng: png, anhaenge });
-  const url = URL.createObjectURL(new Blob([zipErstellen(dateien)], { type: 'application/zip' }));
+  const { zipName, dateien, md, metaJson } = meldungDateien({ titel, beschreibung: $('#fm-d').value, auto, picks, wireframePng: png, anhaenge });
+  return { titel, zipName, md, metaJson, zipBytes: zipErstellen(dateien) };
+}
+function zipSpeichern(m) {
+  const url = URL.createObjectURL(new Blob([m.zipBytes], { type: 'application/zip' }));
   const a = document.createElement('a');
-  a.href = url; a.download = zipName;
+  a.href = url; a.download = m.zipName;
   document.body.append(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 10000);
-  merke('Fehler gemeldet', zipName);
+}
+function fertig(html, schliessText = 'Schließen') {
   picks = []; anhaenge = [];
-  $('#fm-panel .fm-inhalt').innerHTML = `<p>Gespeichert: <code>${esc(zipName)}</code></p><p>Die Datei liegt in deinem Download-Ordner. Schick sie per Mail an die Person, die Chefing betreut.</p>`;
-  $('#fm-zip').remove();
-  $('#fm-c').textContent = 'Schließen';
+  $('#fm-panel .fm-inhalt').innerHTML = html;
+  $('#fm-zip')?.remove();
+  $('#fm-send')?.remove();
+  $('#fm-c').textContent = schliessText;
   document.querySelectorAll('.fm-ov').forEach((x) => x.remove());
+}
+
+function herunterladen() {
+  const m = baue();
+  if (!m) return;
+  zipSpeichern(m);
+  merke('Fehler gemeldet (ZIP)', m.zipName);
+  fertig(`<p>Gespeichert: <code>${esc(m.zipName)}</code></p><p>Die Datei liegt in deinem Download-Ordner. Schick sie per Mail an die Person, die Chefing betreut.</p>`);
+}
+
+let sendet = false;
+async function abschicken() {
+  if (sendet) return;
+  const m = baue();
+  if (!m) return;
+  sendet = true;
+  const knopf = $('#fm-send');
+  knopf.disabled = true;
+  $('#fm-m').textContent = 'Sende …';
+  const r = await sendeFehlermeldung(m);
+  sendet = false;
+  if (r.ok) {
+    merke('Fehler gemeldet (gesendet)', r.id ?? m.zipName);
+    fertig(`<p>Gesendet, danke.${r.id ? ` Nummer: <code>${esc(r.id)}</code>` : ''}</p><p>Wenn du magst, kannst du die Meldung zusätzlich als Datei speichern:</p><p><button type="button" id="fm-zip2">ZIP herunterladen</button></p>`);
+    $('#fm-zip2').onclick = () => zipSpeichern(m);
+    return;
+  }
+  // Rückfall: Panel bleibt offen, nichts geht verloren
+  knopf.disabled = false;
+  $('#fm-m').textContent = `${r.fehler} Lade stattdessen das ZIP herunter und schick es per Mail.`;
+  $('#fm-zip').classList.add('fm-haupt');
 }
 
 // knopf: Element, das das Panel öffnet; holeKontext: liefert den App-Zustand für die Meldung
@@ -292,7 +332,7 @@ export function initFehlerMelden(knopf, holeKontext) {
     knopf.type = 'button';
     knopf.id = 'fehler-melden';
     knopf.className = 'ghost';
-    knopf.title = 'Fehler melden: Beschreibung, gewählte Elemente und App-Zustand als ZIP herunterladen, zum Verschicken per Mail';
+    knopf.title = 'Fehler melden: Beschreibung, gewählte Elemente und App-Zustand absenden oder als ZIP herunterladen';
     knopf.textContent = '⚑ Fehler melden';
     document.querySelector('nav.presets')?.append(knopf);
   }

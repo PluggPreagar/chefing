@@ -6,5 +6,6 @@ Thumbs.db
 .htaccess
 version.json
 feedback-data/
+issues-data/
 # Fehlermeldungen (ZIP entpackt), nur lokal: meta.json würde sonst mit dem Deploy veröffentlicht
 issues/

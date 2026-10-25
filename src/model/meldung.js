@@ -37,6 +37,8 @@ export function meldungDateien({ titel, beschreibung, auto, picks: gewaehlt, wir
   ].join('\n');
   return {
     zipName: `chefing-fehler-${ordner}.zip`,
+    md, // dieselben Texte gehen beim Senden auch einzeln an chefing-issue.php (DR-077)
+    metaJson: JSON.stringify(meta, null, 1),
     dateien: [
       { name: `${ordner}/issue.md`, inhalt: md },
       { name: `${ordner}/meta.json`, inhalt: JSON.stringify(meta, null, 1) },

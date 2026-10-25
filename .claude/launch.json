@@ -8,6 +8,12 @@
       "port": 8765
     },
     {
+      "name": "chefing-php",
+      "runtimeExecutable": "D:/_progs/xampp/php/php.exe",
+      "runtimeArgs": ["-S", "127.0.0.1:8777", "-t", "."],
+      "port": 8777
+    },
+    {
       "name": "scratch",
       "runtimeExecutable": "npx",
       "runtimeArgs": ["--yes", "serve", "-l", "8766", "C:/Users/Peter/AppData/Local/Temp/claude/D---project-202609-Chefing/cd666a10-084e-4d8c-b09b-678d3f8f184b/scratchpad"],
