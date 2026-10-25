@@ -2,7 +2,7 @@
 // Browser geprüft, dazu Symbole, Anbindung und die flachen Knöpfe.
 import fs from 'fs';
 const P = new URL('../', import.meta.url);
-const { AUSRICHTUNGEN, wirksameAnsicht, ausrichtungAusSpeicher, ansichtFuerAusrichtung } = await import(new URL('src/model/ausrichtung.js', P).href);
+const { AUSRICHTUNGEN, wirksameAnsicht, ausrichtungAusSpeicher, ansichtFuerAusrichtung, ANSICHTEN, ansichtWert, ausAnsichtWert } = await import(new URL('src/model/ausrichtung.js', P).href);
 const { ICONS } = await import(new URL('src/ui/icons.js', P).href);
 let fail = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fail++; };
 
@@ -28,12 +28,19 @@ const main = fs.readFileSync(new URL('src/main.js', P), 'utf8');
 const css = fs.readFileSync(new URL('style.css', P), 'utf8');
 const html = fs.readFileSync(new URL('index.html', P), 'utf8');
 ok(/ausrichtungAusSpeicher\(\{ neu: localStorage\.getItem\('chefing\.ausrichtung'\), alt: localStorage\.getItem\('chefing\.ablauf'\) \}\)/.test(main) && /localStorage\.setItem\('chefing\.ausrichtung', ausrichtung\)/.test(main), 'main.js: Wahl aus dem Speicher mit Übernahme der früheren Ansicht, Wahl wird gespeichert');
-ok(/id: 'ablauf-ausrichtung'/.test(main) && /wert: 'auto', icon: 'ausrichtung_auto'/.test(main) && /wert: 'strom', icon: 'ansicht_strom'/.test(main) && /wert: 'kompakt', icon: 'ansicht_kompakt'/.test(main) && /attr: 'ausrichtung'/.test(main), 'Gruppe Ausrichtung mit Auto, Strom und Kompakt im Diagramm-Kopf');
+ok(/id: 'ablauf-darstellung'/.test(main) && /wert: 'auto', icon: 'ausrichtung_auto'/.test(main) && /wert: 'zeitleiste', icon: 'ansicht_strom'/.test(main) && /wert: 'liste', icon: 'beschriftung_text'/.test(main) && /wert: 'symbole', icon: 'beschriftung_symbole'/.test(main) && /attr: 'ansicht'/.test(main), 'eine Gruppe mit vier Ansichten im Diagramm-Kopf: Auto, Zeitleiste, Liste, Symbole (DR-109)');
 ok(/addEventListener\('resize', \(\) => \{ if \(ausrichtung === 'auto' && wirksameAnsicht\(\) !== gezeigteAnsicht\) render\(\); \}\)/.test(main), 'bei Auto zeichnet eine Größenänderung nur neu, wenn sich die Ansicht ändert');
 ok(!/id="ablauf-ansicht"/.test(html) && /\$\('ablauf-ansicht'\)\?\.remove\(\)/.test(main), 'die alte Ansicht aus der Werkzeugleiste ist weg (HTML), eine zwischengespeicherte wird entfernt');
 ok(/b\.setAttribute\('aria-label', k\.name\)/.test(main) && /className: 'leiste-knopf flach ghost'/.test(main), 'alle Knöpfe der Gruppen sind flach, mit aria-label und Tooltip');
 ok(/\.ablauf-kopf \.flach \{ border-color: transparent; background: transparent; \}/.test(css) && /\.ablauf-kopf \.flach:hover \{ border-color: var\(--muted\)/.test(css) && /\.ablauf-kopf \.flach\.is-active, \.ablauf-kopf \.flach\[aria-pressed="true"\] \{ border-color: transparent; background: var\(--best-bg\)/.test(css), 'flach: Rahmen nur beim Darüberfahren, ausgewählt = getönter Grund ohne Rahmen');
 ok(/class="ablauf-voll-knopf nur-symbol flach ghost"/.test(html) && /nur-symbol flach ghost/.test(fs.readFileSync(new URL('src/ui/vollbild.js', P), 'utf8')), 'die Vollbild-Knöpfe sind genauso flach wie die Gruppen (gleiche Form, Größe und Lage)');
 ok(/\.kompakt-svg \{ display: block; margin: 0 auto;/.test(css) && /#kompakt\.kompakt \{ text-align: center; \}/.test(css) && /Math\.min\(640,/.test(fs.readFileSync(new URL('src/ui/kompakt.js', P), 'utf8')), 'Kompakt-Diagramm ist zentriert und höchstens 640 Pixel breit');
+// --- Eine Wahl mit vier Ansichten (DR-109) ---------------------------------------------------------------------------------------------
+ok(ANSICHTEN.join() === 'auto,zeitleiste,liste,symbole', 'vier Ansichten: Auto, Zeitleiste, Liste, Symbole');
+ok(ANSICHTEN.every((w) => ansichtWert(ausAnsichtWert(w)) === w), 'Hin und zurück: jede Ansicht bleibt dieselbe (Abbildung auf Ausrichtung und Namen)');
+ok(ausAnsichtWert('zeitleiste').ausrichtung === 'strom' && ausAnsichtWert('liste').ausrichtung === 'kompakt' && ausAnsichtWert('liste').namen === true && ausAnsichtWert('symbole').ausrichtung === 'kompakt' && ausAnsichtWert('symbole').namen === false && ausAnsichtWert('auto').ausrichtung === 'auto' && ausAnsichtWert('auto').namen === true, 'Zeitleiste = Strom, Liste = Kompakt mit Namen, Symbole = Kompakt ohne Namen, Auto zeigt hochkant die Liste');
+ok(ansichtWert({ ausrichtung: 'kompakt', namen: false }) === 'symbole' && ansichtWert({ ausrichtung: 'kompakt', namen: true }) === 'liste' && ansichtWert({ ausrichtung: 'strom', namen: false }) === 'zeitleiste' && ansichtWert({ ausrichtung: 'auto', namen: false }) === 'auto', 'gespeicherte Wahl (Ausrichtung plus Namen) ergibt die Ansicht; die Namen-Wahl bei Strom und Auto ist ohne Wirkung');
+ok(ausAnsichtWert('quatsch').ausrichtung === 'auto' && ausAnsichtWert(undefined).ausrichtung === 'auto', 'unbekannte Ansicht wird wie Auto behandelt');
+
 console.log(fail ? `${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;

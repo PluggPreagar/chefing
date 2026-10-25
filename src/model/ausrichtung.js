@@ -17,3 +17,10 @@ export function ausrichtungAusSpeicher({ neu, alt } = {}) {
   if (alt === 'strom' || alt === 'kompakt') return alt;
   return 'auto';
 }
+
+// Eine Wahl mit vier Ansichten (DR-109): Auto | Zeitleiste | Liste | Symbole. Sie ersetzt die zwei getrennten Schalter Ausrichtung und Text | Symbole
+// und wird auf dieselben zwei Werte abgebildet (Ausrichtung auto|strom|kompakt, Namen ja|nein), damit gespeicherte Wahlen und Zeichner gleich bleiben.
+// Zeitleiste = Strom (quer, links nach rechts), Liste = Kompakt mit Namen und Mengen, Symbole = Kompakt nur mit Symbolen. Auto zeigt hochkant die Liste.
+export const ANSICHTEN = ['auto', 'zeitleiste', 'liste', 'symbole'];
+export const ansichtWert = ({ ausrichtung, namen }) => (ausrichtung === 'strom' ? 'zeitleiste' : ausrichtung === 'kompakt' ? (namen ? 'liste' : 'symbole') : 'auto');
+export const ausAnsichtWert = (w) => ({ zeitleiste: { ausrichtung: 'strom', namen: true }, liste: { ausrichtung: 'kompakt', namen: true }, symbole: { ausrichtung: 'kompakt', namen: false } }[w] ?? { ausrichtung: 'auto', namen: true });

@@ -12,7 +12,7 @@ import { sendeOffene } from './model/rueckmeldung.js';
 import { alsEintraege, presetPatch, archetypPatch } from './model/zustand.js';
 import { initFehlerMelden, oeffneMeldung } from './ui/fehlerMelden.js';
 import { initMeldenMenue } from './ui/meldenMenue.js';
-import { wirksameAnsicht as ermittleAnsicht, ausrichtungAusSpeicher } from './model/ausrichtung.js';
+import { wirksameAnsicht as ermittleAnsicht, ausrichtungAusSpeicher, ansichtWert, ausAnsichtWert } from './model/ausrichtung.js';
 import { STUFEN, STUFE_TEXT, SCHWELLE } from './model/aussagen.js';
 import { initVollbild } from './ui/vollbild.js';
 import { initStufenMenue } from './ui/stufenMenue.js';
@@ -82,6 +82,7 @@ let ausrichtung = 'auto';
 try { ausrichtung = ausrichtungAusSpeicher({ neu: localStorage.getItem('chefing.ausrichtung'), alt: localStorage.getItem('chefing.ablauf') }); } catch { /* ohne Speicher: Auto */ }
 let kompaktNamen = true; // Text neben den Symbolen (DR-081); Vorgabe Text
 try { if (localStorage.getItem('chefing.kompaktNamen') === 'aus') kompaktNamen = false; } catch { /* ohne Speicher: Text */ }
+if (ausrichtung === 'auto') kompaktNamen = true; // Auto zeigt hochkant die Liste (mit Namen), eine frühere Wahl Symbole bei Auto gibt es nicht mehr (DR-109)
 let vollbildAnsicht = null; // im Vollbild gilt bei Auto die Ausrichtung des Bildschirms, siehe initVollbild unten
 let gezeigteAnsicht = null;
 const viewportHoch = () => innerHeight > innerWidth;
@@ -116,28 +117,18 @@ function symbolGruppe({ id, name, attr, knoepfe, nach, beiWahl, aktuell }) {
 function ablaufEinstellungen() {
   if (!$('kompakt')) $('flow').after(Object.assign(document.createElement('div'), { id: 'kompakt', className: 'kompakt', hidden: true }));
   $('ablauf-ansicht')?.remove();
-  const namen = symbolGruppe({
-    id: 'kompakt-namen', name: 'Beschriftung der Kompakt-Ansicht', attr: 'namen', nach: $('ablauf-techniken'), aktuell: String(kompaktNamen),
-    knoepfe: [
-      { wert: 'true', icon: 'beschriftung_text', name: 'Text', titel: 'Text: Schritte und Zutaten mit Name und Menge neben den Symbolen' },
-      { wert: 'false', icon: 'beschriftung_symbole', name: 'Symbole', titel: 'Symbole: nur Symbole, Name und Menge erst beim Antippen' },
-    ],
-    beiWahl: (w) => {
-      kompaktNamen = w === 'true';
-      try { localStorage.setItem('chefing.kompaktNamen', kompaktNamen ? 'an' : 'aus'); } catch { /* nur für diese Sitzung */ }
-      render();
-    },
-  });
+  // Eine Wahl mit vier Ansichten (DR-109); gespeichert wie bisher in chefing.ausrichtung und chefing.kompaktNamen
   symbolGruppe({
-    id: 'ablauf-ausrichtung', name: 'Ausrichtung des Diagramms', attr: 'ausrichtung', nach: namen, aktuell: ausrichtung,
+    id: 'ablauf-darstellung', name: 'Ansicht des Diagramms', attr: 'ansicht', nach: $('ablauf-techniken'), aktuell: ansichtWert({ ausrichtung, namen: kompaktNamen }),
     knoepfe: [
-      { wert: 'auto', icon: 'ausrichtung_auto', name: 'Auto', titel: 'Auto: folgt dem Bildschirm, hochkant Kompakt (oben nach unten), quer Strom (links nach rechts)' },
-      { wert: 'strom', icon: 'ansicht_strom', name: 'Strom', titel: 'Strom: immer quer, Zeitleiste von links nach rechts' },
-      { wert: 'kompakt', icon: 'ansicht_kompakt', name: 'Kompakt', titel: 'Kompakt: immer hochkant, von oben nach unten' },
+      { wert: 'auto', icon: 'ausrichtung_auto', name: 'Auto', titel: 'Auto: folgt dem Bildschirm, hochkant die Liste, quer die Zeitleiste' },
+      { wert: 'zeitleiste', icon: 'ansicht_strom', name: 'Zeitleiste', titel: 'Zeitleiste: quer, die Zeit läuft von links nach rechts, die Wirkung eines Schritts steht in der Karte' },
+      { wert: 'liste', icon: 'beschriftung_text', name: 'Liste', titel: 'Liste: von oben nach unten, jeder Schritt mit Zutaten, Namen und Mengen' },
+      { wert: 'symbole', icon: 'beschriftung_symbole', name: 'Symbole', titel: 'Symbole: von oben nach unten, nur Symbole; Name und Menge erst beim Antippen' },
     ],
     beiWahl: (w) => {
-      ausrichtung = w;
-      try { localStorage.setItem('chefing.ausrichtung', ausrichtung); } catch { /* nur für diese Sitzung */ }
+      ({ ausrichtung, namen: kompaktNamen } = ausAnsichtWert(w));
+      try { localStorage.setItem('chefing.ausrichtung', ausrichtung); localStorage.setItem('chefing.kompaktNamen', kompaktNamen ? 'an' : 'aus'); } catch { /* nur für diese Sitzung */ }
       render();
     },
   });
@@ -285,16 +276,12 @@ function render() {
   const kompakt = ansichtJetzt === 'kompakt';
   $('flow').hidden = kompakt;
   $('kompakt').hidden = !kompakt;
-  $('kompakt-namen').hidden = !kompakt; // Text | Symbole betrifft nur die Kompakt-Ansicht
-  $('kompakt-namen-menue').hidden = !kompakt;
-  menues.namen.setze(String(kompaktNamen));
-  menues.ausrichtung.setze(ausrichtung);
-  $('kompakt-namen').querySelectorAll('[data-namen]').forEach((k) => { const an = (k.dataset.namen === 'true') === kompaktNamen; k.classList.toggle('is-active', an); k.setAttribute('aria-pressed', String(an)); });
+  const ansichtGewaehlt = ansichtWert({ ausrichtung, namen: kompaktNamen });
+  menues.ansicht.setze(ansichtGewaehlt);
   if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: kompaktNamen }); else renderFlow($('flow'), computed, data);
   passeStromEin();
   kopfTitel();
-  document.querySelectorAll('[data-ausrichtung]').forEach((b) => { const an = b.dataset.ausrichtung === ausrichtung; b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); });
-  document.querySelectorAll('[data-namen]').forEach((b) => { const an = (b.dataset.namen === 'true') === kompaktNamen; b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); });
+  document.querySelectorAll('[data-ansicht]').forEach((b) => { const an = b.dataset.ansicht === ansichtGewaehlt; b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); });
   stufenMenue.setze(state.stufe);
   renderRecipe($('recipe'), computed, state, data, update);
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));

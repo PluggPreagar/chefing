@@ -126,16 +126,15 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .ablauf-voll-knopf.nur-symbol:focus-visible { outline: 2px solid var(--sel); outline-offset: 2px; }
 /* Ablauf-Kopf: links Titel und Technik, rechts Beschriftung und Vollbild; ein Platzhalter schiebt sie nach rechts, ohne dass zwei Abstände sie auseinanderziehen */
 .ablauf-kopf::after { content: ""; order: 1; flex: 1 1 0; min-width: 0; }
-.ablauf-kopf > #kompakt-namen, .ablauf-kopf > #ablauf-ausrichtung, .ablauf-kopf > .ablauf-voll-knopf { order: 2; margin-left: 0; }
-/* Auswahlmenüs statt der zwei Gruppen auf schmalen Bildschirmen (DR-108): Titel, beide Menüs und Vollbild in einer Zeile, die Technik darunter */
+.ablauf-kopf > #ablauf-darstellung, .ablauf-kopf > .ablauf-voll-knopf { order: 2; margin-left: 0; }
+/* Ein Auswahlmenü statt der Gruppe auf schmalen Bildschirmen (DR-108, DR-109): Titel, Menü und Vollbild in einer Zeile, die Technik darunter */
 .ablauf-kopf > .wahl-menue { display: none; }
 .wahl-menue[hidden] { display: none; }
 .wahl-menue .stufe-liste { min-width: 10rem; }
-#ablauf-ausrichtung-menue .stufe-liste { left: auto; right: 0; }
+#ablauf-darstellung-menue .stufe-liste { left: auto; right: 0; }
 @media (max-width: 640px) {
-  .ablauf-kopf > #kompakt-namen, .ablauf-kopf > #ablauf-ausrichtung { display: none; }
+  .ablauf-kopf > #ablauf-darstellung { display: none; }
   .ablauf-kopf > .wahl-menue:not([hidden]) { display: inline-block; order: 2; }
-  .ablauf-kopf > #ablauf-ausrichtung-menue { order: 3; }
   .ablauf-kopf > .ablauf-voll-knopf { order: 4; }
   .ablauf-kopf > #ablauf-techniken { order: 5; flex-basis: 100%; }
 }

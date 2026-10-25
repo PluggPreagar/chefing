@@ -91,7 +91,7 @@ ok(/\.ablauf\.ablauf-voll \{[^}]*position: fixed[^}]*inset: 0/.test(css) && /\.a
 // Meldung 20261025-075952: im Vollbild keine Einstellungen; Diagramm, Schritt-Karten und die Vollbild-Knöpfe bleiben
 const aus = css.match(/\.ablauf\.ablauf-voll #ablauf-techniken, \.ablauf\.ablauf-voll #ablauf-ansicht, \.ablauf\.ablauf-voll #kompakt-namen \{ display: none; \}/);
 ok(/\.ablauf\.ablauf-voll #ablauf-techniken \{ display: none; \}/.test(css) && !/\.ablauf\.ablauf-voll #ablauf-ansicht/.test(css) && !/\.ablauf\.ablauf-voll #kompakt-namen/.test(css) && !/\.ablauf\.ablauf-voll #ablauf-ausrichtung/.test(css), 'style.css: im Vollbild ist nur der Technik-Schalter ausgeblendet (er ändert das Rezept); Text | Symbole und Ausrichtung bleiben bedienbar (DR-090)');
-ok(/id="ablauf-techniken"/.test(html) && /id: 'kompakt-namen'/.test(main) && /id: 'ablauf-ausrichtung'/.test(main), 'die Gruppen des Diagramm-Kopfs gibt es: Technik in index.html, Beschriftung und Ausrichtung werden in main.js angelegt');
+ok(/id="ablauf-techniken"/.test(html) && /id: 'ablauf-darstellung'/.test(main), 'die Gruppen des Diagramm-Kopfs gibt es: Technik in index.html, die Gruppe mit den vier Ansichten wird in main.js angelegt');
 ok(!/ablauf-voll[^{]*#ablauf-voll-zu[^{]*\{ display: none/.test(css) && !/ablauf-voll[^{]*#ablauf-drehen[^{]*\{ display: none/.test(css) && !/ablauf-voll[^{]*\.strom/.test(css.split('\n').filter((l) => /display: none/.test(l)).join('\n')), 'Vollbild beenden, Drehen und das Diagramm bleiben sichtbar');
 ok(/width: 100vh; height: 100vw/.test(css), 'gedreht: Breite und Höhe getauscht (100vh × 100vw)');
 ok(/document\.addEventListener\('fullscreenchange'/.test(modul) || /doc\.addEventListener\('fullscreenchange'/.test(modul), 'Vollbild-Wechsel durch den Browser (Esc) wird abgefangen');
@@ -152,7 +152,7 @@ ok(/fenster\.addEventListener\?\.\('resize', v\.beiGroesse\)/.test(modul) && /fe
 
 {
   const mainSrc = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
-  ok(/function passeStromEin\(\)/.test(mainSrc) && /f\.style\.zoom = ''/.test(mainSrc) && /quer \? Math\.min\(3, innen\.b \/ breit, innen\.h \/ f\.offsetHeight\) : innen\.b <= 520 \? Math\.min\(3, innen\.b \/ 270\) : Math\.min\(3, innen\.b \/ breit\)/.test(mainSrc) && /passeStromEin\(\);\s*kopfTitel\(\);\s*document\.querySelectorAll\('\[data-ausrichtung\]'\)/.test(mainSrc), 'Strom im Vollbild: per zoom auf Breite und Höhe eingepasst (nie kleiner als 1, höchstens 3), nach jedem Zeichnen (DR-103)');
+  ok(/function passeStromEin\(\)/.test(mainSrc) && /f\.style\.zoom = ''/.test(mainSrc) && /quer \? Math\.min\(3, innen\.b \/ breit, innen\.h \/ f\.offsetHeight\) : innen\.b <= 520 \? Math\.min\(3, innen\.b \/ 270\) : Math\.min\(3, innen\.b \/ breit\)/.test(mainSrc) && /passeStromEin\(\);\s*kopfTitel\(\);\s*document\.querySelectorAll\('\[data-ansicht\]'\)/.test(mainSrc), 'Strom im Vollbild: per zoom auf Breite und Höhe eingepasst (nie kleiner als 1, höchstens 3), nach jedem Zeichnen (DR-103)');
   ok(/spaeterZeichnen = \(\) => \{ clearTimeout\(spaeterTimer\);/.test(mainSrc) && /if \(s\.offen\) spaeterZeichnen\(\);/.test(mainSrc), 'Vollbild offen: nach Größenänderung wird verzögert noch einmal gezeichnet, auch bei gleicher Ansicht (DR-103)');
 }
 

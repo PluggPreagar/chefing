@@ -28,7 +28,7 @@ Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachseh
 
 - **R4** Die Auffälligkeit richtet sich nach **Wirkung und Häufigkeit**. Selten geänderte, allgemeine Einstellungen stehen **oben** als Auswahlmenü (Erfahrung); oft gewechselte Wahlen bleiben als Knopfgruppe **am Ort ihrer Wirkung**. (DR-085)
 - **R5** **Fluss und Einstellungen trennen.** Fluss = eine Zeile direkt unter dem Titel und **vor** der Beschreibung (Brotkrumen), Hierarchie in einer Zeile: `Archetyp › Variante`. Einstellungen = **Werkzeugleiste rechts oben** (Erfahrung, Statistik, Kandidaten), **Melden** daneben. (DR-087, 095)
-- **R6** Einstellungen, die **nur das Diagramm** betreffen, stehen im **Kopf des Diagramm-Blocks, oben rechts**, in gleicher Form, Größe und Lage wie der Vollbild-Knopf: Text | Symbole (nur bei Kompakt), Ausrichtung Auto | Strom | Kompakt, Vollbild. (DR-090)
+- **R6** Einstellungen, die **nur das Diagramm** betreffen, stehen im **Kopf des Diagramm-Blocks, oben rechts**, in gleicher Form, Größe und Lage wie der Vollbild-Knopf: die Ansicht Auto | Zeitleiste | Liste | Symbole als eine Wahl, Vollbild. (DR-090, 109)
 - **R7** Was das **Rezept** ändert („mit Eischnee“), bleibt im Kopf des Diagramm-Blocks links und ist im Vollbild ausgeblendet; was nur die Darstellung ändert, bleibt im Vollbild bedienbar. (DR-080, 090)
 - **R8** Zwei Bedienelemente für dieselbe Entscheidung gibt es nicht; ein zweites ist nur eine Abkürzung und genau dasselbe Element. (DR-079)
 - **R9** **Geteilter Knopf** (Melden): Hauptteil führt die gemerkte Aktion aus, Pfeil öffnet die Liste, **Wählen führt sofort aus und merkt** (`localStorage`). Beschriftung und Symbol des Hauptteils nennen die Aktion; der Tooltip nennt sie genau. (DR-088)
@@ -48,7 +48,7 @@ Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachseh
 ## 5 Schmale Bildschirme (bis 640 Pixel)
 
 - **R16** Titel, Einstellungen und **Melden nur als Symbol** in **einer** Zeile; reicht der Platz nicht (etwa 320 px), rutscht Melden rechtsbündig in die nächste Zeile. Archetyp und Varianten **untereinander und linksbündig**, der Pfeil entfällt. Nichts bricht mitten in einer Gruppe um, kein Trenner steht allein am Zeilenende. (DR-087, 094)
-- **R17** Im Diagramm-Kopf stehen schmal Titel, **zwei Auswahlmenüs** (Text | Symbole, Ausrichtung) und Vollbild in der **ersten** Zeile, die Technik darunter; breit sind es die zwei Knopfgruppen. (DR-090, 108)
+- **R17** Im Diagramm-Kopf stehen schmal Titel, **ein Auswahlmenü** (Ansicht: Auto, Zeitleiste, Liste, Symbole) und Vollbild in der **ersten** Zeile, die Technik darunter; breit ist es die Knopfgruppe. (DR-090, 108, 109)
 - **R18** **Kein Abstand mit `margin-left: auto` auf zwei Geschwistern**: sie teilen sich den freien Platz und landen in der Mitte. Stattdessen ein Platzhalter (`::after` mit `flex: 1 1 0`) und `order`. (DR-087)
 - **R19** CSS-Reihenfolge: eine Regel in einer Medienabfrage verliert gegen eine **spätere** Regel gleicher Spezifität; Medienabfragen stehen nach den allgemeinen Regeln oder werden spezifischer (`nav.fluss`). Ein `display` in einer Regel überschreibt das Attribut `hidden`, dann braucht `[hidden]` eine eigene Regel. (DR-087)
 
@@ -71,5 +71,5 @@ Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachseh
 | Tabelle „eine aus 2 bis 5 → Knopfgruppe“ | Erfahrungsstufe als Auswahlmenü | selten geänderte, allgemeine Einstellung (R4) | DR-085 |
 | R1, R2 (feste Beschriftung) | Melden / Bewerten wechselt am geteilten Knopf | der Hauptteil ist die Aktion selbst (R9) | DR-088 |
 | R10 (nur Symbol) | „Melden“ mit Symbol und Text, nur breit (über 640 px) | Einstieg in ein Menü, Text trägt die Bedeutung; schmal nur Symbol (DR-094); Panel-Knöpfe („Absenden“, „ZIP herunterladen“) mit Text | DR-088, 094, 084 |
-| Tabelle „eine aus 2 bis 5 → Knopfgruppe“ | schmal (bis 640 px) im Diagramm-Kopf Auswahlmenüs statt Knopfgruppen | der Platz reicht für zwei Gruppen nicht, sie brachen um | DR-108 |
+| Tabelle „eine aus 2 bis 5 → Knopfgruppe“ | schmal (bis 640 px) im Diagramm-Kopf ein Auswahlmenü statt der Knopfgruppe | der Platz reicht für die Gruppe mit vier Ansichten nicht, sie brach um | DR-108, DR-109 |
 | R6 (Einstellungen im Diagramm-Block) | Erfahrung, Statistik, Kandidaten in der Werkzeugleiste | betreffen die ganze Seite, nicht das Diagramm | DR-087 |
