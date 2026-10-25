@@ -32,5 +32,12 @@ ok(/aria-haspopup="listbox"/.test(lies('src/ui/stufenMenue.js')) && /aria-haspop
 
 // --- Verweise auf das Regelwerk ---------------------------------------------------------------------------------------------------
 ok(/docs\/UI-REGELN\.md/.test(lies('README.md')), 'README verweist auf das Regelwerk');
+// DR-117: ein verstecktes Diagramm bleibt versteckt, auch wenn eine Regel für .strom.ist-quer `display` setzt (R19)
+{
+  const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+  const setztDisplay = /\.strom\.ist-quer[^{]*\{[^}]*display:\s*(grid|block)/.test(css);
+  ok(setztDisplay && /#flow\[hidden\], #kompakt\[hidden\] \{ display: none; \}/.test(css), 'R19: Regeln mit display für .strom.ist-quer (Spalten, Vollbild) gibt es, darum steht #flow[hidden], #kompakt[hidden] { display: none } dagegen (DR-117)');
+}
+
 console.log(fail ? `${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;

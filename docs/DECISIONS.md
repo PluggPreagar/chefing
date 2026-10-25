@@ -1315,3 +1315,12 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Man sieht in jeder Zeitscheibe, wo die Hände sind; gleiche Bedeutung wie in der Zeitleiste.
 - **cons:** Auf kleinen Bildern sind die Striche kurz; Linien mit vielen Lücken wirken unruhiger.
 - **risk:** Gering, `kompakt.js`, `style.css`, ein Test. Rückgängig: ein Commit.
+
+## DR-117 · ui · Ein verstecktes Diagramm bleibt versteckt (Fehler aus DR-098 und DR-111, R19)
+
+- **descr:** (2026-10-25, Meldung `20261025-154957-invalid-double-state-d0a8` und Bild „see current issue“, 1920 × 1080: Vollbild → Liste → Zeitleiste → Liste) Im Vollbild standen **Zeitleiste und Liste gleichzeitig** untereinander. **Ursache:** Die Regeln für `.strom.ist-quer` aus DR-098 (zwei Spalten ab 1100 px, `display: grid`) und DR-111 (Vollbild, `display: block`) setzen `display` und überschreiben damit das Attribut `hidden`, mit dem `render()` das nicht gezeigte Diagramm ausblendet; `#flow` behält die Klasse `ist-quer` vom letzten Zeichnen. Genau die Falle aus R19 („ein `display` überschreibt `hidden`“). Betroffen war schon die Seite ohne Vollbild ab 1100 px Breite, sobald man von der Zeitleiste zur Liste wechselte.
+- **Entscheid:** `#flow[hidden], #kompakt[hidden] { display: none; }` (Kennung schlägt jede Klassenregel). Test in `test/ui-regeln.check.mjs`: Solange es Regeln mit `display` für `.strom.ist-quer` gibt, muss diese Regel dastehen.
+- **Gemessen (1920 × 1080):** Start Auto: nur die Zeitleiste; Zeitleiste → Liste (ohne Vollbild): nur die Liste; Vollbild: Liste, Zeitleiste, Liste, Symbole: jeweils **genau eine** Ansicht sichtbar.
+- **Lehre:** Jede neue `display`-Regel für ein Element, das `hidden` bekommt, braucht eine `[hidden]`-Regel; das steht schon in R19, ich habe sie bei DR-098 und DR-111 übersehen und zu spät gemessen (nur die Ansicht gemessen, die gerade gezeigt wurde, nicht die andere).
+- **Optionen:** **A `[hidden]`-Regel mit Kennung (gewählt)** · B `ist-quer` beim Verstecken entfernen (löst nur diese Stelle) · C `display` nur auf sichtbare Elemente (`:not([hidden])`) in jeder Regel (viele Stellen, fehleranfällig).
+- **risk:** Gering, `style.css` und ein Test. Rückgängig: ein Commit.
