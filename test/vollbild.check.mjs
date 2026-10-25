@@ -167,7 +167,7 @@ ok(/fenster\.addEventListener\?\.\('resize', v\.beiGroesse\)/.test(modul) && /fe
   const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
   const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
   ok(/id="version-voll"/.test(html) && /id="ablauf-melden"/.test(html) && html.indexOf('id="version-voll"') < html.indexOf('<h2>Ablauf</h2>') && html.indexOf('id="ablauf-melden"') < html.indexOf('id="ablauf-voll"'), 'index.html: Version als erste Zeile und Melden vor den Vollbild-Knöpfen im Kopf des Ablaufs (DR-110)');
-  ok(/for \(const id of \['version-info', 'version-voll'\]\)/.test(main) && /mb\.addEventListener\('click', \(\) => oeffneMeldung\(\)\)/.test(main) && /\.ablauf\.ablauf-voll \.ablauf-kopf > \.version-voll:not\(\[hidden\]\) \{ display: block; flex-basis: 100%; order: -1;/.test(css), 'Vollbild: die Versionszeile steht oben im Kopf, ein Melden-Knopf öffnet das Panel (DR-110)');
+  ok(/for \(const id of \['version-info', 'version-voll'\]\)/.test(main) && /mb\.addEventListener\('click', \(\) => oeffneMeldung\(\)\)/.test(main) && /\.ablauf\.ablauf-voll \.ablauf-kopf > \.version-voll:not\(\[hidden\]\) \{ display: block; position: absolute; top: 1px; right: \.6rem;/.test(css), 'Vollbild: die Versionszeile steht rechts oben im Rand ohne eine Zeile zu belegen, ein Melden-Knopf öffnet das Panel (DR-110, DR-113)');
   ok(/const wurzel = \(\) => document\.fullscreenElement \?\? document\.body/.test(fm) && !/document\.body\.append\((b|schwebe|d|p)\)/.test(fm), 'Melden im echten Vollbild: Panel und Auswahl hängen im Vollbild-Element, sonst wären sie unsichtbar (DR-110)');
 }
 

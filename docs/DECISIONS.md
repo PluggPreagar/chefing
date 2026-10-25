@@ -1266,3 +1266,15 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Das Detail ist sofort sichtbar, der Weg zurück bleibt kurz, wo es der Platz erlaubt.
 - **cons:** Bei langen Details springt die Ansicht über den Schritt davor hinaus; weiches Scrollen kann bei sehr langen Seiten kurz dauern.
 - **risk:** Gering, `autoScroll.js`, zwei Aufrufe, ein Test. Rückgängig: ein Commit.
+
+## DR-113 · ui · Versionszeile rechts oben im Rand, ohne eine Zeile zu belegen (ändert DR-102 und DR-104)
+
+- **descr:** (2026-10-25, Meldung `20261025-150918-version-to-out-od-sight-5974`, markiert war `p#version-info`: „move to right, don't occupy space“) Die Versionszeile stand seit DR-102 als eigene Zeile über dem Titel und schob den Kopf um 17 px nach unten, am Monitor über die ganze Breite.
+- **Entscheid:** Die Zeile steht jetzt **rechts oben im Rand des Kopfs** (`position: absolute`, `top: .2rem`, `right: 1.5rem`) und belegt **keine Zeile** mehr. Sie bleibt klein (0,72 rem) und blass (Deckkraft 0,7 beziehungsweise 0,5 schmal); der Tooltip nennt weiter alles.
+- **Schmal (bis 640 px):** Schrift 0,6 rem, Deckkraft 0,5, nur „Version SHA (lokal …)“ ohne Commit-Zeit, `top: 1px`, `right: .6rem`, mit Auslassungspunkten, falls es nicht passt; der Kopf hat oben 0,8 rem Rand (vorher 0,45 rem plus eine Zeile von 15 px, jetzt 13 px weniger). **Vollbild:** dieselbe Lage rechts oben im Rand des Kastens (`.version-voll`, `position: absolute`), ebenfalls ohne eigene Zeile.
+- **Gemessen:** 1400 px: Zeile y = 3 bis 20, rechts bei x = 997 bis 1361, Werkzeugleiste beginnt bei y = 20: **keine Überlappung**; der Kopf ist 17 px niedriger. 375 px: Zeile y = 1 bis 15, Titel bei y = 13, Werkzeugleiste und Melden bei y = 13: sie berühren nur den Rand der Zeile, kein Überlauf. Vollbild 375 px: Zeile y = 2 bis 16, Titel „Rührkuchen“ bei y = 20.
+- **Regeln:** R5 (Fluss und Einstellungen getrennt: die Statuszeile ist kein Bedienelement), R19 (`p.version` schmal schlägt die allgemeine Regel weiter unten).
+- **Optionen:** **A absolut rechts oben im Rand (gewählt)** · B fest unten rechts im Fenster (immer sichtbar, kann Inhalt überdecken) · C nur im Tooltip des Titels (nicht „sofort sichtbar“, DR-102).
+- **pro:** Sofort sichtbar und trotzdem platzlos; keine Layout-Verschiebung mehr beim Laden.
+- **cons:** Auf sehr schmalen Bildschirmen kann sie die Werkzeugleiste um wenige Pixel berühren (nur die Zeile selbst, nicht deren Klickfläche); sie ist klein.
+- **risk:** Gering, `style.css` und zwei Tests. Rückgängig: ein Commit.

@@ -41,7 +41,7 @@ const css = fs.readFileSync(new URL('style.css', P), 'utf8');
 const fm = fs.readFileSync(new URL('src/ui/fehlerMelden.js', P), 'utf8');
 const kopf = html.slice(html.indexOf('<header class="top">'), html.indexOf('</header>'));
 ok(/class="top-leiste" role="toolbar"/.test(kopf) && kopf.indexOf('id="stufe-menue"') < kopf.indexOf('id="toggle-stats"') && kopf.indexOf('id="toggle-stats"') < kopf.indexOf('id="toggle-kandidaten"') && kopf.indexOf('id="toggle-kandidaten"') < kopf.indexOf('id="melden-menue"'), 'Kopfzeile: Werkzeugleiste in der Reihenfolge Erfahrung, Statistik, Kandidaten, Melden (die Ansicht ist in den Diagramm-Block gewandert, DR-090)');
-ok(kopf.indexOf('id="version-info"') > -1 && kopf.indexOf('id="version-info"') < kopf.indexOf('class="top-zeile"') && !/<footer[\s\S]*version-info/.test(html) && /\.top > \.version \{/.test(css), 'Version und Zeit stehen ganz oben im Kopf, vor dem Titel, nicht mehr im Fuß (DR-102)');
+ok(kopf.indexOf('id="version-info"') > -1 && kopf.indexOf('id="version-info"') < kopf.indexOf('class="top-zeile"') && !/<footer[\s\S]*version-info/.test(html) && /\.top \{ position: relative; \}\s*\.top > \.version \{ position: absolute; top: \.2rem; right: 1\.5rem; margin: 0; white-space: nowrap; \}/.test(css), 'Version und Zeit stehen im Kopf, vor dem Titel im Aufbau, aber rechts oben im Rand ohne eine Zeile zu belegen, nicht mehr im Fuß (DR-102, DR-113)');
 ok(kopf.indexOf('<nav class="presets fluss"') > kopf.indexOf('</div>\n    </div>') && kopf.indexOf('<nav class="presets fluss"') < kopf.indexOf('id="tagline"'), 'Fluss (Brotkrumen) steht direkt unter dem Titel und vor der Beschreibung (DR-095)');
 ok(/<nav class="presets fluss" aria-label="Rezeptart">\s*<select id="archetyp-wahl"[^>]*><\/select>\s*<span class="fluss-pfeil"[^>]*>›<\/span>\s*<span id="preset-gruppe"/.test(kopf), 'Fluss in einer Zeile unter dem Titel: Archetyp › Variante');
 ok(!/id="ablauf-ansicht"/.test(html) && !/data-ansicht/.test(html) && !/id="ergebnis-melden"/.test(html) && !/id="fehler-melden"/.test(html), 'keine Ansicht mehr in der Kopfzeile (DR-090), die zwei alten Melden-Knöpfe sind weg');
@@ -59,7 +59,7 @@ ok(/\.ablauf-kopf > \.wahl-menue \{ display: none; \}/.test(css) && /\.wahl-menu
 ok(/<div class="top-zeile">[\s\S]*?<div class="top-leiste" role="toolbar" aria-label="Einstellungen">[\s\S]*?<\/div>\s*<div id="melden-menue"><\/div>\s*<\/div>/.test(html), 'index.html: Melden steht neben der Werkzeugleiste in der Titelzeile, nicht mehr in ihr');
 {
   const main = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
-  ok(/\['v-sha', /.test(main) && /\['v-commit', /.test(main) && /\['v-deploy', /.test(main) && /\.top > p\.version \{ font-size: \.66rem; opacity: \.5;[^}]*white-space: nowrap/.test(css) && /\.version \.v-commit \{ display: none; \}/.test(css) && /\.top \{ padding-top: \.45rem; \}/.test(css), 'schmal: Version als eine kurze, blasse Zeile ganz oben (Commit-Zeit ausgeblendet, Tooltip nennt alles), Kopf mit weniger Abstand oben (DR-102)');
+  ok(/\['v-sha', /.test(main) && /\['v-commit', /.test(main) && /\['v-deploy', /.test(main) && /\.top > p\.version \{ font-size: \.6rem; opacity: \.5; top: 1px; right: \.6rem;/.test(css) && /\.version \.v-commit \{ display: none; \}/.test(css) && /\.top \{ padding-top: \.8rem; \}/.test(css), 'schmal: Version kleiner und blass rechts oben im Rand (Commit-Zeit ausgeblendet, Tooltip nennt alles), Kopf mit wenig Abstand oben (DR-102, DR-113)');
 }
 
 {
