@@ -45,7 +45,7 @@ merke('Seite', document.title);
 let markiert = '';
 document.addEventListener('selectionchange', () => {
   const t = String(getSelection() || '').trim();
-  if (t && !document.activeElement?.closest?.('#fm-panel')) markiert = t.slice(0, 2000); // markierter Text vor dem Klick auf „Fehler melden“
+  if (t && !document.activeElement?.closest?.('#fm-panel')) markiert = t.slice(0, 2000); // markierter Text vor dem Klick auf „Melden“
 });
 
 // ---- Element-Auswahl ----
@@ -212,11 +212,11 @@ function oeffnen() {
   const p = document.createElement('div');
   p.id = 'fm-panel';
   p.setAttribute('role', 'dialog');
-  p.setAttribute('aria-label', 'Fehler melden');
+  p.setAttribute('aria-label', 'Melden');
   p.innerHTML = `
-<div class="fm-kopf"><b>Fehler melden</b><button type="button" class="fm-x" id="fm-x" aria-label="Schließen (Esc)">✕</button></div>
+<div class="fm-kopf"><b>Melden</b><button type="button" class="fm-x" id="fm-x" aria-label="Schließen (Esc)">✕</button></div>
 <div class="fm-inhalt">
- <label for="fm-t">Titel</label><input type="text" id="fm-t" maxlength="120" placeholder="Kurz: was ist falsch?">
+ <label for="fm-t">Titel</label><input type="text" id="fm-t" maxlength="120" placeholder="Kurz: worum geht es?">
  <label for="fm-d">Beschreibung</label><textarea id="fm-d" rows="5" placeholder="Erwartet / tatsächlich / Schritte"></textarea>
  <div class="fm-reihe"><button type="button" id="fm-pick">Elemente zeigen</button><span class="fm-leise" id="fm-pn">keine gewählt</span></div>
  <div class="fm-picks" id="fm-picks"></div>
@@ -337,8 +337,8 @@ export function initFehlerMelden(knopf, holeKontext) {
     knopf.type = 'button';
     knopf.id = 'fehler-melden';
     knopf.className = 'ghost';
-    knopf.title = 'Fehler melden: Beschreibung, gewählte Elemente und App-Zustand absenden oder als ZIP herunterladen';
-    knopf.textContent = '⚑ Fehler melden';
+    knopf.title = 'Melden: Fehler, Idee oder Frage mit Beschreibung, gewählten Elementen und App-Zustand absenden oder als ZIP herunterladen';
+    knopf.textContent = '⚑ Melden';
     document.querySelector('nav.presets')?.append(knopf);
   }
   knopf.addEventListener('click', oeffnen);

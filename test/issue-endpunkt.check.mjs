@@ -64,6 +64,10 @@ ok(MAX_ZIP_BYTES === 12582912, 'Grenze 12 MB wie ISSUE_MAX_ZIP im PHP');
 // --- Oberfläche: Knöpfe und Hinweistext --------------------------------------------------------------------------------------
 const ui = fs.readFileSync(new URL('../src/ui/fehlerMelden.js', import.meta.url), 'utf8');
 ok(/id="fm-send"[^>]*>Absenden/.test(ui) && /id="fm-zip"[^>]*>ZIP herunterladen/.test(ui) && /sendeFehlermeldung/.test(ui) && /Gesendet wird erst mit „Absenden“/.test(ui), 'Panel hat „Absenden“ und „ZIP herunterladen“ und sagt, was gesendet wird');
+// Nutzer-Meldung 20261025-073726-melden-smaller: Knopf allgemeiner und kürzer benennen
+const indexHtml = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+ok(/id="fehler-melden"[^>]*>⚑ Melden</.test(indexHtml) && !/>⚑ Fehler melden</.test(indexHtml) && /knopf\.textContent = '⚑ Melden'/.test(ui) && /<b>Melden<\/b>/.test(ui) && /aria-label', 'Melden'/.test(ui), 'der Knopf heißt „⚑ Melden“ (index.html und Rückfall), das Panel „Melden“');
+ok(/Fehler, Idee oder Frage/.test(indexHtml) && /Kurz: worum geht es\?/.test(ui), 'Hinweistext und Platzhalter nennen Fehler, Idee oder Frage statt nur „falsch“');
 ok(!/Es wird nichts gesendet/.test(ui) && !/Es wird nichts gesendet/.test(fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8')), 'der alte Hinweis „Es wird nichts gesendet“ ist weg');
 
 // --- PHP-Teil mit einer vom Client gebauten Anfrage ---------------------------------------------------------------------------

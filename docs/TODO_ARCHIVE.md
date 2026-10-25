@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T130 | Meldeknopf allgemeiner und kürzer benennen | done | Aus der ersten echten Meldung (`20261025-073726-melden-smaller-235f`): „⚑ Fehler melden“ heißt jetzt „⚑ Melden“, Panel „Melden“, Platzhalter und Tooltip nennen Fehler, Idee oder Frage (DR-083). | DR-077, DR-079, DR-083 |
 | T129 | Nummer der Meldung beim Absenden in die Zwischenablage | done | `ui/zwischenablage.js`, Panel zeigt „in die Zwischenablage kopiert“ und den Knopf „Nummer kopieren“; Test mit Attrappen, im Browser geprüft. | DR-077, DR-082 |
 | T128 | Lokaler Server mit Ablage für Fehlermeldungen | done | `tools/dev-server.py` (Python, nur Standardbibliothek) und `justfile` (`just serve`); „Absenden“ speichert entpackt in `issues/open/`. Der Live-Weg bleibt `chefing-issue.php`. | DR-044, DR-077, DR-082 |
 | T127 | Kompakt-Ansicht auf dem Handy lesbar machen | done | Nutzer-Screenshot „Hard to read“: Kompakt zeigte nur Symbole. Neues Häkchen „mit Namen“ (Vorgabe an): Schritt mit Zeit und Temperatur, darunter Zutaten mit Symbol, Name und Menge, umgebrochen in Bildschirmbreite (DR-081). Offen, falls gewünscht: Namen nur auf schmalen Bildschirmen (Option C). | DR-073, DR-079, DR-081 |
