@@ -54,5 +54,35 @@ ok(letzter.art === 'warten' && letzter.icon === 'ort_ofen', 'am Ende: Ofen');
 ok(k('aufschlagen').neu.map((n) => n.rolle).join() === 'fett,suesse', 'Aufschlagen: Butter und Zucker fließen zu (mit Rolle für die Menge beim Antippen)');
 ok(K.zeilen < c.ablauf.length + 3, `kompakt: ${K.zeilen} Zeilen für ${c.ablauf.length} Schritte`);
 
+// --- Variante „mit Namen“ (DR-081) --------------------------------------------------------------------------------------------------
+const { umbrechen, knotenTexte, namenLayout, NAMEN } = await import(P + 'ui/kompakt.js');
+ok(umbrechen('eins zwei drei', 20).join('|') === 'eins zwei drei' && umbrechen('eins zwei drei', 8).join('|') === 'eins|zwei|drei' && umbrechen('eins zwei drei', 9).join('|') === 'eins zwei|drei', 'umbrechen: an Leerzeichen, so viele Wörter wie passen');
+ok(umbrechen('Supercalifragilistic', 8).join('|') === 'Supercal|ifragili|stic' && umbrechen('', 8).join('|') === '' && umbrechen('  ', 8).length === 1 && umbrechen(null, 8)[0] === '', 'umbrechen: zu langes Wort wird hart geteilt, leerer Text gibt eine leere Zeile');
+ok(umbrechen('a b c d e f g h i j', 5).every((z) => z.length <= 5), 'umbrechen: keine Zeile länger als das Maximum');
+for (const [label, techn] of [['ohne Eischnee', {}], ['mit Eischnee', { eier_getrennt: true }]]) {
+  const { c: cc, K: KK } = rechne('ruehrteig', 'kastenkuchen', null, techn);
+  const max = 34;
+  const texte = knotenTexte(KK, cc.ablauf, cc, max);
+  const alle = [...texte.values()].flatMap((t) => [...t.titel, ...t.zutaten.flatMap((z) => z.zeilen)]);
+  ok(texte.size === KK.knoten.length && alle.every((z) => z.length <= max), `Namen (${label}): Text für jeden Knoten, keine Zeile länger als ${max} Zeichen`);
+  const aufschl = KK.knoten.find((x) => cc.ablauf[x.i].key === 'aufschlagen' && x.art === 'aktion');
+  const ta = texte.get(aufschl);
+  ok(ta.titel.join(' ').startsWith('1. ') && /Butter/.test(ta.zutaten[0].zeilen.join(' ')) && /\d+ g/.test(ta.zutaten[0].zeilen.join(' ')) && ta.zutaten.length === 2, `Namen (${label}): Aufschlagen nennt Schritt mit Nummer, Butter und Zucker mit Menge`);
+  const lay = namenLayout(KK, texte);
+  let vorher = 6; let sauber = true; const reihenfolge = [];
+  for (let z = 0; z < KK.zeilen; z++) for (const x of KK.knoten.filter((n) => n.zeile === z)) reihenfolge.push(x);
+  for (const x of reihenfolge) {
+    const g = lay.geo.get(x);
+    if (g.von !== vorher || !(g.cy > g.von) || !(g.bis >= g.von + NAMEN.ROW) || g.titelY.at(-1) >= g.bis || g.zutaten.some((zz) => zz.top < g.titelY.at(-1) || zz.top + zz.h > g.bis)) sauber = false;
+    vorher = g.bis;
+  }
+  ok(sauber && lay.hoehe === vorher + 6 && lay.geo.size === KK.knoten.length, `Namen (${label}): Blöcke liegen lückenlos untereinander, Text und Zutaten bleiben im Block`);
+  ok(KK.kanten.every((e) => lay.geo.get(e.zu).cy > lay.geo.get(e.von).cy || e.art === 'quelle'), `Namen (${label}): Kanten laufen weiter nach unten`);
+}
+const kompaktMain = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
+const kompaktCss = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+ok(/id: 'kompakt-namen'/.test(kompaktMain) && /chefing\.kompaktNamen/.test(kompaktMain) && /renderKompakt\(\$\('kompakt'\), computed, data, \{ namen: kompaktNamen \}\)/.test(kompaktMain) && /\$\('kompakt-namen'\)\.hidden = !kompakt/.test(kompaktMain), 'main.js: Häkchen „mit Namen“ nur in der Kompakt-Ansicht, Wahl je Browser, Vorgabe an');
+ok(/\.kompakt-svg\.mit-namen \{[^}]*width: 100%/.test(kompaktCss) && /\.kompakt-titel \{[^}]*font-size: 13px/.test(kompaktCss) && /\.kompakt-zutatentext/.test(kompaktCss), 'style.css: Namen-Variante füllt die Breite, Schrift 13 px');
+
 console.log(fail ? `${fail} FAILED` : 'ALL PASS');
 process.exit(fail ? 1 : 0);

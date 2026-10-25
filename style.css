@@ -213,6 +213,11 @@ label.technik-schalter { display: inline-flex; align-items: center; gap: .35rem;
 .kompakt-zutat:hover, .kompakt-zutat:focus-visible { color: var(--ink); }
 .kompakt-knoten:focus, .kompakt-zutat:focus { outline: none; }
 .kompakt-info { font-size: 13px; min-height: 1.4em; margin: 6px 0 0; }
+/* Variante „mit Namen“ (DR-081): Schritt und Zutaten als Text, in der Breite des Bildschirms */
+.kompakt-svg.mit-namen { width: 100%; height: auto; }
+.kompakt-titel { font-size: 13px; font-weight: 600; fill: var(--ink); }
+.kompakt-zutatentext { font-size: 13px; fill: var(--ink); }
+.mit-namen .kompakt-zutat { color: var(--ink); }
 .kompakt-fuss { margin-left: 0; }
 .zustand-link { color: var(--sel); text-decoration: underline dotted; text-underline-offset: 2px; cursor: pointer; }
 .zustand-link:hover { text-decoration-style: solid; }

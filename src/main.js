@@ -102,6 +102,23 @@ function ablaufAnsicht() {
 }
 ablaufAnsicht();
 
+// „mit Namen“ in der Kompakt-Ansicht (DR-081): Schritte und Zutaten als Text neben den Symbolen; Häkchen mit fester Beschriftung (DR-079),
+// nur in der Kompakt-Ansicht sichtbar, Vorgabe an, Wahl je Browser.
+let kompaktNamen = true;
+try { if (localStorage.getItem('chefing.kompaktNamen') === 'aus') kompaktNamen = false; } catch { /* ohne Speicher: an */ }
+function kompaktNamenHaken() {
+  const l = Object.assign(document.createElement('label'), { id: 'kompakt-namen', className: 'technik-schalter', title: 'Schritte und Zutaten mit Namen und Mengen neben den Symbolen' });
+  const box = Object.assign(document.createElement('input'), { type: 'checkbox', checked: kompaktNamen });
+  box.addEventListener('change', () => {
+    kompaktNamen = box.checked;
+    try { localStorage.setItem('chefing.kompaktNamen', kompaktNamen ? 'an' : 'aus'); } catch { /* nur für diese Sitzung */ }
+    render();
+  });
+  l.append(box, 'mit Namen');
+  $('ablauf-ansicht').after(l);
+}
+kompaktNamenHaken();
+
 // Stufen-Schalter im Kopf des Ablaufs (DR-075): wie viele Praxishinweise erscheinen; Warnungen bleiben immer sichtbar.
 // Fehlt die Knopfgruppe (ältere index.html aus dem Cache, DR-037), wird sie angelegt.
 function ablaufStufe() {
@@ -205,7 +222,9 @@ function render() {
   const kompakt = ansicht === 'kompakt';
   $('flow').hidden = kompakt;
   $('kompakt').hidden = !kompakt;
-  if (kompakt) renderKompakt($('kompakt'), computed, data); else renderFlow($('flow'), computed, data);
+  $('kompakt-namen').hidden = !kompakt;
+  $('kompakt-namen').classList.toggle('is-an', kompaktNamen);
+  if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: kompaktNamen }); else renderFlow($('flow'), computed, data);
   document.querySelectorAll('[data-ansicht]').forEach((b) => { b.classList.toggle('is-active', b.dataset.ansicht === ansicht); b.setAttribute('aria-pressed', String(b.dataset.ansicht === ansicht)); });
   document.querySelectorAll('[data-stufe]').forEach((b) => { b.classList.toggle('is-active', b.dataset.stufe === state.stufe); b.setAttribute('aria-pressed', String(b.dataset.stufe === state.stufe)); });
   renderRecipe($('recipe'), computed, state, data, update);
