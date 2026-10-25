@@ -320,6 +320,12 @@ details.zustand summary { cursor: pointer; color: var(--sel); }
 .ist-quer .ist-neben .z-inhalt .ort-marke { align-self: center; }
 .ist-quer .strom-fuss { margin-left: 0; }
 .ist-quer .strom-karte { margin-top: .75rem; }
+/* Strom mittig wie Kompakt (R14, Meldung 20261025-115231): quer die Zeitleiste in der Mitte (passt sie nicht, beginnt sie links und scrollt), hochkant schmal und mittig */
+.ist-quer .strom-band { justify-content: safe center; }
+.ist-quer .strom-fuss, .ist-quer .strom-vorbereiten { text-align: center; }
+.ist-quer .strom-karte { max-width: 640px; margin-left: auto; margin-right: auto; }
+.ist-hoch .strom-band, .ist-hoch .strom-vorbereiten { max-width: 720px; margin-left: auto; margin-right: auto; }
+.ist-hoch .strom-fuss { max-width: 720px; margin: 6px auto 0; padding-left: 52px; box-sizing: border-box; }
 
 .status { font-weight: 700; padding: .5rem .75rem; border-radius: 8px; margin-bottom: .5rem; }
 .status-ok { background: var(--sel-bg); color: var(--sel); }

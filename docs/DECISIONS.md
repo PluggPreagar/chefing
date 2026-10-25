@@ -1086,3 +1086,14 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Ein Klick auf Vollbild nutzt den Bildschirm; keine Skript-Logik; gilt für Monitor und Handy.
 - **cons:** Das Aufklappen eines Details verkleinert die Zeichnung, weil die Gesamthöhe wächst; auf sehr breiten Bildschirmen bleibt seitlich Leerraum (das Diagramm ist schmal).
 - **risk:** Gering, nur `style.css` und ein Test. Rückgängig: ein Commit.
+
+## DR-097 · ui · Diagramme mittig und ruhig: Strom bleibt beim Aufklappen stehen, Strom-Ansicht mittig
+
+- **descr:** (2026-10-25, zwei Meldungen) **1.** `20261025-094730-center-ish-27a2`: „keep centered – but fix flow in position, even if I hide text, toggle different sized texts“. In der Symbole-Ansicht wuchs die Zeichnung beim Aufklappen eines Details in der Breite, wurde neu zentriert und der Strom (Knoten und Zutaten) sprang nach links. **2.** `20261025-115231-center-diagrams-da24`: „also center stream version“. Die Strom-Ansicht stand links.
+- **Entscheid 1:** Die Breite der Symbole-Zeichnung hängt **nie** vom offenen Detail ab. Sie ist immer so breit, dass der Strom in der Mitte der Zeichnung steht und rechts davon Platz für den Text bleibt (links der gleiche Rand): `breite = max(Symbolbreite, min(Behälter, 2 × Textbreite − Symbolbreite))`. Auf- und Zuklappen und verschieden lange Texte verschieben den Strom nicht mehr, nur die Höhe wächst. Die Text-Variante (Namen) ist unverändert, dort liegt der Strom links.
+- **Entscheid 2:** Strom quer: die Zeitleiste in der Mitte (`justify-content: safe center`; passt sie nicht, beginnt sie links und scrollt), Fußzeile und „Vorbereiten“ zentriert, die Detailkarte höchstens 640 px und mittig. Strom hochkant: Band, „Vorbereiten“ und Fußzeile höchstens 720 px und mittig.
+- **Regeln:** R14 (Diagramme mittig und begrenzt) gilt jetzt für beide Ansichten; R23 (gemessen: Knotenposition vor und nach dem Aufklappen gleich bei 1024 px, Strom quer links 80 px und rechts 79 px, Handy ohne Überlauf).
+- **Optionen:** **A feste Breite mit mittigem Strom (gewählt)** · B Strom links festnageln, Text rechts (Zeichnung wirkt links verschoben) · C Detail als Fenster über der Zeichnung (verdeckt Schritte, neues Element).
+- **pro:** Nichts springt beim Klicken; beide Ansichten sehen gleich geordnet aus.
+- **cons:** Die geschlossene Symbole-Zeichnung ist breiter (Leerraum links und rechts); auf dem Handy bleibt der Text im Detail etwas schmaler.
+- **risk:** Gering, `kompakt.js`, `style.css`, ein Test. Rückgängig: ein Commit.

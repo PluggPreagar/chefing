@@ -87,6 +87,14 @@ ok(/wert: 'true', icon: 'beschriftung_text', name: 'Text'/.test(kompaktMain) && 
 ok(/name: 'Beschriftung der Kompakt-Ansicht'/.test(kompaktMain) && /setAttribute\('aria-pressed', String\(an\)\)/.test(kompaktMain) && /setAttribute\('aria-label', k\.name\)/.test(kompaktMain), 'Gruppe hat einen Namen für Vorlesegeräte, jeder Knopf ein aria-label, der gewählte aria-pressed');
 ok(/\.kompakt-svg\.mit-namen \{[^}]*width: 100%/.test(kompaktCss) && /\.kompakt-titel \{[^}]*font-size: 13px/.test(kompaktCss) && /\.kompakt-zutatentext/.test(kompaktCss), 'style.css: Namen-Variante füllt die Breite, Schrift 13 px');
 
+// --- T149: der Strom bleibt beim Auf- und Zuklappen an seinem Platz, der Strom (Zeitleiste) steht mittig (DR-097)
+{
+  const src = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
+  ok(/const breite = namen \? gesamt : Math\.max\(breiteSym, Math\.min\(gesamt, 2 \* textBreite - breiteSym\)\)/.test(src) && /const rand = namen \? 0 : \(breite - breiteSym\) \/ 2/.test(src) && /const x0 = x0Basis \+ rand/.test(src) && !/offen\.size \? Math\.max/.test(src), 'Symbole: Breite unabhängig vom offenen Detail, Strom mit gleichem Rand links wie rechts Platz für den Text');
+  const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+  ok(/\.ist-quer \.strom-band \{ justify-content: safe center; \}/.test(css) && /\.ist-hoch \.strom-band, \.ist-hoch \.strom-vorbereiten \{ max-width: 720px; margin-left: auto; margin-right: auto; \}/.test(css) && /\.ist-quer \.strom-fuss, \.ist-quer \.strom-vorbereiten \{ text-align: center; \}/.test(css), 'style.css: Strom-Ansicht mittig, quer mit safe center (passt sie nicht, beginnt sie links), hochkant schmal und mittig');
+}
+
 // --- T144: Details unter dem Schritt in der Symbole-Ansicht ------------------------------------------------------------------------
 const kompaktSrc = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
 ok(/data-schritt': k\.i/.test(kompaktSrc) && /'data-zutat'/.test(kompaktSrc) && /kompakt-pfeilgruppe/.test(kompaktSrc) && /kompakt-treffer/.test(kompaktSrc), 'Kennungen: data-schritt an Knoten und Pfeil, data-zutat an Zutaten (Grundlage für T145)');

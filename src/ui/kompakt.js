@@ -131,18 +131,23 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const steps = computed.ablauf;
   const M = stromModell(steps, data.orte, computed.vessel);
   const K = kompaktModell(M, steps);
-  const x0 = PAD + K.spalten * LANE + R;
-  const xVon = (k) => x0 - k.spalte * LANE;
   const namen = opt.namen === true;
-  const textX = x0 + R + 12;
   const gesamt = Math.max(240, Math.min(640, Math.round(opt.breite || root.clientWidth || 340))); // höchstens 640: auf breiten Bildschirmen bleibt der Text lesbar und das Diagramm lässt sich zentrieren
   // Symbole: aufgeklappte Schritte (T144), gemerkt am Behälter, verworfen wenn sich der Ablauf ändert
   const sig = steps.map((s) => s.key).join();
   if (root._offen?.sig !== sig) root._offen = { sig, set: new Set() };
   const offen = namen ? new Set() : root._offen.set;
   const maxZut = Math.max(0, ...K.knoten.map((k) => k.neu.length));
-  const breiteSym = x0 + R + 24 + maxZut * ZUT_ABST + PAD;
-  const breite = namen ? gesamt : offen.size ? Math.max(breiteSym, Math.min(gesamt, textX + PAD + 230)) : breiteSym;
+  // Symbole: die Breite hängt nie vom aufgeklappten Detail ab, und der Strom bleibt in der Mitte der Zeichnung (links so viel Rand wie rechts Platz für den Text),
+  // damit nichts springt, wenn ein Detail auf- oder zugeht (Meldung 20261025-094730)
+  const x0Basis = PAD + K.spalten * LANE + R;
+  const breiteSym = x0Basis + R + 24 + maxZut * ZUT_ABST + PAD;
+  const textBreite = x0Basis + R + 12 + PAD + 230; // Platz für das Detail rechts vom Strom
+  const breite = namen ? gesamt : Math.max(breiteSym, Math.min(gesamt, 2 * textBreite - breiteSym));
+  const rand = namen ? 0 : (breite - breiteSym) / 2;
+  const x0 = x0Basis + rand;
+  const xVon = (k) => x0 - k.spalte * LANE;
+  const textX = x0 + R + 12;
   const maxZeichen = Math.max(12, Math.floor((breite - textX - PAD) / NAMEN.ZEICHEN));
   const texte = namen || offen.size ? knotenTexte(K, steps, computed, maxZeichen) : null;
   const lay = namen ? namenLayout(K, texte) : null;

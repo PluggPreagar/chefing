@@ -42,7 +42,7 @@ Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachseh
 ## 4 Stil
 
 - **R13** **Flach**: Rahmen nur beim Darüberfahren, ausgewählt = getönter Grund ohne Rahmen, Höhe und Breite 2,4 rem für Symbol-Knöpfe, sichtbarer Fokusring. Gilt für alles im Diagramm-Kopf. (DR-090)
-- **R14** Diagramme stehen **mittig** und sind in der Breite begrenzt (Kompakt höchstens 640 Pixel); Text und Zeilen darum zentriert. **Im Vollbild** wird das Diagramm stattdessen auf Breite und Höhe eingepasst. (DR-090, 096)
+- **R14** Diagramme stehen **mittig** und sind in der Breite begrenzt (Kompakt höchstens 640 Pixel); Text und Zeilen darum zentriert. **Im Vollbild** wird das Diagramm stattdessen auf Breite und Höhe eingepasst. Das gilt für Kompakt und Strom; in Kompakt (Symbole) springt der Strom nicht, wenn ein Detail auf- oder zugeht. (DR-090, 096, 097)
 - **R15** Gleichartige Knöpfe stehen als **Knopfgruppe** (Ränder verbunden, gewählter hervorgehoben), verschiedene Gruppen mit sichtbarem Abstand getrennt; keine losen Reihen einzelner Pillen. (DR-045)
 
 ## 5 Schmale Bildschirme (bis 640 Pixel)
