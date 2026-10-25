@@ -42,13 +42,13 @@ Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachseh
 ## 4 Stil
 
 - **R13** **Flach**: Rahmen nur beim Darüberfahren, ausgewählt = getönter Grund ohne Rahmen, Höhe und Breite 2,4 rem für Symbol-Knöpfe, sichtbarer Fokusring. Gilt für alles im Diagramm-Kopf. (DR-090)
-- **R14** Diagramme stehen **mittig** und sind in der Breite begrenzt (Kompakt höchstens 640 Pixel); Text und Zeilen darum zentriert. **Im Vollbild** wird das Diagramm stattdessen auf Breite und Höhe eingepasst. Das gilt für Kompakt und Strom; in Kompakt (Symbole) springt der Strom nicht, wenn ein Detail auf- oder zugeht. In der Strom-Ansicht (quer) stehen ab 1100 px Zeitleiste und Karte in zwei Spalten, die Karte in fester Breite. (DR-090, 096, 097, 098)
+- **R14** Diagramme stehen **mittig** und sind in der Breite begrenzt (Kompakt höchstens 640 Pixel); Text und Zeilen darum zentriert. **Im Vollbild** wird das Diagramm stattdessen auf Breite und Höhe eingepasst. Das gilt für Kompakt und Strom; in Kompakt (Symbole) springt der Strom nicht, wenn ein Detail auf- oder zugeht. Der Kopf des Kastens nennt im Vollbild und breit den Namen der Variante (DR-106, 108). In der Strom-Ansicht (quer) stehen ab 1100 px Zeitleiste und Karte in zwei Spalten, die Karte in fester Breite. (DR-090, 096, 097, 098)
 - **R15** Gleichartige Knöpfe stehen als **Knopfgruppe** (Ränder verbunden, gewählter hervorgehoben), verschiedene Gruppen mit sichtbarem Abstand getrennt; keine losen Reihen einzelner Pillen. (DR-045)
 
 ## 5 Schmale Bildschirme (bis 640 Pixel)
 
 - **R16** Titel, Einstellungen und **Melden nur als Symbol** in **einer** Zeile; reicht der Platz nicht (etwa 320 px), rutscht Melden rechtsbündig in die nächste Zeile. Archetyp und Varianten **untereinander und linksbündig**, der Pfeil entfällt. Nichts bricht mitten in einer Gruppe um, kein Trenner steht allein am Zeilenende. (DR-087, 094)
-- **R17** Im Diagramm-Kopf bleibt das Vollbild in der **ersten** Zeile rechts, Text | Symbole und Ausrichtung rutschen in die zweite. (DR-090)
+- **R17** Im Diagramm-Kopf stehen schmal Titel, **zwei Auswahlmenüs** (Text | Symbole, Ausrichtung) und Vollbild in der **ersten** Zeile, die Technik darunter; breit sind es die zwei Knopfgruppen. (DR-090, 108)
 - **R18** **Kein Abstand mit `margin-left: auto` auf zwei Geschwistern**: sie teilen sich den freien Platz und landen in der Mitte. Stattdessen ein Platzhalter (`::after` mit `flex: 1 1 0`) und `order`. (DR-087)
 - **R19** CSS-Reihenfolge: eine Regel in einer Medienabfrage verliert gegen eine **spätere** Regel gleicher Spezifität; Medienabfragen stehen nach den allgemeinen Regeln oder werden spezifischer (`nav.fluss`). Ein `display` in einer Regel überschreibt das Attribut `hidden`, dann braucht `[hidden]` eine eigene Regel. (DR-087)
 
@@ -71,4 +71,5 @@ Vor jeder UI-Arbeit und vor jeder Meldung aus `issues/open/` zuerst hier nachseh
 | Tabelle „eine aus 2 bis 5 → Knopfgruppe“ | Erfahrungsstufe als Auswahlmenü | selten geänderte, allgemeine Einstellung (R4) | DR-085 |
 | R1, R2 (feste Beschriftung) | Melden / Bewerten wechselt am geteilten Knopf | der Hauptteil ist die Aktion selbst (R9) | DR-088 |
 | R10 (nur Symbol) | „Melden“ mit Symbol und Text, nur breit (über 640 px) | Einstieg in ein Menü, Text trägt die Bedeutung; schmal nur Symbol (DR-094); Panel-Knöpfe („Absenden“, „ZIP herunterladen“) mit Text | DR-088, 094, 084 |
+| Tabelle „eine aus 2 bis 5 → Knopfgruppe“ | schmal (bis 640 px) im Diagramm-Kopf Auswahlmenüs statt Knopfgruppen | der Platz reicht für zwei Gruppen nicht, sie brachen um | DR-108 |
 | R6 (Einstellungen im Diagramm-Block) | Erfahrung, Statistik, Kandidaten in der Werkzeugleiste | betreffen die ganze Seite, nicht das Diagramm | DR-087 |

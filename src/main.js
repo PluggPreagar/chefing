@@ -16,6 +16,7 @@ import { wirksameAnsicht as ermittleAnsicht, ausrichtungAusSpeicher } from './mo
 import { STUFEN, STUFE_TEXT, SCHWELLE } from './model/aussagen.js';
 import { initVollbild } from './ui/vollbild.js';
 import { initStufenMenue } from './ui/stufenMenue.js';
+import { initWahlMenue } from './ui/wahlMenue.js';
 
 async function loadJson(path) {
   const r = await fetch(path, { cache: 'no-cache' });
@@ -88,7 +89,9 @@ const wirksameAnsicht = () => ermittleAnsicht({ ausrichtung, vollbildAnsicht, ho
 
 // Symbolgruppe im Ablauf-Kopf (DR-084, DR-090): nur flache Symbole mit Tooltip und aria-label, ausgewählt = aria-pressed. Fehlt sie in der
 // index.html (ältere Fassung aus dem Cache, DR-037), wird sie angelegt; eine alte Ansichtsgruppe aus der Werkzeugleiste wird entfernt.
-function symbolGruppe({ id, name, attr, knoepfe, nach, beiWahl }) {
+// Dazu je Gruppe ein Auswahlmenü gleicher Wahl (DR-108): bis 640 px zeigt CSS statt der Gruppe das Menü, damit der Kopf des Ablaufs in einer Zeile bleibt.
+const menues = {};
+function symbolGruppe({ id, name, attr, knoepfe, nach, beiWahl, aktuell }) {
   let g = $(id);
   if (!g) {
     g = Object.assign(document.createElement('span'), { id, className: 'knopfgruppe' });
@@ -105,13 +108,16 @@ function symbolGruppe({ id, name, attr, knoepfe, nach, beiWahl }) {
     b.addEventListener('click', () => beiWahl(k.wert));
     g.append(b);
   }
+  const menueEl = $(id + '-menue') ?? Object.assign(document.createElement('div'), { id: id + '-menue' });
+  g.after(menueEl);
+  menues[attr] = initWahlMenue(menueEl, { name, optionen: knoepfe.map(({ wert, icon, name: n, titel }) => ({ wert, icon, name: n, titel })), aktuell, onWahl: beiWahl });
   return g;
 }
 function ablaufEinstellungen() {
   if (!$('kompakt')) $('flow').after(Object.assign(document.createElement('div'), { id: 'kompakt', className: 'kompakt', hidden: true }));
   $('ablauf-ansicht')?.remove();
   const namen = symbolGruppe({
-    id: 'kompakt-namen', name: 'Beschriftung der Kompakt-Ansicht', attr: 'namen', nach: $('ablauf-techniken'),
+    id: 'kompakt-namen', name: 'Beschriftung der Kompakt-Ansicht', attr: 'namen', nach: $('ablauf-techniken'), aktuell: String(kompaktNamen),
     knoepfe: [
       { wert: 'true', icon: 'beschriftung_text', name: 'Text', titel: 'Text: Schritte und Zutaten mit Name und Menge neben den Symbolen' },
       { wert: 'false', icon: 'beschriftung_symbole', name: 'Symbole', titel: 'Symbole: nur Symbole, Name und Menge erst beim Antippen' },
@@ -123,7 +129,7 @@ function ablaufEinstellungen() {
     },
   });
   symbolGruppe({
-    id: 'ablauf-ausrichtung', name: 'Ausrichtung des Diagramms', attr: 'ausrichtung', nach: namen,
+    id: 'ablauf-ausrichtung', name: 'Ausrichtung des Diagramms', attr: 'ausrichtung', nach: namen, aktuell: ausrichtung,
     knoepfe: [
       { wert: 'auto', icon: 'ausrichtung_auto', name: 'Auto', titel: 'Auto: folgt dem Bildschirm, hochkant Kompakt (oben nach unten), quer Strom (links nach rechts)' },
       { wert: 'strom', icon: 'ansicht_strom', name: 'Strom', titel: 'Strom: immer quer, Zeitleiste von links nach rechts' },
@@ -234,12 +240,15 @@ function update(patch) {
 }
 
 let letztes = null; // zuletzt berechnetes Rezept, für die Fehlermeldung
-// Kopf des Ablaufs: im Vollbild steht dort der Name der Variante („Rührkuchen“) statt „Ablauf“ (DR-106)
+// Kopf des Ablaufs: im Vollbild und auf breiten Bildschirmen steht dort der Name der Variante („Rührkuchen“) statt „Ablauf“ (DR-106, DR-108);
+// schmal und nicht im Vollbild stehen die Brotkrumen direkt darüber, dort bleibt „Ablauf“
+addEventListener('resize', () => kopfTitel());
 function kopfTitel() {
   const h = document.querySelector('.ablauf-kopf h2');
   if (!h) return;
   const voll = document.querySelector('.panel.ablauf').classList.contains('ablauf-voll');
-  const v = voll && letztes ? arch.varianten[letztes.variante] : null;
+  const breit = matchMedia('(min-width: 641px)').matches;
+  const v = (voll || breit) && letztes ? arch.varianten[letztes.variante] : null;
   h.textContent = v ? (v.kurz ?? v.label) : 'Ablauf';
 }
 
@@ -259,7 +268,9 @@ function passeStromEin() {
   let breit = quer ? kinder.at(-1).offsetLeft + kinder.at(-1).offsetWidth - kinder[0].offsetLeft : band.offsetWidth;
   const spalten = getComputedStyle(f).gridTemplateColumns.split(' ');
   if (quer && spalten.length === 2) breit += parseFloat(getComputedStyle(f).columnGap) + parseFloat(spalten[1]); // Zeitleiste plus Karten-Spalte
-  const z = Math.min(3, innen.b / breit, innen.h / f.offsetHeight);
+  // quer: Breite und Höhe; hochkant: nur die Breite, die Höhe scrollt (wie Kompakt: immer so groß wie möglich)
+  // hochkant auf dem Handy: das Raster hält noch bei 270 px Breite, dort wird die Zeichnung um so größer eingepasst (zoom = Breite / 270)
+  const z = quer ? Math.min(3, innen.b / breit, innen.h / f.offsetHeight) : innen.b <= 520 ? Math.min(3, innen.b / 270) : Math.min(3, innen.b / breit);
   if (z > 1.05) f.style.zoom = String(Math.round(z * 100) / 100);
 }
 
@@ -275,6 +286,9 @@ function render() {
   $('flow').hidden = kompakt;
   $('kompakt').hidden = !kompakt;
   $('kompakt-namen').hidden = !kompakt; // Text | Symbole betrifft nur die Kompakt-Ansicht
+  $('kompakt-namen-menue').hidden = !kompakt;
+  menues.namen.setze(String(kompaktNamen));
+  menues.ausrichtung.setze(ausrichtung);
   $('kompakt-namen').querySelectorAll('[data-namen]').forEach((k) => { const an = (k.dataset.namen === 'true') === kompaktNamen; k.classList.toggle('is-active', an); k.setAttribute('aria-pressed', String(an)); });
   if (kompakt) renderKompakt($('kompakt'), computed, data, { namen: kompaktNamen }); else renderFlow($('flow'), computed, data);
   passeStromEin();

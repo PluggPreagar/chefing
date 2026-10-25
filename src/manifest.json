@@ -41,6 +41,7 @@
  "src/ui/stats.js",
  "src/ui/stufenMenue.js",
  "src/ui/vollbild.js",
+ "src/ui/wahlMenue.js",
  "src/ui/zustandLink.js",
  "src/ui/zwischenablage.js"
 ]
