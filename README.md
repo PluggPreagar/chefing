@@ -19,6 +19,15 @@ npx serve .
 
 Dann `http://localhost:3000` öffnen (oder den Port, den `serve` ausgibt). Es gibt nichts zu installieren oder zu bauen. Das 404 auf `version.json` in der Konsole ist normal: die Datei legt nur der Deploy auf dem Server an. Mit ihr hängt der Lade-Stub in `index.html` die Commit-Version an jedes Modul (`?v=…`, Liste in `src/manifest.json`; nach neuen Modulen `node tools/manifest.mjs`), damit Browser nach einem Deploy nie alte Dateien zeigen; der Footer nennt Version, Commit-Zeit und Deploy-Zeit.
 
+Zum Entwickeln und Fehlersuchen gibt es einen lokalen Server mit Ablage für Fehlermeldungen (Python 3, nur Standardbibliothek, DR-082):
+
+```bash
+just serve          # http://127.0.0.1:8765/ (anderer Port: just serve 8780)
+just issues         # gespeicherte Fehlermeldungen auflisten
+```
+
+Ohne `just`: `python tools/dev-server.py --port 8765`. „Fehler melden“ → „Absenden“ legt die Meldung entpackt in `issues/open/<Zeit>-<Titel>-<Zufall>/` ab (`issue.md`, `meta.json`, `wireframe.png`, `anhang/`); der Ordner steht in `.gitignore`, erledigte Meldungen kommen nach `issues/closed/`. Der Server hört nur auf 127.0.0.1, liefert `issues/`, `.git` und die Daten-Ordner nicht aus und nimmt keine Rückmeldungen („Hat es geklappt?“) an.
+
 Tests (Node ≥ 18, keine Abhängigkeiten):
 
 ```bash
@@ -68,7 +77,7 @@ src/model/                   Engine ohne DOM (testbar)
   overrides.js, errorRequests.js   Feedback-Schleife
 src/ui/                      Morphologischer Kasten, Ablaufdiagramm, Rezeptkarte, Statistik, Icons
 src/data/                    alle Fachdaten als JSON (siehe unten)
-tools/                       Pflege-Skripte (Qualitätsnote und -gewicht, Gärmodell, Überraschungs-Bericht, Negativ-Korpus, Rollen-Freiheit, Auswertung der Rückmeldungen, Entwürfe für den Negativ-Korpus aus Rückmeldungen)
+tools/                       Pflege-Skripte und lokaler Server dev-server.py (Qualitätsnote und -gewicht, Gärmodell, Überraschungs-Bericht, Negativ-Korpus, Rollen-Freiheit, Auswertung der Rückmeldungen, Entwürfe für den Negativ-Korpus aus Rückmeldungen)
 chefing-feedback.php         Endpunkt für Rückmeldungen (nur auf dem Server, siehe Deploy)
 chefing-issue.php            Endpunkt für „Fehler melden“ (nur auf dem Server, siehe Deploy)
 test/                        headless-Checks, `sh test/run.sh`

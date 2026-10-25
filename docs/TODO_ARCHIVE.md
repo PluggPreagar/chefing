@@ -7,6 +7,7 @@ noch aktive Arbeit.
 
 | id | title | state | descr | dependencies |
 |----|-------|-------|-------|--------------|
+| T128 | Lokaler Server mit Ablage für Fehlermeldungen | done | `tools/dev-server.py` (Python, nur Standardbibliothek) und `justfile` (`just serve`); „Absenden“ speichert entpackt in `issues/open/`. Der Live-Weg bleibt `chefing-issue.php`. | DR-044, DR-077, DR-082 |
 | T127 | Kompakt-Ansicht auf dem Handy lesbar machen | done | Nutzer-Screenshot „Hard to read“: Kompakt zeigte nur Symbole. Neues Häkchen „mit Namen“ (Vorgabe an): Schritt mit Zeit und Temperatur, darunter Zutaten mit Symbol, Name und Menge, umgebrochen in Bildschirmbreite (DR-081). Offen, falls gewünscht: Namen nur auf schmalen Bildschirmen (Option C). | DR-073, DR-079, DR-081 |
 | T124 | Diagramm im Vollbild oder eigenen Fenster | done | Option A (Vollbild in derselben Seite) als Best Guess: Knöpfe „Vollbild“, „Vollbild beenden“, „Drehen“ im Kopf des Ablaufs, Vollbild-API mit CSS-Rückfall, Drehen per Orientierungssperre oder CSS (DR-080). Ungeprüft: echtes Handy (Fullscreen und Sperre). Eigenes Fenster (B) bleibt eine mögliche Ergänzung. | DR-073, DR-079, DR-080 |
 | T126 | Eischnee-Schalter als Häkchen | done | Knopf mit wechselnder Beschriftung ersetzt durch Häkchen „mit Eischnee“ mit Zustands-Icon dahinter (ganzes Ei / getrennt); Regel für künftige Bedienelemente als DR-079; im Browser beide Richtungen geprüft, alle Checks grün. | DR-078, DR-079 |
