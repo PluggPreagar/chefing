@@ -1278,3 +1278,15 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Sofort sichtbar und trotzdem platzlos; keine Layout-Verschiebung mehr beim Laden.
 - **cons:** Auf sehr schmalen Bildschirmen kann sie die Werkzeugleiste um wenige Pixel berühren (nur die Zeile selbst, nicht deren Klickfläche); sie ist klein.
 - **risk:** Gering, `style.css` und zwei Tests. Rückgängig: ein Commit.
+
+## DR-114 · ui · Zeitleiste hochkant: die Karte in voller Breite, die Linien brechen ab (wie DR-105)
+
+- **descr:** (2026-10-25, Meldung als ZIP von der Live-Seite, `small screen text block`, Android-Firefox 414 × 828: „Like other screen cut the line to use full width for text also for non-symbol-view in fullscreen“; die letzten Aktionen zeigen die **Zeitleiste** im Vollbild mit aufgeklappten Details) Hochkant stand die Karte eines Schritts in der letzten Spalte des Rasters, rechts von Zeit, Strom und Seitensträngen, und war schmal. Im Symbole-Detail war das mit DR-105 schon gelöst.
+- **Entscheid:** Die Zeile mit der Karte (`.ist-details`) blendet Zeit-, Strom- und Seitenstrang-Zellen aus und lässt die Karte über **alle Spalten** laufen (`grid-column: 1 / -1`): die Linien brechen dort ab, die Karte nutzt die volle Breite. Über und unter der Karte laufen sie weiter. Gilt für die Zeitleiste hochkant (Handy, auch im Vollbild); quer bleibt die Karte daneben beziehungsweise darunter (DR-098, DR-111).
+- **Gemessen (414 × 828, Vollbild, Maßstab 1,41):** Karte 372 von 380 px Breite (vorher nur die letzte Spalte), kein Überlauf.
+- **Offen:** Die **Liste** (Text neben jedem Schritt) hat keine aufklappenden Details; dort steht der Text neben der Linie, in voller Breite wäre er unter dem Symbol. Ob die Meldung auch das meint, ist offen; sag es, dann ziehe ich den Text unter den Knoten.
+- **Regeln:** R14, R23; Wirkung gleicht DR-105 an. Abgelegt: das gemeldete ZIP in `issues/closed/20261025-162158-small-screen-text-block`.
+- **Optionen:** **A Zeile ohne Linien, Karte über alle Spalten (gewählt)** · B Linien durchziehen, Karte schmal lassen (der Wunsch war „cut the line“) · C Karte als Fenster über der Zeitleiste (verdeckt Schritte).
+- **pro:** Weniger Umbrüche, gut lesbar, gleiche Behandlung wie in Symbole.
+- **cons:** Seitenstränge sind im Bereich der Karte unterbrochen.
+- **risk:** Gering, `flow.js` (eine Zeile) und `style.css` (eine Regel), ein Test. Rückgängig: ein Commit.

@@ -328,6 +328,7 @@ function detailZeile(z, s, ctx) {
     zellen.push(zelle);
   }
   const inhalt = platz(el('div', 'z-inhalt'), 'inhalt', 0, ctx);
+  inhalt.style.gridColumn = '1 / -1'; // die Karte nutzt die volle Breite, die Linien brechen dort ab (DR-114)
   inhalt.append(karte(z, s, ctx));
   zellen.push(inhalt);
   row.append(...zellen);

@@ -178,5 +178,11 @@ ok(/fenster\.addEventListener\?\.\('resize', v\.beiGroesse\)/.test(modul) && /fe
   ok(/\.ablauf\.ablauf-voll \.strom\.ist-quer \{ display: block; \}/.test(css) && /\.ablauf\.ablauf-voll \.strom\.ist-quer > \.strom-karte \{ position: static; width: auto; max-width: 960px; margin: \.75rem auto 0; \}/.test(css), 'Vollbild quer: die Karte steht unter der Zeitleiste statt daneben (DR-111)');
 }
 
+{
+  const flow = fs.readFileSync(new URL('../src/ui/flow.js', import.meta.url), 'utf8');
+  const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+  ok(/inhalt\.style\.gridColumn = '1 \/ -1'/.test(flow) && /\.ist-details > :not\(\.z-inhalt\) \{ display: none; \}/.test(css), 'Zeitleiste hochkant: die Zeile mit der Karte schneidet die Linien ab, die Karte steht in voller Breite (DR-114)');
+}
+
 console.log(fail ?`${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;
