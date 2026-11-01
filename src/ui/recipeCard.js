@@ -49,7 +49,8 @@ export function renderRecipe(root, computed, state, data, onChange) {
   const table = el('table', 'zutaten');
   const thead = el('thead');
   const bezug = computed.bezugLabel ?? 'Mehl';
-  thead.append(tr(['Rolle', 'Zutat', 'Menge', { text: bezug === 'Mehl' ? 'Bäcker-%' : `% vom ${bezug}`, knopf: infoKnopf() }, 'Korpus (Q1–Q3)'], 'th', SPALTEN_REZEPT));
+  thead.append(mengenZeile()); // erste Kopfzeile: hier hängt main.js das Auswahlmenü für die Anzeige der Mengen und das ⓘ ein (DR-121)
+  thead.append(tr(['Rolle', 'Zutat', 'Menge', bezug === 'Mehl' ? 'Bäcker-%' : `% vom ${bezug}`, 'Korpus (Q1–Q3)'], 'th', SPALTEN_REZEPT));
   table.append(thead);
   const tbody = el('tbody');
   for (const z of computed.zutatenListe) {
@@ -227,16 +228,13 @@ function fmt(x) { return x == null ? '—' : String(Math.round(x)); }
 // Klassen je Spalte, damit die Anzeige der Mengen (Menge | Bäcker-% | Beides) Spalten per CSS ausblenden kann (DR-120)
 const SPALTEN_REZEPT = [null, null, 'col-menge', 'col-prozent', 'col-korpus'];
 const SPALTEN_BILANZ = [null, 'col-menge', 'col-prozent', 'col-korpus', 'col-herkunft'];
-// ⓘ „Was ist Bäcker-%?“: das Klicken verwaltet main.js über data-info
-function infoKnopf() {
-  const b = el('button', 'leiste-knopf flach ghost info-knopf');
-  b.type = 'button';
-  b.title = 'Was ist Bäcker-%?';
-  b.setAttribute('data-info', 'baeckerprozent');
-  b.setAttribute('aria-label', 'Was ist Bäcker-%?');
-  b.setAttribute('aria-expanded', 'false');
-  b.innerHTML = iconHtml('info', 16);
-  return b;
+// Kopfzeile der Rezept-Tabelle für die Anzeige der Mengen: eine Zelle über alle Spalten; main.js setzt colspan (sichtbare Spalten) und das Menü hinein
+function mengenZeile() {
+  const r = el('tr', 'mengen-zeile');
+  const z = el('th', 'mengen-zelle');
+  z.setAttribute('colspan', '5');
+  r.append(z);
+  return r;
 }
 function seitlich(table) {
   const d = el('div', 'tab-scroll');

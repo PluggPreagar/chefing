@@ -7,7 +7,7 @@ import { erzeugeStufenMenue } from './stufenMenue.js';
 const PFEIL = '<svg class="stufe-pfeil" viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
 
 // optionen: [{ wert, icon, name, titel }]; aktuell: Wert; onWahl(wert) wird nur bei einer Wahl des Nutzers gerufen
-export function initWahlMenue(wurzel, { name, optionen, aktuell, onWahl, doc = document }) {
+export function initWahlMenue(wurzel, { name, optionen, aktuell, onWahl, mitText = false, doc = document }) {
   const werte = optionen.map((o) => o.wert);
   const von = (w) => optionen.find((o) => o.wert === w);
   wurzel.classList.add('stufe-menue', 'wahl-menue');
@@ -21,7 +21,7 @@ export function initWahlMenue(wurzel, { name, optionen, aktuell, onWahl, doc = d
     stufen: werte, aktuell, onWahl,
     melden: ({ offen, gewaehlt, fokus }) => {
       const o = von(gewaehlt);
-      knopf.innerHTML = `${iconHtml(o.icon, 18)}${PFEIL}`;
+      knopf.innerHTML = `${iconHtml(o.icon, 18)}${mitText ? `<span class="wahl-text">${o.name}</span>` : ''}${PFEIL}`;
       knopf.title = `${name}: ${o.name}`;
       knopf.setAttribute('aria-label', `${name}: ${o.name}`);
       knopf.setAttribute('aria-expanded', String(offen));
