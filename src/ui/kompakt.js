@@ -13,6 +13,9 @@ import { fest } from './einheiten.js';
 const NS = 'http://www.w3.org/2000/svg';
 const ROW = 44, LANE = 30, R = 15, ICON = 20, ZUT = 22, ZUT_ABST = 28, PAD = 6;
 
+// Einschieben und Backen sind ein Knoten (DR-125): der Ofen-Knoten trägt die Wirkzeit, der Handgriff steht im Detail
+const istBacken = (s) => s.key === 'backen' && s.passiv && s.ort === 'ofen' && s.aktiv > 0;
+
 export function kompaktModell(M, steps) {
   const knoten = [];
   const kanten = [];
@@ -21,10 +24,11 @@ export function kompaktModell(M, steps) {
     if (z.art === 'aktion') {
       const s = steps[z.i];
       const neben = z.strom === 'neben';
-      knoten.push({ art: 'aktion', i: z.i, zeile, spalte: neben ? z.strang.spur : 0, icon: verbIcon(s), neu: z.neu, strang: neben ? z.strang : null, farbe: (neben ? z.strang.ort : z.haupt?.ort ?? z.ort).farbe });
+      const backen = !neben && istBacken(s);
+      knoten.push({ art: 'aktion', i: z.i, zeile, spalte: neben ? z.strang.spur : 0, icon: backen ? 'ort_ofen' : verbIcon(s), backen, neu: z.neu, strang: neben ? z.strang : null, farbe: (neben ? z.strang.ort : z.haupt?.ort ?? z.ort).farbe });
       zeile++;
-    } else if (z.art === 'leer' && z.uhren.length) {
-      for (const u of z.uhren) {
+    } else if (z.art === 'leer' && z.uhren.some((u) => !istBacken(steps[u.i]))) {
+      for (const u of z.uhren.filter((x) => !istBacken(steps[x.i]))) {
         const s = steps[u.i];
         const spalte = u.spur ?? 0;
         // Wartezeit gehört zum Strang, dessen letzter Knoten in derselben Spalte liegt
@@ -140,7 +144,7 @@ export function renderKompakt(root, computed, data = {}, opt = {}) {
   const sig = steps.map((s) => s.key).join();
   if (root._offen?.sig !== sig) root._offen = { sig, set: new Set() };
   const offen = namen ? new Set() : root._offen.set;
-  const schluessel = (k) => `${k.i}:${k.art}`; // ein Schritt kann zwei Knoten haben (Einschieben und Backen, gleiche Nummer): das Detail gehört zum Knoten
+  const schluessel = (k) => `${k.i}:${k.art}`; // ein Schritt kann zwei Knoten haben (Handgriff und Warten, gleiche Nummer): das Detail gehört zum Knoten
   const maxZut = Math.max(0, ...K.knoten.map((k) => k.neu.length));
   // Symbole: die Breite hängt nie vom aufgeklappten Detail ab, und der Strom bleibt in der Mitte der Zeichnung (links so viel Rand wie rechts Platz für den Text),
   // damit nichts springt, wenn ein Detail auf- oder zugeht (Meldung 20261025-094730)
@@ -281,6 +285,7 @@ function zutatText(n, computed) {
 
 function schrittText(s, k, computed) {
   const temp = s.key === 'backen' && computed.backen?.tempOU ? `${computed.backen.tempOU} °C O/U` : s.temperatur;
+  if (k.backen) return fest([`${s.nr}. ${s.aktion ?? s.label}`, `${s.handgriff ?? 'Einschieben'} ${fmtZeit(s.aktiv)}, dann ${fmtZeit(s.wirk ?? s.dauer)} im Ofen`, temp].filter(Boolean).join(' · '));
   const dauer = k.art === 'warten' ? s.wirk ?? s.dauer : s.passiv ? s.aktiv : s.dauer;
   const titel = k.art === 'warten' ? s.aktion ?? s.label : s.passiv ? s.handgriff ?? s.aktion : s.label;
   return fest([`${s.nr}. ${titel}`, dauer ? fmtZeit(dauer) : null, temp].filter(Boolean).join(' · '));

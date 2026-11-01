@@ -1197,7 +1197,7 @@ Chefing                                              [Zahnrad] [Melden v]
 ## DR-107 · ui · Kompakt (Symbole): das Detail gehört zum Knoten, nicht zur Schrittnummer (korrigiert DR-092)
 
 - **descr:** (2026-10-25, Nutzer mit Handy-Bild: „Last step is doubled?“) Im Vollbild standen unter den letzten zwei Knoten zwei Details, „5. Einschieben · 1 Min.“ und „5. Backen · 55 Min.“. **Ursache:** Der Backschritt hat in Kompakt **zwei Knoten**: die Handarbeit (Einschieben, 1 Min., Flamme) und das Warten (Backen, 55 Min., Ofen); beide tragen dieselbe Schrittnummer 5. Das Auf- und Zuklappen (DR-092) verwaltete die offenen Details nach der Schrittnummer, ein Klick öffnete also beide. **Entscheid:** Der Schlüssel ist jetzt **Schritt plus Art des Knotens** (`4:aktion`, `4:warten`); ein Klick öffnet nur das Detail dieses Knotens. Dieselbe Kennung steht als `data-knoten` am Knoten und am Pfeil und dient der Melden-Auswahl als Selektor (T145, DR-093); `data-schritt` bleibt für den Schritt.
-- **Nicht geändert:** Die doppelte Nummer 5 in der Beschriftung („5. Einschieben“ und „5. Backen“) ist gewollt, es ist ein Schritt mit zwei Phasen; sie steht auch in der Text-Variante so.
+- **Nicht geändert:** Die doppelte Nummer 5 in der Beschriftung („5. Einschieben“ und „5. Backen“) ist gewollt, es ist ein Schritt mit zwei Phasen; sie steht auch in der Text-Variante so. *(Seit DR-125 überholt: Backen ist ein Knoten.)*
 - **Regeln:** R20 (aria-expanded je Knoten), R23 (Test, Messung bei 375 px: Einschieben öffnet nur „5. Einschieben“, Backen nur „5. Backen“, zweiter Klick schließt).
 - **Optionen:** **A Schlüssel pro Knoten (gewählt)** · B beide Knoten öffnen weiter zusammen (zeigt, dass sie zusammengehören, verwirrt aber: die Zeile wirkt doppelt) · C Backen als einen Knoten zusammenlegen (verliert die Zeit der Handarbeit, anderer Zeichner).
 - **pro:** Ein Klick, ein Detail; klarer, was Handarbeit und was Wartezeit ist.
@@ -1428,3 +1428,15 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Die Basis ist immer sichtbar und eindeutig; die Referenz steht dort, wo die Zahlen stehen; weniger Bedienelemente.
 - **cons:** Wer eine andere Referenz will, muss ihre Menge antippen (der Hinweis nennt es); ein Tippen auf eine Menge ist jetzt ein Moduswechsel, kein reines Eingabefeld.
 - **risk:** Gering bis mittel, `skala.js`, `zustand.js`, `engine.js`, `recipeCard.js`, `main.js`, `style.css`, `test/skalieren.check.mjs`. Rückgängig: ein Commit.
+
+## DR-125 · ui · Kompakt: Einschieben und Backen sind ein Knoten (ändert DR-107)
+
+- **descr:** (2026-11-01, Nutzer: „Können wir Schritte einschieben und backen mergen – als 1 Schritt“, gewählt Option A) Der Backschritt hatte in Symbole und Text zwei Knoten mit derselben Nummer: „5. Einschieben · 1 Min.“ (Hand) und „5. Backen · 55 Min.“ (Ofen). Jetzt ist es **ein Knoten** mit Ofen-Symbol: „5. Backen · Einschieben 1 Min., dann 55 Min. im Ofen · 180 °C O/U“.
+- **Umsetzung:** `kompaktModell` in `kompakt.js`: für den passiven Ofen-Schritt Backen (`istBacken`: Schlüssel `backen`, passiv, Ort Ofen, Handzeit > 0) entsteht nur der Handlungsknoten (`backen: true`, Icon `ort_ofen`), der Warte-Knoten entfällt; andere Uhren derselben Zeile bleiben. `schrittText` nennt Handgriff und Ofenzeit. Die Zeile der Wartezeit entfällt, der Ablauf wird um eine Zeile kürzer.
+- **Nicht geändert:** Die **Zeitleiste** (`flow.js`) bleibt bei Handzeit und Wirkzeit je Schritt (R1/R2), dort sind sie zwei Abschnitte desselben Schritts auf der Zeitachse. Gehen, Stückgare und Einlegen behalten ihre Warte-Knoten, der Wunsch galt nur Backen. Die Hände-Summe im Fuß bleibt (die Handzeit steckt weiter im Schritt).
+- **Gemessen:** 375 px, Rührkuchen: fünf Knoten, Text- und Symbole-Ansicht, Detail „5. Backen · Einschieben 1 Min., dann 55 Min. im Ofen · 180 °C O/U“ bricht auf zwei Zeilen, die Seite läuft nicht über.
+- **Regeln:** R12 (ein Begriff für eine Sache: ein Schritt, ein Knoten), R20 (aria-expanded je Knoten bleibt), R23.
+- **Optionen:** **A ein Ofen-Knoten, Handgriff im Detail (gewählt)** · B ein Knoten mit beiden Zeiten im Titel („Einschieben & Backen · 1 + 55 Min.“) · C nur die Text-Variante zusammenlegen (Ansichten widersprächen sich).
+- **pro:** Ein Schritt, ein Knoten, eine Nummer; eine Zeile weniger; das Detail nennt beide Zeiten.
+- **cons:** Der Handgriff ist nicht mehr als eigener Knoten sichtbar; Symbole und Zeitleiste zeigen Backen verschieden fein.
+- **risk:** Gering, `kompakt.js` und `test/kompakt.check.mjs`. Rückgängig: ein Commit.

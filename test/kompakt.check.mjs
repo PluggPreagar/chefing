@@ -50,7 +50,7 @@ const schnee = k('eischnee_schlagen');
 ok(schnee.spalte > 0 && k('aufschlagen').spalte === 0, 'Eischnee in einer Seitenspalte, Aufschlagen im Hauptstrom');
 ok(K.kanten.some((e) => e.art === 'muendung' && e.von.strang === schnee.strang && c.ablauf[e.zu.i].key === 'eischnee_unterheben'), 'der Eischnee-Strang mündet ins Unterheben');
 const letzter = K.knoten.at(-1);
-ok(letzter.art === 'warten' && letzter.icon === 'ort_ofen', 'am Ende: Ofen');
+ok(letzter.icon === 'ort_ofen' && letzter.backen === true && c.ablauf[letzter.i].key === 'backen', 'am Ende: Ofen, Einschieben und Backen sind ein Knoten (DR-125)');
 ok(k('aufschlagen').neu.map((n) => n.rolle).join() === 'fett,suesse', 'Aufschlagen: Butter und Zucker fließen zu (mit Rolle für die Menge beim Antippen)');
 ok(K.zeilen < c.ablauf.length + 3, `kompakt: ${K.zeilen} Zeilen für ${c.ablauf.length} Schritte`);
 
@@ -131,11 +131,16 @@ ok(/\.kompakt-treffer \{[^}]*stroke: transparent/.test(kompaktCss), 'style.css: 
   const src = fs.readFileSync(new URL('../src/ui/kompakt.js', import.meta.url), 'utf8');
   const fm = fs.readFileSync(new URL('../src/ui/fehlerMelden.js', import.meta.url), 'utf8');
   ok(/const schluessel = \(k\) => `\$\{k\.i\}:\$\{k\.art\}`/.test(src) && !/offen\.(has|add)\(k\.i\)/.test(src) && /'data-knoten': schluessel\(k\)/.test(src) && /g\[data-knoten=/.test(src) && /data-knoten/.test(fm), 'Detail gehört zum Knoten, nicht zur Schrittnummer: Einschieben und Backen (gleiche Nummer) öffnen einzeln (DR-107)');
-  // Einschieben und Backen sind zwei Knoten desselben Schritts
-  const { K } = rechne('ruehrteig', 'kastenkuchen', null, {});
-  const proSchritt = new Map();
-  for (const x of K.knoten) proSchritt.set(x.i, (proSchritt.get(x.i) ?? 0) + 1);
-  ok([...proSchritt.values()].some((n) => n > 1) && new Set(K.knoten.map((x) => x.i + ':' + x.art)).size === K.knoten.length, 'ein Schritt kann zwei Knoten haben (aktion und warten), Schritt plus Art ist je Knoten eindeutig');
+  // DR-125: Einschieben und Backen sind ein Knoten; Schritt plus Art bleibt je Knoten eindeutig
+  const { c, K } = rechne('ruehrteig', 'kastenkuchen', null, {});
+  const iB = c.ablauf.findIndex((s) => s.key === 'backen');
+  const bk = K.knoten.filter((x) => x.i === iB);
+  ok(bk.length === 1 && bk[0].art === 'aktion' && bk[0].backen && new Set(K.knoten.map((x) => x.i + ':' + x.art)).size === K.knoten.length, 'Backen: ein Knoten mit Ofen-Symbol statt Einschieben + Warten, Schritt plus Art eindeutig');
+  const { knotenTexte } = await import(P + 'ui/kompakt.js');
+  const titel = knotenTexte(K, c.ablauf, c, 80).get(bk[0]).titel.join(' ');
+  ok(/^5\. Backen · Einschieben 1.Min\., dann 55.Min\. im Ofen/.test(titel), `Detail nennt Handgriff und Ofenzeit: „${titel}“`);
+  const hz = rechne('hefeteig', 'hefezopf', null, {});
+  ok(hz.K.knoten.filter((x) => hz.c.ablauf[x.i].key === 'backen').length === 1 && hz.K.knoten.filter((x) => x.art === 'warten').length >= 2, 'Gehen und Stückgare bleiben Warte-Knoten, nur Backen ist zusammengelegt');
 }
 
 // --- DR-115: Zahl und Einheit brechen nie auseinander ----------------------------------------------------------------------------------
