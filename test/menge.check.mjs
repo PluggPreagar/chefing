@@ -1,0 +1,24 @@
+// DR-120: Anzeige der Mengen im Rezept (Menge | Bäcker-% | Beides), ⓘ „Was ist Bäcker-%?“, Merken pro Browser. Entscheidung und Text rein, dazu Anbindung.
+import fs from 'fs';
+const P = new URL('../', import.meta.url);
+const { MENGEN_TYPEN, wirksamerTyp, baeckerText } = await import(new URL('src/model/mengenTyp.js', P).href);
+const { ICONS } = await import(new URL('src/ui/icons.js', P).href);
+let fail = 0; const ok = (c, m) => { console.log((c ? 'PASS ' : 'FAIL ') + m); if (!c) fail++; };
+
+ok(MENGEN_TYPEN.join() === 'menge,prozent,beides', 'drei Anzeigen: Menge, Bäcker-%, Beides');
+ok(wirksamerTyp({ gespeichert: null, schmal: true }) === 'menge' && wirksamerTyp({ gespeichert: null, schmal: false }) === 'beides' && wirksamerTyp({ gespeichert: 'quatsch', schmal: true }) === 'menge', 'ohne Wahl: schmal nur die Menge (passt in die Tabelle), breit beides wie bisher; ungültige Wahl zählt als keine');
+ok(wirksamerTyp({ gespeichert: 'prozent', schmal: true }) === 'prozent' && wirksamerTyp({ gespeichert: 'menge', schmal: false }) === 'menge' && wirksamerTyp({ gespeichert: 'beides', schmal: true }) === 'beides', 'die gemerkte Wahl gilt überall, auch gegen die Breite');
+const mehl = { label: 'Weizenmehl', menge: 285, einheit: 'g', bp: 100 };
+ok(baeckerText({ bezugLabel: 'Mehl', zutatenListe: [mehl, { label: 'Butter', menge: 235, einheit: 'g', bp: 82.5 }] }).endsWith('Hier: Butter 235 g bei 285 g Mehl = 83 %.'), 'Erklärung mit Beispiel aus dem Rezept (Butter 235 g bei 285 g Mehl = 83 %)');
+ok(/Mehl = 100 %/.test(baeckerText({ bezugLabel: 'Mehl', zutatenListe: [mehl] })) && !/Hier:/.test(baeckerText({ bezugLabel: 'Mehl', zutatenListe: [mehl] })) && !/Hier:/.test(baeckerText({ bezugLabel: 'Öl', zutatenListe: [{ label: 'Öl', menge: 200, einheit: 'ml', bp: 100 }, { label: 'Eigelb', menge: 1, einheit: 'Stk', bp: 9 }] })) && /von Öl: Öl = 100 %/.test(baeckerText({ bezugLabel: 'Öl', zutatenListe: [] })) && baeckerText(null).length > 20, 'ohne passendes Beispiel (nur Mehl, Zutaten in ml oder Stück, leere Liste) steht nur die Regel, die Bezugszutat folgt dem Rezept (Öl bei Mayonnaise)');
+
+ok(['info', 'menge_gewicht', 'menge_prozent', 'menge_beides'].every((k) => Array.isArray(ICONS[k]) && ICONS[k].length && ICONS[k].every((x) => x.tag && x.attrs)), 'Symbole für ⓘ, Menge, Bäcker-% und Beides stehen im Symbolsatz (icons.js)');
+const main = fs.readFileSync(new URL('src/main.js', P), 'utf8');
+const karte = fs.readFileSync(new URL('src/ui/recipeCard.js', P), 'utf8');
+const css = fs.readFileSync(new URL('style.css', P), 'utf8');
+ok(/localStorage\.getItem\('chefing\.mengen'\)/.test(main) && /localStorage\.setItem\('chefing\.mengen', w\)/.test(main) && /initWahlMenue\(menue, \{\s*name: 'Anzeige der Mengen'/.test(main) && /wert: 'menge', icon: 'menge_gewicht'/.test(main) && /wert: 'prozent', icon: 'menge_prozent'/.test(main) && /wert: 'beides', icon: 'menge_beides'/.test(main) && /renderRecipe\(\$\('recipe'\), computed, state, data, update\);\s*wendeMengenAn\(\);\s*schuetzeEinheiten/.test(main), 'main.js: Auswahlmenü im Kopf des Rezepts, Wahl pro Browser gemerkt (chefing.mengen), nach jedem Zeichnen angewendet');
+ok(/baeckerInfoOffen = !baeckerInfoOffen/.test(main) && /data-info="baeckerprozent"/.test(main) && /className: 'note note-info info-box'/.test(main) && /setAttribute\('data-info', 'baeckerprozent'\)/.test(karte), 'ⓘ im Kopf und an der Spalte Bäcker-%: ein Zustand, ein Erklärkasten über der Tabelle, aria-expanded');
+ok(/const SPALTEN_REZEPT = \[null, null, 'col-menge', 'col-prozent', 'col-korpus'\]/.test(karte) && /const SPALTEN_BILANZ = \[null, 'col-menge', 'col-prozent', 'col-korpus', 'col-herkunft'\]/.test(karte) && !/classList|table\.rows/.test(karte.slice(karte.indexOf('const SPALTEN_REZEPT'))), 'Tabellen tragen Spaltenklassen (Rezept und Bilanz), ohne DOM-Funktionen, die das Mini-DOM der Tests nicht kennt');
+ok(/#recipe\[data-typ="menge"\] \.col-prozent, #recipe\[data-typ="menge"\] \.col-korpus, #recipe\[data-typ="menge"\] \.col-herkunft, #recipe\[data-typ="prozent"\] \.col-menge, #recipe\[data-typ="prozent"\] \.col-herkunft \{ display: none; \}/.test(css) && /\.zutaten th \.info-knopf \{ display: none; \} \.zutaten th, \.zutaten td \{ padding-left: \.3rem; padding-right: \.3rem; \}/.test(css) && /#menge-menue \.stufe-liste \{ left: auto; right: 0; \}/.test(css), 'CSS: Spalten je Anzeige ausgeblendet; schmal ohne ⓘ an der Spalte und mit engerem Rand, damit die Tabelle ohne Scrollen passt; Liste des Menüs rechtsbündig');
+console.log(fail ? `${fail} FAIL` : 'ALL PASS');
+process.exitCode = fail ? 1 : 0;

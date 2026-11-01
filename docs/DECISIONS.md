@@ -1349,3 +1349,27 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Eine Berührung zurück zum Ablauf, ohne Platzverbrauch im Layout; nutzt alles Vorhandene (Vollbild, Einpassen, Autoscroll).
 - **cons:** Der Graph liegt nicht neben dem Rezept, man springt zwischen beiden; der Knopf kann am unteren rechten Rand kurz Text überdecken.
 - **risk:** Gering, ein Block in `main.js`, eine Regel in `style.css`, ein Test. Rückgängig: ein Commit.
+
+## DR-120 · ui, modell · Mengen im Rezept: Basis, Portionen und Anzeige (Phase 1 gebaut, Phase 2 offen)
+
+- **descr:** (2026-11-01, Nutzer, mehrere Runden) Nutzer fragen oft „Was ist Bäcker-%?“, und auf dem Handy ist die Rezept-Tabelle zu schmal für Bäcker-% und Gewichte (374 px Tabelle im 309-px-Kasten, die Spalte Korpus abgeschnitten). Dazu der Wunsch nach Portionen als Basis. Ergebnis der Diskussion unten; **gebaut ist nur Phase 1**.
+- **Entscheide (Nutzer):**
+  1. **Erklärung:** ⓘ „Was ist Bäcker-%?“.
+  2. **Auswahlmenü** für die Anzeige der Mengen; **3.** pro Browser gemerkt (kein Konto, wie Erfahrung und Ansicht).
+  3. **Basis** legt die Gesamtmenge fest. Gibt das Gefäß die Menge vor, ist **das Gefäß die Basis**, im Menü als „x Portionen · Gefäß“. Brot (**Laib**): die Basis ist die Form. Bäcker-% ist **keine** Basis, nur eine Schreibweise derselben Mengen.
+  4. **Portion = die Menge, die eine Person isst.** Gemerkt wird die **Anzahl der Portionen** (Haushalt kocht meist für dieselbe Zahl), pro Browser. Gibt das Gericht keine Portion vor: **drei Portionsgrößen** per Faktor, etwa 0,75 | 1 | 1,25 (Wenig-, Normal-, Vielesser, aus den Büfett-Mengen 600 | 800 | 1000 g der Verbraucherzentrale).
+  5. **Referenzzutat** (Menge einer Zutat festlegen, der Rest folgt): nicht gemerkt (gehört zum Rezept), Zurück-Knopf, Vorrang gegenüber „Mengen-Vorschlag übernehmen“ (T40) klären.
+  6. **Löffel und Messerspitze** für Kleinstmengen, Stückzutaten (Eier) runden; Daten je Zutat nötig.
+  7. **Stück** nie als Basis (zu unspezifisch: im Korpus 10 bis 18 Stück je Kastenkuchen), nur als **abgeleitete Angabe**; das Koch-Gerät könnte es steuern (Pfannengröße, Teilung des Kuchens, Muffinblech), später.
+  8. **Gefäß beim Skalieren:** bei „n Portionen“ gilt die Backzeit der Form weiter, mehr als eine Form heißt „n Ansätze“, unter etwa 70 % Füllung ein Hinweis „kleinere Form wählen“. **Mindestmenge** (Mayonnaise, Hefeteig, ganze Eier) steht als Todo, noch nicht betrachtet.
+  9. **Faustwert** „200 g“ = **200 g kohlenhydratreiche Beilage, gekocht gewogen** (bei Nudeln und Reis etwa 80 g roh), keine Menge Kohlenhydrate. Für Kuchen: **etwa 150 g je Portion** (≈ 2 Stücke), eine Kastenform mit 1000 g Teig ≈ **6 bis 7 Portionen**, nicht 12 (die Stückzahlen im Korpus sind Stücke). Alles **Schätzung** (Quellenlage in `docs/QUELLEN.md`, 2026-11-01).
+- **Phase 1 (gebaut):**
+  - **ⓘ** im Kopf des Rezepts und an der Spalte Bäcker-% (breit): öffnet einen Kasten über der Tabelle mit der Regel (Mehl = 100 %, Vergleich von Rezepten jeder Größe, Spanne aus dem Korpus) und einem **Beispiel aus dem Rezept** („Butter 235 g bei 285 g Mehl = 83 %“); bei Mayonnaise mit der Bezugszutat Öl.
+  - **Auswahlmenü** „Anzeige der Mengen“ im Kopf des Rezepts (Symbole Gewicht, Prozent, zwei Spalten): **Menge** (g, ml, Stück), **Bäcker-%** (mit Korpus-Spanne), **Beides**. Ohne Wahl: schmal (bis 640 px) **Menge**, breit **Beides** wie bisher. Die Wahl gilt überall und wird in `localStorage` (`chefing.mengen`) gemerkt; die Bilanz-Tabelle folgt (Menge: Gramm; Bäcker-%: Prozent und Spanne; Beides: auch Herkunft).
+  - **Gemessen (375 px):** Menge und Bäcker-% passen ohne waagerechtes Scrollen (Tabelle 309 von 309 px; vorher 374 und 315), Beides scrollt wie vorher; die Wahl überlebt das Neuladen; die Liste des Menüs bleibt im Bild (bis 342 von 375 px). 1400 px: Vorgabe Beides, ⓘ an der Spalte, Erklärkasten öffnet. Schmal fehlt das ⓘ an der Spalte (das im Kopf genügt, sonst bricht die Spalte um).
+- **Offen (Phase 2, Todo T154):** Basis „n Portionen“ und Referenzzutat mit den Regeln oben, Portionsgrößen je Variante in den Daten (gekennzeichnete Schätzung), Löffelmaße; **Mindestmenge** (Todo T153).
+- **Regeln:** R4 (selten geändert, im Kopf des Blocks als Auswahlmenü, wie die Erfahrung), R10 und R11 (Symbole im Symbolsatz), R13, R19 (`[hidden]` und Spezifität), R20 und R21 (Menü), R22 (Kopf und Menü werden in `main.js` angelegt), R23 (gemessen bei 375 und 1400 px). Das Wort „Bäcker-%“ bleibt, wie in der Tabelle.
+- **Optionen:** **A Phase 1 jetzt, Skalieren später (gewählt)** · B alles in einem Schritt (Basis, Portionen, Referenz; viele offene Regeln zum Gefäß) · C nur das ⓘ.
+- **pro:** Beantwortet die häufige Frage und löst die Enge auf dem Handy, ohne die Rechnung der App zu berühren (Bäcker-% bleibt beim Skalieren gleich); schafft das Gerüst (Menü im Kopf) für Phase 2.
+- **cons:** Das Skalieren, das den Nutzern am wichtigsten sein dürfte, fehlt noch; drei Anzeigen sind mehr als die zwei, die du genannt hattest („Beides“ ist neu, damit der Monitor wie bisher bleibt).
+- **risk:** Gering, `mengenTyp.js`, `recipeCard.js`, `main.js`, `icons.js`, `style.css`, ein Test. Rückgängig: ein Commit.

@@ -4,6 +4,7 @@ import { overrideErfassen, overridesFuer } from '../model/overrides.js';
 import { fmtZeit } from '../model/zeit.js';
 import { renderRueckmeldung } from './rueckmeldung.js';
 import { vorbereitenZeile } from './zustandLink.js';
+import { iconHtml } from './icons.js';
 
 export function renderRecipe(root, computed, state, data, onChange) {
   root.replaceChildren();
@@ -48,7 +49,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   const table = el('table', 'zutaten');
   const thead = el('thead');
   const bezug = computed.bezugLabel ?? 'Mehl';
-  thead.append(tr(['Rolle', 'Zutat', 'Menge', bezug === 'Mehl' ? 'Bäcker-%' : `% vom ${bezug}`, 'Korpus (Q1–Q3)'], 'th'));
+  thead.append(tr(['Rolle', 'Zutat', 'Menge', { text: bezug === 'Mehl' ? 'Bäcker-%' : `% vom ${bezug}`, knopf: infoKnopf() }, 'Korpus (Q1–Q3)'], 'th', SPALTEN_REZEPT));
   table.append(thead);
   const tbody = el('tbody');
   for (const z of computed.zutatenListe) {
@@ -56,7 +57,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
     const k = z.korpus;
     const spanne = k ? `${fmt(k.q1)}–${fmt(k.q3)} %` : '—';
     const marker = z.bpQuelle === 'schätzung' ? ' *' : z.bpQuelle === 'berechnet' ? ' †' : z.bpQuelle === 'manuell' ? ' ✎' : '';
-    const row = tr([z.rolleLabel, z.label, menge, `${fmt(z.bp)} %${marker}`, z.bpQuelle === 'berechnet' ? '—' : spanne]);
+    const row = tr([z.rolleLabel, z.label, menge, `${fmt(z.bp)} %${marker}`, z.bpQuelle === 'berechnet' ? '—' : spanne], 'td', SPALTEN_REZEPT);
     const zst = z.zustand && (computed.zustaende || []).find((x) => x.rolle === z.rolle);
     if (zst) row.children[1].append(zustandKlappe(zst, state, onChange)); // DR-064: Soll-Zustand + Wege dorthin
     tbody.append(row);
@@ -85,7 +86,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   if (computed.bilanz?.length) {
     const bt = el('table', 'zutaten bilanz');
     const bh = el('thead');
-    bh.append(tr(['Bilanz', 'Gramm', `% vom ${bezug}`, 'Korpus (Q1–Q3)', 'Herkunft (Rolle)'], 'th'));
+    bh.append(tr(['Bilanz', 'Gramm', `% vom ${bezug}`, 'Korpus (Q1–Q3)', 'Herkunft (Rolle)'], 'th', SPALTEN_BILANZ));
     bt.append(bh);
     const bb = el('tbody');
     const markierung = { ausserhalb_q: ' ◦', ausserhalb_spanne: ' ⚠', keine_basis: ' ?' };
@@ -93,7 +94,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
       const k = z.korpus;
       if (!(z.gramm > 0) && !(k?.max > 0)) continue; // Größe kommt im Archetyp nicht vor (z. B. Hefe im Rührteig)
       if (!(z.gramm > 0) && (z.groesse === 'natron' || z.groesse === 'saeure')) continue; // Natron-Balance nur zeigen, wenn Natron oder Säure im Rezept steckt
-      bb.append(tr([z.label, `${fmtProzent(z.gramm)} g`, `${fmtProzent(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmtProzent(k.q1)}–${fmtProzent(k.q3)} %` : '—', herkunftText(z.herkunft)]));
+      bb.append(tr([z.label, `${fmtProzent(z.gramm)} g`, `${fmtProzent(z.bp)} %${markierung[z.toleranz] ?? ''}`, k ? `${fmtProzent(k.q1)}–${fmtProzent(k.q3)} %` : '—', herkunftText(z.herkunft)], 'td', SPALTEN_BILANZ));
     }
     bt.append(bb);
     root.append(seitlich(bt));
@@ -210,15 +211,33 @@ export function herkunftText(herkunft) {
   return teile.length ? teile.join(', ') : '—';
 }
 
-function tr(cells, tag = 'td') {
+function tr(cells, tag = 'td', klassen = []) {
   const r = document.createElement('tr');
-  for (const c of cells) r.append(el(tag, null, c));
+  cells.forEach((c, i) => {
+    const zelle = el(tag, klassen[i] ?? null, typeof c === 'string' ? c : c.text);
+    if (typeof c !== 'string' && c.knopf) zelle.append(c.knopf);
+    r.append(zelle);
+  });
   return r;
 }
 
 function fmt(x) { return x == null ? '—' : String(Math.round(x)); }
 
 // Tabellen scrollen auf schmalen Bildschirmen seitlich statt die Seite zu verbreitern (wie stats.js)
+// Klassen je Spalte, damit die Anzeige der Mengen (Menge | Bäcker-% | Beides) Spalten per CSS ausblenden kann (DR-120)
+const SPALTEN_REZEPT = [null, null, 'col-menge', 'col-prozent', 'col-korpus'];
+const SPALTEN_BILANZ = [null, 'col-menge', 'col-prozent', 'col-korpus', 'col-herkunft'];
+// ⓘ „Was ist Bäcker-%?“: das Klicken verwaltet main.js über data-info
+function infoKnopf() {
+  const b = el('button', 'leiste-knopf flach ghost info-knopf');
+  b.type = 'button';
+  b.title = 'Was ist Bäcker-%?';
+  b.setAttribute('data-info', 'baeckerprozent');
+  b.setAttribute('aria-label', 'Was ist Bäcker-%?');
+  b.setAttribute('aria-expanded', 'false');
+  b.innerHTML = iconHtml('info', 16);
+  return b;
+}
 function seitlich(table) {
   const d = el('div', 'tab-scroll');
   d.append(table);

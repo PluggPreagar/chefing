@@ -14,6 +14,7 @@
  "src/model/korrelationEntscheidungen.js",
  "src/model/meldung.js",
  "src/model/meldungSenden.js",
+ "src/model/mengenTyp.js",
  "src/model/negativ.js",
  "src/model/overrides.js",
  "src/model/qualitaet.js",

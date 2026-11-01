@@ -161,6 +161,25 @@ const ICONS_ANSICHT = {
     { tag: 'path', attrs: { d: 'M9.5 3.5H14.5M10 3.5V9.2L5.2 17.6A2 2 0 0 0 6.9 20.5H17.1A2 2 0 0 0 18.8 17.6L14 9.2V3.5', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } },
     { tag: 'path', attrs: { d: 'M7.8 15H16.2', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round' } },
   ],
+  // Rezept: Anzeige der Mengen und Erklärung (DR-120): Info (i im Kreis), Menge (Gewicht), Prozent, beides (zwei Spalten)
+  info: [
+    { tag: 'circle', attrs: { cx: 12, cy: 12, r: 8.6, fill: 'none', stroke: F, 'stroke-width': 1.8 } },
+    { tag: 'path', attrs: { d: 'M12 11V16.4', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round' } },
+    { tag: 'path', attrs: { d: 'M12 7.9H12.01', fill: 'none', stroke: F, 'stroke-width': 2.4, 'stroke-linecap': 'round' } }
+  ],
+  menge_gewicht: [
+    { tag: 'path', attrs: { d: 'M7.4 9.4H16.6L18.6 19.2H5.4L7.4 9.4Z', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linejoin': 'round' } },
+    { tag: 'circle', attrs: { cx: 12, cy: 5.8, r: 2.2, fill: 'none', stroke: F, 'stroke-width': 1.8 } }
+  ],
+  menge_prozent: [
+    { tag: 'circle', attrs: { cx: 7.8, cy: 7.8, r: 2.3, fill: 'none', stroke: F, 'stroke-width': 1.8 } },
+    { tag: 'circle', attrs: { cx: 16.2, cy: 16.2, r: 2.3, fill: 'none', stroke: F, 'stroke-width': 1.8 } },
+    { tag: 'path', attrs: { d: 'M17.4 6.6L6.6 17.4', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round' } }
+  ],
+  menge_beides: [
+    { tag: 'path', attrs: { d: 'M4.8 5.6H19.2V18.4H4.8V5.6Z', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linejoin': 'round' } },
+    { tag: 'path', attrs: { d: 'M12 5.6V18.4', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round' } }
+  ],
   melden_fehler: [
     { tag: 'path', attrs: { d: 'M6 21V4', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round' } },
     { tag: 'path', attrs: { d: 'M6 5H17L14.6 9L17 13H6', fill: 'none', stroke: F, 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' } },

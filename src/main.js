@@ -18,6 +18,7 @@ import { initVollbild } from './ui/vollbild.js';
 import { initStufenMenue } from './ui/stufenMenue.js';
 import { initWahlMenue } from './ui/wahlMenue.js';
 import { schuetzeEinheiten } from './ui/einheiten.js';
+import { MENGEN_TYPEN, wirksamerTyp, baeckerText } from './model/mengenTyp.js';
 
 async function loadJson(path) {
   const r = await fetch(path, { cache: 'no-cache' });
@@ -166,6 +167,63 @@ const stufenMenue = initStufenMenue($('stufe-menue'), {
   mb.innerHTML = iconHtml('melden_fehler', 18);
   mb.addEventListener('click', () => oeffneMeldung());
 }
+
+// Anzeige der Mengen im Rezept (DR-120): Menge | Bäcker-% | Beides als Auswahlmenü im Kopf des Rezepts, pro Browser gemerkt (chefing.mengen);
+// ohne Wahl zeigt es schmal nur die Menge. Das ⓘ (im Kopf und an der Spalte Bäcker-%) erklärt Bäcker-% mit einem Beispiel aus dem Rezept.
+let mengenWahl = null;
+try { mengenWahl = localStorage.getItem('chefing.mengen'); } catch { /* ohne Speicher: Vorgabe nach Breite */ }
+let baeckerInfoOffen = false;
+let mengenMenue = null;
+const schmalBild = () => matchMedia('(max-width: 640px)').matches;
+function wendeMengenAn() {
+  const typ = wirksamerTyp({ gespeichert: mengenWahl, schmal: schmalBild() });
+  const r = $('recipe');
+  r.dataset.typ = typ;
+  mengenMenue?.setze(typ);
+  r.querySelector('.info-box')?.remove();
+  document.querySelectorAll('[data-info="baeckerprozent"]').forEach((b) => b.setAttribute('aria-expanded', String(baeckerInfoOffen)));
+  if (baeckerInfoOffen && letztes) {
+    const box = Object.assign(document.createElement('p'), { className: 'note note-info info-box', textContent: baeckerText(letztes) });
+    box.setAttribute('role', 'note');
+    const tabelle = r.querySelector('.tab-scroll');
+    if (tabelle) tabelle.before(box); else r.prepend(box);
+  }
+}
+{
+  const h2 = $('recipe').previousElementSibling; // „Rezept“
+  if (h2?.tagName === 'H2') {
+    const kopf = Object.assign(document.createElement('div'), { className: 'rezept-kopf' });
+    h2.before(kopf);
+    const info = Object.assign(document.createElement('button'), { type: 'button', className: 'leiste-knopf flach ghost info-knopf', title: 'Was ist Bäcker-%?' });
+    info.dataset.info = 'baeckerprozent';
+    info.setAttribute('aria-label', 'Was ist Bäcker-%?');
+    info.setAttribute('aria-expanded', 'false');
+    info.innerHTML = iconHtml('info', 18);
+    const menue = Object.assign(document.createElement('div'), { id: 'menge-menue' });
+    kopf.append(h2, info, menue);
+    mengenMenue = initWahlMenue(menue, {
+      name: 'Anzeige der Mengen',
+      optionen: [
+        { wert: 'menge', icon: 'menge_gewicht', name: 'Menge', titel: 'Menge: Gramm, Milliliter und Stück' },
+        { wert: 'prozent', icon: 'menge_prozent', name: 'Bäcker-%', titel: 'Bäcker-%: alles als Prozent vom Mehl (Mehl = 100 %), mit der üblichen Spanne aus dem Korpus' },
+        { wert: 'beides', icon: 'menge_beides', name: 'Beides', titel: 'Beides: Menge und Bäcker-% nebeneinander (auf schmalen Bildschirmen scrollt die Tabelle)' },
+      ],
+      aktuell: wirksamerTyp({ gespeichert: mengenWahl, schmal: schmalBild() }),
+      onWahl: (w) => {
+        mengenWahl = w;
+        try { localStorage.setItem('chefing.mengen', w); } catch { /* nur für diese Sitzung */ }
+        wendeMengenAn();
+      },
+    });
+  }
+}
+$('recipe').addEventListener('click', (e) => {
+  if (e.target.closest('[data-info="baeckerprozent"]')) { baeckerInfoOffen = !baeckerInfoOffen; wendeMengenAn(); }
+});
+$('recipe').closest('.panel')?.addEventListener('click', (e) => {
+  if (e.target.closest('.rezept-kopf [data-info="baeckerprozent"]')) { baeckerInfoOffen = !baeckerInfoOffen; wendeMengenAn(); }
+});
+addEventListener('resize', () => { if (!MENGEN_TYPEN.includes(mengenWahl)) wendeMengenAn(); }); // ohne eigene Wahl folgt die Anzeige der Breite
 
 // Schwebender Knopf „Ablauf“ (DR-119): ist der Ablauf aus dem Bild gescrollt (Kästen, Rezept), öffnet der Knopf unten rechts den Ablauf im Vollbild.
 // Er wird hier angelegt (nicht in index.html), damit er auch mit einer zwischengespeicherten Seite da ist.
@@ -333,6 +391,7 @@ function render() {
   document.querySelectorAll('[data-ansicht]').forEach((b) => { const an = b.dataset.ansicht === ansichtGewaehlt; b.classList.toggle('is-active', an); b.setAttribute('aria-pressed', String(an)); });
   stufenMenue.setze(state.stufe);
   renderRecipe($('recipe'), computed, state, data, update);
+  wendeMengenAn();
   schuetzeEinheiten($('recipe'));
   document.querySelectorAll('[data-preset]').forEach((b) => b.classList.toggle('is-active', b.dataset.preset === computed.variante));
 }
