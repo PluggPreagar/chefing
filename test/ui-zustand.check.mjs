@@ -42,7 +42,7 @@ const pp=Z.presetPatch(ruehr,'muffin');
 ok(pp.gefaess===ruehr.varianten.muffin.gefaess && pp.methode===null && Object.keys(pp.mengen).length===0 && JSON.stringify(pp.fixiert)==='{"rollen":{},"zutaten":{}}' && Object.keys(pp.zutaten).length===rr.length,'Preset-Wechsel: Gefäß, Standard-Methode, alle Rollen belegt; mengen und Fixierungen leer');
 const ap=Z.archetypPatch(ruehr,'ruehrteig');
 ok(ap.archetyp==='ruehrteig' && Object.keys(ap.mengen).length===0 && Object.keys(ap.zutaten).length===rr.length,'Archetyp-Wechsel: Standard-Zutaten, mengen leer');
-ok(JSON.stringify(Z.gefaessPatch('muffinform'))==='{"gefaess":"muffinform","mengen":{},"skala":1}','Gefäß-Wechsel: neues Gefäß, mengen leer (andere Korpus-Grundlage), Skala 1');
+ok(JSON.stringify(Z.gefaessPatch('muffinform'))==='{"gefaess":"muffinform","mengen":{},"skala":1,"basis":null}','Gefäß-Wechsel: neues Gefäß, mengen leer (andere Korpus-Grundlage), Skala 1');
 const alt={mengen:{fluessigkeit:30}};
 ok(Object.keys({...alt,...pp}.mengen).length===0 && Object.keys({...alt,...ap}.mengen).length===0 && Object.keys({...alt,...Z.gefaessPatch('x')}.mengen).length===0,'angewendet über den alten Zustand: manuelle Mengen sind in allen drei Fällen weg');
 const main=fs.readFileSync(new URL('../src/main.js',import.meta.url),'utf8'), morph=fs.readFileSync(new URL('../src/ui/morphbox.js',import.meta.url),'utf8');

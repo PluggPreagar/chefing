@@ -1,7 +1,7 @@
 // Rezeptmenge skalieren (DR-122, T154 Phase 2): `state.skala` ist ein Faktor auf die Gefäß-Menge. Bäcker-% bleibt gleich, nur Gramm ändern sich;
 // Backzeit und Temperatur bleiben die der Form (Gefäß-Regel aus DR-120), darum der Hinweis unten.
 // Portionen (DR-123): eine Portion ist, was eine Person isst (`portion_g` je Gefäß, Schätzung); n Portionen ergeben den Faktor. Eine festgelegte
-// Zutat (state.skala ≠ 1) geht vor, bis „Zurück“; danach gilt wieder die gemerkte Portionenzahl.
+// Zutat (Basis „Zutat“, DR-124) geht vor, bis man die Basis wechselt; danach gilt wieder die gemerkte Portionenzahl.
 import { toGrams } from './units.js';
 
 export const SKALA_MIN = 0.1;
@@ -39,10 +39,16 @@ export function skalaFuerPortionen(vessel, n, groesse) {
   return s >= SKALA_MIN && s <= SKALA_MAX ? s : null;
 }
 
-// Welcher Faktor gilt und woher er kommt: 'zutat' (festgelegt), 'portionen' (gemerkte Zahl) oder 'gefaess' (Menge der Form)
+// Die Referenzzutat der Basis „Zutat“ (DR-124): die gewählte, sonst die oberste der Rezeptur (Mehl); null bei anderer Basis
+export function referenzZutat(state, zutatenListe) {
+  if (state.basis !== 'zutat') return null;
+  return zutatenListe.some((z) => z.zutat === state.skalaZutat) ? state.skalaZutat : (zutatenListe[0]?.zutat ?? null);
+}
+
+// Welcher Faktor gilt und woher er kommt: 'zutat' (Basis Zutat oder festgelegt), 'portionen' (gemerkte Zahl) oder 'gefaess' (Menge der Form)
 export function wirksameSkala(state, vessel) {
   const manuell = gueltigeSkala(state.skala);
-  if (manuell !== 1) return { skala: manuell, quelle: 'zutat' };
+  if (state.basis === 'zutat' || manuell !== 1) return { skala: manuell, quelle: 'zutat' }; // Basis Zutat gilt auch beim Faktor 1, sonst sprängen die Zahlen
   const p = skalaFuerPortionen(vessel, state.portionen, state.portionsgroesse);
   return p != null ? { skala: p, quelle: 'portionen' } : { skala: 1, quelle: 'gefaess' };
 }

@@ -152,6 +152,7 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .portionen-feld { width: 3.4rem; font: inherit; text-align: center; padding: .2rem .25rem; appearance: textfield; -moz-appearance: textfield; }
 .portionen-feld::-webkit-outer-spin-button, .portionen-feld::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 .portionen > .fine { flex-basis: 100%; margin: 0; }
+.zutaten td.menge-referenz { background: var(--best-bg); } /* Basis Zutat (DR-124): die Referenz steht als Feld in der Rezeptur */
 .menge-feld { width: 3.6rem; font: inherit; padding: .1rem .25rem; }
 @media (max-width: 640px) { .zutaten th, .zutaten td { padding-left: .2rem; padding-right: .2rem; } } /* schmal: engerer Rand, damit Menge oder Bäcker-% ohne Scrollen passt (DR-120) */
 #menge-menue .stufe-liste { left: auto; right: 0; }

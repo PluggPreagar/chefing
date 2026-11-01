@@ -13,7 +13,7 @@ export function presetPatch(arch, variante) {
   const v = arch.varianten[variante];
   const zutaten = {};
   for (const r of arch.rollen) zutaten[r.rolle] = alsEintraege(v.bestof[r.rolle] !== undefined ? v.bestof[r.rolle] : r.default);
-  return { gefaess: v.gefaess, methode: null, mengen: {}, skala: 1, fixiert: { rollen: {}, zutaten: {} }, zutaten, techniken: {} };
+  return { gefaess: v.gefaess, methode: null, mengen: {}, skala: 1, basis: null, fixiert: { rollen: {}, zutaten: {} }, zutaten, techniken: {} };
 }
 
 // Technik ein-/ausschalten (DR-041). Beim Ausschalten bekommt eine Pflicht-Rolle, die nur die Technik leer
@@ -30,8 +30,8 @@ export function technikPatch(state, arch, technik, key, an) {
 
 // Patch für einen Archetyp-Wechsel: Standard-Zutaten, Mengen leer (das Preset folgt danach)
 export function archetypPatch(arch, key) {
-  return { archetyp: key, mengen: {}, skala: 1, zutaten: Object.fromEntries(arch.rollen.map((r) => [r.rolle, alsEintraege(r.default)])) };
+  return { archetyp: key, mengen: {}, skala: 1, basis: null, zutaten: Object.fromEntries(arch.rollen.map((r) => [r.rolle, alsEintraege(r.default)])) };
 }
 
 // Gefäß-Wechsel ändert Variante und Korpus-Grundlage: manuelle Mengen entfallen
-export const gefaessPatch = (gefaess) => ({ gefaess, mengen: {}, skala: 1 });
+export const gefaessPatch = (gefaess) => ({ gefaess, mengen: {}, skala: 1, basis: null });

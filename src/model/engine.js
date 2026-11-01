@@ -1,5 +1,5 @@
 import { fromGrams, summarize } from './units.js';
-import { wirksameSkala, skalaHinweis, rundungsHinweise, portionInfo } from './skala.js';
+import { wirksameSkala, referenzZutat, skalaHinweis, rundungsHinweise, portionInfo } from './skala.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt, wirksameTechniken, technikStufe } from './rules.js';
 import { zeitFuerSchritt, zeitleiste, zeitMeldung, fmtZeit } from './zeit.js';
 import { emulsionsVerlauf } from './emulsion.js';
@@ -490,6 +490,7 @@ export function compute(state, data, korpusStats) {
     teigmasse,
     skala,
     skalaQuelle,
+    skalaZutat: referenzZutat(state, zutatenListe),
     skalaHinweis: skalaHinweis(skala, vessel),
     rundungsHinweise: rundungsHinweise(skala, zutatenListe, data.ingredients),
     portion: portionInfo(vessel, state.portionsgroesse, teigmasse, skalaQuelle),

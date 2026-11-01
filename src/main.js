@@ -83,6 +83,9 @@ const state = {
   mengen: {},
   // skala = Faktor auf die Gefäß-Menge (DR-122, „Zutat festlegen“); nie gemerkt, 1 nach Preset-, Archetyp- und Gefäß-Wechsel
   skala: 1,
+  // basis = 'zutat': Basis „Zutat“ (DR-124), skalaZutat = Referenzzutat (null = die oberste); nie gemerkt
+  basis: null,
+  skalaZutat: null,
   // Basis Portionen (DR-123): Anzahl (null = Basis ist das Gefäß) und Größe der Portion, beides pro Browser gemerkt (chefing.portionen, chefing.portionsgroesse)
   portionen: gemerktePortionen(),
   portionsgroesse: gemerktePortionsgroesse(),

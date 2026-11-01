@@ -31,7 +31,7 @@ const ruehr = data.archetypes.ruehrteig; const rr = ruehr.rollen.map((r) => r.ro
 for (const [k, x] of Object.entries(ruehr.varianten)) ks[k] = stats(J('corpus/' + x.korpus).map((r) => normalizeRecipe(r, data.ingredients, { rollen: rr })), rr);
 const v0 = ruehr.varianten.kastenkuchen; const basis = {};
 for (const r of ruehr.rollen) basis[r.rolle] = Z.alsEintraege(v0.bestof[r.rolle] !== undefined ? v0.bestof[r.rolle] : r.default);
-const zustand = (skala) => ({ archetyp: 'ruehrteig', variante: 'kastenkuchen', gefaess: v0.gefaess, methode: null, fixiert: { rollen: {}, zutaten: {} }, zutaten: { ...basis }, mengen: {}, ...(skala === undefined ? {} : { skala }) });
+const zustand = (skala) => ({ archetyp: 'ruehrteig', variante: 'kastenkuchen', gefaess: v0.gefaess, methode: null, fixiert: { rollen: {}, zutaten: {} }, zutaten: { ...basis }, mengen: {}, ...(skala === undefined ? {} : { skala, basis: skala !== 1 ? 'zutat' : null }) });
 const rechne = (skala) => compute(zustand(skala), data, ks);
 
 // --- Rechnung --------------------------------------------------------------------------------------------------------------------
@@ -68,16 +68,41 @@ ok(Z.presetPatch(ruehr, 'muffin').skala === 1 && Z.archetypPatch(ruehr, 'ruehrte
 // --- Rezeptkarte -----------------------------------------------------------------------------------------------------------------
 const zeige = (skala, onChange) => { const c = rechne(skala); const w = new Knoten('div'); renderRecipe(w, c, zustand(skala), { ...data, appVersion: 't' }, onChange); return w; };
 let w = zeige(1, () => {});
-ok(!/Menge festgelegt/.test(w.textContent) && alle(w, (k) => k.tag === 'button' && k.className === 'kaskade-btn' && k.textContent === 'Zurück').length === 0, 'ohne Faktor: kein Hinweis, kein Zurück');
+const felder = (k) => alle(k, (x) => x.tag === 'input' && x.className === 'menge-feld');
+const mengeKnoepfe = (k) => alle(k, (x) => x.tag === 'button' && x.className === 'menge-wert');
+ok(!/Menge festgelegt/.test(w.textContent) && felder(w).length === 0 && mengeKnoepfe(w).length === eins.zutatenListe.length, 'Basis Gefäß: kein Hinweis, kein Feld, jede Menge ist ein Knopf zum Wählen der Referenz');
 const aufrufe = [];
 w = zeige(2, (p) => aufrufe.push(p));
-const zurueck = alle(w, (k) => k.tag === 'button' && k.textContent === 'Zurück');
-ok(/Menge festgelegt: ×2 der Gefäß-Menge/.test(w.textContent) && /Bäcker-% bleibt gleich/.test(w.textContent) && zurueck.length === 1, 'mit Faktor: Hinweis „×2 der Gefäß-Menge“ und ein Zurück');
-zurueck[0].klick();
-ok(aufrufe.length === 1 && aufrufe[0].skala === 1, 'Zurück setzt den Faktor auf 1');
+ok(/Menge festgelegt: ×2 der Gefäß-Menge/.test(w.textContent) && /Bäcker-% bleibt gleich/.test(w.textContent) && alle(w, (k) => k.tag === 'button' && k.textContent === 'Zurück').length === 0, 'Basis Zutat mit Faktor: Hinweis „×2 der Gefäß-Menge“, kein eigenes Zurück (der Weg zurück ist die Basis)');
 ok(/Ansätze/.test(w.textContent), 'der Hinweis zur Form steht in der Karte');
-const zahlen = alle(w, (k) => k.tag === 'button' && k.className === 'menge-wert');
-ok(zahlen.length === zwei.zutatenListe.length && zahlen[0].textContent === `${zwei.zutatenListe[0].menge} ${zwei.zutatenListe[0].einheit}${zwei.zutatenListe[0].hinweis ? ` (${zwei.zutatenListe[0].hinweis})` : ''}`, 'jede Zutat hat ihre Menge als Knopf zum Festlegen');
+ok(felder(w).length === 1 && mengeKnoepfe(w).length === zwei.zutatenListe.length - 1 && /Referenz: Menge Weizenmehl/.test(felder(w)[0].attr['aria-label']) && felder(w)[0].value === String(zwei.zutatenListe[0].menge), 'Basis Zutat: die oberste Zutat (Mehl) ist das Feld in der Rezeptur, alle anderen Mengen sind Knöpfe');
+ok(/Auf die Menge einer anderen Zutat tippen/.test(w.textContent), 'der Hinweis nennt, dass sich eine andere Zutat als Referenz wählen lässt');
+const feld = felder(w)[0];
+feld.value = String(zwei.zutatenListe[0].menge * 1.5);
+for (const f of feld.handler.change) f();
+ok(aufrufe.length === 1 && Math.abs(aufrufe[0].skala - 3) < 0.05 && aufrufe[0].basis === 'zutat' && aufrufe[0].skalaZutat === zwei.zutatenListe[0].zutat, 'Zahl im Feld ändern: neuer Faktor (570 g → 855 g gibt ×3), Basis bleibt Zutat');
+feld.value = '0';
+for (const f of feld.handler.change) f();
+ok(aufrufe.length === 1 && feld.value === String(zwei.zutatenListe[0].menge), 'ungültige Zahl (0) ändert nichts und stellt den Wert wieder her');
+mengeKnoepfe(w)[0].klick();
+ok(aufrufe.length === 2 && aufrufe[1].basis === 'zutat' && aufrufe[1].skalaZutat === zwei.zutatenListe[1].zutat && aufrufe[1].skala === 2, 'Antippen der Menge einer anderen Zutat macht sie zur Referenz (Faktor bleibt, damit die Zahlen nicht springen)');
+const bauf = [];
+const bas = (st, kn) => { const c = compute(st, data, ks); const w2 = new Knoten('div'); renderRecipe(w2, c, st, { ...data, appVersion: 't' }, (p) => bauf.push(p)); return w2; };
+let bw = bas(zustand(), null);
+ok(['Gefäß', 'Portionen', 'Zutat'].every((t) => alle(bw, (k) => k.tag === 'button' && k.textContent === t).length === 1), 'Basis: drei Optionen Gefäß | Portionen | Zutat');
+alle(bw, (k) => k.tag === 'button' && k.textContent === 'Zutat')[0].klick();
+ok(bauf.length === 1 && bauf[0].basis === 'zutat' && bauf[0].skala === 1, 'Basis Zutat wählen: Faktor bleibt 1, damit nichts springt');
+bw = bas({ ...zustand(2), portionen: 4 }, null);
+alle(bw, (k) => k.tag === 'button' && k.textContent === 'Portionen')[0].klick();
+alle(bw, (k) => k.tag === 'button' && k.textContent === 'Gefäß')[0].klick();
+ok(JSON.stringify(bauf.slice(1)) === JSON.stringify([{ basis: null, skala: 1, portionen: 4 }, { basis: null, skala: 1, portionen: null }]), 'aus der Basis Zutat zurück: Portionen mit der gemerkten Zahl (4), Gefäß vergisst sie');
+const gelb = compute({ ...zustand(), basis: 'zutat' }, data, ks);
+ok(gelb.skalaQuelle === 'zutat' && gelb.skala === 1 && gelb.skalaZutat === gelb.zutatenListe[0].zutat && gelb.teigmasse === 1000 && S.wirksameSkala({ basis: 'zutat', skala: 1, portionen: 4 }, data.vessels.kastenform_25).quelle === 'zutat', 'Basis Zutat gilt auch beim Faktor 1 (Referenz = oberste Zutat), vor den gemerkten Portionen');
+const liste3 = [{ zutat: 'a' }, { zutat: 'b' }];
+ok(S.referenzZutat({ basis: 'zutat' }, liste3) === 'a' && S.referenzZutat({ basis: 'zutat', skalaZutat: 'b' }, liste3) === 'b' && S.referenzZutat({ basis: 'zutat', skalaZutat: 'x' }, liste3) === 'a' && S.referenzZutat({ basis: null, skalaZutat: 'b' }, liste3) === null, 'Referenzzutat: die gewählte, sonst die oberste; keine bei anderer Basis');
+const brotBasis = compute({ ...zustand(), gefaess: 'brotform_25' }, data, ks);
+const brotW = new Knoten('div'); renderRecipe(brotW, brotBasis, zustand(), { ...data, appVersion: 't' }, () => {});
+ok(alle(brotW, (k) => k.tag === 'button' && k.textContent === 'Gefäß').length === 1 && alle(brotW, (k) => k.tag === 'button' && k.textContent === 'Zutat').length === 1 && alle(brotW, (k) => k.tag === 'button' && k.textContent === 'Portionen').length === 0, 'Brotlaib: Basis Gefäß | Zutat, ohne Portionen');
 
 // --- Portionen (DR-123) ----------------------------------------------------------------------------------------------------------
 const kasten = data.vessels.kastenform_25;
@@ -113,7 +138,7 @@ ok(taste(pr.w, 'Wenig').length === 1 && taste(pr.w, 'Normal').length === 1 && ta
 const gedrueckt = alle(pr.w, (k) => k.attr && k.attr['aria-pressed'] === 'true').map((k) => k.textContent);
 ok(gedrueckt.join() === 'Portionen,Normal', 'gewählt sind Portionen und Normal');
 taste(pr.w, '+')[0].klick(); taste(pr.w, '−')[0].klick(); taste(pr.w, 'Viel')[0].klick(); taste(pr.w, 'Gefäß')[0].klick();
-ok(JSON.stringify(ap.slice(1)) === JSON.stringify([{ portionen: 5, skala: 1 }, { portionen: 3, skala: 1 }, { portionsgroesse: 'viel' }, { portionen: null }]), '+ und − ändern um eine Portion (und nehmen eine festgelegte Zutat zurück), Größe, Gefäß: Zahl vergessen');
+ok(JSON.stringify(ap.slice(1)) === JSON.stringify([{ portionen: 5, skala: 1 }, { portionen: 3, skala: 1 }, { portionsgroesse: 'viel' }, { basis: null, skala: 1, portionen: null }]), '+ und − ändern um eine Portion (und nehmen eine festgelegte Zutat zurück), Größe, Gefäß: Zahl vergessen');
 pr = zeigeP(zustand(), () => {});
 ok(alle(pr.w, (k) => k.className === 'portionen').length === 1, 'bleibt eine Zeile');
 const brot = compute({ ...zustand(), portionen: 4, gefaess: 'brotform_25' }, data, ks);
@@ -123,7 +148,9 @@ ok(brot.portion === null && brot.skalaQuelle === 'gefaess', 'Brotlaib: keine Por
 const karte = fs.readFileSync(new URL('../src/ui/recipeCard.js', import.meta.url), 'utf8');
 const main = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
 const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
-ok(/skalaFuerMenge\(computed\.skala, z\.gramm, eingabeInGramm\(ing, Number\(feld\.value\), z\.einheit\)\)/.test(karte) && /onChange\(\{ skala \}\)/.test(karte) && /e\.key === 'Enter'\) ende\(true\)/.test(karte) && /e\.key === 'Escape'\) ende\(false\)/.test(karte) && /addEventListener\('blur'/.test(karte), 'Eingabe in der Zelle: Enter und Verlassen übernehmen, Esc verwirft, gerechnet aus den ungerundeten Gramm der Zutat');
+ok(/skalaFuerMenge\(computed\.skala, z\.gramm, eingabeInGramm\(ing, Number\(feld\.value\), z\.einheit\)\)/.test(karte) && /onChange\(\{ skala, basis: 'zutat', skalaZutat: z\.zutat \}\)/.test(karte) && /feld\.addEventListener\('change', uebernehmen\)/.test(karte) && /e\.key === 'Enter'\) uebernehmen\(\)/.test(karte) && /e\.key === 'Escape'\) feld\.value = String\(z\.menge\)/.test(karte) && /setTimeout\(\(\) => \{ feld\.focus\?\.\(\)/.test(karte) && !/classList/.test(karte.slice(karte.indexOf('function mengeZelle'))), 'Feld der Referenz in der Rezeptur: Änderung übernimmt (Enter oder Verlassen), Esc stellt her, Fokus nach dem Einhängen, gerechnet aus den ungerundeten Gramm der Zutat');
+ok(/zelle\.className \+= ' menge-referenz'/.test(karte) && /\.zutaten td\.menge-referenz \{/.test(css), 'die Zelle der Referenz behält ihre Spaltenklasse und ist hervorgehoben');
+ok(/basis: null,\s+skalaZutat: null,/.test(main), 'main.js: Startzustand basis und skalaZutat leer, nie gemerkt');
 ok(/^\s+skala: 1,$/m.test(main) && !/localStorage[^;]*skala/.test(main), 'main.js: Startzustand skala 1, nicht gemerkt');
 ok(/localStorage\.getItem\('chefing\.portionen'\)/.test(main) && /localStorage\.setItem\('chefing\.portionen', String\(patch\.portionen\)\)/.test(main) && /localStorage\.removeItem\('chefing\.portionen'\)/.test(main) && /localStorage\.setItem\('chefing\.portionsgroesse', patch\.portionsgroesse\)/.test(main) && /portionen: gemerktePortionen\(\),\s+portionsgroesse: gemerktePortionsgroesse\(\)/.test(main) && /Object\.assign\(state, patch\);\s+merkePortionen\(patch\);/.test(main), 'main.js: Portionenzahl und Größe pro Browser gemerkt (chefing.portionen, chefing.portionsgroesse), beim Start gelesen, bei jeder Änderung geschrieben, Gefäß vergisst die Zahl');
 ok(/\.portionen \{/.test(css) && /\.portionen-feld \{/.test(css) && /\.portionen-schritt \{/.test(css), 'CSS: Zeile Basis mit Zähler und Größe');

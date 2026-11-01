@@ -9,6 +9,8 @@ import { eingabeInGramm, skalaFuerMenge, GROESSEN } from '../model/skala.js';
 
 export function renderRecipe(root, computed, state, data, onChange) {
   root.replaceChildren();
+  const fokus = fokusReferenz; // das Feld der Referenz nimmt den Fokus nur einmal
+  fokusReferenz = false;
 
   const status = el('div', `status status-${computed.status}`);
   status.textContent =
@@ -38,7 +40,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   // Mengen-Vorschlag (T40): wenn kein Tausch reicht, die Menge der Rolle verschieben — ebenfalls erst nach Klick
   for (const m of computed.mengenVorschlaege || []) root.append(mengenVorschlag(m, state, onChange));
   if (Object.keys(state.mengen || {}).length) root.append(mengenManuell(computed, state, onChange));
-  if (computed.skalaQuelle === 'zutat') root.append(skalaNotiz(computed, onChange)); // DR-122
+  if (computed.skalaQuelle === 'zutat' && computed.skala !== 1) root.append(skalaNotiz(computed)); // DR-122
   if (computed.skalaHinweis) root.append(el('p', 'note note-warn', computed.skalaHinweis));
   for (const h of computed.rundungsHinweise || []) root.append(el('p', 'note note-info', h));
   // Override erfassen (DR-019 Punkt 4/T25): reine Beweis-Erfassung, kein Freischalten — die
@@ -50,7 +52,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   for (const a of computed.anpassungen) root.append(mitMarke(el('p', 'note note-info', a), computed.marken?.[a]));
   for (const h of computed.toleranzHinweise || []) root.append(mitMarke(el('p', 'note note-info', h), computed.marken?.[h]));
 
-  if (computed.portion) root.append(portionenZeile(computed, onChange)); // DR-123
+  root.append(basisZeile(computed, state, onChange)); // DR-123, DR-124
   const table = el('table', 'zutaten');
   const thead = el('thead');
   const bezug = computed.bezugLabel ?? 'Mehl';
@@ -64,7 +66,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
     const spanne = k ? `${fmt(k.q1)}–${fmt(k.q3)} %` : '—';
     const marker = z.bpQuelle === 'schätzung' ? ' *' : z.bpQuelle === 'berechnet' ? ' †' : z.bpQuelle === 'manuell' ? ' ✎' : '';
     const row = tr([z.rolleLabel, z.label, menge, `${fmt(z.bp)} %${marker}`, z.bpQuelle === 'berechnet' ? '—' : spanne], 'td', SPALTEN_REZEPT);
-    mengeZelle(row.children[2], menge, z, computed, data, onChange);
+    mengeZelle(row.children[2], menge, z, computed, data, onChange, fokus);
     const zst = z.zustand && (computed.zustaende || []).find((x) => x.rolle === z.rolle);
     if (zst) row.children[1].append(zustandKlappe(zst, state, onChange)); // DR-064: Soll-Zustand + Wege dorthin
     tbody.append(row);
@@ -234,50 +236,47 @@ function fmt(x) { return x == null ? '—' : String(Math.round(x)); }
 // Klassen je Spalte, damit die Anzeige der Mengen (Menge | Bäcker-% | Beides) Spalten per CSS ausblenden kann (DR-120)
 const SPALTEN_REZEPT = [null, null, 'col-menge', 'col-prozent', 'col-korpus'];
 const SPALTEN_BILANZ = [null, 'col-menge', 'col-prozent', 'col-korpus', 'col-herkunft'];
-// Menge einer Zutat festlegen (DR-122): Antippen macht aus der Zahl ein Eingabefeld, Enter oder Verlassen übernimmt, Esc verwirft. Der Rest der Zutaten
-// folgt über `state.skala`; die Eingabe wird in Gramm umgerechnet (g, ml, Stk), so rundet kein Stück (Eier) den Faktor.
-function mengeZelle(zelle, menge, z, computed, data, onChange) {
-  const ing = data.ingredients?.[z.zutat];
-  const knopf = el('button', 'menge-wert', menge);
-  knopf.type = 'button';
-  knopf.title = 'Menge festlegen, die anderen Zutaten folgen';
+// Menge in der Rezeptur (DR-122, DR-124). Bei der Basis „Zutat“ ist die Menge der Referenzzutat (vorgabe: die oberste) ein Eingabefeld direkt in der
+// Tabelle: Enter oder Verlassen übernimmt, Esc verwirft, die anderen Zutaten folgen über `state.skala`. Die Menge jeder anderen Zutat ist ein Knopf: Antippen
+// macht sie zur Referenz. Die Eingabe wird in Gramm umgerechnet (g, ml, Stk), so rundet kein Stück (Eier) den Faktor.
+function mengeZelle(zelle, menge, z, computed, data, onChange, fokus) {
   zelle.textContent = '';
-  zelle.append(knopf);
-  knopf.addEventListener('click', () => {
+  if (computed.skalaQuelle === 'zutat' && computed.skalaZutat === z.zutat) {
+    const ing = data.ingredients?.[z.zutat];
     const feld = el('input', 'menge-feld');
     feld.type = 'number';
     feld.step = 'any';
     feld.min = '0';
     feld.value = String(z.menge);
     feld.setAttribute('inputmode', 'decimal');
-    feld.setAttribute('aria-label', `Menge ${z.label} in ${z.einheit}`);
-    let fertig = false;
-    const ende = (uebernehmen) => {
-      if (fertig) return;
-      fertig = true;
-      const skala = uebernehmen && feld.value !== String(z.menge) ? skalaFuerMenge(computed.skala, z.gramm, eingabeInGramm(ing, Number(feld.value), z.einheit)) : null;
-      if (skala != null) onChange({ skala }); else zelle.replaceChildren(knopf);
+    feld.setAttribute('aria-label', `Referenz: Menge ${z.label} in ${z.einheit}`);
+    const uebernehmen = () => {
+      if (feld.value === String(z.menge)) return;
+      const skala = skalaFuerMenge(computed.skala, z.gramm, eingabeInGramm(ing, Number(feld.value), z.einheit));
+      if (skala != null) onChange({ skala, basis: 'zutat', skalaZutat: z.zutat }); else feld.value = String(z.menge);
     };
-    feld.addEventListener('keydown', (e) => { if (e.key === 'Enter') ende(true); else if (e.key === 'Escape') ende(false); });
-    feld.addEventListener('blur', () => ende(true));
-    zelle.replaceChildren(feld, el('span', 'menge-einheit', ` ${z.einheit}`));
-    feld.focus();
-    feld.select();
-  });
+    feld.addEventListener('change', uebernehmen); // Verlassen des Feldes
+    feld.addEventListener('keydown', (e) => { if (e.key === 'Enter') uebernehmen(); else if (e.key === 'Escape') feld.value = String(z.menge); }); // Enter feuert nicht überall ein change
+    zelle.className += ' menge-referenz'; // die Spaltenklasse (col-menge) bleibt
+    zelle.append(feld, el('span', 'menge-einheit', ` ${z.einheit}${z.hinweis ? ` (${z.hinweis})` : ''}`));
+    if (fokus) setTimeout(() => { feld.focus?.(); feld.select?.(); }, 0); // erst nach dem Einhängen der Tabelle
+    return;
+  }
+  const knopf = el('button', 'menge-wert', menge);
+  knopf.type = 'button';
+  knopf.title = 'Diese Zutat als Referenz wählen und ihre Menge festlegen, die anderen folgen';
+  knopf.addEventListener('click', () => { fokusReferenz = true; onChange({ basis: 'zutat', skalaZutat: z.zutat, skala: computed.skala }); });
+  zelle.append(knopf);
 }
-// Hinweis auf die festgelegte Menge mit Rückweg (DR-122): zurück zur Gefäß-Menge oder, wenn Portionen gemerkt sind, zu ihnen
-function skalaNotiz(computed, onChange) {
-  const box = el('div', 'note note-info');
+let fokusReferenz = false; // nach Basis „Zutat“ oder Antippen einer Menge: das Feld der Referenz bekommt den Fokus
+// Hinweis auf die festgelegte Menge (DR-122); der Weg zurück ist die Basis (Gefäß | Portionen)
+function skalaNotiz(computed) {
   const faktor = String(Math.round(computed.skala * 100) / 100).replace('.', ',');
-  box.append(el('span', null, `Menge festgelegt: ×${faktor} der Gefäß-Menge, ${Math.round(computed.teigmasse)} g statt ${Math.round(computed.vessel.teigmasse_g)} g. Bäcker-% bleibt gleich.`));
-  const btn = el('button', 'kaskade-btn', 'Zurück');
-  btn.type = 'button';
-  btn.addEventListener('click', () => onChange({ skala: 1 }));
-  box.append(btn);
-  return box;
+  return el('p', 'note note-info', `Menge festgelegt: ×${faktor} der Gefäß-Menge, ${Math.round(computed.teigmasse)} g statt ${Math.round(computed.vessel.teigmasse_g)} g. Bäcker-% bleibt gleich.`);
 }
-// Basis der Menge (DR-123): Gefäß | Portionen. Gefäß zeigt, wie viele Portionen die Form ergibt; Portionen zeigt Zahl (− n +) und Größe (Wenig | Normal | Viel).
-// Eine Portion ist, was eine Person isst, je Gefäß eine Schätzung (`portion_g`). Die Zahl wird gemerkt (main.js), eine festgelegte Zutat geht vor.
+// Basis der Menge (DR-123, DR-124): Gefäß | Portionen | Zutat. Gefäß zeigt, wie viele Portionen die Form ergibt; Portionen zeigt Zahl (− n +) und Größe
+// (Wenig | Normal | Viel); Zutat legt die Menge einer Zutat in der Rezeptur fest. Eine Portion ist, was eine Person isst, je Gefäß eine Schätzung
+// (`portion_g`); Brotlaib und Mayonnaise haben keine. Die Zahl wird gemerkt (main.js), die Referenzzutat nicht.
 const rundeN = (n) => Math.round(n * 10) / 10;
 const zahlText = (n) => String(rundeN(n)).replace('.', ',');
 function gruppe(name, optionen, gewaehlt, onWahl) {
@@ -293,14 +292,19 @@ function gruppe(name, optionen, gewaehlt, onWahl) {
   }
   return g;
 }
-function portionenZeile(computed, onChange) {
+function basisZeile(computed, state, onChange) {
   const p = computed.portion;
+  const basis = computed.skalaQuelle;
   const zeile = el('div', 'portionen');
   const sicher = (n) => Math.min(p.max, Math.max(1, n));
+  const optionen = [['gefaess', 'Gefäß'], ...(p ? [['portionen', 'Portionen']] : []), ['zutat', 'Zutat']];
   zeile.append(el('span', 'portionen-name', 'Basis'));
-  zeile.append(gruppe('Basis der Menge', [['gefaess', 'Gefäß'], ['portionen', 'Portionen']], p.aktiv ? 'portionen' : 'gefaess',
-    (w) => onChange(w === 'gefaess' ? { portionen: null } : { portionen: sicher(Math.round(p.n)), skala: 1 })));
-  if (p.aktiv) {
+  zeile.append(gruppe('Basis der Menge', optionen, basis, (w) => {
+    if (w === 'gefaess') onChange({ basis: null, skala: 1, portionen: null });
+    else if (w === 'portionen') onChange({ basis: null, skala: 1, portionen: state.portionen > 0 ? state.portionen : sicher(Math.round(p.n)) });
+    else { fokusReferenz = true; onChange({ basis: 'zutat', skala: computed.skala }); }
+  }));
+  if (basis === 'portionen') {
     const n = Math.round(p.n * 10) / 10;
     const weniger = el('button', 'flach portionen-schritt', '−');
     const mehr = el('button', 'flach portionen-schritt', '+');
@@ -323,10 +327,12 @@ function portionenZeile(computed, onChange) {
     zeile.append(zaehler);
     zeile.append(gruppe('Portionsgröße', Object.entries(GROESSEN).map(([k, g]) => [k, g.label]), p.groesse, (w) => onChange({ portionsgroesse: w })));
   }
-  const stueck = p.stueck ? ` ≈ ${zahlText(p.stueck)} Stück` : '';
-  zeile.append(el('span', 'fine', p.aktiv
-    ? `je Portion ${Math.round(p.gramm)} g Teig${stueck} (Schätzung)`
-    : `${computed.skalaQuelle === 'zutat' ? 'Die festgelegte Menge' : 'Diese Form'} ergibt etwa ${zahlText(p.n)} Portionen zu je ${Math.round(p.gramm)} g Teig${stueck} (Schätzung)`));
+  const stueck = p?.stueck ? ` ≈ ${zahlText(p.stueck)} Stück` : '';
+  const text = basis === 'zutat'
+    ? 'Menge der Zutat im Feld festlegen, die anderen folgen. Auf die Menge einer anderen Zutat tippen, um sie als Referenz zu wählen.'
+    : basis === 'portionen' ? `je Portion ${Math.round(p.gramm)} g Teig${stueck} (Schätzung)`
+    : p ? `Diese Form ergibt etwa ${zahlText(p.n)} Portionen zu je ${Math.round(p.gramm)} g Teig${stueck} (Schätzung)` : '';
+  if (text) zeile.append(el('span', 'fine', text));
   return zeile;
 }
 function seitlich(table) {
