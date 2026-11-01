@@ -573,3 +573,14 @@ Rückfrage des Nutzers: Faustformeln für Portionsgrößen („Gastro-Einmaleins
 | 2026-11-01 | bildungsinstitut-rlp.drk.de, umweltverbaende.at | je 1 Abruf | Verpflegungsdienst, „wie viel macht satt“ | beide **404**, nichts gelesen |
 
 Ergebnis: Eine einheitliche „Gastro-Einmaleins“-Norm habe ich **nicht** gefunden. Die verlässlichste lesbare Quelle ist ein Ratgeber ohne Quellenangabe; die übrigen Werte stammen aus Suchauszügen. Stütze für den Entwurf: Beilage 200 g gekocht (bestätigt den Faustwert des Nutzers als **gekochtes Gewicht**, nicht als Kohlenhydrate), Kuchen etwa 150 g je Person, Gebäck 90 bis 120 g, Esser-Typen etwa 0,75 | 1 | 1,25. Alle Werte bleiben **Schätzungen**; die Quellenlage reicht nicht für „gemessen“.
+
+## 2026-11-01 — chefing.de auf den Strato-Webspace legen
+
+Frage des Nutzers: kann `chefing.de` (bei INWX) mit dem Strato-Vertrag als echte Adresse statt als Weiterleitung laufen? **Treffer-Text** heißt: nur der Auszug der Suche, Seite nicht geöffnet.
+
+| datum | domain | seiten | thema | notiz |
+|-------|--------|--------|-------|-------|
+| 2026-11-01 | strato.de | 3 Suchen, keine Seite geöffnet | DNS-Einträge, Domainumzug, Nameserver, Weiterleitung | **Treffer-Text:** bis zu vier eigene Nameserver je Domain möglich (Domainverwaltung, Reiter DNS, „NS-Record verwalten“); CNAME nur auf Subdomain-Ebene, für die Hauptdomain zählen die Nameserver bei der Registry; ein Providerwechsel braucht den Auth-Code des alten Anbieters, die Inhalte ziehen nicht mit; eine „externe Weiterleitung“ leitet auf eine beliebige Adresse (sichtbarer Wechsel). Keine Seite gefunden, die sagt, ob eine **bei einem anderen Anbieter registrierte Domain einem Webhosting-Paket zugewiesen** werden kann, und kein Hinweis zu einem Zertifikat für sie |
+| 2026-11-01 | forum.bubble.io, discourse.webflow.com, administrator.de, support.vsble.me | 3 Suchen, keine Seite geöffnet | A-Record bei Strato-Domains | **Treffer-Text, Nutzerberichte, nicht belegt:** Strato erlaube bei Domains nur einen A-Record; für „www“ nur CNAME auf Subdomain-Ebene; Nameserver-Änderungen kämen teils nicht bei der Registry an. Für **Domains bei Strato**, nicht für externe |
+
+Ergebnis: Ob Stratos Tarife eine fremde Domain zuweisen und ein Zertifikat dafür ausstellen, habe ich **nicht belegt gefunden**; das muss der Kunden-Login oder der Support klären. Gesichert ist nur: Umzug zu Strato (Auth-Code von INWX) und eigene Nameserver sind vorgesehen.
