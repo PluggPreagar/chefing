@@ -556,3 +556,20 @@ Keine neue Web-Recherche; Gegenprobe am eigenen Korpus (Weißbrot 29 und Hefezop
 | hf_zucker_max_hart | Zucker 0,0 bis 23,5 %, Median 15,2 | 40 % | 1,7-fach über dem Maximum; Negativ-Fall 27,6 % (Ursache offen) darunter |
 
 Ergebnis: keine Verletzung im Korpus, kein Misserfolg über einer der Grenzen. Die Gewissheit bleibt bei allen fünf `likely` (Mechanismus plausibel, Zahl Faustwert); nur die Begründungen in `aussagen.json` wurden mit den Korpus-Zahlen ergänzt. `never` und `proven` kommen nicht vor. Von der Prüf-Priorität bleiben nur Aussagen ohne neue Datenlage (Emulsion: oel_tropfen, oel_strahl_mayo, puerieren, puerieren_einlaufen, siehe T115).
+
+## 2026-11-01 — Portionsgrößen, Faustformeln (Portionen-Planung)
+
+Rückfrage des Nutzers: Faustformeln für Portionsgrößen („Gastro-Einmaleins“). **Gelesen** heißt: Seite oder Dokument selbst geöffnet; **Treffer-Text** heißt: nur der Auszug der Suche, Seite nicht geöffnet (dann nur als Hinweis zu werten).
+
+| datum | domain | seiten | thema | notiz |
+|-------|--------|--------|-------|-------|
+| 2026-11-01 | apotheken-umschau.de | 1 Seite gelesen | typische Portionsgrößen | Gelesen (Stand 20.12.2016, keine Quelle genannt): Beilage Nudeln, Kartoffeln, Reis 200 g als gekochte Portion; Kuchen etwa 150 g je Stück oder Torte; Gebäckstückchen 120 g; Obst 150 g. Zu Brot, Pfannkuchen und Dessert nichts |
+| 2026-11-01 | verbraucherzentrale-bawue.de, verbraucherzentrale.nrw (Büfett-Broschüre) | 1 PDF geöffnet (nur Titelseite lesbar, Tabelle ist ein Bild) | Mengen pro Gast beim Büfett | **Treffer-Text, nicht gelesen:** Gemüse gegart 150 bis 200 g, Kartoffeln 150 bis 200 g, Nudeln und Reis 120 bis 150 g, Nachtisch 100 bis 150 g; Gesamt etwa 800 g je Person, 600 g für Wenigesser, 1000 g für Vielesser. Die Zahlen für die drei Esser-Typen stützen einen Faktor von etwa 0,75 | 1 | 1,25 |
+| 2026-11-01 | rechner-portal.de, handwerk-technik.de, stuttgarter-zeitung.de, koch-mit (Ernährungsplan-PDF) | 4 Suchen, keine Seite geöffnet | Nudeln, Reis, Kartoffeln roh, Kuchen | **Treffer-Text:** Nudeln roh Beilage 50 bis 80 g, Hauptgericht 100 bis 120 g (Lehrbuch: 60 und 100 g); Reis roh Beilage 50 bis 80 g, Hauptgericht 100 bis 120 g; Kartoffeln roh 150 bis 250 g; Garen verdoppelt bis verdreifacht das Gewicht von Nudeln und Reis; Kuchen oder Torte 150 g, Gebäck 90 bis 120 g; warme Hauptmahlzeit gesamt 400 bis 550 g |
+| 2026-11-01 | wikibooks, lecker.de, rewe.de | 1 Suche, keine Seite geöffnet | Pfannkuchen je Person | **Treffer-Text:** Wikibooks 100 bis 125 g Mehl je Ei; Lecker 100 g Mehl, 3 Eier für 2 Personen; Rewe 300 g Mehl, 4 Eier, 4 bis 6 dünne Pfannkuchen. Keine Portionsempfehlung; daraus nur eine Rechnung von etwa 50 g Mehl je Person (Ableitung, keine Quellenangabe) |
+| 2026-11-01 | wandernundmehr.at, utopia.de, t-online.de | 1 Suche, keine Seite geöffnet | Brot | **Treffer-Text:** eine Scheibe 50 bis 60 g, vier bis sechs Scheiben am Tag (200 bis 300 g, als DGE-Wert bezeichnet, nicht geprüft) |
+| 2026-11-01 | dge.de und Schulen-Standards | 1 Suche, keine Seite geöffnet | Portionsgrößen der Gemeinschaftsverpflegung | **Ohne Zahlen:** die Treffer nennen nur die Standards, keine Gramm-Tabellen im Auszug |
+| 2026-11-01 | mlr.baden-wuerttemberg.de | 1 PDF geöffnet | Portionsplaner | Datei ist eine Logo-Vorlage ohne Mengen, nichts verwertbar |
+| 2026-11-01 | bildungsinstitut-rlp.drk.de, umweltverbaende.at | je 1 Abruf | Verpflegungsdienst, „wie viel macht satt“ | beide **404**, nichts gelesen |
+
+Ergebnis: Eine einheitliche „Gastro-Einmaleins“-Norm habe ich **nicht** gefunden. Die verlässlichste lesbare Quelle ist ein Ratgeber ohne Quellenangabe; die übrigen Werte stammen aus Suchauszügen. Stütze für den Entwurf: Beilage 200 g gekocht (bestätigt den Faustwert des Nutzers als **gekochtes Gewicht**, nicht als Kohlenhydrate), Kuchen etwa 150 g je Person, Gebäck 90 bis 120 g, Esser-Typen etwa 0,75 | 1 | 1,25. Alle Werte bleiben **Schätzungen**; die Quellenlage reicht nicht für „gemessen“.
