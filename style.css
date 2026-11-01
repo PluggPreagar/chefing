@@ -440,6 +440,11 @@ code { font-size: .85em; }
 .tab-scroll { overflow-x: auto; max-width: 100%; }
 
 /* Fehler melden (DR-044): Seitenpanel nach dem Vorbild aus aktien-monitor */
+/* Schwebender Knopf „Ablauf“: nur, wenn der Ablauf nicht im Bild ist (DR-119); unter dem Vollbild (1000) und dem Melden-Panel */
+.schweb-knopf { position: fixed; right: calc(1rem + env(safe-area-inset-right, 0px)); bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); z-index: 900; display: inline-flex; align-items: center; gap: .45rem; height: 2.6rem; padding: 0 1rem; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); color: var(--ink); font: inherit; font-size: .88rem; cursor: pointer; box-shadow: 0 4px 16px rgba(0, 0, 0, .18); }
+.schweb-knopf:hover { border-color: var(--muted); }
+.schweb-knopf:focus-visible { outline: 2px solid var(--sel); outline-offset: 2px; }
+.schweb-knopf[hidden], body.hat-vollbild .schweb-knopf { display: none; }
 #fm-panel { position: fixed; top: 0; right: 0; bottom: 0; width: min(460px, 100vw); background: var(--panel); color: var(--ink); border-left: 1px solid var(--line); box-shadow: -8px 0 30px rgba(0, 0, 0, .18); z-index: 9000; display: flex; flex-direction: column; font-size: 13px; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
 .fm-kopf { display: flex; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--line); }
 .fm-kopf b { font-size: 15px; }

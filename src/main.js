@@ -167,6 +167,21 @@ const stufenMenue = initStufenMenue($('stufe-menue'), {
   mb.addEventListener('click', () => oeffneMeldung());
 }
 
+// Schwebender Knopf „Ablauf“ (DR-119): ist der Ablauf aus dem Bild gescrollt (Kästen, Rezept), öffnet der Knopf unten rechts den Ablauf im Vollbild.
+// Er wird hier angelegt (nicht in index.html), damit er auch mit einer zwischengespeicherten Seite da ist.
+{
+  const kasten = document.querySelector('.panel.ablauf');
+  const knopf = Object.assign(document.createElement('button'), { type: 'button', id: 'ablauf-schweben', className: 'schweb-knopf', hidden: true, title: 'Ablauf im Vollbild öffnen' });
+  knopf.setAttribute('aria-label', 'Ablauf im Vollbild öffnen');
+  knopf.innerHTML = `${iconHtml('vollbild', 18)}<span>Ablauf</span>`;
+  knopf.addEventListener('click', () => $('ablauf-voll').click());
+  document.body.append(knopf);
+  if (kasten && globalThis.IntersectionObserver) {
+    // zu sehen, solange ein Teil des Ablaufs im Bild ist; im Vollbild füllt er den Bildschirm, dann ist der Knopf überflüssig
+    new IntersectionObserver(([e]) => { knopf.hidden = e.isIntersecting; }).observe(kasten);
+  }
+}
+
 // Das Vollbild ändert die Größe erst nach dem Wechsel (echtes Vollbild, Gerät gedreht): die Zeichnung misst ihren Bereich beim Zeichnen,
 // darum wird im offenen Vollbild nach jeder Meldung kurz verzögert noch einmal gezeichnet, auch wenn die Ansicht gleich bleibt (DR-103)
 let spaeterTimer = null;

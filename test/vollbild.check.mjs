@@ -184,5 +184,11 @@ ok(/fenster\.addEventListener\?\.\('resize', v\.beiGroesse\)/.test(modul) && /fe
   ok(/inhalt\.style\.gridColumn = '1 \/ -1'/.test(flow) && /\.ist-details > :not\(\.z-inhalt\) \{ display: none; \}/.test(css), 'Zeitleiste hochkant: die Zeile mit der Karte schneidet die Linien ab, die Karte steht in voller Breite (DR-114)');
 }
 
+{
+  const main = fs.readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
+  const css = fs.readFileSync(new URL('../style.css', import.meta.url), 'utf8');
+  ok(/id: 'ablauf-schweben', className: 'schweb-knopf', hidden: true/.test(main) && /knopf\.addEventListener\('click', \(\) => \$\('ablauf-voll'\)\.click\(\)\)/.test(main) && /new IntersectionObserver\(\(\[e\]\) => \{ knopf\.hidden = e\.isIntersecting; \}\)\.observe\(kasten\)/.test(main) && /document\.body\.append\(knopf\)/.test(main), 'Schwebender Knopf „Ablauf“: wird in main.js angelegt, nur sichtbar, solange der Ablauf nicht im Bild ist, öffnet das vorhandene Vollbild (DR-119)');
+  ok(/\.schweb-knopf \{ position: fixed; right: calc\(1rem[^}]*bottom: calc\(1rem[^}]*z-index: 900;/.test(css) && /\.schweb-knopf\[hidden\], body\.hat-vollbild \.schweb-knopf \{ display: none; \}/.test(css), 'Knopf: unten rechts fest (unter dem Vollbild mit 1000), mit [hidden]-Regel (R19) und im CSS-Vollbild aus');
+}
 console.log(fail ?`${fail} FAIL` : 'ALL PASS');
 process.exitCode = fail ? 1 : 0;

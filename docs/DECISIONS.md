@@ -1336,3 +1336,16 @@ Chefing                                              [Zahnrad] [Melden v]
 - **pro:** Weniger Umbrüche, gut lesbar auf dem Handy; gleiche Behandlung in allen Ansichten.
 - **cons:** Die Liste ist auf dem Handy länger; der Strom ist nur noch als kurze Stummel zwischen den Knoten zu sehen.
 - **risk:** Gering, `kompakt.js` (Layout, Rechteck, zwei Zeilen) und ein Test. Rückgängig: ein Commit.
+
+## DR-119 · ui · Schwebender Knopf „Ablauf“, wenn der Graph aus dem Bild ist
+
+- **descr:** (2026-11-01, Nutzer: „Der Graph ist gleich am Anfang der Seite, das ist gut für den schnellen Überblick – dumm, wenn man sich über die Kästen zur Rezeptur vorarbeitet und dann weiter nach unten scrollt für die Umsetzung – Optionen?“; Wahl: „Knopf zuerst, dann sehen wir weiter“) Beim Umsetzen ist der Ablauf oben weit weg.
+- **Entscheid:** Ist der **Ablauf nicht mehr im Bild**, erscheint unten rechts ein schwebender Knopf „Ablauf“ (Symbol Vollbild plus Wort, 16 px vom Rand, `position: fixed`). Er öffnet den Ablauf im **vorhandenen Vollbild** mit der gewählten Ansicht, dem Einpassen und der Versionszeile; beim Schließen steht die Seite wieder an derselben Stelle (gemessen: 1338 px vorher und nachher). Er ist weg, solange der Ablauf im Bild ist (oben auf der Seite) und im Vollbild.
+- **Umsetzung:** In `main.js` angelegt (nicht in `index.html`: auch eine zwischengespeicherte Seite hat ihn, R22); ein `IntersectionObserver` auf dem Ablauf-Kasten blendet ihn ein und aus; der Klick ruft den vorhandenen Vollbild-Knopf. CSS `.schweb-knopf` mit `z-index: 900` (unter dem Vollbild mit 1000, über der Seite) und `[hidden]`-Regel (R19); im CSS-Vollbild (`body.hat-vollbild`) aus. Auf allen Bildschirmgrößen gleich.
+- **Wort neben dem Symbol:** R10 verlangt für Aktionen in Werkzeugleisten nur ein Symbol; dieser Knopf schwebt über der Seite und steht allein, ohne Text wäre das Vollbild-Symbol dort nicht zu erkennen. Wenn du ihn nur als Symbol willst, ist es eine Zeile.
+- **Gemessen (414 × 828):** oben auf der Seite verborgen; nach dem Scrollen unter den Ablauf sichtbar (100 × 42 px, 16 px vom Rand rechts und unten); Klick: Vollbild, Knopf weg; Schließen: Knopf wieder da, Scrollposition gleich; zurück nach oben: Knopf verborgen.
+- **Nicht gemacht (Nutzer: „dann sehen wir weiter“):** mitlaufender Graph in der Rezept-Spalte (breit), schmale Fortschrittsleiste, Phasen; Optionen in der Antwort vom 2026-11-01.
+- **Regeln:** R10 (Abweichung begründet), R19, R22, R23.
+- **pro:** Eine Berührung zurück zum Ablauf, ohne Platzverbrauch im Layout; nutzt alles Vorhandene (Vollbild, Einpassen, Autoscroll).
+- **cons:** Der Graph liegt nicht neben dem Rezept, man springt zwischen beiden; der Knopf kann am unteren rechten Rand kurz Text überdecken.
+- **risk:** Gering, ein Block in `main.js`, eine Regel in `style.css`, ein Test. Rückgängig: ein Commit.
