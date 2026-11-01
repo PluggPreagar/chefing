@@ -19,6 +19,7 @@ import { initStufenMenue } from './ui/stufenMenue.js';
 import { initWahlMenue } from './ui/wahlMenue.js';
 import { schuetzeEinheiten } from './ui/einheiten.js';
 import { MENGEN_TYPEN, wirksamerTyp, baeckerText } from './model/mengenTyp.js';
+import { gueltigeGroesse } from './model/skala.js';
 
 async function loadJson(path) {
   const r = await fetch(path, { cache: 'no-cache' });
@@ -53,6 +54,20 @@ for (const key of archetypKeys) {
 let gemerkteStufe = 'einsteiger';
 try { const s = localStorage.getItem('chefing.stufe'); if (STUFEN.includes(s)) gemerkteStufe = s; } catch { /* ohne Speicher: Einsteiger */ }
 
+// Basis Portionen (DR-123): Zahl und Größe pro Browser gemerkt; ohne Speicher gilt das Gefäß und Normal
+function gemerktePortionen() {
+  try { const n = Number(localStorage.getItem('chefing.portionen')); return n > 0 ? n : null; } catch { return null; }
+}
+function gemerktePortionsgroesse() {
+  try { return gueltigeGroesse(localStorage.getItem('chefing.portionsgroesse')); } catch { return 'normal'; }
+}
+function merkePortionen(patch) {
+  try {
+    if ('portionen' in patch) { if (patch.portionen > 0) localStorage.setItem('chefing.portionen', String(patch.portionen)); else localStorage.removeItem('chefing.portionen'); }
+    if ('portionsgroesse' in patch) localStorage.setItem('chefing.portionsgroesse', patch.portionsgroesse);
+  } catch { /* nur für diese Sitzung */ }
+}
+
 const state = {
   archetyp: archetypKeys[0],
   stufe: gemerkteStufe,
@@ -68,6 +83,9 @@ const state = {
   mengen: {},
   // skala = Faktor auf die Gefäß-Menge (DR-122, „Zutat festlegen“); nie gemerkt, 1 nach Preset-, Archetyp- und Gefäß-Wechsel
   skala: 1,
+  // Basis Portionen (DR-123): Anzahl (null = Basis ist das Gefäß) und Größe der Portion, beides pro Browser gemerkt (chefing.portionen, chefing.portionsgroesse)
+  portionen: gemerktePortionen(),
+  portionsgroesse: gemerktePortionsgroesse(),
   zutaten: {},
   // techniken[key] = true: optionale Technik eingeschaltet (DR-041, z. B. Eier getrennt); Preset-Wechsel setzt zurück
   techniken: {},
@@ -310,6 +328,7 @@ function applyPreset(variante) {
 
 function update(patch) {
   Object.assign(state, patch);
+  merkePortionen(patch);
   render();
 }
 

@@ -142,6 +142,16 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 /* Menge festlegen (DR-122): die Zahl ist ein flacher Knopf mit gepunkteter Linie, beim Antippen ein schmales Zahlenfeld */
 .menge-wert { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; text-decoration: underline dotted var(--muted); text-underline-offset: 3px; }
 .menge-wert:hover { color: var(--sel); }
+/* Basis der Menge (DR-124): Gefäß | Portionen, dazu − n + und die Größe; auf schmalen Bildschirmen bricht die Zeile um */
+.portionen { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem .6rem; margin: .5rem 0; }
+.portionen-name { font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 600; }
+.portionen .knopfgruppe > .flach { padding: .25rem .6rem; font: inherit; font-size: .85rem; border: 1px solid var(--line); background: var(--panel); color: var(--muted); cursor: pointer; }
+.portionen .knopfgruppe > .flach[aria-pressed="true"] { background: var(--best-bg); color: var(--ink); }
+.portionen-zaehler { display: inline-flex; align-items: center; gap: .3rem; }
+.portionen-schritt { width: 1.9rem; height: 1.9rem; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); color: var(--ink); font: inherit; cursor: pointer; padding: 0; }
+.portionen-feld { width: 3.4rem; font: inherit; text-align: center; padding: .2rem .25rem; appearance: textfield; -moz-appearance: textfield; }
+.portionen-feld::-webkit-outer-spin-button, .portionen-feld::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.portionen > .fine { flex-basis: 100%; margin: 0; }
 .menge-feld { width: 3.6rem; font: inherit; padding: .1rem .25rem; }
 @media (max-width: 640px) { .zutaten th, .zutaten td { padding-left: .2rem; padding-right: .2rem; } } /* schmal: engerer Rand, damit Menge oder Bäcker-% ohne Scrollen passt (DR-120) */
 #menge-menue .stufe-liste { left: auto; right: 0; }

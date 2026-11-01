@@ -1,5 +1,5 @@
 import { fromGrams, summarize } from './units.js';
-import { gueltigeSkala, skalaHinweis } from './skala.js';
+import { wirksameSkala, skalaHinweis, rundungsHinweise, portionInfo } from './skala.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt, wirksameTechniken, technikStufe } from './rules.js';
 import { zeitFuerSchritt, zeitleiste, zeitMeldung, fmtZeit } from './zeit.js';
 import { emulsionsVerlauf } from './emulsion.js';
@@ -140,7 +140,7 @@ export function compute(state, data, korpusStats) {
   }
 
   const summeBp = Object.values(bpZiel).reduce((a, b) => a + b.bp, 0);
-  const skala = gueltigeSkala(state.skala); // DR-122: Faktor auf die Gefäß-Menge, Bäcker-% bleibt
+  const { skala, quelle: skalaQuelle } = wirksameSkala(state, vessel); // DR-122, DR-123: Faktor auf die Gefäß-Menge (Zutat festgelegt, Portionen oder Gefäß), Bäcker-% bleibt
   const teigmasse = vessel.teigmasse_g * skala;
   // Eine Rolle kann mehrere Zutaten tragen (z. B. Fett aus Butter + Öl) — die
   // Rollen-Bäckerprozent wird proportional zu den Anteilen auf mehrere Zeilen verteilt.
@@ -489,7 +489,10 @@ export function compute(state, data, korpusStats) {
     rollenBp: bpZiel,
     teigmasse,
     skala,
+    skalaQuelle,
     skalaHinweis: skalaHinweis(skala, vessel),
+    rundungsHinweise: rundungsHinweise(skala, zutatenListe, data.ingredients),
+    portion: portionInfo(vessel, state.portionsgroesse, teigmasse, skalaQuelle),
     backen: { tempOU, tempUmluft, minuten, minutenLabel, hitze: basis.hitze ?? null, ohneHitze: !vessel.basis, hinweise: backHinweise },
     // Bezugsgröße der Prozente (T78): Mehl beim Backen, Öl bei der Mayonnaise
     bezugLabel,

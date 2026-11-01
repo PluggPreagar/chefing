@@ -5,7 +5,7 @@ import { fmtZeit } from '../model/zeit.js';
 import { renderRueckmeldung } from './rueckmeldung.js';
 import { vorbereitenZeile } from './zustandLink.js';
 import { iconHtml } from './icons.js';
-import { eingabeInGramm, skalaFuerMenge } from '../model/skala.js';
+import { eingabeInGramm, skalaFuerMenge, GROESSEN } from '../model/skala.js';
 
 export function renderRecipe(root, computed, state, data, onChange) {
   root.replaceChildren();
@@ -38,8 +38,9 @@ export function renderRecipe(root, computed, state, data, onChange) {
   // Mengen-Vorschlag (T40): wenn kein Tausch reicht, die Menge der Rolle verschieben — ebenfalls erst nach Klick
   for (const m of computed.mengenVorschlaege || []) root.append(mengenVorschlag(m, state, onChange));
   if (Object.keys(state.mengen || {}).length) root.append(mengenManuell(computed, state, onChange));
-  if (computed.skala !== 1) root.append(skalaNotiz(computed, onChange)); // DR-122
+  if (computed.skalaQuelle === 'zutat') root.append(skalaNotiz(computed, onChange)); // DR-122
   if (computed.skalaHinweis) root.append(el('p', 'note note-warn', computed.skalaHinweis));
+  for (const h of computed.rundungsHinweise || []) root.append(el('p', 'note note-info', h));
   // Override erfassen (DR-019 Punkt 4/T25): reine Beweis-Erfassung, kein Freischalten — die
   // Rezeptur ist auch ohne Override schon vollständig sichtbar (s. u.). Speichert nur, dass der
   // Nutzer diese `hart`-Regel bewusst für falsch/zu streng hält, für die Rückfrage in T28.
@@ -49,6 +50,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   for (const a of computed.anpassungen) root.append(mitMarke(el('p', 'note note-info', a), computed.marken?.[a]));
   for (const h of computed.toleranzHinweise || []) root.append(mitMarke(el('p', 'note note-info', h), computed.marken?.[h]));
 
+  if (computed.portion) root.append(portionenZeile(computed, onChange)); // DR-123
   const table = el('table', 'zutaten');
   const thead = el('thead');
   const bezug = computed.bezugLabel ?? 'Mehl';
@@ -263,7 +265,7 @@ function mengeZelle(zelle, menge, z, computed, data, onChange) {
     feld.select();
   });
 }
-// Hinweis auf die festgelegte Menge mit Rückweg zur Gefäß-Menge (DR-122)
+// Hinweis auf die festgelegte Menge mit Rückweg (DR-122): zurück zur Gefäß-Menge oder, wenn Portionen gemerkt sind, zu ihnen
 function skalaNotiz(computed, onChange) {
   const box = el('div', 'note note-info');
   const faktor = String(Math.round(computed.skala * 100) / 100).replace('.', ',');
@@ -273,6 +275,59 @@ function skalaNotiz(computed, onChange) {
   btn.addEventListener('click', () => onChange({ skala: 1 }));
   box.append(btn);
   return box;
+}
+// Basis der Menge (DR-123): Gefäß | Portionen. Gefäß zeigt, wie viele Portionen die Form ergibt; Portionen zeigt Zahl (− n +) und Größe (Wenig | Normal | Viel).
+// Eine Portion ist, was eine Person isst, je Gefäß eine Schätzung (`portion_g`). Die Zahl wird gemerkt (main.js), eine festgelegte Zutat geht vor.
+const rundeN = (n) => Math.round(n * 10) / 10;
+const zahlText = (n) => String(rundeN(n)).replace('.', ',');
+function gruppe(name, optionen, gewaehlt, onWahl) {
+  const g = el('div', 'knopfgruppe');
+  g.setAttribute('role', 'group');
+  g.setAttribute('aria-label', name);
+  for (const [wert, text] of optionen) {
+    const b = el('button', 'flach', text);
+    b.type = 'button';
+    b.setAttribute('aria-pressed', String(wert === gewaehlt));
+    b.addEventListener('click', () => onWahl(wert));
+    g.append(b);
+  }
+  return g;
+}
+function portionenZeile(computed, onChange) {
+  const p = computed.portion;
+  const zeile = el('div', 'portionen');
+  const sicher = (n) => Math.min(p.max, Math.max(1, n));
+  zeile.append(el('span', 'portionen-name', 'Basis'));
+  zeile.append(gruppe('Basis der Menge', [['gefaess', 'Gefäß'], ['portionen', 'Portionen']], p.aktiv ? 'portionen' : 'gefaess',
+    (w) => onChange(w === 'gefaess' ? { portionen: null } : { portionen: sicher(Math.round(p.n)), skala: 1 })));
+  if (p.aktiv) {
+    const n = Math.round(p.n * 10) / 10;
+    const weniger = el('button', 'flach portionen-schritt', '−');
+    const mehr = el('button', 'flach portionen-schritt', '+');
+    const feld = el('input', 'portionen-feld');
+    weniger.type = mehr.type = 'button';
+    weniger.setAttribute('aria-label', 'Eine Portion weniger');
+    mehr.setAttribute('aria-label', 'Eine Portion mehr');
+    weniger.addEventListener('click', () => onChange({ portionen: sicher(Math.ceil(n) - 1), skala: 1 }));
+    mehr.addEventListener('click', () => onChange({ portionen: sicher(Math.floor(n) + 1), skala: 1 }));
+    feld.type = 'number';
+    feld.min = '1';
+    feld.max = String(p.max);
+    feld.step = 'any';
+    feld.value = String(n);
+    feld.setAttribute('inputmode', 'decimal');
+    feld.setAttribute('aria-label', 'Anzahl der Portionen');
+    feld.addEventListener('change', () => { const v = Number(feld.value); if (Number.isFinite(v) && v > 0) onChange({ portionen: sicher(v), skala: 1 }); });
+    const zaehler = el('div', 'portionen-zaehler'); // eine Gruppe, damit „+“ nicht von der Zahl abbricht
+    zaehler.append(weniger, feld, mehr);
+    zeile.append(zaehler);
+    zeile.append(gruppe('Portionsgröße', Object.entries(GROESSEN).map(([k, g]) => [k, g.label]), p.groesse, (w) => onChange({ portionsgroesse: w })));
+  }
+  const stueck = p.stueck ? ` ≈ ${zahlText(p.stueck)} Stück` : '';
+  zeile.append(el('span', 'fine', p.aktiv
+    ? `je Portion ${Math.round(p.gramm)} g Teig${stueck} (Schätzung)`
+    : `${computed.skalaQuelle === 'zutat' ? 'Die festgelegte Menge' : 'Diese Form'} ergibt etwa ${zahlText(p.n)} Portionen zu je ${Math.round(p.gramm)} g Teig${stueck} (Schätzung)`));
+  return zeile;
 }
 function seitlich(table) {
   const d = el('div', 'tab-scroll');
