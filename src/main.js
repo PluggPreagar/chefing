@@ -66,6 +66,8 @@ const state = {
   fixiert: { rollen: {}, zutaten: {} },
   // mengen[rolle] = Bäckerprozent, vom Nutzer aus einem Mengen-Vorschlag übernommen (T40); gilt bis Preset-/Archetyp-Wechsel
   mengen: {},
+  // skala = Faktor auf die Gefäß-Menge (DR-122, „Zutat festlegen“); nie gemerkt, 1 nach Preset-, Archetyp- und Gefäß-Wechsel
+  skala: 1,
   zutaten: {},
   // techniken[key] = true: optionale Technik eingeschaltet (DR-041, z. B. Eier getrennt); Preset-Wechsel setzt zurück
   techniken: {},
@@ -168,14 +170,13 @@ const stufenMenue = initStufenMenue($('stufe-menue'), {
   mb.addEventListener('click', () => oeffneMeldung());
 }
 
-// Anzeige der Mengen im Rezept (DR-120, DR-121): Menge | Bäcker-% | Beides als Auswahlmenü im Kopf der Rezept-Tabelle, dort, wo die Zahlen stehen; pro Browser
+// Anzeige der Mengen im Rezept (DR-120, DR-122): Menge | Bäcker-% | Beides als Auswahlmenü, das der Kopf der ersten Wertspalte selbst ist; pro Browser
 // gemerkt (chefing.mengen); ohne Wahl zeigt es schmal nur die Menge. Das ⓘ daneben erklärt Bäcker-% mit einem Beispiel aus dem Rezept.
-// Menü und ⓘ werden einmal gebaut und nach jedem Zeichnen in die neue Kopfzeile gehängt (die Tabelle entsteht bei jedem Zeichnen neu).
+// Menü und ⓘ werden einmal gebaut und nach jedem Zeichnen in den neuen Spaltenkopf gehängt (die Tabelle entsteht bei jedem Zeichnen neu).
 let mengenWahl = null;
 try { mengenWahl = localStorage.getItem('chefing.mengen'); } catch { /* ohne Speicher: Vorgabe nach Breite */ }
 let baeckerInfoOffen = false;
 const schmalBild = () => matchMedia('(max-width: 640px)').matches;
-const SPALTEN_JE_TYP = { menge: 3, prozent: 4, beides: 5 }; // sichtbare Spalten der Rezept-Tabelle je Anzeige
 const mengenInfo = Object.assign(document.createElement('button'), { type: 'button', className: 'leiste-knopf flach ghost info-knopf', title: 'Was ist Bäcker-%?' });
 mengenInfo.setAttribute('data-info', 'baeckerprozent');
 mengenInfo.setAttribute('aria-label', 'Was ist Bäcker-%?');
@@ -203,8 +204,12 @@ function wendeMengenAn() {
   const r = $('recipe');
   r.dataset.typ = typ;
   mengenMenue.setze(typ);
-  const zelle = r.querySelector('.mengen-zelle');
-  if (zelle) { zelle.setAttribute('colspan', String(SPALTEN_JE_TYP[typ])); zelle.append(mengenInfo, mengenMenueEl); }
+  const kopf = r.querySelector(typ === 'prozent' ? 'th.col-prozent' : 'th.col-menge'); // erste sichtbare Wertspalte
+  for (const th of r.querySelectorAll('thead th.col-menge, thead th.col-prozent')) {
+    th.dataset.label ??= th.textContent; // frische Tabelle: noch der Name der Spalte
+    if (th !== kopf) { th.classList.remove('mengen-kopf'); th.textContent = th.dataset.label; }
+  }
+  if (kopf) { kopf.classList.add('mengen-kopf'); kopf.replaceChildren(mengenMenueEl, mengenInfo); }
   r.querySelector('.info-box')?.remove();
   mengenInfo.setAttribute('aria-expanded', String(baeckerInfoOffen));
   if (baeckerInfoOffen && letztes) {

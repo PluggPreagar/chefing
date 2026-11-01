@@ -129,13 +129,21 @@ h3 { margin: 0 0 .5rem; font-size: 1rem; }
 .ablauf-kopf > #ablauf-darstellung, .ablauf-kopf > .ablauf-voll-knopf { order: 2; margin-left: 0; }
 /* Ein Auswahlmenü statt der Gruppe auf schmalen Bildschirmen (DR-108, DR-109): Titel, Menü und Vollbild in einer Zeile, die Technik darunter */
 /* Rezept: Anzeige der Mengen (Menge | Bäcker-% | Beides) und ⓘ (DR-120) */
-.mengen-zelle { text-align: right; text-transform: none; letter-spacing: normal; font-weight: 400; padding-bottom: .15rem; white-space: nowrap; }
-.mengen-zelle > * { display: inline-block; vertical-align: middle; }
-.mengen-zelle .flach { border-color: transparent; background: transparent; color: var(--muted); }
-.mengen-zelle .flach:hover { border-color: var(--muted); background: var(--panel); color: var(--ink); }
-.mengen-zelle .info-knopf { min-width: 2rem; padding: 0; }
-.mengen-zelle .wahl-text { font-size: .85rem; }
-@media (max-width: 640px) { .zutaten th, .zutaten td { padding-left: .3rem; padding-right: .3rem; } } /* schmal: engerer Rand, damit Menge oder Bäcker-% ohne Scrollen passt (DR-120) */
+.mengen-kopf { text-transform: none; letter-spacing: normal; font-weight: 400; white-space: nowrap; }
+.mengen-kopf > * { display: inline-block; vertical-align: middle; }
+.mengen-kopf .flach { border-color: transparent; background: transparent; color: var(--muted); }
+.mengen-kopf .flach:hover { border-color: var(--muted); background: var(--panel); color: var(--ink); }
+.mengen-kopf .info-knopf { min-width: 1.6rem; padding: 0; }
+.mengen-kopf .stufe-knopf { height: auto; min-height: 1.8rem; gap: .2rem; padding: .1rem .3rem; line-height: 1.15; }
+.mengen-kopf .info-knopf { height: 1.8rem; }
+.mengen-kopf .stufe-knopf > svg:not(.stufe-pfeil) { display: none; } /* im Spaltenkopf trägt der Name, das Symbol wäre doppelt und kostet Breite */
+@media (max-width: 640px) { .mengen-kopf { white-space: normal; } .mengen-kopf .stufe-knopf { white-space: normal; text-align: left; } } /* schmal: ⓘ rutscht unter das Menü, „Bäcker-%“ darf nach dem Strich umbrechen, damit die Tabelle ohne Scrollen passt */
+.mengen-kopf .wahl-text { font-size: .85rem; }
+/* Menge festlegen (DR-122): die Zahl ist ein flacher Knopf mit gepunkteter Linie, beim Antippen ein schmales Zahlenfeld */
+.menge-wert { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: left; text-decoration: underline dotted var(--muted); text-underline-offset: 3px; }
+.menge-wert:hover { color: var(--sel); }
+.menge-feld { width: 3.6rem; font: inherit; padding: .1rem .25rem; }
+@media (max-width: 640px) { .zutaten th, .zutaten td { padding-left: .2rem; padding-right: .2rem; } } /* schmal: engerer Rand, damit Menge oder Bäcker-% ohne Scrollen passt (DR-120) */
 #menge-menue .stufe-liste { left: auto; right: 0; }
 #recipe[data-typ="menge"] .col-prozent, #recipe[data-typ="menge"] .col-korpus, #recipe[data-typ="menge"] .col-herkunft, #recipe[data-typ="prozent"] .col-menge, #recipe[data-typ="prozent"] .col-herkunft { display: none; }
 .version-voll { display: none; }

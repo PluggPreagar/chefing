@@ -5,6 +5,7 @@ import { fmtZeit } from '../model/zeit.js';
 import { renderRueckmeldung } from './rueckmeldung.js';
 import { vorbereitenZeile } from './zustandLink.js';
 import { iconHtml } from './icons.js';
+import { eingabeInGramm, skalaFuerMenge } from '../model/skala.js';
 
 export function renderRecipe(root, computed, state, data, onChange) {
   root.replaceChildren();
@@ -37,6 +38,8 @@ export function renderRecipe(root, computed, state, data, onChange) {
   // Mengen-Vorschlag (T40): wenn kein Tausch reicht, die Menge der Rolle verschieben — ebenfalls erst nach Klick
   for (const m of computed.mengenVorschlaege || []) root.append(mengenVorschlag(m, state, onChange));
   if (Object.keys(state.mengen || {}).length) root.append(mengenManuell(computed, state, onChange));
+  if (computed.skala !== 1) root.append(skalaNotiz(computed, onChange)); // DR-122
+  if (computed.skalaHinweis) root.append(el('p', 'note note-warn', computed.skalaHinweis));
   // Override erfassen (DR-019 Punkt 4/T25): reine Beweis-Erfassung, kein Freischalten — die
   // Rezeptur ist auch ohne Override schon vollständig sichtbar (s. u.). Speichert nur, dass der
   // Nutzer diese `hart`-Regel bewusst für falsch/zu streng hält, für die Rückfrage in T28.
@@ -49,7 +52,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
   const table = el('table', 'zutaten');
   const thead = el('thead');
   const bezug = computed.bezugLabel ?? 'Mehl';
-  thead.append(mengenZeile()); // erste Kopfzeile: hier hängt main.js das Auswahlmenü für die Anzeige der Mengen und das ⓘ ein (DR-121)
+  // der Kopf der ersten sichtbaren Wertspalte (Menge, bei Bäcker-% die Prozent-Spalte) ist das Auswahlmenü für die Anzeige; main.js hängt es ein (DR-122)
   thead.append(tr(['Rolle', 'Zutat', 'Menge', bezug === 'Mehl' ? 'Bäcker-%' : `% vom ${bezug}`, 'Korpus (Q1–Q3)'], 'th', SPALTEN_REZEPT));
   table.append(thead);
   const tbody = el('tbody');
@@ -59,6 +62,7 @@ export function renderRecipe(root, computed, state, data, onChange) {
     const spanne = k ? `${fmt(k.q1)}–${fmt(k.q3)} %` : '—';
     const marker = z.bpQuelle === 'schätzung' ? ' *' : z.bpQuelle === 'berechnet' ? ' †' : z.bpQuelle === 'manuell' ? ' ✎' : '';
     const row = tr([z.rolleLabel, z.label, menge, `${fmt(z.bp)} %${marker}`, z.bpQuelle === 'berechnet' ? '—' : spanne], 'td', SPALTEN_REZEPT);
+    mengeZelle(row.children[2], menge, z, computed, data, onChange);
     const zst = z.zustand && (computed.zustaende || []).find((x) => x.rolle === z.rolle);
     if (zst) row.children[1].append(zustandKlappe(zst, state, onChange)); // DR-064: Soll-Zustand + Wege dorthin
     tbody.append(row);
@@ -228,13 +232,47 @@ function fmt(x) { return x == null ? '—' : String(Math.round(x)); }
 // Klassen je Spalte, damit die Anzeige der Mengen (Menge | Bäcker-% | Beides) Spalten per CSS ausblenden kann (DR-120)
 const SPALTEN_REZEPT = [null, null, 'col-menge', 'col-prozent', 'col-korpus'];
 const SPALTEN_BILANZ = [null, 'col-menge', 'col-prozent', 'col-korpus', 'col-herkunft'];
-// Kopfzeile der Rezept-Tabelle für die Anzeige der Mengen: eine Zelle über alle Spalten; main.js setzt colspan (sichtbare Spalten) und das Menü hinein
-function mengenZeile() {
-  const r = el('tr', 'mengen-zeile');
-  const z = el('th', 'mengen-zelle');
-  z.setAttribute('colspan', '5');
-  r.append(z);
-  return r;
+// Menge einer Zutat festlegen (DR-122): Antippen macht aus der Zahl ein Eingabefeld, Enter oder Verlassen übernimmt, Esc verwirft. Der Rest der Zutaten
+// folgt über `state.skala`; die Eingabe wird in Gramm umgerechnet (g, ml, Stk), so rundet kein Stück (Eier) den Faktor.
+function mengeZelle(zelle, menge, z, computed, data, onChange) {
+  const ing = data.ingredients?.[z.zutat];
+  const knopf = el('button', 'menge-wert', menge);
+  knopf.type = 'button';
+  knopf.title = 'Menge festlegen, die anderen Zutaten folgen';
+  zelle.textContent = '';
+  zelle.append(knopf);
+  knopf.addEventListener('click', () => {
+    const feld = el('input', 'menge-feld');
+    feld.type = 'number';
+    feld.step = 'any';
+    feld.min = '0';
+    feld.value = String(z.menge);
+    feld.setAttribute('inputmode', 'decimal');
+    feld.setAttribute('aria-label', `Menge ${z.label} in ${z.einheit}`);
+    let fertig = false;
+    const ende = (uebernehmen) => {
+      if (fertig) return;
+      fertig = true;
+      const skala = uebernehmen && feld.value !== String(z.menge) ? skalaFuerMenge(computed.skala, z.gramm, eingabeInGramm(ing, Number(feld.value), z.einheit)) : null;
+      if (skala != null) onChange({ skala }); else zelle.replaceChildren(knopf);
+    };
+    feld.addEventListener('keydown', (e) => { if (e.key === 'Enter') ende(true); else if (e.key === 'Escape') ende(false); });
+    feld.addEventListener('blur', () => ende(true));
+    zelle.replaceChildren(feld, el('span', 'menge-einheit', ` ${z.einheit}`));
+    feld.focus();
+    feld.select();
+  });
+}
+// Hinweis auf die festgelegte Menge mit Rückweg zur Gefäß-Menge (DR-122)
+function skalaNotiz(computed, onChange) {
+  const box = el('div', 'note note-info');
+  const faktor = String(Math.round(computed.skala * 100) / 100).replace('.', ',');
+  box.append(el('span', null, `Menge festgelegt: ×${faktor} der Gefäß-Menge, ${Math.round(computed.teigmasse)} g statt ${Math.round(computed.vessel.teigmasse_g)} g. Bäcker-% bleibt gleich.`));
+  const btn = el('button', 'kaskade-btn', 'Zurück');
+  btn.type = 'button';
+  btn.addEventListener('click', () => onChange({ skala: 1 }));
+  box.append(btn);
+  return box;
 }
 function seitlich(table) {
   const d = el('div', 'tab-scroll');

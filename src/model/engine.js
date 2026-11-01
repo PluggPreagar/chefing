@@ -1,4 +1,5 @@
 import { fromGrams, summarize } from './units.js';
+import { gueltigeSkala, skalaHinweis } from './skala.js';
 import { evaluateAll, bestMethod, propsOf, pruefeBedingung, rolleIstGesperrt, wirksameTechniken, technikStufe } from './rules.js';
 import { zeitFuerSchritt, zeitleiste, zeitMeldung, fmtZeit } from './zeit.js';
 import { emulsionsVerlauf } from './emulsion.js';
@@ -139,7 +140,8 @@ export function compute(state, data, korpusStats) {
   }
 
   const summeBp = Object.values(bpZiel).reduce((a, b) => a + b.bp, 0);
-  const teigmasse = vessel.teigmasse_g;
+  const skala = gueltigeSkala(state.skala); // DR-122: Faktor auf die Gefäß-Menge, Bäcker-% bleibt
+  const teigmasse = vessel.teigmasse_g * skala;
   // Eine Rolle kann mehrere Zutaten tragen (z. B. Fett aus Butter + Öl) — die
   // Rollen-Bäckerprozent wird proportional zu den Anteilen auf mehrere Zeilen verteilt.
   const korpusDerRolle = (r) => bpZiel[r]?.korpus ?? stRolle.bp?.[r] ?? null; // Korpus-Spanne der Rolle, bei `menge_je_zutat` die Zelle der Zutat
@@ -486,6 +488,8 @@ export function compute(state, data, korpusStats) {
     zutatenListe,
     rollenBp: bpZiel,
     teigmasse,
+    skala,
+    skalaHinweis: skalaHinweis(skala, vessel),
     backen: { tempOU, tempUmluft, minuten, minutenLabel, hitze: basis.hitze ?? null, ohneHitze: !vessel.basis, hinweise: backHinweise },
     // Bezugsgröße der Prozente (T78): Mehl beim Backen, Öl bei der Mayonnaise
     bezugLabel,
